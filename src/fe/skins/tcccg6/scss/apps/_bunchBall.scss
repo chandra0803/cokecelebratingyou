@@ -1,0 +1,54 @@
+// App-specific variables
+// =========================
+//$bunchBall_textFontFamily: $bodyFont !default;
+//$bunchBall_textColor: $brand_color_black !default;
+
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "bunchBall/scss/bunchBall";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================
+div.nitro-widget { 
+    .challenge-row.row {
+        color: #fff;                                   
+        padding: 15px 15px 0px 15px;
+    }
+    .challenge-row.row::before {
+        content: "No available missions at this time.  Check back monthly for updates!";
+        color: #000;
+    }    
+    .grid-container {
+        font-size: 12px;        
+        .fa {
+              display: flex;
+              padding: 5px;
+              border-radius: 50%;
+              border:1px solid $bunchBall_textColor;
+              width: 100%;   
+              justify-content: center;
+              cursor:pointer;
+        }         
+    }
+    .events {
+        .grid-container { 
+            text-align:left;            
+            .grid-margin-x {                
+                & > .small-3 {
+                    width: 15%;
+                }
+                & > .small-5 {
+                    width: 52%;
+                }
+                & > div.cell.small-3:last-child {
+                    width: 15%;
+                }
+    
+            }
+        }
+    }
+}

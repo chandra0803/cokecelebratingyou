@@ -1,0 +1,75 @@
+{
+    "messages": [],
+    "nominationApprovals": [{
+        "id": 370,
+        "name": "Nomination_Custom_05",
+        "type": "NominationApproval",
+        "alertMessage": null,
+        "url": "https://g6bb8qa.performnet.com/g6bb8/claim/approvalsNominationList.do?clientState=H34Yx%2FxbAfxSlw1Dus9zD8u3tzMjX2iSFQS17F%2FkgXbwuKLzy3X1PyIvJQEYpWnXZQrVAmDP9dY9%0AD1wwnuy5dBPjXrsMkNtHWNFaOO%2BeTGMoWozwf%2BojFRoXpkzLDKo19JhRliLtevkID4WXOEkGbjw2%0AMHrbLWlk4ACVt9VhiVchfpxUznXae4vO1gXOFxDMxcI%2FnN8HK241ULklFS0rEsSym12TUQshX8lA%0A0thdPFPYymDm6Wnn2GBH7scn%2FQj1D%2BcJYt%2FcRDununoDWmcUkstD760l%2BqHmIFB7a1Hk08t8M0N0%0ADN8kd5pO6Ye4sHNlwxEFDUN0x6hCd6n5ZO9psyr1%2FktN0wkCtu9YDOLOrerxAh4uTct6zWzsMhI%3D&cryptoPass=1",
+        "numberOfApprovables": 0,
+        "numberOfApproved": 0
+    }, {
+        "id": 515,
+        "name": "Nomination_Custom_36",
+        "type": "NominationApproval",
+        "alertMessage": null,
+        "url": "https://g6bb8qa.performnet.com/g6bb8/claim/approvalsNominationList.do?clientState=GPu4K%2BCxx6QEi%2BvFUATw%2FIEUNYHYPUL2wiHSDYZL3FF%2FtS9hwEWCXwAFMgzosYJE8gUNjj7Fmyfl%0AhozapLLlPxTAj9RVQz5am283TSemUOJdW20AlGRMm8q5dEPZA7m3lfs4u4M539S4KndKQl3Mi7IH%0AMQ%2BCTjYbr%2Fy%2FbKjj5Q%2BZ9ZmW2Nf1MqD%2BMXU%2BFrRnX0EWmP%2BT02DwpZ5qMBSFKBebfqKtlTrIvWZH%0AiFGBh4Qg77AtJ4JKI%2BPJ9yzYTpedPK%2Bbb%2BT2f9UZespAQuZFlpeDn%2BGGKaV8jef6cBNntyTkWRbv%0AKvlKnjRyGsuVIj5Kb9mRb9uH8Ccz%2BQ9sXyNnbl7ADbGcH6F1FS6hDeTfYPq%2Bur%2Fq%2FFtbEhYR%2FJA%3D&cryptoPass=1",
+        "numberOfApprovables": 0,
+        "numberOfApproved": 0
+    }, {
+        "id": 473,
+        "name": "Nomination_Custom_8",
+        "type": "NominationApproval",
+        "alertMessage": null,
+        "url": "https://g6bb8qa.performnet.com/g6bb8/claim/approvalsNominationList.do?clientState=Zu3ISv8T0Rc%2BCKXxFGSKppKxlAPqL2%2Fo5NRr1YoJHRUye0O2xGnMfy4piYa6WKQGris30gzM4hHs%0AW8xfWVs9z6NyIl7LV%2BUNXIJ%2ByoN%2BiD1aaaIBfBWQEbxnDW4fju968bEH%2Fr2eypDoeAuvGR2TYS1J%0ATnZOcophM%2FASQ8GoAr4DVoUzVn7j%2FCz1zPcr%2Fz42hcCRQSExMShph%2FjzvMU1lxaQB04t7Z8jecoC%0AjlE1dYATzm6eJqhBd%2FxmeJ3Ue4oLMDWRtnQ%2Fl52PpnAiBTn65ByeKathZsjQKuS6fX1ROedbrfpe%0An69JuQ5EqOrkWmCndjJONXVs%2FhBuhP%2FCPzJ0ALmeFqNDC%2BcE%2F8pyj3fGc7sfWBIKQPZr%2BHTIk8U%3D&cryptoPass=1",
+        "numberOfApprovables": 0,
+        "numberOfApproved": 0
+    }],
+    "claimApprovals": [],
+    "ssiApprovals": [{
+        "id": 5041,
+        "name": "Objective Contest - 003",
+        "type": "SSIApproval",
+        "alertMessage": "Claim approval required by 02/10/2017.",
+        "url": "https://g6bb8qa.performnet.com/g6bb8/ssi/approveContestClaims.do?method=display&clientState=wGJccZ25OeqNiWEUnaWGzhQcRBjEVPoM62vhjDgi1OR6v3eNxBZwaAG7FEgIAlhJK7ehwgmiq56c%0AsgKgjJAPH8k3U7wcGxDUKU4HIS%2BUf6dL%2Bdzyzuhzj5nymUlsB8qxdRfMdaee%2BN8M52qQZKj6kN%2Bg%0A%2F%2BriQ%2BFcDmsOR%2BIR9GxF5u5XRRDqQ%2BQ5Kkwb%2BMiuv9yTei2bFqiz9q3eHigirSHOc%2BHFP3xnm1zl%0AYTr058MbTWDL5hzatmw4ah7pnay6d6RKmBkwVAm9zcuq&cryptoPass=1",
+        "numberOfApprovables": 0,
+        "numberOfApproved": 0
+    }, {
+        "id": 5041,
+        "name": "Objective Contest - 003",
+        "type": "SSIApproval",
+        "alertMessage": "Claim approval required by 02/10/2017.",
+        "url": "https://g6bb8qa.performnet.com/g6bb8/ssi/approveContestClaims.do?method=display&clientState=Z54CcCnupSwI8ftxHDe41XThfptJ6mtREEbhWiNz8Wxx3ZJlhYXH1MQN7KkPBfq%2BK3qDGph2vOKu%0AFpE3UVYyb9MfbGQRHudGA1cv0uta7z4AVMS5NKcA%2BQrPfUX2I9Qki%2BjRZQdsyXABw%2Byq%2FlbaC5PO%0AMSiw8M7NMIQk1S2YtYny%2Bxgz0QRxVwsNNeI7m2SK8SKt3eMISY%2BefFoXqreyZ8Bp4UOddz9kj77E%0AgTt%2Bqu3VbU4%2FjJ%2BckvxlGgrc2mnRSR3CqNeeWvhM%2FGPg&cryptoPass=1",
+        "numberOfApprovables": 1,
+        "numberOfApproved": 0
+    }, {
+        "id": 5041,
+        "name": "Objective Contest - 003",
+        "type": "SSIApproval",
+        "alertMessage": "Claim approval required by 02/10/2017.",
+        "url": "https://g6bb8qa.performnet.com/g6bb8/ssi/approveContestClaims.do?method=display&clientState=107O6VapcjadVj1i3ozkwmEl4Jy34egCmQuB8SLUYHcPesNHbyhHGwkJEM7SHxZBPhNAQDmq7Tvv%0AV30c52nMHLX4es6ETsz6ca55%2FnIG%2F0I%2FCekWe%2F7qW6MdgAEs%2B0ldO7R%2BtfZ7hVB4FCV6QT6vJxHz%0AzMYHe8kvlBDMWYNlgS342DuYCCJOVejVihxGpui14anwD%2BFf%2FvJtymQ8C21Gg7Vf0HuZpPEgV5zZ%0Aneq90vx0ENgSoqvSbb7h%2FENmAl4VRsIkMfBVs9y%2FGxeL&cryptoPass=1",
+        "numberOfApprovables": 2,
+        "numberOfApproved": 0
+    }],
+    "nominationapprovalsCount": 3,
+    "recognitionapprovalsCount": 2,
+    "claimapprovalsCount": 0,
+    "ssiapprovalsCount": 3,
+    "RecognitionApprovals": [{
+        "id": 253,
+        "name": "Recognition-No Award",
+        "type": "RecognitionApproval",
+        "alertMessage": "You have approvals to review",
+        "url": "https://g6bb8qa.performnet.com/g6bb8/claim/approvalsRecognitionList.do?clientState=ED%2BkCfY6E0uTpanDgoWpc2KofXzpegL5KSi9j6d5gOqy%2Bby%2FF%2F%2BUsvyFuqzwCBzy%2FvMH5uB0DWcm%0ALxYH92WmyuEyeamvG6IUvr8pyVqxfxHldAlPBxClS71O17omh489p%2Bx1ra0RPfBymzQeGWYpbKpj%0AKjunuo%2Bg6CRKHYYRRZt4mrFy24ZPdHqCzkHDZs8EeZFLlSZ37WhQaaL4FlaZZ4F71Z76g2frSivG%0A9BWmITrv5yaD9blH%2F0WZHcMImwphq3HJrCndY3yMWMcV&cryptoPass=1",
+        "numberOfApprovables": 172,
+        "numberOfApproved": 0
+    }, {
+        "id": 432,
+        "name": "1_02_Recognition_Auto_Cycle01",
+        "type": "RecognitionApproval",
+        "alertMessage": "You have approvals to review",
+        "url": "https://g6bb8qa.performnet.com/g6bb8/claim/approvalsRecognitionList.do?clientState=%2FNA4Bm8EWE3nC5EXIgq4pVQKUlAS8DDFgMRMX4809b3E%2FhXvLLDc096zHqczqiqEqjYZVReoC2EH%0ADNX6qBDga2kO0%2Bfq9Wj8wyUsq5o3WuHp0EGb%2B2q4LshI9aNY1C6UDY8ZHJMZzvDRCtvkRccBci2c%0AVfe6wDjiTTJ0vqPxFVL5BjT59XivVWkyjhwf6o8LDWt0Z8l2CrJobNSGUPlEeiW1BRuLX%2BviPX%2BF%0ANE%2FXNlJu%2F3KmS6FqxZ3NEhu2RVEGjH3v0zx6X7%2F%2BaU61&cryptoPass=1",
+        "numberOfApprovables": 172,
+        "numberOfApproved": 0
+    }]
+}

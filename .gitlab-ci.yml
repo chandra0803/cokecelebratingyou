@@ -1,0 +1,55 @@
+include: 
+   - https://cpd.biw-pages.com/ci-includes/common/stages.yml
+   - https://cpd.biw-pages.com/ci-includes/daymaker/before-script.yml
+   - https://cpd.biw-pages.com/ci-includes/daymaker/plan-qa.yml
+   - https://cpd.biw-pages.com/ci-includes/daymaker/plan-pprd.yml
+   - https://cpd.biw-pages.com/ci-includes/daymaker/plan-prod.yml
+   - https://cpd.biw-pages.com/ci-includes/daymaker/deploy-to-qa.yml
+   - https://cpd.biw-pages.com/ci-includes/daymaker/deploy-to-pprd.yml
+   - https://cpd.biw-pages.com/ci-includes/daymaker/deploy-to-prod.yml
+   - https://cpd.biw-pages.com/ci-includes/security/dast.yml 
+
+variables:
+  CLEAN_REGISTRY: containers.biw-services.com
+  GIT_STRATEGY: clone
+  OWNER_NAMESPACE: gts
+  BIW_CPD_REGISTRY_URL: https://npm-registry.biw-services.com/
+  # DAYMAKER_CONTEXT variable value has to be changed based on the client context.
+  DAYMAKER_CONTEXT: celebratingyou
+  DAST_WEBSITE: $DAST_WEBSITE
+  DAST_LOGIN_USER: $DAST_LOGIN_USER
+  DAST_LOGIN_PASS: $DAST_LOGIN_PASS
+  DAST_LOGIN_URL: $DAST_LOGIN_URL
+  DAST_LOGIN_USER_FIELD: $DAST_LOGIN_FIELD
+  DAST_LOGIN_PASS_FIELD: $DAST_PWD_FIELD
+  DAST_LOGIN_SUBMIT_FIELD: $DAST_LOGIN_SUBMIT_FIELD
+  DAST_FULL_SCAN_ENABLED: "true"
+  DAST_EXTRA_PARAMS: $DAST_EXTRA_PARAMS
+  CI_DEBUG_TRACE: "true"
+  DAST_TARGET_AVAILABILITY_TIMEOUT: 120
+
+checkstyle:
+  image: containers.biw-services.com/nackle/factory/ci/gitlab-runner-java:8
+  when: manual
+  stage: test
+  except:
+    refs:
+      - master   
+  script:
+    - './gradlew -PgseriesMachineConfig=cicd.yml checkstyleMain'
+
+jacoco:
+  image: containers.biw-services.com/nackle/factory/ci/gitlab-runner-java:8
+  when: manual
+  stage: test
+  except:
+    refs:
+      - master
+  script:
+   - './gradlew -PgseriesMachineConfig=cicd.yml jacocoTestReport -i jacocoTestCoverageVerification'
+   - cat build/jacoco/index.html
+  artifacts:
+    reports:
+      junit:
+        - build/test-results/test/TEST-*.xml
+        - build/test-results/integrationTest/TEST-*.xml

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="false">
+  <class name="com.biperf.core.domain.serviceanniversary.SAInviteAndContributeInfo" table="SA_INVITEANDCONTRIBUTE_INFO">
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">SA_INVITEANDCONTRIB_INFO_PK_SQ</param>
+      </generator>
+    </id> 
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+    
+    <property name="celebrationId" type="uuid-char" column="CELEBRATION_ID" not-null="true" />
+    
+    <property name="contributorPersonId" type="java.lang.Long" column="CONTRIBUTOR_PERSON_ID" />
+    
+    <property name="contributorFirstName" type="java.lang.String" column="CONTRIBUTOR_FIRST_NAME" />
+    
+     <property name="contributorLastName" type="java.lang.String" column="CONTRIBUTOR_LAST_NAME" />
+    
+    <property name="contributorEmailAddr" type="java.lang.String" column="CONTRIBUTOR_EMAIL_ADDR" />
+    
+    <property name="inviteSendDate" type="java.util.Date" column="INVITE_SEND_DATE" />
+    
+    <property name="inviteePersonId" type="java.lang.Long" column="INVITEE_PERSON_ID" />
+    
+     <property name="contributionState" type="java.lang.String" column="CONTRIBUTION_STATE" />
+     
+     <property name="InternalOrExternal" type="boolean" column="IS_EXTERNAL_OR_INTERNAL" not-null="true" />
+     
+     <property name="Invited" type="boolean" column="IS_INVITED" not-null="true" />
+    
+    <property name="contributedDate" type="java.util.Date" column="CONTRIBUTED_DATE" />
+    
+    <property name="purlContributorId" type="java.lang.Long" column="PURL_CONTRIBUTOR_ID" />
+	
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SAInviteAndContributeInfo.getEligibleSAProgramsForContributor">
+	  <return-scalar column="id" type="long"/>
+	  <![CDATA[
+		select distinct si.PROGRAM_ID as id
+		from SA_CELEBRATION_INFO si,SA_INVITEANDCONTRIBUTE_INFO sc ,PROGRAM pg
+		where si.CELEBRATION_ID = sc.CELEBRATION_ID
+		and si.PROGRAM_ID = pg.PROGRAM_ID
+		and pg.PROGRAM_STATUS = 'live'
+		and pg.PROGRAM_TYPE = 'recognition'
+		and TRUNC (SYSDATE) BETWEEN  TRUNC (pg.PROGRAM_START_DATE) and TRUNC (NVL (pg.PROGRAM_END_DATE, TRUNC (SYSDATE)))
+		and sc.CONTRIBUTION_STATE IN (:contributionStates)
+		and sc.CONTRIBUTOR_PERSON_ID = :contributorPersonId
+		and si.AWARD_STATUS = :awardStatus
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SAInviteAndContributeInfo.getAllPendingSAContributions">
+	  <return-scalar column="celebrationId" type="string" />
+	  <return-scalar column="programName" type="string" />
+	  <return-scalar column="programCmxCode" type="string" />
+	  <return-scalar column="recipientId" type="long" />
+	  <return-scalar column="awardDate" type="date" />
+	  <return-scalar column="inviteSendDate" type="date" />
+	  <![CDATA[
+		select sc.CELEBRATION_ID as celebrationId,pg.PROGRAM_NAME as programName,pg.PROGRAM_NAME_CMX_ASSET_CODE as programCmxCode ,
+				sc.recipient_id as recipientId,sc.award_date as awardDate,si.invite_send_date as inviteSendDate
+		from  SA_CELEBRATION_INFO sc , SA_INVITEANDCONTRIBUTE_INFO si , Program pg ,application_user au 
+		where pg.PROGRAM_ID = sc.PROGRAM_ID
+		and si.CELEBRATION_ID = sc.CELEBRATION_ID 
+		and sc.RECIPIENT_ID = au.USER_ID
+		and au.IS_ACTIVE = 1
+		and pg.program_id = :programId 
+		and si.CONTRIBUTOR_PERSON_ID = :contributorPersonId
+		and si.CONTRIBUTION_STATE IN  (:contributionStates) 
+		and sc.RECIPIENT_ID <> :contributorPersonId 
+		and sc.AWARD_STATUS = :awardStatus
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SAInviteAndContributeInfo.getSACelebrationsByRecipient">
+	  <return-scalar column="celebrationId" type="string" />
+	  <return-scalar column="programName" type="string" />
+	  <return-scalar column="programCmxCode" type="string" />
+	  <return-scalar column="awardDate" type="date" />
+	  <![CDATA[
+		select sc.CELEBRATION_ID celebrationId,pg.PROGRAM_NAME programName,pg.PROGRAM_NAME_CMX_ASSET_CODE programCmxCode,sc.award_date as awardDate 
+		from  SA_CELEBRATION_INFO sc , Program pg ,application_user au 
+		where pg.PROGRAM_ID = sc.PROGRAM_ID
+		and sc.RECIPIENT_ID = au.USER_ID
+		and pg.PROGRAM_STATUS = 'live'
+		and pg.PROGRAM_TYPE = 'recognition'
+    	and au.IS_ACTIVE = 1
+		and sc.AWARD_DATE + :celebrationDisplayPeriod >= trunc(sysdate)
+    	and sc.RECIPIENT_ID = :recipientPersonId
+    	and sc.AWARD_STATUS IN (:awardStatus) 
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SAInviteAndContributeInfo.getContributionStatusCountByCelebrationId">
+	  <return-scalar column="contributionStatus" type="string" />
+	  <return-scalar column="viewCount" type="long" />
+	  <![CDATA[
+		select contribution_state contributionStatus,count(contribution_state) viewCount
+ 		from SA_INVITEANDCONTRIBUTE_INFO 
+ 		where celebration_id = :celebrationId
+ 		group by CONTRIBUTION_STATE 
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SAInviteAndContributeInfo.getSAGiftCodeReminderList">
+	  <return-scalar column="celebrationId" type="string" />
+	  <return-scalar column="programName" type="string" />
+	  <return-scalar column="programCmxCode" type="string" />
+	  <![CDATA[
+		select sc.CELEBRATION_ID celebrationId,pg.PROGRAM_NAME programName,pg.PROGRAM_NAME_CMX_ASSET_CODE programCmxCode 
+		from  SA_CELEBRATION_INFO sc , Program pg ,application_user au 
+		where pg.PROGRAM_ID = sc.PROGRAM_ID
+		and sc.RECIPIENT_ID = au.USER_ID
+		and pg.PROGRAM_TYPE = 'recognition'
+	    and au.IS_ACTIVE = 1
+	    and pg.AWARD_TYPE = 'merchandise'
+	    and sc.RECIPIENT_ID = :recipientPersonId
+	    and sc.AWARD_STATUS = :awardStatus
+	    and sc.IS_GIFTCODE = 1
+	    and sc.GIFTCODE_STATUS IN (:giftcodeStatus)
+    ]]>
+  </sql-query>
+	
+</hibernate-mapping>

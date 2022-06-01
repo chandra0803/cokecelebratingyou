@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.characteristic.Characteristic" 
+    	   table="CHARACTERISTIC"
+    	   discriminator-value="">
+
+        <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="CHARACTERISTIC_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">CHARACTERISTIC_PK_SQ</param>
+	        </generator>
+	    </id>
+	    
+	    <discriminator type="java.lang.String" column="CHARACTERISTIC_TYPE"/>
+
+        <!-- Using version number optimistic locking -->
+       <version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+
+        <property name="description" type="java.lang.String" column="DESCRIPTION"/>
+        <property name="characteristicDataType" column="CHARACTERISTIC_DATA_TYPE">
+	        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+                <param name="lookupClass">com.biperf.core.domain.enums.CharacteristicDataType</param>
+            </type>
+        </property>
+        <property name="visibility" column="VISIBILITY">
+	        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+                <param name="lookupClass">com.biperf.core.domain.enums.CharacteristicVisibility</param>
+            </type>
+        </property>
+    
+        <property name="minValue" type="java.math.BigDecimal" column="MIN_VALUE" />
+        <property name="maxValue" type="java.math.BigDecimal" column="MAX_VALUE" />
+        <property name="maxSize" type="java.lang.Long" column="MAX_SIZE" />
+        <property name="dateStart" type="java.util.Date" column="DATE_START" />
+        <property name="dateEnd" type="java.util.Date" column="DATE_END" />
+        <property name="plName" type="java.lang.String" column="PL_NAME" >
+         	<type name="com.biperf.core.utils.hibernate.DynaPickListUserType">
+         		<param name="lookupClass">com.biperf.core.domain.enums.DynaPickListType</param>
+         	</type>
+        </property>
+        <property name="nameCmKey" type="java.lang.String" column="NAME_CM_KEY" />
+        <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE" />
+        <property name="isRequired" column="IS_REQUIRED"/>
+        <property name="active" type="boolean" column="IS_ACTIVE" />
+    	<property name="rosterCharacteristicId" type="uuid-char" column="ROSTER_CHARACTERISTIC_ID"/>        
+        
+        <subclass name="com.biperf.core.domain.characteristic.NodeTypeCharacteristicType"
+        		  discriminator-value="NT" >        		  
+        	<property name="domainId" type="java.lang.Long" column="DOMAIN_ID" not-null="true"/>
+        </subclass>
+        <subclass name="com.biperf.core.domain.characteristic.UserCharacteristicType"
+        		  discriminator-value="USER" >        		  
+        </subclass>
+    </class>
+    
+    <query name="com.biperf.core.domain.characteristic.AllNodeTypeCharacteristicTypeList">
+		<![CDATA[
+		from com.biperf.core.domain.characteristic.NodeTypeCharacteristicType nodeCharType 
+		where is_active = 1
+		order by nodeCharType.id
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.characteristic.AllNodeTypeCharacteristicTypeByNodeTypeIdList">
+    	<![CDATA[
+		 from com.biperf.core.domain.characteristic.NodeTypeCharacteristicType characteristic
+		where characteristic.domainId = :nodeTypeId
+		and is_active = 1
+		order by characteristic.id
+		]]>
+    </query>  
+    
+    <query name="com.biperf.core.domain.characteristic.AllUserCharacteristicTypeList">
+		<![CDATA[
+		from com.biperf.core.domain.characteristic.UserCharacteristicType
+		where is_active = 1
+		]]>
+	</query>
+	
+  <sql-query name="com.biperf.core.domain.characteristic.ReportUserCharacteristics">
+    <return alias="c" class="com.biperf.core.domain.characteristic.UserCharacteristicType"/>
+    <![CDATA[
+      SELECT {c.*}
+        from characteristic c, rpt_characteristic_lookup rpt
+        where c.characteristic_id = rpt.characteristic_id 
+        and c.characteristic_type='USER'
+        order by rpt.display_order
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.characteristic.UnusedParticipantIdentifierUserCharacteristics">
+    <return alias="c" class="com.biperf.core.domain.characteristic.UserCharacteristicType"/>
+    <![CDATA[
+      SELECT {c.*}
+        from characteristic c, participant_identifier pi
+        where c.characteristic_id = pi.type_id(+)
+        and c.characteristic_type='USER'
+        and pi.type_id IS NULL
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.characteristic.ReportNodeCharacteristics">
+    <return alias="c" class="com.biperf.core.domain.characteristic.NodeTypeCharacteristicType"/>
+    <![CDATA[
+      SELECT {c.*}
+        from characteristic c, rpt_characteristic_lookup rpt
+        where c.characteristic_id = rpt.characteristic_id 
+        and c.characteristic_type='NT'
+        order by rpt.display_order
+    ]]>
+  </sql-query>
+
+	<sql-query name="com.biperf.core.domain.characteristic.getCharacteristicIdByRosterCharacteristicId">
+		<return-scalar column="characteristic_id" type="long"/>
+		<![CDATA[
+     	 	select characteristic_id from characteristic where roster_characteristic_id=:rosterCharacteristicId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.characteristic.getRosterCharacteristicIdByCharacteristicId">
+		<return-scalar column="roster_characteristic_id" type="uuid-char"/>
+		<![CDATA[
+     	 	select roster_characteristic_id from characteristic where characteristic_id=:characteristicId
+    	]]>
+	</sql-query>
+
+</hibernate-mapping>

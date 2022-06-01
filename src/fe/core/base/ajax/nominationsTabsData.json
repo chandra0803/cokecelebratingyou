@@ -1,0 +1,49 @@
+{
+    "tabsJson": [
+        {
+        "id": 0,
+        "name": "stepNominating",
+        "state": "unlocked",
+        "contentSel": ".wizardTabsVertContent .stepNominatingContent",
+        "wtvNumber": "0",
+        "wtvName": "Individual or Team",
+        "isActive": true
+    },
+        {
+            "id" : 1,
+            "name" : "stepNominee",
+            "isActive" : false,
+            "state" : "locked",
+            "contentSel" : ".wizardTabsVertContent .stepNomineeContent",
+            "wtvNumber" : "1",
+            "wtvName" : "Nominee"
+        },
+        {
+            "id" : 2,
+            "name" : "stepBehavior",
+            "isActive" : false,
+            "state" : "locked",
+            "contentSel" : ".wizardTabsVertContent .stepBehaviorContent",
+            "wtvNumber" : "2",
+            "wtvName" : "Behavior"
+        },
+        {
+            "id" : 3,
+            "name" : "stepEcard",
+            "isActive" : false,
+            "state" : "locked",
+            "contentSel" : ".wizardTabsVertContent .stepEcardContent",
+            "wtvNumber" : "3",
+            "wtvName" : "eCard"
+        },
+        {
+            "id" : 4,
+            "name" : "stepWhy",
+            "isActive" : false,
+            "state" : "locked",
+            "contentSel" : ".wizardTabsVertContent .stepWhyContent",
+            "wtvNumber" : "4",
+            "wtvName" : "Why"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+CREATE SEQUENCE USER_NODE_HISTORY_PK_SQ INCREMENT BY 1   START WITH 5000
+/
+CREATE TABLE user_node_history
+   (user_node_history_id NUMBER(18) NOT NULL,
+    user_id        		 NUMBER(18) NOT NULL,
+    node_id        		 NUMBER(18) NOT NULL,
+    status        		 NUMBER(1)  NOT NULL,
+ 	role          		 VARCHAR2(30)NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created     	 DATE NOT NULL)
+/
+ALTER TABLE user_node_history
+ADD CONSTRAINT user_node_history_id_pk PRIMARY KEY (user_node_history_id)
+USING INDEX
+/
+COMMENT ON TABLE user_node_history IS 'The user_node_history table stores the history of the user_node records.'
+/

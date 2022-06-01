@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.challengepoint.RptChallengepointProduction" table="RPT_CP_PRODUCTION">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" column="RPT_CP_PRODUCTION_ID" type="java.lang.Long">
+	  <generator class="seqhilo">
+	    <param name="max_lo">0</param> <param name="sequence">RPT_CP_PRODUCTION_SQ</param>
+	  </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" type="java.lang.Long" column="VERSION" />	
+			
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+	      	  type="com.biperf.core.utils.hibernate.AuditCreateType">
+			  <column name="DATE_CREATED" />
+			  <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+	      	  type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			  <column name="DATE_MODIFIED" />
+			  <column name="MODIFIED_BY" />
+    </property>			
+
+    <property name="nbrOfParticipants" column="NBR_OF_PAX" type="java.lang.Integer" />
+    <property name="pctOfParticipants" column="PCT_OF_PAX" type="java.lang.Double" />
+    <property name="totBaselineObjective" column="TOT_BASE_OBJ" type="java.math.BigDecimal" />
+    <property name="totActualProduction" column="TOT_CURR_VALUE" type="java.math.BigDecimal" />
+    <property name="pctIncrease" column="PCT_INCREASE" type="java.lang.Double" />	
+    <property name="unitDollarIncrease" column="UNIT_INCREASE" type="java.lang.Double" />
+	    
+    <!-- promotion -->
+    <many-to-one name="challengepointPromotion" column="PROMOTION_ID" not-null="true" 
+	  class="com.biperf.core.domain.promotion.ChallengePointPromotion" lazy="false">
+    </many-to-one>
+		
+	<!-- ROI count type -->
+	<property name="challengepointProductionCountType" column="COUNT_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ChallengepointProductionCountType</param>
+      </type>
+    </property>	
+    
+  </class>
+
+  <query name="com.biperf.core.domain.challengepoint.RptCPProductionByPromotionId">
+	<![CDATA[
+		from com.biperf.core.domain.challengepoint.RptChallengepointProduction rptCpProduction
+		where challengePointPromotion.id = :promotionId
+	]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.challengepoint.PaxInSpecifyAudienceByPromotionCount">
+	<return-scalar column="result" type="integer"/> 
+  	<![CDATA[
+		SELECT count(1) as result 
+		  FROM participant_audience pa,
+		  	   promo_audience a,
+		  	   user_node,
+		  	   participant p 
+		 WHERE a.promotion_id = :promotionId
+		   AND pa.audience_id = a.audience_id
+		   AND pa.user_id = p.user_id
+		   AND p.status = 'active'
+           AND p.user_id = user_node.user_id
+           AND user_node.role != 'own'		   
+	]]>
+  </sql-query>	
+  
+  <sql-query name="com.biperf.core.domain.challengepoint.PaxInSpecifyAudienceByPromotionCountIncludeOwners">
+    <return-scalar column="result" type="integer"/> 
+    <![CDATA[
+        SELECT count(1) as result 
+          FROM participant_audience pa,
+               promo_audience a,
+               user_node,
+               participant p 
+         WHERE a.promotion_id = :promotionId
+           AND pa.audience_id = a.audience_id
+           AND pa.user_id = p.user_id
+           AND p.status = 'active'
+           AND p.user_id = user_node.user_id
+    ]]>
+  </sql-query>  
+  
+    <sql-query name="com.biperf.core.domain.challengepoint.PaxInSelectAudienceByPromotionCountIncludeOwners">
+    <return-scalar column="result" type="integer"/> 
+    <![CDATA[
+        select count(1) as result
+     from   rpt_Cp_Selection_Detail rptCpSelectionDetail     
+    where  
+       rptCpSelectionDetail.promotion_id= :promotionId          
+       and rptCpSelectionDetail.Level_id is not null
+    ]]>
+  </sql-query>  
+  
+  <sql-query name="com.biperf.core.domain.challengepoint.AllActivePaxCount">
+	<return-scalar column="result" type="integer"/> 
+  	<![CDATA[
+		SELECT count(1) as result 
+		  FROM participant p,
+		  	   user_node 	 
+		 WHERE p.status = 'active'
+		 	AND p.user_id = user_node.user_id
+		 	AND user_node.role != 'own'
+	]]>
+  </sql-query>	
+  
+	 
+  <query name="com.biperf.core.domain.challengepoint.PaxsByCPAchieved">
+    <![CDATA[
+    select new com.biperf.core.value.ChallengepointProductionValueBean( 
+    	count(rptCpSelectionDetail.participant.id), 
+    	sum(rptCpSelectionDetail.baseQuantity), 
+    	sum(rptCpSelectionDetail.currentValue) )
+     from com.biperf.core.domain.challengepoint.RptCpDetail rptCpSelectionDetail     
+    where rptCpSelectionDetail.challengePointPromotion.id = :promotionId
+      and rptCpSelectionDetail.achieved = 1
+      and rptCpSelectionDetail.manager = 0
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.challengepoint.PaxsByCPNotAchievedOverBaseline">
+    <![CDATA[
+    select new com.biperf.core.value.ChallengepointProductionValueBean( 
+    	count(rptCpSelectionDetail.participant.id), 
+    	sum(rptCpSelectionDetail.baseQuantity), 
+    	sum(rptCpSelectionDetail.currentValue) )
+     from com.biperf.core.domain.challengepoint.RptCpDetail rptCpSelectionDetail     
+    where rptCpSelectionDetail.challengePointPromotion.id = :promotionId
+      and rptCpSelectionDetail.achieved = 0
+      and rptCpSelectionDetail.manager = 0
+      and (rptCpSelectionDetail.currentValue >= rptCpSelectionDetail.baseQuantity or rptCpSelectionDetail.baseQuantity is null)
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.challengepoint.Subtotal">
+  	<![CDATA[
+  	select new com.biperf.core.value.ChallengepointProductionValueBean( 
+    	count(rptCpSelectionDetail.participant.id), 
+    	sum(rptCpSelectionDetail.baseQuantity), 
+    	sum(rptCpSelectionDetail.currentValue) )
+     from com.biperf.core.domain.challengepoint.RptCpDetail rptCpSelectionDetail     
+    where 
+    (rptCpSelectionDetail.challengePointPromotion.id = :promotionId
+      	   and rptCpSelectionDetail.achieved = 1
+           and rptCpSelectionDetail.manager = 0 )  
+      or  (rptCpSelectionDetail.challengePointPromotion.id = :promotionId
+      	   and rptCpSelectionDetail.achieved = 0
+           and rptCpSelectionDetail.manager = 0
+      	   and (rptCpSelectionDetail.currentValue >= rptCpSelectionDetail.baseQuantity or rptCpSelectionDetail.baseQuantity is null))
+  	]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.challengepoint.PaxsByCPNotAchievedUnderBaseline">
+    <![CDATA[
+    select new com.biperf.core.value.ChallengepointProductionValueBean( 
+    	count(rptCpSelectionDetail.participant.id), 
+    	sum(rptCpSelectionDetail.baseQuantity), 
+    	sum(rptCpSelectionDetail.currentValue) )
+     from com.biperf.core.domain.challengepoint.RptCpDetail rptCpSelectionDetail     
+    where rptCpSelectionDetail.challengePointPromotion.id = :promotionId
+      and rptCpSelectionDetail.achieved = 0
+      and rptCpSelectionDetail.manager = 0
+      and rptCpSelectionDetail.currentValue < rptCpSelectionDetail.baseQuantity
+    ]]>
+  </query>
+  
+    <query name="com.biperf.core.domain.challengepoint.Total">
+  	<![CDATA[
+  	select new com.biperf.core.value.ChallengepointProductionValueBean( 
+    	count(rptCpSelectionDetail.participant.id), 
+    	sum(rptCpSelectionDetail.baseQuantity), 
+    	sum(rptCpSelectionDetail.currentValue) )
+     from com.biperf.core.domain.challengepoint.RptCpDetail rptCpSelectionDetail     
+    where  
+       rptCpSelectionDetail.challengePointPromotion.id = :promotionId
+           and rptCpSelectionDetail.manager = 0 
+           and rptCpSelectionDetail.goalLevel is not null
+  	]]>
+  </query>
+
+  <query name="com.biperf.core.domain.challengepoint.PaxsDidNotSelectCP">
+    <![CDATA[
+    select new com.biperf.core.value.ChallengepointProductionValueBean( 
+    	count(rptCpSelectionDetail.participant.id), 
+    	sum(rptCpSelectionDetail.baseQuantity), 
+    	sum(rptCpSelectionDetail.currentValue) )
+     from com.biperf.core.domain.challengepoint.RptCpDetail rptCpSelectionDetail     
+    where rptCpSelectionDetail.challengePointPromotion.id = :promotionId
+      and rptCpSelectionDetail.goalLevel is null
+      and rptCpSelectionDetail.manager = 0
+    ]]>
+  </query>
+  
+
+</hibernate-mapping>
+
+

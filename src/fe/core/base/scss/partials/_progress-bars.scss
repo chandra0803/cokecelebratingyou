@@ -1,0 +1,85 @@
+// Partial-specific variables
+// =========================
+// NOTE: most of this was lifted from bootstrap/_progress-bars. I had to move it over so a) we could customize, and b) we could use the $experimental-support-for-svg: true; variable
+$progressBars_backBorderRadius: $progressBar_baseBorderRadius !default;
+
+$progressBars_backBgColor: $brand_color_mid !default;
+$progressBars_backGradMeta: false !default;
+$progressBars_backGradStops: $progressBars_backBgColor !default;
+
+$progressBars_barBgColor: $brand_color_primary !default;
+$progressBars_barGradMeta: false !default;
+$progressBars_barGradStops: $progressBars_barBgColor !default;
+
+$progressBars_barDangerBgColor: $brand_color_alert !default;
+$progressBars_barDangerGradMeta: $progressBars_barGradMeta !default;
+$progressBars_barDangerGradStops: $progressBars_barDangerBgColor !default;
+
+$progressBars_barSuccessBgColor: $brand_color_success !default;
+$progressBars_barSuccessGradMeta: $progressBars_barGradMeta !default;
+$progressBars_barSuccessGradStops: $progressBars_barSuccessBgColor !default;
+
+$progressBars_barInfoBgColor: $brand_color_secondary !default;
+$progressBars_barInfoGradMeta: $progressBars_barGradMeta !default;
+$progressBars_barInfoGradStops: $progressBars_barInfoBgColor !default;
+
+$progressBars_barWarningBgColor: $brand_color_warning !default;
+$progressBars_barWarningGradMeta: $progressBars_barGradMeta !default;
+$progressBars_barWarningGradStops: $progressBars_barWarningBgColor !default;
+
+
+// Partial-specific code
+// ==================================================
+
+
+// COLORS FOR THE VARIOUS BOOTSTRAP BARS
+
+// THE BARS
+// --------
+
+// Outer container
+.progress {
+    filter: none;
+    @include border-radius($progressBars_backBorderRadius);
+    @include progressBarHelper($progressBars_backBgColor, $progressBars_backGradMeta, $progressBars_backGradStops);
+
+    // with a qtip above
+    &.progress-tip {
+        margin-top: $baseLineHeight * 1.25;
+        height: $baseLineHeight / 2;
+    }
+}
+
+// Bar of progress
+.progress .bar {
+    // futzing with text alignment
+    margin-left: -3px;
+    padding-right: 3px;
+    max-width: 100%;
+    text-align: right;
+    text-indent: 6px;
+    @include box-sizing(content-box);
+
+    filter: none;
+    @include progressBarHelper($progressBars_barBgColor, $progressBars_barGradMeta, $progressBars_barGradStops);
+}
+// COLORS
+// ------
+// Danger (red)
+.progress-danger .bar, .progress .bar-danger {
+    @include progressBarHelper($progressBars_barDangerBgColor, $progressBars_barDangerGradMeta, $progressBars_barDangerGradStops);
+}
+// Success (green)
+.progress-success .bar, .progress .bar-success {
+    @include progressBarHelper($progressBars_barSuccessBgColor, $progressBars_barSuccessGradMeta, $progressBars_barSuccessGradStops);
+}
+// Info (teal)
+.progress-info .bar, .progress .bar-info {
+    @include progressBarHelper($progressBars_barInfoBgColor, $progressBars_barInfoGradMeta, $progressBars_barInfoGradStops);
+}
+// Warning (orange)
+.progress-warning .bar, .progress .bar-warning {
+    @include progressBarHelper($progressBars_barWarningBgColor, $progressBars_barWarningGradMeta, $progressBars_barWarningGradStops);
+}
+
+// ADD ANY CUSTOM BARS HERE USING EITHER OF THE progerssBarHelper() OR progressBarHelperFull() MIXINS

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.forum.ForumDiscussionLike" table="FORUM_DISCUSSION_LIKE" >
+   
+       <composite-id> 
+            <key-many-to-one name="forumDiscussion" column="DISCUSSION_ID" entity-name="com.biperf.core.domain.forum.ForumDiscussion" />   
+			<key-many-to-one name="user" column="USER_ID" entity-name="com.biperf.core.domain.user.User" /> 
+	   </composite-id> 
+        
+    </class>
+
+</hibernate-mapping>

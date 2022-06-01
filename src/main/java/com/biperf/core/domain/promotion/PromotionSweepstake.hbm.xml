@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.PromotionSweepstake" table="PROMO_SWEEPSTAKE_DRAWING">
+    
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+	<id name="id" type="java.lang.Long" column="SWEEPSTAKE_DRAWING_ID">
+	  <generator class="seqhilo">
+		<param name="max_lo">0</param> <param name="sequence">SWEEPSTAKE_DRAWING_PK_SQ</param>
+	  </generator>
+	</id>
+	
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+    
+	<!-- promotion -->
+	<many-to-one name="promotion"
+				 class="com.biperf.core.domain.promotion.Promotion"
+				 outer-join="false" lazy="false">
+		<column name="PROMOTION_ID" not-null="true" />
+	</many-to-one>
+    
+	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	  <column name="DATE_CREATED" />
+	  <column name="CREATED_BY" />
+	</property>
+
+	<property name="startDate" type="java.util.Date" column="SWEEPSTAKE_START_DATE" not-null="true"/>
+    <property name="endDate" type="java.util.Date" column="SWEEPSTAKE_END_DATE" not-null="true"/>
+    <property name="processed" type="boolean" column="IS_PROCESSED" not-null="true"/>
+    <property name="guid" type="java.lang.String" column="GUID" not-null="true"/>
+
+    <set name="winners" lazy="false" table="PROMO_SWEEPSTAKE_WINNERS" inverse="true" cascade="all-delete-orphan">
+      <key column="SWEEPSTAKE_DRAWING_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.PromotionSweepstakeWinner"/>
+    </set>
+    
+  </class>
+  
+  <query name="com.biperf.core.domain.promotion.AllPromotionSweepstakesSortedByDate">
+    <![CDATA[
+		  SELECT promotionSweepstake FROM 
+		    com.biperf.core.domain.promotion.PromotionSweepstake promotionSweepstake
+		  ORDER BY sweepstake_end_date ASC
+		    
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.promotion.AllPromotionSweepstakesByPromotionIdSortedByDate">
+    <![CDATA[
+		  SELECT promotionSweepstake FROM 
+		    com.biperf.core.domain.promotion.PromotionSweepstake promotionSweepstake
+		  WHERE promotion_id = :promotionId
+		  ORDER BY sweepstake_end_date ASC		    
+    ]]>
+  </query>  
+
+  <query name="com.biperf.core.domain.promotion.AllPromotionSweepstakes">
+    <![CDATA[
+		  from com.biperf.core.domain.promotion.PromotionSweepstake promotionSweepstake
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.promotion.AllPromotionSweepstakesByPromotionId">
+    <![CDATA[
+		  from com.biperf.core.domain.promotion.PromotionSweepstake promotionSweepstake
+      		where promotionSweepstake.promotion.id = :promotionId
+    ]]>
+  </query>
+
+  <!--  Bug # 34020 start -->
+  	<sql-query name="com.biperf.core.domain.promotion.PromotionSweepstakesNotProcessedCount">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+          SELECT COUNT(*) as result
+          FROM PROMO_SWEEPSTAKE_DRAWING
+          WHERE promotion_id = :promoId
+          AND is_processed = 0
+    ]]>
+	</sql-query>
+	
+  	<sql-query name="com.biperf.core.domain.promotion.PromotionSweepstakesHistoryCount">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+          SELECT COUNT(*) as result
+          FROM PROMO_SWEEPSTAKE_DRAWING
+          WHERE promotion_id = :promoId
+          AND is_processed = 1
+    ]]>
+	</sql-query>
+	
+   <query name="com.biperf.core.domain.promotion.PromotionSweepstakesByPromotionIdNotProcessed">
+    <![CDATA[
+		  from com.biperf.core.domain.promotion.PromotionSweepstake promotionSweepstake
+          where promotionSweepstake.promotion.id = :promotionId
+		  and promotionSweepstake.processed = java.lang.Boolean.FALSE
+    ]]>
+   </query> 
+
+    <sql-query name="com.biperf.core.domain.promotion.AllPromotionSweepstakeWinnersByDrawingId">
+    <return alias="winners" class="com.biperf.core.domain.promotion.PromotionSweepstakeWinner"/>
+    <![CDATA[
+        SELECT {winners.*}
+         FROM promo_sweepstake_winners winners
+         WHERE winners.sweepstake_drawing_id = :drawingId  
+    ]]>
+  	</sql-query>
+  <!--  Bug # 34020 end -->  
+  
+</hibernate-mapping>

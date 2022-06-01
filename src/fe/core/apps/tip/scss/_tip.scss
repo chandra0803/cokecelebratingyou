@@ -1,0 +1,176 @@
+// App-specific variables
+// =========================
+$tip_textFontFamily: $bodyFont !default;
+$tip_textColor: $brand_color_black !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.tip {
+
+} /* /.tip */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.tip {
+    .module-content {
+        @if $tip_textColor != $textColor {
+            color: $tip_textColor;
+        }
+        padding-right: 0;
+        padding-left: 0;
+
+        #tipContainer {
+            padding-bottom: $g5ModulePadding / 2;
+        }
+
+        #tipText {
+            height: 100%;
+            padding: 0;
+
+            @if $tip_textFontFamily != $bodyFont {
+                font-family: $tip_textFontFamily;
+            }
+
+            .slick-arrow {
+                position: absolute;
+                top: 48%;
+                font-size: 36px;
+
+                @media (max-width: $breakpoint_mobile_max) {
+                    display: none !important;
+                }
+
+                &.slick-prev {
+                    left: -$g6ModulePaddingX;
+
+                    @media (min-width: $breakpoint_tablet_min){
+                        left: -$g6ModulePaddingX_tablet;
+                    }
+
+                    @media (min-width: $breakpoint_desktop_min){
+                        left: -$g6ModulePaddingX_desktop;
+                    }
+
+                    @media (min-width: $breakpoint_desktopLarge_min){
+                        left: -$g6ModulePaddingX_desktopLarge;
+                    }
+
+                    color: $tip_textColor;
+                }
+
+                &.slick-next {
+                    right: -$g6ModulePaddingX;
+
+                    @media (min-width: $breakpoint_tablet_min){
+                        right: -$g6ModulePaddingX_tablet;
+                    }
+
+                    @media (min-width: $breakpoint_desktop_min){
+                        right: -$g6ModulePaddingX_desktop;
+                    }
+
+                    @media (min-width: $breakpoint_desktopLarge_min){
+                        right: -$g6ModulePaddingX_desktopLarge;
+                    }
+
+                    color: $tip_textColor;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                &.slick-disabled {
+                    visibility: hidden;
+                }
+            }
+
+            .slick-list {
+                overflow: hidden;
+
+                height: 100%;
+            }
+            .slick-track {
+                height: 100%;
+
+                .item {
+                    width: 100%;
+                    height: 100%;
+                    display: inline-block;
+                    vertical-align: top;
+                }
+            }
+
+            .slick-dots {
+                bottom: -10%;
+                @media (max-width: $breakpoint_mobile_max) {
+                    bottom: auto;
+                }
+                left:0;
+                position:absolute;
+                line-height:0;
+                width: 100%;
+                text-align: center;
+                margin: 0;
+
+                li {
+                    margin: 0 1.65%;
+                    display:inline-block;
+                    opacity: 0.4;
+                    background: none;
+                    @include transition(opacity 0.5s);
+
+                    button {
+                        text-indent: -999em;
+                        border: solid 1px $brand_color_primary;
+                        background: none;
+                        width: 100%;
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 50%;
+                        //margin: 0 15px;
+                    }
+
+                    &.slick-active {
+                        opacity: 1;
+
+                        button {
+                            background: $brand_color_primary;
+                        }
+                    }
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        .aTip {
+            //right: $g5ModulePadding / 2;
+            height: 100%;
+            overflow: auto;
+        }
+
+        p {
+            padding-right: $g5ModulePadding;
+        }
+
+        .activeTip {
+            display: inline;
+        }
+    }
+
+    .title-icon-view {
+        h3 {
+            display: none;
+        }
+    }
+} /* /.launchModule.tip */
+
+/* ----- PAGE STYLES ----- */
+.page.tip {
+
+} /* /.page.tip */

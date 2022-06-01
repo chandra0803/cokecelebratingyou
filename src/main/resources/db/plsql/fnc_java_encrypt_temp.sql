@@ -1,0 +1,29 @@
+CREATE OR REPLACE FUNCTION fnc_java_encrypt_temp wrapped 
+a000000
+b2
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+abcd
+8
+45e 207
+vbdki1ykrn9t7jVZyjHMOcXVD0Qwg/CJ2UjWfC/pmIvVNJlazJTKegmJAmsdUh0dZRsnK/nI
+6LWHE4BLCisVmTZuHh4tF9RDqQJwYvHTmTo1IMPhb+QZvT4OKWhK+oe4QJTMhmBCUmt6pXbL
+4I/O5DV2PNpK04XsqFp+EKyEtx1JIBcGW1j04R2Qz5kCORjmmaSyidtvGHSOGm8Yso6DQPQ3
+BoXmJjcl2+ZJxzuMAuTWr8uh6ChHWCyMuZ6/4EFR/TkZXVBSFjGwNeTWsEyfD46Su0zo0DyT
+YMuUhHloTNUx1sjPZ6+ryCffjEKyZKSW+TYLYIEYGgernn/oNOE23ER9pWD7UrFizcay5Hg8
+iUh3Av0yxvBFEYzRGU0M3/wl8EXrYJDc/hqRFoMmw+i78cSyQiwRkNc0FHPICkpx/ceu5AAm
++9VSUpwJm3rAhx7ycaZPN0eQ+G4i/YRVaiDX4KUwfebMYwSiCMDadR7QCCNt87wKFlz65ZyK
+Q1sV9DNl
+/

@@ -1,0 +1,55 @@
+CREATE SEQUENCE execution_log_pk_sq
+  INCREMENT BY 1
+  START WITH 2000
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  ORDER
+  NOCACHE
+/
+CREATE TABLE execution_log
+   (execution_log_id               VARCHAR2(30) NOT NULL,
+    session_id                     VARCHAR2(30) NOT NULL,
+    process_name                   VARCHAR2(30),
+    severity                       VARCHAR2(30),
+    text_line                      VARCHAR2(4000),
+    release_level                  NUMBER(6,4),
+    dbms_job_nbr                   NUMBER(10,0),
+    created_by number(18) NOT NULL,
+    date_created                   DATE NOT NULL)
+/
+
+-- Indexes for EXECUTION_LOG
+
+CREATE INDEX process_name_idx ON execution_log
+  (process_name                    ASC)NOLOGGING
+/
+
+-- Constraints for EXECUTION_LOG
+ALTER TABLE execution_log
+ADD CONSTRAINT execution_log_pk PRIMARY KEY (execution_log_id)
+USING INDEX
+/
+
+-- Comments for EXECUTION_LOG
+
+COMMENT ON TABLE execution_log IS 'The EXECUTION_LOG table stores audit entries about runtime information and errors for any procedures or processes that have run on the system.  At a minimum, load one record to the log for each major landmark in the process.'
+/
+COMMENT ON COLUMN execution_log.created_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN execution_log.date_created IS '- Retrofitted'
+/
+COMMENT ON COLUMN execution_log.dbms_job_nbr IS 'There is no official use for this field in the current version.  However, it may be used to capture step or stage numbers that some programmers use to mark progression through a process.'
+/
+COMMENT ON COLUMN execution_log.execution_log_id IS 'System generated key that identifies a specific log record.'
+/
+COMMENT ON COLUMN execution_log.process_name IS 'The name of the procedure or process that is being run.'
+/
+COMMENT ON COLUMN execution_log.release_level IS 'There is no standard usage of this field.  It was meant to coincide with the process version in use (so version 1.0 of a process would have a release_level of 1.0) but there are seldom values other than 1.0 used.'
+/
+COMMENT ON COLUMN execution_log.session_id IS 'The unique ID that the system assigns whenever a user starts a new session.  This is the only field that actually uniquely identifies multiple runs of the same process.'
+/
+COMMENT ON COLUMN execution_log.severity IS 'The reason that the log entry is being created.'
+/
+COMMENT ON COLUMN execution_log.text_line IS 'The text message explaining what has happened during execution.'
+/

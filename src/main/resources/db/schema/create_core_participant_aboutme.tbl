@@ -1,0 +1,33 @@
+CREATE SEQUENCE participant_aboutme_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE participant_aboutme
+(
+participant_aboutme_id                  NUMBER(18,0) NOT NULL,
+user_id								    NUMBER(18,0) NOT NULL, 
+question_code        					VARCHAR2(100),
+answer		         					VARCHAR2(500),
+created_by                              NUMBER(18) NOT NULL,
+date_created                            DATE NOT NULL,
+modified_by                             NUMBER(18),
+date_modified                           DATE,
+version                                 NUMBER(18,0) NOT NULL
+)
+/
+ALTER TABLE participant_aboutme
+ADD CONSTRAINT pax_aboutme_pk PRIMARY KEY (participant_aboutme_id)
+USING INDEX
+/
+ALTER TABLE participant_aboutme ADD CONSTRAINT pax_aboutme_user_fk
+  FOREIGN KEY (user_id) REFERENCES APPLICATION_USER (user_id) 
+/
+CREATE INDEX pax_aboutme_user_fk_idx ON participant_aboutme
+  (USER_ID)
+/
+COMMENT ON COLUMN participant_aboutme.participant_aboutme_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN participant_aboutme.user_id IS 'user id for the question'
+/
+COMMENT ON COLUMN participant_aboutme.question_code IS 'question code '
+/
+COMMENT ON COLUMN participant_aboutme.answer IS 'answer'
+/

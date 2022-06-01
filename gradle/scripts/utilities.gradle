@@ -1,0 +1,285 @@
+// Method to execute a system command and return the result
+// First, try the command. If that fails, use the passed in default.
+// Note: Pass each part of the command as an individual string
+String doCommand(String defaultResult, Object... command) {
+  try {
+    def commandOutput = new ByteArrayOutputStream()
+    exec() {
+      commandLine command
+      standardOutput = commandOutput
+      errorOutput = new ByteArrayOutputStream()
+    }
+    return commandOutput.toString().trim()
+  } catch(Exception e) {
+    return defaultResult
+  }
+}
+
+// Returns true if some property exists on the object and is Groovy-truthy
+boolean isPropertyTrue(Object object, String propertyName) {
+  return object != null && object.hasProperty(propertyName) && object.getProperty(propertyName)
+}
+
+// Opens a dialog that asks for input
+// Returns the user input entered
+String promptForInput(String message) {
+
+  if(project.hasProperty('input'))
+  {
+    if(input == null)
+    {
+      throw new Exception("Input cannot be null")
+    }
+    return input
+  }
+  
+  return UserInputModal.getTextInput( message ) 
+}
+
+boolean promptForConfirmation(String message) {
+  def selection = null
+  
+  // Basic Jenkins support through system property, avoiding dialog
+  if(project.hasProperty('confirmation'))
+  {
+    selection = confirmation
+  }
+  else
+  {
+    selection = UserInputModal.getSingleOption(message, ["No", "Yes"])
+  }
+  
+  return (selection == "Yes")
+}
+
+// Opens a dialog that asks for DB environment
+// Does the generic DB property setup for the chosen database
+// Returns the user input selection
+String promptForEnv() {
+  String selection = null
+  
+  if(project.hasProperty('environment'))
+  {
+    if(environment == null)
+    {
+      throw new Exception("Environment selection cannot be null")
+    }
+    selection = environment
+  }
+  else
+  {
+    selection = UserInputModal.getSingleOption("Select the DB environment", ["DEV", "Unit Test", "QA", "PRE", "PROD"])
+    project.ext.environment = selection
+  }
+
+  // Setup the chosen database into the global variables
+  switch(selection) {
+    case "DEV":
+      configureDBPropertiesLocal()
+    break
+    case "Unit Test":
+      configureDBPropertiesTest()
+    break
+    case "QA":
+      configureDBPropertiesQA()
+    break
+    case "PRE":
+      configureDBPropertiesPRE()
+    break
+    case "PROD":
+      configureDBPropertiesPROD()
+    break
+  }
+  
+  return selection
+}
+
+String promptForEnvNoDev() {
+  String selection = null
+
+  if(project.hasProperty('environment'))
+  {
+    if(environment == null)
+    {
+      throw new Exception("Environment selection cannot be null")
+    }
+    selection = environment
+  }
+  else
+  {
+    selection = UserInputModal.getSingleOption("Select the DB environment", ["QA", "PRE", "PROD"])
+  }
+  
+  // Setup the chosen database into the global variables
+  switch(selection) {
+    case "QA":
+      configureDBPropertiesQA()
+    break
+    case "PRE":
+      configureDBPropertiesPRE()
+    break
+    case "PROD":
+      configureDBPropertiesPROD()
+    break
+  }
+  
+  return selection
+}
+
+String promptForEnvNoProd() {
+  String selection = null
+  
+  if(project.hasProperty('environment'))
+  {
+    if(environment == null)
+    {
+      throw new Exception("Environment selection cannot be null")
+    }
+    selection = environment
+  }
+  else
+  {
+    selection = UserInputModal.getSingleOption("Select the DB environment", ["DEV", "Unit Test", "QA", "PRE"])
+  }
+
+  // Setup the chosen database into the global variables
+  switch(selection) {
+    case "DEV":
+      configureDBPropertiesLocal()
+    break
+    case "Unit Test":
+      configureDBPropertiesTest()
+    break
+    case "QA":
+      configureDBPropertiesQA()
+    break
+    case "PRE":
+      configureDBPropertiesPRE()
+    break
+  }
+  
+  return selection
+}
+
+// Opens a dialog that asks for DB environment and a locale choice
+// Does the generic DB property setup for the chosen database
+// Returns the user input selections
+String[] promptForEnvAndLocale() {
+
+  String[] selections
+  if(project.hasProperty('environment') || project.hasProperty('locale'))
+  {
+    if(environment == null)
+    {
+      throw new Exception("Environment selection cannot be null")
+    }
+    if(locale == null)
+    {
+      throw new Exception("Locale selection cannot be null")
+    }
+    
+    selections = [environment, locale] as String[]
+  }
+  else
+  {
+    selections = UserInputModal.getTwoOptions("Select the DB environment and locales (may choose English-only)", ["DEV", "Unit Test", "QA", "PRE", "PROD"], ["Default", "English-only"])
+  }
+
+  // Setup the chosen database into the global variables
+  switch(selections[0]) {
+    case "DEV":
+      configureDBPropertiesLocal()
+    break
+    case "Unit Test":
+      configureDBPropertiesTest()
+    break
+    case "QA":
+      configureDBPropertiesQA()
+    break
+    case "PRE":
+      configureDBPropertiesPRE()
+    break
+    case "PROD":
+      configureDBPropertiesPROD()
+    break
+  }
+  
+  return selections
+}
+
+// Not the most compact storage format, but should be useful as a short lived utility method
+// Returns a list of each system variable from install wizard. 
+// The map contains the keys "type", "key", and "value" with associated values
+List<Map<String, String>> getInstallSystemVariableList() {
+  List<Map<String, String>> varList = []
+  
+  String[] iterationList = project.config.installation.data.systemvariables.iterationlist.split(",")
+  for(String iterationIndex : iterationList) {
+    String type = project.config.installation.data.systemvariables?.get(iterationIndex)?.type
+    String key = project.config.installation.data.systemvariables?.get(iterationIndex)?.key
+    String value = project.config.installation.data.systemvariables?.get(iterationIndex)?.get("value")
+    
+    if(type) {
+      Map<String, String> varMap = [
+        "type": type,
+        "key": key,
+        "value": value
+      ]
+      varList << varMap
+    }
+  }
+  
+  return varList
+}
+
+def obtainGitBranchName() {
+  String gitBranchName = null
+  
+  // Jenkins will provide the branch name via GIT_BRANCH environment variable.  Use if it exists.
+  gitBranchName = System.getenv('GIT_BRANCH')
+  if(!gitBranchName?.trim()) {
+    // No GIT_BRANCH env variable.  Try using git CLI
+    gitBranchName = doCommand('Unknown Branch', 'git', 'symbolic-ref', '-q', '--short', 'HEAD')
+  }
+  
+  return gitBranchName
+}
+
+def obtainGitCommitHash() {
+  return doCommand('Unknown Commit', 'git', 'log', '--pretty=format:"%H"', '-1')
+}
+
+def obtainBuildUsername() {
+  String buildUsername = null
+  
+  // Jenkins will try to provide a username via USER environment variable.  Use it if it's there.
+  buildUsername = System.getenv('USER')
+  if(!buildUsername?.trim()) {
+    // No USER env variable. Try command line (Windows only)
+    buildUsername = doCommand('Unknown User', 'cmd', '/c', 'echo %USERNAME%')
+  }
+  
+  return buildUsername
+}
+
+def isProductTeam() {
+  return ( System.getenv('PRODUCT_TEAM') == 'cpd' || ( hasProperty('PRODUCT_TEAM') && 'cpd' == PRODUCT_TEAM ) )
+}
+
+
+// Add references to new methods here. This makes them available to other .gradle files.
+ext {
+  doCommand = this.&doCommand
+  isPropertyTrue = this.&isPropertyTrue
+  promptForInput = this.&promptForInput
+  promptForConfirmation = this.&promptForConfirmation
+  promptForEnv = this.&promptForEnv
+  promptForEnvNoDev = this.&promptForEnvNoDev
+  promptForEnvNoProd = this.&promptForEnvNoProd
+  promptForEnvAndLocale = this.&promptForEnvAndLocale
+  getInstallSystemVariableList = this.&getInstallSystemVariableList
+  obtainGitBranchName = this.&obtainGitBranchName
+  obtainGitCommitHash = this.&obtainGitCommitHash
+  obtainBuildUsername = this.&obtainBuildUsername
+  isProductTeam = this.&isProductTeam
+}

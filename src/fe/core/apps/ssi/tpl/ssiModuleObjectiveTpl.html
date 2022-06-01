@@ -1,0 +1,143 @@
+<div class="raphael" data-src="../libs/raphael-min.js"></div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <p class="activityDescription">{{activityDescription}}</p>
+    </div>
+</div>
+
+
+
+{{! 4x4 module }}
+<div class="wideModule">
+    {{#if isCreator}}
+        <div class="row-fluid">
+            {{#eq daysToEnd "0"}}
+                <div class="span6 chartWrapper">
+                    <div class="chartHolder chartPercentHolder" data-model-id="{{id}}">
+                         <div class="chartPercentProgress">
+                            <strong>{{percentProgress}}<sup>%</sup></strong>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="span6 contestDataWrapper">
+                    <div class="row-fluid">
+                        <div class="span12 objectiveProgress">
+                            {{#if hasMultipleObjectives}}
+                                <span>{{achievedParticipantsCount}}</span>
+                            {{else}}
+                                <span>{{progress}}</span>
+                            {{/if}}
+                        </div>
+                        <div class="span12 objectiveGoal">
+                            {{#if hasMultipleObjectives}}
+                                <span>{{participantsCount}}</span>
+                            {{else}}
+                                <span>{{goal}}</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            {{else}}
+                <div class="span6 chartWrapper">
+                    <div class="chartHolder chartPercentHolder" data-model-id="{{id}}">
+                         <div class="chartPercentProgress">
+                            <strong>{{percentProgress}}<sup>%</sup></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6 contestDataWrapper">
+                    <div class="row-fluid">
+                        <div class="span12 objectiveProgress">
+                            {{#if hasMultipleObjectives}}
+                                <span>{{achievedParticipantsCount}}</span>
+                            {{else}}
+                                <span>{{progress}}</span>
+                            {{/if}}
+                        </div>
+                        <div class="span12 objectiveGoal">
+                            {{#if hasMultipleObjectives}}
+                                <span>{{participantsCount}}</span>
+                            {{else}}
+                                <span>{{goal}}</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                <div class="span12 objectiveMeta">
+                    <div class="row-fluid">
+                        {{#if hasMultipleObjectives}}
+                        <div class="span12">
+                            <span class="multiGoalAchieved"><i class="icon-verification"></i> Achieved</span>
+                        </div>
+                        {{else}}
+                            {{#unless goalAchieved}}
+                            <div class="span12">
+                                <span class="multiGoalToGo"><strong>{{remaining}}</strong> To Go</span>
+                            </div>
+                            {{else}}
+                            <div class="span12">
+                                <span class="multiGoalAchieved"><i class="icon-verification"></i> Goal Achieved</span>
+                            </div>
+                            {{/unless}}
+                        {{/if}}
+                    </div>
+                </div>
+            {{/eq}}
+        </div>
+    {{else}}
+        <div class="row-fluid">
+            <div class="span6 chartWrapper">
+                <div class="chartHolder chartPercentHolder" data-model-id="{{id}}">
+                     <div class="chartPercentProgress">
+                        <strong>{{percentProgress}}<sup>%</sup></strong>
+                    </div>
+                </div>
+            </div>
+            <div class="span6 contestDataWrapper">
+                <div class="row-fluid">
+                    <div class="span12 objectiveProgress">
+                        <span>{{progress}}</span>
+                    </div>
+                    <div class="span12 objectiveGoal">
+                        <span>{{goal}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="span12">
+                {{#eq daysToEnd "0"}}
+                    <div class="row-fluid objectiveMeta">
+                        {{#if objectiveAchieved}}
+                            <div class="span12">
+                                <span class="msg-achieved"><i class="icon-verification"></i> objective achieved</span>
+                            </div>
+                        {{/if}}
+                        {{#if bonusEligible}}
+                            <div class="span12">
+                                <span class="msg-bonus"><i class="icon-star-circle"></i> bonus eligible</span>
+                            </div>
+                        {{/if}}
+                    </div>
+                {{else}}
+                    <div class="row-fluid objectiveMeta">
+                        {{#unless objectiveAchieved}}
+                            <div class="span12">
+                                <span class="multiGoalToGo"><strong>{{remaining}}</strong> To Go</span>
+                            </div>
+                        {{else}}
+                            <div class="span12">
+                                <span class="msg-achieved"><i class="icon-verification"></i> objective achieved</span>
+                            </div>
+                            {{#if bonusEligible}}
+                                <div class="span12">
+                                    <span class="msg-bonus"><i class="icon-star-circle"></i> bonus eligible</span>
+                                </div>
+                            {{/if}}
+                        {{/unless}}
+                    </div>
+                {{/eq}}
+            </div>
+        </div>
+    {{/if}}
+</div>

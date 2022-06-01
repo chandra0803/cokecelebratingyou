@@ -1,0 +1,30 @@
+CREATE SEQUENCE rpt_claim_product_pk_sq start with 1 increment by 1
+/
+CREATE TABLE rpt_claim_product
+   (rpt_claim_product_id           NUMBER(18,0) NOT NULL,
+    rpt_claim_detail_id           NUMBER(18,0),
+    claim_product_id              NUMBER(18,0),          
+    claim_id                       NUMBER(12,0) NOT NULL,
+    product_id                     NUMBER(18,0) NOT NULL,
+    product_name                   VARCHAR2(70),
+    product_qty                    NUMBER(18,4),
+    product_category_id            NUMBER(18,0),
+    product_category_name          VARCHAR2(50),
+    product_subcategory_id         NUMBER(18,0),
+    product_subcategory_name       VARCHAR2(50),
+    product_award_amount		   NUMBER(18,0),
+    date_approved                  DATE,
+    approver_user_id               NUMBER(18,0),
+    approver_name                  VARCHAR2(120),
+    approver_first_name            VARCHAR2(40),
+    approver_last_name             VARCHAR2(40),
+    date_created                   DATE NOT NULL,
+    created_by 					   number(18) NOT NULL,
+    modified_by                    NUMBER (18),
+    date_modified                  DATE,
+    version                        NUMBER (18) NOT NULL)
+/
+ALTER TABLE RPT_CLAIM_PRODUCT ADD CONSTRAINT RPT_CLAIM_PRODUCT_ID_PK
+  PRIMARY KEY (  RPT_CLAIM_PRODUCT_ID)
+ USING INDEX 
+/

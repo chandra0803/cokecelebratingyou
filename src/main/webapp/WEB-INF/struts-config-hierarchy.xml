@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+    "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+
+    <form-bean name="hierarchyForm" type="com.biperf.core.ui.hierarchy.HierarchyForm"/>
+    <form-bean name="hierarchyListForm" type="com.biperf.core.ui.hierarchy.HierarchyListForm"/>
+    <form-bean name="nodeForm" type="com.biperf.core.ui.node.NodeForm" />
+    <form-bean name="nodeSearchForm" type="com.biperf.core.ui.node.NodeSearchForm"/>
+    <form-bean name="nodeTypeForm" type="com.biperf.core.ui.nodetype.NodeTypeForm"/>
+    <form-bean name="nodeTypeListForm" type="com.biperf.core.ui.nodetype.NodeTypeListForm"/>
+    <form-bean name="nodeParticipantListForm" type="com.biperf.core.ui.node.NodeParticipantListForm"/>
+    <form-bean name="nodeParticipantReassignForm" type="com.biperf.core.ui.node.NodeParticipantReassignForm"/>
+    <form-bean name="characteristicForm" type="com.biperf.core.ui.characteristic.CharacteristicForm"/>
+
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite" redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+
+    <!-- ========================================== -->
+    <!-- NODE MAINTENANCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- ========================================== -->
+
+    <action path="/nodeLookup"
+            name="nodeSearchForm"
+            type="com.biperf.core.ui.node.NodeSearchAction"
+            parameter="method"
+            scope="request"
+            validate="false">
+      <forward name="search" path="node.search.list" redirect="false"/>
+      <forward name="failure" path="node.search.list" redirect="false"/>
+    </action>
+
+    <action path="/viewNode"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="node.view"
+            name="nodeForm"
+            validate="false"/>
+
+    <action path="/viewUpdateNode"
+            type="com.biperf.core.ui.node.NodeAction"
+            name="nodeForm"
+            parameter="method"
+              scope="request"
+            validate="false" cancellable="true">
+      <forward name="update" path="node.update" redirect="false"/>
+      <forward name="cancel" path="node.view" redirect="false"/>
+    </action>
+
+    <action
+        path="/nodeMaintainUpdate"
+        type="com.biperf.core.ui.node.NodeAction"
+        parameter="method"
+        input="node.update"
+        scope="request"
+        name="nodeForm"
+        validate="true"  cancellable="true">
+      <forward name="success_update" path="node.view" redirect="false"/>
+      <forward name="failure_update" path="node.update" redirect="false"/>
+      <forward name="cancel" path="node.view" redirect="false"/>
+    </action>
+
+    <action path="/viewCreateNode"
+            type="com.biperf.core.ui.node.NodeAction"
+            name="nodeForm"
+            parameter="method"
+            validate="false">
+      <forward name="create" path="node.create" redirect="false"/>
+    </action>
+
+    <action
+        path="/nodeMaintainCreate"
+        type="com.biperf.core.ui.node.NodeAction"
+        parameter="method"
+        input="node.create"
+        scope="request"
+        name="nodeForm"
+        validate="true"
+        cancellable="true">
+      <forward name="success_create" path="node.create.success" redirect="false"/>
+      <forward name="failure_create" path="node.create" redirect="false"/>
+      <forward name="cancel" path="node.view" redirect="false"/>
+    </action>
+
+    <action
+        path="/maintainNode"
+        type="com.biperf.core.ui.node.NodeAction"
+        parameter="method"
+        input="manage.node.error"
+        scope="request"
+        name="nodeForm"
+        cancellable="true">
+
+      <forward name="create" path="node.create" redirect="false"/>
+      <forward name="success_create" path="node.create.success" redirect="false"/>
+      <forward name="failure_create" path="node.create" redirect="false"/>
+
+      <forward name="search" path="node.search" redirect="false"/>
+      <forward name="success_search" path="node.search.success" redirect="false"/>
+      <forward name="failure_search" path="node.search" redirect="false"/>
+
+      <forward name="delete" path="node.delete" redirect="false"/>
+      <forward name="success_delete" path="/hierarchyDisplay.do?method=display" redirect="false"/>
+      <forward name="failure_delete" path="node.delete" redirect="false"/>
+      <forward name="cancel" path="node.view" redirect="false"/>
+
+
+    </action>
+
+    <!-- =============================================== -->
+    <!-- HIERARCHY MAINTENANCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- =============================================== -->
+
+    <action path="/hierarchyListDisplay"
+            name="hierarchyListForm"
+            parameter="method"
+            type="com.biperf.core.ui.hierarchy.HierarchyAction"
+            scope="request"
+            validate="false">
+      <forward name="success" path="hierarchy.list" redirect="false"/>
+    </action>
+
+    <action path="/hierarchyListMaintain"
+            name="hierarchyListForm"
+            parameter="method"
+            type="com.biperf.core.ui.hierarchy.HierarchyAction"
+            scope="request"
+            validate="true"
+            input="hierarchy.list">
+      <forward name="failure" path="hierarchy.list" redirect="false"/>
+      <forward name="success" path="/hierarchyListDisplay.do" redirect="true"/>
+    </action>
+
+    <action path="/hierarchyDisplay"
+            name="hierarchyForm"
+            parameter="method"
+            type="com.biperf.core.ui.hierarchy.HierarchyAction"
+            scope="request"
+            validate="false">
+      <forward name="success" path="hierarchy.view" redirect="false"/>
+      <forward name="create" path="hierarchy.create" redirect="false"/>
+      <forward name="update" path="hierarchy.create" redirect="false"/>
+      <forward name="failure" path="hierarchy.list" redirect="false"/>
+    </action>
+
+    <action path="/hierarchyMaintainUpdate"
+            name="hierarchyForm"
+            parameter="method"
+            type="com.biperf.core.ui.hierarchy.HierarchyAction"
+            scope="request"
+            validate="true"
+            input="user.phone.update">
+      <forward name="success_update" path="/hierarchyListDisplay.do" redirect="true"/>
+      <forward name="success" path="hierarchy.list" redirect="false"/>
+      <forward name="failure" path="hierarchy.update" redirect="false"/>
+    </action>
+
+    <action path="/hierarchyMaintainCreate"
+            name="hierarchyForm"
+            parameter="method"
+            type="com.biperf.core.ui.hierarchy.HierarchyAction"
+            scope="request"
+            validate="true"
+            input="hierarchy.create"
+            cancellable="true">
+      <forward name="success_create" path="/hierarchyListDisplay.do" redirect="true"/>
+      <forward name="success" path="hierarchy.create" redirect="false"/>
+      <forward name="failure" path="hierarchy.create" redirect="false"/>
+      <forward name="cancel" path="/hierarchyListDisplay.do" redirect="true"/>
+    </action>
+
+    <action path="/hierarchyAddNodeType"
+            name="hierarchyForm"
+            parameter="method"
+            type="com.biperf.core.ui.hierarchy.HierarchyAction"
+            scope="request"
+            input="hierarchy.create" cancellable="true">
+      <forward name="success" path="hierarchy.create" redirect="false"/>
+      <forward name="failure" path="hierarchy.create" redirect="false"/>
+      <forward name="cancel" path="/hierarchyListDisplay.do" redirect="true"/>
+    </action>
+
+    <action path="/hierarchyRemoveNodeType"
+            name="hierarchyForm"
+            parameter="method"
+            type="com.biperf.core.ui.hierarchy.HierarchyAction"
+            scope="request"
+            input="hierarchy.create" cancellable="true">
+      <forward name="success" path="hierarchy.create" redirect="false"/>
+      <forward name="failure" path="hierarchy.create" redirect="false"/>
+      <forward name="cancel" path="/hierarchyListDisplay.do" redirect="true"/>
+    </action>
+
+    <!-- =============================================== -->
+    <!-- NODE TYPE MAINTENANCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- =============================================== -->
+
+    <action path="/nodeTypeDisplay"
+            type="com.biperf.core.ui.nodetype.NodeTypeAction" parameter="method"
+            scope="request"
+            name="nodeTypeForm"
+            validate="false">
+
+      <forward name="create" path="nodeType.create"/>
+      <forward name="update" path="nodeType.update"/>
+    </action>
+
+
+    <action path="/nodeTypeMaintainUpdate"
+            type="com.biperf.core.ui.nodetype.NodeTypeAction" parameter="method"
+            input="nodeType.update"
+            scope="request" name="nodeTypeForm"
+            validate="true"  cancellable="true">
+
+      <forward name="failure_update" path="nodeType.update"
+               redirect="false"/>
+      <forward name="success_update" path="/nodeTypeListDisplay.do"
+               redirect="true"/>
+      <forward name="cancel" path="/nodeTypeListDisplay.do"
+               redirect="true"/>
+    </action>
+
+
+    <action path="/nodeTypeMaintainCreate"
+            type="com.biperf.core.ui.nodetype.NodeTypeAction" parameter="method"
+            input="nodeType.create"
+            scope="request" name="nodeTypeForm"
+            validate="true" cancellable="true">
+
+      <forward name="failure_create" path="nodeType.create"
+               redirect="false"/>
+      <forward name="success_create" path="/characteristicListDisplayNodeType.do"
+               redirect="true"/>
+      <forward name="cancel" path="/nodeTypeListDisplay.do"
+               redirect="true"/>
+    </action>
+
+    <action path="/nodeTypeListDisplay"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+            validate="false"
+            parameter="nodeType.list"/>
+
+    <action path="/nodeTypeListMaintain"
+            type="com.biperf.core.ui.nodetype.NodeTypeAction"
+            parameter="method"
+            input="nodeType.list"
+            name="nodeTypeListForm" scope="request"
+            validate="true">
+
+      <forward name="failure_delete" path="/nodeTypeListDisplay.do" redirect="false"/>
+      <forward name="success_delete" path="/nodeTypeListDisplay.do" redirect="true"/>
+    </action>
+
+    <!-- =============================================== -->
+    <!-- NODE TYPE MAINTENANCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- =============================================== -->
+
+    <action path="/nodeParticipantListDisplay"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+            validate="false"
+            name="nodeParticipantListForm"
+            parameter="nodeParticipant.list"/>
+
+    <action path="/nodeParticipantListMaintain"
+            type="com.biperf.core.ui.node.NodeParticipantAction"
+            parameter="method"
+            input="nodeParticipant.list"
+            name="nodeParticipantListForm" scope="request"
+            validate="true">
+
+      <forward name="failure_delete" path="/nodeParticipantListDisplay.do" redirect="false"/>
+      <forward name="success_delete" path="/nodeParticipantListDisplay.do" redirect="true"/>
+      <forward name="search" path="nodeParticipant.list" redirect="false"/>
+    </action>
+
+    <action path="/nodeParticipantReassignDisplay"
+            type="com.biperf.core.ui.node.NodeParticipantAction"
+            name="nodeParticipantReassignForm"
+            parameter="method"
+            scope="request"
+            validate="false"
+            input="nodeParticipant.reassign">
+      <forward name="update" path="nodeParticipant.reassign" redirect="false"/>
+      <forward name="failure" path="nodeParticipant.reassign" redirect="false"/>
+    </action>
+
+    <action path="/nodeParticipantMaintain"
+            type="com.biperf.core.ui.node.NodeParticipantAction"
+            parameter="method"
+            input="nodeParticipant.reassign"
+            name="nodeParticipantReassignForm"
+            scope="request"
+            validate="true" cancellable="true">
+      <forward name="failure_update" path="nodeParticipant.reassign" redirect="false"/>
+      <forward name="cancel" path="node.view" redirect="false"/>
+      <forward name="success_update" path="/viewNode.do" redirect="true"/>
+    </action>
+
+    <!-- =============================================== -->
+    <!-- NODE TYPE CHARACTERISTIC ACTIONS                -->
+    <!-- =============================================== -->
+
+    <action path="/characteristicListDisplayNodeType"
+            name="characteristicForm"
+            type="com.biperf.core.ui.characteristic.NodeTypeCharacteristicTypeAction"
+            parameter="method"
+            scope="request"
+            validate="false">
+      <forward name="success" path="characteristic.list.nodeType" redirect="false"/>
+      <forward name="failure" path="characteristic.list.nodeType" redirect="false"/>
+    </action>
+
+    <action path="/characteristicDisplayNodeType"
+            name="characteristicForm"
+            parameter="method"
+            type="com.biperf.core.ui.characteristic.NodeTypeCharacteristicTypeAction"
+            scope="request"
+            validate="false">
+      <forward name="edit" path="characteristic.update.nodeType" redirect="false"/>
+      <forward name="create" path="characteristic.create.nodeType" redirect="false"/>
+      <forward name="success_delete" path="/characteristicListDisplayNodeType.do" redirect="true"/>
+      <forward name="failure" path="characteristic.list.nodeType" redirect="false"/>
+    </action>
+
+    <action path="/characteristicMaintainUpdateNodeType"
+            name="characteristicForm"
+            parameter="method"
+            type="com.biperf.core.ui.characteristic.NodeTypeCharacteristicTypeAction"
+            scope="request"
+            validate="true"
+            input="characteristic.update.nodeType" cancellable="true">
+      <forward name="success" path="/characteristicListDisplayNodeType.do?method=displayList" redirect="false"/>
+      <forward name="cancel" path="characteristic.list.nodeType" redirect="false"/>
+      <forward name="failure" path="characteristic.update.nodeType" redirect="false"/>
+    </action>
+
+    <action path="/characteristicMaintainCreateNodeType"
+            name="characteristicForm"
+            parameter="method"
+            type="com.biperf.core.ui.characteristic.NodeTypeCharacteristicTypeAction"
+            scope="request"
+            validate="true"
+            input="characteristic.create.nodeType" cancellable="true">
+      <forward name="success" path="/characteristicListDisplayNodeType.do?method=displayList" redirect="false"/>
+      <forward name="cancel" path="characteristic.list.nodeType" redirect="false"/>
+      <forward name="failure" path="characteristic.create.nodeType" redirect="false"/>
+    </action>
+
+  </action-mappings>
+
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+                  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-hierarchy.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-hierarchy.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

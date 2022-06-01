@@ -1,0 +1,27 @@
+CREATE SEQUENCE proxy_module_pk_sq START WITH 100 INCREMENT BY 1
+/
+
+CREATE TABLE proxy_module
+    (proxy_module_id                NUMBER(18,0) NOT NULL,
+    proxy_id                       NUMBER(18,0) NOT NULL,
+    promotion_type                 VARCHAR2(80) NOT NULL,
+    is_all_promotion               NUMBER(1,0) NOT NULL,
+    version										     NUMBER(18,0) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created                   DATE NOT NULL,
+    modified_by number(18),
+    date_modified                  DATE)
+/
+
+ALTER TABLE proxy_module
+ADD CONSTRAINT proxy_module_pk PRIMARY KEY (proxy_module_id)
+USING INDEX
+/
+
+ALTER TABLE proxy_module
+ADD CONSTRAINT proxy_module_proxy_fk FOREIGN KEY (proxy_id)
+REFERENCES proxy (proxy_id)
+/
+CREATE INDEX PROXY_MODULE_PROXY_FK_idx ON PROXY_MODULE
+  (PROXY_ID)
+/

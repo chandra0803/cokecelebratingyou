@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- generation date:2013-03-27 10:44:06.84 -->
+<cm_data importType="diff">
+  <application_entry code="beacon" name="Beacon Default" desc="Beacon Default Application" action="nop">
+    <asset_type_entry name="Report Awards By Pax" desc="Report Awards By Pax" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="ONTHESPOT" name="OnTheSpot" desc="OnTheSpot" order="53" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+      <asset_entry code="report.awards.participant" name="Report Awards By Pax" desc="Report Awards By Pax" publik="T" section="report" module="core" paxOrAdmin="B" productVersion="5.3.3" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="3030897889:107dgvc470:-7efvin" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="ONTHESPOT">
+              <value><![CDATA[On The Spot]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+    <asset_type_entry name="Participant Search" desc="Participant Search" multi="F" previewable="T" publik="T" action="nop">
+    <asset_type_item_entry key="REMOVE" name="Remove" desc="Remove" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+    <asset_type_item_entry key="PARTICIPANT" name="Participant" desc="Participant" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+   	<asset_entry code="participant.search" name="Participant Search" desc="Participant Search" publik="T" section="participant" previewPage="homepage.do" module="core" paxOrAdmin="B" productVersion="4.1.2" action="nop">
+        <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7b14" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="5">
+            <content_data_entry key="REMOVE">
+              <value><![CDATA[Remove]]></value>
+            </content_data_entry>
+            <content_data_entry key="PARTICIPANT">
+              <value><![CDATA[Participant]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+    <asset_type_entry name="Report Display Page" desc="Report Display Page" multi="F" previewable="T" publik="T" action="nop">
+     <asset_type_item_entry key="BUDGET_ISSUANCE" name="Budget Issuance" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+      <asset_entry code="report.display.page" name="Report Display Page" desc="Report Display Page" publik="T" section="report" module="core" paxOrAdmin="B" productVersion="4.1.2" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="14dc894:107ebe4cdee:-7c60" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="BUDGET_ISSUANCE">
+              <value><![CDATA[Budget Issuance]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+    <asset_type_entry name="Report Recognition Received by Pax" desc="Report Recognition Received by Pax" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="MOST_RECOGNIZED" name="Most Recognized" desc="Most Recognized" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_type_item_entry key="LEAST_RECOGNIZED" name="Least Recognized" desc="Least Recognized" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_type_item_entry key="RECOGNIZED_RECENTLY" name="Recognized Recently" desc="Recognized Recently" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_type_item_entry key="NOT_RECOGNIZED_RECENTLY" name="Not Recognized Recently" desc="Not Recognized Recently" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_type_item_entry key="POPUP_SUMMARY" name="Popup Summary" desc="Popup Summary" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+      <asset_entry code="report.recognition.receivedbypax" name="Report Recognition Received by Pax" desc="Report Recognition Received by Pax" publik="T" section="report" module="core" paxOrAdmin="B" productVersion="4.1.2" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="615597:107dc4bb470:-7ea1" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="MOST_RECOGNIZED">
+              <value><![CDATA[Most Recognized]]></value>
+            </content_data_entry>
+            <content_data_entry key="LEAST_RECOGNIZED">
+              <value><![CDATA[Least Recognized]]></value>
+            </content_data_entry>
+            <content_data_entry key="RECOGNIZED_RECENTLY">
+              <value><![CDATA[Recognized Recently]]></value>
+            </content_data_entry>
+            <content_data_entry key="NOT_RECOGNIZED_RECENTLY">
+              <value><![CDATA[Not Recognized Recently]]></value>
+            </content_data_entry>
+            <content_data_entry key="POPUP_SUMMARY">
+              <value><![CDATA[{0} recognition(s), Last recognized {1} day(s) ago.]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+    <asset_type_entry name="Picklist" desc="Picklist" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="DEFAULT_ITEM_CODE" name="Default Item Code" desc="Default Item Code" order="2" required="F" unique="F" translatable="F" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NAME" name="Name" desc="Name" order="1" required="T" unique="T" translatable="T" type="HTML" action="nop"/>
+      <asset_entry code="picklist.badgereceived.type" name="Badge Received Type" desc="DESC - Badge Received Type" publik="T" section="picklist" module="core" paxOrAdmin="B" productVersion="5.3.3">
+        <content_key_entry audiences="Default Audience" order="0" guid="5a7812:563halz01g3:-1g87">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="NAME">
+              <value><![CDATA[Badge Received Type]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+    <asset_type_entry name="Picklist Item" desc="Picklist Item" multi="T" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="STATUS" name="Status" desc="Status" order="5" required="F" unique="F" translatable="F" type="BOOLEAN" action="nop"/>
+      <asset_type_item_entry key="CODE" name="Code" desc="Code" order="1" required="T" unique="F" translatable="F" type="STRING" action="nop"/>
+      <asset_type_item_entry key="NAME" name="Name" desc="Name" order="2" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="DESC" name="Description" desc="Description" order="3" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ABBR" name="Abbreviation" desc="Abbreviation" order="4" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_entry code="picklist.badgereceived.type.items" name="Badge Received Type Items" desc="DESC - Badge Received Type Items" publik="T" section="picklist" parent="picklist.badgereceived.type" module="core" paxOrAdmin="B" productVersion="5.3.3">
+        <content_key_entry audiences="Default Audience" order="0" guid="5a7812:563halz01g3:-1g84">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="NAME">
+              <value><![CDATA[Have Not Received Badge]]></value>
+            </content_data_entry>
+            <content_data_entry key="DESC">
+              <value><![CDATA[DESC - Have Not Received Badge]]></value>
+            </content_data_entry>
+            <content_data_entry key="STATUS">
+              <value><![CDATA[true]]></value>
+            </content_data_entry>
+            <content_data_entry key="CODE">
+              <value><![CDATA[haveNot]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+        <content_key_entry audiences="Default Audience" order="1" guid="5a7812:563halz01g3:-1g85">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="NAME">
+              <value><![CDATA[Have Received Badge]]></value>
+            </content_data_entry>
+            <content_data_entry key="DESC">
+              <value><![CDATA[DESC - Have Received Badge]]></value>
+            </content_data_entry>
+            <content_data_entry key="STATUS">
+              <value><![CDATA[true]]></value>
+            </content_data_entry>
+            <content_data_entry key="CODE">
+              <value><![CDATA[have]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+    <asset_type_entry name="Report Survey Analysis" desc="Report Survey Analysis" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="QUESTIONS_ASKED_ID" name="Questions Asked Id" desc="Questions Asked Id" order="26" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+      <asset_entry code="report.survey.surveyanalysis" name="Report Survey Analysis" publik="T" section="report" module="survey" paxOrAdmin="B" productVersion="5.3.0" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="-57883797:1432f4d190d:-7e63" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="4">
+            <content_data_entry key="QUESTIONS_ASKED_ID">
+              <value><![CDATA[Question Id]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+    <asset_type_entry name="Report Individual Activity" desc="Report Individual Activity" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="VIEW_ALL_AWARDS" name="View All Awards" desc="View All Awards" order="108" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+      <asset_entry code="report.individual.activity" name="Report Individual Activity" desc="Report Individual Activity" publik="T" section="report" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="615597:107dc4bb470:-7efd" action="nop">
+	      <content_entry status="Live" locale="en_US" contentVersion="6">
+	        <content_data_entry key="VIEW_ALL_AWARDS">
+              <value><![CDATA[View All Awards]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+     <asset_type_entry name="Report Recognition Given by Pax" desc="Report Recognition Received by Pax" multi="F" previewable="T" publik="T"  action="nop">
+      <asset_type_item_entry key="G_METRICS_BARCHART_CAPTION" name="Given Metrics Bar Chart Caption" desc="Given Metrics  Bar Chart Caption" order="22" required="T" unique="F" translatable="T" type="HTML"  action="nop"/>
+	  <asset_entry code="report.recognition.givenbypax" name="Report Recognition Given by Pax" desc="Report Recognition Given by Pax" publik="T" section="report" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="615597:107dc4bb470:-7eaf" action="nop">
+           <content_entry status="Live" locale="en_US" contentVersion="6" action="nop">
+             <content_data_entry key="G_METRICS_BARCHART_CAPTION" action="update">
+                <value><![CDATA[Recognitions Given Comparison]]></value>
+                <oldValue><![CDATA[Recognitions Given Comparison]]></oldValue>
+             </content_data_entry>
+           </content_entry>
+        </content_key_entry>
+      </asset_entry>
+      </asset_type_entry>
+      
+      <asset_type_entry name="Report Recognition Received by Pax" desc="Report Recognition Received by Pax" multi="F" previewable="T" publik="T"  action="nop">
+      <asset_type_item_entry key="R_METRICS_BARCHART_CAPTION" name="Received Metrics Bar Chart Caption" desc="Received Metrics  Bar Chart Caption" order="21" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+	  <asset_entry code="report.recognition.receivedbypax" name="Report Recognition Received by Pax" desc="Report Recognition Received by Pax" publik="T" section="report" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="0" guid="615597:107dc4bb470:-7ea1" action="nop">
+           <content_entry status="Live" locale="en_US" contentVersion="6" action="nop">
+         	 <content_data_entry key="R_METRICS_BARCHART_CAPTION" action="update">
+                <value><![CDATA[Recognitions Received Comparison]]></value>
+                <oldValue><![CDATA[Recognitions Received Comparision]]></oldValue>
+             </content_data_entry>
+           </content_entry>
+        </content_key_entry>
+      </asset_entry>
+      </asset_type_entry>
+      <asset_type_entry name="Picklist Item" desc="Picklist Item" multi="T" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="STATUS" name="Status" desc="Status" order="5" required="F" unique="F" translatable="F" type="BOOLEAN" action="nop"/>
+        <asset_type_item_entry key="CODE" name="Code" desc="Code" order="1" required="T" unique="F" translatable="F" type="STRING" action="nop"/>
+        <asset_type_item_entry key="NAME" name="Name" desc="Name" order="2" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="DESC" name="Description" desc="Description" order="3" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ABBR" name="Abbreviation" desc="Abbreviation" order="4" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_entry code="picklist.reportcharttype.items" name="Report Chart Type Items" desc="DESC - Report Chart Type Items" publik="T" section="picklist" parent="picklist.reportcharttype" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="10" guid="11fa7c09:143f93a2613:-7e25"  action="add">
+            <content_entry status="Live" locale="en_US" contentVersion="6">
+              <content_data_entry key="NAME">
+                <value><![CDATA[Line 2D]]></value>
+              </content_data_entry>
+              <content_data_entry key="DESC">
+                <value><![CDATA[Desc - Line 2D]]></value>
+              </content_data_entry>
+              <content_data_entry key="STATUS">
+                <value><![CDATA[true]]></value>
+              </content_data_entry>
+              <content_data_entry key="CODE">
+                <value><![CDATA[Line]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        </asset_type_entry>
+  </application_entry>
+</cm_data>

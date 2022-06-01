@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+    "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+
+  <form-beans>
+	 <form-bean name="addOtsProgramForm" type="com.biperf.core.ui.ots.AddOTSProgramForm"/>    
+    <form-bean name="otsProgramAudienceForm" type="com.biperf.core.ui.ots.OTSProgramAudienceForm" />
+    <form-bean name="otsBillCodesForm" type="com.biperf.core.ui.ots.OTSBillCodesForm" />
+  </form-beans>
+
+  <global-exceptions>
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+  </global-exceptions>
+
+  <global-forwards>
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite" redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+  </global-forwards>
+
+  <action-mappings>
+	
+     <!-- OTS Service Configurations -->
+  
+	<action path="/addOTSProgram"
+	  name="addOtsProgramForm"
+	  parameter="method" 
+	  type="com.biperf.core.ui.ots.AddOTSProgramAction" 
+	  validate="false" 
+	  scope="request">
+      <forward name="success" path="ots.program.add" redirect="false"/>
+      <forward name="addProgram" path="/otsAdministration.do?method=addProgram" />
+      <forward name="update" path="ots.batch.update" redirect="false" />
+      <forward name="failure_search" path="ots.program.add" redirect="false"/>
+      <forward name="program_details" path="ots.program.show" redirect="false"/>
+      <forward name="back_to_view"  path="/otsAdministration.do" redirect="false"/>
+       <forward name="saveAndContinue" path="/promotionAudience.do?method=display" redirect="false"/>		
+    </action>
+    
+  <action path="/otsAdministration"
+    		name="addOtsProgramForm"
+	  		parameter="method"
+            type="com.biperf.core.ui.ots.OTSProgramAction"
+            validate="false" 
+            scope="request">
+      <forward name="success" path="ots.program"/>
+  </action>  
+  
+  <action path="/promotionAudience"
+          name="otsProgramAudienceForm"
+          parameter="method"
+          type="com.biperf.core.ui.ots.OTSProgramAudienceAction"
+          scope="request"
+          validate="false">
+    <forward name="success" path="promotion.audience" redirect="false" />
+    <forward name="save" path="/promotionAudienceSave.do?method=save" redirect="false" />
+    <forward name="submitterAudienceLookup"  path="/promotionAddSubmitterAudience.do" redirect="false"/>
+    <forward name="listbuilder" module="/participant" path="/listBuilderAddAudienceDisplay.do" redirect="true"/>
+    <forward name="paxListPopup" module="/participant" path="promotion.audience.paxlist" redirect="false"/>
+    <forward name="failure" path="promotion.audience" redirect="false"/>    
+  </action>
+<action path="/promotionAddSubmitterAudience"
+      parameter="/promotionAudience.do?method=returnSubmitterAudienceLookup"
+      type="org.apache.struts.actions.ForwardAction"
+      validate="false"
+      scope="request"/>
+  <action path="/promotionAudienceSave" 
+          name="otsProgramAudienceForm"
+          parameter="method"
+          type="com.biperf.core.ui.ots.OTSProgramAudienceAction"
+          scope="request"
+          validate="true"
+          input="promotion.audience" cancellable="true">
+   
+    <forward name="success"  path="/otsAdministration.do" redirect="true"/>                
+    </action>
+    
+    <action path="/otsBatchUpdate"
+	  name="otsBillCodesForm"
+	  parameter="method" 
+	  type="com.biperf.core.ui.ots.OTSBatchUpdateAction" 
+	  validate="false" 
+	  scope="request">
+      
+     <forward name="success" path="ots.batch.update" redirect="false" />
+      <forward name="back_to_view"  path="/otsAdministration.do" redirect="false"/>
+       	
+    </action>
+    <action path="/otsBatchUpdateSave"
+	  name="otsBillCodesForm"
+	  parameter="method" 
+	  type="com.biperf.core.ui.ots.OTSBatchUpdateSaveAction" 
+	  scope="request"
+      validate="true"
+      input="ots.batch.update" cancellable="true">
+      
+     <forward name="program_details" path="/addOTSProgram.do?method=addProgram" redirect="false" />
+      <forward name="back_to_view"  path="/otsAdministration.do" redirect="true"/>
+      <forward name="failure_search" path="ots.batch.update" redirect="false"/>
+       	
+    </action>
+   <!-- OTS Service Configurations -->
+    
+  </action-mappings>
+	
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" tempDir="@FILE_UPLOAD_TEMP_DIR@" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <message-resources null="true" parameter="BeaconResources_en" factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+                  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation-admin.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-ots.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+	</struts-config>

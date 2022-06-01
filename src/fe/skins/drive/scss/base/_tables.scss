@@ -1,0 +1,34 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $tables_padding: ;
+// $tables_padding_condensed: ;
+
+// $tables_theadTextColor: ;
+// $tables_theadTextTrans: ;
+// $tables_theadFontSize: ;
+// $tables_theadFontWeight: ;
+
+// $tables_theadBgColor: ;
+// $tables_theadSortableTextColor: ;
+// $tables_theadSortableTextColorHover: ;
+// $tables_theadSortedTextColor: ;
+// $tables_theadSortedBgColor: ;
+// $tables_theadSortedSortControlColor: ;
+
+// $tables_tfootFontWeight: ;
+// $tables_tfootTextColor: ;
+// $tables_tfootBgColor: ;
+
+// $tables_bordered_borderRadius: ;
+
+// $tables_striped_sortedColumnBgColor: ;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/tables";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

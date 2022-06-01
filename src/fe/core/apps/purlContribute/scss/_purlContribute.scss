@@ -1,0 +1,1026 @@
+// App-specific variables
+// =========================
+$purlContribute_detailsH2Color: $brand_color_white !default;
+$purlContribute_detailsTextColor: $brand_color_white !default;
+$purlContribute_detailsLinkColor: $brand_color_white !default;
+$purlContribute_detailsLinkHoverColor: $brand_color_white !default;
+$purlContribute_detailsLinkIconColor: false !default;
+$purlContribute_detailsLinkIconHoverColor: false !default;
+$purlContribute_detailsMutedTextColor: false !default;
+
+// these styles should sync up with the "purl item" styles in _publicRecognition.scss (unless otherwise noted by Creative)
+$purlContribute_detailsBgColor: $brand_color_black !default; // this overlays the video
+$purlContribute_bgAlpha: 0.8 !default; // sets opacity over video
+
+$purlContribute_detailsBgImg: null !default; // this overlays the video - set to null to just have color bg
+$purlContribute_detailsBgImgPath: $appImagesPath !default;
+$purlContribute_detailsBgImgPosition: center center !default;
+$purlContribute_detailsBorderTopBottomWidth: 0 !default;
+$purlContribute_detailsBorderTopBottomColor: $g5ModPgBorderColor !default;
+$purlContribute_detailsBoxShadow: none !default;
+
+
+$purlContribute_VidPosterUrl: 'celebration/bokeh.jpg' !default;
+$purlContribute_VideoUrl: "img/celebration/bokeh" !default; // THIS SHOULD BE WRITTEN AS PATH and FILE NAME no extension myvideo with myvideo.ogg myvideo.webm and myvideo.mp4 existing on server
+
+
+$purlContribute_avatarSize: 60px !default;
+
+$purlContribute_contributeBgColor: false !default; // gets .page-topper background by default
+$purlContribute_contributeCommentBgColor: $brand_color_white !default;
+$purlContribute_contributeNameBorderColor: scale-color($purlContribute_contributeBgColor or $brand_color_white, $lightness: -12.5%) !default;
+
+$purlContribute_commentBgColorOdd: $brand_color_lighter !default;
+$purlContribute_commentBgColorEven: false !default;
+
+$purlContribute_commentBorderColorOdd: scale-color($purlContribute_commentBgColorOdd or $brand_color_white, $lightness: -12.5%) !default;
+$purlContribute_commentBorderColorEven: scale-color($purlContribute_commentBgColorEven or $brand_color_white, $lightness: -12.5%) !default;
+
+
+$purlContribute_purlBalloonSize : 70px; // 70px contribute 100
+$purlContribute_purlBalloonSize_Contribute:100px;
+//$purlMediaWidth : 432px;
+// App-specific code
+// ==================================================
+
+/* ----- MODULE STYLES ----- */
+.module.purlContribute {
+
+} /* /.module.purlContribute */
+
+
+
+// TODO: MOVE ME AND ADD TO SKIN
+.purlmain-fulldiv{
+        width: 100%;
+        height: 100%;
+        left:0;
+        right:0;
+        top: 0;
+        bottom:0;
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .purlmain-vid-container{
+        overflow: hidden;
+        &:before{
+                content: $docSourcePath + $purlContribute_VideoUrl;
+                display: none;
+            }
+        video {
+           // display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            transform: translateX(-50%) translateY(-50%);
+            @include safeImgUrls($purlContribute_detailsBgImg, $purlContribute_VidPosterUrl, $property: 'background');
+            //background: url('//demosthenes.info/assets/images/polina.jpg') no-repeat;
+            background-size: cover;
+            transition: 1s opacity;
+        }
+    }
+    .purlmain-bg-container {
+        z-index: -99;
+        @if $purlContribute_detailsBgImg {
+            @include safeImgUrls($purlContribute_detailsBgImg, $purlContribute_detailsBgImgPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-position: $purlContribute_detailsBgImgPosition;
+            filter: none;
+        }
+        @else {
+            // @include module_moduleLinerBackground(
+            //     $bgColor: $celebrationCongrats_bgColor,
+            //     $gradType: $celebrationCongrats_gradType,
+            //     $gradMeta: $celebrationCongrats_gradMeta,
+            //     $gradStops: $celebrationCongrats_gradStops
+            // );
+            background-color: rgba($purlContribute_detailsBgColor, $purlContribute_bgAlpha);
+        }
+    }
+
+
+
+
+
+/* purlTermsPageView */
+#purlTermsPageView {
+    .termsBlock {
+        height: 320px;
+        overflow: auto;
+    }
+
+    .purlContributeTermsRadios {
+        label {
+            font-weight: bold;
+        }
+    }
+}
+
+
+/* purlContrubutePage */
+#PURLContributeListView {
+    .purlContributers span {
+        display: block;
+    }
+
+    thead {
+        white-space: nowrap;
+    }
+
+    .PURLContributeListTable td {
+        vertical-align: middle;
+    }
+}
+
+
+/* .purlPage (new purl page scss) */
+.purlPage {
+
+    .upSpin {
+        display: inline-block;
+        @include ie7-inline-block();
+        width: 28px;
+        height: 28px;
+    }
+
+    // initial contributor modal
+    #purlInitialModal {
+        @include avatarSizing(72px);
+        .avatarwrap{
+            margin-left: 0;
+            margin-bottom: $baseLineHeight;
+        }
+    }
+
+    // outer container of contribute section and details section
+    .contributeToPurlSection,
+    .purlDetailsSection {
+        .well {
+            margin-bottom: 0;
+        }
+    }
+
+    // comment stuffz
+    .contribTopControls {
+        margin-top: $baseLineHeight;
+        margin-bottom: $baseLineHeight;
+        @include clearfix();
+        .contribUntil{
+            font-weight: $fontWeightBold;
+        }
+    }
+
+    .translateLinkDisabled {
+        color: #999999;
+    }
+
+    // responsive embedded video
+    // see: http://webdesignerwall.com/tutorials/css-elastic-videos
+    .videoWrapper {
+        position: relative;
+       // width: $purlMediaWidth;
+        max-width: 100%;
+        // overflow: hidden;
+
+        .responsiveVideoContainer {
+            position: relative;
+            padding-bottom: 56.25%;
+            // padding-top: 30px;
+            height: 0;
+            overflow: hidden;
+
+            video,
+            iframe,
+            object,
+            embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .purlDetailsSection {
+        .purlDetailsOuterWrapper{
+            .contribIntro{
+                margin-top: $baseLineHeight;
+                display: inline-block;
+            }
+
+            .congrats-intro {
+                font-size: round($fontSizeMid * 2.5);
+                display: block;
+            }
+
+            .congrats-name {
+                text-transform: uppercase;
+                font-size: round($fontSizeMid * 2);
+                display: block;
+            }
+
+            .congrats-msg {
+                font-size: $fontSizeMid;
+                display: block;
+            }
+
+            @media only screen and (min-width: $breakpoint_tablet_min) {
+
+                .congrats-intro {
+                    font-size: round($fontSizeMid * 2.97);
+                }
+
+                .congrats-name {
+                    font-size: round($fontSizeMid * 2.475);
+                }
+
+                .congrats-msg {
+                   font-size: $fontSizeLarge;
+                }
+
+            }
+            @media only screen and (min-width: $breakpoint_desktop_min) {
+
+                .congrats-intro {
+                    font-size: round($fontSizeMid * 3.375);
+                }
+                .congrats-name {
+                    font-size: round($fontSizeMid * 2.8125);
+                }
+                .congrats-msg {
+                   font-size: $fontSizeExtraLarge;
+                }
+
+            }
+            @media only screen and (min-width: $breakpoint_desktopLarge_min) {
+                .congrats-intro {
+                    font-size: round($fontSizeMid * 4.5); // ~72px;
+                }
+                .congrats-name {
+                    font-size: round($fontSizeMid * 3.75); // ~60px;
+                }
+                .congrats-msg {
+                   font-size: $fontSizeExtraLarge  * 1.2;
+                }
+            }
+        }
+
+        &.no-media{
+            .page-topper {
+                .purlCelebrateWrapper{
+                    width: 25%;
+                    //border-left:none;
+                    text-align:right;
+                    margin-bottom: $baseLineHeight;
+                    // @media (min-width: $breakpoint_tablet_min) {
+                    //     border-left:1px solid $brand_color_white;
+                    // }
+
+                }
+                .purlDetailsWrapper{
+
+                   .purlVideoWrapper{
+                        display: none;
+                   }
+                   .purlTextWrapper{
+                        width: 100%;
+                        margin-left: 0;
+                   }
+                   .purlDetailText{
+                        //max-width:75%;
+                   }
+                   // .share-print {
+                   //      display: inline-block;
+                   //  }
+                }
+            }
+        }
+
+        .page-topper {
+            @include page_containerSplitterDisplay(
+                $h2Color :              $purlContribute_detailsH2Color,
+                $textColor :            $purlContribute_detailsTextColor,
+                $linkColor :            $purlContribute_detailsLinkColor,
+                $linkHoverColor :       $purlContribute_detailsLinkHoverColor,
+                $linkIconColor :        $purlContribute_detailsLinkIconColor,
+                $linkIconHoverColor :   $purlContribute_detailsLinkIconHoverColor,
+                $borderTopBottomWidth : $purlContribute_detailsBorderTopBottomWidth,
+                $borderTopBottomColor : $purlContribute_detailsBorderTopBottomColor,
+                $boxShadow :            $purlContribute_detailsBoxShadow
+            );
+
+            // @include safeImgUrls($purlContribute_detailsBgImg, $purlContribute_detailsBgImgPath, $property: 'background-image');
+            // background-color: $purlContribute_detailsBgColor;
+            //background-position: $purlContribute_detailsBgImgPosition;
+            .spellchecker{
+                .dropdown-menu {
+                    li {
+                        a {
+                            color: $brand_color_black;
+                        }
+                    }
+                }
+            }
+            box-sizing:border-box;
+            position:relative;
+            z-index: 1;
+            // never have a top border on this box
+            border-top: 0;
+            .purlCelebrateWrapper{
+                display: inline-block;
+                float: right;
+                position: relative;
+                width: auto;
+                margin-left:1.63934%;
+                text-align: center;
+            }
+            .celebrationInfo {
+                display: none;
+                position: relative;
+                margin: 0 auto;
+                width: $purlContribute_purlBalloonSize;
+                height: $purlContribute_purlBalloonSize;
+                line-height: $purlContribute_purlBalloonSize;
+                font-weight: $fontWeightBold;
+                text-align: center;
+                color: $brand_color_white;
+                border: solid 3px $brand_color_white;
+                background-clip: content-box;
+                background: $brand_color_black;
+                border-radius: 50%;
+                overflow: hidden;
+                z-index: 99;
+                .promotion {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 100%;
+                    color: $brand_color_primary;
+                    //font-family: $purlCelebrate_fontFamily;
+                    line-height: $purlContribute_purlBalloonSize;
+                    font-size: 16px; //px value because it's dependent on the balloon's size
+                    font-weight: $fontWeightBold;
+                    z-index: 101;
+                }
+                .celebrationCircleMask{
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    border-radius:50%;
+                }
+                .balloon {
+                    @include safeImgUrls("celebration/upcomingCel-balloon.png", $appImagesPath, $property: 'background-image');
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    background-position: 0;
+                    position: absolute;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 100;
+                }
+                .balloon, .promotion {
+                    //transition: all 1000ms cubic-bezier(.71,.58,.64,1.32) ;
+                    -webkit-animation: moveBalloon .8s forwards;
+                    animation: moveBalloon .8s forwards;
+                    -webkit-animation-timing-function: cubic-bezier(.71,.58,.64,1.32) ;
+                    animation-timing-function: cubic-bezier(.71,.58,.64,1.32) ;
+                }
+                @keyframes moveBalloon {
+                  0% {
+                    transform: translateY(45px);
+                  }
+                  100% {
+                    transform: translateY(0);
+                  }
+                }
+            }
+            @media (min-width: $breakpoint_mobileMini_min) {
+                .celebrationInfo {
+                    display: inline-block;
+                }
+            }
+            @media (min-width: $breakpoint_tablet_min) {
+                .purlCelebrateWrapper{
+                    width: 32.29706%;
+                }
+                .celebrationInfo {
+                    width: $purlContribute_purlBalloonSize * 1.25;
+                    height: $purlContribute_purlBalloonSize * 1.25;
+                    line-height: $purlContribute_purlBalloonSize * 1.25;
+
+                    .promotion {
+                        line-height: $purlContribute_purlBalloonSize * 1.25;
+                        font-size: 32px;
+                    }
+                }
+            }
+
+
+        }
+
+        h4 {
+            margin-top: 0;
+        }
+
+        .purlDetailsWrapper {
+            .purlTextWrapper{
+                margin-top: $baseLineHeight;
+            }
+            .purlDetailsRecipientControls{
+                margin-top: $baseLineHeight;
+            }
+            .purlDetailsRecipientControls, .purlDetailsViewerControls{
+                display: inline-block
+            }
+
+            .purlMainImage {
+                width: 100%;
+            }
+
+            .expirationNote {
+                font-weight: $fontWeightBold;
+                margin-bottom: $baseLineHeight;
+                @if purlContribute_detailsMutedTextColor {
+                    //color: purlContribute_detailsMutedTextColor;
+                }
+            }
+
+            .share-print {
+                float: none;
+                margin-left: 0;
+                text-align: left;
+            }
+            a.btn{
+                box-sizing:border-box;
+            }
+
+            .btn {
+                margin-bottom: $baseLineHeight / 2;
+                margin-right: 10px;
+
+                & + .btn {
+                    margin-left: 0;
+                }
+            }
+        }// .purlDetailsWrapper
+    }
+
+
+
+    .lowerControls{
+        padding-bottom:$baseLineHeight;
+        .translateTextBtn{
+            padding-left:0;
+        }
+    }
+
+    .contributeToPurlSection {
+        .page-topper {
+            @if $purlContribute_contributeBgColor {
+                background: $purlContribute_contributeBgColor;
+            }
+        }
+
+        @include avatarSizing(100px);
+        .avatarwrap{
+            float: left;
+            margin-left: 0;
+
+            //display: none;
+        }
+        @media (min-width: $breakpoint_tablet_min) {
+            @include avatarSizing(100px);
+            .avatarwrap{
+                display: block;
+            }
+        }
+
+        .avatarOuterWrap{
+            position:relative;
+            float: left;
+            display: none;
+            margin-right: $baseLineHeight;
+            margin-bottom: $baseLineHeight;
+            .celebrationInfo {
+                margin:0;
+                display: none;
+                position: absolute;
+                right: - $baseLineHeight/2;
+                bottom: - $baseLineHeight/2;
+                width: $purlContribute_purlBalloonSize_Contribute * 0.4;
+                height: $purlContribute_purlBalloonSize_Contribute * 0.4;
+                line-height: $purlContribute_purlBalloonSize_Contribute * 0.4;
+                 border: solid 2px $brand_color_white;
+                .promotion {
+                    line-height: $purlContribute_purlBalloonSize_Contribute * 0.4;
+                    font-size: 16px; //px value because it's dependent on the balloon's size
+                }
+
+
+
+            }
+            @media (min-width: $breakpoint_mobileMini_min) {
+                display: block;
+                .celebrationInfo {
+                    display: inline-block;
+                }
+            }
+            // @media (min-width: $breakpoint_tablet_min) {
+            //     .celebrationInfo {
+            //         width: $purlContribute_purlBalloonSize_Contribute * 1.25;
+            //         height: $purlContribute_purlBalloonSize_Contribute * 1.25;
+            //         line-height: $purlContribute_purlBalloonSize_Contribute * 1.25;
+
+            //         .promotion {
+            //             line-height: $purlContribute_purlBalloonSize_Contribute * 1.25;
+            //             font-size: 32px;
+            //         }
+            //     }
+            // }
+
+        }
+        .contributeRecipentInfo{
+            float: left;
+            margin-top: $baseLineHeight/2;
+            @media (min-width: $breakpoint_tablet_min) {
+                margin-top: 0;
+            }
+        }
+    }
+    &.isContributor{
+        .purlCommentsSection{
+            margin-top: 177px;
+        }
+        .lowerControls{
+            display: none;
+        }
+    }
+
+    .contribCommentWrapper {
+        position: relative;
+        margin-bottom: -233px;
+        // margin-right: -1 * ($baseLineHeight / 2);
+        // margin-left: -1 * ($baseLineHeight / 2);
+        padding: $baseLineHeight;
+        background: $purlContribute_contributeCommentBgColor;
+        color:$brand_color_black;
+        @include clearfix();
+
+        .mask {
+            position: absolute;
+            z-index: 100;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: $purlContribute_contributeCommentBgColor;
+            @include opacity(.5);
+        }
+
+        .spin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+        }
+
+        .indent {
+            margin-left: $purlContribute_avatarSize * 1.25;
+            padding-left: $purlContribute_avatarSize * 0.25;
+            border-left: 1px solid transparent;
+            @include clearfix();
+        }
+
+        @include avatarSizing($purlContribute_avatarSize);
+
+        .contribAvatar {
+            display: block;
+            float: left;
+        }
+
+        .commentWrapper {
+            // width: 75%;
+            // float: left;
+        }
+
+        .contribName {
+            display: inline;
+            float: left;
+            font-weight: $fontWeightBold;
+            min-height: $baseLineHeight;
+            margin-bottom: 4px;
+        }
+
+        .commentTools {
+            float: right;
+            margin-bottom: ($baseLineHeight / 4);
+            text-align: right;
+            font-size: $fontSizeSmall;
+
+            .remChars {
+                font-weight: $fontWeightBold;
+            }
+        }
+
+        .commentFauxInput {
+            clear: right;
+            margin: ($baseLineHeight / 4) 0 ($baseLineHeight / 2) 0;
+            padding: 0;
+            background: $inputBackground;
+            border: $formFieldBorderWidth solid $inputBorder;
+            @include border-radius($inputBorderRadius);
+            @include clearfix();
+
+            &:focus {
+                // styles borred from bootstrap/_forms.scss
+                border-color: rgba(82,168,236,.8);
+                outline: 0;
+                outline: thin dotted \9; /* IE6-9 */
+                @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6));
+            }
+
+            &.disabled {
+                background: $brand_color_lighter;
+            }
+        }
+
+        .contribCommentInp {
+            margin-bottom: 0;
+            width: 100%;
+            border-width: 0;
+            border-bottom: 1px dashed $brand_color_border;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: 0;
+                @include box-shadow(none);
+            }
+        }
+
+        .contribCommentBadWords {
+            .badwordsWrapper {
+                top: 0;
+            }
+            .badwordsContent:not(:empty) {
+                padding: $formFieldPadding;
+            }
+        }
+
+        .uploadWrapper {
+            float: left;
+            position: relative;
+            padding: $formFieldPadding;
+
+            .uploadInput {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                top: 0;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
+                z-index: 3;
+            }
+
+            .uploadBtn {
+                padding: nth($formFieldPadding, 1) (nth($formFieldPadding, 2) * 2);
+                font-size: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+
+                i {
+                    font-weight: inherit;
+
+                    & + i {
+                        margin-left: nth($formFieldPadding, 2);
+                    }
+                }
+            }
+
+            .upSpin {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                z-index: 1;
+            }
+        }
+
+
+        .attachedMediaDisplayWrapper {
+            position: relative;
+            z-index: 4;
+            //width: $purlMediaWidth;
+            .cmtImgWrap {
+                position: relative;
+                //max-width: 200px;
+
+
+                img,
+                video {
+                    width: 100%;
+                }
+            }
+        }
+
+        // set responsive default width for videos
+        .videoWrapper {
+            //width: $purlMediaWidth;
+        }
+
+
+        // rmBtn (button for removing attached video/image)
+        .rmBtn {
+            cursor: pointer;
+        }
+
+        .videoWrapper,
+        .cmtImgWrap {
+            // special style for remove btn in these elements
+            .rmBtn {
+                z-index: 10;
+                position: absolute;
+                right: 4px;
+                bottom: 4px;
+            }
+        }
+
+        @media (max-width: $breakpoint_mobileMini_max) {
+            .contribAvatar {
+                position: absolute;
+                width: $purlContribute_avatarSize / 2;
+                height: $purlContribute_avatarSize / 2;
+            }
+
+            .indent {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: 0;
+            }
+
+            .contribName {
+                display: block;
+                float: none;
+                margin-left: $purlContribute_avatarSize / 2 * 1.25;
+                margin-bottom: 0;
+                line-height: $purlContribute_avatarSize / 2;
+                border-bottom: 1px solid $purlContribute_contributeNameBorderColor;
+            }
+
+            .commentTools {
+                clear: both;
+                line-height: $purlContribute_avatarSize / 2;
+            }
+        }
+    }// .contribCommentWrapper
+
+
+
+    .commentsListWrapper {
+
+        // margin-top: $baseLineHeight / 2;
+        zoom: 1;
+
+        .spin {
+            display: block;
+            margin: 0 auto;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+        }
+    }
+
+    .commentItemWrapper {
+        // padding-bottom: $baseLineHeight / 2;
+        // padding-top: $baseLineHeight;
+        zoom: 1;
+
+        .innerCommentWrapper {
+            // margin: (-1 * $baseLineHeight / 2) (-1 * $baseLineHeight / 2) 0;
+            padding: $baseLineHeight;
+            zoom: 1;
+            @if $purlContribute_commentBgColorEven {
+                background: $purlContribute_commentBgColorEven;
+            }
+
+            &.flashBg {
+                background: $linkColor !important;
+            }
+        }
+        @include avatarSizing($purlContribute_avatarSize);
+        .avatarImg {
+            float: left;
+        }
+
+        .userInfo {
+            font-weight: bold;
+        }
+
+        .indent {
+            margin-left: $purlContribute_avatarSize * 1.25;
+            padding-left: $purlContribute_avatarSize * 0.25;
+            min-height: $purlContribute_avatarSize;
+            border-left: 1px solid $purlContribute_commentBorderColorEven;
+        }
+
+        .media {
+            img {
+               // max-width: 100%;
+               // max-width: $purlMediaWidth;d
+               // width: 100%;
+            }
+            // set responsive default width for videos
+            .videoWrapper {
+                //width: $purlMediaWidth;
+
+                & + .videoWrapper,
+                & + img {
+                    margin-top: $baseLineHeight;
+                }
+            }
+        }
+
+        @media (max-width: $breakpoint_mobileMini_max) {
+            @include avatarSizing($purlContribute_avatarSize / 2);
+
+            .avatar {
+                margin-right: $purlContribute_avatarSize / 2 * 0.25;
+                margin-bottom: 0px;
+                width: $purlContribute_avatarSize / 2;
+                height: $purlContribute_avatarSize / 2;
+            }
+
+            .indent {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: 0;
+            }
+
+            .userInfo {
+                margin-left: $purlContribute_avatarSize / 2 * 1.25;
+                line-height: $purlContribute_avatarSize / 2;
+                border-bottom: 1px solid $purlContribute_commentBorderColorEven;
+            }
+
+            .author {
+                display: block;
+                float: none;
+            }
+
+            .text {
+                clear: both;
+                // margin-top: 10px;
+                padding-top: 10px;
+            }
+        }
+    }// .commentItemWrapper
+
+    .commentItemWrapper:nth-of-type(2n+1) {
+        @if $purlContribute_commentBgColorOdd {
+            .innerCommentWrapper {
+                background: $purlContribute_commentBgColorOdd;
+            }
+
+            .indent,
+            .userInfo {
+                border-color: $purlContribute_commentBorderColorOdd;
+            }
+        }
+    }
+
+
+    // invite contribs qtip etc...
+    .inviteContribsQTipOuter {
+        max-width: 100%;
+        top: 535.25px;
+        left: 0px;
+
+        #inviteContribsTip {
+            width: 440px;
+            overflow-y: auto;
+            height: 420px;
+            @media (max-width: 479px) {
+                width: 100%;
+            }
+        }
+
+        .inviteContribsEmailsInp {
+            height: 70px;
+            @include input-block-level();
+        }
+
+        .parseEmailsControls {
+            margin-bottom: 2px;
+        }
+
+        .addEmailsToInviteListBtn {
+            margin-bottom: 4px;
+        }
+
+        .parseEmailsFeedback {
+            display: inline-block;
+            @include ie7-inline-block();
+            vertical-align: top;
+            margin-bottom: 0;
+            width: 390px;
+        }
+
+        .pendingContribItem {
+            font-size: 14px;
+            line-height: 18px;
+            margin-top: 6px;
+
+            .remBtn i{
+                color: $grayLight;
+                font-size: 1.1em;
+            }
+
+            .remBtn:hover {
+                cursor: pointer;
+                i {
+                    color: $gray;
+                }
+            }
+        }
+
+        .pendingContribsControls {
+            margin: 6px 0 2px 0;
+        }
+
+        .addedContribsTitle {
+            border-top: 1px solid #cccccc;
+            padding-top: 4px;
+            margin-top: 6px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .addedContribs {
+            line-height: 19px; // so labels look good wrapping
+        }
+
+        .inviteeResultItem {
+            font-size: 14px;
+            line-height: 18px;
+        }
+
+        .goodRes {
+            color: $brand_color_success;
+        }
+
+        .neutralRes {
+            color: $brand_color_light;
+        }
+
+        .badRes {
+            color: $brand_color_alert;
+        }
+
+        .spincover {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(255, 255, 255, .5);
+        }
+
+        .spin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+        }
+    }// .inviteContribsQTipOuter
+
+
+    #purlThankEveryoneModal {
+        .spinner {
+            height: $spinner_widthHeight;
+            padding: 20px;
+        }
+    }// #purlThankEveryoneModal
+
+    &#purlPageView {
+        @media only screen and (min-width: $breakpoint_desktop_min) {
+            margin-bottom: 300px;
+        }
+    }
+
+}/* /.purlPage */

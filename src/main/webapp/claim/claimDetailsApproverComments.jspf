@@ -1,0 +1,21 @@
+<%@ include file="/include/taglib.jspf" %>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+
+<table>
+   <tr>
+    <td colspan="4" class="subheadline">
+      <cms:contentText code="claims.product.approval.details" key="APPROVER_COMMENTS"/>
+    </td>
+  </tr>                        
+  <tr>
+    <td colspan="2" align="center" class="content">
+      	<c:out value="${claimDetails.approverComments}" escapeXml="false" />
+    </td>             
+  </tr>
+  <tr>
+  	<td colspan="2"> </td>
+  </tr>
+  <tr>
+  	<td colspan="2"> </td>
+  </tr>  
+</table>

@@ -1,0 +1,2 @@
+UPDATE promo_engagement SET PREV_PROCESS_DATE = NULL
+/

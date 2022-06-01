@@ -1,0 +1,370 @@
+// App-specific variables
+// =========================
+$news_cycleDotWidth_mobile: 12px !default;
+$news_cycleDotBkg_mobile: $brand_color_white !default;
+$news_cycleDotBorderRadius_mobile: 50% !default;
+
+$news_cycleThumbScale: 10% !default;
+$news_cycleThumbSpacing: 3.3% !default;
+
+$news_pagerTextColor: $brand_color_white !default;
+$news_pagerTextColorHover: $brand_color_primary !default;
+$news_pagerBgColor: black !default; // real black instead of brand black on purpose
+
+$news_pageTimeStampColor: $grayLight !default;
+
+$news_pageStoryImageTextColor: $brand_color_white !default;
+$news_pageStoryImageBgColor: black !default; // real black instead of brand black on purpose
+$news_pageStoryAllBackColor: $brand_color_white !default;
+$news_pageStoryAllBackColorHover: $brand_color_primary !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.news {
+
+} /* /.news */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.news {
+    .module-liner {
+        padding: 0;
+        padding-top: calc(#{1 / 2.35 * 100%} - 144px); // 2.35:1 ratio - min-height
+        min-height: 144px;
+
+        .module-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 100%;
+        }
+
+        .visitAppBtn {
+            position: absolute;
+            top: $g6ModulePaddingX;
+            right: $g6ModulePaddingX;
+            z-index: 999;
+            line-height: $fontSizeExtraLarge;
+            text-shadow: 0px 1px 6px transparentize($news_pagerBgColor, 0.67);
+            @include ignoreGlobalLinkStyles(
+                $color: $news_pageStoryAllBackColor $news_pageStoryAllBackColorHover
+            );
+
+            i {
+                margin-left: 3px;
+                height: $fontSizeExtraLarge;
+                width: $fontSizeExtraLarge;
+                font-size: $fontSizeExtraLarge;
+                font-weight: $fontWeightBold;
+                vertical-align: middle;
+
+                &::before {
+                    background: transparentize($news_pageStoryImageBgColor, 0.75);
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+    .carousel {
+        overflow: hidden;
+        height: 100%;
+        position: relative;
+
+        .slick-arrow {
+            position: absolute;
+            top: 50%;
+            margin-top: -1em;
+            padding: 0.5em;
+            font-size: 25px;
+            border-radius: 50%;
+            text-shadow: 0px 1px 6px transparentize($news_pagerBgColor, 0.67);
+            @include ignoreGlobalLinkStyles(
+                $color: $news_pagerTextColor $news_pagerTextColorHover,
+                $fontWeight: $fontWeightBold
+            );
+            background: transparentize($news_pagerBgColor, 0.85);
+
+            @media (max-width: $breakpoint_mobile_max) {
+                display: none !important;
+            }
+            &.slick-prev {
+                left: 2%;
+                z-index: 9;
+            }
+            &.slick-next {
+                right: 2%;
+            }
+            &:hover {
+                cursor: pointer;
+            }
+            &.slick-disabled {
+                visibility: hidden;
+            }
+        }
+
+        .slick-list {
+            height: 100%;
+        }
+
+        .slick-track {
+            height: 100%;
+        }
+
+        .item {
+            display: inline-block;
+            height: 100%;
+            background-size: cover;
+            background-position: 50% 50%;
+
+            .item-link {
+                display: block;
+                height: 100%;
+                background-size: cover;
+                background-position: 50% 50%;
+                @include ignoreGlobalLinkStyles();
+            }
+
+            .story {
+                height: 100%;
+                position: relative;
+                opacity: 1;
+                @include transition(opacity 1s);
+
+                h3 {
+                    // determine how many thumbnails fit so I can line up the edge of the text with them
+                    $maxThumbs: floor((100% + $news_cycleThumbSpacing) / ($news_cycleThumbScale + $news_cycleThumbSpacing));
+
+                    position: absolute;
+                    right: 0;
+                    bottom: $news_cycleThumbSpacing + $news_cycleThumbScale + $news_cycleThumbSpacing;
+                    left: 0;
+                    margin: 0;
+                    color: $news_pageStoryImageTextColor; // todo: variable-ize
+                    padding: 0 ((100% - ($maxThumbs * $news_cycleThumbScale + (($maxThumbs - 1) * $news_cycleThumbSpacing))) / 2);
+                    padding-top: 1em;
+                    padding-bottom: #{$headlineMarginY}em;
+                    font-weight: $fontWeightNormal;
+                    background: linear-gradient(to bottom, transparentize($news_pageStoryImageBgColor, 1) 0%, transparentize($news_pageStoryImageBgColor, 0.5) 100%); // used in _communications.scss and _banners.scss and _xpromo.scss
+                }
+            }
+        }
+
+        .slick-dots {
+            // we want this to end up $news_cycleThumbScale of the height, but we need $news_cycleThumbSpacing of padding top and bottom
+            // unfortunately, top and bottom padding are calculated off the width so we have to get crafty
+            // all the percentage math is doing just that
+            position: absolute;
+            top: 100% - $news_cycleThumbSpacing - $news_cycleThumbScale - $news_cycleThumbSpacing;
+            bottom: 0;
+            line-height: 0;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            height: $news_cycleThumbSpacing + $news_cycleThumbScale + $news_cycleThumbSpacing;
+            vertical-align: middle;
+            //background: transparentize($news_pageStoryImageBgColor, 0.5);
+            background: linear-gradient(to bottom, transparentize($news_pageStoryImageBgColor, 0.5) 0%, transparentize($news_pageStoryImageBgColor, 0.25) 100%); // used in _communications.scss and _banners.scss and _xpromo.scss
+
+            li {
+                position: relative;
+                top: ($news_cycleThumbSpacing / ($news_cycleThumbSpacing + $news_cycleThumbScale + $news_cycleThumbSpacing) * 100%);
+                margin: 0 ($news_cycleThumbSpacing / 2);
+                display: inline-block;
+                width: $news_cycleThumbScale;
+                height: ($news_cycleThumbScale / ($news_cycleThumbSpacing + $news_cycleThumbScale + $news_cycleThumbSpacing) * 100%);
+                background: transparentize($news_cycleDotBkg_mobile, 0.75);
+                opacity: 0.25;
+                cursor: pointer;
+                @include box-shadow(0 2px 8px rgba(0,0,0, 0.33));
+                @include transition(opacity 0.5s);
+
+                &:hover,
+                &.slick-active {
+                    opacity: 1;
+                    @include box-shadow(0 3px 12px rgba(0,0,0, 0.5));
+                }
+                &.slick-active {
+                    cursor: default;
+                }
+
+                img {
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                }
+            }
+        }
+
+        @media (max-width: $breakpoint_mobile_max) {
+            .item {
+                .story {
+                    h3 {
+                        bottom: $news_cycleDotWidth_mobile * 3;
+                        padding-bottom: #{$headlineMarginY / 2}em;
+                    }
+                }
+            }
+            .slick-dots {
+                top: auto;
+                height: $news_cycleDotWidth_mobile * 3;
+
+                li {
+                    top: $news_cycleDotWidth_mobile;
+                    width: $news_cycleDotWidth_mobile;
+                    height: $news_cycleDotWidth_mobile;
+                    background: $news_cycleDotBkg_mobile;
+                    border-radius: $news_cycleDotBorderRadius_mobile;
+
+                    img {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+    .newsPager {
+        display: none;
+    }
+
+    &.singleStory {
+        .carousel {
+            .item {
+                display: block;
+
+                .story {
+                    h3 {
+                        bottom: 0;
+                        // padding-bottom: #{1 + $headlineMarginY}em;
+                        padding-bottom: 1em;
+                    }
+                }
+            }
+        }
+    }
+} /* /.launchModule.news */
+
+/* ----- PAGE STYLES ----- */
+.page.news {
+    .newsStory ~ .newsStory {
+        margin-top: $baseLineHeight * 2;
+    }
+
+    .storyImage {
+        width: 100%;
+    }
+
+    .timeStamp {
+        color: $brand_color_dark;
+    }
+    .spin {
+        display: block;
+        margin: 0 auto;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+    }
+
+    .newsDetail {
+        .page-topper {
+            position: relative;
+            padding: 0;
+            color: $news_pageStoryImageTextColor;
+            background-color: $news_pageStoryImageBgColor;
+            background-size: cover;
+            background-position: 50% 50%;
+            overflow: hidden;
+
+            .storyImage {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+
+            .returnToList {
+                position: absolute;
+                top: ($g6PagePaddingY / 2);
+                left: $g6PagePaddingX;
+                line-height: $fontSizeExtraLarge;
+                text-shadow: 0px 1px 6px transparentize($news_pagerBgColor, 0.67);
+                @include ignoreGlobalLinkStyles(
+                    $color: $news_pageStoryAllBackColor $news_pageStoryAllBackColorHover
+                );
+
+                i {
+                    margin-right: 3px;
+                    height: $fontSizeExtraLarge;
+                    width: $fontSizeExtraLarge;
+                    font-size: $fontSizeExtraLarge;
+                    font-weight: $fontWeightBold;
+                    vertical-align: middle;
+
+                    &::before {
+                        background: transparentize($news_pageStoryImageBgColor, 0.75);
+                        border-radius: 50%;
+                    }
+                }
+            }
+
+            h2 {
+                position: relative;
+                display: inline-block;
+                vertical-align: bottom;
+                margin: 0;
+                padding: ($g6PagePaddingY) $g6PagePaddingX ($g6PagePaddingY / 2);
+                min-width: 100%;
+                box-sizing: border-box;
+                background: linear-gradient(to bottom, transparentize($news_pageStoryImageBgColor, 1) 0%, transparentize($news_pageStoryImageBgColor, 0.5) 100%); // used in _communications.scss and _banners.scss and _xpromo.scss
+            }
+
+            @media (min-width: $breakpoint_tablet_min) {
+                @if $g6PagePaddingY_tablet != $g6PagePaddingY or $g6PagePaddingX_tablet != $g6PagePaddingX {
+                    .returnToList {
+                        top: ($g6PagePaddingY_tablet / 2);
+                        left: ($g6PagePaddingX_tablet / 2);
+                    }
+
+                    h2 {
+                        // margin: (-1 * $g6PagePaddingY_tablet / 2) (-1 * $g6PagePaddingX_tablet);
+                        padding: ($g6PagePaddingY_tablet) $g6PagePaddingX_tablet ($g6PagePaddingY_tablet / 2);
+                    }
+                }
+            }
+            @media (min-width: $breakpoint_desktop_min) {
+                @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet or $g6PagePaddingX_desktop != $g6PagePaddingX_tablet {
+                    .returnToList {
+                        top: ($g6PagePaddingY_desktop / 2);
+                        left: ($g6PagePaddingX_desktop / 2);
+                    }
+
+                    h2 {
+                        // margin: (-1 * $g6PagePaddingY_desktop / 2) (-1 * $g6PagePaddingX_desktop);
+                        padding: ($g6PagePaddingY_desktop) $g6PagePaddingX_desktop ($g6PagePaddingY_desktop / 2);
+                    }
+                }
+            }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop or $g6PagePaddingX_desktopLarge != $g6PagePaddingX_desktop {
+                    .returnToList {
+                        top: ($g6PagePaddingY_desktopLarge / 2);
+                        left: ($g6PagePaddingX_desktopLarge / 2);
+                    }
+
+                    h2 {
+                        // margin: (-1 * $g6PagePaddingY_desktopLarge / 2) (-1 * $g6PagePaddingX_desktopLarge);
+                        padding: ($g6PagePaddingY_desktopLarge) $g6PagePaddingX_desktopLarge ($g6PagePaddingY_desktopLarge / 2);
+                    }
+                }
+            }
+        }
+    }
+} /* /.page.news */

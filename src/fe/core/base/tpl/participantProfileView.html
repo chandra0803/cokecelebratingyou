@@ -1,0 +1,96 @@
+  <div class="profile-container">
+    <div class="profile-avatar">
+      <a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/PersonalInfo" class="profile-avatar-link">
+          <img class="avatar avatar-image" {{#unless avatarUrl}}style="display:none"{{/unless}} src="{{avatarUrl}}" alt="{{firstName}} {{lastName}}" />
+          <span class="avatar avatar-placeholder" {{#if avatarUrl}}style="display:none"{{/if}}>{{trimString firstName 0 1}}{{trimString lastName 0 1}}</span>
+      </a>
+
+  <a href="#" id="personalInformationUploadImageLink" aria-describedby="ui-tooltip-0">
+        <span id="edit-avatar-icon">
+          <i class="icon-camera"></i>
+        </span>
+      </a>
+    </div><!-- /.profile-avatar -->
+
+
+    <div class="profile-meta">
+      <h2 class="profile-name">
+        <a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/PersonalInfo">
+          <span class="firstName">{{firstName}}</span> <span class="lastName">{{lastName}}</span>
+        </a>
+      </h2>
+    </div><!-- /.profile-meta -->
+
+    <div id="personalInformationUploadImageForm" style="display:none;">
+      <div class="arrow-up"></div>
+      <form id="personalInformationFormUploadImage">
+          <div class="fileUpload ">
+              <div class="btn btn-primary uploadButton">Upload</div>
+              <input type="file" name="profileImage" class="upload" id="personalInformationButtonUploadImage" />
+          </div>
+          <p class="">File size limit 10mb. Supports Jpeg, PNG and GIF</p>
+          <p class="alert alert-info hide no-fileinput">Sorry! Your device does not support file uploads. Please use a desktop browser to complete this upload.</p>
+      </form>
+    </div>
+
+    {{#or isLaunched isDelegate}}
+    <div class="profile-proxy-overlay">
+      <p class="profile-name">
+        {{#if isLaunched}}
+          Launched as
+        {{/if}}
+        {{#if isDelegate}}
+          Acting as
+        {{/if}}
+        <span class="name">{{firstName}}</span>
+      </p>
+      <ul class="actions unstyled">
+        <li class="action logout">
+          <a class="btn btn-primary btn-block" href="layout.html?tplPath=base/tpl/&amp;tpl=loginPage.html" target="_top">Log out</a>
+        </li>
+        {{#if isLaunched}}
+        <li class="action admin">
+          <a class="btn btn-block" href="#" target="_top">Return to Admin</a>
+        </li>
+        {{/if}}
+        {{#if isDelegate}}
+        <li class="action account">
+          <a class="btn btn-block" href="#" target="_top">Return to My Account</a>
+        </li>
+        {{/if}}
+      </ul>
+    </div><!-- /.profile-proxy-overlay -->
+    {{/or}}
+
+    <a href="layout.html?tplPath=base/tpl/&amp;tpl=loginPage.html" class="sidebar-logout" data-toggle="tooltip" data-placement="left" title="Logout">
+      <i class="icon-outside"></i>
+    </a>
+  </div><!-- /.profile-container -->
+  <div id="imageResult"></div>
+
+  <!-- alerts -->
+  <div id="participantProfileViewAlert" class="alert-box alert">
+    <div class="alert-icon-container">
+      <i class='icon-check-circle'></i>
+    </div>
+    <div id="alert-box-inner"></div>
+  </div><!-- /#participantProfileViewAlert -->
+
+  <div class="modal hide fade instantPoll" id="instantPollModuleModal" data-backdrop="static" data-keyboard="false"></div>
+
+<!--subTpl.alertTpl=
+  <div class="alert-message-container">
+    <span class='alertText'>
+      {{alertTitle}}
+    </span>
+    {{#if instantPoll}}
+      <a class="alert-link type-instant-poll" data-poll-id='{{instantPollId}}' data-page-id="InstantPollModuleView" data-toggle="modal">
+          {{alertLinkText}}
+      </a>
+    {{else}}
+      <a class="alert-link" href='{{alertLink}}' {{#if openNewWindow}} target='blank' {{/if}}>
+          {{alertLinkText}}
+      </a>
+    {{/if}}
+  </div>
+subTpl-->

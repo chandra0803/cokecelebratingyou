@@ -1,0 +1,3813 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<!-- Global file Template factory -->
+	<bean id="globalFileTemplateFactory" class="com.biperf.core.service.fileprocessing.impl.GlobalFileTemplateFactoryImpl">
+		<property name="entries">
+			<map>
+				<entry key="hier" value-ref="hierarchyTemplate" />
+				<entry key="par" value-ref="participantTemplate" />
+				<entry key="bud" value-ref="budgetTemplate" />
+				<entry key="leaderboard" value-ref="leaderBoardTemplate"/>
+				<entry key="dep" value-ref="depositTemplate" />
+				<entry key="awardlevel" value-ref="awardLevelTemplate" />
+				<entry key="cpbase" value-ref="cpBaseTemplate" />
+				<entry key="cplevel" value-ref="cpLevelTemplate" />
+				<entry key="cpprog" value-ref="cpProgressTemplate" />
+				<entry key="base" value-ref="gqBaseTemplate" />
+				<entry key="goal" value-ref="gqGoalTemplate" />
+				<entry key="prog" value-ref="gqProgressTemplate" />
+				<entry key="vin_nbr" value-ref="gqVinNbrTemplate" />
+				<entry key="prod" value-ref="productTemplate" />
+				<entry key="purl" value-ref="purlTemplate" />
+				<entry key="badge" value-ref="badgeTemplate"/>
+				<entry key="tdprog" value-ref="tdProgressTemplate" />
+				<entry key="bud_dist" value-ref="budgetDistributionTemplate" />
+				<entry key="nomapprover" value-ref="nomapproverTemplate" />
+				<entry key="dbdump" value-ref="dbDumpFileTemplate" />
+				<entry key="ssiprog" value-ref="ssiprogTemplate"/>
+				<entry key="ssicontestatn" value-ref="ssicontestatnTemplate"/>
+				<entry key="ssicontestsiu" value-ref="ssicontestsiuTemplate"/>
+				<entry key="ssicontestsr" value-ref="ssicontestsrTemplate"/>
+				<entry key="ssicontestdtgt" value-ref="ssicontestdtgtTemplate"/>
+				<entry key="ssicontestobj" value-ref="ssicontestobjTemplate"/> 
+				<entry key="ssicontestobjimport" value-ref="ssicontestobjTemplate"/> 
+				<entry key="ssicontestsrimport" value-ref="ssicontestsrTemplate"/>
+				<entry key="ssicontestatnimport" value-ref="ssicontestatnTemplate"/>
+				<entry key="ssicontestdtgtimport" value-ref="ssicontestdtgtTemplate"/>
+				<entry key="ssicontestsiuimport" value-ref="ssicontestsiuTemplate"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- #01. Hierarchy Template -->
+	<bean id="hierarchyTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="hierarchy_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="recordType" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="1" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_UPCS" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="oldNodeName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="moveToNodeName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="description" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="500" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeType" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="parentNodeName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="oldParentNodeName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic1Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="9" />
+					<property name="outputOrder" value="9" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic1Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="10" />
+					<property name="outputOrder" value="10" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic2Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="11" />
+					<property name="outputOrder" value="11" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic2Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="12" />
+					<property name="outputOrder" value="12" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic3Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="13" />
+					<property name="outputOrder" value="13" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic3Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="14" />
+					<property name="outputOrder" value="14" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic4Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="15" />
+					<property name="outputOrder" value="15" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic4Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="16" />
+					<property name="outputOrder" value="16" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic5Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="17" />
+					<property name="outputOrder" value="17" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic5Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="18" />
+					<property name="outputOrder" value="18" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic6Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="19" />
+					<property name="outputOrder" value="19" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic6Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="20" />
+					<property name="outputOrder" value="20" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic7Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="21" />
+					<property name="outputOrder" value="21" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic7Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="22" />
+					<property name="outputOrder" value="22" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic8Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="23" />
+					<property name="outputOrder" value="23" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic8Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="24" />
+					<property name="outputOrder" value="24" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic9Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="25" />
+					<property name="outputOrder" value="25" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic9Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="26" />
+					<property name="outputOrder" value="26" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic10Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="65" />
+					<property name="inputOrder" value="27" />
+					<property name="outputOrder" value="27" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="nodeCharacteristic10Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="28" />
+					<property name="outputOrder" value="28" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #02. Participant Template -->
+	<bean id="participantTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="participant_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="userName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="middleName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="suffix" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="ssn" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="9" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="birthDate" />
+					<property name="columnDataType" value="Date" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+					<property name="columnAddlQualifier" value="MM/dd/yyyy" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="gender" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="10" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="status" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="9" />
+					<property name="outputOrder" value="9" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="75" />
+					<property name="inputOrder" value="10" />
+					<property name="outputOrder" value="10" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddressType" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="11" />
+					<property name="outputOrder" value="11" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="textMessageAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="75" />
+					<property name="inputOrder" value="12" />
+					<property name="outputOrder" value="12" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="addressType" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="13" />
+					<property name="outputOrder" value="13" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="country" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="2" />
+					<property name="inputOrder" value="14" />
+					<property name="outputOrder" value="14" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="address1" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="15" />
+					<property name="outputOrder" value="15" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="address2" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="16" />
+					<property name="outputOrder" value="16" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="address3" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="17" />
+					<property name="outputOrder" value="17" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="address4" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="18" />
+					<property name="outputOrder" value="18" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="address5" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="19" />
+					<property name="outputOrder" value="19" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="address6" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="20" />
+					<property name="outputOrder" value="20" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="city" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="21" />
+					<property name="outputOrder" value="21" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="state" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="3" />
+					<property name="inputOrder" value="22" />
+					<property name="outputOrder" value="22" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="postalCode" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="15" />
+					<property name="inputOrder" value="23" />
+					<property name="outputOrder" value="23" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="personalPhoneNumber" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="24" />
+					<property name="outputOrder" value="24" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="businessPhoneNumber" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="25" />
+					<property name="outputOrder" value="25" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="cellPhoneNumber" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="26" />
+					<property name="outputOrder" value="26" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="employer" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="27" />
+					<property name="outputOrder" value="27" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="jobPosition" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="28" />
+					<property name="outputOrder" value="28" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="department" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="29" />
+					<property name="outputOrder" value="29" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="hireDate" />
+					<property name="columnDataType" value="Date" />
+					<property name="inputOrder" value="30" />
+					<property name="outputOrder" value="30" />
+					<property name="columnAddlQualifier" value="MM/dd/yyyy" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="terminationDate" />
+					<property name="columnDataType" value="Date" />
+					<property name="inputOrder" value="31" />
+					<property name="outputOrder" value="31" />
+					<property name="columnAddlQualifier" value="MM/dd/yyyy" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node1Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="32" />
+					<property name="outputOrder" value="32" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node1Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="33" />
+					<property name="outputOrder" value="33" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node2Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="34" />
+					<property name="outputOrder" value="34" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node2Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="35" />
+					<property name="outputOrder" value="35" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node3Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="36" />
+					<property name="outputOrder" value="36" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node3Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="37" />
+					<property name="outputOrder" value="37" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node4Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="38" />
+					<property name="outputOrder" value="38" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node4Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="39" />
+					<property name="outputOrder" value="39" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node5Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="40" />
+					<property name="outputOrder" value="40" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="node5Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="41" />
+					<property name="outputOrder" value="41" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic1Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="42" />
+					<property name="outputOrder" value="42" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic1Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="43" />
+					<property name="outputOrder" value="43" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic2Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="44" />
+					<property name="outputOrder" value="44" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic2Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="45" />
+					<property name="outputOrder" value="45" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic3Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="46" />
+					<property name="outputOrder" value="46" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic3Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="47" />
+					<property name="outputOrder" value="47" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic4Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="48" />
+					<property name="outputOrder" value="48" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic4Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="49" />
+					<property name="outputOrder" value="49" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic5Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="50" />
+					<property name="outputOrder" value="50" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic5Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="51" />
+					<property name="outputOrder" value="51" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic6Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="52" />
+					<property name="outputOrder" value="52" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic6Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="53" />
+					<property name="outputOrder" value="53" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic7Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="54" />
+					<property name="outputOrder" value="54" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic7Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="55" />
+					<property name="outputOrder" value="55" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic8Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="56" />
+					<property name="outputOrder" value="56" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic8Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="57" />
+					<property name="outputOrder" value="57" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic9Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="58" />
+					<property name="outputOrder" value="58" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic9Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="59" />
+					<property name="outputOrder" value="59" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic10Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="60" />
+					<property name="outputOrder" value="60" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic10Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="61" />
+					<property name="outputOrder" value="61" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic11Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="62" />
+					<property name="outputOrder" value="62" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic11Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="63" />
+					<property name="outputOrder" value="63" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic12Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="64" />
+					<property name="outputOrder" value="64" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic12Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="65" />
+					<property name="outputOrder" value="65" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic13Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="66" />
+					<property name="outputOrder" value="66" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic13Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="67" />
+					<property name="outputOrder" value="67" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic14Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="68" />
+					<property name="outputOrder" value="68" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic14Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="69" />
+					<property name="outputOrder" value="69" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic15Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="70" />
+					<property name="outputOrder" value="70" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic15Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="71" />
+					<property name="outputOrder" value="71" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic16Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="72" />
+					<property name="outputOrder" value="72" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic16Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="73" />
+					<property name="outputOrder" value="73" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic17Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="74" />
+					<property name="outputOrder" value="74" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic17Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="75" />
+					<property name="outputOrder" value="75" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic18Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="76" />
+					<property name="outputOrder" value="76" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic18Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="77" />
+					<property name="outputOrder" value="77" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic19Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="78" />
+					<property name="outputOrder" value="78" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic19Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="79" />
+					<property name="outputOrder" value="79" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic20Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="80" />
+					<property name="outputOrder" value="80" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic20Value" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="81" />
+					<property name="outputOrder" value="81" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="role1Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="82" />
+					<property name="outputOrder" value="82" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="role2Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="83" />
+					<property name="outputOrder" value="83" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="role3Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="84" />
+					<property name="outputOrder" value="84" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="role4Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="85" />
+					<property name="outputOrder" value="85" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="role5Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="86" />
+					<property name="outputOrder" value="86" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="language" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="5" />
+					<property name="inputOrder" value="87" />
+					<property name="outputOrder" value="87" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="ssoId" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="88" />
+					<property name="outputOrder" value="88" />
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #03. Budget Template -->
+	<bean id="budgetTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="budget_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="budget_owner_login_id" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="budget_amount" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="12" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #04. Deposit Template -->
+	<bean id="depositTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="deposit_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="userName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="awardAmount" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="9" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="awardDate" />
+					<property name="columnDataType" value="Date" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="columnAddlQualifier" value="MM/dd/yyyy" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="comments" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="500" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="formElement1" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="500" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>			
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="formElement2" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="500" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>	
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="formElement3" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="500" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="anniversaryNumberOfDaysOrYears" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="9" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+				</bean>					
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	            	
+	<!-- #05. Award Level Template -->
+	<bean id="awardLevelTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="award_level_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="userName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="awardLevel" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="1" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="awardDate" />
+					<property name="columnDataType" value="Date" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="columnAddlQualifier" value="MM/dd/yyyy" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>	
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="comments" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="500" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>			
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="formElement1" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>			
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="formElement2" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="30" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>	
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="formElement3" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+ 					<property name="columnName" value="anniversaryNumberOfDaysOrYears" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="2" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+ 				</bean>							
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- #07. Challenge Point Base Template -->
+	<bean id="cpBaseTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="cp_base_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="login" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="base" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="2" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- #08. Challenge Point Award Level Template -->
+	<bean id="cpLevelTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="cp_level_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="login" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="levelName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- #09. Challenge Point Progress Template -->
+	<bean id="cpProgressTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="cp_progress_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="login" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="totalPerformance" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="2" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #10. Goalquest Base Template -->
+	<bean id="gqBaseTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="gq_base_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="login" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="base" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="2" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #11. Goalquest Goal Template -->
+	<bean id="gqGoalTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="gq_goal_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="login" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="levelName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #12. Goalquest Progress Template -->
+	<bean id="gqProgressTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="gq_progress_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="login" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="totalPerformance" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="2" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #13. Goalquest VIN Number Template -->
+	<bean id="gqVinNbrTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="gq_vin_nbr_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="login" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="vin" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="model" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="transactionType" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_CSLV" />
+								<property name="value" value="S,R" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="salesDate" />
+					<property name="columnDataType" value="Date" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+					<property name="columnAddlQualifier" value="MM/dd/yyyy" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="deliveryDate" />
+					<property name="columnDataType" value="Date" />
+					<property name="inputOrder" value="9" />
+					<property name="outputOrder" value="9" />
+					<property name="columnAddlQualifier" value="MM/dd/yyyy" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="dealerCode" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="10" />
+					<property name="outputOrder" value="10" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="delareName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="11" />
+					<property name="outputOrder" value="11" />
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #14. Product Template -->
+	<bean id="productTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="product_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="productCategoryName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="50" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="productCategoryDesc" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="250" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="productSubcategoryName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="50" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="productSubcategoryDesc" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="250" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="productName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="70" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="productDesc" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="250" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="skuCode" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="70" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic1Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic2Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="9" />
+					<property name="outputOrder" value="9" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic3Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="10" />
+					<property name="outputOrder" value="10" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic4Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="11" />
+					<property name="outputOrder" value="11" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="characteristic5Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="12" />
+					<property name="outputOrder" value="12" />
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #16. PURL Template -->
+	<bean id="purlTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="purl_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="loginId" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="75" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="awardAmount" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="9" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="awardDate" />
+					<property name="columnDataType" value="Date" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="columnAddlQualifier" value="MM/dd/yyyy" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!--#17. LeaderBoard Template -->
+	<bean id="leaderBoardTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="leaderboard_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="userName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="score" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="18" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!--#18. Badge Template -->
+	<bean id="badgeTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="badge_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="userName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="badgeName" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="255" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #10. Throwdown Progress Template -->
+	<bean id="tdProgressTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="td_progress_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="login" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="firstName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="lastName" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="emailAddress" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="totalPerformance" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="2" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+		<!-- #10. Budget Redistribution Template -->
+	<bean id="budgetDistributionTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="bud_dist_%MMddyyyy%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="budget_master_name " />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="source_budget_time_period" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="org_unit_id" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="budget_owner_name" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="budget_owner_login_id" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="budget_amount" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="12" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="transfer_to_owner1" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="amount_owner1" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="12" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="transfer_to_owner2" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="9" />
+					<property name="outputOrder" value="9" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="amount_owner2" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="12" />
+					<property name="inputOrder" value="10" />
+					<property name="outputOrder" value="10" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="transfer_to_owner3" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="11" />
+					<property name="outputOrder" value="11" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="amount_owner3" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="12" />
+					<property name="inputOrder" value="12" />
+					<property name="outputOrder" value="12" />
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- #11.  Nomination custom approver Template -->
+	<bean id="nomapproverTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="G5_Nom_approver_%MMddyyyy%_%HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="approval_type" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="min_value" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="max_value" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="user_name" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="VALIDATION_REQD" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="approval_round" />
+					<property name="columnDataType" value="Integer" />
+					<property name="columnLength" value="10" />					
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />					
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #19. Database Dump Template -->
+	<bean id="dbDumpFileTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="db_dump_%yyyyMMdd_HHmmss%.dmp" />
+		<property name="fileDetails">
+			<list>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #20. SSIProgress Template -->
+	<bean id="ssiprogTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="ssiprogress_%MMddyyyy%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Contest Id" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Login Id" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="First Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Last Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Org Unit" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Email Address" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="12" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Activity Description" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Progress Total" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="12" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Activity Date (MM/DD/YYYY)" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="200" />
+					<property name="inputOrder" value="9" />
+					<property name="outputOrder" value="9" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+			</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	
+	</bean>
+	
+	<!-- #21. SSI Contest ATN Template -->
+	<bean id="ssicontestatnTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="ssicontestatn_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="User Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="First Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Last Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Activity Description" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Activity Amount" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Payout Points" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Payout Description" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Value" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="9" />
+					<property name="outputOrder" value="9" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #22. SSI Contest DTGT Template -->
+	<bean id="ssicontestdtgtTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="ssicontestdtgt_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="User Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="First Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Last Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #23. SSI Contest OBJ Template -->
+	<bean id="ssicontestobjTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="ssicontestobj_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="User Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="First Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Last Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Objective Description" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Objective Amount" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="6" />
+					<property name="outputOrder" value="6" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Objective Payout" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="7" />
+					<property name="outputOrder" value="7" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Other Payout Description" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="100" />
+					<property name="inputOrder" value="8" />
+					<property name="outputOrder" value="8" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Other Value" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="9" />
+					<property name="outputOrder" value="9" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Bonus For Every" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="10" />
+					<property name="outputOrder" value="10" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Bonus Payout" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="11" />
+					<property name="outputOrder" value="11" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Bonus Payout Cap" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="12" />
+					<property name="outputOrder" value="12" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #24. SSI Contest SIU Template -->
+	<bean id="ssicontestsiuTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="ssicontestsiu_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="User Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="First Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Last Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Baseline" />
+					<property name="columnDataType" value="Decimal" />
+					<property name="columnLength" value="18" />
+					<property name="columnPrecision" value="4" />
+					<property name="inputOrder" value="5" />
+					<property name="outputOrder" value="5" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- #25. SSI Contest SR Template -->
+	<bean id="ssicontestsrTemplate" class="com.biperf.core.value.fileprocessing.FileInfo">
+		<property name="outFileName" value="ssicontestsr_%yyyyMMdd_HHmmss%.txt" />
+		<property name="fileDetails">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="User Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="1" />
+					<property name="outputOrder" value="1" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="First Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="2" />
+					<property name="outputOrder" value="2" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Last Name" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="3" />
+					<property name="outputOrder" value="3" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.FileDetailInfo">
+					<property name="columnName" value="Role" />
+					<property name="columnDataType" value="Text" />
+					<property name="columnLength" value="40" />
+					<property name="inputOrder" value="4" />
+					<property name="outputOrder" value="4" />
+					<property name="fileDetailOperations">
+						<list>
+							<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+								<property name="operationText" value="FORMAT_TRIM" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="fileOperations">
+			<list>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="UNIX_FORMAT" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_EMPTY_LINES" />
+				</bean>
+				<bean class="com.biperf.core.value.fileprocessing.OperationInfo">
+					<property name="operationText" value="REMOVE_HEADER" />
+					<property name="valueText" value="1" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

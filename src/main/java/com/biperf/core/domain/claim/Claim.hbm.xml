@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.claim.Claim" table="CLAIM">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="CLAIM_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CLAIM_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="open" column="IS_OPEN" type="boolean" />
+           
+    <property name="claimNumber" column="CLAIM_NUMBER" type="string" not-null="true"/>
+     
+    <property name="submissionDate" column="SUBMISSION_DATE" type="timestamp" />
+    
+    <property name="approverComments" column="APPROVER_COMMENTS" type="string" />
+    
+    <property name="adminComments" column="ADMIN_COMMENTS" type="string" />
+    
+	<property name="addPointsClaim" column="IS_ADD_POINTS_CLAIM" type="boolean" />
+	
+    <property name="approvalRound" column="APPROVAL_ROUND" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+      type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.promotion.Promotion" not-null="true" lazy="false"/>
+    <many-to-one name="submitter" column="SUBMITTER_ID" class="com.biperf.core.domain.participant.Participant" not-null="false" lazy="false"/>
+    <many-to-one name="node" column="NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" lazy="false"/>
+    <many-to-one name="proxyUser" column="PROXY_USER_ID" class="com.biperf.core.domain.user.User" not-null="false" lazy="false"/>
+    <many-to-one name="lastApprovalNode" column="LAST_APPROVAL_NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" lazy="false"/>
+
+    <!-- Pushed up to here instead of kept in NominationClaim to allow any type of claim to have a claim group. Otherwise claimGroup.claims
+    would have to point to a speicifc CLaim type rather than just Claim. -->
+    <many-to-one name="claimGroup" column="CLAIM_GROUP_ID" class="com.biperf.core.domain.claim.ClaimGroup" not-null="false" update="true" insert="true" lazy="false"/>
+
+    <list name="claimElements" lazy="false" table="CLAIM_CFSE" inverse="false" cascade="all-delete-orphan,merge">
+      <key column="CLAIM_ID" not-null="true"/>
+      <list-index column="sequence_num"/>
+      <one-to-many class="com.biperf.core.domain.claim.ClaimElement"/>
+    </list>
+    
+  </class>
+
+  <sql-query name="com.biperf.core.domain.claim.ClaimElementWithinNodeCount">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(1) as result
+        FROM claim
+       WHERE node_id = :nodeId
+          AND claim_id IN (SELECT claim_id
+                            FROM claim_cfse
+                          WHERE claim_form_step_element_id = :claimFormStepElementId
+                              AND UPPER(value) = :value )
+           AND promotion_id IN ( SELECT promotion_id
+                                   FROM promotion
+                                  WHERE promotion_id = :promotionId  )
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.claim.ClaimElementWithinNodeTypeCount">
+    <return-scalar column="result" type="integer"/>
+      <![CDATA[
+    SELECT count(1) as result
+      FROM claim
+     WHERE node_id IN
+           (SELECT node_id
+               FROM node
+             WHERE node_type_id =
+                  (SELECT node_type_id
+                     FROM node
+                    WHERE node_id = :nodeId)
+            )
+       AND claim_id IN
+           (SELECT claim_id
+              FROM claim_cfse
+             WHERE claim_form_step_element_id = :claimFormStepElementId
+               AND UPPER(value) = :value )
+       AND promotion_id IN ( SELECT promotion_id
+                                   FROM promotion
+                                  WHERE promotion_id = :promotionId  )
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.claim.ClaimElementWithinHierarchyCount">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+    SELECT count(1)  as result
+      FROM claim
+     WHERE node_id IN
+           (SELECT node_id
+               FROM node
+             WHERE hierarchy_id =
+                  (SELECT hierarchy_id
+                     FROM node
+                    WHERE node_id = :nodeId)
+            )
+       AND claim_id IN
+           (SELECT claim_id
+              FROM claim_cfse
+             WHERE claim_form_step_element_id = :claimFormStepElementId
+               AND UPPER(value) = :value )
+       AND promotion_id IN ( SELECT promotion_id
+                                   FROM promotion
+                                  WHERE promotion_id = :promotionId  )
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.claim.ClaimProductCharacteristicCount">
+    <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(1) as result
+        FROM claim_item 
+        WHERE claim_item_id IN ( SELECT claim_product_id
+                                   FROM claim_product_characteristic
+                                  WHERE UPPER(characteristic_value) = :characteristicValue
+                                    AND characteristic_id = :characteristicId )
+        AND claim_id IN ( SELECT claim_id
+                           FROM claim
+                          WHERE promotion_id = :promotionId )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.claim.FindEarningsForClaim">
+    <return-scalar column="result" type="long"/>
+      <![CDATA[          
+        select sum(transaction_amt) as result 
+		   from journal
+		   where user_id = :userId
+		     and journal_id in ( select distinct( journal_id ) 
+		                           from activity_journal, activity
+		                          where activity.claim_id = :claimId
+		                            and activity_journal.activity_id = activity.activity_id 
+		                            and NVL(activity.is_carryover,0) = 0)
+		     and STATUS_TYPE != 'pend_min_qual'
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.claim.FindEarningsForProductClaim">
+    <return-scalar column="result" type="long"/>
+      <![CDATA[          
+        select transaction_amt as result 
+		   from journal
+		   where user_id = :userId
+		     and journal_id in ( select distinct( journal_id ) 
+		                           from activity_journal, activity
+		                          where activity.claim_id = :claimId
+		                            and activity_journal.activity_id = activity.activity_id 
+		                            and activity.product_id = :productId
+		                            and NVL(activity.is_carryover,0) = 0)
+		     and STATUS_TYPE != 'pend_min_qual'
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.claim.GetMinQualifierId">
+    <return-scalar column="result" type="long"/>
+      <![CDATA[
+      select distinct( pc.minimum_qualifier_status_id ) as result
+          from post_process_payout_calc pc
+          where pc.journal_id = ( select distinct( journal_id ) 
+		                           from activity_journal, activity
+		                           where activity.claim_id = :claimId
+		                            and activity_journal.activity_id = activity.activity_id 
+		                            and activity.product_id = :productId
+		                            and NVL(activity.is_carryover,0) = 0)
+                
+    ]]>
+  </sql-query>
+  
+
+  <query name="com.biperf.core.domain.claim.GetClaimSubmittedCount">
+    <![CDATA[
+      select count(*) from com.biperf.core.domain.claim.Claim claim
+      where promotion_id = :promotionId
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.claim.OpenClaimsWithNoMatchingNodeInApproverHierarchy">
+    <![CDATA[
+      select claim from Claim claim  
+        where  
+        claim.open = java.lang.Boolean.TRUE 
+        and 
+        claim.promotion.approverType = :approverType 
+        and 
+        claim.node.name 
+         not in 
+         (select node.name 
+           from com.biperf.core.domain.hierarchy.Node node 
+             where 
+             node.hierarchy = claim.promotion.approvalHierarchy
+         )
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.claim.getClaimsByTeamId">
+	<![CDATA[
+		FROM com.biperf.core.domain.claim.AbstractRecognitionClaim claim
+		WHERE claim.teamId = :teamId
+	]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.claim.getTeamClaimsByClaimId">
+	<![CDATA[
+		FROM com.biperf.core.domain.claim.AbstractRecognitionClaim claim
+		WHERE claim.id IN
+		  (
+		    SELECT NVL( teamClaim.id, baseClaim.id )
+		    FROM com.biperf.core.domain.claim.AbstractRecognitionClaim baseClaim, 
+		    	 com.biperf.core.domain.claim.AbstractRecognitionClaim teamClaim
+		   	WHERE ( ( baseClaim.teamId IS NULL AND baseClaim.id = teamClaim.id ) OR baseClaim.teamId = teamClaim.teamId )
+		    AND baseClaim.id = :claimId
+		  )
+	]]>
+	</query>
+
+  <sql-query name="com.biperf.core.domain.claim.ClaimUserIdsByPromoIdForTimePeriod">
+    <return-scalar column="SUBMITTER_ID" type="long"/>
+    <![CDATA[
+       select distinct SUBMITTER_ID from claim 
+        where PROMOTION_ID=:promoId and 
+              SUBMISSION_DATE between :startDate and :endDate
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.claim.ClaimUserIdByPromoIdForTimePeriod">
+    <return-scalar column="SUBMITTER_ID" type="long"/>
+    <![CDATA[
+       select distinct SUBMITTER_ID from claim 
+        where PROMOTION_ID=:promoId and SUBMITTER_ID=:paxId and
+              SUBMISSION_DATE between :startDate and :endDate
+    ]]>
+  </sql-query> 
+
+  <sql-query name="com.biperf.core.domain.claim.ClaimUserIdsByPromoIdForTimePeriodWithOpen">
+    <return-scalar column="SUBMITTER_ID" type="long"/>
+    <![CDATA[
+       select distinct SUBMITTER_ID from claim 
+        where PROMOTION_ID=:promoId and IS_OPEN=:isOpen and
+              SUBMISSION_DATE between :startDate and :endDate
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.claim.ClaimUserIdsWhoPassedQuizForTimePeriod">
+    <return-scalar column="SUBMITTER_ID" type="long"/>
+    <![CDATA[
+       select distinct c.SUBMITTER_ID 
+         from claim c, 
+              quiz_claim qc 
+        where c.CLAIM_ID=qc.CLAIM_ID 
+          and c.PROMOTION_ID=:promoId 
+          and c.IS_OPEN=:isOpen 
+          and qc.PASS=:didPass 
+          and c.SUBMISSION_DATE between :startDate and :endDate
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.claim.GetNonPostedJournalCount">
+  	<return-scalar column="result" type="integer"/>
+    <![CDATA[
+      select count(1) as result 
+      	from Activity a, Journal j, Activity_Journal aj 
+ 		where a.CLAIM_ID = :claimId 
+ 		and a.USER_ID = :userId 
+ 		and j.USER_ID = :userId 
+ 		and a.ACTIVITY_ID = aj.ACTIVITY_ID 
+ 		and aj.JOURNAL_ID = j.JOURNAL_ID 
+ 		and j.STATUS_TYPE not in ('post')
+    ]]>
+  </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.claim.getPublicRecognitionClaimsSentByUserId">
+     	<return-scalar column="count" type="integer"/>
+		<![CDATA[
+   			select count(clitem.CLAIM_ID) as count  from claim  cl,claim_item   clitem , promotion p
+			where (cl.PROMOTION_ID IN (:promoId) OR 'N' = :all )  and   cl.SUBMITTER_ID=:paxId 
+			and  cl.SUBMISSION_DATE  between   :startDate and  :endDate
+			and  clitem.claim_id = cl.Claim_id 
+			and  cl.promotion_id = p.promotion_id
+			and  p.promotion_type = :promoType
+			and clitem.approval_status_type = :approStatusType ]]>
+	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.claim.getOpenClaimIdWithPromotionIdAndUserId">
+		<return-scalar column="claimId" type="long"/>
+    	<![CDATA[
+       		select claim_id  as claimId from claim WHERE submitter_id =:userId AND promotion_id =:promotionId AND is_open = 1
+    	]]>
+  	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.claim.getOpenClaimByPromotionIdQuizIdAndUserId">
+		<return-scalar column="claimId" type="long"/>
+    	<![CDATA[
+       		SELECT distinct c.claim_id AS claimId
+			FROM claim c,
+			  quiz_claim qc
+			WHERE c.claim_id   = qc.claim_id
+			AND qc.quiz_id     =:quizId
+			AND c.submitter_id =:userId
+			AND c.promotion_id =:promotionId
+			AND c.is_open      = 1
+    	]]>
+  	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.claim.getPassedQuizClaimByPromotionIdAndUserId">
+		<return-scalar column="claimId" type="long"/>
+    	<![CDATA[
+       		SELECT distinct c.claim_id AS claimId
+			FROM claim c,
+			  quiz_claim qc
+			WHERE c.claim_id   = qc.claim_id
+			AND c.submitter_id =:userId
+			AND c.promotion_id =:promotionId
+			AND c.is_open      =0
+			AND qc.pass		   =1
+    	]]>
+  	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.claim.getPassedQuizClaimByPromotionIdQuizIdAndUserId">
+		<return-scalar column="claimId" type="long"/>
+    	<![CDATA[
+       		SELECT distinct c.claim_id AS claimId
+			FROM claim c,
+			  quiz_claim qc
+			WHERE c.claim_id   = qc.claim_id
+			AND qc.quiz_id     =:quizId
+			AND c.submitter_id =:userId
+			AND c.promotion_id =:promotionId
+			AND c.is_open      =0
+			AND qc.pass		   =1
+    	]]>
+  	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.claim.getProductClaimPromotionTeamMaxCount">
+		<return-scalar column="teamMaxCount" type="int"/>
+    	<![CDATA[
+       		SELECT NVL(ppc.team_max_count,0) AS teamMaxCount
+			FROM promo_product_claim ppc
+			WHERE ppc.promotion_id = :promotionId
+    	]]>
+  	</sql-query>
+  	
+	<sql-query name="com.biperf.core.domain.claim.getDelayedApprovalClaimIds">
+	  <return-scalar column="claim_id" type="long"/>
+		<![CDATA[
+			select claim_id from claim c, promotion p
+			where c.is_open = 1
+			and p.approval_type = 'auto_delayed'
+			and p.promotion_status = 'live'
+			and p.promotion_id = c.promotion_id
+			and c.submission_date < sysdate - p.approval_auto_delay_days
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getGiversForParticipant">
+		<![CDATA[
+            SELECT *
+            FROM
+            ( SELECT DISTINCT p.*
+            FROM claim_recipient cr,
+            claim_item ci,
+            claim c,
+            participant p
+            WHERE cr.participant_id = :recepientId
+            AND cr.claim_item_id    = ci.claim_item_id
+            AND ci.claim_id         = c.claim_id
+            AND c.submitter_id      = p.user_id
+            UNION
+            SELECT DISTINCT p.*
+            FROM claim_recipient cr,
+            participant p
+            WHERE cr.participant_id = p.user_id
+            AND cr.participant_id   = :recepientId
+            )
+            WHERE rownum <= :count 
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getPurlSocialGroup">
+		<![CDATA[
+			WITH pax_details AS
+			  (SELECT *
+			  FROM
+			    (SELECT *
+			    FROM
+			      (SELECT RANK () OVER (PARTITION BY pe.participant_id ORDER BY sort_order,date_created DESC) AS rec_rank,
+			        pe.*
+			      FROM
+			        (SELECT 1 sort_order,
+			          SYSDATE+1 AS date_created,
+			          follower_id participant_id
+			        FROM participant_followers
+			        WHERE participant_id = :userId
+			        UNION ALL
+			        SELECT 2 sort_order,
+			          ci.date_created,
+			          A.user_id participant_id
+			        FROM claim_recipient cr,
+			          claim_item ci,
+			          activity a
+			        WHERE a.activity_discrim = 'recognition'
+			        AND a.is_submitter       = 1
+			        AND cr.participant_id    = :userId
+			        AND a.claim_id           = ci.claim_id
+			        AND ci.claim_item_id     = cr.claim_item_id
+			        UNION ALL
+			        SELECT 3 sort_order,
+			          ci.date_created,
+			          cr.participant_id
+			        FROM claim_recipient cr,
+			          claim_item ci,
+			          activity a
+			        WHERE a.activity_discrim = 'recognition'
+			        AND a.is_submitter       = 1
+			        AND a.user_id            = :userId
+			        AND a.claim_id           = ci.claim_id
+			        AND ci.claim_item_id     = cr.claim_item_id
+			        ) pe
+			      )
+			    WHERE rec_rank = 1
+			    ORDER BY DATE_CREATED DESC
+			    )
+			  WHERE ROWNUM<31
+			  )
+			SELECT au.USER_ID            AS USER_ID,
+			  au.FIRST_NAME              AS FIRST_NAME,
+			  au.LAST_NAME               AS LAST_NAME,
+			  p.AVATAR_SMALL             AS AVATAR_SMALL,
+			  p.ALLOW_PUBLIC_RECOGNITION AS ALLOW_PUBLIC_RECOGNITION,
+			  p.ALLOW_PUBLIC_INFORMATION AS ALLOW_PUBLIC_INFORMATION,
+			  n.NAME,
+			  n.NODE_ID,
+			  c.COUNTRY_CODE,
+			  c.NAME_CM_KEY,
+			  c.CM_ASSET_CODE,
+			  vue.position_type,
+			  vue.department_type,
+			  ue.email_addr
+			FROM vw_curr_pax_employer vue,
+			  user_node un,
+			  node n,
+			  pax_details pd,
+			  user_address ua,
+			  country c,
+			  application_user au,
+			  participant p,
+			  user_email_address ue
+			WHERE pd.participant_id = un.user_id
+			AND un.node_id          = n.node_id
+			AND un.is_primary       = 1
+			AND un.user_id          = au.user_id
+			AND au.user_id          = p.user_id
+			AND un.user_id          = ua.user_id
+			AND ua.is_primary       = 1
+			AND ua.country_id       = c.country_id
+			AND p.user_id           = vue.user_id
+			AND ue.user_id          = au.user_id
+			AND ue.is_primary       =1
+			AND au.IS_ACTIVE        =1
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getAllPreSelectedContributors">
+		<![CDATA[
+		WITH pax_details AS
+              (SELECT *
+              FROM
+                (SELECT *
+                FROM
+                  (SELECT RANK () OVER (PARTITION BY pe.participant_id ORDER BY sort_order,date_created DESC) AS rec_rank,
+                    pe.*
+                  FROM
+                    (SELECT 1 sort_order,
+                      SYSDATE+1 AS date_created,
+                      un2.user_id participant_id,
+                      'Team' user_type
+                    FROM user_node un,user_node un2
+                    WHERE un.user_id = :userId
+                    AND un.node_id = un2.node_id
+                    and un2.user_id <>un.user_id
+                    UNION ALL
+                    SELECT 2 sort_order,
+                      SYSDATE+1 AS date_created,
+                      follower_id participant_id,
+                       'Social' user_type
+                    FROM participant_followers
+                    WHERE participant_id = :userId
+                    UNION ALL
+                    SELECT 3 sort_order,
+                      ci.date_created,
+                      A.user_id participant_id,
+                      'Social' user_type
+                    FROM claim_recipient cr,
+                      claim_item ci,
+                      activity a
+                    WHERE a.activity_discrim = 'recognition'
+                    AND a.is_submitter       = 1
+                    AND cr.participant_id    = :userId
+                    AND a.claim_id           = ci.claim_id
+                    AND ci.claim_item_id     = cr.claim_item_id
+                    UNION ALL
+                    SELECT 4 sort_order,
+                      ci.date_created,
+                      cr.participant_id,
+                      'Social' user_type
+                    FROM claim_recipient cr,
+                      claim_item ci,
+                      activity a
+                    WHERE a.activity_discrim = 'recognition'
+                    AND a.is_submitter       = 1
+                    AND a.user_id            = :userId
+                    AND a.claim_id           = ci.claim_id
+                    AND ci.claim_item_id     = cr.claim_item_id
+                    ) pe
+                  )
+                WHERE rec_rank = 1
+                ORDER BY DATE_CREATED DESC
+                )
+              WHERE ROWNUM<31
+              )
+            SELECT au.USER_ID            AS USER_ID,
+              au.FIRST_NAME              AS FIRST_NAME,
+              au.LAST_NAME               AS LAST_NAME,
+              p.AVATAR_SMALL             AS AVATAR_SMALL,
+              p.ALLOW_PUBLIC_RECOGNITION AS ALLOW_PUBLIC_RECOGNITION,
+              p.ALLOW_PUBLIC_INFORMATION AS ALLOW_PUBLIC_INFORMATION,
+              n.NAME,
+              n.NODE_ID,
+              c.COUNTRY_CODE,
+              c.NAME_CM_KEY,
+              c.CM_ASSET_CODE,
+              vue.position_type,
+              vue.department_type,
+              ue.email_addr,
+              pd.user_type
+            FROM vw_curr_pax_employer vue,
+              user_node un,
+              node n,
+              pax_details pd,
+              user_address ua,
+              country c,
+              application_user au,
+              participant p,
+              user_email_address ue
+            WHERE pd.participant_id = un.user_id
+            AND un.node_id          = n.node_id
+            AND un.is_primary       = 1
+            AND un.user_id          = au.user_id
+            AND au.user_id          = p.user_id
+            AND un.user_id          = ua.user_id
+            AND ua.is_primary       = 1
+            AND ua.country_id       = c.country_id
+            AND p.user_id           = vue.user_id
+            AND ue.user_id          = au.user_id
+            AND ue.is_primary       =1
+            AND au.IS_ACTIVE        =1
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getAllExistingContributorsByRecipientId">
+	<![CDATA[
+	     select au.user_id,
+            c.COUNTRY_CODE,
+            c.NAME_CM_KEY,
+            c.CM_ASSET_CODE,
+            au.first_name,
+            au.last_name,
+            nvl(uea.email_addr, pc.email_addr ) email_addr,
+            n.name node_name,
+            vue.department_type,
+            vue.position_type,
+            pec.user_type,
+            to_char(pc.date_created, 'mm/dd/yyyy') contribution_sent_date 
+            from (WITH pax_details AS
+              (SELECT *
+              FROM
+                (SELECT *
+                FROM
+                  (SELECT RANK () OVER (PARTITION BY pe.participant_id ORDER BY sort_order,date_created DESC) AS rec_rank,
+                    pe.*
+                  FROM
+                    (SELECT 1 sort_order,
+                      SYSDATE+1 AS date_created,
+                      un2.user_id participant_id,
+                      'Team' user_type
+                    FROM user_node un,user_node un2
+                    WHERE un.user_id = :userId
+                    AND un.node_id = un2.node_id
+                    and un2.user_id <>un.user_id
+                    UNION ALL
+                    SELECT 2 sort_order,
+                      SYSDATE+1 AS date_created,
+                      follower_id participant_id,
+                       'Social' user_type
+                    FROM participant_followers
+                    WHERE participant_id = :userId
+                    UNION ALL
+                    SELECT 3 sort_order,
+                      ci.date_created,
+                      A.user_id participant_id,
+                      'Social' user_type
+                    FROM claim_recipient cr,
+                      claim_item ci,
+                      activity a
+                    WHERE a.activity_discrim = 'recognition'
+                    AND a.is_submitter       = 1
+                    AND cr.participant_id    = :userId
+                    AND a.claim_id           = ci.claim_id
+                    AND ci.claim_item_id     = cr.claim_item_id
+                    UNION ALL
+                    SELECT 4 sort_order,
+                      ci.date_created,
+                      cr.participant_id,
+                      'Social' user_type
+                    FROM claim_recipient cr,
+                      claim_item ci,
+                      activity a
+                    WHERE a.activity_discrim = 'recognition'
+                    AND a.is_submitter       = 1
+                    AND a.user_id            = :userId
+                    AND a.claim_id           = ci.claim_id
+                    AND ci.claim_item_id     = cr.claim_item_id
+                    ) pe
+                  )
+                WHERE rec_rank = 1
+                ORDER BY DATE_CREATED DESC
+                )
+              WHERE ROWNUM<31
+              )
+            SELECT au.USER_ID            AS USER_ID,
+              au.FIRST_NAME              AS FIRST_NAME,
+              au.LAST_NAME               AS LAST_NAME,
+              p.AVATAR_SMALL             AS AVATAR_SMALL,
+              p.ALLOW_PUBLIC_RECOGNITION AS ALLOW_PUBLIC_RECOGNITION,
+              p.ALLOW_PUBLIC_INFORMATION AS ALLOW_PUBLIC_INFORMATION,
+              n.NAME,
+              n.NODE_ID,
+              c.COUNTRY_CODE,
+              c.NAME_CM_KEY,
+              c.CM_ASSET_CODE,
+              vue.position_type,
+              vue.department_type,
+              ue.email_addr,
+              pd.user_type
+            FROM vw_curr_pax_employer vue,
+              user_node un,
+              node n,
+              pax_details pd,
+              user_address ua,
+              country c,
+              application_user au,
+              participant p,
+              user_email_address ue
+            WHERE pd.participant_id = un.user_id
+            AND un.node_id          = n.node_id
+            AND un.is_primary       = 1
+            AND un.user_id          = au.user_id
+            AND au.user_id          = p.user_id
+            AND un.user_id          = ua.user_id
+            AND ua.is_primary       = 1 
+            AND ua.country_id       = c.country_id
+            AND p.user_id           = vue.user_id
+            AND ue.user_id          = au.user_id
+            AND ue.is_primary       = 1
+            AND au.IS_ACTIVE        = 1 ) pec,
+            purl_contributor pc,
+            purl_recipient pr,
+            application_user au,
+            user_address ua,
+            country c,
+            user_node un,
+            vw_curr_pax_employer vue,
+            user_email_address uea,
+            node n
+	    where 
+	        pc.user_id = pec.user_id (+)
+	    and pc.purl_recipient_id = pr.purl_recipient_id
+	    and pc.state NOT IN ( 'archived', 'expired')
+	    and pc.user_id = au.user_id (+)
+	    and au.user_id = ua.user_id (+)
+	    and ua.is_primary (+) = 1 
+	    and au.user_id = un.user_id (+)
+	    and un.is_primary (+) = 1
+	    and un.node_id = n.node_id (+)
+	    and ua.country_id = c.country_id(+)
+	    and au.user_id = vue.user_id (+)
+	    and au.user_id = uea.user_id (+)
+	    and uea.is_primary (+) = 1 
+	    and pr.user_id = :userId
+	    and vue.termination_date is null
+	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getCelebrationClaims">
+		<return-scalar column="claimId" type="long"/>
+		<![CDATA[
+			select c.claim_id as claimId
+			from claim c, claim_item ci, claim_recipient cr, promotion p, promo_recognition pr
+			where cr.participant_id = :participantId
+			and c.claim_id = ci.claim_id
+			and ci.claim_item_id = cr.claim_item_id
+			and c.is_open = 0
+			and p.promotion_status = 'live'
+			and p.promotion_id = c.promotion_id
+			and p.promotion_id = pr.promotion_id
+			and pr.include_celebrations = 1
+			and c.submission_date + pr.celebration_display_period >= trunc(sysdate)
+			order by c.date_created
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getEligibleUsersCountForCelebrationModule">
+		<return-scalar column="userCount" type="int"/>
+    	<![CDATA[
+       		SELECT COUNT(cia.claim_item_id) userCount
+            FROM promotion p,
+            promo_recognition pr,
+            claim c,
+            claim_item ci,
+            claim_recipient cr,
+            claim_item_approver cia
+            WHERE pr.promotion_id          = p.promotion_id
+            and pr.promotion_id                             = c.promotion_id
+            AND c.claim_id                 = ci.claim_id
+            AND c.claim_id                                                         = nvl(:claimId, c.claim_id)            
+            AND c.is_open                                                         = 0
+            AND ci.claim_item_id           = cr.claim_item_id
+            AND ci.claim_item_id           = cia.claim_item_id
+            AND cr.participant_id          = :participantId
+            AND pr.include_celebrations    = 1
+            AND cia.approval_status_type   = 'approv'
+            AND (TRUNC(cia.date_approved) <= TRUNC(SYSDATE)
+         AND TRUNC(SYSDATE) BETWEEN TRUNC(cia.date_approved) AND TRUNC(cia.date_approved)+pr.celebration_display_period)
+    	]]>
+  	</sql-query>
+  	
+  	
+  	<sql-query name="com.biperf.core.domain.claim.getExistingTeamIdForClaim">
+	<return-scalar column="teamId" type="long" />
+		<![CDATA[
+			SELECT distinct nc.team_id teamId 
+			FROM claim_recipient cr,claim_item ci, claim c,nomination_claim nc
+            WHERE cr.participant_id = :userId
+            AND cr.claim_item_id = ci.claim_item_id
+            AND ci.claim_id = c.claim_id
+            AND c.promotion_id = :promotionId
+            AND c.claim_id = nc.claim_id
+            AND ci.approval_status_type = 'pend'
+		]]>
+</sql-query>
+
+  	<sql-query name="com.biperf.core.domain.claim.getMostRecentWinDate">
+	<return-scalar column="recentDateApproved" type="timestamp" />
+		<![CDATA[
+			SELECT date_approved recentDateApproved
+			FROM
+			( SELECT date_approved
+			  FROM 
+			  ( SELECT ci.date_approved
+			    FROM claim_recipient cr, claim_item ci, claim c
+			    WHERE cr.claim_item_id = ci.claim_item_id AND ci.claim_id = c.claim_id
+			     AND c.promotion_id = :promotionId AND cr.participant_id = :participantId AND c.approval_round = :approvalLevel
+           AND ci.approval_status_type = 'winner'
+			   UNION ALL
+			    SELECT cg.date_approved
+			    FROM claim_group cg
+			    WHERE cg.promotion_id = :promotionId AND cg.participant_id = :participantId AND cg.approval_round = :approvalLevel
+           AND cg.approval_status_type = 'winner')
+			  WHERE date_approved IS NOT NULL
+			  ORDER BY date_approved desc)
+			WHERE ROWNUM = 1
+		]]>
+	</sql-query>
+<sql-query name="com.biperf.core.domain.claim.getAllClaimIdList">
+		<return-scalar column="claim_id" type="long"/>
+		<![CDATA[
+			SELECT DISTINCT c.claim_id 
+			FROM claim_item ci, claim c, claim_item_approver cia
+			WHERE cia.approval_status_type = 'more_info'
+			AND ci.claim_id = c.claim_id
+			and ci.claim_item_id = cia.CLAIM_ITEM_ID
+			AND c.submitter_id = :submitterId
+		]]>
+	</sql-query>  	
+
+	
+<sql-query name="com.biperf.core.domain.claim.pastApprovalExist">
+	<return-scalar column="approver_check" type="integer" />
+      <![CDATA[
+      SELECT CASE WHEN approve_cnt > 0 THEN 1
+       ELSE 0
+       END approver_check
+  FROM 
+      ( SELECT COUNT(1) AS approve_cnt 
+        FROM (
+              SELECT 1  
+                FROM claim c,
+                     claim_item ci,
+                     claim_item_approver cia
+               WHERE c.claim_id =ci.claim_id
+                 AND ci.claim_item_id = cia.claim_item_id
+                 AND c.is_open = 1
+                 AND cia.approver_user_id=:p_in_approver_id 
+              UNION ALL
+              SELECT 1  FROM ssi_contest WHERE status='live' and (approved_by_level1=:p_in_approver_id OR   approved_by_level2=:p_in_approver_id)
+            )
+       ) 
+    ]]>
+</sql-query>
+	
+<sql-query name="com.biperf.core.domain.claim.getClaimIdByApproverAndPromotion">
+    <return-scalar column="result" type="long"/>
+      <![CDATA[
+      Select c.CLAIM_ID as result from claim c where c.IS_OPEN = 1 and c.PROMOTION_ID = :promotionId  
+      		and c.CLAIM_ID in (select cas.CLAIM_ID from CLAIM_APPROVER_SNAPSHOT cas where cas.APPROVER_USER_ID = :approverUserId)               
+    ]]>
+</sql-query>
+
+<sql-query name="com.biperf.core.domain.claim.getActivityTimePeriod">
+		<return-scalar column="timePeriodId" type="long"/>
+		<return-scalar column="activityId" type="long"/>
+		<return-scalar column="proxyUserId" type="long"/>
+		<![CDATA[
+			select cia.time_period_id AS timePeriodId, a.activity_id AS activityId, a.user_id as proxyUserId from claim c, claim_item ci, claim_item_approver cia, activity a, claim_recipient cr
+			where 
+			c.claim_id = ci.claim_id
+			and ci.claim_item_id = cr.claim_item_id
+			and ci.claim_item_id = cia.claim_item_id
+			and c.claim_id = a.claim_id
+			and a.user_id = cr.participant_id
+			and a.approval_round = cia.approval_round
+			and c.claim_id=:p_claim_id
+		]]>
+	</sql-query>
+	
+<sql-query name="com.biperf.core.domain.claim.getTimePeriodNameById">
+		<return-scalar column="timePeriodAssetCode" type="string"/>		
+		<![CDATA[
+			select ntp.TIME_PERIOD_NAME_ASSET_CODE  as timePeriodAssetCode from PROMO_NOMINATION_TIME_PERIOD ntp
+			where ntp.NOMINATION_TIME_PERIOD_ID = :t_period_id
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getDBTimeZone">
+		<return-scalar column="TZNAME" type="string"/>		
+		<![CDATA[
+			SELECT TZNAME
+			FROM
+  			(SELECT DISTINCT TZNAME, TZ_OFFSET(TZNAME) time_ FROM V$TIMEZONE_NAMES
+  			)
+			WHERE time_ =
+  			(SELECT dbtimezone FROM dual
+  			)
+			AND ROWNUM=1
+		]]>
+	</sql-query>
+
+  	<!-- coke customization start -->
+  	<sql-query name="com.biperf.core.domain.claim.getNomTeamClaimsWithoutJournalForActivityHistoryReceivedTab">
+		<return-scalar column="claim_id" type="long"/>
+    	<![CDATA[
+  		select distinct x.claim_id as claim_id
+			from (select cp.*,(select count(1) 
+			                   from journal j, activity_journal aj, activity a
+			                   where j.journal_id = aj.journal_id
+			                   and aj.activity_id = a.activity_id
+			                   and a.claim_id = cp.claim_id) journal_count 
+			        from claim_participant cp
+			        where cp.claim_id in (select c.claim_id 
+                                          from claim c, promotion p
+                                          where c.promotion_id = p.promotion_id
+                                          and p.promotion_type = 'nomination'
+                                          and c.is_open = 0
+			                              and trunc(c.submission_date) between :startDate and :endDate
+			                              and c.promotion_id = DECODE(:promotionId,0,c.promotion_id,:promotionId)
+			                              )
+			        and cp.participant_id = :recipientId
+			        ) x
+			where journal_count = 0
+    	]]>
+  	</sql-query>
+  	<!-- coke customization end -->	  
+</hibernate-mapping>

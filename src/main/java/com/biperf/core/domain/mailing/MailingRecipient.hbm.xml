@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.mailing.MailingRecipient" table="MAILING_RECIPIENT">
+
+        <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+        <id name="id" type="java.lang.Long" column="MAILING_RECIPIENT_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">MAILING_RECIPIENT_PK_SQ</param>
+            </generator>
+        </id>
+
+        <!-- Using version number optimistic locking -->
+        <version name="version" column="VERSION" type="java.lang.Long" />
+        
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED" />
+            <column name="CREATED_BY" />
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+            <column name="DATE_MODIFIED" />
+            <column name="MODIFIED_BY" />
+        </property>  
+
+        <property name="guid" column="GUID" type="string" not-null="true" />
+        <property name="previewEmailAddress" column="PREVIEW_EMAIL_ADDRESS" type="string" />
+        <property name="previewSMSAddress" column="PREVIEW_SMS_ADDRESS" type="string" />
+        <property name="dateSent" column="DATE_SENT" type="timestamp" />
+        <property name="SMSDateSent" column="SMS_DATE_SENT" type="timestamp" />
+        <property name="locale" column="LOCALE" type="string" />
+        <property name="alternateEmailAddrId" column="ALT_EMAIL_ADDR_ID" type="java.lang.Long" />
+        <property name="alternatePhoneId" column="ALT_PHONE_ID" type="java.lang.Long" />        
+        
+        <many-to-one name="mailing" column="MAILING_ID" not-null="true" lazy="proxy" />       
+        <!-- had to use lazy false since proxy can't be cast to Participant -->
+        <many-to-one name="user" column="USER_ID" lazy="false" />
+        <property name="claimRecipientId" column="claim_item_id" type="long" not-null="false" />
+           
+        
+        <set name="mailingRecipientDataSet" lazy="true" table="MAILING_RECIPIENT_DATA" inverse="true" cascade="all-delete-orphan">
+            <key column="MAILING_RECIPIENT_ID"/>
+            <one-to-many class="com.biperf.core.domain.mailing.MailingRecipientData"/>
+        </set>
+
+    </class>
+    
+    <sql-query name="com.biperf.core.domain.mailing.MailingRecipient.GetFailedMailingIds">
+	  <return-scalar column="mailingId" type="long"/>
+		<![CDATA[
+		  SELECT DISTINCT recip.mailing_id AS mailingId        
+          FROM mailing_recipient recip, mailing m, user_email_address email
+          WHERE recip.mailing_id = m.mailing_id
+            AND recip.user_id = email.user_id
+            AND email.is_primary = 1
+            AND TRUNC(recip.date_created) between :startDate and :endDate
+            AND m.sender <> 'Deposit Mailbox'
+            AND recip.date_sent is null
+            AND recip.user_id is not null
+		]]>
+	</sql-query>
+
+</hibernate-mapping>

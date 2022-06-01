@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.fileload.QuizImportRecord" table="STAGE_QUIZ_IMPORT_RECORD">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="IMPORT_RECORD_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">IMPORT_RECORD_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- Import File Specific -->
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID"/>
+    <property name="actionType" type="java.lang.String" column="ACTION_TYPE"/>
+    <set name="importRecordErrors" table="IMPORT_RECORD_ERROR" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_RECORD_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ImportRecordError"/>
+    </set>
+    
+	<!--  QUIZ  -->
+	<property name="recordType" type="java.lang.String" column="RECORD_TYPE"/>
+    <property name="quizName" type="java.lang.String" column="QUIZ_NAME"/>
+    <property name="quizDescription" type="java.lang.String" column="QUIZ_DESCRIPTION"/>
+    <property name="quizType" type="java.lang.String"  column="QUIZ_TYPE"/>
+    <property name="quizPassingScore" type="int" column="QUIZ_PASSING_SCORE"/>
+    <property name="quizNumberOfQuestionsAsked" type="int" column="QUIZ_NUMBER_ASKED"/>
+     
+    <!--  QUIZ_QUESTION -->
+    <property name="questionStatusType" type="java.lang.String"  column="QUESTION_STATUS_TYPE"/>
+    <property name="questionRequired" type="boolean" column="QUESTION_IS_REQUIRED"/>
+	<property name="question" type="java.lang.String" column="QUESTION_TEXT"/>
+	
+	<!--  QUIZ_QUESTION_ANSWER -->
+    <property name="answerCorrect" type="boolean" column="ANSWER_IS_CORRECT"/>
+	<property name="answerChoice" type="java.lang.String" column="ANSWER_CHOICE_TEXT"/>
+ 	<property name="answerChoiceExplanation" type="java.lang.String" column="ANSWER_EXPLANATION_TEXT"/>
+	
+  </class>
+
+  <query name="com.biperf.core.domain.import.file.QuizRecordsByPage">
+    <![CDATA[
+		from com.biperf.core.domain.fileload.QuizImportRecord importRecord
+	   where importRecord.importFileId = :importFileId 
+    ]]>
+  </query>
+  
+  	<sql-query name="com.biperf.core.domain.import.file.QuizRecordsByPageWithoutError">
+	<return alias="q" class="com.biperf.core.domain.fileload.QuizImportRecord"/>
+	    <![CDATA[
+	      select {q.*}  from STAGE_QUIZ_IMPORT_RECORD q
+	      where q.import_file_id = :importFileId 
+	      and NOT EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = q.import_record_id
+                      AND ire.import_file_id = q.import_file_id)
+	      order by q.action_Type asc, q.QUIZ_NAME asc
+	    ]]>
+	 </sql-query>
+	 
+	<sql-query name="com.biperf.core.domain.import.file.QuizRecordsByPageWithError">
+	<return alias="q" class="com.biperf.core.domain.fileload.QuizImportRecord"/>
+	    <![CDATA[
+	      select {q.*}  from STAGE_QUIZ_IMPORT_RECORD q
+	      where q.import_file_id = :importFileId 
+          and EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = q.import_record_id
+                      AND ire.import_file_id = q.import_file_id)
+	      order by q.action_Type asc, q.QUIZ_NAME asc
+	    ]]>
+	  </sql-query> 
+</hibernate-mapping>

@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+  <form-beans>
+    <form-bean name="approvalsNominationListForm" type="com.biperf.core.ui.approvals.ApprovalsNominationListForm"/>
+    <form-bean name="approvalsNominationDetailsForm" type="com.biperf.core.ui.approvals.ApprovalsNominationDetailsForm"/> 
+    <form-bean name="approvalsRecognitionDetailsForm" type="com.biperf.core.ui.approvals.ApprovalsRecognitionDetailsForm"/>
+  	<form-bean name="approvalsRecognitionListForm" type="com.biperf.core.ui.approvals.ApprovalsRecognitionListForm"/>
+    <form-bean name="claimFormForm" type="com.biperf.core.ui.claimform.ClaimFormForm"/>
+    <form-bean name="claimFormStepForm" type="com.biperf.core.ui.claimform.ClaimFormStepForm" />
+    <form-bean name="claimFormStepViewForm" type="com.biperf.core.ui.claimform.ClaimFormStepViewForm" />
+    <form-bean name="customerInformationBlockForm" type="com.biperf.core.ui.claimform.CustomerInformationBlockForm" />
+    <form-bean name="claimFormStepElementForm" type="com.biperf.core.ui.claimform.ClaimFormStepElementForm" />
+    <form-bean name="claimProductForm" type="com.biperf.core.ui.claim.ClaimProductForm" />
+    <form-bean name="productClaimDetailsForm" type="com.biperf.core.ui.claim.ProductClaimDetailsForm"/>
+  	<form-bean name="transactionHistoryForm" type="com.biperf.core.ui.claim.TransactionHistoryForm"/>
+    <form-bean name="payoutTransactionDetailsForm" type="com.biperf.core.ui.claim.PayoutTransactionDetailsForm"/>
+    <form-bean name="recognitionHistoryForm" type="com.biperf.core.ui.claim.RecognitionHistoryForm"/>
+    <form-bean name="recognitionViewCardForm" type="com.biperf.core.ui.recognition.RecognitionViewCardForm" />
+    <form-bean name="quizHistoryForm" type="com.biperf.core.ui.claim.QuizHistoryForm"/>
+    <form-bean name="certificateDisplayForm" type="com.biperf.core.ui.claim.CertificateDisplayForm"/>  
+    <form-bean name="managerAddPointsForm" type="com.biperf.core.ui.claim.ManagerAddPointsForm" />
+    <form-bean name="productClaimSubmissionForm" type="com.biperf.core.ui.productclaim.ProductClaimSubmissionForm" />
+    <form-bean name="approvalsClaimDetailsForm" type="com.biperf.core.ui.approvals.ApprovalsClaimDetailsForm"/>
+  	<form-bean name="approvalsClaimsListForm" type="com.biperf.core.ui.approvals.ApprovalsClaimsListForm"/>
+  	<form-bean name="nominationsApprovalPageForm" type="com.biperf.core.ui.approvals.NominationsApprovalPageForm"/>
+  	<form-bean name="nominationMoreInfoForm" type="com.biperf.core.ui.nomination.NominationMoreInfoForm"/>
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+    <forward name="failure_errors_only" path="errors.only.display" redirect="false"/>
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+
+    <!-- Start Claim Form Mappings  -->
+    <action path="/claimFormList"
+      type="org.apache.struts.actions.ForwardAction"
+      name="claimFormForm"
+      parameter="claimform.list"
+      input="claimform.list"/>
+
+	<action path="/claimFormPromotionList"
+	  type="org.apache.struts.actions.ForwardAction"
+	  name="claimFormForm"
+	  parameter="claimform.promotionList"/>
+	  
+    <action path="/claimFormDisplay"
+      name="claimFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormAction"
+      scope="request"
+      validate="false"
+      input="claimform.create">
+      <forward name="create" path="claimform.create" redirect="false"/>
+      <forward name="copy" path="claimform.copy" redirect="false"/>
+      <forward name="display" path="claimform.display" redirect="false"/>
+      <forward name="update" path="claimform.update" redirect="false"/>
+      <forward name="failure" path="claimform.create" redirect="false"/>
+      <forward name="failure_update" path="claimform.update" redirect="false"/>
+      <forward name="failure_create" path="claimform.create" redirect="false"/>
+      <forward name="preview" path="/claimFormStepElementPreview.do" redirect="true"/>
+    </action>
+    
+   <action path="/claimFormStepElementPreview"
+      type="com.biperf.core.ui.productclaim.ProductClaimSubmitStartAction"
+      scope="request"
+      parameter="method"
+      name="productClaimSubmissionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="claimformstepelement.preview" redirect="false"/>
+    </action>
+
+    <action path="/claimFormListMaintain"
+      name="claimFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormAction"
+      scope="request"
+      validate="true"
+      input="claimform.list">
+      <forward name="success_delete" path="/claimFormList.do" redirect="true"/>
+      <forward name="failure_delete" path="claimform.list" redirect="false"/>
+      <forward name="cancel" path="/claimFormList.do" redirect="true"/>
+    </action>
+
+    <action path="/claimFormMaintainCreate"
+      name="claimFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormAction"
+      scope="request"
+      validate="true"
+      input="claimform.create"
+      cancellable="true">
+      <forward name="success_create" path="/claimFormDisplay.do" redirect="true"/>
+      <forward name="failure_create" path="claimform.create" redirect="false"/>
+      <forward name="cancel" path="/claimFormList.do" redirect="true"/>
+    </action>
+
+    <action path="/claimFormMaintainUpdate"
+      name="claimFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormAction"
+      scope="request"
+      validate="true"
+      input="claimform.update"
+      cancellable="true">
+      <forward name="success_update" path="/claimFormDisplay.do" redirect="true"/>
+      <forward name="failure" path="claimform.update" redirect="false"/>
+      <forward name="failure_update" path="claimform.update" redirect="false"/>
+      <forward name="cancel" path="/claimFormList.do" redirect="true"/>
+    </action>
+
+    <action path="/claimFormMaintainSteps"
+      name="claimFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormAction"
+      scope="request"
+      validate="false"
+      input="claimform.display">
+      <forward name="success_update" path="/claimFormDisplay.do" redirect="true"/>
+      <forward name="failure" path="claimform.display" redirect="false"/>
+      <forward name="failure_update" path="claimform.display" redirect="false"/>
+    </action>
+
+    <action path="/claimFormMarkComplete"
+      name="claimFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormAction"
+      scope="request"
+      validate="false"
+      input="claimform.display">
+      <forward name="success_update" path="/claimFormList.do" redirect="true"/>
+      <forward name="failure" path="claimform.display" redirect="false"/>
+      <forward name="failure_update" path="claimform.display" redirect="false"/>
+    </action>
+
+    <action path="/claimFormMaintainCopy"
+      name="claimFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormAction"
+      scope="request"
+      validate="true"
+      input="claimform.copy"
+      cancellable="true">
+      <forward name="success_copy" path="/claimFormList.do" redirect="true"/>
+      <forward name="failure" path="claimform.copy" redirect="false"/>
+      <forward name="failure_copy" path="claimform.copy" redirect="false"/>
+      <forward name="cancel" path="/claimFormDisplay.do" redirect="true"/>
+    </action>
+
+    <!-- End Claim Form Mappings  -->
+
+    <!-- Claim Form Step -->
+    <action path="/displayClaimFormStepCreate"
+      name="claimFormStepForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormStepAction"
+      scope="request"
+      validate="false"
+      input="claimformstep.create">
+      <forward name="create" path="claimformstep.create" redirect="false"/>
+    </action>
+
+    <action path="/claimFormStepCreate"
+      name="claimFormStepForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormStepAction"
+      scope="request"
+      validate="true"
+      input="claimformstep.create">
+
+      <forward name="create" path="claimformstep.create" redirect="false"/>
+      <forward name="success_create" path="/claimFormStepView.do" redirect="true"/>
+      <forward name="failure_create" path="claimformstep.create" redirect="false"/>
+
+    </action>
+
+   <action path="/claimFormStepUpdatePre"
+      name="claimFormStepForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormStepAction"
+      scope="request"
+      validate="false"
+      input="claimformstep.update">
+      <forward name="update" path="claimformstep.update" redirect="false"/>
+      <forward name="success_update" path="claimformstep.update.success" redirect="false"/>
+      <forward name="failure_update" path="claimformstep.update" redirect="false"/>
+    </action>
+
+    <action path="/claimFormStepUpdate"
+      name="claimFormStepForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormStepAction"
+      scope="request"
+      validate="true"
+      input="claimformstep.update">
+
+      <forward name="update" path="claimformstep.update" redirect="false"/>
+      <forward name="success_update" path="claimformstep.update.success" redirect="false"/>
+      <forward name="failure_update" path="claimformstep.update" redirect="false"/>
+
+    </action>
+    <action path="/claimFormStepMaintainView"
+      name="claimFormStepViewForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormStepAction"
+      scope="request"
+      validate="true"
+      input="claimformstep.view">
+      <forward name="success_update" path="claimformstep.view" redirect="false"/>
+      <forward name="failure_update" path="claimformstep.view" redirect="false"/>
+      <forward name="success_delete" path="claimformstep.view" redirect="false"/>
+      <forward name="failure_delete" path="claimformstep.view" redirect="false"/>
+    </action>
+
+    <action path="/claimFormStepView"
+      type="org.apache.struts.actions.ForwardAction"
+      name="claimFormStepViewForm"
+      scope="request"
+      parameter="claimformstep.view"
+      input="claimformstep.view" cancellable="true"/>
+
+    <action path="/customerInformationBlockDisplay"
+      type="org.apache.struts.actions.ForwardAction"
+      name="customerInformationBlockForm"
+      parameter="claimformstep.cib.maintain"/>
+
+    <action path="/customerInformationBlockMaintain"
+      name="customerInformationBlockForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.CustomerInformationBlockAction"
+      scope="request"
+      validate="true"
+      input="claimformstep.cib.maintain">
+      <forward name="success_update" path="/claimFormStepView.do" redirect="true"/>
+      <forward name="cancel" path="/claimFormStepView.do" redirect="true"/>
+      <forward name="failure_update" path="claimformstep.cib.maintain" redirect="false"/>
+    </action>
+
+    <action path="/claimFormStepElementDisplay"
+      name="claimFormStepElementForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormStepElementAction"
+      scope="request"
+      validate="false"
+      input="claimformstepelement.view">
+      <forward name="update" path="claimformstepelement.update" redirect="false"/>
+      <forward name="failure_update" path="claimformstepelement.view" redirect="false"/>
+      <forward name="cib" path="/customerInformationBlockDisplay.do" redirect="false"/>
+      <forward name="create" path="claimformstepelement.create" redirect="false"/>
+    </action>
+
+    <action path="/claimFormStepElementCreate"
+      name="claimFormStepElementForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormStepElementAction"
+      scope="request"
+      validate="true"
+      input="claimformstepelement.create">
+      <forward name="success_create" path="/claimFormStepView.do" redirect="true"/>
+      <forward name="failure_create" path="claimformstepelement.create" redirect="false"/>
+
+    </action>
+
+    <action path="/claimFormStepElementUpdate"
+      name="claimFormStepElementForm"
+      parameter="method"
+      type="com.biperf.core.ui.claimform.ClaimFormStepElementAction"
+      scope="request"
+      validate="true"
+      input="claimformstepelement.update">
+      <forward name="success_update" path="/claimFormStepView.do" redirect="true"/>
+      <forward name="failure_update" path="claimformstepelement.update" redirect="false"/>
+    </action>
+
+    <action path="/claimFormStepElementView"
+      type="org.apache.struts.actions.ForwardAction"
+      name="claimFormStepViewForm"
+      scope="request"
+      parameter="claimformstepelement.view"
+      input="claimformstepelement.view"/>
+
+  <action path="/managerAddPoints"
+		    type="com.biperf.core.ui.claim.ManagerAddPointsAction"
+        name="managerAddPointsForm"
+		    scope="request"
+		    validate="false"
+		    cancellable="true"
+        parameter="method">
+		<forward name="display" path="manager.addpoints" />
+		<forward name="inactive" path="manager.addpoints.inactive" />
+  </action>
+
+  <action path="/managerAddPointsSubmit"
+		    type="com.biperf.core.ui.claim.ManagerAddPointsSubmitAction"
+        name="managerAddPointsForm"
+		    scope="request"
+		    validate="false"
+		    cancellable="true"
+        parameter="method">
+		<forward name="failure" path="manager.addpoints" />
+  </action>
+
+    <action path="/claimConfirmationDisplay"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="claim.confirmation"/>
+
+    <action path="/claimDetailsDisplay"
+            name="productClaimDetailsForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="claim.details"
+            scope="request" 
+            input="claim.details" />
+
+    <action path="/claimDetailsPrinterFriendlyDisplay"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="claim.details.printer"/>
+      
+    <action path="/claimDetailsApproverCommentsDisplay"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="claim.details.approvercomments"/>
+      
+    <action path="/claimDetail"
+		    type="com.biperf.core.ui.claim.ViewRecognitionAction"
+		    scope="request"
+		    validate="false"
+		    cancellable="true">
+		<forward name="success" path="claim.detail" />
+		<forward name="sheetView" path="claim.detail.sheet" redirect="false" />
+	</action>
+    
+    <action path="/claimDetailResult"
+      		type="com.biperf.core.ui.claim.RecognitionDetailAction"
+      		scope="request"
+      		validate="false"
+      		cancellable="true">
+    </action>        
+    <!-- End Claim Submission Mappings  -->
+
+  <!--  Recognition Details -->  
+  <action path="/recognitionHistory"
+          type="org.apache.struts.actions.ForwardAction"
+          parameter="claim.recognition.history"
+          name="recognitionHistoryForm"
+          scope="request"
+          validate="false"/>
+  
+  <action path="/recognitionDetail"
+          type="org.apache.struts.actions.ForwardAction"
+          parameter="claim.recognition.detail"
+          name="recognitionHistoryForm"
+          scope="request"
+          validate="false"/>
+  
+  <action path="/printerFriendlyRecognitionDetail"
+          type="org.apache.struts.actions.ForwardAction"
+          parameter="claim.recognition.detail.printerFriendly"
+          name="recognitionHistoryForm"
+          scope="request"
+          validate="false"/>
+  
+  <action path="/quizDetail"
+  	  name="quizHistoryForm"
+      type="com.biperf.core.ui.claim.QuizHistoryAction"
+      parameter="method"
+      scope="request">
+      <forward name="successG5" path="claim.quiz.detail.display" redirect="false"/>
+      <forward name="sheetView" path="claim.quiz.detail.sheet" redirect="false"/>
+  </action>
+  
+  <!-- Begin Recognition Mappings -->
+    <action path="/recognitionApprovalList"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="recognition.approval.list" scope="request"> 
+    </action>
+    <action path="/recognitionApprovalListMaintain"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="recognition.approval.list" scope="request"> 
+    </action>
+    
+    <action path="/recognitionApprovalListUpdate"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="recognition.approval.list" scope="request"> 
+    </action>
+    
+    <action path="/recognitionApprovalDetails"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="recognition.approval.details" scope="request"> 
+    </action>
+    
+    <action path="/recognitionApprovalDetailsMaintain"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="recognition.approval.details" scope="request"> 
+    </action>
+    
+    <action path="/recognitionApprovalDetailsUpdate"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="recognition.approval.details" scope="request"> 
+    </action>
+    
+    <action path="/viewrecognition"
+            name="recognitionViewCardForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="recognition.view"
+            scope="request" 
+            input="recognition.view" />
+            
+    <!-- End Recognition Mappings -->
+
+    <!-- Begin Nomination Mappings -->
+    <action path="/nominationApprovalList"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="nomination.approval.list" scope="request"> 
+    </action>
+    <action path="/nominationApprovalListMaintain"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="nomination.approval.list" scope="request"> 
+    </action>
+    
+    <action path="/nominationApprovalListUpdate"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="nomination.approval.list" scope="request"> 
+    </action>
+    
+    <action path="/nominationApprovalDetails"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="nomination.approval.details" scope="request"> 
+    </action>
+    
+    <action path="/nominationApprovalDetailsMaintain"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="nomination.approval.details" scope="request"> 
+    </action>
+    
+     <action path="/nominationApprovalDetailsUpdate"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="nomination.approval.details" scope="request"> 
+    </action>
+    
+    <action path="/printerFriendlyNominationApprovalDetails"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="nomination.approval.details.printerFriendly" scope="request"> 
+    </action>
+    
+    <action path="/printerFriendlyNominationApprovalWithDetails"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="nomination.approval.list.with.details.printerFriendly" scope="request"> 
+    </action>
+            
+        
+    <!-- Start Claim TransactionHistory Mappings -->
+    
+    <action path="/transactionHistory"
+      type="com.biperf.core.ui.claim.TransactionHistoryAction"
+      parameter="method"
+      name="transactionHistoryForm"
+      scope="request"
+      validate="false">
+      <forward name="no_promotion_type" path="transaction.empty.display"/>
+      <forward name="product_claim" path="transaction.productclaim.display"/>
+      <forward name="nomination" path="transaction.recognition.display"/>
+      <forward name="recognition" path="transaction.recognition.display"/>
+      <forward name="quiz" path="transaction.quiz.display"/>
+      <forward name="discretionary" path="transaction.discretionary.display"/>
+      <forward name="goalquest" path="transaction.goalquest.display"/>          
+      <forward name="reversal" path="transaction.reversal.display"/>
+    </action>
+    
+    <action path="/showRecognitionTransactionDetail"
+      type="com.biperf.core.ui.claim.TransactionHistoryAction"
+      parameter="method"
+      name="transactionHistoryForm"
+      scope="request"
+      validate="false">
+      <forward name="success" path="transaction.recognition.detail"/>
+      <forward name="failure" path="transaction.recognition.detail"/>
+      <forward name="resend_success" path="/showRecognitionTransactionDetail.do?method=showRecognitionDetail" redirect="true"/>
+    </action>
+    
+    <action path="/showQuizTransactionDetail"
+      type="com.biperf.core.ui.claim.TransactionHistoryAction"
+      parameter="method"
+      name="transactionHistoryForm"
+      scope="request"
+      validate="false">
+      <forward name="success" path="transaction.quiz.detail"/>
+      <forward name="failure" path="transaction.quiz.detail"/>
+    </action>
+    
+    <action path="/transactionHistoryActivities"
+      type="com.biperf.core.ui.claim.TransactionHistoryAction"
+      parameter="method"
+      name="transactionHistoryForm"
+      scope="request"
+      validate="false">
+      <forward name="success" path="claim.transaction.activities"/>
+      <forward name="failure" path="claim.transaction.activities"/>
+    </action>
+    
+    <action path="/transactionHistoryClaimPayouts"
+      type="com.biperf.core.ui.claim.TransactionHistoryAction"
+      parameter="method"
+      name="transactionHistoryForm"
+      scope="request"
+      validate="false">
+      <forward name="success" path="claim.transaction.payouts"/>
+      <forward name="failure" path="claim.transaction.payouts"/>
+    </action>
+    
+    <action path="/transactionHistoryAuditMessages"
+      type="com.biperf.core.ui.claim.TransactionHistoryAction"
+      parameter="method"
+      name="transactionHistoryForm"
+      scope="request"
+      validate="false">
+      <forward name="success" path="claim.transaction.auditmessages"/>
+      <forward name="failure" path="claim.transaction.auditmessages"/>
+    </action>
+
+    <!-- End Claim History Mappings -->
+
+	<!--  Payout Transaction Details -->
+	<action path="/payoutTransactionDetailsDisplay" 
+  	      name="payoutTransactionDetailsForm"
+	      parameter="method"
+	      type="com.biperf.core.ui.claim.PayoutTransactionDetailsAction"
+	      scope="request"
+	      validate="false"
+	      input="payout.transaction.details" cancellable="true">
+	      <forward name="update" path="payout.transaction.details" redirect="false"/>
+   	      <forward name="failure_update" path="claim.transaction.payouts" redirect="false"/>
+	      <forward name="success" path="claim.transaction.payouts" redirect="true"/>             
+	      <forward name="cancel" path="claim.transaction.payouts" redirect="true"/>
+	</action>        
+	
+    <action path="/payoutTransactionDetailsMaintain"
+       	name="payoutTransactionDetailsForm"
+	      parameter="method"
+	      type="com.biperf.core.ui.claim.PayoutTransactionDetailsAction"
+	      scope="request"
+	      validate="true"
+	      input="payout.transaction.details"
+	      cancellable="true">
+      <forward name="update" path="claim.transaction.payouts" redirect="false"/> 
+	  <forward name="failure_update" path="claim.transaction.payouts" redirect="false"/>            
+      <forward name="success_update_payouts" path="claim.transaction.payouts" redirect="true"/>
+      <forward name="success_update_activities" path="claim.transaction.activities" redirect="true"/>            
+      <forward name="success_update_transactions" path="/transactionHistory.do?method=display" redirect="false"/>            
+      <forward name="cancel" path="claim.transaction.payouts" redirect="true"/>
+    </action>
+    
+    <action path="/displayCertificate" 
+            name="certificateDisplayForm"
+    		type="com.biperf.core.ui.claim.CertificateDisplayAction" 
+    		parameter="method"
+      		scope="request" 
+      		validate="false"
+      		input="non.html.cert.page">
+      <forward name="display_non_html_cert" path="non.html.cert.page"/>
+    </action>
+    
+    <action path="/adminTestDisplayCertificate" 
+            name="certificateDisplayForm"
+    		type="com.biperf.core.ui.claim.CertificateDisplayAction" 
+    		parameter="method"
+      		scope="request" 
+      		validate="false"
+      		input="non.html.cert.page">
+      <forward name="display_non_html_cert" path="non.html.cert.page"/>
+    </action>
+    
+    <action path="/recognitionPrintOnDemand" 
+    		type="com.biperf.core.ui.claim.RecognitionPrintOnDemandAction" 
+      		scope="request">
+      <forward name="display_non_html_cert" path="non.html.cert.page"/>
+    </action>    
+    
+    <action path="/carryOver"
+      type="org.apache.struts.actions.ForwardAction"      
+      parameter="claim.carryoveractivities.list"/>    
+
+    <!-- Pending Recognition Approvals Start-->
+    
+    <action path="/approvalsListPage"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="approvals.list.page" scope="request"> 
+    </action>
+    
+    <action path="/approvalsRecognitionList"
+	          parameter="/approvalsRecognitionListMaintain.do?method=prepareUpdate"
+	          type="org.apache.struts.actions.ForwardAction"
+	          validate="false"
+	          scope="request"/>
+	                
+    <action path="/approvalsRecognitionListMaintain"
+      name="approvalsRecognitionListForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsRecognitionListAction"
+      scope="session"
+      validate="true"
+      input="approvals.recognition.list">
+      <forward name="success" path="approvals.recognition.list" redirect="false"/>             
+      <forward name="failure_update" path="approvals.recognition.list" redirect="false"/>             
+      <forward name="cancel" path="/approvalsRecognitionList.do" redirect="true"/>
+    </action>
+    
+    <action path="/approvalsRecognitionListUpdate"
+      name="approvalsRecognitionListForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsRecognitionListAction"
+      scope="session"
+      validate="true"
+      input="approvals.recognition.list" cancellable="true">
+      <forward name="success" path="/approvalsRecognitionList.do" redirect="true"/>             
+      <forward name="failure_update" path="approvals.recognition.list" redirect="false"/>             
+      <forward name="cancel" module="" path="/homePage.do" redirect="true"/>
+      <forward name="no_emails" path="/approvalRecognitionNoEmailList.do" redirect="true"/>
+    </action>
+
+    <action path="/approvalsRecognitionDetails" 
+  	          parameter="/approvalsRecognitionDetailsMaintain.do?method=prepareUpdate"
+  	          type="org.apache.struts.actions.ForwardAction"
+  	          validate="false"
+  	          scope="request"/>
+	          
+    <action path="/approvalsRecognitionDetailsMaintain"
+      name="approvalsRecognitionDetailsForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsRecognitionDetailsAction"
+      scope="request"
+      validate="false"
+      input="approvals.recognition.details" cancellable="true">
+      <forward name="update" path="approvals.recognition.details" redirect="false"/>             
+      <forward name="success" path="/approvalsRecognitionList.do" redirect="true"/>             
+      <forward name="cancel" path="/approvalsRecognitionList.do" redirect="true"/>
+    </action>
+    
+    <action path="/approvalTranslate"
+      type="com.biperf.core.ui.approvals.TranslationAction"
+      scope="request"
+      validate="false">
+      
+    </action>
+    
+    <action path="/approvalsRecognitionDetailsUpdate"
+      name="approvalsRecognitionDetailsForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsRecognitionDetailsAction"
+      scope="request"
+      validate="true"
+      input="approvals.recognition.details" cancellable="true">
+      <forward name="update" path="approvals.recognition.details" redirect="false"/>             
+      <forward name="failure_update" path="approvals.recognition.details" redirect="false"/>             
+      <forward name="success" path="/approvalsRecognitionList.do" redirect="true"/>             
+      <forward name="cancel" path="/approvalsRecognitionList.do" redirect="true"/>
+      <forward name="no_emails" path="/approvalRecognitionNoEmailList.do" redirect="true"/>      
+    </action>
+    
+    <action path="/approvalRecognitionCalcAction" parameter="method"
+			type="com.biperf.core.ui.recognition.UseCalculatorActionG5" />
+    
+    
+    <action path="/approvalRecognitionNoEmailList"
+          type="org.apache.struts.actions.ForwardAction"
+          parameter="approvals.recognition.noemail"
+          scope="request"
+          validate="false"/>  
+    
+    <!-- Pending Recognition  Approvals End--> 
+    
+    <!-- Begin Nomination Mappings -->
+    
+    <!-- New Nomination Mappings -->
+        
+    <action path="/pendingNominationsApprovalTile"
+      type="com.biperf.core.ui.approvals.PendingNominationsApprovalTileAction" 
+       parameter="method"
+       validate="false"
+       scope="request">
+    </action>
+    
+    <action path="/nominationsApprovalPromoList"
+            type="com.biperf.core.ui.approvals.PendingNominationsApprovalListAction"
+            parameter="method" 
+            validate="false"
+            scope="request">
+       <forward name="display" path="pending.nominations.approval.list" redirect="false"/>
+    </action>
+    
+    <action path="/nominationsApprovalPage"
+            type="com.biperf.core.ui.approvals.NominationsApprovalPageAction"
+            name="nominationsApprovalPageForm"
+            parameter="method" 
+            validate="false"
+            scope="request">
+       <forward name="display" path="pending.nominations.approval.page" redirect="false"/>
+    </action> 
+    <action path="/nominationsMoreInfoPage"
+            type="com.biperf.core.ui.nomination.NominationMoreInfoAction"
+            name="nominationMoreInfoForm"
+            parameter="method" 
+            validate="false"
+            scope="request">
+       <forward name="display" path="nomination.more.information.page" redirect="false"/>
+       <forward name="alerts"  module="" path="/participantProfilePage.do" redirect="true"/>
+    </action>
+    
+    <action path="/nominationApprovalPagePromotionsList"
+			type="com.biperf.core.ui.approvals.NominationsApprovalPageAction"
+			parameter="method">
+		</action>
+    
+    <action path="/submitNominationsApproval"
+            type="com.biperf.core.ui.approvals.NominationsApprovalPageAction"
+            name="nominationsApprovalPageForm"
+            parameter="method" 
+            validate="true"
+            scope="request">
+       <forward name="display" path="pending.nominations.approval.page" redirect="false"/>
+       <forward name="input" path="pending.nominations.approval.page" redirect="false"/>
+       <forward name="failure_update" path="pending.nominations.approval.list" redirect="false"/>  
+    </action>
+    
+    <!-- old Nomination Mappings -->
+    <action path="/approvalsNominationList" 
+            parameter="/approvalsNominationListMaintain.do?method=prepareUpdate"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+
+    <action path="/approvalsNominationListMaintain"
+      name="approvalsNominationListForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsNominationListAction"
+      scope="session"
+      validate="true"
+      input="approvals.nomination.list" cancellable="true">
+      <forward name="success" path="approvals.nomination.list" redirect="false"/>             
+      <forward name="failure_update" path="approvals.nomination.list" redirect="false"/>             
+      <forward name="cancel" path="/approvalsNominationList.do" redirect="true"/>
+    </action>
+    
+    <action path="/approvalsNominationListPDFExportAction"
+      name="approvalsNominationListForm"
+      parameter="method"
+      type="com.biperf.core.ui.PDFExporterAction"
+      validate="false"
+      input="approvals.nomination.list" cancellable="true">
+    </action>
+    
+    <action path="/approvalsNominationListUpdate"
+      name="approvalsNominationListForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsNominationListAction"
+      scope="session"
+      validate="true"
+      input="approvals.nomination.list"
+      cancellable="true">
+      <forward name="success" path="approvals.nomination.list" redirect="false"/>             
+      <forward name="failure_update" path="approvals.nomination.list" redirect="false"/>             
+      <forward name="cancel" module="" path="/homePage.do" redirect="true"/>
+    </action>
+    
+    <action path="/approvalsNominationDetails" 
+              parameter="/approvalsNominationDetailsMaintain.do?method=prepareUpdate"
+              type="org.apache.struts.actions.ForwardAction"
+              validate="false"
+              scope="request"/>
+            
+    <action path="/approvalsNominationDetailsMaintain"
+      name="approvalsNominationDetailsForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsNominationDetailsAction"
+      scope="request"
+      validate="false"
+      input="approvals.nomination.details">
+      <forward name="update" path="approvals.nomination.details" redirect="false"/>             
+      <forward name="success" path="/approvalsNominationList.do" redirect="true"/>             
+      <forward name="cancel" path="/approvalsNominationList.do" redirect="true"/>
+    </action>
+    
+    <action path="/approvalsNominationDetailsUpdate"
+      name="approvalsNominationDetailsForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsNominationDetailsAction"
+      scope="request"
+      validate="true"
+      input="approvals.nomination.details"
+      cancellable="true">
+      <forward name="update" path="approvals.nomination.details" redirect="false"/>             
+      <forward name="failure_update" path="approvals.nomination.details" redirect="false"/>             
+      <forward name="success" path="/approvalsNominationList.do" redirect="true"/>             
+      <forward name="cancel" path="/approvalsNominationList.do" redirect="true"/>
+    </action>
+        
+    <action path="/approvalsCountAction"
+	type="com.biperf.core.ui.approvals.ApprovalsRecognitionListAction"
+	parameter="method" />
+	
+	<action path="/startClaimSubmission"
+      type="com.biperf.core.ui.productclaim.ProductClaimSubmitStartAction"
+      scope="request"
+      parameter="method"
+      name="productClaimSubmissionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="claim.page" redirect="false"/>
+    </action>
+    
+    <action path="/productClaimDetail"
+  	  name="productClaimDetailsForm"
+      type="com.biperf.core.ui.claim.ProductClaimHistoryAction"
+      parameter="method"
+      scope="request">
+      <forward name="success" path="product.claim.detail.display" redirect="false"/>
+      <forward name="sheetView" path="product.claim.detail.sheet" redirect="false"/>
+  </action>
+  
+  <action path="/participantSearchView"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="claim.tpl.participantsearchview"
+      scope="request"
+      validate="false"/>
+      
+  <action path="/participantSearchTableRow"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="claim.tpl.participantsearchtablerow"
+      scope="request"
+      validate="false"/>
+      
+  <action path="/claimProductRow"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="claim.tpl.claimproductrow"
+      scope="request"
+      validate="false"/>
+      
+  <action path="/claimFormInputs"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="claim.tpl.claimforminputs"
+      scope="request"
+      validate="false"/>
+      
+  <action path="/claimProductEditQtip"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="claim.tpl.claimproducteditqtip"
+      scope="request"
+      validate="false"/>
+      
+  <action path="/previewClaimSubmission"
+      type="com.biperf.core.ui.productclaim.ProductClaimPreviewAction"
+      scope="request"
+      parameter="method"
+      name="productClaimSubmissionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="claim.preview.page" redirect="false"/>
+      <forward name="failure" path="/editClaimSubmission.do?method=showClaim" />
+  </action>
+  
+  <action path="/previewClaimSubmissionValidation"
+      type="com.biperf.core.ui.productclaim.ProductClaimPreviewValidationAction"
+      scope="request"
+      parameter="method"
+      name="productClaimSubmissionForm"
+      validate="false"
+      cancellable="true">
+  </action>
+  
+  <action path="/previewClaimSubmissionRedirect"
+      type="com.biperf.core.ui.productclaim.ProductClaimPreviewRedirectAction"
+      scope="request"
+      parameter="method"
+      name="productClaimSubmissionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="claim.preview.page" redirect="false"/>
+      <forward name="failure" path="/editClaimSubmission.do?method=showClaim" />
+  </action>
+  
+  <action path="/editClaimSubmission"
+      type="com.biperf.core.ui.productclaim.ProductClaimEditAction"
+      scope="request"
+      parameter="method"
+      name="productClaimSubmissionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="claim.edit.page" redirect="false"/>
+  </action>
+  
+  <action path="/submitClaim"
+      type="com.biperf.core.ui.productclaim.ProductClaimSubmitAction"
+      scope="request"
+      parameter="method"
+      name="productClaimSubmissionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" module="" path="/homePage.do" redirect="true"/>
+      <forward name="failure" path="/startClaimSubmission.do?method=showClaim" />
+  </action>
+		
+  <action path="/claimsRecentActivity"
+            parameter="method" type="com.biperf.core.ui.productclaim.ProductClaimModuleAction"
+			scope="request"/> 
+			
+  <action path="/participantPublicProfile"
+		type="com.biperf.core.ui.profile.PublicProfileAction"
+		parameter="method" scope="request" />
+		
+   <!-- Approvals Nomination Mappings -->
+   
+   <action path="/approvalsProductClaimList"
+	  parameter="/approvalsClaimsListMaintain.do?method=prepareUpdate"
+	  type="org.apache.struts.actions.ForwardAction"
+	  validate="false"
+	  scope="request"/>
+	
+  <action path="/approvalsClaimsListMaintain"
+      name="approvalsClaimsListForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsClaimsListAction"
+      scope="session"
+      validate="false"
+      input="approvals.claims.list">
+      <forward name="success" path="approvals.claims.list" redirect="false"/>             
+      <forward name="failure_update" path="approvals.claims.list" redirect="false"/>             
+      <forward name="cancel" path="/approvalsProductClaimList.do" redirect="true"/>
+  </action>
+	                
+  <action path="/approvalsClaimsListUpdate"
+      name="approvalsClaimsListForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsClaimsListAction"
+      scope="session"
+      validate="true"
+      input="approvals.claims.list">
+      <forward name="success" path="approvals.claims.list" redirect="false"/>             
+      <forward name="failure_update" path="approvals.claims.list" redirect="false"/>             
+      <forward name="cancel" module="" path="/homePage.do" redirect="true"/>
+  </action>
+	          
+  <action path="/approvalsClaimDetailsMaintain"
+      name="approvalsClaimDetailsForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsClaimDetailsAction"
+      scope="request"
+      validate="false"
+      input="approvals.claims.details">
+      <forward name="update" path="approvals.claims.details" redirect="false"/>             
+      <forward name="success" path="/approvalsProductClaimList.do" redirect="true"/>             
+      <forward name="cancel" path="/approvalsProductClaimList.do" redirect="true"/>
+  </action>
+	          
+  <action path="/approvalsClaimDetailsUpdate"
+      name="approvalsClaimDetailsForm"
+      parameter="method"
+      type="com.biperf.core.ui.approvals.ApprovalsClaimDetailsAction"
+      scope="request"
+      validate="true"
+      input="approvals.claims.details" cancellable="true">
+      <forward name="update" path="approvals.claims.details" redirect="false"/>             
+      <forward name="failure_update" path="approvals.claims.details" redirect="false"/>             
+      <forward name="success" path="/approvalsProductClaimList.do" redirect="true"/>             
+      <forward name="cancel" path="/approvalsProductClaimList.do" redirect="true"/>
+  </action>
+  
+  <action path="/getProductInfo"
+      type="com.biperf.core.ui.approvals.ApprovalsClaimDetailsAction"
+      name="approvalsClaimDetailsForm"
+      parameter="method"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>      
+   
+  </action-mappings>
+
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+    processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+    multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+    factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+      value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-claim.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-claim.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

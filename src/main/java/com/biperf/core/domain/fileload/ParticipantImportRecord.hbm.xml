@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.fileload.ParticipantImportRecord" table="STAGE_PAX_IMPORT_RECORD">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="IMPORT_RECORD_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">IMPORT_RECORD_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID"/>
+    <property name="actionType" type="java.lang.String" column="ACTION_TYPE"/>
+    <property name="userId" type="java.lang.Long" column="USER_ID"/>
+    <property name="userName" type="java.lang.String" column="USER_NAME"/>
+    <property name="firstName" type="java.lang.String" column="FIRST_NAME" />
+    <property name="middleName" type="java.lang.String" column="MIDDLE_NAME" />
+    <property name="lastName" type="java.lang.String" column="LAST_NAME"/>
+    <property name="suffix" type="java.lang.String" column="SUFFIX"/>
+    <property name="ssn" type="java.lang.String" column="SSN"/>
+    <property name="birthDate" type="java.util.Date" column="BIRTH_DATE"/>
+    <property name="gender" type="java.lang.String" column="GENDER"/>
+    <property name="active" type="java.lang.Boolean" column="ACTIVE"/>
+    <property name="status" type="java.lang.String" column="STATUS"/>
+    <property name="termsAcceptance" type="java.lang.String" column="TERMS_ACCEPTANCE"/>
+    <property name="userIDAcceptedTerms" type="java.lang.String" column="USER_ID_ACCEPTED"/>
+    <property name="termsAcceptedDate" type="java.util.Date" column="DATE_TERMS_ACCEPTED"/>
+    <property name="emailAddress" type="java.lang.String" column="EMAIL_ADDRESS"/>
+    <property name="emailAddressType" type="java.lang.String" column="EMAIL_ADDRESS_TYPE"/>
+    <property name="textMessageAddress" type="java.lang.String" column="TEXT_MESSAGE_ADDRESS"/>
+    <property name="address1" type="java.lang.String" column="ADDRESS_1"/>
+    <property name="address2" type="java.lang.String" column="ADDRESS_2"/>
+    <property name="address3" type="java.lang.String" column="ADDRESS_3"/>
+    <property name="city" type="java.lang.String" column="CITY"/>
+    <property name="state" type="java.lang.String" column="STATE"/>
+    <property name="countryId" type="java.lang.Long" column="COUNTRY_ID"/>
+    <property name="countryCode" type="java.lang.String" column="COUNTRY_CODE"/>
+    <property name="postalCode" type="java.lang.String" column="POSTAL_CODE"/>
+    <property name="addressType" type="java.lang.String" column="ADDRESS_TYPE"/>
+    <property name="personalPhoneNumber" type="java.lang.String" column="PERSONAL_PHONE_NUMBER"/>
+    <property name="businessPhoneNumber" type="java.lang.String" column="BUSINESS_PHONE_NUMBER"/>
+    <property name="cellPhoneNumber" type="java.lang.String" column="CELL_PHONE_NUMBER"/>
+    <property name="employerId" type="java.lang.Long" column="EMPLOYER_ID"/>
+    <property name="employerName" type="java.lang.String" column="EMPLOYER_NAME"/>
+    <property name="jobPosition" type="java.lang.String" column="JOB_POSITION"/>
+    <property name="department" type="java.lang.String" column="DEPARTMENT"/>
+    <property name="languageId" type="java.lang.String" column="LANGUAGE_ID"/>
+    <property name="hireDate" type="java.util.Date" column="HIRE_DATE"/>
+    <property name="terminationDate" type="java.util.Date" column="TERMINATION_DATE"/>
+    <property name="nodeId1" type="java.lang.Long" column="NODE_ID1"/>
+    <property name="nodeId2" type="java.lang.Long" column="NODE_ID2"/>
+    <property name="nodeId3" type="java.lang.Long" column="NODE_ID3"/>
+    <property name="nodeId4" type="java.lang.Long" column="NODE_ID4"/>
+    <property name="nodeId5" type="java.lang.Long" column="NODE_ID5"/>
+    <property name="nodeName1" type="java.lang.String" column="NODE_NAME1"/>
+    <property name="nodeName2" type="java.lang.String" column="NODE_NAME2"/>
+    <property name="nodeName3" type="java.lang.String" column="NODE_NAME3"/>
+    <property name="nodeName4" type="java.lang.String" column="NODE_NAME4"/>
+    <property name="nodeName5" type="java.lang.String" column="NODE_NAME5"/>
+    <property name="nodeRelationship1" type="java.lang.String" column="NODE_RELATIONSHIP1"/>
+    <property name="nodeRelationship2" type="java.lang.String" column="NODE_RELATIONSHIP2"/>
+    <property name="nodeRelationship3" type="java.lang.String" column="NODE_RELATIONSHIP3"/>
+    <property name="nodeRelationship4" type="java.lang.String" column="NODE_RELATIONSHIP4"/>
+    <property name="nodeRelationship5" type="java.lang.String" column="NODE_RELATIONSHIP5"/>
+    <property name="characteristicId1" type="java.lang.Long" column="CHARACTERISTIC_ID1"/>
+    <property name="characteristicId2" type="java.lang.Long" column="CHARACTERISTIC_ID2"/>
+    <property name="characteristicId3" type="java.lang.Long" column="CHARACTERISTIC_ID3"/>
+    <property name="characteristicId4" type="java.lang.Long" column="CHARACTERISTIC_ID4"/>
+    <property name="characteristicId5" type="java.lang.Long" column="CHARACTERISTIC_ID5"/>
+    <property name="characteristicId6" type="java.lang.Long" column="CHARACTERISTIC_ID6"/>
+    <property name="characteristicId7" type="java.lang.Long" column="CHARACTERISTIC_ID7"/>
+    <property name="characteristicId8" type="java.lang.Long" column="CHARACTERISTIC_ID8"/>
+    <property name="characteristicId9" type="java.lang.Long" column="CHARACTERISTIC_ID9"/>
+    <property name="characteristicId10" type="java.lang.Long" column="CHARACTERISTIC_ID10"/>
+    <property name="characteristicId11" type="java.lang.Long" column="CHARACTERISTIC_ID11"/>
+    <property name="characteristicId12" type="java.lang.Long" column="CHARACTERISTIC_ID12"/>
+    <property name="characteristicId13" type="java.lang.Long" column="CHARACTERISTIC_ID13"/>
+    <property name="characteristicId14" type="java.lang.Long" column="CHARACTERISTIC_ID14"/>
+    <property name="characteristicId15" type="java.lang.Long" column="CHARACTERISTIC_ID15"/>
+    <property name="characteristicId16" type="java.lang.Long" column="CHARACTERISTIC_ID16"/>
+    <property name="characteristicId17" type="java.lang.Long" column="CHARACTERISTIC_ID17"/>
+    <property name="characteristicId18" type="java.lang.Long" column="CHARACTERISTIC_ID18"/>
+    <property name="characteristicId19" type="java.lang.Long" column="CHARACTERISTIC_ID19"/>
+    <property name="characteristicId20" type="java.lang.Long" column="CHARACTERISTIC_ID20"/>
+    <property name="characteristicName1" type="java.lang.String" column="CHARACTERISTIC_NAME1"/>
+    <property name="characteristicName2" type="java.lang.String" column="CHARACTERISTIC_NAME2"/>
+    <property name="characteristicName3" type="java.lang.String" column="CHARACTERISTIC_NAME3"/>
+    <property name="characteristicName4" type="java.lang.String" column="CHARACTERISTIC_NAME4"/>
+    <property name="characteristicName5" type="java.lang.String" column="CHARACTERISTIC_NAME5"/>
+    <property name="characteristicName6" type="java.lang.String" column="CHARACTERISTIC_NAME6"/>
+    <property name="characteristicName7" type="java.lang.String" column="CHARACTERISTIC_NAME7"/>
+    <property name="characteristicName8" type="java.lang.String" column="CHARACTERISTIC_NAME8"/>
+    <property name="characteristicName9" type="java.lang.String" column="CHARACTERISTIC_NAME9"/>
+    <property name="characteristicName10" type="java.lang.String" column="CHARACTERISTIC_NAME10"/>
+    <property name="characteristicName11" type="java.lang.String" column="CHARACTERISTIC_NAME11"/>
+    <property name="characteristicName12" type="java.lang.String" column="CHARACTERISTIC_NAME12"/>
+    <property name="characteristicName13" type="java.lang.String" column="CHARACTERISTIC_NAME13"/>
+    <property name="characteristicName14" type="java.lang.String" column="CHARACTERISTIC_NAME14"/>
+    <property name="characteristicName15" type="java.lang.String" column="CHARACTERISTIC_NAME15"/>
+    <property name="characteristicName16" type="java.lang.String" column="CHARACTERISTIC_NAME16"/>
+    <property name="characteristicName17" type="java.lang.String" column="CHARACTERISTIC_NAME17"/>
+    <property name="characteristicName18" type="java.lang.String" column="CHARACTERISTIC_NAME18"/>
+    <property name="characteristicName19" type="java.lang.String" column="CHARACTERISTIC_NAME19"/>
+    <property name="characteristicName20" type="java.lang.String" column="CHARACTERISTIC_NAME20"/>
+    <property name="characteristicName21" type="java.lang.String" column="CHARACTERISTIC_NAME21"/>
+    <property name="characteristicName22" type="java.lang.String" column="CHARACTERISTIC_NAME22"/>
+    <property name="characteristicName23" type="java.lang.String" column="CHARACTERISTIC_NAME23"/>
+    <property name="characteristicName24" type="java.lang.String" column="CHARACTERISTIC_NAME24"/>
+    <property name="characteristicName25" type="java.lang.String" column="CHARACTERISTIC_NAME25"/>
+    <property name="characteristicName26" type="java.lang.String" column="CHARACTERISTIC_NAME26"/>
+    <property name="characteristicName27" type="java.lang.String" column="CHARACTERISTIC_NAME27"/>
+    <property name="characteristicName28" type="java.lang.String" column="CHARACTERISTIC_NAME28"/>
+    <property name="characteristicName29" type="java.lang.String" column="CHARACTERISTIC_NAME29"/>
+    <property name="characteristicName30" type="java.lang.String" column="CHARACTERISTIC_NAME30"/>
+    <property name="characteristicName31" type="java.lang.String" column="CHARACTERISTIC_NAME31"/>
+    <property name="characteristicName32" type="java.lang.String" column="CHARACTERISTIC_NAME32"/>
+    <property name="characteristicName33" type="java.lang.String" column="CHARACTERISTIC_NAME33"/>
+    <property name="characteristicName34" type="java.lang.String" column="CHARACTERISTIC_NAME34"/>
+    <property name="characteristicName35" type="java.lang.String" column="CHARACTERISTIC_NAME35"/>
+    <property name="characteristicValue1" type="java.lang.String" column="CHARACTERISTIC_VALUE1"/>
+    <property name="characteristicValue2" type="java.lang.String" column="CHARACTERISTIC_VALUE2"/>
+    <property name="characteristicValue3" type="java.lang.String" column="CHARACTERISTIC_VALUE3"/>
+    <property name="characteristicValue4" type="java.lang.String" column="CHARACTERISTIC_VALUE4"/>
+    <property name="characteristicValue5" type="java.lang.String" column="CHARACTERISTIC_VALUE5"/>
+    <property name="characteristicValue6" type="java.lang.String" column="CHARACTERISTIC_VALUE6"/>
+    <property name="characteristicValue7" type="java.lang.String" column="CHARACTERISTIC_VALUE7"/>
+    <property name="characteristicValue8" type="java.lang.String" column="CHARACTERISTIC_VALUE8"/>
+    <property name="characteristicValue9" type="java.lang.String" column="CHARACTERISTIC_VALUE9"/>
+    <property name="characteristicValue10" type="java.lang.String" column="CHARACTERISTIC_VALUE10"/>
+    <property name="characteristicValue11" type="java.lang.String" column="CHARACTERISTIC_VALUE11"/>
+    <property name="characteristicValue12" type="java.lang.String" column="CHARACTERISTIC_VALUE12"/>
+    <property name="characteristicValue13" type="java.lang.String" column="CHARACTERISTIC_VALUE13"/>
+    <property name="characteristicValue14" type="java.lang.String" column="CHARACTERISTIC_VALUE14"/>
+    <property name="characteristicValue15" type="java.lang.String" column="CHARACTERISTIC_VALUE15"/>
+    <property name="characteristicValue16" type="java.lang.String" column="CHARACTERISTIC_VALUE16"/>
+    <property name="characteristicValue17" type="java.lang.String" column="CHARACTERISTIC_VALUE17"/>
+    <property name="characteristicValue18" type="java.lang.String" column="CHARACTERISTIC_VALUE18"/>
+    <property name="characteristicValue19" type="java.lang.String" column="CHARACTERISTIC_VALUE19"/>
+    <property name="characteristicValue20" type="java.lang.String" column="CHARACTERISTIC_VALUE20"/>
+        <property name="characteristicValue21" type="java.lang.String" column="CHARACTERISTIC_VALUE21"/>
+    <property name="characteristicValue22" type="java.lang.String" column="CHARACTERISTIC_VALUE22"/>
+    <property name="characteristicValue23" type="java.lang.String" column="CHARACTERISTIC_VALUE23"/>
+    <property name="characteristicValue24" type="java.lang.String" column="CHARACTERISTIC_VALUE24"/>
+    <property name="characteristicValue25" type="java.lang.String" column="CHARACTERISTIC_VALUE25"/>
+    <property name="characteristicValue26" type="java.lang.String" column="CHARACTERISTIC_VALUE26"/>
+    <property name="characteristicValue27" type="java.lang.String" column="CHARACTERISTIC_VALUE27"/>
+    <property name="characteristicValue28" type="java.lang.String" column="CHARACTERISTIC_VALUE28"/>
+    <property name="characteristicValue29" type="java.lang.String" column="CHARACTERISTIC_VALUE29"/>
+    <property name="characteristicValue30" type="java.lang.String" column="CHARACTERISTIC_VALUE30"/>
+    <property name="characteristicValue31" type="java.lang.String" column="CHARACTERISTIC_VALUE31"/>
+    <property name="characteristicValue32" type="java.lang.String" column="CHARACTERISTIC_VALUE32"/>
+    <property name="characteristicValue33" type="java.lang.String" column="CHARACTERISTIC_VALUE33"/>
+    <property name="characteristicValue34" type="java.lang.String" column="CHARACTERISTIC_VALUE34"/>
+    <property name="characteristicValue35" type="java.lang.String" column="CHARACTERISTIC_VALUE35"/>
+    
+    <property name="roleId1" type="java.lang.Long" column="ROLE_ID1"/>
+    <property name="roleId2" type="java.lang.Long" column="ROLE_ID2"/>
+    <property name="roleId3" type="java.lang.Long" column="ROLE_ID3"/>
+    <property name="roleId4" type="java.lang.Long" column="ROLE_ID4"/>
+    <property name="roleId5" type="java.lang.Long" column="ROLE_ID5"/>
+    <property name="roleDescription1" type="java.lang.String" column="ROLE_DESCRIPTION1"/>
+    <property name="roleDescription2" type="java.lang.String" column="ROLE_DESCRIPTION2"/>
+    <property name="roleDescription3" type="java.lang.String" column="ROLE_DESCRIPTION3"/>
+    <property name="roleDescription4" type="java.lang.String" column="ROLE_DESCRIPTION4"/>
+    <property name="roleDescription5" type="java.lang.String" column="ROLE_DESCRIPTION5"/>
+        <!-- tccc customization start WIP 30460-->
+    <property name="nodeId6" type="java.lang.Long" column="NODE_ID6"/>
+    <property name="nodeId7" type="java.lang.Long" column="NODE_ID7"/>
+    <property name="nodeId8" type="java.lang.Long" column="NODE_ID8"/>
+    <property name="nodeId9" type="java.lang.Long" column="NODE_ID9"/>
+    <property name="nodeId10" type="java.lang.Long" column="NODE_ID10"/>
+    <property name="nodeId11" type="java.lang.Long" column="NODE_ID11"/>
+    
+    <property name="nodeName6" type="java.lang.String" column="NODE_NAME6"/>
+    <property name="nodeName7" type="java.lang.String" column="NODE_NAME7"/>
+    <property name="nodeName8" type="java.lang.String" column="NODE_NAME8"/>
+    <property name="nodeName9" type="java.lang.String" column="NODE_NAME9"/>
+    <property name="nodeName10" type="java.lang.String" column="NODE_NAME10"/>
+    <property name="nodeName11" type="java.lang.String" column="NODE_NAME11"/>
+    
+    <property name="nodeRelationship6" type="java.lang.String" column="NODE_RELATIONSHIP6"/>
+    <property name="nodeRelationship7" type="java.lang.String" column="NODE_RELATIONSHIP7"/>
+    <property name="nodeRelationship8" type="java.lang.String" column="NODE_RELATIONSHIP8"/>
+    <property name="nodeRelationship9" type="java.lang.String" column="NODE_RELATIONSHIP9"/>
+    <property name="nodeRelationship10" type="java.lang.String" column="NODE_RELATIONSHIP10"/>
+    <property name="nodeRelationship11" type="java.lang.String" column="NODE_RELATIONSHIP11"/>
+    <property name="ssoId" type="java.lang.String" column="SSO_ID" />
+
+	<!-- tccc customization end WIP 30460-->   
+
+    <set name="importRecordErrors" table="IMPORT_RECORD_ERROR" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_RECORD_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ImportRecordError"/>
+    </set>
+
+  </class>
+
+  <query name="com.biperf.core.domain.import.file.PaxRecordsByPage">
+    <![CDATA[
+		from com.biperf.core.domain.fileload.ParticipantImportRecord paxRecord
+	   where paxRecord.importFileId = :importFileId 
+    ]]>
+  </query>
+  
+	<sql-query name="com.biperf.core.domain.import.file.PaxRecordsByPageWithoutError">
+	<return alias="p" class="com.biperf.core.domain.fileload.ParticipantImportRecord"/>
+	    <![CDATA[
+	      select distinct {p.*}  from STAGE_PAX_IMPORT_RECORD p
+	      where p.import_file_id = :importFileId 
+	      and NOT EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = p.import_record_id
+                      AND ire.import_file_id = p.import_file_id)
+	      order by p.action_Type asc, p.ssn asc,p.FIRST_NAME asc, p.MIDDLE_NAME asc, p.LAST_NAME asc
+	    ]]>
+	 </sql-query>	   
+  
+  <sql-query name="com.biperf.core.domain.import.file.PaxRecordsByPageWithError">
+	<return alias="p" class="com.biperf.core.domain.fileload.ParticipantImportRecord"/>
+	    <![CDATA[
+	      select distinct {p.*}  from STAGE_PAX_IMPORT_RECORD p
+	      where p.import_file_id = :importFileId 
+          and EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = p.import_record_id
+                      AND ire.import_file_id = p.import_file_id)
+	      order by p.ACTION_TYPE asc, p.SSN asc, p.FIRST_NAME asc, p.MIDDLE_NAME asc, p.LAST_NAME asc
+	    ]]>
+	  </sql-query>
+
+</hibernate-mapping>

@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+    "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <definition name="login.default"
+              path="/include/layouts/loginlayout.jsp">
+    <put name='init' value='login.init' />
+    <put name='messages' value='/include/messages.jsp' />
+    <put name='webtracking' value='google.analytics.webtracking' />
+    <put name='trackingTitle' value='G4' />
+  </definition>
+
+  <definition name="login.display" path="/layouts/g6LoginLayout.jsp" controllerClass="com.biperf.core.ui.LoginPageLayoutController">
+    <put name='content' value='/login/loginPage.jsp' />
+  </definition>
+
+  <definition name="g5.loginPage.help" extends="g5.default"
+  	controllerClass="com.biperf.core.ui.help.HelpController">
+	<put name='content' value='/login/loginPageHelp.jsp' />
+  </definition>
+
+  <!-- TODO call controller to implement logic -->
+  <definition name="g5.loginPageFirstTime" extends="g5.default"
+    controllerClass="com.biperf.core.ui.login.LoginPageFirstTimeController">
+	<put name='content' value='/login/loginPageFirstTime.jsp' />
+  </definition>
+
+	<definition name="populate.security.question"  path="/login/loginPageFormSecurityQuestion.jsp" />
+
+	<definition name="populate.change.password"  path="/login/loginPageFormChangePass.jsp" controllerClass="com.biperf.core.ui.login.ForgotPasswordController"/>
+
+  <definition name="prelogin.default"
+              path="/include/layouts/preloginlayout.jsp">
+    <put name='init' value='login.init' />
+    <put name='messages' value='/include/messages.jsp' />
+    <put name='webtracking' value='google.analytics.webtracking' />
+    <put name='trackingTitle' value='G4' />
+  </definition>
+
+  <definition name="beacon.default"
+              path="/include/layouts/beaconBaseLayout.jsp"
+              controllerClass="com.biperf.core.ui.homepage.DefaultLayoutInfoController">
+    <put name='init' value='default.init' />
+    <put name='messages' value='/include/messages.jsp' />
+    <put name='header' value='default.header' />
+    <put name='navigation' value='default.navigation' />
+    <put name='content' value='/empty.jsp' />
+    <put name='footer' value='/include/footer.jsp' />
+    <put name="pagelayout" value="pagelayout1" />
+    <put name="containerclass" value="" />
+    <put name="origstyles" value="/include/origStyles.jsp" />
+    <put name="maintop" value="/include/mainTop.jsp" />
+    <put name="mainbottom" value="/include/mainBottom.jsp" />
+    <put name='topsearch' value='g3redux.quicksearch' />
+    <put name='webtracking' value='google.analytics.webtracking' />
+    <put name='trackingTitle' value='G4' />
+    <put name='yuimodalpopup' value='true' />
+    <put name='insertPurlStyle' value='false' />
+  </definition>
+
+  <!--  G3 Redux - start -->
+  <definition name="g3redux.default"
+              path="/include/layouts/g3ReduxBaseLayout.jsp">
+    <put name='init' value='default.init' />
+    <put name="pagelayout" value="pagelayout1" />
+    <put name="containerclass" value="" />
+    <put name='header' value='g3redux.default.header' />
+    <put name='maintop' value='/empty.jsp' />
+    <put name='content' value='/empty.jsp' />
+    <put name='mainbottom' value='/empty.jsp' />
+    <put name='footer' value='g3redux.default.footer' />
+    <put name="origstyles" value="/empty.jsp" />
+    <put name='topsearch' value='g3redux.quicksearch' />
+    <put name='webtracking' value='google.analytics.webtracking' />
+    <put name='trackingTitle' value='G4' />
+    <put name='yuimodalpopup' value='false' />
+    <put name='insertPurlStyle' value='false' />
+  </definition>
+
+  <!--G5 standard template   -->
+ <definition name="g5.default" path="/layouts/g5BaseLayout.jsp" controllerClass="com.biperf.core.ui.homepage.HomePageController">
+    <put name='init' value='default.init' />
+    <put name="header" value="g6.globalHeader" />
+    <put name="globalNav" value="/layouts/globalNav.jsp" />
+    <put name='footer' value='/layouts/globalFooter.jsp' />
+    <put name='pageNav' value='/layouts/pageNavView.jsp' />
+    <put name='layoutScripts' value='/layouts/layoutScripts.jsp' />
+    <put name='globalSidebar' value='/profile/globalSidebarView.jsp' />
+    <put name='homeApp' value='/empty.jsp' />
+    <put name='profile' value='/profile/participantProfileView.jsp' />
+    <put name='content' value='/empty.jsp' />
+    <put name='webtracking' value='google.analytics.webtracking' />
+    <put name='trackingTitle' value='G5' />
+    <put name='wrapperClass' value="" />
+  </definition>
+
+  <!--G5 Homepage template   -->
+  <definition name="g5.homepage" extends="g5.default">
+  	<put name="homeApp" value="/layouts/g5HomeLayout.jsp" />
+    <put name="content" value="/empty.jsp" />
+    <put name='trackingTitle' value='Homepage' />
+  </definition>
+
+  <definition name="g6.globalHeader"
+              path="/layouts/globalHeader.jsp"
+              controllerClass="com.biperf.core.ui.homepage.GlobalHeaderController"/>
+
+   <definition name="g5.homepage.delegate" extends="g5.default" controllerClass="com.biperf.core.ui.homepage.DelegateHomeController">
+  	<put name="homeApp" value="/layouts/g5DelegateHome.jsp" />
+    <put name="content" value="/empty.jsp" />
+    <put name='trackingTitle' value='Homepage' />
+  </definition>
+
+  <definition name="g5.homepage.hardcoded" extends="g5.default">
+  	<put name="homeApp" value="/layouts/g5HomeLayout_hardcoded.jsp" />
+    <put name="content" value="/empty.jsp" />
+    <put name='trackingTitle' value='Homepage' />
+  </definition>
+
+  <definition name="g3redux.default.header"
+  			  path="/include/g3ReduxHeader.jsp">
+ 	<put name='banner' value='g3redux.top.banner' />
+ 	<put name='userInfo' value='g3redux.user.info' />
+    <put name='nav' value='g3redux.top.nav' />
+    <put name="navselected" value="" />
+  </definition>
+
+ <definition name="g3redux.quicksearch"
+              path="/homepage/g3ReduxQuickSearch.jsp"
+              controllerClass="com.biperf.core.ui.homepage.QuickSearchController"/>
+
+
+  <definition name="g3redux.top.banner"
+  			  path="/include/g3ReduxTopBanner.jsp"
+  			  controllerClass="com.biperf.core.ui.maincontent.TopBannerController"/>
+
+  <definition name="g3redux.user.info"
+  			  path="/include/g3ReduxUserInfo.jsp"
+              controllerClass="com.biperf.core.ui.homepage.UserInfoController"/>
+
+  <definition name="g3redux.top.nav"
+  			  path="/include/g3ReduxNav.jsp"
+              controllerClass="com.biperf.core.ui.maincontent.TopNavMenuController">
+     <put name="navselected" value="" />
+  </definition>
+
+
+  <definition name="g3redux.default.footer"
+  			  path="/include/g3ReduxFooter.jsp"
+              controllerClass="com.biperf.core.ui.homepage.FooterController"/>
+
+  <definition name="google.analytics.webtracking"
+  			  path="/include/googleAnalyticsWebtracking.jsp"
+              controllerClass="com.biperf.core.ui.maincontent.GoogleAnalyticsWebtrackingController"/>
+
+  <definition name="g3redux.home.page" extends="g3redux.default">
+  	<put name="pagelayout" value="" />
+  	<put name='content' value='/homepage/adminHomePage.jsp' />
+  	<put name="containerclass" value="home" />
+    <put name="navselected" value="home.nav.HOME" />
+    <put name='trackingTitle' value='Homepage' />
+  </definition>
+
+  <definition name="g3redux.home.page.news.preview"
+  			  extends="g3redux.default"
+  			  controllerClass="com.biperf.core.ui.homepage.HomePageController">
+  	<put name="pagelayout" value="" />
+  	<put name="containerclass" value="home" />
+    <put name="navselected" value="home.nav.HOME" />
+    <put name="content" value="/homepage/g3ReduxHomepageNewsPreview.jsp" />
+    <!-- <put name='pendingTasksModal' value='homePage.pendingTasksModal'/> -->
+    <put name='trackingTitle' value='Homepage' />
+    <put name='header' value='/empty.jsp' />
+    <put name='topsearch' value='/empty.jsp' />
+  </definition>
+
+  <definition name="multiple.suppliers" extends="g3redux.default"
+              controllerClass="com.biperf.core.ui.homepage.MultipleSuppliersController">
+    <put name="pagelayout" value="pagelayout2" />
+    <put name="containerclass" value="prettytop" />
+    <put name="navselected" value="home.nav.AWARDS" />
+    <put name="content" value="/shopping/multipleSuppliers.jsp" />
+    <put name='trackingTitle' value='Multiple_Suppliers' />
+    <put name='header' value='' />
+    <put name='footer' value=''/>
+  </definition>
+
+  <definition name="participant.admin" extends="g3redux.default"
+              controllerClass="com.biperf.core.ui.homepage.ParticipantAdminController">
+    	<put name="navselected" value="home.nav.ADMIN" />
+    	<put name='content' value='/homepage/participantAdmin.jsp' />
+    	<put name='trackingTitle' value='Participant_Administration' />
+  </definition>
+
+    <definition name="seamlesslogon.errors.display"  extends="g5.default">
+        <put name="content" value="/login/seamlessLogonErrorsOnly.jsp" />
+    </definition>
+
+    <definition name="seamlesslogon.test.display" extends="g5.default">
+        <put name="content" value="/login/seamlessLogonTest.jsp" />
+    </definition>
+
+    <!--start SSO implementation template for Clients -->
+    <definition name="client.seamlesslogon.errors.display"  extends="g5.default">
+        <put name="content" value="/login/clientSeamlessLogonErrorsOnly.jsp" />
+    </definition>
+
+    <definition name="client.seamlesslogon.test.display" extends="g5.default">
+        <put name="content" value="/login/clientSeamlessLogonTest.jsp" />
+    </definition>
+    <!--start SSO implementation template for Clients -->
+
+    <definition name="seamless.logon" extends="g5.default">
+    	<put name='init' value='login.init' />
+        <put name="content" value="/login/seamlessLogon.jsp" />
+    </definition>
+
+    <definition name="seamlesslogon.logout"
+    			extends="g5.default">
+        <put name="content" value="/login/seamlessLogonLogout.jsp" />
+    </definition>
+
+    <definition name="sso.logon.failure"  extends="g5.default">
+        <put name="content" value="/login/ssoLogonFailure.jsp" />
+    </definition>
+
+    <definition name="not.authenticated.timeout"  extends="g5.default">
+        <put name="content" value="/login/notAuthenticatedTimeout.jsp" />
+    </definition>
+  <!-- Home Page Tiles: End -->
+
+  <definition name="default.navigation"
+              path="/include/topnav.jsp"
+              controllerClass="com.biperf.core.ui.maincontent.TopNavMenuController"/>
+
+  <definition name="beacon.printerFriendly"
+              path="/include/layouts/printerFriendlyLayout.jsp">
+    <put name='init' value='default.init' />
+    <put name='webtracking' value='google.analytics.webtracking' />
+    <put name='trackingTitle' value='G4' />
+  </definition>
+
+  <definition name="forgotPwd.name" extends="prelogin.default">
+    <put name="content" value="/login/forgotPwdName.jsp" />
+    <put name='footer' value='/include/preloginfooter.jsp' />
+    <put name='trackingTitle' value='Forgot_Password_Name' />
+  </definition>
+
+  <definition name="forgotPwd.answer" extends="prelogin.default">
+    <put name="content" value="/login/forgotPwdAnswer.jsp" />
+    <put name='footer' value='/include/preloginfooter.jsp' />
+    <put name='trackingTitle' value='Forgot_Password_Answer' />
+  </definition>
+
+  <definition name="user.characteristic.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserCharacteristicListController">
+    <put name="content" value="/user/userCharacteristicList.jsp" />
+    <put name='trackingTitle' value='User_Characteristic_List' />
+  </definition>
+
+  <definition name="user.characteristic.edit" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserCharacteristicEditController">
+    <put name="content" value="/user/userCharacteristicEdit.jsp" />
+    <put name='trackingTitle' value='User_Characteristic_Edit' />
+  </definition>
+
+  <definition name="user.create" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserController">
+    <put name="content" value="/user/userCreate.jsp" />
+    <put name='trackingTitle' value='User_Create' />
+  </definition>
+
+  <definition name="user.createInternal" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserController">
+    <put name="content" value="/user/userCreateInternal.jsp" />
+    <put name='trackingTitle' value='User_Create_Internal' />
+  </definition>
+
+  <definition name="user.display" extends="beacon.default">
+    <put name="content" value="/user/userDisplay.jsp" />
+    <put name='trackingTitle' value='User_Display' />
+  </definition>
+
+  <definition name="user.displayInternal" extends="beacon.default">
+    <put name="content" value="/user/userDisplayInternal.jsp" />
+    <put name='trackingTitle' value='User_Display_Internal' />
+  </definition>
+
+  <definition name="user.update.personalInfo" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserController">
+    <put name="content" value="/user/userUpdatePersonalInfo.jsp" />
+    <put name='trackingTitle' value='User_Update_Personal_Info' />
+  </definition>
+
+  <definition name="user.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserListController">
+    <put name="content" value="/user/userList.jsp" />
+    <put name='trackingTitle' value='User_List' />
+  </definition>
+
+  <definition name="user.updateLoginInfo" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserController">
+    <put name="content" value="/user/userLoginInfoUpdate.jsp" />
+    <put name='trackingTitle' value='User_Update_Login_Info' />
+  </definition>
+
+  <definition name="beacon.quicksearch" extends="beacon.default">
+    <put name="content" value="/homepage/quickSearchResults.jsp" />
+    <put name='trackingTitle' value='Quick_Search_Results' />
+  </definition>
+
+  <definition name="login.init"
+              path="/empty.jsp"
+              controllerClass="com.biperf.core.ui.LoginPageLayoutController"/>
+
+  <definition name="default.init"
+              path="/empty.jsp"
+              controllerClass="com.biperf.core.ui.PageLayoutController"/>
+
+  <definition name="error.page" extends="g5.default">
+    <put name='content' value='/errors/error.jsp' />
+  </definition>
+
+  <definition name="errors.only.display" extends="g5.default">
+    <put name="content" value="/errors/errorsOnly.jsp" />
+  </definition>
+
+  <definition name="termsAndConditions.view" extends="prelogin.default"
+       		  controllerClass="com.biperf.core.ui.profile.TermsAndConditionsController">
+    <put name='content' value='/profile/termsAndConditions.jsp' />
+    <put name='trackingTitle' value='Terms_and_Conditions' />
+  </definition>
+
+  <definition name="termsAndConditions.review" extends="beacon.default"
+       		  controllerClass="com.biperf.core.ui.profile.TermsAndConditionsController">
+    <put name='content' value='/profile/termsAndConditions.jsp' />
+    <put name='trackingTitle' value='Terms_and_Conditions_Review' />
+  </definition>
+
+  <definition name="changePassword.view.old" extends="prelogin.default"
+              controllerClass="com.biperf.core.ui.profile.ChangePasswordController">
+    <put name='content' value='/profile/changePassword.jsp' />
+    <put name='trackingTitle' value='Change_Password' />
+  </definition>
+
+  <definition name="changePassword.view" path="/login/loginPageFormChangePass.jsp"
+              controllerClass="com.biperf.core.ui.profile.ChangePasswordController">
+  </definition>
+
+  <definition name="changePassword.view.new" extends="g5.default"
+              controllerClass="com.biperf.core.ui.profile.ChangePasswordController">
+	<put name='content' value='/profile/changePasswordPage.jsp' />
+  </definition>
+
+  <definition name="user.profile.view" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.profile.UserProfileController">
+    <put name='content' value='/profile/userProfile.jsp' />
+    <put name='trackingTitle' value='User_Profile_View' />
+  </definition>
+
+  <definition name="selfEnrollmentPaxRegistration.view" extends="g5.default"
+              controllerClass="com.biperf.core.ui.selfEnrollment.SelfEnrollmentPaxRegistrationController">
+    <put name='content' value='/login/selfEnrollmentFirstTimeView.jsp' />
+    <put name='trackingTitle' value='Self_Enrollment_Pax_Registration' />
+  </definition>
+
+  <definition name="selfEnrollmentPaxPreferences.view" extends="g5.default"
+              controllerClass="com.biperf.core.ui.selfEnrollment.SelfEnrollmentPaxRegistrationController">
+    <put name='content' value='/login/selfEnrollmentPaxPreferences.jsp' />
+    <put name='trackingTitle' value='Self_Enrollment_Pax_Prefences' />
+  </definition>
+
+  <definition name="faq.list" extends="g5.default">
+    <put name='content' value='/help/faq.jsp' />
+    <put name='trackingTitle' value='FAQ_List' />
+  </definition>
+
+ 	<!-- Footer links defination for sheet and full page view starts here -->
+ 	<!-- Privacy policy defination -->
+ 	<definition name="privacy.full.view" extends="g5.default">
+    	<put name='content' value='/include/privacyPage.jsp' />
+    	<put name='trackingTitle' value='Privacy_View' />
+  	</definition>
+
+  	<definition name="privacy.sheet.view" path="/include/privacySheet.jsp" />
+
+  	<definition name="privacy.pax.full.view" extends="g5.default">
+    	<put name='content' value='/include/paxPrivacyPage.jsp' />
+    	<put name='trackingTitle' value='Privacy_View' />
+  	</definition>
+
+   	<!-- Terms and conditions defination -->
+    <definition name="termsAndConditions.full.view" extends="g5.default">
+  		<put name='content' value='/profile/termsAndConditionsPage.jsp' />
+    </definition>
+
+    <definition name="termsAndConditions.sheet.view" path="/profile/termsAndConditionsSheet.jsp" />
+
+    <!--Rules defination  -->
+   <definition name="rules.full.view" extends="g5.default">
+   		<put name='content' value='/rules/rulesPage.jsp' />
+   </definition>
+
+   <definition name="rules.sheet.view" path="/rules/rulesPage.jsp" />
+
+    <!-- FAQ defination -->
+  	<definition name="faq.full.view" extends="g5.default">
+    	<put name='content' value='/help/faqPage.jsp' />
+  	</definition>
+
+  	<definition name="faq.sheet.view" path="/help/faqSheet.jsp" />
+
+  	<!-- ContactUs defination -->
+  	<definition name="contactUs.full.view" extends="g5.default"
+              controllerClass="com.biperf.core.ui.help.ContactUsController">
+    	<put name='content' value='/login/contactPageForm.jsp' />
+  	</definition>
+
+  	<definition name="contactUs.sheet.view" path="/login/contactPageForm.jsp"
+       controllerClass="com.biperf.core.ui.help.ContactUsController"/>
+    <!-- Footer links defination ends here -->
+
+  <definition name="user.bounceback" extends="beacon.default" >
+    <put name="content" value="/user/bounceBackEmailVerificationConfirm.jsp" />
+    <put name='trackingTitle' value='Bounce_Back_Confirm' />
+  </definition>
+
+  <definition name="userEmailAddressList.display"
+              extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserEmailAddressListController">
+    <put name='content' value='/user/userEmailAddressList.jsp' />
+    <put name='trackingTitle' value='User_Email_Address_List' />
+  </definition>
+
+  <definition name="userEmailAddress.display" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.user.UserEmailAddressController">
+    <put name='content' value='/user/userEmailAddress.jsp' />
+    <put name='trackingTitle' value='User_Email_Address_List_Display' />
+  </definition>
+
+  <definition name="external.supplier.display" extends="beacon.printerFriendly">
+    <put name='content' value='/shopping/externalSupplier.jsp' />
+    <put name='trackingTitle' value='External_Supplier' />
+  </definition>
+
+  <definition name="user.search" extends="beacon.default">
+	<put name="content" value="/user/userSearch.jsp" />
+	<put name='trackingTitle' value='User_Search' />
+  </definition>
+
+  <definition name="activities.onthespot"
+              path="/activities/onTheSpotCardModule.jsp"
+              controllerClass="com.biperf.core.ui.participant.QCardController"/>
+
+  <!--Plateau App  -->
+  <definition name="activities.plateau.module"
+              path="/activities/plateauAwardsModule.jsp"/>
+
+  <definition name="activities.plateau.viewDetail" extends="g5.default">
+    <put name="content" value="/activities/plateauAwardsPage.jsp"/>
+  </definition>
+
+
+  <definition name="tilesetup.display" extends="beacon.default"
+     		controllerClass="com.biperf.core.ui.filter.TileSetupController">
+    <put name="navselected" value="home.nav.SYSTEM" />
+    <put name="content" value="/filter/tileSetup.jsp" />
+    <put name='trackingTitle' value='G5_Tile_Setup' />
+  </definition>
+
+
+  <definition name="filter.setup" extends="beacon.default"
+  			 controllerClass="com.biperf.core.ui.filter.FilterSetupController">
+		<put name="content" value="/filter/filterPageSetup.jsp" />
+		<put name='trackingTitle' value='FILTER_SETUP' />
+	</definition>
+
+
+  <!--BudgetTracker App  -->
+  <definition name="budget.tracker.module"
+  			  path="/budgettracker/budgetTrackerModule.jsp"/>
+
+   <!--<definition name="communications.module.page"
+              path="/diypaxcommunications/communicationsModule.jsp"/>-->
+
+   <!-- News (module, listPage and detail)-->
+  <definition name="news.module"
+              path="/news/newsModule.jsp"/>
+
+  <definition name="news.page"   extends="g5.default" >
+        <put name="content" value="/news/newsPage.jsp"/>
+  </definition>
+
+  <definition name="news.page.detail"  extends="g5.default">
+	    <put name="content" value="/news/newsPageDetail.jsp"/>
+  </definition>
+
+   <definition name="banner.page" extends="g5.default" path="/bannerModule/bannerModule.jsp"/>
+
+  <!--Public Recognition Tile-->
+  <definition name="public.recognition.module"
+              path="/publicrecognition/publicRecognitionModule.jsp"/>
+  
+  <!-- Profile Page ***BEGIN -->
+
+  <definition name="profile.page" extends="g5.default">
+		<put name="content" value="/profile/profilePage.jsp" />
+  </definition>
+
+  <definition name="profile.advanced.search.page" extends="g5.default">
+		<put name="content" value="/profile/participantAdvancedSearchPage.jsp" />
+  </definition>
+
+  <!--TODO add controller for following profile tabe entries to get actual data   -->
+  <definition name="profile.personalinfo.tab"
+    		  controllerClass="com.biperf.core.ui.profile.ProfileInfoController"
+  			  path="/profile/profilePagePersonalInfoTab.jsp" />
+
+  <definition name="profile.activityhistory.tab"
+			  controllerClass="com.biperf.core.ui.homepage.ActivityHistoryController"
+  path="/profile/activityHistory/profilePageActivityHistoryTab.jsp" />
+
+  <definition name="profile.activityhistory.recognition.home"
+			  path="/profile/activityHistory/profilePageActivityHistoryRecognitionResponse.jsp">
+  </definition>
+  <definition name="profile.activityhistory.recognition.sent"
+			  path="/profile/activityHistory/profilePageRecognitionResponseSent.jsp">
+  </definition>
+  <definition name="profile.activityhistory.recognition.received"
+			  path="/profile/activityHistory/profilePageRecognitionResponseReceived.jsp">
+  </definition>
+
+   <definition name="profile.activityhistory.nomination.home"
+			  path="/profile/activityHistory/profilePageActivityHistoryNominationResponse.jsp">
+  </definition>
+  <definition name="profile.activityhistory.nomination.sent"
+			  path="/profile/activityHistory/profilePageNominationResponseSent.jsp">
+  </definition>
+  <definition name="profile.activityhistory.nomination.received"
+			  path="/profile/activityHistory/profilePageNominationResponseReceived.jsp">
+  </definition>
+
+   <definition name="profile.activityhistory.productClaim.home"
+			  path="/profile/activityHistory/profilePageActivityHistoryProductClaimResponse.jsp">
+  </definition>
+  <definition name="profile.activityhistory.productClaim.open"
+			  path="/profile/activityHistory/profilePageProductClaimResponseOpen.jsp">
+  </definition>
+  <definition name="profile.activityhistory.productClaim.closed"
+			  path="/profile/activityHistory/profilePageProductClaimResponseClosed.jsp">
+  </definition>
+
+  <definition name="profile.activityhistory.quiz.home"
+			  path="/profile/activityHistory/profilePageActivityHistoryQuizResponse.jsp">
+  </definition>
+
+   <definition name="profile.activityhistory.quiz"
+   		 	path="/profile/activityHistory/profilePageQuizHistory.jsp">
+  </definition>
+
+  <!-- TODO have to refactor this once we get the latest from UET -->
+  <definition name="profile.message.detail" path="/profile/alertsMessages/profilePageAlertsTabMessageDetail.jsp" controllerClass="com.biperf.core.ui.message.MessageDetailController"/>
+
+ <definition name="public.profileView.full" extends="g5.default" controllerClass="com.biperf.core.ui.profile.ProfilePageController">
+	<put name='content' value='/profile/publicProfilePage.jsp' />
+  </definition>
+
+  <definition name="public.profileView.sheet" path="/profile/publicProfilePage.jsp" controllerClass="com.biperf.core.ui.profile.ProfilePageController"/>
+  <definition name="public.profileView.playerStats" path="/throwdown/throwdownPublicProfile.jsp" controllerClass="com.biperf.core.ui.profile.ProfilePageController"/>
+  <!-- Profile Page ***END -->
+
+	<!-- LeaderBoard tiles definition starts here -->
+
+	<definition name="leaderBoard.list" extends="beacon.default">
+		<put name="content" value="/leaderBoard/admin/leaderBoardList.jsp" />
+		<put name='trackingTitle' value='LeaderBoard_List' />
+	</definition>
+
+	<definition name="expired.leaderboard.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.leaderBoard.LeaderBoardExpiredListController">
+		<put name="content" value="/leaderBoard/admin/leaderBoardExpiredList.jsp" />
+		<put name='trackingTitle' value='Expired_LeaderBoard_List' />
+	</definition>
+
+	<definition name="leaderBoard.create.new" extends="g5.default" controllerClass="com.biperf.core.ui.leaderBoard.LeaderBoardController">
+		<put name="content" value="/leaderBoard/leaderBoardPageCreate.jsp" />
+	</definition>
+
+	<definition name="leaderBoard.preview" extends="g5.default">
+		<put name="content" value="/leaderBoard/leaderBoardPagePreview.jsp" />
+	</definition>
+
+	<definition name="leaderBoard.ranking.module" path="/leaderBoard/leaderBoardModule.jsp"
+	controllerClass="com.biperf.core.ui.leaderBoard.LeaderBoardController"/>
+
+    <definition name="leaderBoard.display.viewDetail" extends="g5.default" >
+		<put name="content" value="/leaderBoard/leaderBoardPage.jsp" />
+	</definition>
+	<!-- LeaderBoard tiles definition ends here -->
+
+	<!-- Nomination Promotion Approvals Starts Here-->
+
+	<definition name="approvals.module" path="/approvals/approvalsModule.jsp"
+	controllerClass="com.biperf.core.ui.approvals.ApprovalsController"/>
+
+	<definition name="nominations.winners.module" controllerClass="com.biperf.core.ui.nomination.NominationsWinnersModuleController" path="/nomination/nominationsWinnersModule.jsp"/>
+
+	<!-- Nomination Promotion Ends Here -->
+
+	<!-- Daily Tips tiles definition starts here -->
+	<definition name="daily.tip.module" extends="g5.default"
+              	path="/dailyTips/tipModule.jsp"/>
+
+
+    <!-- Gamification -->
+     <definition name="social.gamification.module"
+              path="/gamification/gamificationModule.jsp"/>
+
+     <!-- ResourcesCenter  -->
+     <definition name="social.resources.module" controllerClass="com.biperf.core.ui.homepage.ResourceCenterController"
+              path="/resourcecenter/resourceCenterModule.jsp"/>
+
+     <definition name="social.resources.page" extends="g5.default" controllerClass="com.biperf.core.ui.homepage.ResourceCenterController">
+    	<put name="content" value="/resourcecenter/resourceCenterPage.jsp"/>
+  	</definition>
+
+    <!-- Reports -->
+    <definition name="reports.module"
+              path="/reports/reportsModule.jsp"
+              controllerClass="com.biperf.core.ui.reports.ReportsModuleController"/>
+    <definition name="reports.dashboard.module"
+              path="/reports/reportsDashboardModule.jsp"
+              controllerClass="com.biperf.core.ui.reports.ReportsModuleController"/>
+
+    <!-- Forum -->
+    <!-- <definition name="forum.module"
+              path="/forum/forumModule.jsp"/>
+
+    <definition name="forum.module.item"
+              path="/forum/forumModuleItem.jsp"/> -->
+
+	<!-- Manager Send Alert -->
+	<definition name="manager.toolkit.module"
+              	path="/managertoolkit/managerToolkitModule.jsp"
+              	controllerClass="com.biperf.core.ui.homepage.ManagerToolKitController"/>
+
+    <definition name="manager.toolkit.alert" extends="g5.default"
+				controllerClass="com.biperf.core.ui.managertoolkit.ManagerAlertController">
+		<put name="content" value="/managertoolkit/managerToolKitAlert.jsp" />
+		<put name='trackingTitle' value='Manager_Send_Alert' />
+	</definition>
+
+	<definition name="manager.toolkit.budget" extends="g5.default" controllerClass="com.biperf.core.ui.budget.BudgetReallocationController">
+		<put name="content" value="/managertoolkit/managerToolkitPageBudget.jsp" />
+		<put name='trackingTitle' value='Budget Transfer' />
+	</definition>
+
+	<definition name="manager.toolkit.budget.preview" extends="g5.default">
+		<put name="content" value="/managertoolkit/managerToolkitPageBudgetPreview.jsp" />
+		<put name='trackingTitle' value='Budget Transfer Confirmation' />
+	</definition>
+
+	<definition name="budget.transfer.confirmation.modal" path="/managertoolkit/modal/budgetTransferConfirmation.jsp" />
+
+	<definition name="leaderBoard.create.success.confirmation.modal" path="/leaderBoard/model/leaderBoardConfirmationModal.jsp" />
+
+	<definition name="emailSent.success.confirmation.modal" path="/login/modal/emailConfirmationModal.jsp" />
+
+	<definition name="recognitionSent.success.confirmation.modal" path="/submitrecognition/modal/modalRecognitionResponse.jsp" />
+
+	<definition name="purlInvitationSent.success.confirmation.modal" path="/purl/recognitionPageInviteContributorsAutoModal.jsp" />
+
+	<definition name="alertSent.success.confirmation.modal" path="/managertoolkit/modal/sendAlertConfirmationModal.jsp" />
+
+	<definition name="preferenceSave.success.confirmation.modal" path="/profile/preferenceSaveConfirmationModel.jsp" />
+	<!-- Client customization for WIP #43735 starts -->
+	<definition name="coke.cash.recognition.redeemed.confirmation.modal" path="/profile/cokeCashRecognitionRedeemedConfirmationModel.jsp" />
+	<!-- Client customization for WIP #43735 ends -->
+	<definition name="participantCreateUpdate.success.confirmation.modal" path="/managertoolkit/modal/rosterMgmtConfirmationModal.jsp" />
+
+	<definition name="select.goal.confirmation.modal" path="/goalquest/autoModalGoalquest.jsp" />
+
+	<definition name="plateauawardreminders.success.confirmation.modal" path="/managertoolkit/modal/plateauAwardsReminderConfirmation.jsp" />
+
+	<definition name="survey.submit.success.confirmation.modal" path="/survey/modal/surveySubmitConfirmationModal.jsp" />
+
+	<definition name="manager.toolkit.budget.history" extends="g5.default">
+		<put name="content" value="/managertoolkit/managerToolkitPageHistory.jsp" />
+		<put name='trackingTitle' value='Budget Reallocation History' />
+	</definition>
+
+	<!-- Quiz -->
+    <!-- <definition name="quiz.module"
+              	path="/quiz/quizModule.jsp"
+              	controllerClass="com.biperf.core.ui.quiz.QuizPageController"/> -->
+
+	<definition name="goalQuestModule.page"
+	 			extends="g5.default"  path="/goalquest/challengepointPage.jsp">
+	</definition>
+
+	<definition name="goalQuest.page"
+	 			extends="g5.default">
+		<put name="content" value="/goalquest/challengepointPage.jsp" />
+	</definition>
+
+	<!--  ChallengePoint -->
+  	<definition name="challengePointModule.page"
+	 			extends="g5.default"  path="/challengepoint/challengepointModule.jsp">
+	</definition>
+
+	<definition name="challengePoint.page"
+	 			extends="g5.default">
+		<put name="content" value="/goalquest/challengepointPage.jsp" />
+	</definition>
+
+	<!-- Product Claim Tile-->
+  	<definition name="product.claim.module"
+              	path="/productclaim/claimModule.jsp"/>
+
+	 <definition name="profile.statement.tab"
+              path="/profile/statement/profilePageStatementTab.jsp"
+              controllerClass="com.biperf.core.ui.participant.MyAccountController"/>
+
+    <definition name="profile.statement.tab.response"
+              path="/profile/statement/profilePageStatementTabResponse.jsp"
+              controllerClass="com.biperf.core.ui.participant.MyAccountController"/>
+
+    <definition name="profile.statement.response"
+              path="/profile/statement/profilePageStatementTabResponse.jsp"
+              controllerClass="com.biperf.core.ui.participant.MyAccountController"/>
+<!--  For WIP #23784 starts  -->
+  <!--    <definition name="profile.preferences.tab"
+              path="/profile/profilePagePreferencesTab.jsp"
+              controllerClass="com.biperf.core.ui.participant.ParticipantMaintainCustomController"/>
+              -->
+<definition name="profile.preferences.tab"
+              path="/profile/profilePagePreferencesTab.jsp"
+              controllerClass="com.biperf.core.ui.participant.client.ParticipantMaintainControllerClient"/>
+
+<!--  For WIP #23784 ends  -->
+    <definition name="profile.proxies.tab"
+              path="/profile/proxies/profilePageProxiesTab.jsp"
+              controllerClass="com.biperf.core.ui.proxy.ProxyListController"/>
+
+    <definition name="profile.proxies.tab.new"
+              path="/profile/proxies/profilePageProxiesTabEditForm.jsp"
+              controllerClass="com.biperf.core.ui.proxy.ProxyDetailController"/>
+
+    <definition name="profile.proxies.tab.edit"
+              path="/profile/proxies/profilePageProxiesTabEditForm.jsp"
+              controllerClass="com.biperf.core.ui.proxy.ProxyDetailController"/>
+
+    <definition name="profile.proxies.list.row"
+              path="/profile/proxies/profilePageProxiesTabListRow.jsp"
+              controllerClass="com.biperf.core.ui.proxy.ProxyDetailController"/>
+
+    <definition name="profile.proxies.tab.add"
+              path="/profile/proxies/profilePageProxiesTabListRow.jsp"
+              controllerClass="com.biperf.core.ui.proxy.ProxyDetailController"/>
+
+    <definition name="profile.proxies.tab.remove"
+              path="/profile/proxies/profilePageProxiesTabEditForm.jsp"
+              controllerClass="com.biperf.core.ui.proxy.ProxyListController"/>
+
+    <definition name="profile.security.tab"
+              path="/profile/profilePageSecurityTab.jsp"
+              controllerClass="com.biperf.core.ui.profile.UserProfileController"/>
+
+    <definition name="popover.view"
+              path="/profileutil/participantPopoverView.jsp"
+              controllerClass="com.biperf.core.ui.participant.ParticipantMaintainCustomController"/>
+
+	<!-- Client customizations for WIP #62128 starts -->
+   	<definition name="cheers.recognition.easy.submit.success" path="/client/cheersRecognitionSuccess.jsp" />
+   <!-- Client customizations for WIP #62128 ends -->       
+	
+     <!-- Server commands -->
+    <definition name="server.command.redirect" path="/servercommand/serverCommand_redirect.jsp" />
+    <definition name="server.command.html.redirect" path="/servercommand/serverCommandHtml_redirect.jsp" />
+
+    <!-- home page easy recognition module -->
+    <!-- <definition name="recognition.module" path="/submitrecognition/easy/recognitionModule.jsp"/> -->
+
+    <!-- home page GoalQuest module -->
+    <definition name="goalquest.module" path="/goalquest/goalQuestModule.jsp"/>
+
+    <!-- home page GoalQuest/CP Manager module -->
+    <definition name="managergq.module" path="/goalquest/managerGoalquestModule.jsp" controllerClass="com.biperf.core.ui.goalquest.ManagerGoalquestModuleController"/>
+    <!-- home page GoalQuest/CP Manager module -->
+    <definition name="managercp.module" path="/challengepoint/managerChallengepointModule.jsp"/>
+
+    <!-- home page ChallengePoint module -->
+    <definition name="challengepoint.module" path="/challengepoint/challengepointModule.jsp"/>
+
+    <!-- PURL Module -->
+	<!-- <definition name="purl.recognition.module" path="/purl/purlRecognitionModule.jsp"/> -->
+
+	<!-- Engagement Modules -->
+  <definition name="engagement.module" path="/engagement/engagementModule.jsp"/>
+	<definition name="engagement.manager.module" path="/engagement/engagementManagerModule.jsp"/>
+
+	<definition name="engagement.page.recognized" path="/engagement/engagementPageRecognized.jsp" />
+
+	<!-- GoalQuest/CP pages -->
+    <definition name="goalquest.promotion.wizard" extends="g5.default">
+    	<put name="content" value="/goalquest/wizard.jsp" />
+    </definition>
+
+  <!-- ROSTER MANAGEMENT -->
+  <definition name="roster.mgmt.table.response"
+		controllerClass="com.biperf.core.ui.managertoolkit.ParticipantRosterMgmtListController"
+		path="/managertoolkit/rosterManagement/managerToolkitPageRoster_tableResponse.jsp"/>
+
+  <definition name="roster.mgmt.list" extends="g5.default">
+    <put name="content" value="/managertoolkit/rosterManagement/managerToolkitPageRoster.jsp" />
+    <put name='trackingTitle' value='Participant_Roster_Management_List' />
+  </definition>
+
+  <definition name="participant.roster.mgmt.add.edit" extends="g5.default"
+        controllerClass="com.biperf.core.ui.managertoolkit.ParticipantRosterMgmtModifyController">
+    <put name="content" value="/managertoolkit/rosterManagement/managerToolkitPageRosterEdit.jsp" />
+    <put name='trackingTitle' value='Participant_Roster_Management_Add_Edit' />
+  </definition>
+
+  <!-- ROSTER MANAGEMENT -->
+  <definition name="plateauawardsreminder.home" extends="g5.default">
+    <put name="content" value="/managertoolkit/plateauAwardsReminder.jsp" />
+    <put name='trackingTitle' value='Plateau_Awards_Reminder' />
+  </definition>
+
+  <definition name="claim.submission.success.confirmation.modal" path="/productclaim/claimSuccessModal.jsp" />
+
+  <!--Smack Talk ***BEGIN   -->
+  <!--Smack Talk Tile-->
+  <definition name="throwdown.smacktalk.module" path="/throwdown/smackTalkModule.jsp"/>
+
+  <!--Smack Talk-Full Page-->
+  <definition name="throwdown.smacktalk.page" extends="g5.default">
+	<put name="content" value="/throwdown/smackTalkPage.jsp"/>
+  </definition>
+
+  <!--Smack Talk ***END   -->
+
+  <!--Training Camp Tile-->
+  <definition name="throwdown.trainingcamp.module" path="/throwdown/trainingCampModule.jsp"/>
+
+  <definition name="throwdown.trainingcamp.page" extends="g5.default">
+    <put name="content" value="/throwdown/trainingCampPage.jsp"/>
+  </definition>
+
+  <!-- Throwdown News  (module, listPage and detail) ***BEGIN  -->
+
+  <definition name="throwdown.throwdownnews.module" path="/throwdown/newsModule.jsp"/>
+
+  <definition name="throwdownnews.page" extends="g5.default" >
+	<put name="content" value="/throwdown/newsPage.jsp"/>
+  </definition>
+
+  <definition name="throwdownnews.page.detail"  extends="g5.default">
+	<put name="content" value="/throwdown/newsPageDetail.jsp"/>
+  </definition>
+
+  <!-- Throwdown News ***END   -->
+
+   <!-- Throwdown Standings  ***BEGIN  -->
+
+  <definition name="throwdown.standings.module" path="/throwdown/standingsModule.jsp"/>
+
+  <!--   <definition name="throwdown.standings.page" extends="g5.default">
+	<put name="content" value="/throwdown/standingsPage.jsp"/>
+  </definition> -->
+
+   <!-- Throwdown Standings  ***END  -->
+
+    <!-- Throwdown View Matches  ***BEGIN  -->
+
+  <definition name="throwdown.matchlist.module" path="/throwdown/matchListModule.jsp"/>
+
+  <definition name="throwdown.viewmatches.page" extends="g5.default">
+	<put name="content" value="/throwdown/viewMatchesPage.jsp"/>
+  </definition>
+
+   <!-- Throwdown View Matches  ***END  -->
+
+    <!-- Throwdown PromoName Selector  ***BEGIN  -->
+
+  <definition name="throwdown.promoselect.module" path="/throwdown/promoSelectModule.jsp"/>
+
+   <!-- Throwdown PromoName Selector   ***END  -->
+
+    <!-- Throwdown Match Summary  ***BEGIN  -->
+
+  <definition name="throwdown.matchsummary.module" path="/throwdown/matchSummaryModule.jsp"/>
+
+  <definition name="throwdown.matchsummary.page" extends="g5.default">
+	<put name="content" value="/throwdown/matchSummaryPage.jsp"/>
+  </definition>
+
+   <!-- Throwdown Match Summary   ***END  -->
+
+  <!-- Throwdown Rankings  ***BEGIN  -->
+
+  <definition name="throwdown.rankings.module" path="/throwdown/rankingsModule.jsp"/>
+
+  <definition name="throwdown.rankings.page" extends="g5.default">
+    <put name="content" value="/throwdown/rankingsPage.jsp"/>
+  </definition>
+
+   <!-- Throwdown Rankings   ***END  -->
+
+   <!-- Throwdown Rules  ***BEGIN  -->
+
+  <definition name="throwdown.rules.module" path="/throwdown/rulesModule.jsp"/>
+
+  <definition name="throwdown.viewrules.page" extends="g5.default">
+	<put name="content" value="/throwdown/viewRulesPage.jsp"/>
+  </definition>
+
+   <!-- Throwdown Rules   ***END  -->
+
+   <!-- START xPromotModule module-->
+   <definition name="xpromo.module" path="/xpromo/xpromoModule.jsp"/>
+   <!-- END xPromotModule module-->
+
+   <!-- Survey Library -->
+   <definition name="survey.library" extends="beacon.default" controllerClass="com.biperf.core.ui.survey.SurveyFormListController">
+    <put name="content" value="/survey/surveyFormList.jsp" />
+    <put name='trackingTitle' value='Survey_Library'/>
+  </definition>
+
+  <definition name="surveyform.details" extends="beacon.default" controllerClass="com.biperf.core.ui.survey.SurveyFormController">
+    <put name="content" value="/survey/surveyForm.jsp" />
+    <put name='trackingTitle' value='Survey_Form_Details'/>
+  </definition>
+
+    <definition name="surveyform.view" extends="beacon.default">
+    <put name="content" value="/survey/viewSurveyForm.jsp" />
+    <put name='trackingTitle' value='Survey_Form_View'/>
+  </definition>
+
+  <definition name="surveyform.copy" extends="beacon.default">
+    <put name="content" value="/survey/copySurveyForm.jsp" />
+    <put name='trackingTitle' value='Survey_Form_Copy'/>
+  </definition>
+
+   <definition name="survey.question.details" extends="beacon.default" controllerClass="com.biperf.core.ui.survey.SurveyQuestionController">
+    <put name="content" value="/survey/surveyQuestion.jsp" />
+    <put name='trackingTitle' value='Survey_Question_Details'/>
+  </definition>
+
+  <definition name="survey.question.view" extends="beacon.default" controllerClass="com.biperf.core.ui.survey.SurveyQuestionController">
+    <put name="content" value="/survey/viewSurveyQuestion.jsp" />
+    <put name='trackingTitle' value='Survey_Question_View'/>
+  </definition>
+
+  <definition name="survey.question.answer.details" extends="beacon.default" controllerClass="com.biperf.core.ui.survey.SurveyQuestionController">
+    <put name="content" value="/survey/surveyQuestionResponse.jsp" />
+    <put name='trackingTitle' value='Survey_Question_Response_Details'/>
+  </definition>
+
+  <definition name="survey.promotions" extends="beacon.default" controllerClass="com.biperf.core.ui.survey.SurveyPromotionListController">
+    <put name="content" value="/survey/viewPromotions.jsp" />
+    <put name='trackingTitle' value='Survey_Promotions'/>
+  </definition>
+
+  <definition name="survey.page"
+	 			extends="g5.default"
+              	controllerClass="com.biperf.core.ui.survey.SurveyPageController">
+       	<put name="content" value="/survey/surveyPageList.jsp" />
+		<put name='trackingTitle' value='Survey_Page' />
+	</definition>
+
+  <definition name="survey.take" extends="g5.default">
+    <put name="content" value="/survey/surveyPageTake.jsp" />
+    <put name='trackingTitle' value='Take_Survey'/>
+  </definition>
+
+    <!-- ======================================================= -->
+	<!-- INSTANT POLL ADMIN Definitions -->
+	<!-- ======================================================= -->
+
+	<definition name="instantpolls.list.page" extends="beacon.default" controllerClass="com.biperf.core.ui.instantpoll.InstantPollListController">
+		<put name="content" value="/instantpoll/instantPollsList.jsp" />
+		<put name='trackingTitle' value='Instant_Polls_List' />
+	</definition>
+
+	<definition name="instant.poll.add" extends="beacon.default" controllerClass="com.biperf.core.ui.instantpoll.InstantPollController">
+		<put name="content" value="/instantpoll/instantPollMaintain.jsp" />
+		<put name='trackingTitle' value='Instant_Poll_Add' />
+	</definition>
+
+	<definition name="audience.paxlist" extends="beacon.printerFriendly">
+    <put name="content" value="/promotion/promotionAudiencePaxList.jsp" />
+    </definition>
+
+    <!-- ======================================================= -->
+	<!-- ENGAGEMENT -->
+	<!-- ======================================================= -->
+    <definition name="engagement.user.dashboard" extends="g5.default">
+       	<put name="content" value="/engagement/engagementPageUserDashboard.jsp" />
+		<put name='trackingTitle' value='Engagement_Page_User_Dashboard' />
+	</definition>
+
+	<definition name="engagement.chart.rec.sent.bypromo" path="/engagement/engagementDetailRecognitionSentChart.jsp" />
+	<definition name="engagement.chart.rec.received.bypromo" path="/engagement/engagementDetailRecognitionReceivedChart.jsp" />
+	<definition name="engagement.chart.unique.rec.sent" path="/engagement/engagementUniqueRecognitionSentChart.jsp" />
+	<definition name="engagement.chart.unique.rec.received" path="/engagement/engagementUniqueRecognitionsReceivedChart.jsp" />
+	<definition name="engagement.chart.login.visits" path="/engagement/engagementDetailVisitsChart.jsp" />
+
+
+	<!-- ======================================================= -->
+	<!-- INSTANT POLL PAX Side Definitions -->
+	<!-- ======================================================= -->
+
+  <definition name="instant.poll.module" extends="g5.default"
+              path="/survey/instantPollModule.jsp"/>
+
+  <!-- Celebration Module -->
+    <!-- <definition name="celebration.module" controllerClass="com.biperf.core.ui.celebration.CelebrationModuleController"
+              path="/celebration/celebrationModule.jsp"/> -->
+
+  <!-- Purl Celebration Module -->
+    <definition name="purl.celebration.module" path="/purl/purlCelebrateModule.jsp" />
+
+ <!-- SSI Participant Module -->
+    <definition name="ssi.participant.module" path="/ssi/ssiParticipantModule.jsp" />
+
+ <!-- SSI Manager Module -->
+    <definition name="ssi.manager.module" path="/ssi/ssiManagerModule.jsp" />
+
+ <!-- SSI Creator Module -->
+    <definition name="ssi.creator.module" path="/ssi/ssiCreatorModule.jsp" />
+
+ <!-- SSI Creator Contests Module -->
+    <definition name="ssi.creatorcontests.module" path="/ssi/ssiCreatorContestsModule.jsp" />
+
+  <!-- Plateau Awards Redeem Module -->
+    <definition name="plateau.awards.redeem.module" path="/activities/plateauAwardsRedeemModule.jsp" />
+
+  <!-- WorkHappier Module -->
+    <definition name="work.happier.module" controllerClass="com.biperf.core.ui.workhappier.WorkHappierController" path="/workhappier/workHappierPaxModule.jsp" />
+
+    <definition name="external.survey.test" path="/workhappier/externalSurveyTest.jsp" />
+
+  <!-- Hero Module -->
+    <definition name="hero.module" path="/hero/heroModule.jsp"/>
+    
+  <!-- RA -->  
+    <definition name="recognition.advisor.module" path="/recognitionadvisor/recognitionAdvisorModule.jsp"/>
+    
+    <definition name="recognition.advisor.detailpage" extends="g5.default">
+      <put name="content" value="/recognitionadvisor/recognitionAdvisorPageView.jsp" />
+    </definition>
+    
+    <definition name="ra.recognitionSent.success.confirmation.modal" path="/recognitionadvisor/recognitionAdvisorModalPage.jsp" />
+
+    <!-- Added new module for throw down combined module  -->
+    <definition name="throwdown.combined.module" path="/throwdown/throwdownCombinedModule.jsp"/>
+
+    <definition name="g5.loginPage.globalfooter" path="/layouts/globalFooter.jsp"/>
+
+     <definition name="global.sidebar" path="/profile/globalSidebarView.jsp"/>
+
+     <definition name="g5.loginPage.registration" path="/login/loginPageFormRegistration.jsp"/>
+
+     <definition name="g5.loginPage.contact"
+      controllerClass="com.biperf.core.ui.help.ContactUsController"
+      path="/login/loginPageFormContact.jsp"/>
+
+     <definition name="g5.loginPage.forgotpass" path="/login/loginPageFormForgotPass.jsp"/>
+	 <definition name="nomination.winner.modal.tpl" path="/nomination/nominationsWinnerModal.jsp" />
+	 
+	 <!-- New Service Anniversary Celebration Module -->
+	 <definition name="new.service.anniversary.celebration.module" path="/newserviceanniversary/newServiceAnniversaryModule.jsp" />
+	 <!-- Client customization for WIP #44041 starts -->
+    <definition name="client.claimAward.display" extends="g5.default">
+		<put name="content" value="/approvals/clientRecipientAwardSelection.jsp" />
+    </definition>
+    <!-- Client customization for WIP #44041 ends -->
+     <!-- TCCC  - customization start - wip 46975  -->
+	<definition name="client.recognize.module" extends="g5.default" controllerClass="com.biperf.core.ui.client.RecognizeAnyoneController" path="/client/recognizeAnyoneModule.jsp" />
+	<definition name="recognitionAnyOneSent.success.confirmation.modal" path="/client/modal/modalRecognitionAnyOneResponse.jsp" />              
+	<!-- TCCC  - customization end -->
+    
+	    <!-- Client customization for WIP 58122 -->
+    <definition name="client.claimAwardNomination.display" extends="g5.default">
+		<put name="content" value="/approvals/selectPointsOrTrainingView.jsp" />
+    </definition>
+    <!-- Client customization for WIP # ends -->
+    
+    
+		
+</tiles-definitions>

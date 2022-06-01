@@ -1,0 +1,825 @@
+// App-specific variables
+// =========================
+$communications_uploadPreviewReplaceBgColor: $brand_color_mid !default;
+$communications_uploadPreviewReplaceBorderColor: false !default;
+
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.communications {
+
+} /* /.communications */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.communications {
+} /* /.launchModule.communications */
+
+/* ----- PAGE STYLES ----- */
+.page.communications {
+
+    .commBlockList {
+        width: auto;
+    }
+
+    //Manage Blocks
+    .communicationsBlock {
+        margin: 0 0 nth($card_margin, 1) 0;
+        width: auto;
+
+        .blockHeadline {
+            @include clearfix();
+
+            h3 {
+                margin-top: 0;
+
+                i {
+                    display: inline-block;
+                    text-align: center;
+                }
+
+                span {
+                    position: relative;
+                }
+            }
+            a.btn {
+                float: right;
+            }
+        }
+        .blockContent {
+            clear: both;
+        }
+    }
+
+    @media (min-width: $breakpoint_mobileMini_min) {
+    } // /@media
+
+    @media (min-width: $breakpoint_tablet_min) {
+        .commBlockList {
+            margin-right: -1 * nth($card_margin_tablet, 2);
+
+            .communicationsBlock {
+                display: inline;
+                float: left;
+                clear: left;
+                margin-right: nth($card_margin_tablet, 2);
+                margin-bottom: nth($card_margin_tablet, 1);
+                width: calc(50% - #{nth($card_margin_tablet, 2)});
+
+                &:nth-of-type(even) {
+                    float: right;
+                    clear: right;
+                }
+            }
+        }
+    } // /@media
+
+    @media (min-width: $breakpoint_desktop_min) {
+        @if nth($card_margin_desktop, 2) != nth($card_margin_tablet, 2) {
+            .commBlockList {
+                margin-right: -1 * nth($card_margin_desktop, 2);
+
+                .communicationsBlock {
+                    margin-right: nth($card_margin_desktop, 2);
+                    margin-bottom: nth($card_margin_desktop, 1);
+                    width: calc(50% - #{nth($card_margin_desktop, 2)});
+                }
+            }
+        } // /@if
+    } // /@media
+
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        @if nth($card_margin_desktopLarge, 2) != nth($card_margin_desktop, 2) {
+            .commBlockList {
+                margin-right: -1 * nth($card_margin_desktopLarge, 2);
+
+                .communicationsBlock {
+                    margin-right: nth($card_margin_desktopLarge, 2);
+                    margin-bottom: nth($card_margin_desktopLarge, 1);
+                    width: calc(50% - #{nth($card_margin_desktopLarge, 2)});
+                }
+            }
+        } // /@if
+    } // /@media
+
+
+    /*
+    .manageBannersBlock {
+        .blockHeadline {
+            @if $communications_bannerHeadlineBgColor and $communications_bannerHeadlineBgColor != $communications_blockHeadlineBgColor {
+                background-color: $communications_bannerHeadlineBgColor;
+            }
+
+            @if $communications_bannerHeadlineColor and $communications_bannerHeadlineColor != $communications_blockHeadlineColor {
+                @include fontSmoothing($communications_bannerHeadlineColor, $communications_bannerHeadlineBgColor or $communications_blockHeadlineBgColor);
+
+                h3 {
+                    color: $communications_bannerHeadlineColor;
+                }
+            }
+            // @if $communications_bannerHeadlineLinkColor and $communications_bannerHeadlineLinkColor != $communications_blockHeadlineLinkColor {
+            //     a {
+            //         color: $communications_bannerHeadlineLinkColor;
+            //     }
+            // }
+        }
+    }
+    .manageNewsBlock {
+        .blockHeadline {
+            @if $communications_newsHeadlineBgColor and $communications_newsHeadlineBgColor != $communications_blockHeadlineBgColor {
+                background-color: $communications_newsHeadlineBgColor;
+            }
+
+            @if $communications_newsHeadlineColor and $communications_newsHeadlineColor != $communications_blockHeadlineColor {
+                @include fontSmoothing($communications_newsHeadlineColor, $communications_newsHeadlineBgColor or $communications_blockHeadlineBgColor);
+
+                h3 {
+                    color: $communications_newsHeadlineColor;
+                }
+            }
+            // @if $communications_newsHeadlineLinkColor and $communications_newsHeadlineLinkColor != $communications_blockHeadlineLinkColor {
+            //     a {
+            //         color: $communications_newsHeadlineLinkColor;
+            //     }
+            // }
+        }
+    }
+    .manageResourceBlock {
+        .blockHeadline {
+            @if $communications_resoureceHeadlineBgColor and $communications_resoureceHeadlineBgColor != $communications_blockHeadlineBgColor {
+                background-color: $communications_resoureceHeadlineBgColor;
+            }
+
+            @if $communications_resoureceHeadlineColor and $communications_resoureceHeadlineColor != $communications_blockHeadlineColor {
+                @include fontSmoothing($communications_resoureceHeadlineColor, $communications_resoureceHeadlineBgColor or $communications_blockHeadlineBgColor);
+
+                h3 {
+                    color: $communications_resoureceHeadlineColor;
+                }
+            }
+            // @if $communications_resoureceHeadlineLinkColor and $communications_resoureceHeadlineLinkColor != $communications_blockHeadlineLinkColor {
+            //     a {
+            //         color: $communications_resoureceHeadlineLinkColor;
+            //     }
+            // }
+        }
+    }
+    .manageTipsBlock {
+        .blockHeadline {
+            @if $communications_tipsHeadlineBgColor and $communications_tipsHeadlineBgColor != $communications_blockHeadlineBgColor {
+                background-color: $communications_tipsHeadlineBgColor;
+            }
+
+            @if $communications_tipsHeadlineColor and $communications_tipsHeadlineColor != $communications_blockHeadlineColor {
+                @include fontSmoothing($communications_tipsHeadlineColor, $communications_tipsHeadlineBgColor or $communications_blockHeadlineBgColor);
+
+                h3 {
+                    color: $communications_tipsHeadlineColor;
+                }
+            }
+            // @if $communications_tipsHeadlineLinkColor and $communications_tipsHeadlineLinkColor != $communications_blockHeadlineLinkColor {
+            //     a {
+            //         color: $communications_tipsHeadlineLinkColor;
+            //     }
+            // }
+        }
+    }
+    .manageAlertsBlock {
+        .blockHeadline {
+            @if $communications_alertsHeadlineBgColor and $communications_alertsHeadlineBgColor != $communications_blockHeadlineBgColor {
+                background-color: $communications_alertsHeadlineBgColor;
+            }
+
+            @if $communications_alertsHeadlineColor and $communications_alertsHeadlineColor != $communications_blockHeadlineColor {
+                @include fontSmoothing($communications_alertsHeadlineColor, $communications_alertsHeadlineBgColor or $communications_blockHeadlineBgColor);
+
+                h3 {
+                    color: $communications_alertsHeadlineColor;
+                }
+            }
+            // @if $communications_alertsHeadlineLinkColor and $communications_alertsHeadlineLinkColor != $communications_blockHeadlineLinkColor {
+            //     a {
+            //         color: $communications_alertsHeadlineLinkColor;
+            //     }
+            // }
+        }
+    }
+    */
+    .contentFilterSelect {
+        width: 100%;
+    }
+
+    .contentTableWrapper {
+        .editColumn {
+            text-align: center;
+
+            i {
+                width: $fontSizeLarge;
+                font-size: $fontSizeLarge;
+                line-height: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+            }
+        }
+    }
+
+    .addNew {
+        float: right;
+        margin-top: 0;
+
+        @media (max-width: $breakpoint_mobileMini_max) {
+            float: none;
+        }
+    }
+
+    // Audience Table
+    #selectAudienceTable {
+        tr {
+            td{
+                 position: relative;
+            }
+
+            .selectedColumn i {
+                display: none;
+                width: $fontSizeLarge;
+                font-size: $fontSizeLarge;
+                line-height: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+                cursor: pointer;
+            }
+
+            .addToAudience {
+                display: inline-block;
+            }
+        }
+        .selectedColumn {
+            text-align: center;
+        }
+        .selected {
+            .addToAudience {
+                display: none;
+            }
+
+            .selectedColumn i {
+                display: inline-block;
+            }
+        }
+        .audienceSelectCheckbox {
+            position: absolute;
+            top: 0;
+            visibility: hidden;
+        }
+    }
+
+    .audienceParticipants {
+        width: 120px;
+
+        ul {
+            list-style: none;
+            margin: 0 0 5px 5px;
+            max-height: 200px;
+            overflow-y: auto;
+
+        }
+    }
+    .selectedAudienceTotal {
+        margin-top: -1 * $baseLineHeight / 2;
+        margin-bottom: $baseLineHeight;
+    }
+
+
+    //general page styles
+    .spincover {
+        position: absolute;
+    }
+    .contentAddLink {
+        clear: both;
+    }
+    .contentAddLink .addDoc,
+    .contentAddLink .addUrl {
+        clear: both;
+        padding-right: 10px;
+
+        i {
+            padding-right: 7px;
+        }
+    }
+    .contentDisplayAttached {
+        height: 20px;
+        padding: 5px 0;
+        position: relative;
+
+        .spin {
+            // display: block;
+            height: $spinner_widthHeight / 2;
+            left: 30px;
+            margin: 0;
+            position: absolute;
+            width: $spinner_widthHeight / 2;
+        }
+    }
+    .contentDisplayLink {
+        /* NOTE: I (Joel) commented all this out because the styles were interfering with the (X) added as part of .removeLink
+         * If these need to come back, I'm sorry. Some adjustment will need to be done to make the (X) display properly
+         */
+        // display: inline-block;
+        // height: 20px;
+        // overflow: hidden;
+        // position: absolute;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
+        // width: 100%;
+        // z-index: 1;
+    }
+    .removeLink {
+        cursor: pointer;
+    }
+    .contentLink {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        height: 0;
+        outline: none;
+        padding: 0;
+        position: absolute;
+        top: -15px;
+        width: 170px;
+        z-index: 0;
+    }
+    .attachUrlBtn {
+        vertical-align: top;
+    }
+    .addDocPopover {
+        .control-group {
+            margin-bottom: 0;
+
+            label {
+                cursor: default;
+            }
+        }
+        form {
+            line-height: $baseLineHeight * 1.1;
+            margin-top: 10px;
+
+            input {
+                height: 25px;
+                line-height: $baseLineHeight * .85;
+                outline: none;
+            }
+        }
+
+    }
+    .communicationsHelpText {
+        color: #666666;
+        font-size: $baseFontSize * .86;
+    }
+    #newsMessage {
+        clear: both;
+        margin-bottom: 15px;
+    }
+    .linkColumn,
+    .storyColumn,
+    .contentColumn {
+        word-break: break-all;
+        min-width: 80px;
+    }
+    .imageColumn {
+        width: auto;
+    }
+    .addedContent {
+        .imageColumn img {
+            height: 70px;
+            width: auto;
+            max-width: none;
+        }
+    }
+    .addedContent {
+        &.isEditing {
+            @include opacity(0.5);
+        }
+
+        .table {
+            margin-bottom: 0;
+
+            i {
+                width: $fontSizeLarge;
+                font-size: $fontSizeLarge;
+                line-height: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+            }
+
+            td {
+                vertical-align: middle;
+            }
+
+            .editColumn,
+            .remove {
+                text-align: center;
+            }
+
+            .remove a[disabled]{
+                cursor: not-allowed;
+            }
+        }
+
+        .emptyMessage td {
+            background-color: #cccccc;
+        }
+    }
+    .addLanguageContent {
+        margin: $baseLineHeight 0;
+
+        a.disabled {
+            cursor: not-allowed;
+        }
+    }
+
+    //news and banner image select/upload
+    .chooseImagesSection {
+        float: left;
+        margin-bottom: 15px;
+        position: relative;
+
+        .imageLargeWrapper {
+            margin-bottom: $baseLineHeight;
+            background-color: $brand_color_light;
+            outline: 1px solid $brand_color_border;
+            vertical-align: middle;
+            text-align: center;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                vertical-align: top;
+            }
+        }
+        .thumbnailWrapper {
+            text-align: center;
+
+            .selectedImageInput {
+                position: absolute;
+                right: 60px;
+                top: 40px;
+                visibility: hidden;
+            }
+        }
+        #thumbnailContainer {
+            margin-top: $baseLineHeight / 2;
+            max-height: 3 * (1px + 100px + 1px + 8px); // magic calculation based on the thumbnail dimensions below
+            overflow: hidden;
+            position: relative;
+        }
+        #thumbnailPager {
+            min-height: 36px; // height of a button
+
+            .btn {
+                margin-left: 0;
+
+                & ~ .btn {
+                    margin-right: 8px;
+                }
+            }
+        }
+        #thumbnailSelect {
+            margin: 0 0 $baseLineHeight 0;
+        }
+        #thumbnailSelect li {
+            display: inline-block;
+            margin: 0 4px 8px;
+            width: 235px; // magic number because we know the width of the images
+            height: 100px; // magic number because we know the height of the images
+            text-align: center;
+            line-height: 100px; // magic number because we know the height of the images
+            vertical-align: middle;
+            list-style: none;
+            cursor: pointer;
+            border: 1px solid $brand_color_border;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+            .hide {
+                display: none;
+            }
+            &.uploadContainer {
+                background-color: $white;
+                position: relative;
+
+                a {
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                }
+                img {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    @include opacity(0.25);
+                }
+                .icon-upload-1 {
+                    font-size: $fontSizeLarge;
+                }
+                .upload-text {
+                    display: inline-block;
+                    line-height: normal;
+                    vertical-align: middle;
+                }
+            }
+            &.selected {
+                border: 1px solid $brand_color_primary;
+            }
+        }
+    }
+
+    //richtext editor
+    .contribCommentWrapper {
+        @include clearfix();
+        margin-top: $baseLineHeight;
+        margin-right: -1 * ($baseLineHeight / 2);
+        margin-left: -1 * ($baseLineHeight / 2);
+        padding: $baseLineHeight / 2;
+        position: relative;
+
+        .mask {
+            @include opacity(.5);
+            background: black;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            position: absolute;
+            top: 0;
+            z-index: 100;
+        }
+        .spin {
+            left: 50%;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+            position: absolute;
+            top: 50%;
+        }
+
+        label {
+            float: left;
+        }
+
+        .ToolBar {
+            clear: left;
+        }
+
+        .commentTools {
+            float: right;
+            font-size: $fontSizeSmall;
+            text-align: right;
+            margin-bottom: $baseLineHeight / 4;
+
+            .lt-ie8 & { // ie7
+                width: 95%;
+            }
+            .remChars {
+                font-weight: bold;
+            }
+        }
+        .contribCommentInp {
+            @include input-block-level();
+            margin-bottom: 2px;
+
+            .lt-ie8 & { // ie7
+                width: 95%;
+            }
+        }
+        @media (max-width: 480px) {
+
+            .commentTools {
+                clear: both;
+                padding-top: 10px;
+            }
+        }
+    }// .contribCommentWrapper
+
+    .communicationsUploadImagePopover {
+        z-index: 25000 !important;
+    }
+
+} /* /.page.communications */
+
+.lt-ie9 {
+    .addedContent {
+        overflow: auto;
+    }
+}
+
+
+#uploadImageModal {
+    .modal-body{
+        position:relative;
+    }
+    .imageUploadContainer {
+        border-top: 1px solid $brand_color_border;
+        padding: $baseLineHeight 0;
+        overflow: auto;
+    }
+
+    .replaceImageTip {
+        ul {
+            margin-left: $baseLineHeight / 2;
+        }
+        input[type="file"] {
+            height: $baseLineHeight;
+            line-height: $baseLineHeight;
+        }
+    }
+
+    .alert {
+        margin-top: $baseLineHeight;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .launchModule {
+        margin: 0 0 $baseLineHeight 0;
+        float: left;
+        clear: left;
+        @include clearfix();
+
+        .item {
+            position: relative;
+            float: left;
+        }
+
+        // .wide-view overlays a fake news story title
+        .wide-view {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            h3 {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: 0;
+                padding: 2em 1em 1em 1em;
+                color: $brand_color_white;
+                font-weight: $fontWeightNormal;
+                background: linear-gradient(to bottom, transparentize(black, 1) 0%, transparentize(black, 0.25) 100%); // used in _news.scss and _banners.scss and _xpromo.scss
+            }
+        }
+
+        // .safe-area shows where it's OK to have banner artwork
+        .safe-area {
+            position: absolute;
+            top: 25%;
+            right: 0;
+            bottom: 25%;
+            left: 0;
+            color: $brand_color_success;
+            border: 2px dashed $brand_color_success;
+
+            &::before,
+            &::after {
+                position: absolute;
+                top: -50%;
+                right: -2px;
+                bottom: 100%;
+                left: -2px;
+                margin-top: -4px;
+                margin-bottom: 2px;
+                content: '';
+                background: black;
+                opacity: 0.5;
+            }
+            &::after {
+                top: 100%;
+                bottom: -50%;
+                margin-top: 2px;
+                margin-bottom: -4px;
+            }
+
+            h4 {
+                position: absolute;
+                bottom: 100%;
+                left: 0;
+                margin: 0.125em 0.5em;
+            }
+        }
+
+        // these max-heights are all magical and based on the known pixel dimensions of each image
+        &.size-max {
+            img {
+                max-height: 600px;
+            }
+        }
+        &.size-default {
+            img {
+                max-height: 300px;
+            }
+        }
+        &.size-mobile {
+            img {
+                max-height: 150px;
+            }
+            h3 {
+                padding: 1em 0.5em 0.5em 0.5em;
+                font-size: $headline3fontSize_mobile;
+            }
+            h4 {
+                font-size: $headline4fontSize_mobile;
+            }
+        }
+
+        .replaceImage {
+            position: relative;
+            float: left;
+            clear: both;
+            padding: $g5ModulePadding / 2 $g5ModulePadding;
+            background: $communications_uploadPreviewReplaceBgColor;
+            cursor: pointer;
+            @if $communications_uploadPreviewReplaceBorderColor {
+                border: 1px solid $communications_uploadPreviewReplaceBorderColor;
+                border-top: 0;
+            }
+        }
+
+        .spincover {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            @include safeBkgs(rgba(255,255,255,0.5));
+
+            .spin {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+                padding: 0;
+                background: none;
+                filter: none;
+            }
+        }
+    }
+    .pageUploadPreview .launchModule {
+        margin: 0;
+
+        img {
+            position: relative;
+        }
+    }
+    @media (max-width: 767px) {
+        .pageUploadPreview {
+            .span2 {
+                @include clearfix();
+            }
+            .grid-dimension-page {
+                float: left;
+
+                img {
+                    float: left;
+                }
+            }
+        }
+    }
+
+    .spin {
+        display: block;
+        height: $spinner_widthHeight;
+        margin: 0 auto;
+        position: relative;
+        top: 30%;
+        width: $spinner_widthHeight;
+    }
+    .imageUploadForm {
+        overflow: hidden;
+
+        label {
+            display: inline;
+        }
+
+        input[type="file"] {
+            line-height: $baseLineHeight;
+        }
+    }
+
+    .uploadRequirements {
+        color: #999;
+        display: block;
+        font-size: $baseFontSize * .86;
+        line-height: $baseLineHeight * .7;
+        margin-top: 10px;
+    }
+
+    .imageUploadButtons {
+        padding-top: $baseLineHeight;
+        border-top: $formActionsBorderWidth solid $formActionsBorderColor;
+    }
+}
+// /#uploadImageModal

@@ -1,0 +1,166 @@
+<div class="stackRankToggleWrap stackRankShowMore" data-classtoggle="stackRankShowLess stackRankShowMore">
+    {{#if includeStackRanking}}
+    {{#if isProgressLoaded}}
+    <div class="row-fluid">
+        <div class="span12 text-right">
+            <a href="#" class="stackRankToggle showLess">Hide Stack Rank <i class="icon-eye-off"></i></a>
+            <a href="#" class="stackRankToggle showMore">Show Stack Rank <i class="icon-eye"></i></a>
+        </div>
+    </div>
+    {{/if}}
+    {{/if}}
+
+    <div class="activitiesWrap">
+    {{#each activities}}
+    <div class="activity admin card">
+        <h3 class="sectionHeader activityDescription">{{activityDescription}}</h3>
+
+        <div class="activityWrap contestActivityInfo">
+            <p>
+                For every <strong class="forEvery">{{forEvery}}</strong>
+                Earn <strong class="forEvery">{{#eq extraJSON.payoutType "other"}}{{payoutDescription}}{{/eq}}{{#eq extraJSON.payoutType "points"}}{{willEarn}} Points{{/eq}}</strong>
+            </p>
+
+            <p class="maximumPayout"><i class="icon icon-info"></i> Maximum Payout:
+                {{#eq extraJSON.payoutType "points"}}<strong>{{payoutCap}} points</strong>{{/eq}}
+                {{! todo }}
+                {{#eq extraJSON.payoutType "other"}}<strong>{{payoutCap}}</strong>{{/eq}}
+            </p>
+
+            <p class="minQualifier"><i class="icon icon-info"></i> Minimum Qualifier: <strong>{{minQualifier}}</strong></p>
+        </div><!-- /.activityWrap.contestActivityInfo -->
+
+    <div class="row-fluid">
+        <div class='span12 contestData dataSectionWrap adminView {{#unless ../isCreator}}ssiManagerView{{/unless}} {{#eq ../status "finalize_results"}}complete{{/eq}} {{#eq extraJSON.payoutType "points"}}payoutTypePoints{{/eq}}'>
+
+            <div class="dataSection activityGoal">
+                <h4>{{goal}}</h4>
+                {{#if ../isCreator}}
+                    <span>Goal</span>
+                {{else}}
+                    <span>Team Goal</span>
+                {{/if}}
+            </div>
+
+            <div class="dataSection activityProgress">
+                <h4>{{progress}}</h4>
+                {{#eq ../status "finalize_results"}}
+                    <span>Final Activity</span>
+                {{else}}
+                    <span>Activity</span>
+                {{/eq}}
+            </div>
+
+            {{#ueq ../status "finalize_results"}}
+            <div class="dataSection activityRemaining">
+                {{#unless goalAchieved}}
+                    <h4>{{remaining}}</h4>
+                    <span>To Go</span>
+                {{else}}
+                    <h4 class="activityGoalAchieved"><i class="icon-verification"></i></h4>
+                    <span>Goal Achieved</span>
+                {{/unless}}
+            </div>
+            {{/ueq}}
+
+            <div class="dataSection activityGoalPercent">
+                <h4>{{percentProgress}}</h4>
+                <span>% of Goal</span>
+            </div>
+
+            {{#if ../isCreator}}
+            <div class="dataSection activityPayout">
+                {{#eq extraJSON.payoutType "points"}}
+                    <h4>{{payoutProgress}}<sup>({{payoutPercentProgress}}%)</sup></h4>
+                    {{#eq ../status "finalize_results"}}
+                        <span>Points Issued</span>
+                    {{else}}
+                        <span>Potential Points</span>
+                    {{/eq}}
+                {{/eq}}
+
+                {{#eq extraJSON.payoutType "other"}}
+                    <h4 class="payoutGift">
+                        <i class="icon-gift"></i>
+                        {{#ueq payout "0"}}
+                        <div class="giftCount">
+                            <span>{{payout}}</span>
+                        </div>
+                        {{/ueq}}
+                    </h4>
+                    {{#eq ../status "finalize_results"}}
+                        <span>Payout Issued</span>
+                    {{else}}
+                        <span>Potential Payout</span>
+                    {{/eq}}
+                {{/eq}}
+            </div>
+
+            {{else}}
+
+                {{#eq extraJSON.payoutType "other"}}
+                <div class="dataSection activityPayout">
+                    <h4 class="payoutGift">
+                        <i class="icon-gift"></i>
+                        {{#ueq payout "0"}}
+                        <div class="giftCount">
+                            <span>{{payout}}</span>
+                        </div>
+                        {{/ueq}}
+                    </h4>
+                    {{#eq ../status "finalize_results"}}
+                        <span>Payout Issued</span>
+                    {{else}}
+                        <span>Potential Payout</span>
+                    {{/eq}}
+                </div>
+                {{/eq}}
+            {{/if}}
+        </div>
+    </div><!-- /.row-fluid -->
+
+    {{#if extraJSON.includeStackRanking}}
+    {{#if extraJSON.isProgressLoaded}}
+    <div class="row-fluid">
+        <div class="span12 stackRankWrap stackRankBoard highlightedBoard">
+            <div class="row-fluid">
+                <div class="span6">
+                    <h4 class="sectionTitle">Stack Rank</h4>
+                </div>
+                <div class="span6 text-right">
+                    <!-- <a href="#URL_TO_STACKRANK_VIEW/{{id}}" title="" class="viewAll">view all</a> -->
+                    <button type="button" class="viewAll viewAllStackRank btn btn-small btn-primary btn-inverse">View All Stack Ranking</button>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12 splitColWrap">
+                    <ol class="splitCol splitColSingle">
+                        {{#each stackRankParticipants}}
+                        <li value="{{rank}}" {{#if classes.length}}class="{{#classes}}{{this}} {{/classes}}"{{/if}}>
+                            {{#if score}}<span class="score">{{score}}</span>{{/if}}
+                            {{#if rank}}<b class="rank">{{rank}}.</b>{{/if}}
+                            <div class="avatarwrap">
+                            {{#if avatarUrl}}
+                                <img alt="{{firstName}} {{lastName}}"  src="{{avatarUrl}}">
+                            {{else}}
+                                <span class="avatar-initials">{{trimString firstName 0 1}}{{trimString lastName 0 1}}</span>
+                            {{/if}}
+                            </div>
+                            {{#if contestUrl}}
+                                <a href="{{contestUrl}}" class="leaderName">{{firstName}} {{lastName}}</a>
+                            {{else}}
+                                <span class="leaderName">{{firstName}} {{lastName}}</span>
+                            {{/if}}
+                        </li>
+                        {{/each}}
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.stackRankWrap.stackRankBoard.highlightedBoard -->
+    </div><!-- /.row-fluid -->
+    {{/if}}
+    {{/if}}
+    </div><!-- /.activity.admin.card -->
+    {{/each}}
+    </div><!-- /.activitiesWrap -->
+</div><!-- /.stackRankToggleWrap -->

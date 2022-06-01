@@ -1,0 +1,82 @@
+CREATE TABLE stage_product_import_record
+  (
+    import_record_id  		NUMBER(18) NOT NULL,
+    import_file_id    		NUMBER(18) NOT NULL INITIALLY DEFERRED,
+    action_type       		VARCHAR2(10) NOT NULL,
+    product_id        		NUMBER(18),
+    product_name      		VARCHAR2(70),
+    product_desc      		VARCHAR2(250),
+    sku_code          		VARCHAR2(70),
+    category_id       		NUMBER(18),
+    category_name     		VARCHAR2(50),
+    category_desc     		VARCHAR2(250),
+    subcategory_id    		NUMBER(18),
+    subcategory_name  		VARCHAR2(50),
+    subcategory_desc  		VARCHAR2(250),
+    characteristic_id1      NUMBER(18),
+    characteristic_id2      NUMBER(18),
+    characteristic_id3      NUMBER(18),
+    characteristic_id4      NUMBER(18),
+    characteristic_id5      NUMBER(18),
+    characteristic_name1    VARCHAR2(100),
+    characteristic_name2    VARCHAR2(100),
+    characteristic_name3    VARCHAR2(100),
+    characteristic_name4    VARCHAR2(100),
+    characteristic_name5    VARCHAR2(100),
+    created_by number(18) 	NOT NULL,
+    date_created      		DATE NOT NULL
+  )
+/
+ALTER TABLE stage_product_import_record
+ADD CONSTRAINT stage_prod_import_record_pk PRIMARY KEY (import_record_id)
+USING INDEX
+/
+ALTER TABLE stage_product_import_record
+ADD CONSTRAINT stage_prod_import_record_fk FOREIGN KEY (import_file_id)
+REFERENCES import_file (import_file_id)
+/
+CREATE INDEX STG_PRD_MPRT_RC_MPRT_FL_FK_idx ON STAGE_PRODUCT_IMPORT_RECORD
+  (IMPORT_FILE_ID)
+/
+COMMENT ON TABLE stage_product_import_record IS 'Information about a product import record.'
+/
+COMMENT ON COLUMN stage_product_import_record.import_record_id IS 'Uniquely identifies this import record.'
+/
+COMMENT ON COLUMN stage_product_import_record.import_file_id IS 'Identifies the import file that contains this import record.  Foreign key to the IMPORT_FILE table.'
+/
+COMMENT ON COLUMN stage_product_import_record.action_type IS 'Indicates how to process this import record.'
+/
+COMMENT ON COLUMN stage_product_import_record.product_name IS 'Identifies the name of the product.'
+/
+COMMENT ON COLUMN stage_product_import_record.product_desc IS 'Identifies the description of the product.'
+/
+COMMENT ON COLUMN stage_product_import_record.sku_code IS 'The sku code of the product.'
+/
+COMMENT ON COLUMN stage_product_import_record.category_name IS 'The category the product belongs to.'
+/
+COMMENT ON COLUMN stage_product_import_record.subcategory_name IS 'The sub-category the product belongs to.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_id1 IS 'Identifies the first characteristic of the product.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_id2 IS 'Identifies the second characteristic of the product.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_id3 IS 'Identifies the third characteristic of the product.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_id4 IS 'Identifies the fourth characteristic of the product.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_id5 IS 'Identifies the fifth characteristic of the product.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_name1 IS 'The name of the first characteristic of the product.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_name2 IS 'The name of the second characteristic of the product.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_name3 IS 'The name of the third characteristic of the product.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_name4 IS 'The name of the fourth characteristic of the product.'
+/
+COMMENT ON COLUMN stage_product_import_record.characteristic_name5 IS 'The name of the fifth characteristic of the product.'
+/
+COMMENT ON COLUMN stage_product_import_record.created_by IS 'The username of the user who created this record.'
+/
+COMMENT ON COLUMN stage_product_import_record.date_created IS 'The date and time at which this record was created.'
+/

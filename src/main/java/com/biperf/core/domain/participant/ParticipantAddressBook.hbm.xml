@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.participant.ParticipantAddressBook" table="PARTICIPANT_ADDRESS_BOOK">
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="PAX_ADDRESS_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">ADDRESS_BOOK_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <many-to-one name="participant" column="USER_ID" class="com.biperf.core.domain.participant.Participant" not-null="true" lazy="false"/>
+
+	<property name="guid" type="java.lang.String" column="GUID"/>
+	<property name="firstname" type="java.lang.String" column="FIRST_NAME"/>
+	<property name="lastname" type="java.lang.String" column="LAST_NAME"/>
+	<property name="emailAddr" type="java.lang.String" column="EMAIL_ADDR"/>
+
+    <component name="address" class="com.biperf.core.domain.Address">
+      <property name="addr1" type="java.lang.String" column="ADDR1"/>
+      <property name="addr2" type="java.lang.String" column="ADDR2"/>
+      <property name="city" type="java.lang.String" column="CITY"/>
+      <property name="stateType" column="STATE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.StateType</param>
+        </type>
+      </property>
+      <property name="postalCode" type="java.lang.String" column="POSTAL_CODE"/>
+      <many-to-one name="country" column="country_id" class="com.biperf.core.domain.country.Country" lazy="false"/>
+    </component>
+
+  </class>
+  
+  <query name="com.biperf.core.domain.participant.AllAddressBooksForParticipant">
+    <![CDATA[
+      from com.biperf.core.domain.participant.ParticipantAddressBook addressBook 
+      	where addressBook.participant.id = :id
+    ]]>
+  </query>
+  
+</hibernate-mapping>

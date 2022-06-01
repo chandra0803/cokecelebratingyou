@@ -1,0 +1,265 @@
+CREATE SEQUENCE rpt_budget_trans_detail_pk_sq
+  INCREMENT BY 1
+  START WITH 61
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE SEQUENCE rpt_budget_usage_detail_pk_sq
+  INCREMENT BY 1
+  START WITH 61
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE SEQUENCE rpt_budget_usage_summary_pk_sq
+  INCREMENT BY 1
+  START WITH 61
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE TABLE rpt_budget_promotion
+   (budget_id                      NUMBER(18,0) NOT NULL,
+    budget_master_id               NUMBER(18,0) NOT NULL,
+    budget_segment_id               NUMBER(18,0) NOT NULL,
+    promotion_id                   NUMBER(18,0) NOT NULL,
+    distribution_type                VARCHAR2(10 CHAR))
+/
+COMMENT ON TABLE rpt_budget_promotion IS 'The rpt_budget_promotion table for the budget report.'
+/
+COMMENT ON COLUMN rpt_budget_promotion.budget_id IS 'from budget table'
+/
+COMMENT ON COLUMN rpt_budget_promotion.budget_master_id IS 'from budget_master table'
+/
+COMMENT ON COLUMN rpt_budget_promotion.promotion_id IS 'from promotion table'
+/
+CREATE TABLE rpt_budget_trans_detail
+   (rpt_budget_trans_detail_id     NUMBER(18,0) NOT NULL,
+    budget_id                      NUMBER(18,0) NOT NULL,
+    budget_master_id               NUMBER(18,0),
+    budget_segment_id              NUMBER(18,0),
+    budget_status                  VARCHAR2(30),
+    budget_trans_type              VARCHAR2(30),
+    journal_id                     NUMBER(12,0),
+    trans_date                     DATE,
+    trans_amount                   NUMBER(20,8),
+    recipient_user_id              NUMBER(18,0),
+    recipient_name                 VARCHAR2(120),
+    recipient_first_name           VARCHAR2(40 CHAR), 
+    recipient_last_name            VARCHAR2(40 CHAR),
+    promotion_id                   NUMBER(18,0),
+    promotion_name                 VARCHAR2(1000),
+    date_created                   DATE NOT NULL,
+    created_by                     number(18) NOT NULL,
+    recipient_country_id           NUMBER(12),
+    budget_history_id              NUMBER (18),
+    merch_order_id                 NUMBER (18),
+    modified_by                    NUMBER (18),
+    date_modified                  DATE,
+    version                        NUMBER (18),
+    budget_reallocation_history_id    NUMBER)
+/
+
+ALTER TABLE rpt_budget_trans_detail
+ADD CONSTRAINT rpt_budget_trans_detail_pk PRIMARY KEY (
+  rpt_budget_trans_detail_id)
+USING INDEX
+/
+COMMENT ON TABLE rpt_budget_trans_detail IS 'The rpt_budget_trans_detail table for the budget report.'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.budget_id IS 'from budget table'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.budget_master_id IS 'from budget_master table'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.budget_trans_type IS 'Psuedo column for the type of record stored - deposit or expenditure'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.created_by IS 'Audit field'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.date_created IS 'Audit field'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.journal_id IS 'This field is used for expenditures - from journal'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.promotion_id IS 'This field is used for expenditures - from promotion'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.promotion_name IS 'This field is used for expenditures'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.recipient_name IS 'This field is used for expenditures'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.recipient_user_id IS 'This field is used for expenditures - from application_user'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.rpt_budget_trans_detail_id IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.trans_amount IS 'Amount of the deposit addition or expenditure to the budget'
+/
+COMMENT ON COLUMN rpt_budget_trans_detail.trans_date IS 'Date of the deposit addition or expenditure to the budget'
+/
+CREATE INDEX RPT_BUDGET_TRANS_DETAIL_IDX1 ON RPT_BUDGET_TRANS_DETAIL
+(BUDGET_ID, TRANS_DATE, BUDGET_STATUS)
+/
+CREATE TABLE rpt_budget_usage_detail
+   (rpt_budget_usage_detail_id     NUMBER(18,0) NOT NULL,
+    node_id                        NUMBER(18,0),
+    budget_name_cm_asset_code      VARCHAR2(80),
+    budget_name_cm_key             VARCHAR2(30),
+    budget_owner_id                NUMBER(18,0),
+    budget_owner_name              VARCHAR2(80),
+    budget_owner_type              VARCHAR2(80),
+    budget_amt                     NUMBER(20,4),
+    budget_used                    NUMBER(20,4),
+    budget_remaining               NUMBER(20,4),
+    budget_master_id               NUMBER(18,0),
+    budget_segment_id              NUMBER(18,0),
+    budget_id                      NUMBER(18,0) NOT NULL,
+    budget_status                  VARCHAR2(10),
+    inception_date                 DATE,
+    overrideable                   VARCHAR2(30),
+    cap_amount                     NUMBER(18,0),
+    cost_center                    VARCHAR2(30),
+    budget_master_name             VARCHAR2(500),
+    rule_for_final_payout          VARCHAR2(60),
+    node_owner                     VARCHAR2(50),
+    promotion_string               VARCHAR2(300),
+    budget_type                    VARCHAR2(30),
+    is_active                      NUMBER(1),
+    start_date                     DATE,
+    end_date                       DATE,
+    budget_owner_cntry_id          NUMBER(12),
+    date_created                   DATE         NOT NULL,
+    created_by                     NUMBER (18)  NOT NULL,
+    modified_by                    NUMBER (18),
+    date_modified                  DATE,
+    version                        NUMBER (18),
+    multi_promotion                VARCHAR2(10 CHAR),
+    reallocated_amount             NUMBER)
+/
+ALTER TABLE rpt_budget_usage_detail
+ADD CONSTRAINT rpt_budget_usage_detail_pk PRIMARY KEY (
+  rpt_budget_usage_detail_id)
+USING INDEX
+/
+COMMENT ON TABLE rpt_budget_usage_detail IS 'The rpt_budget_usage_detail table for the budget report.'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_amt IS 'Sum of all budget deposit additions'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_id IS 'from budget table'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_master_id IS 'from budget_master table'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_name_cm_asset_code IS 'Asset code used to get budget name from Content Manager'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_name_cm_key IS 'Key used to get budget name from Content Manager'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_owner_id IS 'from application_user if type Pax or from node if type Node'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_owner_name IS 'Psuedo column for the Pax name or node name of the budget owner'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_owner_type IS 'Psuedo column for the type of record stored - Pax or Node'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_remaining IS 'Budget deposits - budget expenditures'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_used IS 'Sum of all budget expenditures'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.cap_amount IS 'Max budget that can be used'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.inception_date IS 'Start date of the budget'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.node_id IS 'from node table'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.overrideable IS 'From promotion for cap_type - hard or soft cap budget'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.rpt_budget_usage_detail_id IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_master_name IS 'from budget_master table'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.rule_for_final_payout IS 'the rule for payout if the budget_type is central'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.node_owner IS 'from node table'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.promotion_string IS 'the promotions that are tied to the budget'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.budget_type IS 'from budget_master table'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.is_active IS 'from budget_master table'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.start_date IS 'from budget table'
+/
+COMMENT ON COLUMN rpt_budget_usage_detail.end_date  IS 'from budget table'
+/
+CREATE INDEX RPT_BUDGET_USAGE_DETAIL_IDX1 ON RPT_BUDGET_USAGE_DETAIL
+(BUDGET_ID, BUDGET_STATUS,START_DATE,END_DATE)
+/
+CREATE TABLE rpt_budget_usage_summary
+   (rpt_budget_usage_summary_id    NUMBER(18,0) NOT NULL,
+    record_type                    VARCHAR2(49),
+    header_node_id                 NUMBER(18,0),
+    detail_node_id                 NUMBER(18,0),
+    budget_amt                     NUMBER(18,4),
+    budget_used                    NUMBER(12,4),
+    budget_remaining               NUMBER(12,4),
+    budget_master_id               NUMBER(18,0),
+    budget_id                      NUMBER(18,0),
+    budget_status                  VARCHAR2(10),
+    promotion_id                   NUMBER(18,0),
+    hier_level                     NUMBER,
+    is_leaf                        NUMBER(1,0),
+    date_created                   DATE NOT NULL,
+    created_by                     NUMBER(18,0) NOT NULL,
+    modified_by                    NUMBER (18),
+    date_modified                  DATE,
+    version                        NUMBER (18),
+    multi_promotion                VARCHAR2(10),
+    reallocated_amount             NUMBER)
+/
+ALTER TABLE RPT_BUDGET_USAGE_SUMMARY ADD CONSTRAINT RPT_BUDGET_USAGE_SUMMARY_ID_PK
+  PRIMARY KEY ( RPT_BUDGET_USAGE_SUMMARY_ID)
+ USING INDEX 
+/
+CREATE OR REPLACE TRIGGER rpt_budget_usage_summary_bi
+ BEFORE
+  INSERT
+ ON rpt_budget_usage_summary
+REFERENCING NEW AS NEW OLD AS OLD
+ FOR EACH ROW
+BEGIN
+  IF :new.rpt_budget_usage_summary_id IS NULL THEN
+      SELECT rpt_budget_usage_summary_pk_sq.NEXTVAL
+      INTO :new.rpt_budget_usage_summary_id
+      FROM dual ;
+  END IF ;
+END ;
+/
+COMMENT ON TABLE rpt_budget_usage_summary IS 'The rpt_budget_usage_summary table for the budget report.'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.budget_amt IS 'Sum of all budget deposit additions'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.budget_id IS 'from budget table'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.budget_master_id IS 'from budget_master table'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.budget_remaining IS 'Budget deposits minus budget expenditures'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.budget_used IS 'Sum of all budget expenditures'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.created_by IS 'Audit field'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.date_created IS 'Audit field'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.detail_node_id IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.header_node_id IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.hier_level IS 'Pseudo column to indicate the depth of hierarchy'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.is_leaf IS 'Qualifies the node_id is valued 1 if there are no child nodes attached and 0 if child nodes are found for the node_id'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.promotion_id IS 'from promotion table'
+/
+COMMENT ON COLUMN rpt_budget_usage_summary.rpt_budget_usage_summary_id IS 'System generated Primary Key'
+/

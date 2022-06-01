@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.PromotionAudience" table="PROMO_AUDIENCE">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PROMO_AUDIENCE_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PROMO_AUDIENCE_PK_SQ</param>
+			</generator>
+		</id>
+
+    	<discriminator type="java.lang.String" column="PROMO_AUDIENCE_TYPE"/> 
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" type="java.lang.Long" column="VERSION" />
+
+		<!-- promotion -->
+		<many-to-one name="promotion"
+					 class="com.biperf.core.domain.promotion.Promotion"
+					 outer-join="false"
+           lazy="false">
+			<column name="PROMOTION_ID" not-null="true" />
+		</many-to-one>
+
+		<!-- audience -->
+		<many-to-one name="audience"
+					 class="com.biperf.core.domain.participant.Audience"
+					 outer-join="false"
+					 lazy="false"><!-- lazy must be false in this case else instanceof failing. see t3 or Joe Dunne. -->
+			<column name="AUDIENCE_ID" not-null="true" />
+		</many-to-one>
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<subclass name="com.biperf.core.domain.promotion.PromotionPrimaryAudience"
+				  discriminator-value="PRIMARY"/>
+
+		<subclass name="com.biperf.core.domain.promotion.PromotionSecondaryAudience"
+				  discriminator-value="SECONDARY"/>
+
+		<subclass name="com.biperf.core.domain.promotion.PromotionPartnerAudience"
+				  discriminator-value="PARTNER"/>
+				  
+		<subclass name="com.biperf.core.domain.promotion.PromotionWebRulesAudience"
+				  discriminator-value="RULES_TEXT"/>
+				  
+		<subclass name="com.biperf.core.domain.promotion.PromotionPublicRecognitionAudience"
+				  discriminator-value="PUBLIC_RECOGNITION"/>
+				  
+		<subclass name="com.biperf.core.domain.promotion.PromotionManagerWebRulesAudience"
+				  discriminator-value="RULES_TEXT_MANAGER"/>
+		
+		<subclass name="com.biperf.core.domain.promotion.PromotionPartnerWebRulesAudience"
+				  discriminator-value="RULES_TEXT_PARTNER"/>
+				  
+		<subclass name="com.biperf.core.domain.ssi.SSIPromotionClaimApprovalAudience"
+				  discriminator-value="SSI_CLAIM_APPROVAL"/>
+
+		<subclass name="com.biperf.core.domain.ssi.SSIPromotionContestApprovalLevel1Audience"
+				  discriminator-value="SSI_CONTEST_APPROVAL_LEVEL1"/>
+				  				  				  
+		<subclass name="com.biperf.core.domain.ssi.SSIPromotionContestApprovalLevel2Audience"
+				  discriminator-value="SSI_CONTEST_APPROVAL_LEVEL2"/>				  				  				  
+				  
+	</class>
+
+<!--
+
+	<query name="com.biperf.core.domain.promotion.AllPromotionAudiences">
+		<![CDATA[
+		  from com.biperf.core.domain.promotion.PromotionAudience promotionAudience
+		]]>
+	</query>
+
+	<query name="com.biperf.core.domain.promotion.GetPromotionAudienceByPromotionId">
+		<![CDATA[
+			from com.biperf.core.domain.promotion.PromotionAudience promotionAudience
+			where promotion_id = :promotionId
+		]]>
+	</query>
+
+	<query name="com.biperf.core.domain.promotion.GetPromotionAudienceByAudienceId">
+		<![CDATA[
+			from com.biperf.core.domain.promotion.PromotionAudience promotionAudience
+			where audience_id = :audienceId
+		]]>
+	</query>
+-->
+</hibernate-mapping>

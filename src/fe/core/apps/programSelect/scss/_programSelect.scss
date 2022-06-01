@@ -1,0 +1,298 @@
+// App-specific variables
+// =========================
+
+$programSelector_spinnerColor: $brand_color_spinner_fg !default;
+$programSelector_spinnerBkgColor: $brand_color_spinner_bg !default;
+$programSelector_spinnerBkgBorderRadius: $spinner_bgBorderRadius !default;
+
+
+$recAdvisor_ImgUrlPath: $appImagesPath + "/recognitionadvisor";
+$ra_img2: url($recAdvisor_ImgUrlPath + "/ra-branding-logo.svg")!important;
+$ra_img3: url($recAdvisor_ImgUrlPath + "/ra-insights-header.png")!important;
+$ra_img4: url($recAdvisor_ImgUrlPath + "/ra-branding-logo.svg")!important;
+
+$ra_gradient_smooth: linear-gradient(to right, $ra_accent1 0%, $ra_accent3 100%) !default;
+$ra_gradient_bars:  linear-gradient(
+					to right,
+					$ra_accent1 0%, $ra_accent1 25%,
+					$ra_primary1 25%, $ra_primary1 50%,
+					$ra_accent2 50%, $ra_accent2 75%,
+					$ra_accent3 75%, $ra_accent3 100%
+					) !default;
+					
+$ra_insight1_img_pos:   50% 50% !default;
+$ra_insight1_img_size:  100% 100% !default;
+$ra_insight1_gradient:  $ra_gradient_bars !default;		
+$ra_insight1_bg_img_size:  100% 48px !default;	
+$recAdvisor_brandingLogoOuter : 95px;
+$recAdvisor_brandingLogoInner : 61px;
+		
+					
+// App-specific code
+// ==================================================
+
+.purlTooManyRecips{
+
+}
+
+#programSelectPageView {
+    //needed for proper tooltip attaching
+    position: relative;
+    // START spin
+    .spin {
+        position: absolute;
+        z-index: 100;
+        top: 50%;
+        left: 50%;
+        margin: (-1 * $spinner_widthHeight / 2 - 10) 0 0 (-1 * $spinner_widthHeight / 2 - 10);
+        padding: 10px;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+        color: $programSelector_spinnerColor;
+        @include safeBkgs($programSelector_spinnerBkgColor);
+        @include borderRadiusSlim($programSelector_spinnerBkgBorderRadius);
+    }
+    .spinner {
+        top: 50% !important;
+        left: 50% !important;
+
+        .lt-ie8 & {
+            margin-top: -10px;
+            margin-left: -10px;
+        }
+    }
+    .spincover {
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: transparentize($g5ModuleBgColor, 0.5);
+    }
+    // END spin
+	// RA insights Starts
+.raInsights{
+	margin-top: $baseLineHeight;
+	margin-bottom: $baseLineHeight * 2;
+	.raInsightsGradgient{
+		background-image: $ra_insight1_gradient !important;
+		height: 16px;
+	}
+	.raInsightsBackgrondImg{
+		background-image: $ra_img3;
+		background-repeat: no-repeat !important;
+		 // background-size: $ra_insight1_bg_img_size !important;
+		// backgrond-position:$ra_insight1_img_pos !important;
+		height:48px;
+		background-position: 50% 50%;
+		border-radius: 5px 5px 0 0px ;
+
+	}
+.raInsightsLogoPosition{
+		margin: 0 auto;
+	 	position: relative;
+	 	margin-bottom: -64px;
+	   	border-radius:50%;
+  		background-color:$brand_color_white;
+  		width: 95px;
+    	height: 95px;
+    	text-align:center;
+    	// padding: 0px 10px 10px 10px;
+	.raInsightsLogo{
+		// background-image: $ra_img2;
+		background-repeat: no-repeat !important;
+		width: 61px;
+    	height: 61px;
+   	   	background-size: 100%;
+	    margin: 0px;
+	   	padding: 0px;
+	   	position: absolute;
+	    top: 23px;
+		left: ($recAdvisor_brandingLogoOuter -$recAdvisor_brandingLogoInner) / 2 ;
+		svg{
+			display:block;
+			margin:0 auto;
+		}
+	}
+	
+}
+	.raBrandingOuter{
+		fill: $ra_primary2;
+	}
+		.raBrandingInner{
+		fill: $ra_primary1;
+	}
+	.raBrandingOuterCircle{
+		//fill: $brand_color_white;
+	}
+	.raInsightsBodyContent{
+		text-align:center;
+		background-color:$brand_color_black;
+		padding:20px;
+		color: $brand_color_white;
+		border-radius:0px 0 5px 5px;
+	}
+	&.insightSection{
+		.raInsightsBodyContent{
+			text-align:center;
+			background-color:$brand_color_light;
+			padding:20px;
+			color: $brand_color_black;
+		}
+		.raInsightsBackgrondImg {
+			background-size: cover;
+		}
+	}
+}
+
+.raBrandingSmallLogo{
+	//background-image: $ra_img4;
+	background-repeat: no-repeat !important;
+	// background-size: $ra_insight1_bg_img_size !important;
+	height:24px;
+	width:24px;
+	display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+path{
+	&.raBrandingOuter{
+		fill: $ra_primary2;
+	}
+	&.raBrandingInner{
+		fill: $ra_primary1;
+	}
+}
+.raPromo{
+	&.fr {
+    cursor: pointer;
+	}
+}
+
+
+// mobilePhoneMini -321px
+@media (min-width: $breakpoint_mobilePhoneMin_min) {
+	.raPromo{
+		&.fr {
+		cursor: pointer;
+		margin-top:3%;
+		}
+	}
+}
+// mobileMini -480px
+@media (min-width: $breakpoint_mobileMini_min) {
+	.raPromo{
+		&.fr {
+		cursor: pointer;
+		margin-top:1%;
+		}
+	}
+}
+// RA insights Starts Ends
+	
+}
+// Which programs apply toward RA? - Popover border color and shadow.
+.popover{
+	&.fade{
+		&.top{
+			&.in{
+				border:0px;
+				box-shadow: 1px 2px 13px rgba(0,0,0,0.5);
+				li {
+			    	padding-left: 3px;/* works in Chrome */
+			    	-moz-margin-left:15px; /*works on Firefox */
+					-webkit-margin-left:15px; /*works on Safari and Google Chrome*/
+					margin-left:10px;
+					@media screen and (-webkit-min-device-pixel-ratio:0) {
+						margin-left:10px;
+					}
+					@-moz-document url-prefix() {
+						margin-left:10px;
+					} 
+				
+			    }
+   			}
+   		}
+  	}
+}
+
+#programSelectWrapper{
+
+    .alert-danger, .alert-block{
+        padding: 8px;
+        margin: 15px 0;
+        width: 50%;
+        border-radius: 4px;
+        text-align: center;
+        min-width: 206px; //matching bootstrap input width.
+        p {
+            margin: 0;
+        }
+    }
+
+    .promotionWrapper{
+        padding-top: $g6PagePaddingY_tablet;
+        .nominationPromotionName {
+            padding-right: 20px;
+            margin-bottom:$baseLineHeight/2;
+            display: block;
+            @media only screen and (min-width: $breakpoint_tablet_min) {
+                margin-bottom:0;
+                display: inline;
+                display: initial;
+            }
+
+        }
+		
+		@media (max-width: 479px) {
+                .ui-tooltip-pos-tc {
+                  margin-left: 25px !important;
+                }
+        }
+
+        select{
+            margin:0;
+        }
+        margin-bottom:$baseLineHeight * 1.5;
+    }
+
+    .nominationOrgSection{
+        .orgUnitWrapper{
+            label{
+
+            }
+            select{
+                margin:0;
+            }
+        }
+        margin-bottom:$baseLineHeight * 1.5;
+    }
+
+
+    .findRecipientTitle{
+
+    }
+    #PaxSelectedPaxView2{
+        margin-top: $baseLineHeight * 1.5;
+        .modal-title {
+            display: inline-block;
+        }
+    }
+
+}
+
+#programContainer{
+    margin-top: $baseLineHeight;
+    .alert-danger, .alert-block{
+        padding:15px;
+    }
+}
+#serverErrorsContainer {
+    &.alert .close {
+      position: relative;
+      top: -2px;
+      right: 0;
+      line-height: $baseLineHeight;
+    }
+}

@@ -1,0 +1,44 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// shared
+// $reports_chartColors: ;
+
+// module(s)
+// $reports_modDash_bgColor: ;
+
+// $reports_modDash_favRep_width: ;
+// $reports_modDash_favRep_height: ;
+// $reports_modDash_favRep_height_tablet: ;
+// $reports_modDash_favRep_height_desktop: ;
+// $reports_modDash_favRep_height_desktopLarge: ;
+
+// $reports_modDash_favRep_bgColor: ;
+// $reports_modDash_favRep_borderColor: ;
+// $reports_modDash_favRep_borderWidth: ;
+// $reports_modDash_favRep_iconsColor: ;
+// $reports_modDash_favRep_iconsWidth: ;
+// $reports_modDash_favRep_parametersColor: ;
+
+// $reports_modDash_allRep_minWidth: ;
+// $reports_modDash_allRep_minWidth_desktop: ;
+// $reports_modDash_allRep_bgColor: ;
+
+// $reports_manageFavoritesPopoverBorderColor: ;
+// $reports_changeFiltersPopoverBorderColor: ;
+
+// page
+// $reports_chart_border_width: ;
+// $reports_chart_border_color: ;
+// $reports_chartThumb_border_width: ;
+// $reports_chartThumb_border_color: ;
+// $reports_chartThumb_border_colorSelected: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "reports/scss/reports";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

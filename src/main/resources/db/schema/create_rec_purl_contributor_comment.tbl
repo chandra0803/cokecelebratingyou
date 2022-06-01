@@ -1,0 +1,66 @@
+CREATE SEQUENCE purl_contributor_comment_pk_sq INCREMENT BY 1 START WITH 5000
+/
+CREATE TABLE purl_contributor_comment
+(
+    purl_contributor_comment_id    	NUMBER(18) NOT NULL,
+    purl_contributor_id   	        NUMBER(18) NOT NULL,
+    comments                        VARCHAR2(1024),
+    COMMENTS_LANG_ID                VARCHAR2(10),
+    sequence_num                    NUMBER(8),
+    status                          VARCHAR2(30),
+	image_url						VARCHAR2(512),
+	image_url_thumb					VARCHAR2(512),
+	video_url						VARCHAR2(512),
+	video_url_thumb					VARCHAR2(512),
+	video_url_extension				VARCHAR2(30),
+    media_state                     VARCHAR2(30),
+    image_status                    VARCHAR2(30),
+    video_status                    VARCHAR2(30),
+    video_type	                    VARCHAR2(30),
+    created_by                      NUMBER(18) NOT NULL,
+    date_created                    DATE NOT NULL,
+    modified_by                     NUMBER(18),
+    date_modified                   DATE,
+    version                         NUMBER(18) NOT NULL,
+    CONSTRAINT purl_contributor_comment_id_pk PRIMARY KEY (purl_contributor_comment_id)
+)
+/
+ALTER TABLE purl_contributor_comment ADD CONSTRAINT purl_contributor_fk
+  FOREIGN KEY (purl_contributor_id) REFERENCES purl_contributor (purl_contributor_id) 
+/
+COMMENT ON TABLE purl_contributor_comment IS 'Table purl_contributor_comments'
+/
+COMMENT ON COLUMN purl_contributor_comment.purl_contributor_comment_id IS 'Primary key'
+/
+COMMENT ON COLUMN purl_contributor_comment.purl_contributor_id IS 'Purl contributor reference key'
+/
+COMMENT ON COLUMN purl_contributor_comment.comments IS 'Comment'
+/
+COMMENT ON COLUMN purl_contributor_comment.sequence_num IS 'Sequence Number'
+/
+COMMENT ON COLUMN purl_contributor_comment.status IS 'Comment status type'
+/
+COMMENT ON COLUMN purl_contributor_comment.image_url IS 'Image url path for detail'
+/
+COMMENT ON COLUMN purl_contributor_comment.image_url_thumb IS 'Image url path for thumbnail'
+/
+COMMENT ON COLUMN purl_contributor_comment.video_url IS 'Video url path'
+/
+COMMENT ON COLUMN purl_contributor_comment.media_state IS 'Contribution Media state type'
+/
+COMMENT ON COLUMN purl_contributor_comment.image_status IS 'a or i for active or inactive'
+/
+COMMENT ON COLUMN purl_contributor_comment.video_status IS 'a or i for active or inactive'
+/
+COMMENT ON COLUMN purl_contributor_comment.video_type IS 'web for Web Video or direct for Direct Link'
+/
+COMMENT ON COLUMN purl_contributor_comment.created_by IS 'Audit created by'
+/
+COMMENT ON COLUMN purl_contributor_comment.date_created IS 'Audit created date'
+/
+COMMENT ON COLUMN purl_contributor_comment.modified_by IS 'Audit modified by'
+/
+COMMENT ON COLUMN purl_contributor_comment.date_modified IS 'Audit modified date'
+/
+COMMENT ON COLUMN purl_contributor_comment.version IS 'Optimistic concurrency locking'
+/

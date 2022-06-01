@@ -1,0 +1,146 @@
+// Partial-specific variables
+// =========================
+$participantItem_backgroundFlash: scale-color($brand_color_primary, $lightness: 67%) !default;
+$participantItem_rowHoverBgColor: false !default;
+
+
+// Partial-specific code
+// ==================================================
+
+.participant-item {
+
+    .background-flash {
+        background-color: $participantItem_backgroundFlash !important;
+    }
+
+    // &.compact {
+    //     float: left;
+    //     width: 300px;
+    //     overflow: auto;
+    //     background: #fff;
+    //     margin: 10px 10px 0 0;
+
+    //     .participant-avatar {
+    //         float: left;
+    //         margin-right: 5px;
+    //     }
+    //     .remParticipantControl {
+    //         float: left;
+    //         margin-right: 5px;
+    //     }
+    // }
+
+    @if $participantItem_rowHoverBgColor {
+        &:hover td,
+        &.hover td {
+            background: $participantItem_rowHoverBgColor !important;
+        }
+    }
+
+    th {
+        //vertical-align: bottom;
+    }
+    td {
+        //padding: 6px 0;
+        //vertical-align: top;
+    }
+
+    .participant {
+        //padding-left: 6px;
+
+        .participant-popover {
+            display: inline;
+            margin-right: 4px;
+        }
+
+        @include avatarSizing(24px);
+        .avatarwrap {
+            display: inline;
+            float: left;
+            margin-right: 6px;
+            margin-top: 4px;
+            @media (max-width: $breakpoint_mobile_max) {
+                display: none;
+            }
+        }
+        .orgnamestyle{
+            font-weight: normal;
+            font-size: 71.4%; // 14px -> 10px if baseFontSize is unchanged
+            line-height: normal;
+        }
+
+        .org,
+        .name ~ .email {
+            display: block; // always on new line
+            font-weight: normal;
+            font-size: 71.4%; // 14px -> 10px if baseFontSize is unchanged
+            line-height: normal;
+
+        }
+        .countryFlag {
+            vertical-align: baseline;
+        }
+    }
+
+    .edit,
+    .remove {
+        text-align: center;
+
+        a {
+            display: inline-block;
+            //Zheight: 22px;
+            // color: $participantItem_editRemoveIconColor;
+            @include transition-property(opacity);
+            @include transition-duration(0.25s);
+            @include opacity(.5);
+            cursor: pointer;
+
+            &:hover {
+                @include opacity(1);
+            }
+
+            i {
+                margin-top: 0;
+                vertical-align: top;
+                width: $fontSizeLarge;
+                font-size: $fontSizeLarge;
+                line-height: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+                // color: $participantItem_editRemoveIconColor;
+            }
+        }
+    }
+
+    td {
+        input[type="text"],
+        input[type="password"],
+        input[type="datetime"],
+        input[type="datetime-local"],
+        input[type="date"],
+        input[type="month"],
+        input[type="time"],
+        input[type="week"],
+        input[type="number"],
+        input[type="email"],
+        input[type="url"],
+        input[type="search"],
+        input[type="tel"],
+        input[type="color"],
+        .uneditable-input,
+        .naked-input {
+            width: 50%;
+        }
+
+        input,
+        select {
+            margin-bottom: 3px;
+        }
+
+        select {
+            @media (max-width: 320px){
+                width: 86px;
+            }
+        }
+    }
+
+}

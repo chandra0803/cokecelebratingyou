@@ -1,0 +1,225 @@
+<!-- ======== NOMINATION WINNERS DETAIL PAGE ======== -->
+<div id="nominationsWinnersDetailPageView" class="page-content nominationWinnersDetailPage">
+    <div class="row-fluid">
+		<div class="span12 nominationsTableWrap"></div>
+
+		<script id="nominationWinnersDetailTpl" type="text/x-handlebars-template">
+			{{#nominationWinnersDetail}}
+				<div class="awardContent">
+                    <ul class="export-tools approvalsExportIconsWrapper pushDown">
+                        <li class="export pdf">
+                            <a href="#">
+                                <span class="pdfExportIcon">
+                                    <span class="btn btn-inverse btn-compact btn-export-pdf">
+                                        PDF <i class="icon-download-2"></i>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    {{#if isWinner}}
+    					{{#if isMine}}
+    					<div class="awardHeader">
+    						<h2 class="title">You Win!</h2>
+
+    					{{else}}
+                        <div class="awardHeader">
+    						<h2 class="title">Congratulations, {{winnerName}}</h2>
+    					{{/if}}
+
+						<h4 class="awardWrap">The <span class="awardName">{{awardName}}</span> award!</h4>
+
+						<p class="awardedDate">Awarded on {{awardedDate}}</p>
+    					</div><!--/.awardHeader-->
+                    {{/if}}
+
+					<div class="awardMain container-splitter">
+						<div class="carousel awardContainer">
+                            {{#if isWinner}}
+							{{#if award}}
+                            {{#if isMine}}
+                            <div class="slide item">
+    							<div class="awardCircle">
+    								<div class="pointCircle">
+    									<p class="awardTitle">Your award</p>
+    									{{#if currencyLabel}}
+    									<p class="awardPoints">
+                                            {{award}}
+                                            {{currencyLabel}}
+                                        </p>
+    									{{else}}
+                                            {{#if other}}
+                                              <p class="awardPoints">{{award}}</p>
+                                            {{else}}
+            									<p class="awardPoints">{{award}}</p>
+            									<p class="points">points</p>
+                                            {{/if}}
+    									{{/if}}
+    								</div>
+    							</div>
+                            </div>
+							{{/if}}
+                            {{/if}}
+                            {{/if}}
+
+							{{#nominatorInfo}}
+                                {{#if ecardImg}}
+                                <div class="slide item">
+        							<div class="ecard">
+        								<img src="{{ecardImg}}" title="ecard" />
+                                    </div>
+    							</div>
+    							{{else}}
+                                    {{#if videoUrl}}
+                                        <div class="slide item">
+            								<div class="mediaContainer">
+            									<a href="{{videoUrl}}" target="_blank"><img src="{{videoImg}}"/></a>
+                                            </div>
+        								</div>
+    		                         {{/if}}
+                                 {{/if}}
+                             {{/nominatorInfo}}
+						</div>
+					</div><!--/.awardMain-->
+				</div><!--/.awardContent-->
+
+                <div class="row-fluid">
+                    <div class="span6">
+                        <p class="subTitle"><strong>Your Nomination</strong></p>
+                    </div>
+                    <div class="span6">
+                        <p class="subTitle"><strong>The Details</strong></p>
+                    </div>
+                </div>
+
+                {{#each nominatorInfo}}
+                <hr>
+
+                <div class="row-fluid">
+    				<div class="nominatorInfoC span6">
+
+						<div class="comment-text translate" data-claimId="{{claimId}}" data-type="textarea">{{{commentText}}}</div>
+
+                        {{#if ../allowTranslate}}
+                            <p class="translateTextLink"><a href="#" >Translate</a></p>
+                        {{/if}}
+
+						<div class="nominatorInfoWrap participant-item">
+							<p class=" participant">
+                                <a class="participant-popover" href="#" data-participant-ids="[{{id}}]">
+                                    <span class="avatarwrap">
+                                        {{#if avatarUrl}}
+                                            <img alt="{{firstName}} {{lastName}}" class="avatar" src="{{avatarUrl}}">
+                                        {{else}}
+                                            <span class="avatar-initials">{{trimString firstName 0 1}}{{trimString lastName 0 1}}</span>
+                                        {{/if}}
+                                    </span>
+                                    {{firstName}}
+                                    {{lastName}}
+                                </a>
+                                <span class="org">{{orgName}} {{#if departmentName}}{{#if orgName}} | {{/if}} {{departmentName}}{{/if}} {{#if title}}{{#if departmentName}} | {{else}}{{#if orgName}} | {{/if}}{{/if}} {{title}}{{/if}}</span>
+                            </p>
+						</div>
+				    </div><!--/.nominatorInfo-->
+
+				<div class="nominationDetailsC span6">
+
+					<div class="row-fluid">
+						<div class="span4 detailsData">
+							<p><strong>Date Submitted</strong></p>
+						</div>
+
+						<div class="span8">
+							<p class="dateSubmitted">{{dateSubmitted}}</p>
+						</div>
+					</div>
+
+                    {{#if badges}}
+					<div class="row-fluid">
+    					<div class="span4 detailsData">
+							<p><strong>Behaviors</strong></p>
+						</div>
+
+						<div class="span8">
+                        {{#badges}}
+                            {{#if badgeUrl}}
+					           <span data-toggle="tooltip"  data-original-title="{{behavior}}" data-placement="top" >
+
+								    <img class="behaviorBadge" src="{{badgeUrl}}" alt="{{behavior}}"/>
+				                </span>
+                            {{else}}
+                                <span class="behaviorName">{{behavior}}</span>
+                            {{/if}}
+						{{/badges}}
+						</div>
+					</div>
+                    {{/if}}
+
+                    {{#if fields}}
+                    {{#each fields}}
+					<div class="row-fluid">
+						<div class="span4 detailsData">
+							<p><strong>{{label}}</strong></p>
+						</div>
+
+						<div class="span8">
+							<p class="recipientWrap translate" data-type="{{type}}" data-fieldId="{{fieldId}}">{{value}}</p>
+						</div>
+					</div>
+                    {{/each}}
+                    {{/if}}
+
+                    {{#if eCertUrl}}
+                    <div class="row-fluid">
+                        <div class="span8 offset4">
+                            <p class="viewCertificate">
+                                <strong><a href="#" class="generateCertPdf" data-claimId="{{claimId}}" target="_blank">View eCertificate</a></strong>
+                            </p>
+                        </div>
+                    </div>
+                    {{/if}}
+
+				</div><!--nominationDetails-->
+                </div>
+                {{/each}}
+
+
+		    {{/nominationWinnersDetail}}
+		</script>
+    </div>
+    <div class="modal hide fade certificateModal" id="certificateModal">
+        <div class="modal-body loading">
+            <div class="progress-indicator">
+                <span class="spin">
+                </span>
+                <p>Generating PDF...</p>
+            </div>
+            <div class="pdf-wrapper" style="height: 500px;">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+        </div>
+    </div>
+</div>
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+$(document).ready(function() {
+    //attach the view to an existing DOM element
+    var nlpv = new NominationsWinnersDetailPageView({
+        el:$('#nominationsWinnersDetailPageView'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url  : 'layout.html'
+            },
+            home : {
+                text : 'Home',
+                url  : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+            }
+        },
+        pageTitle : 'Nomination Winners Detail'
+    });
+});
+</script>

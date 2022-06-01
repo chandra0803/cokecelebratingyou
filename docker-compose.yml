@@ -1,0 +1,47 @@
+tomcat:
+  image: 302265824077.dkr.ecr.us-west-2.amazonaws.com/g-runtime:latest
+  container_name: gtc
+  ports:
+    - 8001:8001
+  volumes:
+    - ${G_TOMCAT_WEBAPPS_DIR}:/usr/local/tomcat/webapps
+    - $PWD/tomcat-logs:/usr/local/tomcat/logs
+  environment: 
+    TZ: "/usr/share/zoneinfo/America/Chicago"
+  links:
+    - database
+    - activemq
+    # wait-for-it will prevent tomcat container from launching until Oracle XE responds to a "ping"
+  entrypoint: ["/usr/local/tomcat/bin/wait-for-it.sh", "database:8080" , "-t", "60", "--", "catalina.sh", "run"]
+# oracleclient:
+#   image: 302265824077.dkr.ecr.us-west-2.amazonaws.com/oracle-client
+#   container_name: oracleclient
+#   volumes: 
+#    - $PWD:/tmp/host:ro
+database:
+  #######################################################################################################################################
+  # these commands are needed for a one-time setup of the local database each time the database needs to be recreated
+  # docker run --name gdb -d -p 49161:1521 -v $PWD/.db-storage:/u01/app/oracle sath89/oracle-xe-11g
+  # docker run --name oracleclient -v $PWD:/tmp/host:ro 302265824077.dkr.ecr.us-west-2.amazonaws.com/oracle-client
+  # /usr/local/instantclient_11_2/sqlplus sys/oracle@localhost:49161/xe AS SYSDBA @db-create-user.sql
+  # /Users/dehnel/Downloads/instantclient_11_2/sqlplus sys/oracle@localhost:49161/xe AS SYSDBA @db-create-user.sql
+  # ./gradlew -Penvironment=DEV -Pconfirmation=Yes -PgseriesMachineConfig=docker.yml database_recreate
+  #######################################################################################################################################
+  image: sath89/oracle-xe-11g
+  container_name: gdb
+  environment: 
+    TZ: "/usr/share/zoneinfo/America/Chicago"
+  volumes:
+    - $PWD/.db-storage:/u01/app/oracle
+  ports:
+    - "49161:1521"
+  environment:
+    - ORACLE_ALLOW_REMOTE=true
+activemq:
+  build: activemq
+  container_name: gamq
+  environment: 
+    TZ: "/usr/share/zoneinfo/America/Chicago"
+  ports:
+    - "49163:8161"
+    - "49164:61616"

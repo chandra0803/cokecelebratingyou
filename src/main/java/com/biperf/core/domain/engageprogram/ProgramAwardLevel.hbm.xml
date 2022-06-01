@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="false">
+
+  <class name="com.biperf.core.domain.engageprogram.ProgramAwardLevel" table="PROGRAM_AWARD_LEVEL">
+	<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+	<id name="id" type="java.lang.Long" column="PROGRAM_AWARD_LEVEL_ID">
+		<generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">PROGRAM_AWARD_LEVEL_PK_SQ</param>
+		</generator>
+	</id>
+
+	<!-- Using version number optimistic locking -->
+	<version name="version" column="VERSION" type="java.lang.Long" />
+		
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditCreateInfo"
+		type="com.biperf.core.utils.hibernate.AuditCreateType">
+		<column name="DATE_CREATED" />
+		<column name="CREATED_BY" />
+	</property>
+
+	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditUpdateInfo"
+		type="com.biperf.core.utils.hibernate.AuditUpdateType">
+		<column name="DATE_MODIFIED" />
+		<column name="MODIFIED_BY" />
+	</property>
+		
+    <!-- attributes -->
+	<property name="awardLevel" type="java.lang.String" column="AWARD_LEVEL" />	
+	
+	<property name="country" type="java.lang.String" column="COUNTRY" />
+	
+	<property name="celebLabel" type="java.lang.String" column="CELEB_LABEL" />	
+	
+	<property name="celebLabelCmxAssetCode" type="java.lang.String" column="CELEB_LABEL_CMX_ASSET_CODE" />	
+	
+	<property name="celebMsg" type="java.lang.String" column="CELEB_MSG" />	
+	
+	<property name="celebMsgCmxAssetCode" type="java.lang.String" column="CELEB_MSG_CMX_ASSET_CODE" />	
+	
+	<property name="celebImgUrl" type="java.lang.String" column="CELEB_IMG_URL" />	
+	
+	<property name="celebImgDesc" type="java.lang.String" column="CELEB_IMG_DESC" />	
+	
+	<property name="celebImgDescCmxAssetCode" type="java.lang.String" column="CELEB_IMG_DESC_CMX_ASSET_CODE" />	
+	
+	<many-to-one name="engageProgram" column="PROGRAM_ID" class="com.biperf.core.domain.engageprogram.EngageProgram" not-null="true" lazy="false"/>
+	
+  </class>
+
+</hibernate-mapping>

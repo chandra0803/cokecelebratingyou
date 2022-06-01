@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name = "com.biperf.core.domain.promotion.SmackTalkComment" table = "THROWDOWN_SMACKTALK_COMMENT">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="SMACKTALK_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="sequence">THROWDOWN_SMACKTALK_COMMENT_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		
+        <version name="version" column="VERSION" type="java.lang.Long" />
+        <property name="comments" column="COMMENTS" type="string" />
+        
+        <!-- Parent can be null for original smacktalk post -->
+        <many-to-one name="parent" lazy="false" class="com.biperf.core.domain.promotion.SmackTalkComment" cascade="none" outer-join="false">
+           <column name="PARENT_SMACKTALK_ID" not-null="false"/>
+        </many-to-one>
+          
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		  
+	    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.participant.Participant"  not-null = "true" lazy="false"/>
+		<many-to-one name="match" column="MATCH_ID" class="com.biperf.core.domain.promotion.Match" not-null = "true"  lazy="false"/> 
+		
+		<property name="isHidden" column="IS_HIDDEN" type="boolean" />
+	</class>
+	
+	<query name="com.biperf.core.domain.promotion.SmackTalkComment.userCommentsPerSmackTalkPost">
+    <![CDATA[
+       from com.biperf.core.domain.promotion.SmackTalkComment comment
+      where comment.parent.id = :smackTalkId
+      and comment.isHidden = :isHidden 
+    ]]>
+  	</query>
+    <query name="com.biperf.core.domain.promotion.SmackTalkComment.smackTalkPostsByMatch">
+    <![CDATA[
+       from com.biperf.core.domain.promotion.SmackTalkComment comment
+      where comment.match.id = :matchId
+      and comment.parent.id = :parentId
+      and comment.isHidden = :isHidden 
+    ]]>
+  	</query>
+  	
+  	<query name="com.biperf.core.domain.promotion.SmackTalkComment.parentSmackTalkPost">
+    <![CDATA[
+       from com.biperf.core.domain.promotion.SmackTalkComment comment
+      where comment.id = :smackTalkId
+      and comment.parent.id = :parentId
+    ]]>
+  	</query>
+  	<sql-query name="com.biperf.core.domain.promotion.getSmackTalksByPromotionAndRoundNumber">
+	<return alias="tdSmackTalk" class="com.biperf.core.domain.promotion.SmackTalkComment" />
+	<![CDATA[
+          SELECT distinct {tdSmackTalk.*}
+          from throwdown_smacktalk_comment tdSmacktalk,throwdown_match tdMatch, throwdown_match_team_outcome tdOutcome, throwdown_round tdRound   
+          where tdSmacktalk.parent_smacktalk_id is null
+          and tdSmacktalk.is_hidden = :isHidden          
+          and tdOutcome.promotion_id = :promotionId
+          and tdRound.round_number = :roundNumber                    
+          and tdSmacktalk.match_id = tdMatch.match_id          
+          and tdMatch.match_id = tdOutcome.match_id
+          and tdMatch.round_id = tdRound.round_id
+          order by tdSmacktalk.date_created desc
+  		 ]]>
+	</sql-query>
+	<sql-query name="com.biperf.core.domain.promotion.getSmackTalkByTeam">
+	<return alias="tdSmackTalk" class="com.biperf.core.domain.promotion.SmackTalkComment" />
+	<![CDATA[          
+          SELECT distinct {tdSmackTalk.*}
+          from throwdown_smacktalk_comment tdSmacktalk, throwdown_match_team_outcome tdOutcome, throwdown_round tdRound, throwdown_match tdMatch
+	      where tdOutcome.team_id in (:teamIds)
+          and tdRound.round_number = :roundNumber    	      
+          and tdSmacktalk.match_id = tdOutcome.match_id
+          and tdSmacktalk.parent_smacktalk_id is null
+          and tdSmacktalk.is_hidden = :isHidden     
+          and tdMatch.round_id = tdRound.round_id
+          and tdMatch.match_id = tdOutcome.match_id
+          order by tdSmacktalk.date_created desc
+  		 ]]>
+	</sql-query>
+	
+	
+	<sql-query name="com.biperf.core.domain.promotion.getSmackTalkByPromotionAndRoundIdAndTeam">
+	<return alias="tdSmackTalk" class="com.biperf.core.domain.promotion.SmackTalkComment" />
+	<![CDATA[
+          SELECT distinct {tdSmackTalk.*}
+          from throwdown_smacktalk_comment tdSmacktalk, throwdown_match tdMatch, throwdown_match_team_outcome tdOutcome, throwdown_team tdTeam, throwdown_round tdRound  
+	      where tdSmacktalk.parent_smacktalk_id is null
+          and tdSmacktalk.is_hidden = :isHidden       
+	      and tdRound.round_id = :roundId
+	      and tdTeam.team_id = :teamId
+	      and tdOutcome.promotion_id = :promotionId
+	      and tdSmacktalk.match_id = tdMatch.match_id
+	      and tdMatch.match_id = tdOutcome.match_id
+          and tdMatch.round_id = tdRound.round_id  	
+          and tdOutcome.team_id = tdTeam.team_id
+          order by tdSmacktalk.date_created desc
+  		 ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getSmackTalkByPromotionAndRoundIdAndUser">
+	<return alias="tdSmackTalk" class="com.biperf.core.domain.promotion.SmackTalkComment" />
+	<![CDATA[
+          SELECT distinct {tdSmackTalk.*}
+          from throwdown_smacktalk_comment tdSmacktalk, throwdown_match tdMatch, throwdown_match_team_outcome tdOutcome, throwdown_round tdRound  
+          where tdSmacktalk.parent_smacktalk_id is null
+          and tdSmacktalk.is_hidden = :isHidden       
+          and tdSmacktalk.user_id = :userId
+          and tdRound.round_id = :roundId
+          and tdOutcome.promotion_id = :promotionId
+          and tdSmacktalk.match_id = tdMatch.match_id
+          and tdMatch.match_id = tdOutcome.match_id
+          and tdMatch.round_id = tdRound.round_id      
+          order by tdSmacktalk.date_created desc
+  		 ]]>
+	</sql-query>				
+  
+</hibernate-mapping>

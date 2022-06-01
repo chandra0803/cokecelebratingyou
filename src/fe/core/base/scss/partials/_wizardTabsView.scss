@@ -1,0 +1,346 @@
+// Partial-specific variables
+// =========================
+$wizardTabsView_borderColor: $tabs_borderColor !default;
+$wizardTabsView_borderWidth: $tabs_borderWidth !default;
+
+$wizardTabsView_stateLockedBorderColor: $tabs_borderColor !default;
+$wizardTabsView_stateLockedTextColor:   $brand_color_dark !default;
+$wizardTabsView_stateLockedNumberColor: false !default;
+$wizardTabsView_stateLockedIconColor:   false !default;
+
+$wizardTabsView_stateUnlockedBorderColor: $tabs_borderColor !default;
+$wizardTabsView_stateUnlockedTextColor:   $tabs_textColor !default;
+$wizardTabsView_stateUnlockedNumberColor: false !default;
+$wizardTabsView_stateUnlockedIconColor:   false !default;
+
+$wizardTabsView_stateUnlockedHoverTextColor: $tabs_hoverTextColor !default;
+$wizardTabsView_stateUnlockedHoverBkgColor: $tabs_hoverBkgColor !default;
+
+$wizardTabsView_stateIncompleteBorderColor: $brand_color_alert !default;
+$wizardTabsView_stateIncompleteTextColor:   $brand_color_alert !default;
+$wizardTabsView_stateIncompleteNumberColor: false !default;
+$wizardTabsView_stateIncompleteIconColor:   $brand_color_alert !default;
+
+$wizardTabsView_stateCompleteBorderColor: $brand_color_success !default;
+$wizardTabsView_stateCompleteTextColor:   $brand_color_success !default;
+$wizardTabsView_stateCompleteNumberColor: false !default;
+$wizardTabsView_stateCompleteIconColor:   $brand_color_success !default;
+
+$wizardTabsView_stateActiveBorderColor: $tabs_activeBorderColor !default;
+$wizardTabsView_stateActiveTextColor:   $tabs_activeTextColor !default;
+$wizardTabsView_stateActiveNumberColor: false !default;
+$wizardTabsView_stateActiveIconColor:   $tabs_activeTextColor !default;
+
+$wizardTabsView_stateInactiveBorderWidth: $wizardTabsView_borderWidth !default;
+$wizardTabsView_stateActiveBorderWidth: $tabs_activeBorderWidth !default;
+
+$wizardTabsView_deedleDimension: 0 !default;
+$wizardTabsView_deedleColor: $wizardTabsView_stateActiveBorderColor !default;
+
+$wizardTabsView_iconSize: $tabs_lineHeight !default;
+$wizardTabsView_numberSize: $wizardTabsView_iconSize !default;
+
+// Partial-specific code
+// ==================================================
+
+
+
+.wizardTabsView {
+    position: relative;
+
+    // clear the riff-raff for UL
+    padding: 0 0 0 0;
+    margin: 0 0 ($baseLineHeight * 3 / 2) 0; // bottom margin for room
+    list-style: none;
+    // overflow: hidden;
+    @include clearfix();
+    border-bottom: $wizardTabsView_borderWidth solid $wizardTabsView_borderColor;
+
+    .wtDeedle {
+        display: none;
+        position: absolute;
+        left: 50%;
+        bottom: - $wizardTabsView_deedleDimension / 2 + 2;
+        margin-left: - $wizardTabsView_deedleDimension / 2;
+        width: $wizardTabsView_deedleDimension;
+        height: $wizardTabsView_deedleDimension;
+        background: $wizardTabsView_deedleColor;
+        @include border-radius($wizardTabsView_deedleDimension / 2);
+    }
+    .active .wtDeedle {
+        display: block;
+    }
+    &.compactMode .wtDeedle { display: none; }
+
+    .wtTab {
+        display: block;
+        position: relative;
+        float: left;
+        overflow: visible;
+        line-height: normal;
+        cursor: pointer;
+        font-weight: $tabs_fontWeight;
+    }
+    .wtTab.stateLocked {
+        cursor: default;
+    }
+
+    .wtTabLiner {
+        overflow: hidden;
+        position: relative;
+        margin-bottom: -1 * $wizardTabsView_borderWidth;
+        padding: 0 0 ($wizardTabsView_stateActiveBorderWidth - $wizardTabsView_stateInactiveBorderWidth) 0;
+        // border-right: 1px solid $wizardTabsView_stateLockedBorderColor;
+        border-bottom: $wizardTabsView_stateInactiveBorderWidth solid $wizardTabsView_stateLockedBorderColor;
+        min-height: 32px;
+    }
+    .wtTab.last .wtTabLiner {
+        border-right: 0;
+    }
+    .wtNumber {
+        font-size: $wizardTabsView_numberSize * 2 / 3;
+        line-height: $wizardTabsView_numberSize;
+        font-weight: $tabs_fontWeight;
+        display: block;
+        position: absolute;
+        left: $tabs_paddingX;
+        bottom: $tabs_paddingY + $wizardTabsView_stateActiveBorderWidth - $wizardTabsView_stateInactiveBorderWidth;
+        padding: 0;
+        width: $wizardTabsView_numberSize;
+
+        i {
+            float: left;
+            margin-right: -1 * $wizardTabsView_numberSize;
+            width: $wizardTabsView_numberSize;
+            font-size: $wizardTabsView_numberSize;
+            font-weight: $fontWeightBold;
+            background: $brand_color_white;
+            border-radius: $wizardTabsView_numberSize;
+        }
+        span {
+            position: relative;
+            display: block;
+            margin: 2px;
+            line-height: $wizardTabsView_numberSize - 4px;
+            text-align: center;
+            border-radius: $wizardTabsView_numberSize;
+            background: $brand_color_white;
+        }
+    }
+    .wtName {
+        display: inline-block;
+        padding: $tabs_paddingY $tabs_paddingX $tabs_paddingY ($tabs_paddingX + $wizardTabsView_numberSize + ($tabs_paddingX / 2)); // top/bottom padding here
+        line-height: $wizardTabsView_numberSize;
+        vertical-align: bottom;
+    }
+    .verticalCompact .wtName { // applied to tall text
+        // line-height: 13px;
+    }
+    &.compactMode .wtTab:not(.active) {
+        min-width: $wizardTabsView_numberSize + ($tabs_paddingX * 2) !important;
+
+        // &.active {
+        //     min-width: inherit !important;
+        // }
+    }
+    &.compactMode .wtName {
+        display: none;
+    }
+    &.compactMode .active .wtName {
+        display: inline-block;
+    }
+    &.compactMode.superCompactMode .active .wtName {
+        display: none;
+    }
+
+
+    .wtIconWrap {
+        display: block;
+        position: absolute;
+        left: $tabs_paddingX;
+        bottom: $tabs_paddingY + $wizardTabsView_stateActiveBorderWidth - $wizardTabsView_stateInactiveBorderWidth;
+        padding: 0; // right padding here
+    }
+    .wtIcon {
+        font-size: $wizardTabsView_iconSize;
+        line-height: $wizardTabsView_iconSize;
+        display: none; // js controls this
+        margin-right: 5px;
+
+        i {
+            // text-align: left;
+            width: $wizardTabsView_iconSize;
+            font-weight: $fontWeightBold;
+            vertical-align: middle;
+        }
+    }
+    &.compactMode.superCompactMode .wtIcon {
+        // font-size: 20px;
+        // i {
+        //     width: 22px;
+        // }
+    }
+
+    &.compactMode {
+        .wtIconWrap,
+        .wtNumber {
+            left: 50%;
+            margin-left: -1 * $wizardTabsView_iconSize / 2;
+        }
+
+        .active {
+            .wtIconWrap,
+            .wtNumber {
+                left: $tabs_paddingX;
+                margin-left: 0;
+            }
+        }
+    }
+    &.superCompactMode .wtTab {
+            min-width: $wizardTabsView_numberSize + ($tabs_paddingX * 2) !important;
+
+        &.active {
+            .wtIconWrap,
+            .wtNumber {
+                left: 50%;
+                margin-left: -1 * $wizardTabsView_iconSize / 2;
+            }
+        }
+    }
+
+    // state colorization
+    .wtTab {
+        &.stateLocked {
+            color: $wizardTabsView_stateLockedTextColor;
+            cursor: not-allowed;
+
+            // &:hover {
+            //     .wtIconWrap {
+            //         display: block;
+            //     }
+            //     .wtNumber {
+            //         display: none;
+            //     }
+            // }
+
+            .wtTabLiner {
+                border-color: $wizardTabsView_stateLockedBorderColor;
+            }
+            @if $wizardTabsView_stateLockedNumberColor {
+                .wtNumber {
+                    color: $wizardTabsView_stateLockedNumberColor;
+                }
+            }
+            .wtIconWrap {
+                display: none;
+            }
+            @if $wizardTabsView_stateLockedIconColor {
+                // this icon color can never override active because a locked step cannot be active
+                .wtIcon {
+                    color: $wizardTabsView_stateLockedIconColor;
+                }
+            }
+        }
+        &.stateUnlocked {
+            color: $wizardTabsView_stateUnlockedTextColor;
+
+            &:hover {
+                color: $wizardTabsView_stateUnlockedHoverTextColor;
+                background: $wizardTabsView_stateUnlockedHoverBkgColor;
+            }
+
+            .wtTabLiner {
+                border-color: $wizardTabsView_stateUnlockedBorderColor;
+            }
+            @if $wizardTabsView_stateUnlockedNumberColor {
+                .wtNumber {
+                    color: $wizardTabsView_stateUnlockedNumberColor;
+                }
+            }
+            .wtIconWrap {
+                display: none;
+            }
+            @if $wizardTabsView_stateUnlockedIconColor {
+                &, &.active { // this icon color overrides the active icon color
+                    .wtIcon {
+                        color: $wizardTabsView_stateUnlockedIconColor;
+                    }
+                }
+            }
+        }
+        &.active {
+            color: $wizardTabsView_stateActiveTextColor;
+
+            .wtTabLiner {
+                padding-bottom: 0;
+                border-color: $wizardTabsView_stateActiveBorderColor;
+                border-bottom-width: $wizardTabsView_stateActiveBorderWidth;
+            }
+            .wtIconWrap,
+            .wtNumber {
+                bottom: $tabs_paddingY;
+            }
+            @if $wizardTabsView_stateActiveNumberColor {
+                .wtNumber {
+                    color: $wizardTabsView_stateActiveNumberColor;
+                }
+            }
+            @if $wizardTabsView_stateActiveIconColor {
+                .wtIcon {
+                    color: $wizardTabsView_stateActiveIconColor;
+                }
+            }
+        }
+        &.stateIncomplete {
+            color: $wizardTabsView_stateIncompleteTextColor;
+
+            &.active .wtTabLiner {
+                border-color: $wizardTabsView_stateIncompleteBorderColor;
+            }
+            .wtNumber {
+                display: none;
+            }
+            @if $wizardTabsView_stateIncompleteNumberColor {
+                .wtNumber {
+                    color: $wizardTabsView_stateIncompleteNumberColor;
+                }
+            }
+            @if $wizardTabsView_stateIncompleteIconColor {
+                &, &.active { // this icon color overrides the active icon color
+                    .wtIcon {
+                        color: $wizardTabsView_stateIncompleteIconColor;
+                    }
+                }
+            }
+        }
+        &.stateComplete {
+            color: $wizardTabsView_stateCompleteTextColor;
+
+            &.active .wtTabLiner {
+                border-color: $wizardTabsView_stateCompleteBorderColor;
+            }
+            .wtNumber {
+                display: none;
+            }
+            @if $wizardTabsView_stateCompleteNumberColor {
+                .wtNumber {
+                    color: $wizardTabsView_stateCompleteNumberColor;
+                }
+            }
+            @if $wizardTabsView_stateCompleteIconColor {
+                &, &.active { // this icon color overrides the active icon color
+                    .wtIcon {
+                        color: $wizardTabsView_stateCompleteIconColor;
+                    }
+                }
+            }
+        }
+    }
+
+    // show hide icons
+    .stateUnlocked .iconUnlocked,
+    .stateLocked .iconLocked,
+    .stateIncomplete .iconIncomplete,
+    .stateComplete .iconComplete { display:block; }
+
+} //.wizardTabsView

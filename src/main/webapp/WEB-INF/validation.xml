@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN" 
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+	<global>
+		<constant>
+			<constant-name>phone</constant-name>
+			<constant-value>
+				^\(?\d{3}\)?[-| ]?\d{3}[-| ]?\d{4}$
+			</constant-value>
+		</constant>
+		<constant>
+			<constant-name>zip</constant-name>
+			<constant-value>^\d{5}\d*$</constant-value>
+		</constant>
+	</global>
+	<formset>
+		<constant>
+			<constant-name>zip</constant-name>
+			<constant-value>^\d{5}(-\d{4})?$</constant-value>
+		</constant>
+
+		<form name="loginForm">
+			<field property="userName"
+				depends="required,mask,maxlength">
+				<arg0 key="login.loginpage.USERNAME" />
+				<arg1 name="maxlength" key="${var:maxlength}"
+					resource="false" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^\w+$</var-value>
+				</var>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>20</var-value>
+				</var>
+			</field>
+			<field property="password"
+				depends="required,mask,maxlength">
+				<arg0 key="login.loginpage.PASSWORD" />
+				<arg1 name="maxlength" key="${var:maxlength}"
+					resource="false" />
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^\w+$</var-value>
+				</var>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>20</var-value>
+				</var>
+			</field>
+		</form>
+		
+		<form name="contactUsForm">
+			<field property="emailAddress" depends="required,email">
+				<arg0 key="help.contact.us.EMAIL_LABEL" />
+			</field>
+			<field property="subject" depends="required">
+				<arg0 key="help.contact.us.SUBJECT_LABEL" />
+			</field>
+			<field property="comments" depends="required">
+				<arg0 key="help.contact.us.COMMENT_LABEL" />
+			</field>
+		</form>
+		
+		<form name="changePasswordForm">
+			<field property="newPassword"
+				depends="required">
+				<arg0 key="login.change.password.PASSWORD_LABEL" />
+			</field>
+		<!--
+			<field property="confirmNewPassword" depends="required">
+				<arg0 key="login.change.password.CONFIRM_PASSWORD_LABEL" />
+			</field>
+	  	<field property="secretQuestion" depends="required" >
+				<arg0 key="user.user.SECRET_QUESTION" />
+			</field>
+			<field property="secretAnswer" depends="required" >
+				<arg0 key="user.user.SECRET_ANSWER" />
+			</field>
+			 -->
+		</form>	
+
+		<form name="/userMaintainCreate" >
+			<field property="active" depends="required" >
+				<arg0 key="user.user.USER_STATUS" />
+			</field>
+			<field property="firstName" depends="required" >
+				<arg0 key="user.user.FIRST_NAME" />
+			</field>
+			<field property="lastName" depends="required" >
+				<arg0 key="user.user.LAST_NAME" />
+			</field>
+			<field property="nameOfNode" depends="required">
+				<arg0 key="user.user.HIERARCHY_NODE" />
+			</field>			
+			<field property="emailAddress" depends="validwhen,email">
+		      	<arg0 key="user.user.EMAIL_ADDRESS"/>
+		        <var>
+		          <var-name>test</var-name>
+		          <var-value>((emailType == null) or (*this* != null))</var-value>
+		        </var>
+		    </field>
+		    <field property="phoneNumber" depends="mask" >
+			  <arg0 key="user.user.PHONE_NUMBER" />
+              <var>
+                <var-name>mask</var-name>
+                <var-value>${phone}</var-value>
+              </var>
+			</field>
+			<field property="userName" depends="required" >
+				<arg0 key="user.user.LOGIN_ID" />
+			</field>
+<!-- 		<field property="secretQuestion" depends="required" >
+				<arg0 key="user.user.SECRET_QUESTION" />
+			</field>
+			<field property="secretAnswer" depends="required" >
+				<arg0 key="user.user.SECRET_ANSWER" />
+			</field>
+-->
+		</form>	
+		
+		<form name="/userMaintainCreateInternal" >
+			<field property="active" depends="required" >
+				<arg0 key="user.user.USER_STATUS" />
+			</field>
+			<field property="firstName" depends="required" >
+				<arg0 key="user.user.FIRST_NAME" />
+			</field>
+			<field property="lastName" depends="required" >
+				<arg0 key="user.user.LAST_NAME" />
+			</field>
+			<field property="emailType" depends="required">
+				<arg0 key="user.user.PRIMARY_EMAIL_TYPE" />
+			</field>
+			<field property="emailAddress" depends="validwhen,email">
+		      	<arg0 key="user.user.EMAIL_ADDRESS"/>
+		        <var>
+		          <var-name>test</var-name>
+		          <var-value>((emailType == null) or (*this* != null))</var-value>
+		        </var>
+		    </field>
+		    <field property="phoneNumber" depends="mask" >
+				<arg0 key="user.user.PHONE_NUMBER" />
+                <var>
+                  <var-name>mask</var-name>
+                  <var-value>${phone}</var-value>
+                </var>
+			</field>
+			<field property="userName" depends="required" >
+				<arg0 key="user.user.LOGIN_ID" />
+			</field>	
+	<!-- 	<field property="secretQuestion" depends="required" >
+				<arg0 key="user.user.SECRET_QUESTION" />
+			</field>
+			<field property="secretAnswer" depends="required" >
+				<arg0 key="user.user.SECRET_ANSWER" />
+			</field>
+	-->
+			<field property="role" depends="required" >
+				<arg0 key="user.user.ROLE" />
+			</field>
+		</form>
+		
+		<form name="/userMaintainUpdatePersonalInfo">
+			<field property="active" depends="required">
+				<arg0 key="user.user.USER_STATUS" />
+			</field>
+			<field property="userType" depends="required">
+				<arg0 key="user.user.USER_TYPE" />
+			</field>
+			<field property="firstName" depends="required">
+				<arg0 key="participant.participant.FIRST_NAME" />
+			</field>
+			<field property="lastName" depends="required">
+				<arg0 key="participant.participant.LAST_NAME" />
+			</field>
+		</form>
+
+		<form name="/userMaintainUpdateLoginInfo" >
+			<field property="userName" depends="required" >
+				<arg0 key="user.user.LOGIN_ID" />
+			</field>
+	<!--  	<field property="secretQuestion" depends="required" >
+				<arg0 key="user.user.SECRET_QUESTION" />
+			</field>
+			<field property="secretAnswer" depends="required" >
+				<arg0 key="user.user.SECRET_ANSWER" />
+			</field>
+	-->
+		</form>		
+		
+		<form name="/userEmailAddressMaintain">
+			<field property="emailAddrType" depends="required">
+				<arg0 key="participant.emailaddr.TYPE" />
+			</field>
+			<field property="emailAddr" depends="required,email">
+				<arg0 key="participant.emailaddr.ADDR" />
+			</field>			
+		</form>		
+	</formset>
+</form-validation>

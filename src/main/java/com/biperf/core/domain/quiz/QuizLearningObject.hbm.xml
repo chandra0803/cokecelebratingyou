@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.quiz.QuizLearningObject" table="QUIZ_LEARNING_OBJECT">
+
+    <id name="id" type="java.lang.Long" column="ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">QUIZ_LEARNING_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <many-to-one name="quiz" class="com.biperf.core.domain.quiz.Quiz" not-null="true" lazy="false" column="QUIZ_ID"/>
+
+    <property name="status" type="java.lang.String" column="STATUS"/>
+	<property name="contentResourceCMCode" type="java.lang.String" column="CONTENT_RESOURCE"/>
+	<property name="slideNumber" type="integer" column="SLIDE_NUMBER"/>
+  
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.quiz.getNextSlideNumber">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+	  SELECT nvl(max(slide_number),0)+1 as result
+	    FROM quiz_learning_object
+	    WHERE quiz_id=:quizLibId and status=:status
+    ]]>
+	</sql-query>
+
+</hibernate-mapping>

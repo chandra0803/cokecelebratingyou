@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+     <class name="com.biperf.core.domain.budget.PromotionBudgetSweep" table="PROMO_BUDGET_SWEEP">
+     
+        <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="PROMO_BUDGET_SWEEP_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">PROMO_BUDGET_SWEEP_PK_SQ</param>
+	        </generator>
+	    </id>
+	    
+	   <!-- Using version number optimistic locking -->
+       <version name="version" type="long" column="VERSION"/>
+     
+       <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+	   <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+     
+	   <property name="budgetSweepDate" type="java.util.Date" column="BUDGET_SWEEP_DATE"/>
+	   <property name="budgetSweepRun" type="boolean" column="IS_BUDGET_SWEEP_RUN"/>
+	   <property name="budgetSweepRunDate" type="java.util.Date" column="BUDGET_SWEEP_RUN_DATE"/>  
+	   <property name="status" type="java.lang.Boolean" column="STATUS" />
+	   <many-to-one name="recognitionPromotion" class="com.biperf.core.domain.promotion.RecognitionPromotion" lazy="false" not-null="true" column="PROMOTION_ID"/>
+	   <one-to-one name="budgetSegment" class="com.biperf.core.domain.budget.BudgetSegment"/>
+	   
+	 </class> 
+    	   
+</hibernate-mapping>

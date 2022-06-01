@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div
+  className="narrow-form-page login"
+>
+  <form
+    action={undefined}
+    className="narrow-form"
+    method={undefined}
+  >
+    <p>
+      <a
+        onClick={[Function]}
+        tabIndex="3"
+      >
+        <span>
+          <i
+            className="icon-arrow-1-circle-left"
+          />
+           
+        </span>
+      </a>
+    </p>
+    <h3
+      className="no-bottom"
+    />
+    <span
+      className="code-verification-alert"
+    />
+    <div
+      className="input-wrap focused code-verification-input"
+    >
+      <label
+        className="control-label code-link-label"
+        htmlFor="token"
+      />
+      <a
+        className="code-link"
+        onClick={[Function]}
+        tabIndex="3"
+      >
+        <span
+          className="icon-info"
+        />
+        <span>
+           
+        </span>
+      </a>
+      <input
+        autoFocus={true}
+        className="gq-input"
+        id="token"
+        name="token"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        tabIndex="1"
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      className="gq-btn disabled btn btn-block btn-primary form-action-btn"
+      onClick={[Function]}
+      tabIndex={2}
+      type="button"
+    />
+    <p
+      className="help"
+    >
+      <a
+        onClick={[Function]}
+        tabIndex="3"
+      >
+        <span />
+      </a>
+    </p>
+  </form>
+  <div
+    className="theme-image"
+  />
+</div>
+`;

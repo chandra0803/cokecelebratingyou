@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.gamification.ParticipantBadge"
+		table="Participant_Badge">
+
+		<id name="id" type="long" column="Participant_Badge_id">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">participant_badge_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" type="long" column="VERSION" />
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<many-to-one name="badgePromotion" column="promotion_id"
+			class="com.biperf.core.domain.gamification.Badge" not-null="true"
+			lazy="false" />
+		<many-to-one name="participant" column="participant_id"
+			class="com.biperf.core.domain.user.User" not-null="true" lazy="false" />
+		<many-to-one name="badgeRule" column="badge_rule_id"
+			class="com.biperf.core.domain.gamification.BadgeRule" not-null="true"
+			lazy="false" />
+		<many-to-one name="contest" column="ssi_contest_id"
+			class="com.biperf.core.domain.ssi.SSIContest" lazy="false" />
+
+		<property name="isEarned" column="is_earned" type="java.lang.Boolean" />
+		<property name="earnedDate" column="earned_Date" type="java.util.Date" />
+		<property name="sentCount" column="sent_Count" type="java.lang.Long" />
+		<property name="receivedCount" column="received_count" type="java.lang.Long" />
+		<property name="status" column="status" type="string" />
+		<property name="isEarnedAllBehaviorPoints" column="is_earned_All_Behavior_points"
+			type="java.lang.Boolean" />
+		<property name="isBadgePointsEarned" column="is_earned_badge_points"
+			type="java.lang.Boolean" />
+		<property name="claimId" type="java.lang.Long" column="CLAIM_ID" />
+	</class>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgesEarnedHighlight">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+			SELECT {participant_badge.*}
+		      from badge,participant_badge
+          	  where badge.promotion_id=participant_badge.promotion_id
+           	  and participant_badge.PARTICIPANT_ID=:userId 
+              and badge.status='A' and participant_badge.status='A'
+		      and is_earned=1 and badge.badge_type<>:badgeType
+		      and participant_badge.earned_date+badge.tile_highlight_period>=trunc(sysdate)
+		      order by badge.badge_type desc,earned_date desc
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgesEarnedOld">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		      SELECT {participant_badge.*}
+		      from badge,participant_badge,(select distinct p.promotion_id,p.earned_date earned_date1 from participant_badge p where p.is_earned=1 and p.status='A' and p.PARTICIPANT_ID=:userId) pbe
+		      where badge.promotion_id=participant_badge.promotion_id and participant_badge.promotion_id=pbe.promotion_id and participant_badge.earned_date=pbe.earned_date1
+		      and badge.status='A' and participant_badge.status='A'
+		      and participant_badge.PARTICIPANT_ID=:userId
+		      and is_earned=1 and badge.badge_type<>:badgeType
+		      and participant_badge.earned_date+badge.tile_highlight_period<trunc(sysdate)
+		      order by badge.badge_type desc,earned_date desc
+   		 ]]>
+	</sql-query>
+
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgesProgressStarted">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+				<![CDATA[
+				      SELECT distinct {participant_badge.*}
+				      from badge,participant_badge,promotion 
+				      where badge.promotion_id=participant_badge.promotion_id 
+				      and badge.promotion_id=promotion.promotion_id 
+				      and badge.status='A' and participant_badge.status='A'
+				      and participant_badge.PARTICIPANT_ID=:userId
+				      and is_earned=0 and badge.badge_type=:badgeType
+				      and promotion.promotion_status = 'live'
+				      and decode(badge.badge_count_type,'given',participant_badge.sent_count,'received',participant_badge.received_count,'total',participant_badge.sent_count+participant_badge.received_count)>0					  
+		   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgesBehavior">
+		<return alias="pb"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+				select pb_outer.* 
+				from (           
+					select pb.badge_rule_id, max(pb.participant_badge_id) participant_badge_id
+		      		from badge b,participant_badge pb,(select promotion_id,badge_rule_id,max(earned_date) earned_date from participant_badge where is_earned=1 and status='A' and PARTICIPANT_ID=:userId group by promotion_id,badge_rule_id) pbe
+		      		where b.promotion_id=pb.promotion_id and pb.promotion_id=pbe.promotion_id and pb.earned_date=pbe.earned_date
+		      		  and b.status='A' and pb.status='A'
+		      		  and pb.PARTICIPANT_ID=:userId
+		      		  and b.badge_type=:badgeType
+		      		  and pb.is_earned=1
+		      		  and sysdate<=(select max(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+b.display_end_days))
+      					from promotion p,badge bb,badge_promotion bp
+						where bp.eligible_promotion_id=p.promotion_id and bb.promotion_id=bp.promotion_id and bb.status='A' and bb.promotion_id=pb.promotion_id)
+        			group by pb.badge_rule_id) pb_inner, participant_badge pb_outer
+    			where pb_outer.participant_badge_id=pb_inner.participant_badge_id
+    			order by pb_outer.is_earned desc,pb_outer.earned_date desc
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+	name="com.biperf.core.domain.gamification.getParticipantBadgesEarnedFileLoad">
+	<return alias="pb"
+		class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		  SELECT DISTINCT * FROM (SELECT pb.*,b.badge_type
+    		FROM badge b,
+	         participant_badge pb,
+	         (  SELECT DISTINCT
+	                   p.promotion_id,
+	                   badge_rule_id,
+	                   MAX (p.earned_date) earned_date1
+	              FROM participant_badge p, promotion pr, badge_promotion bp
+	             WHERE     p.is_earned = 1
+	                   AND p.status = 'A'
+	                   AND p.PARTICIPANT_ID = :userId
+	                   AND p.promotion_id = bp.promotion_id
+                       AND bp.eligible_promotion_id= pr.promotion_id
+                       AND pr.promotion_type = 'nomination'
+	          GROUP BY p.promotion_id, badge_rule_id) pbe
+	   WHERE     b.promotion_id = pb.promotion_id
+	         AND pb.promotion_id = pbe.promotion_id
+	         AND pb.earned_date = pbe.earned_date1
+	         AND b.status = 'A'
+	         AND pb.status = 'A'
+	         AND pb.PARTICIPANT_ID = :userId
+	         AND pb.is_earned = 1
+	         AND (b.badge_type = :badgeType1 OR b.badge_type = :badgeType2)
+	         AND SYSDATE <=
+	                NVL (
+	                   (SELECT MAX (
+	                              DECODE (
+	                                 p.promotion_end_date,
+	                                 NULL, TO_DATE ('31-DEC-9999', 'dd-MON-yyyy'),
+	                                 p.promotion_end_date + b.display_end_days))
+	                      FROM promotion p, badge bb, badge_promotion bp
+	                     WHERE     bp.eligible_promotion_id = p.promotion_id
+	                           AND bb.promotion_id = bp.promotion_id
+	                           AND bb.status = 'A'
+	                           AND p.promotion_type = 'nomination'
+	                           AND bb.promotion_id = pb.promotion_id),
+	                   SYSDATE)
+UNION ALL	--Added this part of the query to include the badges with no promotion.
+	SELECT pb.*,b.badge_type
+    		FROM badge b,
+	         participant_badge pb,
+	         (  SELECT DISTINCT
+	                   p.promotion_id,
+	                   badge_rule_id,
+	                   MAX (p.earned_date) earned_date1
+	              FROM participant_badge p
+	             WHERE     p.is_earned = 1
+	                   AND p.status = 'A'
+	                   AND p.PARTICIPANT_ID = :userId
+	          GROUP BY p.promotion_id, badge_rule_id) pbe
+	   WHERE     b.promotion_id = pb.promotion_id
+	         AND pb.promotion_id = pbe.promotion_id
+	         AND pb.earned_date = pbe.earned_date1
+	         AND b.status = 'A'
+	         AND pb.status = 'A'
+	         AND pb.PARTICIPANT_ID = :userId
+	         AND pb.is_earned = 1
+                 AND (b.badge_type = :badgeType1 OR b.badge_type = :badgeType2)
+	         AND NOT EXISTS (SELECT * from badge_promotion WHERE promotion_id = pb.promotion_id)
+	UNION ALL
+	  SELECT pb.*,b.badge_type
+	    FROM badge b,
+	         participant_badge pb,
+	         (  SELECT DISTINCT
+	                   p.promotion_id,
+	                   --MAX (p.earned_date) earned_date1
+	                   p.earned_date earned_date1
+	              FROM participant_badge p, promotion pr, badge_promotion bp
+	             WHERE     p.is_earned = 1
+	                   AND p.status = 'A'
+	                   AND p.PARTICIPANT_ID = :userId
+	                   AND p.promotion_id = bp.promotion_id
+                       AND bp.eligible_promotion_id= pr.promotion_id
+                       AND pr.promotion_type <> 'nomination'
+	          --GROUP BY p.promotion_id
+	          ) 
+	          pbe
+	   WHERE     b.promotion_id = pb.promotion_id
+	         AND pb.promotion_id = pbe.promotion_id
+	         AND pb.earned_date = pbe.earned_date1
+	         AND b.status = 'A'
+	         AND pb.status = 'A'
+	         AND pb.PARTICIPANT_ID = :userId
+	         AND pb.is_earned = 1
+	         AND (b.badge_type = :badgeType1 OR b.badge_type = :badgeType2)
+	         AND SYSDATE <=
+	                NVL (
+	                   (SELECT MAX (
+	                              DECODE (
+	                                 p.promotion_end_date,
+	                                 NULL, TO_DATE ('31-DEC-9999', 'dd-MON-yyyy'),
+	                                 p.promotion_end_date + b.display_end_days))
+	                      FROM promotion p, badge bb, badge_promotion bp
+	                     WHERE     bp.eligible_promotion_id = p.promotion_id
+	                           AND bb.promotion_id = bp.promotion_id
+	                           AND bb.status = 'A'
+	                           AND p.promotion_type <> 'nomination'
+	                           AND bb.promotion_id = pb.promotion_id),
+	                   SYSDATE))
+	ORDER BY badge_type, earned_date DESC
+
+   		 ]]>
+</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgesProgressEarned">
+		<return alias="pb"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		      SELECT distinct {pb.*}
+		      from badge b,participant_badge pb
+		      where b.promotion_id=pb.promotion_id
+		      and b.status='A' and pb.status='A'
+		      and pb.PARTICIPANT_ID=:userId
+		      and pb.is_earned=1 and b.badge_type=:badgeType
+		      and sysdate<=(select max(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+b.display_end_days))
+      					from promotion p,badge bb,badge_promotion bp
+						where bp.eligible_promotion_id=p.promotion_id and bb.promotion_id=bp.promotion_id and bb.status='A' and bb.promotion_id=pb.promotion_id and p.promotion_status='live')
+			  order by pb.earned_date,pb.badge_rule_id desc
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgesProgressNotEarned">
+		<return alias="pb"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		     SELECT  pb.*
+		      from badge b,participant_badge pb where b.promotion_id=pb.promotion_id and b.status='A' and pb.status='A'
+		      and pb.PARTICIPANT_ID=:userId
+		      and pb.is_earned=0 and b.badge_type=:badgeType
+		      and sysdate<=(select max(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+b.display_end_days))
+      					from promotion p,badge bb,badge_promotion bp
+						where bp.eligible_promotion_id=p.promotion_id and bb.promotion_id=bp.promotion_id and bb.status='A' and bb.promotion_id=pb.promotion_id)
+		      order by decode(b.badge_count_type,'given',pb.sent_count,'received',pb.received_count,'total',pb.sent_count+pb.received_count) desc
+			 
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgesHistory">
+		<return alias="pb"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		  <![CDATA[
+              SELECT  pb.*
+				FROM badge b,
+					participant_badge pb,
+					(SELECT bb.promotion_id
+					FROM promotion p,
+						badge bb,
+						badge_promotion bp
+					WHERE bp.eligible_promotion_id = p.promotion_id 
+						AND bb.promotion_id = bp.promotion_id
+						AND bb.status = 'I' 
+					GROUP BY bb.promotion_id)  pp
+				WHERE b.promotion_id = pb.promotion_id 
+					AND  pb.promotion_id = pp.promotion_id (+)
+					AND b.status = 'I'
+					AND pb.status = 'A'
+					AND pb.PARTICIPANT_ID =:userId  
+					AND pb.is_earned = 1    
+					AND pb.earned_date = (SELECT MAX(earned_date) 
+										FROM participant_badge      p 
+										WHERE p.badge_rule_id = pb.badge_rule_id 
+										AND p.participant_id = pb.participant_id)
+				UNION
+				SELECT  pb.*
+				FROM badge b,
+					participant_badge pb,
+					(SELECT
+					bb.promotion_id,MAX(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+bb.display_end_days))
+					as end_date
+					FROM promotion p,
+						badge bb,
+						badge_promotion bp
+					WHERE bp.eligible_promotion_id = p.promotion_id 
+						AND bb.promotion_id = bp.promotion_id 
+						AND	bb.status = 'A' 
+					GROUP BY bb.promotion_id) pp
+				WHERE b.promotion_id = pb.promotion_id 
+					AND pb.promotion_id = pp.promotion_id 
+					AND   b.status = 'A' 
+					AND pb.status = 'A'
+					AND pb.PARTICIPANT_ID = :userId  
+					AND pb.is_earned = 1
+					AND sysdate > pp.end_date
+					AND pb.earned_date = (SELECT MAX(earned_date) 
+										FROM participant_badge p 
+										WHERE p.badge_rule_id = pb.badge_rule_id 
+											AND p.participant_id = pb.participant_id)
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgeByBadgeLibrary">
+		<return alias="pb"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+				<![CDATA[
+				      SELECT  {pb.*}
+				      from badge b,participant_badge pb
+				      where b.promotion_id=pb.promotion_id and b.status='A' and pb.status='A'
+				      and pb.PARTICIPANT_ID=:userId
+				      and is_earned=1 
+				      and b.badge_Type<>'progress'
+				      and pb.badge_rule_id<>:currentRuleId
+				      and pb.badge_rule_id in(select badge_rule_id from badge_rule where cm_asset_key=:badgeLibCM)
+				      					  
+		   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgeByBadgeRule">
+		<return alias="pb"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+				<![CDATA[
+				      SELECT distinct {pb.*}
+				      from badge b,participant_badge pb,badge_rule br
+				      where b.promotion_id=pb.promotion_id and pb.promotion_id=br.promotion_id and b.status='A' and pb.status='A'
+				      and pb.badge_rule_id=br.badge_rule_id
+				      and pb.PARTICIPANT_ID=:userId
+				      and pb.badge_rule_id=:badgeRuleId
+				      and b.badge_type=:badgeType
+				      					  
+		   		 ]]>
+	</sql-query>
+
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgeBehaviorNotEarned">
+		<return alias="br" class="com.biperf.core.domain.gamification.BadgeRule" />
+				<![CDATA[
+			  SELECT distinct {br.*}
+				from promotion p, badge b,badge_rule br,badge_promotion bpp,promo_behavior pb
+				where b.promotion_id=br.promotion_id  
+				and b.promotion_id=p.promotion_id
+				and b.promotion_id=bpp.promotion_id and b.status='A'
+				and bpp.eligible_promotion_id in(:promotionId)
+				and b.badge_type=:badgeType
+				and p.promotion_status = 'live'
+        		and pb.behavior_type=br.behavior_name
+				and br.badge_rule_id not in(select badge_rule_id from participant_badge where is_earned=1 and status='A' and participant_id=:userId)            
+				and (exists(select 1 
+                		from participant_audience pau, promo_audience pa, promotion po 
+               			where pau.audience_id(+)  = pa.audience_id and po.promotion_id  = pa.promotion_id(+) and promo_audience_type(+) = 'PRIMARY'
+                 		and po.promotion_id = bpp.eligible_promotion_id and (pau.user_id = :userId OR po.primary_audience_type = 'allactivepaxaudience')) or 
+					 exists(select 1 from participant_audience pau, promo_audience pa, promotion po  where pau.audience_id(+) = pa.audience_id and po.promotion_id = pa.promotion_id(+)
+                        and promo_audience_type(+) = 'SECONDARY' and po.promotion_id = bpp.eligible_promotion_id and ((po.secondary_audience_type = 'allactivepaxaudience' OR pau.user_id = :userId) OR
+                        ((po.primary_audience_type = 'allactivepaxaudience' and po.secondary_audience_type = 'sameasprimaryaudience') OR  pau.user_id = :userId) OR
+                        (pau.user_id = :userId and po.secondary_audience_type IN('specifyaudience' ,'sameasprimaryaudience')))))           
+				and sysdate<=(select max(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+b.display_end_days))
+      					from promotion p,badge bb,badge_promotion bp
+						where bp.eligible_promotion_id=p.promotion_id and bb.promotion_id=bp.promotion_id and bb.status='A' and bb.promotion_id=b.promotion_id)
+				order by fnc_cms_asset_code_value ( br.badge_name) asc
+		   		 ]]>
+	</sql-query>
+
+	<!-- Queries for showing badges in Recognition confirmation page -->
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgeByParticipantPromotionEarnedHighLight">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		      SELECT {participant_badge.*}
+		      from badge,participant_badge,badge_promotion,(select p.promotion_id,max(p.earned_date) earned_date1 from participant_badge p where p.is_earned=1 and p.status='A' and p.PARTICIPANT_ID=:userId group by p.promotion_id) pbe
+			  where badge.promotion_id=participant_badge.promotion_id  and participant_badge.promotion_id=badge_promotion.promotion_id and participant_badge.promotion_id=pbe.promotion_id and participant_badge.earned_date=pbe.earned_date1
+			  and badge.status='A' and participant_badge.status='A'
+		      and participant_badge.PARTICIPANT_ID=:userId
+			  and is_earned=1 and badge.badge_type<>:badgeType
+			  and badge_promotion.eligible_promotion_id=:promotionId
+		      and participant_badge.earned_date+badge.tile_highlight_period>=trunc(sysdate)
+		      order by badge.badge_type desc,earned_date desc
+   		 ]]>
+	</sql-query>
+
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgeByParticipantPromotionProgress">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+				<![CDATA[
+				      SELECT distinct {participant_badge.*}
+				      from badge,participant_badge,badge_promotion
+					  where badge.promotion_id=participant_badge.promotion_id and participant_badge.promotion_id=badge_promotion.promotion_id
+					  and badge.status='A' and participant_badge.status='A'
+				      and participant_badge.PARTICIPANT_ID=:userId
+				      and is_earned=0 and badge.badge_type=:badgeType
+					  and badge_promotion.eligible_promotion_id=:promotionId
+				      and decode(badge.badge_count_type,'given',participant_badge.sent_count,'received',participant_badge.received_count,'total',participant_badge.sent_count+participant_badge.received_count)>0
+					  
+		   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgeByParticipantPromotionProgressLessthanOne">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+				<![CDATA[
+				      SELECT distinct {participant_badge.*}
+				      from badge,participant_badge,badge_promotion
+					  where badge.promotion_id=participant_badge.promotion_id and participant_badge.promotion_id=badge_promotion.promotion_id
+					  and badge.status='A' and participant_badge.status='A'
+				      and participant_badge.PARTICIPANT_ID=:userId
+				      and is_earned=0 and badge.badge_type=:badgeType
+					  and badge_promotion.eligible_promotion_id=:promotionId
+				      and decode(badge.badge_count_type,'given',participant_badge.sent_count,'received',participant_badge.received_count,'total',participant_badge.sent_count+participant_badge.received_count)<1
+					  
+		   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgeRulesProgressNotStarted">
+		<return alias="br" class="com.biperf.core.domain.gamification.BadgeRule" />
+				<![CDATA[
+				SELECT distinct {br.*}
+				from badge b,badge_rule br,badge_promotion bpp, promotion p
+				where b.promotion_id=br.promotion_id
+				AND b.promotion_id=p.promotion_id  
+				and b.promotion_id=bpp.promotion_id 
+				and b.status='A'
+				and p.promotion_status = 'live'
+				and bpp.eligible_promotion_id in(:promotionId)
+				and b.badge_type=:badgeType
+				and br.badge_rule_id not in(select badge_rule_id from participant_badge where status='A' and participant_id=:userId)            
+				and sysdate<=(select max(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+b.display_end_days))
+      					from promotion p,badge bb,badge_promotion bp
+						where bp.eligible_promotion_id=p.promotion_id and bb.promotion_id=bp.promotion_id and bb.status='A' and bb.promotion_id=b.promotion_id)
+				 order by to_number(regexp_substr(FNC_CMS_ASSET_CODE_VALUE(badge_name),'[[:digit:]]*')),FNC_CMS_ASSET_CODE_VALUE(badge_name) asc
+		   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgesForRecognitionConfirmationScreen">
+		<return alias="r"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		    SELECT  distinct r.participant_badge_id as participant_badge_id,r.promotion_id as promotion_id,r.participant_id as participant_id,r.is_earned as is_earned,r.earned_date as earned_date,
+       		r.sent_count as sent_count,r.received_count as received_count,r.badge_rule_id as badge_rule_id,r.status as status,r.created_by as created_by, r.is_earned_All_Behavior_points as is_earned_all_behavior_points, r.is_earned_badge_points as is_earned_badge_points,
+		    r.ssi_contest_id as ssi_contest_id,r.date_created as date_created,r.modified_by as modified_by,r.date_modified as date_modified, r.version as version , r.claim_id  as claim_id
+		  	FROM ( 
+		         select RANK() OVER (PARTITION BY promotion_id,is_earned ORDER BY participant_badge_id DESC) as rec_rank,
+		                pe.* 
+		           FROM participant_badge pe
+		           where participant_id=:userId
+		           AND status ='A'    
+		           AND (is_earned=0 or(is_earned=1 and trunc(earned_date)=trunc(sysdate)))                 
+		       ) r,
+		       badge b,
+		       badge_promotion bp
+		    
+			WHERE r.rec_rank = 1
+			AND r.promotion_id = b.promotion_id
+			AND b.badge_type = :badgeType
+			AND b.status='A'
+			AND (b.badge_count_type=:badgeCountType1 or b.badge_count_type=:badgeCountType2)
+			AND bp.promotion_id = b.promotion_id
+			AND bp.eligible_promotion_id = :promotionId
+			order by r.is_earned desc ,r.earned_date desc
+
+   		 ]]>
+	</sql-query>
+
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgesForRecognitionEmailBehavior">
+		<return alias="pb"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		      SELECT distinct {pb.*}
+		      from badge b,participant_badge pb,badge_promotion bp,badge_rule br,(select p.badge_rule_id,max(p.earned_date) earned_date1 from participant_badge p where p.is_earned=1 and p.status='A' and p.PARTICIPANT_ID=:userId group by p.badge_rule_id) pbe
+			  where b.promotion_id=pb.promotion_id and pb.promotion_id=bp.promotion_id and pb.promotion_id=br.promotion_id and pb.badge_rule_id=br.badge_rule_id
+			  and pb.badge_rule_id=pbe.badge_rule_id and pb.earned_date=pbe.earned_date1
+			  and br.behavior_name=:behaviorName
+			  and b.status='A' and pb.status='A'
+		      and pb.PARTICIPANT_ID=:userId
+		      and b.badge_type=:badgeType
+			  and bp.eligible_promotion_id=:promotionId
+		      and pb.is_earned=1
+		      and trunc(earned_date)=trunc(sysdate)
+		      and sysdate<=(select max(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+b.display_end_days))
+      					from promotion p,badge bb,badge_promotion bp
+						where bp.eligible_promotion_id=p.promotion_id and bp.eligible_promotion_id=:promotionId and bb.promotion_id=bp.promotion_id and bb.status='A' and bb.promotion_id=pb.promotion_id)
+			  order by pb.earned_date desc
+   		 ]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.gamification.isUserHasActiveBadges">
+		<return-scalar column="count" type="integer" />
+		<![CDATA[    
+	      select FNC_BADGE_ELIGIBILITY(:userId,:promotionIds) as count from dual
+    	]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipansEarnedHighestLevel">
+		<return alias="pb"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		     select distinct {pb.*} 
+			 from participant_badge pb,badge b,badge_promotion bp,badge_rule br
+     		 where   b.promotion_id=pb.promotion_id and pb.promotion_id=bp.promotion_id and pb.promotion_id=br.promotion_id and pb.badge_rule_id=br.badge_rule_id
+     		 and pb.promotion_id=:badgeId  and pb.is_earned=1 
+     		 and b.badge_type=:badgeType
+     		 and b.status='A' and pb.status='A'
+			and pb.badge_rule_id=(select max(badge_rule_id) from badge_rule where promotion_id=:badgeId)
+			and sysdate<=(select max(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+b.display_end_days))
+      					from promotion p,badge bb,badge_promotion bp
+						where bp.eligible_promotion_id=p.promotion_id and bp.promotion_id=:badgeId and bb.promotion_id=bp.promotion_id and bb.status='A' and bb.promotion_id=pb.promotion_id)
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgeByParticipantEarnedForPromotion">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		      SELECT {participant_badge.*}
+		      from badge,participant_badge,badge_promotion,(select p.promotion_id,max(p.earned_date) earned_date1 from participant_badge p where p.is_earned=1 and p.status='A' and p.PARTICIPANT_ID=:userId group by p.promotion_id) pbe
+			  where badge.promotion_id=participant_badge.promotion_id  and participant_badge.promotion_id=badge_promotion.promotion_id and participant_badge.promotion_id=pbe.promotion_id and participant_badge.earned_date=pbe.earned_date1
+			  and badge.status='A' and participant_badge.status='A'
+		      and participant_badge.PARTICIPANT_ID=:userId
+			  and is_earned=1 and badge.badge_type=:badgeType
+			  and badge_promotion.eligible_promotion_id=:promotionId
+		      order by earned_date desc
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgeByParticipantEarnedForThrowdown">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		      SELECT {participant_badge.*}
+		      from badge,participant_badge,badge_promotion
+			  where badge.promotion_id=participant_badge.promotion_id  and participant_badge.promotion_id=badge_promotion.promotion_id  
+			  and badge.status='A' and participant_badge.status='A'
+		      and participant_badge.PARTICIPANT_ID=:userId
+			  and is_earned=1 and badge.badge_type=:badgeType
+			  and badge_promotion.eligible_promotion_id=:promotionId
+		      order by earned_date desc
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgeByParticipantEarnedForDIYQuiz">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+		      SELECT {participant_badge.*}
+				FROM badge,
+				  badge_rule,
+				  participant_badge,
+				  diy_quiz,
+				  (SELECT p.promotion_id,
+				    MAX(p.earned_date) earned_date1
+				  FROM participant_badge p
+				  WHERE p.is_earned   =1
+				  AND p.status        ='A'
+				  AND p.PARTICIPANT_ID=:userId
+				  GROUP BY p.promotion_id
+				  ) pbe
+				WHERE badge.promotion_id                =participant_badge.promotion_id
+				AND badge_rule.promotion_id             =badge.promotion_id
+				AND participant_badge.promotion_id      =pbe.promotion_id
+				AND participant_badge.earned_date   =pbe.earned_date1
+				AND badge.status                    ='A'
+				AND participant_badge.status        ='A'
+				AND participant_badge.participant_id=:userId
+				AND is_earned                       =1
+				AND badge.badge_type                =:badgeType
+				AND diy_quiz.quiz_id                =:quizId
+				AND diy_quiz.badge_rule_id          =badge_rule.badge_rule_id
+				ORDER BY earned_date DESC
+   		 ]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.gamification.canCreateJournal">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+     			SELECT distinct participant_badge.*
+  					From Participant_badge,
+  						 badge,
+  						 badge_promotion
+           		  WHERE Participant_badge.participant_id =:userId
+            		  AND Participant_badge.badge_rule_id =:ruleId
+             		  AND participant_badge.is_earned =1
+              		  AND badge.promotion_id = Participant_badge.promotion_id
+              		  AND badge.badge_type =:badgeType
+			   UNION
+			   SELECT distinct participant_badge.*
+  				   From Participant_badge, badge, badge_promotion
+                 WHERE Participant_badge.participant_id =:userId
+                     AND Participant_badge.badge_rule_id =:ruleId
+          		     AND participant_badge.is_earned =1
+           		     AND badge.promotion_id = Participant_badge.promotion_id
+              		 AND badge.badge_type =:badgeType
+              		 AND badge.promotion_id = badge_promotion.promotion_id
+              		 AND badge_promotion.eligible_promotion_id = :promotionId
+   		 ]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.gamification.getBehaviorEarnedCount">
+		<return-scalar column="count" type="integer" />
+		<![CDATA[
+     		    SELECT count( distinct participant_badge.badge_rule_id ) as count
+   				    FROM participant_badge
+  				 WHERE participant_badge.promotion_id =:promotionId
+   				   AND participant_badge.participant_id =:participantId
+   				   AND participant_badge.is_earned=1
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getBadgeEarnCountBybadgeId">
+		<return-scalar column="count" type="integer" />
+		<![CDATA[
+     		    SELECT count( distinct participant_badge.participant_badge_id ) as count
+   				    FROM participant_badge
+  				 WHERE participant_badge.badge_rule_id =:badgeRuleId
+   				   AND participant_badge.participant_id =:participantId
+   				   AND participant_badge.is_earned=1
+   		 ]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgeByPromotionId">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+     		    SELECT {participant_badge.*}
+     		    	FROM participant_badge
+     		      WHERE participant_badge.promotion_id=:promotionId
+     		        and participant_badge.is_earned=1
+   		 ]]>
+	</sql-query>
+	
+	<sql-query
+		name="com.biperf.core.domain.gamification.getParticipantBadgeByBehaviorNames">
+		<return alias="participant_badge"
+			class="com.biperf.core.domain.gamification.ParticipantBadge" />
+		<![CDATA[
+     		    select pb.*
+				from badge_promotion bp, participant_badge pb, badge_rule br
+				where bp.promotion_id=pb.promotion_id and pb.badge_rule_id=br.badge_rule_id
+				  and pb.status='A' and pb.is_earned=1
+				  and bp.eligible_promotion_id=:promotionId
+				  and pb.participant_id=:userId
+				  and (br.behavior_name is not null and br.behavior_name IN (:behaviorNames))
+   		 ]]>
+	</sql-query>
+
+</hibernate-mapping>    
+    
+   

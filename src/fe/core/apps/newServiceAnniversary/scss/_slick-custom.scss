@@ -1,0 +1,253 @@
+.launchModule {
+    &.newServiceAnniversaryModule {
+        & .module-liner {
+            padding: 0;
+            min-height: auto;            
+            & #sa-app {
+                float: left;
+                width: 100%;
+                background-color: #F2F2F2;
+                background-image: url($appImagesPath + "sa-uc.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+                //Fixing the bg position to right top
+                background-position: 100% 0; 
+                & .sa-app-inner {
+                    & .slick-slider {
+                        & .slick-track, .slick-list {
+                            display: flex;
+
+                        }
+                        & .slick-track {
+                            padding-bottom: 10px;
+                            flex-grow: 0;
+                            flex-shrink: 0;
+                            flex-basis: auto;
+                            & .slick-slide {
+                                > div {
+                                    height: inherit;
+                                }
+                            }
+                        }
+                    }
+                    padding:30px 30px 20px;
+                    min-height: 190px;
+                    
+                    & .noSACelebration {
+                        display: block;
+                        margin-top: 58px;
+                        text-align: center;
+                        & p {
+                            font-size: 18px;
+                            margin-bottom: 20px;
+                            color: #000;
+                        }
+                    }
+                    & .saSliderHeader {
+                        &:after {
+                            content: "";
+                            display: table;
+                            clear: both;
+                        }
+                        display: block;
+                        padding: 0 55px;
+                        @media (min-width: $breakpoint_tablet_min) and (max-width: $breakpoint_desktop_min) {
+                            padding: 0 35px;
+                        }
+                        @media (min-width: $breakpoint_mobilePhoneMin_minValue) and (max-width: $breakpoint_mobileMin_max) {
+                            padding: 0;
+                            margin: 0 2.5% 20px 2.5%;
+                        }
+                        box-sizing: border-box;
+                        margin-bottom: 20px;
+                        & h3 {
+                            margin: 0;
+                            float: left;
+                            @media (min-width: $breakpoint_mobilePhoneMin_minValue) and (max-width: $breakpoint_mobileMin_max) {
+                                font-size: 15px;
+                                line-height: 21px;
+                            }
+                        }
+                        & a {
+                            float: right;
+                            font-size: 12px;
+                            line-height: 14px;
+                            padding: 5px 20px;
+                            @media (min-width: $breakpoint_mobilePhoneMin_minValue) and (max-width: $breakpoint_mobileMin_max) {
+                                padding: 5px 8px;
+                            }
+                            background-color: #fff;
+                            color: #ff8404;
+                            border-radius: 2px;
+                            font-weight: normal;
+                            box-shadow: 1px 1px 5px 2px rgba(205,205,205,1);
+                        }
+                    }                    
+                    & .slick-prev:before {
+                        color: #ff8404;
+                    } 
+                    & .slick-next:before {
+                        color: #ff8404;
+                    }
+                    & .slick-slider {
+                        width: 95%;
+                        margin-left: 2.5%;
+                        margin-right: 2.5%;
+                        & .cardTileInfo {
+                            height: inherit;
+                            > .cardHolder {
+                                margin: 0 20px;
+                                @media (min-width: $breakpoint_mobilePhoneMin_minValue) and (max-width: $breakpoint_mobileMin_max) {
+                                    margin: 0;
+                                }
+                                border-radius: 5px;
+                                overflow: hidden;
+                                box-shadow: 1px 1px 10px 3px rgba(205,205,205,1);
+                                background-color: #fff;
+                                height: inherit;
+                                @media (min-width: $breakpoint_mobilePhoneMin_minValue) and (max-width: $breakpoint_mobileMin_max) {
+                                    box-shadow: none;
+                                }
+                                > .cardTileHeader {
+                                    float: left;
+                                    width: 100%;
+                                    padding: 10px;
+                                    // Flex introduced for text truncation of designation
+                                    display: flex;
+                                    align-items: center;
+                                    background-color: $brand_color_primary;
+                                    @media (min-width: $breakpoint_tablet_min) and (max-width: $breakpoint_desktop_min) {
+                                        padding: 5px 15px;
+                                    }
+                                    box-sizing: border-box;                                
+                                    & .designation {                                        
+                                        margin: 0 10px 0 0;
+                                        flex: 1;
+                                        overflow: hidden;
+                                        & h4 {                                            
+                                            font-size: 13px;
+                                            color: #fff;
+                                            white-space: nowrap;
+                                            overflow: hidden;
+                                            font-weight: normal;
+                                            text-overflow: ellipsis;
+                                            line-height: 16px;
+                                            margin: 0;                                            
+                                        }
+                                        & .time-left {
+                                            color: #fff;
+                                            line-height: 13px;
+                                            font-size: 10px;
+                                            display: block;
+                                            margin-top: 5px;
+                                            white-space: nowrap;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            & span {
+                                                margin-left: 5px;
+                                            }
+                                        }
+                                    }
+                                    & a {
+                                        margin: 0;
+                                        font-size: 13px;
+                                        padding: 5px 7px;
+                                        color: #000;
+                                        font-weight: normal;
+                                        white-space: nowrap;
+                                        background-color: #fff;
+                                        border-radius: 2px;
+                                        box-shadow: 1px 1px 5px 2px #ffffff2b;
+                                    }
+                                }
+                                > .cardTileBody {
+                                    float: left;
+                                    width: 100%;
+                                    display: flex;
+                                    flex-direction: row;
+                                    justify-content: flex-start;
+                                    align-items: center;
+                                    padding: 20px 30px;
+                                    height: calc( 100% - 49px );
+                                    @media (min-width: $breakpoint_mobilePhoneMin_minValue) and (max-width: $breakpoint_mobileMin_max) {
+                                        padding: 20px 15px;
+                                    }
+                                    @media (max-width: $breakpoint_desktopLarge_minimum - 1) and (min-width: 1199px) {
+                                        padding: 20px 15px;
+                                    }
+                                    @media (min-width: $breakpoint_tablet_min) and (max-width: $breakpoint_desktop_min) {
+                                        padding: 20px 30px;
+                                    }
+                                    box-sizing: border-box;
+                                    background-color: #fff;
+                                    & .avatar-image {
+                                        flex-basis: 70px;
+                                        flex-shrink: 0;
+                                        height: 70px;
+                                        border-radius: 50%;
+                                        overflow: hidden;
+                                        > img {
+                                            width: 100%;
+                                            height: 100%;
+                                        }
+                                    }
+                                    & .avatar-text {
+                                        flex-basis: 70px;
+                                        flex-shrink: 0;
+                                        height: 70px;
+                                        border-radius: 50%;
+                                        overflow: hidden;
+                                        line-height: 70px;
+                                        text-align: center;
+                                        font-weight: bold;
+                                        background-color: #ccc;
+                                    }
+                                    & .personalInfo {
+                                        display: flex;
+                                        flex-direction: column;                                    
+                                        position: relative;
+                                        padding-left: 25px;
+                                        flex-basis: auto;
+                                        flex: 1;
+                                        @media (min-width: $breakpoint_desktopLarge_max) {
+                                            padding-left: 35px;
+                                        }
+                                        @media (min-width: $breakpoint_mobileMini_min) and  (max-width: $breakpoint_tablet_min)  {
+                                            padding-left: 15px;
+                                        }
+                                        @media (max-width: $breakpoint_desktopLarge_minimum - 1) and (min-width: 1199px) {
+                                            padding-left: 15px;
+                                        }
+                                        & .personName {
+                                            color: #ff8404;
+                                            text-transform: capitalize;
+                                            display: block;
+                                        }
+    
+                                    }
+                                    
+                                }
+                            }
+                        } 
+                    }
+                }
+                & .sa-load {
+                    display: block;
+                    float: left;
+                    width: 100%;
+                    height: 190px;
+                    line-height: 190px;
+                    text-align: center;
+                    img {
+                        width: 65px;
+                    }
+                }
+                & .sa-no-record {
+                    text-align: center;
+                    margin-top: 20px;
+                }
+                
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.ssi.SSIContestPaxPayout" table="SSI_CONTEST_PAX_PAYOUT">
+		<cache usage="read-write" />
+		<id name="id" type="long" column="SSI_CONTEST_PAX_PAYOUT_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">SSI_CONTEST_PAX_PAYOUT_PK_SQ</param>
+			</generator>
+		</id>
+		<version name="version" type="long" column="VERSION" />
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<many-to-one name="contest" column="SSI_CONTEST_ID" not-null="true" class="com.biperf.core.domain.ssi.SSIContest"  lazy="false"/>
+		<many-to-one name="participant" column="USER_ID" not-null="true" class="com.biperf.core.domain.participant.Participant" lazy="false"/>
+		<property name="payoutAmount" column="PAYOUT_AMOUNT" type="java.lang.Double"/>
+		<many-to-one name="journal" column="JOURNAL_ID" class="com.biperf.core.domain.journal.Journal" unique="true" lazy="false"/>
+		<property name="awardIssuanceNumber" type="java.lang.Short" column="AWARD_ISSUANCE_NUMBER" />
+		<property name="stackRankPosition" column="STACK_RANK_POSITION" type="java.lang.Integer"/>
+		<property name="activityAmount" column="ACTIVITY_AMOUNT" type="java.lang.Double"/>
+		<many-to-one name="badgeRule" column="BADGE_RULE_ID" not-null="false" class="com.biperf.core.domain.gamification.BadgeRule" lazy="false"/>
+		<property name="payoutDescription" column="PAYOUT_DESCRIPTION" type="string"/>
+
+	</class>
+</hibernate-mapping>  

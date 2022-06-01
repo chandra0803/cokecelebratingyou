@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- Survey Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.SurveyPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_SURVEY" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+  
+  <property name="corpAndMngr" type="boolean" column="IS_CORP_AND_MNGR" />
+  <many-to-one name="survey" column="SURVEY_ID" class="com.biperf.core.domain.promotion.Survey" cascade="save-update" lazy="false"/>
+</joined-subclass>
+
+<sql-query name="com.biperf.core.domain.promotion.getSurveyResponseType">
+    <return-scalar column="RESPONSE_TYPE" type="string"/>
+    <![CDATA[
+    	select distinct RESPONSE_TYPE
+    	  from SURVEY_QUESTION where SURVEY_ID 
+    	    in (select SURVEY_ID from PROMO_SURVEY where PROMOTION_ID=:promotionId)
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

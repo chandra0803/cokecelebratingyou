@@ -1,0 +1,1251 @@
+// Partial-specific variables
+// =========================
+$card_background_color: $card_backgroundColor !default;
+
+$card_avatar_initials: $brand_color_avatarTextColor !default;
+$card_avatar_background_color: $brand_color_avatarBkg !default;
+
+$card_selected_icon_color: $brand_color_mid !default;
+$card_selected_overlay_icon_color: $brand_color_white !default;
+
+$card_celebrationInfo_color: $brand_color_white !default;
+$card_celebrationInfo_bgColor: $brand_color_black !default;
+$card_celebrationInfo_promo_color: $brand_color_primary !default;
+
+$cardfollowColorHighlight : $brand_color_dark !default;
+$cardfollowColor : $brand_color_light !default;
+
+$cardfollowIconColor : $brand_color_black !default;
+// Partial-specific code
+// ==================================================
+
+@mixin cardAvatarSizing($size: $card_avatarSize_default) {
+    .avatar {
+        height: $size;
+        width: $size;
+
+        .avatar-initials {
+            cursor:default;
+            font-size: avatarInitialSize($size);
+            line-height: $size;
+        }
+
+        .card-icon {
+            font-size: $size / 2;
+            line-height: $size;
+        }
+    }
+
+    .follow {
+        width:       min(max($size * 0.3, 20px), 36px);
+        height:      min(max($size * 0.3, 20px), 36px);
+        font-size:   min(max($size * 0.15, 11px), 16px);
+        line-height: min(max($size * 0.3, 20px), 36px);
+        bottom:      min($size * 0.3 - 20px - 1.5px, -3px); // extra 1.5px is half the border
+        right:       min($size * 0.3 - 20px - 1.5px, -3px); // extra 1.5px is half the border
+    }
+} // /@mixin cardAvatarSizing
+
+
+@mixin mediaQueryPaddingOverride($padding) {
+    padding: $padding;
+
+    &.card-flip {
+
+    }
+
+    &.flipped,
+    &.flipped-alt {
+        .card-front {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    }
+    .card-back {
+        position: absolute;
+    }
+
+    .card-front,
+    .card-back {
+        margin: (-1 * nth($padding, 1)) (-1 * nth($padding, 2));
+        padding: $padding;
+    }
+    .card-front {
+        // making front of card, a 100% of the card, so overlays work on equal height cards
+        height: 100%;
+        .card-action {
+            padding-top: nth($padding, 1);
+            button {
+                margin:5px 0px;
+            }
+        }
+        .card-select-icon {
+            top: nth($padding, 1) / 2;
+            left: nth($padding, 2) / 2;
+        }
+        .celebrationInfo {
+            margin-top: -1 * nth($padding, 1) / 2;
+            margin-right: -1 * nth($padding, 2) / 2;
+            margin-bottom: nth($padding, 1) / 2;
+            margin-left: nth($padding, 2) / 2;
+
+        }
+    }
+    .card-back {
+        .back-arrow,
+        .back-arrow-alt {
+            top: nth($padding, 1) / 2;
+            left: nth($padding, 2) / 2;
+        }
+    }
+
+    &.card-short,
+    &.card-medium,
+    &.card-tall {
+        .card-action,
+        .promotions-container {
+            right: nth($padding, 2);
+            bottom: nth($padding, 1);
+            left: nth($padding, 2);
+        }
+    }
+} // /@mixin mediaQueryPaddingOverride
+
+/***
+ *                                      888
+ *                                      888
+ *                                      888
+ *         .d8888b  8888b.  888d888 .d88888
+ *        d88P"        "88b 888P"  d88" 888
+ *        888      .d888888 888    888  888
+ *    d8b Y88b.    888  888 888    Y88b 888
+ *    Y8P  "Y8888P "Y888888 888     "Y88888
+ *
+ *
+ *
+ */
+/* entire container, keeps perspective */
+.card {
+    position: relative;
+    margin-bottom: $baseLineHeight;
+    padding: $card_padding;
+    background: $card_background_color;
+    @include border-radius($card_borderRadius);
+    @include box-shadow($card_boxShadow);
+
+    .card-back,
+    .card-front {
+        margin: (-1 * nth($card_padding, 1)) (-1 * nth($card_padding, 2));
+        padding: $card_padding;
+        width: 100%;
+        overflow: hidden;
+
+        @include backface-visibility(hidden);
+    }
+
+    &.card-flip {
+        padding: 0;
+        background: none;
+
+        @include border-radius(0);
+        @include box-shadow(none);
+
+        @include transform-origin(50% 50%);
+        @include transform-style(preserve-3d);
+        @include perspective(1000);
+
+        .card-back,
+        .card-front {
+            margin: 0;
+            @include box-sizing(border-box);
+            background: $card_background_color;
+            @include border-radius($card_borderRadius);
+            @include box-shadow($card_boxShadow);
+
+            @include transition($animation_duration);
+            @include transform-style(preserve-3d);
+        }
+    }
+    &:not(.card-flip) {
+        .card-back{
+            display: none !important;
+        }
+    }
+    .avatar {
+        display: block;
+        position: relative;
+        margin: 0 auto;
+        text-align: center;
+        color: $card_avatar_initials;
+
+        .avatarContainer{
+            position:relative;
+            overflow: hidden;
+            height: 100%;
+            display: block;
+            border-radius:50%;
+            width: 100%;
+            background: $card_avatar_background_color;
+            -moz-background-clip: padding;
+            -webkit-background-clip: padding;
+            background-clip: padding-box;
+            // fix for chrome
+            -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+
+        }
+        img{
+             //min-height: 100%;
+             @include centerer(true, true);
+             @supports (object-fit: cover){
+              width: 100%;
+              height: 100%;
+              max-width: none;
+              object-fit: cover;
+            }
+
+        }
+        .avatar-initials {
+            border-radius: 50%;
+            min-height: 100%;
+        }
+
+        .card-icon {
+            vertical-align: text-top;
+        }
+    }
+
+    .participant-name {
+        font-size: $headline6fontSize_mobile;
+        line-height: $headlineLineHeight;
+        font-weight: $fontWeightBold;
+
+        a {
+            @include ignoreGlobalLinkStyles(
+                $color: false,
+                $textDecoration: false,
+                $bgColor: false,
+                $border: false
+            );
+        }
+    }
+    .participant-info {
+        max-height: $lineHeightSmall * 4;
+        overflow: hidden;
+        font-size: $fontSizeSmall;
+        line-height: $lineHeightSmall;
+            @media (max-width: $breakpoint_mobileMin_min) {
+                max-height: $lineHeightSmall * 5;
+            }
+        .pi-title {
+            display: block;
+        }
+        .pi-org {
+            font-size: $fontSizeSmall;
+            .sep {
+                display: none;
+            }
+        }
+        .pi-dept {
+            font-size: $fontSizeSmall;
+        }
+    }
+
+    .celebrationInfo {
+        display: none;
+            @media (min-width: $breakpoint_tablet_min) {
+                display: inline-block
+            }
+        position: relative;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        font-weight: $fontWeightBold;
+        text-align: center;
+        color: $card_celebrationInfo_color;
+        border: solid 3px $card_background_color;
+        background-clip: content-box;
+        background: $card_celebrationInfo_bgColor;
+        border-radius: 50%;
+        overflow: hidden;
+        z-index: 99;
+        .promotion {
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 50px;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            color: $card_celebrationInfo_promo_color;
+            //font-family: $purlCelebrate_fontFamily;
+            line-height: 50px;
+            font-size: 16px; //px value because it's dependent on the balloon's size
+            font-weight: $fontWeightBold;
+            z-index: 101;
+        }
+        .celebrationCircleMask{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius:50%;
+        }
+        .balloon {
+            @include safeImgUrls("celebration/upcomingCel-balloon.png", $appImagesPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: 0;
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+        }
+        .balloon, .promotion {
+            //transition: all 1000ms cubic-bezier(.71,.58,.64,1.32) ;
+            -webkit-animation: moveBalloon .8s forwards;
+            animation: moveBalloon .8s forwards;
+            -webkit-animation-timing-function: cubic-bezier(.71,.58,.64,1.32) ;
+            animation-timing-function: cubic-bezier(.71,.58,.64,1.32) ;
+        }
+        @keyframes moveBalloon {
+          0% {
+            transform: translateY(45px);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+    }
+
+    &.selected:not(.card-profile) {
+        .card-select-icon {
+            display: block;
+            position: absolute;
+            z-index: 101;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            margin-top: -20px;
+            margin-left: -20px;
+            font-size: 40px;
+            line-height: 40px;
+            color: $card_selected_overlay_icon_color;
+            font-weight: bold;
+            @media(max-width: $breakpoint_mobile_max){
+                margin-left: 24px;
+                left: 0;
+            }
+        }
+
+        .selectedOverlay {
+            display: block;
+            background: transparentize($brand_color_success, 0.2);
+            @include border-radius($card_borderRadius);
+        }
+    }
+
+    &.disable-card-select {
+        .card-select-icon {
+            display: none !important;
+        }
+    }
+
+
+    /***
+     *                                        dP          .8888b                              dP
+     *                                        88          88   "                              88
+     *       .d8888b. .d8888b. 88d888b. .d888b88          88aaa  88d888b. .d8888b. 88d888b. d8888P
+     *       88'  `"" 88'  `88 88'  `88 88'  `88 88888888 88     88'  `88 88'  `88 88'  `88   88
+     *    dP 88.  ... 88.  .88 88       88.  .88          88     88       88.  .88 88    88   88
+     *    88 `88888P' `88888P8 dP       `88888P8          dP     dP       `88888P' dP    dP   dP
+     *
+     *
+     */
+    // FRONT OF CARD
+    .card-front {
+        position: relative;
+		// Clicking on the Balloon for an upcoming PURL on the participant search card displays everything backwards -g-3987
+       // z-index: 2;   
+        top: 0;
+        left: 0;
+
+        @include transform(rotateY(0deg));
+
+        .card-top {
+            float: left;
+
+            @include cardAvatarSizing($card_avatarSize_default / 2);
+        }
+
+        .card-details {
+            margin-left: $card_avatarSize_default / 2 * 1.33;
+        }
+
+        .card-action {
+            clear: both;
+            padding-top: $card_avatarSize_default / 2 / 4;
+        }
+
+        .card-select-icon {
+            display: none;
+            position: absolute;
+            z-index: 99;
+            top: nth($card_padding, 1) / 2;
+            left: nth($card_padding, 2) / 2;
+            width: $fontSizeExtraLarge;
+            height: $fontSizeExtraLarge;
+            font-size: $fontSizeExtraLarge;
+            line-height: $fontSizeExtraLarge;
+            font-weight: $fontWeightBold;
+            color: $card_selected_icon_color;
+            cursor: pointer;
+        }
+        .selectedOverlay {
+            display: none;
+            position: absolute;
+            z-index: 100;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .celebrationInfo {
+            display: none;
+            float: right;
+            margin-top: -1 * nth($card_padding, 1) / 2;
+            margin-right: -1 * nth($card_padding, 2) / 2;
+            margin-bottom: nth($card_padding, 1) / 2;
+            margin-left: nth($card_padding, 2) / 2;
+            cursor: pointer;
+        }
+
+        .follow {
+            display: none;
+            position: absolute;
+            font-weight: bold;
+            text-align: center;
+            color: $cardfollowIconColor;
+            background: $cardfollowColor;
+            border: 3px solid $card_background_color;
+            background-clip: content-box;
+            border-radius: 50%;
+            cursor: pointer;
+
+            &.followReady {
+                &:hover {
+                    background: $cardfollowColorHighlight;
+                }
+            }
+
+            &.following {
+                color: $btnSuccessTxtColor;
+                background: $btnSuccessBackground;
+            }
+            // special class to delay hover behavior
+            &.unfollowReady {
+                &:hover {
+                    color: $btnDangerTxtColor;
+                    background: $btnDangerBackground;
+                }
+            }
+            &.follow-lock{
+                cursor: default;
+                color: $cardfollowIconColor;
+                background: $cardfollowColor;
+            }
+        }
+    }
+
+    &.flipped,
+    &.flipped-alt {
+        .card-front {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    }
+    &.flipped {
+        .card-front {
+            @include transform(rotateY(-180deg));
+        }
+    }
+    &.flipped-alt {
+        .card-front {
+            @include transform(rotateY(180deg));
+        }
+    }
+
+
+    /***
+     *                                        dP          dP                         dP
+     *                                        88          88                         88
+     *       .d8888b. .d8888b. 88d888b. .d888b88          88d888b. .d8888b. .d8888b. 88  .dP
+     *       88'  `"" 88'  `88 88'  `88 88'  `88 88888888 88'  `88 88'  `88 88'  `"" 88888"
+     *    dP 88.  ... 88.  .88 88       88.  .88          88.  .88 88.  .88 88.  ... 88  `8b.
+     *    88 `88888P' `88888P8 dP       `88888P8          88Y8888' `88888P8 `88888P' dP   `YP
+     *
+     *
+     */
+    // BACK OF CARD
+    .card-back {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        @include transform(rotateY(180deg));
+
+        &.card-back-alt {
+            @include transform(rotateY(-180deg));
+        }
+
+        .card-back-content,
+        .card-back-content-alt {
+            display: none;
+        }
+
+        .back-arrow,
+        .back-arrow-alt {
+            position: absolute;
+            z-index: 99;
+            top: nth($card_padding, 1) / 2;
+            left: nth($card_padding, 2) / 2;
+            width: $fontSizeExtraLarge;
+            height: $fontSizeExtraLarge;
+            font-size: $fontSizeExtraLarge;
+            line-height: $fontSizeExtraLarge;
+            cursor: pointer;
+
+            i {
+                font-weight: $fontWeightBold;
+            }
+        }
+
+        .card-top {
+            float: left;
+            margin-bottom: $card_avatarSize_small / 4;
+
+            @include cardAvatarSizing($card_avatarSize_small);
+        }
+        .card-details {
+            margin-bottom: $card_avatarSize_small / 4;
+            margin-left: $card_avatarSize_small * 1.33;
+            line-height: $card_avatarSize_small;
+        }
+        .participant-name {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .participant-info {
+            display: none;
+        }
+
+        .promotions-container::-webkit-scrollbar {
+            width: 0px;  /* remove scrollbar space */
+            background: transparent;  /* optional: just make scrollbar invisible */
+        }
+
+        .promotions-container {
+            position: relative;
+            overflow: hidden;
+            clear: both;
+
+            .promotion {
+                //overflow-y: scroll;
+                overflow-y:scroll!important;
+                height: 100%;
+                width: 100%;
+                max-height: $card_avatarSize_small * 2;
+            }
+
+            .up-arrow,
+            .down-arrow {
+                position: absolute;
+                z-index: 99;
+                left: 0;
+                width: 100%;
+                height: 30px;
+                text-align: center;
+                cursor: pointer;
+                i{
+                    /* width: 100%;
+                    left:0;
+                    right: 0; */
+                    position:relative;
+                    font-size: $fontSizeExtraLarge;
+                    font-weight: $fontWeightBold;
+                    border-radius:50%;
+                    background:$brand_color_white;
+                }
+            }
+            .up-arrow {
+                top: 0;
+                i{
+                    top:2px;
+                }
+                @include background-image(linear-gradient(to bottom, rgba(255,255,255,1) 40%,rgba(255,255,255,0) 100%));
+            }
+            .down-arrow {
+                bottom: -5px;
+                i{
+                    position:relative;
+                    bottom:0px;
+                }
+                @include background-image(linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 60%));
+            }
+        }
+
+        &.card-ezrec {
+            // overflow: auto;
+            // was auto to allow for content getting too long on the card
+            // changed to visible to allow the spellchecker dropdown to be seen
+            overflow: visible;
+        }
+        .ezrec-container {
+            text-align: left;
+
+            .formContainer {
+                height: auto !important;
+            }
+
+            form {
+                margin: 0;
+            }
+            .control-group {
+                margin-bottom: $baseLineHeight / 2;
+            }
+            .control-label,
+            .comment-label,
+            #ezRecognitionCancelBtn {
+                display: none;
+            }
+            .controls {
+                margin-left: 0;
+            }
+            select,
+            textarea {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            textarea {
+                resize: none;
+            }
+            .commentTools {
+                margin-top: -1 * $baseLineHeight / 4;
+                margin-bottom: $baseLineHeight / 4;
+                text-align: right;
+                font-size: $fontSizeSmall;
+            }
+            .remChars {
+                font-weight: $fontWeightBold;
+            }
+        }
+
+        &.card-purlrec {
+            // custom styling for this is found in _purlCelebrate.scss
+        }
+    }
+
+    &.flipped,
+    &.flipped-alt {
+        .card-back {
+            position: relative;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            @include transform(rotateY(0));
+
+            .card-back-content {
+                display: block;
+            }
+            .card-back-content-alt {
+                display: none;
+            }
+        }
+    }
+    &.flipped-alt {
+        .card-back {
+            @include transform(rotateY(360deg));
+
+            .card-back-content {
+                display: none;
+            }
+            .card-back-content-alt {
+                display: block;
+            }
+        }
+    }
+
+
+    /***
+     *                                      888        888
+     *                                      888        888
+     *                                      888        888
+     *         .d8888b  8888b.  888d888 .d88888        888  8888b.  888d888 .d88b.   .d88b.
+     *        d88P"        "88b 888P"  d88" 888        888     "88b 888P"  d88P"88b d8P  Y8b
+     *        888      .d888888 888    888  888 888888 888 .d888888 888    888  888 88888888
+     *    d8b Y88b.    888  888 888    Y88b 888        888 888  888 888    Y88b 888 Y8b.
+     *    Y8P  "Y8888P "Y888888 888     "Y88888        888 "Y888888 888     "Y88888  "Y8888
+     *                                                                          888
+     *                                                                     Y8b d88P
+     *                                                                      "Y88P"
+     */
+    // LARGE CARD
+    &.card-large {
+        .card-front {
+            .card-top {
+                @include cardAvatarSizing($card_avatarSize_default);
+            }
+            .card-details {
+                margin-left: $card_avatarSize_default * 1.33;
+            }
+            .card-action {
+                padding-top: $card_avatarSize_default / 4;
+            }
+        }
+
+        .card-back {
+            // no change to the back
+        }
+    }
+
+
+
+    /***
+     *                                      888                                        888 888
+     *                                      888                                        888 888
+     *                                      888                                        888 888
+     *         .d8888b  8888b.  888d888 .d88888        .d8888b  88888b.d88b.   8888b.  888 888
+     *        d88P"        "88b 888P"  d88" 888        88K      888 "888 "88b     "88b 888 888
+     *        888      .d888888 888    888  888 888888 "Y8888b. 888  888  888 .d888888 888 888
+     *    d8b Y88b.    888  888 888    Y88b 888             X88 888  888  888 888  888 888 888
+     *    Y8P  "Y8888P "Y888888 888     "Y88888         88888P' 888  888  888 "Y888888 888 888
+     *
+     *
+     *
+     */
+    // SMALL CARD
+    &.card-small {
+        .card-front {
+            .card-top {
+                @include cardAvatarSizing($card_avatarSize_small / 2);
+
+                .follow {
+                    right: 50%;
+                    bottom: -1 * min(max($card_avatarSize_small / 2 * 0.3, 20px), 30px) - 3px;
+                    margin-right: -1 * min(max($card_avatarSize_small / 2 * 0.3, 20px), 30px) / 2 - 3px;
+                }
+            }
+            .card-details {
+                margin-left: $card_avatarSize_small / 2 * 1.33;
+
+                .participant-name {
+                    font-size: $headline6fontSize_mobile;
+                }
+                .participant-info {
+                    font-size: $fontSizeSmall;
+                    line-height: $lineHeightSmall;
+                }
+            }
+            .card-action {
+                padding-top: $card_avatarSize_small / 2 / 4;
+            }
+            .card-select-icon {
+                background: $card_background_color;
+                border-radius: 50%;
+            }
+        }
+
+        .card-back {
+            // no change to the back
+        }
+    }
+
+
+
+    /***
+     *                                      888                                  .d888 d8b 888
+     *                                      888                                 d88P"  Y8P 888
+     *                                      888                                 888        888
+     *         .d8888b  8888b.  888d888 .d88888        88888b.  888d888 .d88b.  888888 888 888  .d88b.
+     *        d88P"        "88b 888P"  d88" 888        888 "88b 888P"  d88""88b 888    888 888 d8P  Y8b
+     *        888      .d888888 888    888  888 888888 888  888 888    888  888 888    888 888 88888888
+     *    d8b Y88b.    888  888 888    Y88b 888        888 d88P 888    Y88..88P 888    888 888 Y8b.
+     *    Y8P  "Y8888P "Y888888 888     "Y88888        88888P"  888     "Y88P"  888    888 888  "Y8888
+     *                                                 888
+     *                                                 888
+     *                                                 888
+     */
+    // PROFILE CARD
+    &.card-profile {
+        .card-front {
+            .card-details {
+                height: $card_avatarSize_default;
+                position: relative;
+
+                .card-details-inner-wrap {
+                    width: auto;
+                    @include vertical-align(absolute);
+                    text-align: left;
+                }
+            }
+            .card-select-icon {
+                display: block;
+            }
+            .celebrationInfo {
+                 display: none;
+                @media (min-width: $breakpoint_tablet_min) {
+                    display: block;
+                }
+            }
+            .follow {
+                display: block;
+            }
+        }
+    }
+
+    &.card-profile.selected {
+        .card-front {
+            .card-select-icon {
+                color: $brand_color_success;
+            }
+        }
+    }
+
+
+    /***
+     *                                        dP          .8888b oo dP dP                dP
+     *                                        88          88   "    88 88                88
+     *       .d8888b. .d8888b. 88d888b. .d888b88          88aaa  dP 88 88 .d8888b. .d888b88
+     *       88'  `"" 88'  `88 88'  `88 88'  `88 88888888 88     88 88 88 88ooood8 88'  `88
+     *    dP 88.  ... 88.  .88 88       88.  .88          88     88 88 88 88.  ... 88.  .88
+     *    88 `88888P' `88888P8 dP       `88888P8          dP     dP dP dP `88888P' `88888P8
+     *
+     *
+     */
+    // CARD FILLED -- when back of card has more then x number of btns
+    &,
+    &.card-large {
+        .card-back .card-filled {
+            .card-top {
+                float: left;
+                padding-left: $card_avatarSize_mini / 4;
+                @include cardAvatarSizing($card_avatarSize_mini);
+            }
+            .card-details {
+                margin-bottom: $card_avatarSize_mini / 4;
+                margin-left: $card_avatarSize_mini * 1.33 + ($card_avatarSize_mini / 4); // 20px is extra padding from above
+                text-align: left;
+                line-height: $card_avatarSize_mini;
+
+                .participant-name {
+                    font-size: $headline6fontSize_mobile;
+                }
+                .participant-info {
+                    font-size: $fontSizeSmall;
+                    line-height: $lineHeightMini;
+
+                    span {
+                        display: block;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
+                        .sep {
+                            display: none;
+                        }
+                    }
+                }
+            }
+            .promotions-container {
+                .promotion {
+                    max-height: $card_avatarSize_small * 4;
+                }
+            }
+        }
+    }
+
+
+
+    /***
+     *     .d8888888b.                              888 d8b
+     *    d88P"   "Y88b                             888 Y8P
+     *    888  d8b  888                             888
+     *    888  888  888 88888b.d88b.   .d88b.   .d88888 888  8888b.
+     *    888  888bd88P 888 "888 "88b d8P  Y8b d88" 888 888     "88b
+     *    888  Y8888P"  888  888  888 88888888 888  888 888 .d888888
+     *    Y88b.     .d8 888  888  888 Y8b.     Y88b 888 888 888  888
+     *     "Y88888888P" 888  888  888  "Y8888   "Y88888 888 "Y888888
+     *
+     *
+     *
+     */
+    // TABLET AND UP
+    @media (min-width: $breakpoint_tablet_min) {
+        box-sizing: border-box;
+        width: $card_width;
+
+        /***
+         *                                        dP          .8888b                              dP
+         *                                        88          88   "                              88
+         *       .d8888b. .d8888b. 88d888b. .d888b88          88aaa  88d888b. .d8888b. 88d888b. d8888P
+         *       88'  `"" 88'  `88 88'  `88 88'  `88 88888888 88     88'  `88 88'  `88 88'  `88   88
+         *    dP 88.  ... 88.  .88 88       88.  .88          88     88       88.  .88 88    88   88
+         *    88 `88888P' `88888P8 dP       `88888P8          dP     dP       `88888P' dP    dP   dP
+         *
+         *
+         */
+        .card-front {
+            .card-top {
+                float: none;
+                margin-bottom: $card_avatarSize_default / 4;
+
+                @include cardAvatarSizing($card_avatarSize_default);
+            }
+
+            .card-details {
+                margin-left: 0;
+                text-align: center;
+
+                .participant-name {
+                    font-size: $fontSizeLarge;
+                    line-height: $lineHeightLarge;
+                }
+                .participant-info {
+                    font-size: $baseFontSize;
+                    line-height: $lineHeightSmall;
+                }
+            }
+
+            .card-action {
+                padding-top: $card_avatarSize_default / 4;
+            }
+        }
+
+        /***
+         *                                        dP          dP                         dP
+         *                                        88          88                         88
+         *       .d8888b. .d8888b. 88d888b. .d888b88          88d888b. .d8888b. .d8888b. 88  .dP
+         *       88'  `"" 88'  `88 88'  `88 88'  `88 88888888 88'  `88 88'  `88 88'  `"" 88888"
+         *    dP 88.  ... 88.  .88 88       88.  .88          88.  .88 88.  .88 88.  ... 88  `8b.
+         *    88 `88888P' `88888P8 dP       `88888P8          88Y8888' `88888P8 `88888P' dP   `YP
+         *
+         *
+         */
+        .card-back {
+            .card-top {
+            }
+            .card-details {
+                .participant-name {
+                    font-size: $headline6fontSize_mobile;
+                    font-weight:$fontWeightBold;
+                }
+                .participant-info {
+                    max-height: none;
+                    font-size: $fontSizeSmall;
+                    line-height: $lineHeightSmall;
+
+                    span {
+                        display: block;
+                    }
+                    .sep {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+
+        /***
+         *                                      888        888
+         *                                      888        888
+         *                                      888        888
+         *         .d8888b  8888b.  888d888 .d88888        888  8888b.  888d888 .d88b.   .d88b.
+         *        d88P"        "88b 888P"  d88" 888        888     "88b 888P"  d88P"88b d8P  Y8b
+         *        888      .d888888 888    888  888 888888 888 .d888888 888    888  888 88888888
+         *    d8b Y88b.    888  888 888    Y88b 888        888 888  888 888    Y88b 888 Y8b.
+         *    Y8P  "Y8888P "Y888888 888     "Y88888        888 "Y888888 888     "Y88888  "Y8888
+         *                                                                          888
+         *                                                                     Y8b d88P
+         *                                                                      "Y88P"
+         */
+        // large Card
+        &.card-large {
+            .card-front {
+                .card-top {
+                    margin-bottom: $card_avatarSize_large / 4;
+                    @include cardAvatarSizing($card_avatarSize_large);
+
+                    .follow {
+                        right: 6px;
+                        bottom: 0;
+                    }
+                }
+                .card-details {
+                    margin-left: 0;
+                }
+                .card-action {
+                    padding-top: $card_avatarSize_large / 4;
+                }
+            }
+
+            .card-back {
+                .card-top {
+                    float: none;
+                    margin-bottom: $card_avatarSize_default / 5;
+                    @include cardAvatarSizing($card_avatarSize_default);
+                }
+
+                .card-details {
+                    margin-bottom: $card_avatarSize_default / 5;
+                    margin-left: 0;
+                    text-align: center;
+                    line-height: inherit;
+
+                    .participant-name {
+                        font-size: $headline5fontSize_mobile;
+                    }
+
+                    .participant-info {
+                        font-size: $baseFontSize;
+                        line-height: $lineHeightSmall;
+
+                        span {
+                            display: inline;
+                        }
+                        .sep {
+                            display: inline;
+                        }
+                        .pi-title {
+                            display: block;
+                        }
+                        .pi-org {
+                            .sep {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /***
+         *                                      888                                        888 888
+         *                                      888                                        888 888
+         *                                      888                                        888 888
+         *         .d8888b  8888b.  888d888 .d88888        .d8888b  88888b.d88b.   8888b.  888 888
+         *        d88P"        "88b 888P"  d88" 888        88K      888 "888 "88b     "88b 888 888
+         *        888      .d888888 888    888  888 888888 "Y8888b. 888  888  888 .d888888 888 888
+         *    d8b Y88b.    888  888 888    Y88b 888             X88 888  888  888 888  888 888 888
+         *    Y8P  "Y8888P "Y888888 888     "Y88888         88888P' 888  888  888 "Y888888 888 888
+         *
+         *
+         *
+         */
+        // small card
+        &.card-small {
+            .card-front {
+                .card-top {
+                    margin-bottom: $card_avatarSize_small / 4;
+                    @include cardAvatarSizing($card_avatarSize_small);
+
+                    .follow {
+                        margin-right: 0;
+                    }
+                }
+                .card-details {
+                    margin-left: 0;
+                }
+                .card-action {
+                    padding-top: $card_avatarSize_small / 4;
+                }
+            }
+
+            .card-back {
+                .back-arrow i,
+                .back-arrow-alt i {
+                    background: $card_background_color;
+                    border-radius: 50%;
+                }
+
+                .card-top {
+                    padding-left: $card_avatarSize_small / 2 / 4;
+                    margin-bottom: $card_avatarSize_small / 2 / 4;
+                    @include cardAvatarSizing($card_avatarSize_small / 2);
+                }
+
+                .card-details {
+                    margin-bottom: $card_avatarSize_small / 2 / 4;
+                    margin-left: $card_avatarSize_small / 2 * 1.33 + ($card_avatarSize_small / 2 / 4);
+                    line-height: $card_avatarSize_small / 2;
+
+                    .participant-name {
+                        font-size: $headline6fontSize_mobile;
+                    }
+
+                    .participant-info {
+                        font-size: $fontSizeSmall;
+                        line-height: $lineHeightSmall;
+                    }
+                }
+            }
+        }
+
+        /***
+         *                                        dP                                     .8888b oo dP
+         *                                        88                                     88   "    88
+         *       .d8888b. .d8888b. 88d888b. .d888b88          88d888b. 88d888b. .d8888b. 88aaa  dP 88 .d8888b.
+         *       88'  `"" 88'  `88 88'  `88 88'  `88 88888888 88'  `88 88'  `88 88'  `88 88     88 88 88ooood8
+         *    dP 88.  ... 88.  .88 88       88.  .88          88.  .88 88       88.  .88 88     88 88 88.  ...
+         *    88 `88888P' `88888P8 dP       `88888P8          88Y888P' dP       `88888P' dP     dP dP `88888P'
+         *                                                    88
+         *                                                    dP
+         */
+        // PROFILE CARD
+        &.card-profile {
+            .card-front {
+                .card-details {
+                    height: auto;
+                    word-wrap: break-word;
+                    z-index: 1;
+
+                    .card-details-inner-wrap {
+                        width: 100%;
+                        @include remove-vertical-align();
+                        // position: initial, top: initial doesn't work in IE11
+                        position: static;
+                        top: auto;
+                        text-align: inherit;
+                        max-height: 100px; //Text overlap recognize button fix
+                        overflow-y: auto; //Text overlap recognize button fix
+                    }
+                }
+
+                .celebrationInfo {
+                    margin-left: -100%;
+                    margin-bottom: -100%;
+                }
+            }
+        }
+
+        /***
+         *    .8888b oo                         dP    dP                oo          dP         dP
+         *    88   "                            88    88                            88         88
+         *    88aaa  dP dP.  .dP .d8888b. .d888b88    88d888b. .d8888b. dP .d8888b. 88d888b. d8888P .d8888b.
+         *    88     88  `8bd8'  88ooood8 88'  `88    88'  `88 88ooood8 88 88'  `88 88'  `88   88   Y8ooooo.
+         *    88     88  .d88b.  88.  ... 88.  .88    88    88 88.  ... 88 88.  .88 88    88   88         88
+         *    dP     dP dP'  `dP `88888P' `88888P8    dP    dP `88888P' dP `8888P88 dP    dP   dP   `88888P'
+         *                                                                      .88
+         *                                                                  d8888P
+         */
+        &.card-short,
+        &.card-medium,
+        &.card-tall {
+            .card-front,
+            .card-back {
+                height: 100%;
+                .btn{
+                    word-wrap: break-word;
+                }
+            }
+
+            .card-action,
+            .promotions-container {
+                position: absolute;
+                right: nth($card_padding, 2);
+                bottom: nth($card_padding, 1);
+                left: nth($card_padding, 2);
+            }
+
+            .promotion {
+                max-height: none !important;
+            }
+        }
+
+        // tall card
+        &.card-tall {
+            height: $card_height_tall;
+
+            .promotions-container {
+                height: $card_height_tall - 120px;
+            }
+            &.card-large {
+                .promotions-container {
+                    height: $card_height_tall - 120px - 120px;
+                }
+            }
+            &.card-small,
+            .card-filled {
+                .promotions-container {
+                    height: $card_height_tall - 120px - 130px + 120px;
+                }
+            }
+        }
+
+        &.card-medium {
+            height: $card_height_medium;
+
+            .promotions-container {
+                height: $card_height_medium - 120px;
+            }
+            &.card-large {
+                .promotions-container {
+                    height: $card_height_medium - 120px - 100px;
+                }
+            }
+            &.card-small,
+            .card-filled {
+                .promotions-container {
+                    height: $card_height_medium - 120px - 100px + 120px;
+                }
+            }
+        }
+
+        // short card
+        &.card-short {
+            height: $card_height_short;
+
+            .promotions-container {
+                height: $card_height_short - 120px;
+            }
+            &.card-large {
+                .promotions-container {
+                    height: $card_height_short - 120px - 100px;
+                }
+            }
+            &.card-small,
+            .card-filled {
+                .promotions-container {
+                    height: $card_height_short - 120px - 100px + 120px;
+                }
+            }
+        }
+    } // /@media
+
+    @media (min-width: $breakpoint_tablet_min) {
+        @include mediaQueryPaddingOverride($card_padding_tablet);
+    } // /@media
+
+    @media (min-width: $breakpoint_desktop_min) {
+        @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+                @include mediaQueryPaddingOverride($card_padding_desktop);
+        } // /@if
+    } // /@media
+
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        @if nth($card_padding_desktop, 2) != nth($card_padding_desktopLarge, 2) {
+            @include mediaQueryPaddingOverride($card_padding_desktopLarge);
+        } // /@if
+    } // /@media
+
+} // /.card

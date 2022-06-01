@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.goalquest.RptGoalDetail" table="RPT_GOAL_SELECTION_DETAIL">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" column="RPT_GOAL_SELECTION_DETAIL_ID" type="java.lang.Long">
+	  <generator class="seqhilo">
+	    <param name="max_lo">0</param> <param name="sequence">RPT_GOAL_SELECTION_DETAIL_SQ</param>
+	  </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" type="java.lang.Long" column="VERSION" />	
+			
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+	      	  type="com.biperf.core.utils.hibernate.AuditCreateType">
+			  <column name="DATE_CREATED" />
+			  <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+	      	  type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			  <column name="DATE_MODIFIED" />
+			  <column name="MODIFIED_BY" />
+    </property>			
+		
+    <property name="lastName" column="LAST_NAME" type="java.lang.String" />
+    <property name="firstName" column="FIRST_NAME" type="java.lang.String" />
+    <property name="middleInit" column="MIDDLE_INIT" type="java.lang.String" />
+    <property name="jobPosition" column="JOB_POSITION" type="java.lang.String"/>
+    <property name="department" column="DEPARTMENT" type="java.lang.String" />
+    <property name="nodeId" column="NODE_ID" type="java.lang.Long" />
+    <property name="currentValue" column="CURRENT_VALUE" type="java.math.BigDecimal" />
+    <property name="baseQuantity" column="BASE_QUANTITY" type="java.math.BigDecimal" />
+    <property name="amountToAchieve" column="AMOUNT_TO_ACHIEVE" type="java.math.BigDecimal" />
+    <property name="percentOfGoal" column="PERCENT_OF_GOAL" type="java.math.BigDecimal" />
+    <property name="calculatedPayout" column="CALCULATED_PAYOUT" type="java.math.BigDecimal" />	
+    <property name="achieved" column="ACHIEVED" type="java.lang.Boolean" />
+    <property name="manager" column="MANAGER" type="java.lang.Boolean" />    
+	
+	<!-- participant -->	
+    <many-to-one name="participant" column="USER_ID" not-null="true" 
+      class="com.biperf.core.domain.participant.Participant" lazy="false">
+    </many-to-one>
+    
+    <!-- promotion -->
+    <many-to-one name="goalQuestPromotion" column="PROMOTION_ID" not-null="true" 
+	  class="com.biperf.core.domain.promotion.GoalQuestPromotion" lazy="false">
+    </many-to-one>
+				
+    <!-- goallevel -->
+    <many-to-one name="paxGoal" column="PAX_GOAL_ID" not-null="false" 
+	  class="com.biperf.core.domain.goalquest.PaxGoal" lazy="false">
+    </many-to-one>
+	
+  </class>
+
+  <query name="com.biperf.core.domain.goalquest.AllRptGoalDetails">
+	<![CDATA[
+		from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail
+        order by rptGoalDetail.id
+	]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.goalquest.AllRptGoalDetailsRange">
+    <![CDATA[
+        from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail
+        where rptGoalDetail.id > :lastId
+        order by rptGoalDetail.id
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.goalquest.RptGoalDetailsPromotionIds">
+	<![CDATA[
+		select rptGoalDetail.goalQuestPromotion.id from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail
+		   group by rptGoalDetail.goalQuestPromotion.id
+	]]>
+  </query>	
+
+  <query name="com.biperf.core.domain.goalquest.AllRptGoalDetailIds">
+    <![CDATA[select rptGoalDetail.id
+        from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.goalquest.RptGoalDetailCount">
+    <![CDATA[select count(*)
+        from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail
+    ]]>
+  </query>
+
+</hibernate-mapping>
+

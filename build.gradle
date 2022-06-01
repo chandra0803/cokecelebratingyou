@@ -1,0 +1,108 @@
+buildscript {
+  repositories { 
+    mavenLocal()
+    maven {
+		url 'https://maven.biw-services.com/artifactory/gts-repo'
+		credentials {
+			username = System.env.mavenUsername
+			password = System.env.mavenPassword
+    		}
+		}
+    dependencies {
+      classpath "com.biw:gradle-plugins:${gradlePluginsVersion}"
+      classpath "org.liquibase:liquibase-gradle-plugin:${liquibaseVersion}"
+      classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarQubeVersion}"
+      // Transitive dependencies of gradle-plugins
+      classpath "org.yaml:snakeyaml:${snakeYamlVersion}"
+      classpath "commons-io:commons-io:${commonsIoVersion}"
+      
+      // Dependencies of liquibase plugin
+      classpath "oracle:ojdbc6:${ojdbcVersion}"
+
+      classpath "com.github.ben-manes:gradle-versions-plugin:${dependencyUpdatesVersion}"
+    }
+  }
+}
+
+// adding repo
+repositories {
+  mavenLocal()
+  maven { 
+	  url "http://maven.biw-services.com/artifactory/gts-repo" 
+	  credentials {
+	      	username = System.env.mavenUsername
+	      	password = System.env.mavenPassword
+    	}
+  	}  
+  	}
+
+group = "com.biperf"
+version = "6.5.2"
+
+apply plugin: "java"
+
+apply plugin: "war"
+apply plugin: "eclipse"
+apply plugin: "idea"
+
+// Moving the auto generated tasks to zapped
+tasks.each {
+	it.group = "zapped"
+}
+
+apply plugin: "jacoco"
+apply plugin: "checkstyle"
+apply plugin: "findbugs"
+apply plugin: "org.liquibase.gradle"
+apply plugin: "com.github.ben-manes.versions"
+apply plugin: "maven-publish"
+apply plugin: "org.sonarqube"
+apply from: 'gradle/scripts/dependencies.gradle'
+
+// Custom plugins
+apply plugin: 'com.biw.UtilitiesPlugin'
+apply plugin: 'com.biw.CustomTasksPlugin'
+apply plugin: 'com.biw.LoadPropertiesPlugin'
+apply plugin: 'com.biw.DatabaseScriptTaskPlugin'
+
+// Extra properties
+apply from: 'gradle/scripts/attributes.gradle'
+
+// Custom build scripts
+apply from: 'gradle/scripts/utilities.gradle'
+apply from: 'gradle/scripts/domutilities.gradle'
+apply from: 'gradle/scripts/tomcat.gradle'
+apply from: 'gradle/scripts/database.gradle'
+apply from: 'gradle/scripts/deploy.gradle'
+apply from: 'gradle/scripts/cm.gradle'
+apply from: 'gradle/scripts/test.gradle'
+apply from: 'gradle/scripts/handshake.gradle'
+
+if (JavaVersion.current().isJava8Compatible()) {
+	tasks.withType(Javadoc) {
+		//  disable the crazy super-strict doclint tool in Java 8
+		options.addStringOption('Xdoclint:none', '-quiet')
+	}
+}
+
+// Set javac -encoding option to value from the *.yml (eg standard.yml) file.  If no value, leave it alone
+if (config.build && config.build.javaEncoding) {
+	compileJava.options.encoding = "${config.build.javaEncoding}"
+	println "compileJava.options.encoding set to ${config.build.javaEncoding}"
+}
+
+// Discourage use of the goldcopy pid. Recreation of gold copy database is not allowed.
+if(config.installation.pid == "01042017") {
+  throw new Exception("${config.installation.pid} is a gold copy PID. Recreation not allowed.")
+}
+
+clean.group = deployGroup
+test.group = jacocoGroup
+
+// Grouping the tasks. Naming it zapped only to move it to the end of tasks list
+build.group = zapGroup
+init.group = zapGroup
+wrapper.group = zapGroup
+
+//SonarQube
+tasks.sonarqube.group = 'sonarqube'

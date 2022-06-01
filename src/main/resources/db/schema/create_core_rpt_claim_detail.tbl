@@ -1,0 +1,51 @@
+CREATE SEQUENCE rpt_claim_detail_pk_sq start with 1 increment by 1
+/
+CREATE TABLE rpt_claim_detail
+    (rpt_claim_detail_id            NUMBER(18,0) NOT NULL,
+    claim_id                       NUMBER(12,0),
+    claim_number                   VARCHAR2(30),
+    claim_status                   VARCHAR2(30),
+    date_submitted                 DATE,
+    promotion_id                   NUMBER(18,0),
+    promotion_name                 VARCHAR2(1000),
+    promotion_type                 VARCHAR2(80),
+    award_type                     VARCHAR2(40),
+    sub_promotion_id               NUMBER(18,0),
+    sub_promotion_name             VARCHAR2(80),
+    sub_promotion_type             VARCHAR2(80),
+    award_amount                   NUMBER(12,0),
+    proxy_user_id                  NUMBER(18),
+    proxy_user_name                VARCHAR2(120),
+    submitter_user_id              NUMBER(18,0),
+    submitter_name                 VARCHAR2(120),
+    submitter_last_name            VARCHAR2(40),
+    submitter_first_name           VARCHAR2(40),
+    submitter_middle_name          VARCHAR2(40),
+    submitter_pax_status           VARCHAR2(30),
+    submitter_job_position         VARCHAR2(100),
+    submitter_department           VARCHAR2(100),
+    node_id                        NUMBER(18,0),
+    node_name                      VARCHAR2(255),
+    claim_company_name             VARCHAR2(100),
+    claim_first_name               VARCHAR2(100),
+    claim_last_name                VARCHAR2(100),
+    claim_addr1                    VARCHAR2(100),
+    claim_addr2                    VARCHAR2(100),
+    claim_phone1                   VARCHAR2(100),
+    claim_phone2                   VARCHAR2(100),
+    claim_email1                   VARCHAR2(100),
+    claim_email2                   VARCHAR2(100),
+    date_created                   DATE NOT NULL,
+    created_by                     number(18) NOT NULL,
+    submitter_country_id           NUMBER(12),
+    submitter_points               NUMBER(12),    
+    submitter_sweepstakes_won      NUMBER,
+    submitter_badges_earned        NUMBER,
+    modified_by                    NUMBER (18),
+    date_modified                  DATE,
+    version                        NUMBER (18) NOT NULL)
+/
+ALTER TABLE RPT_CLAIM_DETAIL ADD CONSTRAINT RPT_CLAIM_DETAIL_ID_PK
+PRIMARY KEY (  RPT_CLAIM_DETAIL_ID)
+USING INDEX 
+/

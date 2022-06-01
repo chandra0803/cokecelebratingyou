@@ -1,0 +1,1462 @@
+// CORE APPLICATION VARIABLES AND MEASUREMENTS
+@import "partials/colors";
+@import "partials/variables";
+@import "partials/mixins";
+//@font-face {
+//  font-family: "SimpleIcons";
+//  src: url("https://g5betapprd.performnet.com/g5beta/assets/rsrc/simpleLineIcons-webfont.eot");
+//  src: url("https://g5betapprd.performnet.com/g5beta/assets/rsrc/simpleLineIcons-webfont.eot?#iefix") format('eot'), url("https://g5betapprd.performnet.com/g5beta/assets/rsrc/simpleLineIcons-webfont.woff2") format("woff2"), url("https://g5betapprd.performnet.com/g5beta/assets/rsrc/simpleLineIcons-webfont.woff") format("woff"), url("https://g5betapprd.performnet.com/g5beta/assets/rsrc/simpleLineIcons-webfont.ttf") format("truetype"), url("https://g5betapprd.performnet.com/g5beta/assets/rsrc/simpleLineIcons-webfont.svg#simpleLineIcons") format("svg");
+//  font-weight: normal;
+// font-style: normal
+//}
+
+[class^="icon-"], [class*=" icon-"] {
+  /**
+   * It's possible that a link or other element can get a font-family from elsewhere,
+   * which can accidentally override this font-family if there are class collisions.
+   * Adding the '!important' here makes the icon-* class take precedence over others.
+   * Could be trouble down the road, but let's hope not.
+   */
+  font-family: 'SimpleIcons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* icon fix for Windows firefox */
+/*[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-size: 1.04em;
+  font-weight: bold;
+}
+.icon-arrow-1-circle-right:before {
+  content: "\e802";
+}
+.icon-clock:before {
+  content: "\ecfa";
+}
+.icon-more-circle:before {
+  content: "\ea40";
+}
+.icon-more-circles-horizontal:before {
+  content: "\ea41";
+}
+.icon-star:before {
+  content: "\ee40";
+}
+.icon-star-circle:before {
+  content: "\ee3e";
+}
+*/
+.bg-circle {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  vertical-align: middle;
+  background: $ra_primary1;
+  border-radius: 50%;
+}
+.for-outlook {
+  font-size: 1.33em;
+  color: $ra_primary1;
+  background: transparent;
+}
+
+
+//3rd party goodies
+@import "compass/css3";
+
+// Partial-specific variables
+// =========================
+$email_bodyBgColor: $brand_color_lighter !default;
+
+$email_baseFontFamily: $bodyFont !default;
+$email_baseFontSize: $baseFontSize !default;
+$email_baseLineHeight: $baseLineHeight !default;
+$email_baseFontColor: $textColor !default;
+//$email_headlineFontFamily: SimpleIcons;
+$email_headlineFontFamily: inherit;
+$email_headlineFontSize: $baseFontSize * 2 !default;
+$email_headlineLineHeight: $baseLineHeight * 2 !default;
+$email_headlineFontColor: $textColor !default;
+$email_linkColor: $linkColor !default;
+
+$email_frameBgColor: $brand_color_white !default;
+$email_frameBorderWidth: false !default;
+$email_frameBorderColor: false !default;
+
+$email_headerBgColor: $brand_color_white !default;
+$email_headerBorderBottomWidth: 1px !default;
+$email_headerBorderBottomColor: $brand_color_border !default;
+
+$email_contentBgColor: $brand_color_white !default;
+$email_contentBorderWidth: false !default;
+$email_contentBorderColor: false !default;
+
+$email_contentCommentFontFamily: $titleFont !default;
+$email_contentCommentFontSize: 21px !default;
+$email_contentCommentFontColor: $brand_color_primary !default;
+$email_cardBadgeBgColor: $brand_color_mid !default;
+
+// these should be copied over from partials/progress-bars (more or less)
+$email_progressBackBorderRadius: $baseBorderRadius !default;
+$email_progressBackBgColor: $brand_color_mid !default;
+$email_progressBackGradMeta: false !default;
+$email_progressBackGradStops: $email_progressBackBgColor !default;
+$email_progressBarBgColor: $brand_color_primary !default;
+$email_progressBarGradMeta: false !default;
+$email_progressBarGradStops: $email_progressBarBgColor !default;
+
+$email_footerBgColor: false !default;
+$email_footerBorderWidth: false !default;
+$email_footerBorderColor: false !default;
+
+
+// Partial-specific code
+// ==================================================
+
+html {
+    height: 100%;
+}
+
+body {
+    width: 100% !important;
+    height: 100% !important;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    margin: 0;
+    padding: 0;
+
+    .lt-ie9 & {
+        height: auto !important;
+    }
+}
+
+#backgroundTable {
+    margin: 0;
+    padding: 0;
+    width:100% !important;
+    min-height: 100%;
+    line-height: 100% !important;
+    margin: auto;
+}
+
+// body, // Marc tells me that a lot of people have been complaining about the background color sticking around when users reply to a message. Maybe this will solve it.
+#backgroundTable {
+    background-color: $email_bodyBgColor;
+    font-family: $email_baseFontFamily !important;
+    font-size: $email_baseFontSize;
+    line-height: $email_baseLineHeight;
+    color: $email_baseFontColor;
+}
+
+/* these seem important, but what they're used for is a mystery to me (JS: 05 Sept 2013) =====> */
+#outlook a {
+    padding:0;
+}
+
+.ExternalClass {
+    width:100%;
+}
+
+.ExternalClass,
+.ExternalClass p,
+.ExternalClass span,
+.ExternalClass font,
+.ExternalClass td,
+.ExternalClass div {
+    line-height: 100%;
+}
+/* <===== */
+
+/* this appears to be some basic reset rules (JS: 05 Sept 2013) =====> */
+img {
+    outline: none;
+    text-decoration: none;
+    -ms-interpolation-mode: bicubic;
+}
+
+a img {
+    border: none;
+}
+
+.image_fix {
+    display:block;
+}
+
+p {
+    margin: 1em 0;
+}
+
+// h1, h2, h3, h4, h5, h6 {color: black !important;}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+    color: #666 !important;
+}
+
+h1 a:active,
+h2 a:active,
+h3 a:active,
+h4 a:active,
+h5 a:active,
+h6 a:active {
+    color: red !important;
+}
+
+h1 a:visited,
+h2 a:visited,
+h3 a:visited,
+h4 a:visited,
+h5 a:visited,
+h6 a:visited {
+    color: #666 !important;
+}
+
+table td {
+    border-collapse: collapse;
+}
+
+table {
+    border-collapse: collapse;
+    mso-table-lspace: 0pt;
+    mso-table-rspace: 0pt;
+}
+
+table,
+table th,
+table td,
+.table,
+.table th,
+.table td {
+    font-size: $baseFontSize;
+    font-family: $bodyFont;
+}
+
+@media only screen and (max-device-width: 480px) {
+    a[href^="tel"],
+    a[href^="sms"] {
+        text-decoration: none;
+        color: blue; /* or whatever your want */
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .mobile_link a[href^="tel"],
+    .mobile_link a[href^="sms"] {
+        text-decoration: default;
+        color: orange !important;
+        pointer-events: auto;
+        cursor: default;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    a[href^="tel"],
+    a[href^="sms"] {
+       text-decoration: none;
+        color: blue; /* or whatever your want */
+        pointer-events: none;
+        cursor: default;
+    }
+    .mobile_link a[href^="tel"],
+    .mobile_link a[href^="sms"] {
+        text-decoration: default;
+        color: orange !important;
+        pointer-events: auto;
+        cursor: default;
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+}
+@media only screen and (-webkit-device-pixel-ratio:.75){
+}
+@media only screen and (-webkit-device-pixel-ratio:1){
+}
+@media only screen and (-webkit-device-pixel-ratio:1.5){
+}
+/* <===== */
+
+// outer frame that contains the logo and wraps around the content area
+.webkit {
+  max-width: 720px;
+  margin: 0 auto;
+}
+#columnTable {
+    background-color: $email_frameBgColor;
+
+    @if $email_frameBorderWidth {
+        border: $email_frameBorderWidth solid $email_frameBorderColor;
+    }
+}
+
+// header region
+#logoContainer {
+    @if $email_headerBgColor != $email_frameBgColor {
+        padding: 30px 30px 0 30px;
+    }
+    background-color: $email_headerBgColor;
+    @if $email_headerBorderBottomWidth {
+        @if $email_headerBgColor == $email_contentBgColor {
+            padding-bottom: 30px;
+        }
+        border-bottom: $email_headerBorderBottomWidth solid $email_headerBorderBottomColor;
+    }
+}
+
+// content region
+#topContainer {
+    padding: 30px;
+    @if $email_frameBgColor == $email_contentBgColor {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    font-family: $email_baseFontFamily;
+    font-size: $email_baseFontSize;
+    line-height: $email_baseLineHeight;
+    color: $email_baseFontColor;
+    background: $email_contentBgColor;
+
+    @if $email_contentBorderWidth {
+        border: $email_contentBorderWidth solid $email_contentBorderColor;
+    }
+    @else {
+        border: 0;
+    }
+}
+
+.headline {
+    margin-top: 0;
+    margin-bottom: $baseLineHeight;
+    font-family: $email_headlineFontFamily;
+    font-size: $email_headlineFontSize;
+    line-height: $email_headlineLineHeight;
+    color: $email_headlineFontColor;
+    letter-spacing: -0.21px;
+}
+
+#commentContainer {
+    background: #f6f6f6;
+}
+
+#comment {
+    background: $white;
+    color: $email_contentCommentFontColor;
+    font-family: $email_contentCommentFontFamily;
+    font-size: $email_contentCommentFontSize;
+    line-height: 1.5;
+    padding: 15px 20px;
+    text-align: justify;
+}
+
+#comment p {
+    margin: 0;
+}
+
+.cardContainer {
+    text-align: center;
+
+    .card-earned {
+        color: #777;
+        font-style: italic;
+    }
+}
+
+.learnMoreLinks a {
+    color: $email_linkColor;
+    text-decoration: none;
+    font-weight: $fontWeightBold;
+}
+
+// progres bars snagged from partials/bootstrap/_progress-bars.scss
+// a few rules have been commented out so the skin can define them instead
+// a few other rules have been converted to use variables from this file
+
+// THE BARS
+// --------
+
+// Outer container
+.progress {
+  overflow: hidden;
+  height: $email_baseLineHeight;
+  margin-bottom: $email_baseLineHeight;
+  @include border-radius($baseBorderRadius);
+}
+
+// Bar of progress
+.progress .bar {
+  height: 100%;
+  color: #333;
+  float: left;
+  font-size: $fontSizeSmall;
+  text-align: center;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+  @include box-shadow(inset 0 -1px 0 rgba(0,0,0,.15));
+  @include box-sizing(border-box);
+  @include transition(width .6s ease);
+}
+
+// progress bar color styles pulled from the core files instead of Bootstrap
+// Outer container
+.progress {
+    filter: none;
+    @include border-radius($email_progressBackBorderRadius);
+    @include progressBarHelper($email_progressBackBgColor, $email_progressBackGradMeta, $email_progressBackGradStops);
+}
+
+// Bar of progress
+.progress .bar {
+    filter: none;
+    @include progressBarHelper($email_progressBarBgColor, $email_progressBarGradMeta, $email_progressBarGradStops);
+}
+
+// badge styles snagged from core/base/partials/_profile.scss
+.badge-item {
+    background: $email_cardBadgeBgColor;
+    height: 450px;
+   margin: 0 auto 1em;
+    width: 450px;
+
+    img {
+        height: 248px;
+        width: 248px;
+        margin-top: 3em;
+        text-align:center;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    .badge-name,
+    .badge-how-to-earn,
+    .badge-date-earned {
+        line-height: 1.3;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .badge-name {
+        color: $white;
+        font-family: $email_headlineFontFamily;
+        font-size: 30px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+
+    .badge-how-to-earn {
+        font-size: 13px;
+    }
+
+    .badge-date-earned {
+        color: $gray;
+        font-size: 13px;
+    }
+
+    .progress {
+        margin: 2px auto;
+        width: 70%;
+        height: 15px;
+        filter: 80;
+
+        .bar {
+            font-size: 11px;
+            line-height: 15px;
+            text-indent: 5px;
+        }
+    }
+}
+
+//eCard and Video Link
+.ecard,
+.video {
+    height: 450px;
+    margin: 0 auto 1em;
+    width: 450px;
+
+    img {
+        display: block;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    td {
+        vertical-align: middle;
+        text-align: center;
+    }
+}
+
+.cardVideo-wrapper {
+    height: 444px;
+}
+
+@media screen and (max-width: 600px) {
+  #backgroundTable .shim-top {
+    height: 8px;
+  }
+
+  #backgroundTable .shim-side {
+    width: 8px;
+  }
+
+  #columnTable > tbody > tr > td {
+    min-width: 8px;
+  }
+
+  #topContainer {
+    padding-top: 4px;
+    padding-bottom: 12px;
+  }
+
+  #logoContainer {
+    padding-bottom: 18px;
+    text-align: center;
+  }
+
+  #logoContainer .image_fix {
+    height: auto;
+    width: 224px;
+    margin-left: calc( 50% - 112px );
+  }
+}
+
+
+// RA Email SCSS Starts
+#raEmail {
+
+ img {
+  border: 0;
+  vertical-align: text-bottom;
+  vertical-align: bottom;
+}
+
+.icon-inline {
+  vertical-align: text-bottom;
+}
+
+div[style*="margin: 16px 0"] {
+  margin: 0 !important
+}
+
+.wrapper {
+  width: 100%;
+  table-layout: fixed;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%
+}
+
+.webkit {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+ .outer {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 640px;
+  }
+  .inner {
+    padding: 0px;
+    &.raEmailCardbgColor {
+      background-color: $brand_color_lighter !important;
+    }
+  }
+  .contents {
+    width: 100%;
+  }
+  p {
+    margin: 0;
+  }
+  a {
+    color: $brand_color_link;
+    text-decoration: none;
+  }
+  .h1 {
+    font-size: 21px;
+    font-weight: $fontWeightBold;
+    margin-bottom: 18px;
+  }
+  .h2 {
+    font-size: $fontSizeLarge;
+    font-weight: $fontWeightBold;
+    margin-bottom: 12px;
+  }
+  .full-width-image img {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    // width: 640px\0/;
+    // width: 640px\9;
+    // _width: 640px;
+    //  width/**/: 640px;
+  }
+
+  /* One column layout */
+  .one-column {
+    .contents {
+      text-align: left;
+    }
+    .fauxCard {
+    	width: 300px;
+     // width: 300px !important;
+    }
+    p {
+      font-size: $baseFontSize;
+      margin-bottom: 10px;
+    }
+    .raHeaderContentsCenter {
+      text-align: center;
+      line-height: $email_baseLineHeight;
+    }
+    .raHeaderText {
+      margin: 0;
+      padding: 0.67em 0;
+      font-size: 24px;
+      line-height: 36px;
+      font-weight: normal;
+      &::first-line {
+        font-size: 28px;
+      }
+    }
+    .raSubHeaderText {
+      margin-top: 0;
+      font-size: 24px;
+      line-height: 36px;
+      font-weight: normal
+    }
+    span.raHeaderTextWeight {
+      font-weight: $fontWeightBold;
+      font-size: 30pt;
+    }
+    &.bgColor {
+      background-color: $brand_color_lighter;
+    }
+  }
+  .two-column.bgColor,
+  .three-column.bgColor {
+    background-color: $brand_color_lighter;
+  }
+
+
+/*Two column layout*/
+.two-column {
+    text-align: center;
+    .cardBackgroundColor {
+      padding: 0 10px;
+      text-align: center;
+    }
+    .column {
+      width: 49.5%;
+      display: inline-block;
+      vertical-align: top;
+    }
+    td .column {
+      width: 100% !important;
+      .fauxCard {
+        width: 240px;
+      }
+    }
+    .fauxCard {
+      width: 100%;
+    }
+    .contents {
+      font-size: $baseFontSize;
+      text-align: left;
+    }
+    img {
+      max-width: 280px;
+      height: auto;
+    }
+  }
+  .one-column .two-column {
+    .column {
+      max-width: 260px;
+    }
+  }
+
+/*Three column layout*/
+.three-column {
+    padding: 0 10px;
+    text-align: center;
+    .cardBackgroundColor {
+      padding: 0 10px;
+      text-align: center;
+    }
+    .column {
+      width: 32%;
+      max-width: 210px;
+      display: inline-block;
+      vertical-align: top;
+    }
+    td .column {
+      width: 100%;
+      .fauxCard {
+        width: 186px;
+      }
+    }
+    .fauxCard {
+      width: 100%;
+    }
+    .contents {
+      font-size: $baseFontSize;
+      text-align: center;
+    }
+    img {
+      max-width: 180px;
+      height: auto;
+    }
+    .text {
+      padding-top: 10px;
+    }
+  }
+
+/* Left sidebar layout */
+.left-sidebar {
+    text-align: center;
+    font-size: 0;
+    .column {
+      /*width: 100%;*/
+      display: inline-block;
+      vertical-align: top;
+    }
+    .left {
+      display: inline;
+      float: left;
+      width: 90px;
+      .inner {
+        padding: 20px;
+        padding-right: 10px;
+      }
+    }
+    .right {
+      display: block;
+      margin-left: 90px;
+      width: auto;
+      .inner {
+        padding: 20px;
+        padding-left: 10px;
+      }
+    }
+    .img {
+      width: 100%;
+      max-width: 60px;
+      height: auto;
+    }
+    .contents {
+      font-size: $email_baseFontSize;
+      text-align: left;
+      line-height: $email_baseLineHeight;
+      h4.rafooterHeaderText {
+        font-size: $fontSizeLarge;
+        margin-top: 0.5em;
+        font-weight: $fontWeightBold;
+        color: $brand_color_black;
+      }
+      p.rafooterParaText {
+        /*font-size: 11.9px;*/
+        color: $brand_color_black;
+        text-align: left;
+        /*line-height: 16px;*/
+        margin-bottom: 10px;
+      }
+    }
+    a {
+      color: $brand_color_white;
+    }
+  }
+
+
+/* Lefts sidebars layout */
+.lefts-sidebar {
+    text-align: center;
+    font-size: 0;
+    .column {
+      width: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .left {
+      max-width: 190px;
+    }
+    .right {
+      max-width: 450px;
+    }
+    .img {
+      width: 100%;
+      text-align: right;
+      height: auto;
+      float: right;
+    }
+    .contents {
+      font-size: $fontSizeLarge;
+      text-align: left;
+      line-height: $email_baseLineHeight;
+      &.raRecentHeadText {
+        font-size: $fontSizeExtraLarge;
+        font-weight: $fontWeightBold;
+        color: $brand_color_black;
+        padding-left: 5px;
+        text-align: center;
+      }
+    }
+    .contentsRight {
+      font-size: $fontSizeLarge;
+      text-align: right !important;
+      line-height: $email_baseLineHeight;
+    }
+    a {
+      color: $brand_color_white;
+    }
+    .textAlignRight {
+      text-align: right;
+    }
+    .textAlignLeft {
+      text-align: left;
+    }
+  }
+
+/* Right sidebar layout */
+.right-sidebar {
+    text-align: center;
+    font-size: 0;
+    .column {
+      width: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .left {
+      max-width: 100px;
+    }
+    .right {
+      max-width: 500px;
+    }
+    .img {
+      width: 100%;
+      max-width: 80px;
+      height: auto;
+    }
+    .contents {
+      font-size: $baseFontSize;
+      text-align: center;
+    }
+    a {
+      color: $brand_color_white;
+    }
+  }
+
+// Gradient Color - Custom SCSS
+.left-sidebar.footerBgColor {
+    background-color: $brand_color_lighter;
+  }
+  .gradientOne {
+    background-color: $ra_accent1;
+    width: 25%;
+    height: $lineHeightMini;
+    line-height: $lineHeightMini;
+  }
+  .gradientTwo {
+    background-color: $ra_primary1;
+    width: 25%;
+    height: $lineHeightMini;
+    line-height: $lineHeightMini;
+  }
+  .gradientThree {
+    background-color: $ra_accent2;
+    width: 25%;
+    height: $lineHeightMini;
+    line-height: $lineHeightMini;
+  }
+   td.gradientThree {
+    background-color: $ra_accent2;
+    width: 25%;
+    height: $lineHeightMini;
+    line-height: $lineHeightMini;
+  }
+  .gradientFour {
+    background-color: $ra_accent3;
+    width: 25%;
+    height: $lineHeightMini;
+    line-height: $lineHeightMini;
+  }
+  .raInsightsBgcolor {
+    background-color: $brand_color_black;
+    color: $brand_color_white;
+    text-align: center;
+    padding: 1.5em 5%;
+  }
+  .raInsightsHeaderText {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 22px;
+    line-height: 1.33em;
+    font-weight: $fontWeightBold;
+    color: $brand_color_white;
+  }
+  .raInsightsParaText {
+    font-size: $fontSizeMid;
+    color: $brand_color_white;
+    /*text-align: center;*/
+    line-height: 24px;
+  }
+  td.raEmailRecognizeButton {
+    background-color: $brand_color_primary;
+    padding: 0 16px;
+    height: 26px;
+    width: auto;
+    color: $brand_color_white;
+    font-size: 11.9px;
+    font-weight: $fontWeightBold;
+    border-radius: 5px;
+    text-align: center;
+    a {
+      color: $brand_color_white;
+      text-decoration: none;
+    }
+  }
+  .raEmailLearnMoreButton {
+    background-color: $brand_color_primary;
+    padding: 0 20px;
+    height: 37px;
+    //width: auto;
+    //white-space: nowrap;
+    color: $brand_color_white;
+    font-size: $baseFontSize;
+    font-weight: $fontWeightBold;
+    border-radius: 6px;
+    text-align: center;
+    a {
+      //white-space: nowrap;
+      text-decoration: none;
+      color: $brand_color_white;
+    }
+  }
+  .raEmailAvatar {
+    img {
+     // display: block;
+      height: 60px;
+      width: 60px;
+      color: $brand_color_white;
+      text-align: center;
+      font-size: $fontSizeMid;
+      line-height: 60px;
+      font-weight: $fontWeightBold;
+      border-radius: 50%;
+      //vertical-align: middle;
+    }
+    .noAvatar {
+      display: block;
+      height: 60px;
+      width: 60px;
+      color: $brand_color_white;
+      text-align: center;
+      font-size: $fontSizeMid;
+      //line-height: 60px;
+      font-weight: $fontWeightBold;
+      border-radius: 50%;
+      //vertical-align: middle;
+      text-transform: uppercase;
+      background-color: $brand_color_primary;
+    }
+  }
+  td.raEmailAvatar {
+  	height: 60px;
+      width: 60px;
+      color: $brand_color_white;
+      text-align: center;
+      font-size: $fontSizeMid;
+     // line-height: 60px;
+      font-weight: $fontWeightBold;
+      border-radius: 50%;
+      //vertical-align: middle;
+      text-transform: uppercase;
+      background-color: $brand_color_primary;
+  	}
+  .raEmailAvatarSmall {
+    img {
+     // display: block;
+      height: 48px;
+      width: 48px;
+      color: $brand_color_white;
+      text-align: center;
+      font-size: $fontSizeMid;
+      line-height: 48px;
+      font-weight: $fontWeightBold;
+      border-radius: 50%;
+     /// vertical-align: middle;
+    }
+    .noAvatar {
+      display: block;
+      height: 48px;
+      width: 48px;
+      color: $brand_color_white;
+      text-align: center;
+      font-size: $fontSizeMid;
+      line-height: 48px;
+      font-weight: $fontWeightBold;
+      border-radius: 50%;
+     // vertical-align: middle;
+      text-transform: uppercase;
+      background-color: $brand_color_primary;
+    }
+  }
+ 	td.raEmailAvatarSmall{
+ 	background-color: $brand_color_primary;
+	height:48px;
+	width: 48px;
+	color:$brand_color_white;
+	text-align:center;
+	font-size:$fontSizeMid;
+	font-weight:$fontWeightBold;
+	border-radius:50%;
+
+ 	}
+ 	td.raEmailRecentIcon{
+ 	//background-color: $ra_primary1;
+	height:36px;
+	width: 36px;
+	color:$brand_color_white;
+	//font-family:arial;
+	text-align:center;
+	font-size:$fontSizeMid;
+	font-weight:$fontWeightBold;
+	border-radius:50%;
+	//font-family : $email_baseFontFamily;
+ 	}
+  .raHeaderContentsLeft {
+    text-align: left;
+  }
+  .raHeaderContentsCenter {
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 20px;
+    .raEmailLearnMoreButton {
+    background-color: $brand_color_primary;
+    padding: 0 20px;
+    height: 37px;
+   // width: auto;
+   // white-space: nowrap;
+    color: $brand_color_white;
+    font-size: $baseFontSize;
+    font-weight: $fontWeightBold;
+    border-radius: 6px;
+    text-align: center;
+    a {
+     // white-space: nowrap;
+      text-decoration: none;
+      color: $brand_color_white;
+    }
+  }
+  }
+  td.raEmailLearnMoreButton {
+    background-color: $brand_color_primary;
+    padding: 0 20px;
+    height: 37px;
+    //width: auto;
+    //white-space: nowrap;
+    color: $brand_color_white;
+    font-size: $baseFontSize;
+    font-weight: $fontWeightBold;
+    border-radius: 6px;
+    text-align: center;
+    a {
+    // white-space: nowrap;
+      text-decoration: none;
+      color: $brand_color_white;
+    }
+  }
+  .raHeaderContentsPadding {
+    padding: 10px;
+    &.odd {
+      background-color: $brand_color_lighter !important;
+    }
+    &.even {
+      background-color: $brand_color_white !important;
+    }
+    .avatar {
+      padding: 10px;
+    }
+    .text {
+      padding: 10px;
+      padding-left: 0;
+    }
+    .send-rec-arrow {
+      text-decoration: none;
+      font-weight: $fontWeightBold;
+      color: $brand_color_link;
+      font-size: 30px;
+      span {}
+    }
+  }
+  .raEmailMarginRight {
+    margin-right: 2%;
+  }
+  .raEmailMarginLeft {
+    margin-left: 2%;
+  }
+  .fauxCard {
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 6px;
+    background-color: $brand_color_white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1875);
+  }
+ .fauxCardSingle {
+    margin: 0 auto;
+    //width: 100%;
+    border-radius: 6px;
+    background-color: $brand_color_white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1875);
+  }
+  .cardEmployeeHeader {
+    padding: 5px 5px;
+    background-color: $ra_primary1;
+    /*width: 100%;*/
+    color: $brand_color_black;
+    text-align: center;
+    font-size: 13px;
+    font-weight: $fontWeightBold;
+    line-height: 17px;
+    vertical-align: middle;
+    border-radius: 6px 6px 0 0;
+    .icon-inline {
+	  margin-right: 4px;
+	  margin-left: 4px;
+	}
+  }
+  .cardEmployeeBody {
+    background-color: $brand_color_white;
+    border-radius: 0 0 6px 6px;
+  }
+  .cardBackgroundColor {
+    background-color: $brand_color_lighter;
+    background: $brand_color_lighter;;
+  }
+  .inner.contentRight {
+    text-align: right;
+  }
+  .raEmailFirstName {
+    color: $brand_color_black;
+    font-size: $fontSizeMid;
+    text-align: left;
+    font-weight: $fontWeightBold;
+  }
+  .raEmailDesignation {
+    color: $brand_color_black;
+    font-size: 11.9px;
+    text-align: left;
+  }
+  .raEmailFirstNameTeam {
+    padding: 0 5px;
+    color: $brand_color_black;
+    font-size: $fontSizeMid;
+    text-align: center;
+    font-weight: $fontWeightBold;
+  }
+  .raEmailDesignationTeam {
+    padding: 0 5px;
+    color: $brand_color_black;
+    font-size: 11.9px;
+    text-align: center;
+  }
+  .raEmailTextDecoration {
+    text-decoration: none;
+    color: $brand_color_white;
+  }
+  h4.rafooterHeaderText {
+    font-size: $fontSizeLarge;
+    font-weight: $fontWeightBold;
+    color: $brand_color_black;
+  }
+  p.rafooterParaText,
+  td.rafooterParaText {
+    /*font-size: 11.9px;*/
+    color: $brand_color_black;
+    text-align: left;
+    /*line-height: 16px;*/
+    margin-bottom: 10px;
+  }
+  td.rafooterHeaderText {
+    font-size: $fontSizeLarge;
+    font-weight: $fontWeightBold;
+    color: $brand_color_black;
+  }
+  td.raRecentHeadText {
+    font-size: $fontSizeExtraLarge;
+    line-height: $lineHeightLarge;
+    font-weight: $fontWeightBold;
+    color: $brand_color_black;
+    padding-left: 5px;
+    text-align: center;
+  }
+	td.footerBgColor {
+    	background-color: $brand_color_lighter;
+      vertical-align: top;
+    .inner {
+        padding: 20px;
+        padding-right: 10px;
+    }
+    .contents {
+        padding-right: 20px;
+        padding-left: 10px;
+    }
+    td.footerBgColor .right {
+        margin-left: 0;
+    }
+  }
+
+ td.raEmailAvatarSmall{
+ 	background-color: $brand_color_primary;
+	height:48px;
+	width: 48px;
+	color:$brand_color_white;
+	text-align:center;
+	font-size:$fontSizeMid;
+	font-weight:$fontWeightBold;
+	border-radius:50%;
+
+ 	}
+
+	// Welcome Email RA Starts
+	 td ul.itemsIntro{
+    text-align: left;
+    padding: 0px;
+    margin: 10px 20px 20px 25px;
+
+    vertical-align: middle;
+}
+ td .itemsIntro li {
+    text-align: left;
+    //padding: 0px;
+    vertical-align: middle;
+}
+ .raIntroContentsCenter {
+  text-align: left;
+  padding: 0 20px
+}
+
+ .raIntroHeader .raHeaderText {
+  margin: 0;
+  padding: 8px 0 0 0;
+  font-size: 24px;
+  line-height: 32px;
+}
+ .raIntroSubHeader .raSubHeaderText {
+  margin: 0;
+  padding: 0 0 4px 0;
+  font-size: $fontSizeLarge;
+  line-height: $lineHeightMid;
+  font-weight: normal;
+}
+
+ .raIntroContentsCenter .raEmailIntroButton {
+  background-color: $brand_color_primary;
+  padding: 0 20px;
+  height: 37px;
+  //width: auto;
+  color: $brand_color_white;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  text-align: center
+}
+
+td.raEmailIntroButton {
+  background-color: $brand_color_primary;
+  padding: 0 20px;
+  height: 37px;
+  //width: auto;
+  color: $brand_color_white;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  text-align: center
+}
+
+td.raEmailIntroButton a {
+  text-decoration: none;
+  color: $brand_color_white
+}
+ .raIntroContentsCenter .raEmailIntroButton a {
+  text-decoration: none;
+  color: $brand_color_white
+}
+ td.inner.contents.raIntroContentTopPadding{
+	/*padding-top: 22px;*/
+}
+
+ td.raIntroBgColor {
+  background-color: $brand_color_lighter;
+  vertical-align: top
+}
+
+ td.raIntroBgColor .inner {
+  padding: 20px;
+  padding-right: 10px
+}
+
+ td.raIntroBgColor .contents {
+  padding-right: 20px;
+  padding-left: 10px
+}
+
+td.raIntroBgColor td.raIntroBgColor .right {
+  margin-left: 0
+}
+
+.imgPos{
+	vertical-align: middle !important;
+}
+
+.iconsColorIntro{
+	color: $ra_accent2;
+}
+span.iconsColorIntro{
+	color: $ra_accent2;
+}
+
+.emoji-inline {
+  vertical-align: top;
+  height: $email_baseLineHeight / $email_baseFontSize * 1em;
+  width: $email_baseLineHeight / $email_baseFontSize * 1em;
+}
+.raSubHeaderText .emoji-inline {
+  height: $lineHeightMid / $fontSizeLarge * 1em;
+  width: $lineHeightMid / $fontSizeLarge * 1em;
+}
+	// Welcome  Email RA Ends
+
+
+
+
+/*Media Queries*/
+@media screen and (max-width: 600px) {
+	.one-column{
+		.raEmailMarginRight {
+			width: 100% !important;
+	        margin-right: 0px;
+	      }
+	      .raEmailMarginLeft {
+	      	width: 100% !important;
+	        margin-left: 0px;
+	      }
+		}
+
+    .two-column {
+      .column {
+        width: 100%;
+        max-width: 100%;
+      }
+      img {
+        max-width: 100% !important;
+      }
+      .raEmailMarginRight {
+        margin-right: 0px;
+      }
+      .raEmailMarginLeft {
+        margin-left: 0px;
+      }
+    }
+    .three-column .column {
+      width: 100%;
+    }
+    .two-column .three-column img {
+      max-width: 50% !important;
+    }
+    .three-column {
+      .cardBackgroundColor {
+        padding-bottom: 20px;
+      }
+      .column + .column + .column .cardBackgroundColor {
+        padding-bottom: 0;
+      }
+    }
+    .lefts-sidebar {
+      .textAlignRight, .textAlignLeft {
+        text-align: center;
+      }
+    }
+    .inner.contentRight {
+      text-align: center !important;
+    }
+    .raHeaderContentsPadding {
+      &.odd-alt {
+        background-color: $brand_color_lighter !important;
+      }
+      &.even-alt {
+        background-color: $brand_color_white !important;
+      }
+    }
+    .left-sidebar {
+      .left {
+        display: block;
+        float: none;
+        width: auto;
+        table {
+          width: 100%;
+        }
+
+        .inner {
+          padding-right: 20px !important;
+          padding-bottom: 5px !important;
+        }
+      }
+      .right {
+        margin-left: 0;
+
+        .inner {
+          padding-left: 20px !important;
+          padding-top: 5px !important;
+        }
+      }
+      .contents {
+        text-align: center;
+      }
+    }
+
+	// RA Welcome Email Starts - Media
+	td .itemsIntro{
+      text-align: left;
+      /*padding: 0px;
+      margin-left: 27px;*/
+      vertical-align: middle;
+	}
+
+	   .raIntroHeader{
+		text-align: center;
+	 }
+	   .raIntroHeader {
+		margin-top: 0;
+	  }
+	  .raHeaderText {
+		// margin-top: 0;
+	  }
+		.raIntroSubHeader{
+			text-align:center;
+		}
+	  .left-sidebar .right .inner {
+		padding-top: 0 !important;
+	  }
+		 .raIntroContentsCenter {
+			text-align:center;
+			margin:0 auto;
+		}
+	// RA Welcome Email Ends - Media
+}
+//Ends - Email
+}

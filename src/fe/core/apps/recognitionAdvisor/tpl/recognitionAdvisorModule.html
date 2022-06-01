@@ -1,0 +1,31 @@
+<!-- Recognition Advisor Module View -->
+<div class="module-liner">
+    <div class="wide-view">
+		<div id="rec-advisor">
+
+		</div>
+	</div>
+</div>
+<script>
+window.recognitionAdvisor = {
+    raUrl: 'radvisor/showRAReminderList.action'
+}
+$(document).ready(function() {
+    //window.renderAdvisor();
+	//attach the view to an existing DOM element
+	var rapv = new RecognitionAdvisorModuleView({
+	    el:$('#recognitionAdvisorModuleView'),
+	    pageNav : {
+	        back : {
+	            text : 'Back',
+	            url : 'layout.html'
+	        },
+	        home : {
+	            text : 'Home',
+	            url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+	        }
+	    },
+	    pageTitle : 'Recognition Advisor'
+	});
+});
+</script>

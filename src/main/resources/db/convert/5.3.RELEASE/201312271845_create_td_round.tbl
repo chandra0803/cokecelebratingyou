@@ -1,0 +1,24 @@
+CREATE SEQUENCE td_round_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE THROWDOWN_ROUND
+(
+ round_id       NUMBER(18,0) NOT NULL,
+ division_id    NUMBER(18,0) NOT NULL,
+ start_date     DATE NOT NULL,
+ end_date       DATE NOT NULL,
+ round_number 	number(18) NOT NULL,
+ PAYOUTS_ISSUED number(1)  DEFAULT 0 NOT NULL,
+ created_by 	number(18) NOT NULL,
+ date_created   DATE NOT NULL,
+ modified_by 	number(18),
+ date_modified  DATE,
+ version        NUMBER(18,0) NOT NULL
+)
+/
+ALTER TABLE THROWDOWN_ROUND
+ADD CONSTRAINT round_pk PRIMARY KEY (round_id)
+USING INDEX
+/
+ALTER TABLE THROWDOWN_ROUND ADD CONSTRAINT THROWDOWN_round_div_fk
+  FOREIGN KEY (division_id) REFERENCES THROWDOWN_DIVISION (division_id)
+/

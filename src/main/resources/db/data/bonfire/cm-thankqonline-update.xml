@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <cm_data importType="diff">
+    <application_entry code="beacon" name="Beacon Default" desc="Beacon Default Application" action="nop">
+      <asset_type_entry name="Skin" desc="Application style sheets" action="nop">
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="system.skin.default" name="Default Skin" desc="Default skin" publik="T" section="system" action="nop">
+          <content_key_entry audiences="Default Audience" order="0" guid="3ff173:10794dded8b:-7cbd" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="DESIGN_THEME" action="update">
+                <value><![CDATA[salesthankqonline/1]]></value>
+                <oldValue><![CDATA[generic/1]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+    </application_entry>
+  </cm_data>

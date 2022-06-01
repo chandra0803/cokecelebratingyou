@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.ssi.SSIContestPaxClaimField"
+		table="SSI_CONTEST_PAX_CLAIM_FIELD">
+		<id name="id" type="long" column="SSI_CONTEST_PAX_CLAIM_FIELD_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">SSI_CONTEST_PAX_CLM_FLD_PK_SQ</param>
+			</generator>
+		</id>
+		<version name="version" type="long" column="VERSION" />
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<many-to-one name="paxClaim" column="SSI_CONTEST_PAX_CLAIM_ID"
+			not-null="true" class="com.biperf.core.domain.ssi.SSIContestPaxClaim"
+			lazy="false" />
+
+		<many-to-one name="claimField" column="SSI_CONTEST_CLAIM_FIELD_ID"
+			not-null="true" class="com.biperf.core.domain.ssi.SSIContestClaimField"
+			lazy="false" />
+
+		<property name="fieldType" column="FIELD_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.ClaimFormElementType</param>
+			</type>
+		</property>
+
+		<property name="fieldValue" column="FIELD_VALUE" type="string" />
+
+	</class>
+
+</hibernate-mapping>  

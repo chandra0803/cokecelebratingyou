@@ -1,0 +1,19 @@
+ALTER TABLE budget_master
+ADD IS_ALLOW_BUDGET_REALLOCATION  NUMBER(1) DEFAULT 0
+/
+ALTER TABLE budget_master
+MODIFY IS_ALLOW_BUDGET_REALLOCATION NOT NULL
+/
+ALTER TABLE budget_master
+ADD BUDGET_REALLOCATION_ELIG_TYPE   VARCHAR2(40)
+/
+COMMENT ON COLUMN budget_master.IS_ALLOW_BUDGET_REALLOCATION IS 'Budget Reallocation enabled '
+/
+COMMENT ON COLUMN budget_master.BUDGET_REALLOCATION_ELIG_TYPE IS 'Whether budget reallocation is enabled for pax in org unit or org unit and below'
+/
+ALTER TABLE BUDGET
+ADD action_type      VARCHAR2(30)
+/
+ALTER TABLE BUDGET_HISTORY
+ADD action_type      VARCHAR2(30)
+/

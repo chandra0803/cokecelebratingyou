@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- GoalQuest Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.GoalQuestPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_GOALQUEST" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+
+  <property name="objective" type="java.lang.String" column="GOAL_OBJECTIVE" />
+  
+  <property name="objectiveAssetCode" type="java.lang.String" column="GOAL_OBJECTIVE_ASSET_CODE" />	
+
+  <property name="goalCollectionStartDate" type="java.util.Date" column="GOAL_SELECTION_START_DATE" />
+  <property name="goalCollectionEndDate" type="java.util.Date" column="GOAL_SELECTION_END_DATE" />
+  <property name="finalProcessDate" type="java.util.Date" column="FINAL_PROCESS_DATE" />
+  <property name="apqConversion" type="boolean" column="APQ_CONVERSION" not-null="true"/>
+  <property name="autoCompletePartners" type="boolean" column="AUTO_COMPLETE_PARTNERS" not-null="true"/>
+  <property name="achievementRule" column="ACHIEVEMENT_RULE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.AchievementRuleType</param>
+    </type>
+  </property>
+  <property name="payoutStructure" column="PAYOUT_STRUCTURE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.PayoutStructure</param>
+    </type>
+  </property>
+  <property name="roundingMethod" column="ROUNDING_METHOD">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.RoundingMethod</param>
+    </type>
+  </property>
+  <property name="achievementPrecision" column="ACHIEVEMENT_PRECISION">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.AchievementPrecision</param>
+    </type>
+  </property>  
+  <property name="overrideStructure" column="OVERRIDE_STRUCTURE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.ManagerOverrideStructure</param>
+    </type>
+  </property> 
+  <property name="progressLoadType" column="PROGRESS_LOAD_TYPE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.ProgressLoadType</param>
+    </type>
+  </property>
+  <property name="merchGiftCodeType" column="MERCH_CODE_TYPE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.MerchGiftCodeType</param>
+    </type>
+  </property>
+  <property name="levelOneMgrAward" column="LEVEL1_MGR_AWARD" type="java.math.BigDecimal" />
+  <property name="levelTwoMgrAward" column="LEVEL2_MGR_AWARD" type="java.math.BigDecimal" />
+  <property name="programId" column="PROGRAM_ID" type="string" />
+  <property name="goalPlanningWorksheet" column="GOAL_PLANNING_WORKSHEET" type="string" />
+  <property name="issueAwardsRun" column="ISSUE_AWARDS_RUN" type="boolean" not-null="true"/>
+  <property name="issueAwardsRunDate" column="ISSUE_AWARDS_RUN_DATE" type="java.util.Date"/>
+  
+  <!-- BugFix 17935 -->
+  <property name="baseUnit" type="java.lang.String" column="BASEUNIT" />
+  <property name="baseUnitPosition" column="BASEUNIT_POSITION">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.BaseUnitPosition</param>
+    </type>
+  </property>
+  <property name="partnerPayoutStructure" column="PARTNER_PAYOUT_STRUCTURE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.PartnerPayoutStructure</param>
+    </type>
+   </property>
+     <property name="PartnerEarnings" column="PARTNER_EARNINGS">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.PartnerEarnings</param>
+    </type>
+   </property>
+   
+   <property name="managerCmAssetCode" type="java.lang.String" column="MANAGER_ASSET_CODE" />
+   <property name="managerWebRulesCmKey" type="java.lang.String" column="MANAGER_RULES_CM_KEY" />
+   <property name="partnerCmAssetCode" type="java.lang.String" column="PARTNER_ASSET_CODE" />
+   <property name="partnerWebRulesCmKey" type="java.lang.String" column="PARTNER_RULES_CM_KEY" />
+   
+   <property name="partnerCount" type="java.lang.Integer" column="PARTNER_COUNT" />
+   
+   <property name="managerWebRulesAudienceType" column="MANAGER_RULES_AUDIENCE_TYPE">
+	 <type name="com.biperf.core.utils.hibernate.PickListUserType">
+		<param name="lookupClass">com.biperf.core.domain.enums.ManagerWebRulesAudienceType</param>
+	 </type>
+   </property>
+   
+      <property name="partnerWebRulesAudienceType" column="PARTNER_RULES_AUDIENCE_TYPE">
+	 <type name="com.biperf.core.utils.hibernate.PickListUserType">
+		<param name="lookupClass">com.biperf.core.domain.enums.PartnerWebRulesAudienceType</param>
+	 </type>
+   </property>
+   
+     <property name="preSelectedPartnerChars" type="java.lang.String" column="PARTNER_CHARACTERISTIC" />
+   
+    <set name="promotionManagerWebRulesAudience" table="PROMO_AUDIENCE" inverse="true" lazy="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='RULES_TEXT_MANAGER'">
+	 <cache usage="nonstrict-read-write"/>
+	 <key column="PROMOTION_ID" />
+	 <one-to-many class="com.biperf.core.domain.promotion.PromotionManagerWebRulesAudience" />
+   </set>
+	
+   <set name="promotionPartnerWebRulesAudience" table="PROMO_AUDIENCE" inverse="true" lazy="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='RULES_TEXT_PARTNER'">
+	 <cache usage="nonstrict-read-write"/>
+	 <key column="PROMOTION_ID" />
+	 <one-to-many class="com.biperf.core.domain.promotion.PromotionPartnerWebRulesAudience" />
+   </set>
+   
+
+  <set name="goalLevels" table="GOALQUEST_GOALLEVEL" lazy="true" inverse="false" cascade="all-delete-orphan" order-by="sequence_num">
+    <key column="PROMOTION_ID" not-null="true" />
+    <!-- <list-index column="sequence_num"/> -->
+    <one-to-many class="com.biperf.core.domain.promotion.GoalLevel"/>
+  </set>
+  
+  <set name="managerOverrideGoalLevels" table="GOALQUEST_GOALLEVEL" lazy="true" inverse="false" cascade="all-delete-orphan" order-by="sequence_num">
+    <key column="PROMOTION_ID" not-null="true" />
+    <!-- <list-index column="sequence_num"/> -->
+    <one-to-many class="com.biperf.core.domain.promotion.ManagerOverrideGoalLevel"/>
+  </set>
+  
+  <set name="partnerGoalLevels" table="GOALQUEST_GOALLEVEL" lazy="true" inverse="false" cascade="all-delete-orphan" order-by="sequence_num">
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionPartnerPayout"/>
+  </set>
+
+  <set name="promotionParticipantPartners" table="PARTICIPANT_PARTNER" inverse="true" lazy="true" cascade="all-delete-orphan">
+	<key column="PROMOTION_ID" />
+	<one-to-many class="com.biperf.core.domain.participant.ParticipantPartner" />
+  </set>
+  
+  <set name="promotionGoalQuestSurveys" table="promo_goalquest_survey"  inverse="true" lazy="true" cascade="all-delete-orphan">
+	<key column="PROMOTION_ID" />
+	<one-to-many class="com.biperf.core.domain.goalquest.PromotionGoalQuestSurvey" />
+  </set>  
+  
+  <property name="allowUnderArmour" type="boolean" column="allow_under_armour" not-null="true"/>
+  	
+</joined-subclass>
+
+  <query name="com.biperf.core.domain.promotion.GoalQuestPromotion.processParameterValueChoices.allLivePromotions">
+    <![CDATA[
+      select distinct new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+      from com.biperf.core.domain.promotion.Promotion promotion
+      where promotion.promotionStatus= 'live'   
+        and ( promotion.promotionType = 'goalquest'  or promotion.promotionType = 'challengepoint'   )
+        and promotion.id in (select promoGQSurvey.promotion.id  from  com.biperf.core.domain.goalquest.PromotionGoalQuestSurvey   promoGQSurvey  )
+    ]]>
+  </query>
+
+	<query name="com.biperf.core.domain.promotion.GoalQuestPromotion.processParameterValueChoices.allLiveCompletedAndUnderConstructionPromotions">
+    <![CDATA[
+      select distinct new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+      from com.biperf.core.domain.promotion.Promotion promotion
+      where ( promotion.promotionStatus= 'live' or promotion.promotionStatus= 'complete' or promotion.promotionStatus= 'under_construction' )   
+        and ( promotion.promotionType = 'goalquest'  or promotion.promotionType = 'challengepoint' )
+      order by promotion.promotionName
+    ]]>
+  </query>
+  
+</hibernate-mapping>

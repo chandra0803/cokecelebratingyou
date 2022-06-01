@@ -1,0 +1,415 @@
+// Partial-specific variables
+// =========================
+$modal_footerBgColor: $formActionsBackground !default;
+$modal_footerBorderWidth: $formActionsBorderWidth !default;
+$modal_footerBorderColor: $formActionsBorderColor !default;
+
+
+// Partial-specific code
+// ==================================================
+.modal-backdrop {
+    z-index: 20000; // greater than default qtip (and pretty much everything else)
+}
+
+.search-overlay-open{
+    .modal-backdrop {
+        z-index: 100001;
+    }
+    .modal{
+        z-index: 100002;
+    }
+}
+// overriding the opacity of the backdrop to darken things a little bit
+.modal-backdrop, .modal-backdrop.fade.in {
+    @include opacity(0.5);
+}
+
+.modal {
+    z-index: 20000; // greater than default qtip (and pretty much everything else)
+
+    background: $modal_bgColor;
+    border: $modal_borderWidth solid $modal_borderColor;
+    @include border-radius($modal_borderRadius);
+
+    .modal-content {
+        position: relative;
+    }
+
+    .modal-footer {
+        .btn + .btn {
+            // we don't want this wierd space when buttons gobble horiz. space
+            @media (max-width: 480px) {
+                margin-left: 10px;
+            }
+        }
+        .btn-block + .btn-block {
+            // we don't want this wierd space when buttons gobble horiz. space
+            @media (max-width: 480px) {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+.modal {
+
+    .modal-header .close {
+        margin: 0 0 nth($modal_padding, 1) nth($modal_padding, 2);
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: $modal_padding;
+    }
+    .modal-body {
+        padding-top: 0;
+    }
+    .modal-footer {
+        @if $modal_footerBgColor == transparent or $modal_footerBgColor == false {
+            margin-left: nth($modal_padding, 2);
+            padding-left: 0;
+            margin-right: nth($modal_padding, 2);
+            padding-right: 0;
+        }
+        @else {
+            @include border-radius(0 0 $modal_borderRadius $modal_borderRadius);
+        }
+    }
+
+    @media (min-width: $breakpoint_tablet_min) {
+        .modal-header .close {
+            margin: 0 0 nth($modal_padding_tablet, 1) nth($modal_padding_tablet, 2);
+        }
+        .modal-header,
+        .modal-body,
+        .modal-footer {
+            padding: $modal_padding_tablet;
+        }
+        .modal-body {
+            padding-top: 0;
+        }
+        .modal-footer {
+            @if $modal_footerBgColor == transparent or $modal_footerBgColor == false {
+                margin-left: nth($modal_padding_tablet, 2);
+                padding-left: 0;
+                margin-right: nth($modal_padding_tablet, 2);
+                padding-right: 0;
+            }
+        }
+    } // /@media
+
+    @media (min-width: $breakpoint_desktop_min) {
+        @include transform( translateX(-1 * $global_sidebar_width_desktop / 2) );
+
+        .loginPage &,
+        .no-sidebar &,
+        .search-overlay-open & {
+            @include transform( translateX(-1 * nth($modal_padding_desktop, 2)) );
+        }
+
+        @if nth($modal_padding_desktop, 2) != nth($modal_padding_tablet, 2) {
+            .modal-header .close {
+                margin: 0 0 nth($modal_padding_desktop, 1) nth($modal_padding_desktop, 2);
+            }
+            .modal-header,
+            .modal-body,
+            .modal-footer {
+                padding: $modal_padding_desktop;
+            }
+            .modal-body {
+                padding-top: 0;
+            }
+            .modal-footer {
+                @if $modal_footerBgColor == transparent or $modal_footerBgColor == false {
+                    margin-left: nth($modal_padding_desktop, 2);
+                    padding-left: 0;
+                    margin-right: nth($modal_padding_desktop, 2);
+                    padding-right: 0;
+                }
+            }
+        } // /@if
+    } // /@media
+
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        @include transform( translateX(-1 * $global_sidebar_width_desktopLarge / 2) );
+
+        @if nth($modal_padding_desktop, 2) != nth($modal_padding_desktopLarge, 2) {
+            .modal-header .close {
+                margin: 0 0 nth($modal_padding_desktopLarge, 1) nth($modal_padding_desktopLarge, 2);
+            }
+            .modal-header,
+            .modal-body,
+            .modal-footer {
+                padding: $modal_padding_desktopLarge;
+            }
+            .modal-body {
+                padding-top: 0;
+            }
+            .modal-footer {
+                @if $modal_footerBgColor == transparent or $modal_footerBgColor == false {
+                    margin-left: nth($modal_padding_desktopLarge, 2);
+                    padding-left: 0;
+                    margin-right: nth($modal_padding_desktopLarge, 2);
+                    padding-right: 0;
+                }
+            }
+        } // /@if
+    } // /@media
+}
+
+// pulled over from the core Bootstrap files. Dominic C had made a custom edit on 10 Jan 2013 but we want the core files to remain unchanged if at all possible
+.modal-header {
+    border-bottom: 0;
+
+    h1 {
+        margin-top: 0;
+        word-wrap: break-word;
+    }
+
+    h3 {
+        line-height: $headlineLineHeight;
+    }
+
+    .close {
+        padding: 0;
+        line-height: $headline3fontSize_mobile * $headlineLineHeight;
+        outline: none;
+        @include opacity(0.5);
+
+        &:hover {
+            @include opacity(1);
+        }
+
+        @media (min-width: $breakpoint_desktop_min) {
+            line-height: $headline3fontSize * $headlineLineHeight;
+        }
+    }
+}
+// end pull
+
+
+// overriding the core Bootstrap modal max height.
+.modal-body {
+    // calculate some theoretical header and footer heights. Can't account for text wrapping, so this is the best we can do
+    // header is top padding + bottom padding + headline line height
+    $modal_headerHeight_mobile:       (nth($modal_padding, 1) * 2)              + ($headline3fontSize_mobile * $headlineLineHeight);
+    $modal_headerHeight_tablet:       (nth($modal_padding_tablet, 1) * 2)       + ($headline3fontSize_mobile * $headlineLineHeight);
+    $modal_headerHeight_desktop:      (nth($modal_padding_desktop, 1) * 2)      + ($headline3fontSize * $headlineLineHeight);
+    $modal_headerHeight_desktopLarge: (nth($modal_padding_desktopLarge, 1) * 2) + ($headline3fontSize * $headlineLineHeight);
+
+    // footer is top padding + bottom padding + standard button height
+    $modal_footerHeight_mobile:       (nth($modal_padding, 1) * 2)              + ($btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2));
+    $modal_footerHeight_tablet:       (nth($modal_padding_tablet, 1) * 2)       + ($btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2));
+    $modal_footerHeight_desktop:      (nth($modal_padding_desktop, 1) * 2)      + ($btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2));
+    $modal_footerHeight_desktopLarge: (nth($modal_padding_desktopLarge, 1) * 2) + ($btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2));
+
+    position: static;
+    // tyler found a delightful way to handle overflow: 100vh = "100% viewport height"
+    // bootstrap puts mobile modals 20px from the top, so we subtract 2 * 20px from the max height to accommodate
+    max-height: calc(100vh - #{$modal_headerHeight_mobile + nth($modal_padding, 1) + $modal_footerHeight_mobile} - 108px);
+    //changed from 40px because of iOS safari viewport detection changes. Buttons on large modals were being hidden by the browser's bottom menu bar.  Possible longer term solution at https://www.npmjs.com/package/ios-inner-height
+    overflow-y: auto;
+
+    // this stinks, because it kills the native scroll feeling
+    // but until I can figure out a better way to handle .form-actions we're stuck
+    // -webkit-overflow-scrolling: touch; clips absolutely positioned items
+    // and none of the "tricks" I've found online to make them show up work
+    -webkit-overflow-scrolling: auto;
+
+    // at tablet and above, bootstrap puts modals 10% from the top, so we change 100vh to 80vh
+    @media (min-width: $breakpoint_tablet_min) {
+        max-height: calc(80vh - #{$modal_headerHeight_tablet + nth($modal_padding_tablet, 1) + $modal_footerHeight_tablet});
+    } // /@media
+    @media (min-width: $breakpoint_desktop_min) {
+        max-height: calc(80vh - #{$modal_headerHeight_desktop + nth($modal_padding_desktop, 1) + $modal_footerHeight_desktop});
+    } // /@media
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        max-height: calc(80vh - #{$modal_headerHeight_desktopLarge + nth($modal_padding_desktopLarge, 1) + $modal_footerHeight_desktopLarge});
+    } // /@media
+
+    // stacked modals (almost?) never have modal-footer, so we don't subtract it. We'll find out the hard way if that's true
+    // we do have to subtract a bottom padding, though
+    .modal-stack & {
+        max-height: calc(100vh - #{$modal_headerHeight_mobile + nth($modal_padding, 1)} - 40px);
+
+        // at tablet and above, we put modal-stack 5% from the top, so we change 100vh to 90vh
+        @media (min-width: $breakpoint_tablet_min) {
+            max-height: calc(90vh - #{$modal_headerHeight_tablet + nth($modal_padding_tablet, 1)});
+        } // /@media
+        @media (min-width: $breakpoint_desktop_min) {
+            max-height: calc(90vh - #{$modal_headerHeight_desktop + nth($modal_padding_desktop, 1)});
+        } // /@media
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            max-height: calc(90vh - #{$modal_headerHeight_desktopLarge + nth($modal_padding_desktopLarge, 1)});
+        } // /@media
+    }
+}
+
+.modal-footer {
+    text-align: left;
+    background-color: $modal_footerBgColor;
+    border-top: $modal_footerBorderWidth solid $modal_footerBorderColor;
+    @include border-radius(0);
+    @include box-shadow(none);
+}
+
+
+// manipulating .form-actions to look like .modal-footer
+.modal:not(.modal-stack) {
+    .form-actions {
+        // we're absolutely positioning .form-actions so they behave like a .modal-footer and sit below the .modal-body
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        margin: 0;
+        padding: $modal_padding;
+        @include border-radius(0 0 $modal_borderRadius $modal_borderRadius);
+        // duplicating the .modal box shadow because the form-actions stick below the bottom of the modal
+        @include box-shadow(0 3px 7px rgba(0,0,0,0.3)); // copied from bootstrap/_modals.scss
+
+        // this masks the round corners of the .modal and the little bit of box shadow on .form-actions sticking out at the top
+        &::before {
+            display: block;
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: 100%;
+            left: 0;
+            margin-bottom: $modal_footerBorderWidth;
+            height: $modal_borderRadius;
+            background: $modal_bgColor;
+        }
+
+        @if $modal_footerBgColor == transparent or $modal_footerBgColor == false {
+            background: $modal_bgColor;
+
+            @if $modal_footerBorderWidth > 0 and ($modal_footerBorderColor != transparent or $modal_footerBorderColor != false) {
+                border-top: none;
+
+                &::before {
+                    margin-bottom: 0;
+                }
+
+                // this reproduces the inset top border that we otherwise can't do due to absolute positioning
+                &::after {
+                    display: block;
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: nth($modal_padding, 2);
+                    left: nth($modal_padding, 2);
+                    border-top: $modal_footerBorderWidth solid $modal_footerBorderColor;
+                }
+            }
+        }
+
+        @media (min-width: $breakpoint_tablet_min) {
+            padding: $modal_padding_tablet;
+
+            @if $modal_footerBgColor == transparent or $modal_footerBgColor == false {
+                @if $modal_footerBorderWidth > 0 and ($modal_footerBorderColor != transparent or $modal_footerBorderColor != false) {
+                    &::after {
+                        right: nth($modal_padding_tablet, 2);
+                        left: nth($modal_padding_tablet, 2);
+                    }
+                } // /@if
+            } // /@if
+        } // /@media
+
+        @media (min-width: $breakpoint_desktop_min) {
+            @if nth($modal_padding_desktop, 2) != nth($modal_padding_tablet, 2) {
+                padding: $modal_padding_desktop;
+
+                @if $modal_footerBgColor == transparent or $modal_footerBgColor == false {
+                    @if $modal_footerBorderWidth > 0 and ($modal_footerBorderColor != transparent or $modal_footerBorderColor != false) {
+                        &::after {
+                            right: nth($modal_padding_desktop, 2);
+                            left: nth($modal_padding_desktop, 2);
+                        }
+                    } // /@if
+                } // /@if
+            } // /@if
+        } // /@media
+
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if nth($modal_padding_desktop, 2) != nth($modal_padding_desktopLarge, 2) {
+                padding: $modal_padding_desktopLarge;
+
+                @if $modal_footerBgColor == transparent or $modal_footerBgColor == false {
+                    @if $modal_footerBorderWidth > 0 and ($modal_footerBorderColor != transparent or $modal_footerBorderColor != false) {
+                        &::after {
+                            right: nth($modal_padding_desktopLarge, 2);
+                            left: nth($modal_padding_desktopLarge, 2);
+                        }
+                    } // /@if
+                } // /@if
+            } // /@if
+        } // /@media
+    }
+}
+@media only screen and (max-width: $breakpoint_mobileMini_max) {
+ .recognitionResponseModal {
+        .btn-fullmobile {
+                box-sizing: border-box;
+                margin: 6px 0 0 0 !important;
+        }
+    }
+}
+
+// Compliant Modal Popup Skins
+// ==================================================
+#compliantModal {
+		position: fixed;
+		width: 95%;
+		display: none;
+		@media (max-width: $breakpoint_mobileMini_min) {
+    		width: 75%;
+	    }
+	    @media (min-width: $breakpoint_siteMax_min) {
+	    	max-width: calc(#{$breakpoint_siteMax_min} - 100px);
+	    	margin: 0 auto;
+	    }
+	    @media (min-width: $breakpoint_desktopLarge_min) {
+	    	max-width: calc(#{$breakpoint_desktopLarge_min} - 100px);
+	    	margin: 0 auto;
+	    }
+	    
+	    left: 50%;
+	    top: 0;
+	    transform: translateX(-50%);
+	    z-index: 20001; //To override the already loaded popup
+	    background: $modal_bgColor;
+    	border: $modal_borderWidth solid $modal_borderColor;
+    	padding: 10px 15px;
+    	@include box-shadow(0 3px 7px rgba(0,0,0,0.3)); // copied from bootstrap/_modals.scss	
+    	> p {
+			    margin: 0 auto;
+			    text-align: left;
+			    width: 90%;	
+	    		a {
+	    			text-decoration: underline;
+	    		}
+    	}
+    	.compliant-close {
+	    position: absolute;
+	    top: 10px;
+	    right: 15px;
+	    cursor: pointer;
+    	.icon-close {
+			font-size: 7px;
+			background-color: $brand_color_primary;
+			@include border-radius(50%);
+			padding: 4px;
+			color: #fff;
+			position: relative; //px adjustment
+			top: -1px;	    	
+    	}
+	}
+}
+
+#saErrorModal {
+    top: 50%;
+    transform: translateY(-50%);
+}

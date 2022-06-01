@@ -1,0 +1,15 @@
+BEGIN
+
+ FOR i IN (SELECT object_name FROM user_OBJECTS WHERE object_name = 'PKG_SHA') LOOP
+   EXECUTE IMMEDIATE 'DROP PACKAGE PKG_SHA';
+ END LOOP;
+  
+END;
+/
+BEGIN
+
+ FOR i IN (SELECT object_name FROM user_OBJECTS WHERE object_name = 'sha2') LOOP
+   EXECUTE IMMEDIATE 'DROP JAVA SOURCE '||'"'||'sha2'||'"';
+ END LOOP;
+  
+END;

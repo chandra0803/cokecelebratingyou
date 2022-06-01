@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <subclass name="com.biperf.core.domain.activity.SweepstakesActivity" extends="com.biperf.core.domain.activity.Activity" discriminator-value="sweep">
+    <many-to-one name="promotionSweepstake" column="SWEEPSTAKE_DRAWING_ID" not-null="true" lazy="proxy" />
+    <property name="submitter" column="IS_SUBMITTER" type="boolean" />
+  </subclass>
+
+</hibernate-mapping>

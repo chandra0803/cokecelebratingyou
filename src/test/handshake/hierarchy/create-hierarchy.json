@@ -1,0 +1,47 @@
+{
+  "description": "Create a hierarchy",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+    "companyId": "00000000-0000-0000-0000-0000000015d2",
+    "hierarchyName": "New Hierarchy ${faker:random.number}"
+  },
+  "export": {
+    "newHierarchyId": "${ref:createHierarchy.res.body.id}"
+  },
+  "steps": [
+    {
+      "id": "createHierarchy",
+      "description": "POST /hierarchies",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "name": "${ref:params.hierarchyName}"
+            
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createHierarchy.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createHierarchy.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createHierarchy.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.hierarchyName}"
+        }
+      ]
+    }
+  ]
+}

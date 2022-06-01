@@ -1,0 +1,18 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $recognition_EZmodule_background: ;
+// $recognition_EZmodule_textColor: ;
+
+// $recognition_recPage_progressBarToolTipBgColor: ;
+// $recognition_recPage_progressBarToolTipBorderColor: ;
+// $recognition_recPage_progressBarToolTipBoxShadow: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "recognition/scss/recognition";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

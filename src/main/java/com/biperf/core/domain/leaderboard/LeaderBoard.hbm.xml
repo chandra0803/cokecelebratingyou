@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.leaderboard.LeaderBoard"
+		table="LEADERBOARD">
+		<cache usage="read-write"/>
+		<id name="id" type="long" column="LEADERBOARD_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">LEADERBOARD_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" type="long" column="VERSION" />
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<many-to-one name="user" column="USER_ID"
+			class="com.biperf.core.domain.user.User" not-null="true" lazy="false" />
+		<property name="name" column="NAME" type="string" />
+		<property name="activityTitle" column="ACTIVITY_TITLE" type="string" />
+		<property name="activityDate" column="ACTIVITY_DATE" type="java.util.Date" />
+		<property name="startDate" column="START_DATE" type="java.util.Date" />
+		<property name="endDate" column="END_DATE" type="java.util.Date" />
+		<property name="displayEndDate" column="Display_END_DATE"
+			type="java.util.Date" />
+		<property name="sortOrder" column="SORT_ORDER" type="string" />
+		<property name="rulescmAsset" column="RULES_CM_ASSET" type="string" />
+		<property name="status" column="STATUS" type="string" />
+		<property name="notifyMessage" column="NOTIFY_MSG" type="string" />
+		<set name="participants" inverse="true" table="LEADERBOARD_PARTICIPANT"
+			cascade="all" order-by="score asc"  lazy="true" where="is_active=1" > 
+			<key column="LEADERBOARD_ID" />
+			<one-to-many
+				class="com.biperf.core.domain.leaderboard.LeaderBoardParticipant" />
+		</set>
+	</class>
+
+	<query name="com.biperf.core.domain.leaderboard.getLeaderBoardsByOwnerUserIdAndStatus">
+    <![CDATA[     
+    from com.biperf.core.domain.leaderboard.LeaderBoard lb
+     where lb.user.id = :userId and lb.status = :status
+    ]]>
+	</query>
+
+	<query name="com.biperf.core.domain.leaderboard.getLeaderBoardByStatus">
+    <![CDATA[
+    from com.biperf.core.domain.leaderboard.LeaderBoard lb
+     where lb.status = :status
+    ]]>
+	</query>
+
+	<query name="com.biperf.core.domain.leaderboard.getById">
+    <![CDATA[
+    from com.biperf.core.domain.leaderboard.LeaderBoard lb
+     where lb.id = :leaderBoardId  
+    ]]>
+	</query>
+
+    <sql-query name="com.biperf.core.domain.leaderboard.LeaderBoardByNameCount">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+    SELECT count(1) as result
+      FROM leaderboard
+     WHERE lower(name) = :leaderBoardName
+     AND leaderboard_id != :leaderBoardId
+    ]]>
+	</sql-query>
+	
+</hibernate-mapping>    
+    
+   

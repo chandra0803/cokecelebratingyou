@@ -1,0 +1,150 @@
+// App-specific variables
+// =========================
+$bunchBall_textFontFamily: Arial, "open-sans", "Helvetica Neue", Helvetica, sans-serif !default;
+$bunchBall_textColor: $brand_color_black !default;
+$widgetHeader_Background : $brand_color_primary !default;
+$widgetHeader_Color: $brand_color_white !default;
+$widget_itemEvenBackground: $brand_color_stripe !default;
+$widget_itemOddBackground: $brand_color_white !default;
+$widget_buttonBackground: $brand_color_primary !default; 
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName bunchBall
+
+.sidebarModule.bunchBall {
+    .missionWrapper {
+        display:flex;            
+        .missionLogo {
+            width: 45%;
+            max-height: 80px;            
+        }
+        .missionText {
+            width: 75%;
+            margin-left: 2%;
+            font-size: $fontSizeSmall; 
+            color: $bunchBall_textColor;           
+        }
+    }
+}
+
+.launchModule.bunchBallModule {
+    .module-liner {
+        .missionWrapper {
+            display:flex;
+            > .widgets:first-child {
+                margin-right:30px;
+            }
+            .widgets {
+              min-height: 500px;  
+              flex-grow: 1;
+              flex-shrink: 1;
+              flex-basis: 0;
+              text-align: center; 
+              justify-content: space-between;
+              iframe {
+                 border-radius: 10px;
+                 box-shadow: rgba(0,0,0,0.8) 0 0 10px;
+                 html {
+                    overflow: hidden;
+                 }
+              }             
+            }           
+        } 
+
+        @media (max-width: $breakpoint_mobile_max) {
+            .missionWrapper {
+                display:block; 
+                > .widgets:first-child {
+                    margin-right:0px;
+                }               
+                .widgets {
+                  height: 350px;  
+                  margin-bottom: 30px;                  
+                }
+                
+            }  
+        } 
+              
+    }
+}
+
+// Override styles which got created on Nitro  
+div.nitro-widget { 
+    color: $brand_color_black;  
+    font-family: $bunchBall_textFontFamily;
+    font-size: $baseFontSize;
+    line-height: $baseLineHeight;
+    header.widget-header {
+        .widget-header-title {
+            h3 {
+                color: $widgetHeader_Color;
+                font-size: $fontSizeMid;
+            }
+        }
+        background: $widgetHeader_Background;
+        color: $widgetHeader_Color;
+        + div {
+            height: 450px;
+            overflow: auto;
+        }
+    }
+    h1, h2, h3, h4, h5, h6 {
+       color: $brand_color_link; 
+       font-family: $bunchBall_textFontFamily;
+       font-size: $baseFontSize;
+       font-weight: bold;
+    }
+    .grid-container {
+        &:nth-child(even) {
+            background: $widget_itemEvenBackground;
+        }
+        .grid-margin-x {
+            padding: 20px 2%;
+            
+            min-height: 100px;
+            
+            & > .small-3 {
+                width: 15%;
+            }
+            & > .small-5 {
+                width: 63%;
+            }
+            & > div.cell.small-3:last-child {
+                width: 5%;
+            }
+
+        }
+        .fa {
+              display: flex;
+              padding: 5px;
+              border-radius: 50%;
+              border:1px solid $bunchBall_textColor;
+              width: 100%;   
+              justify-content: center;
+              cursor:pointer;
+        } 
+    }
+    .challenge-info .back .fa {
+        margin-top: 2px;
+    }
+    .button, .button.disabled, .button.disabled:focus, .button.disabled:hover, .button[disabled], .button[disabled]:focus, .button[disabled]:hover {
+        font-size: $baseFontSize;
+        line-height: $baseLineHeight;
+        font-weight: bold;
+        text-shadow: none;
+        padding: 10px 30px;
+        color: $widgetHeader_Color;
+        background: $widget_buttonBackground;
+        border-color: $widget_buttonBackground;
+        border-width: 0;
+        border-radius: 6px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+
+

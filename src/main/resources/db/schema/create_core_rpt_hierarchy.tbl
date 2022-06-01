@@ -1,0 +1,65 @@
+CREATE SEQUENCE rpt_hierarchy_pk_sq
+  INCREMENT BY 1
+  START WITH 161
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE TABLE rpt_hierarchy
+    (rpt_hierarchy_id               NUMBER,
+    node_id                        NUMBER(18,0) NOT NULL,
+    node_type_id                   NUMBER(18,0) NOT NULL,
+    node_name                      VARCHAR2(255) NOT NULL,
+    parent_node_id                 NUMBER(18,0),
+    is_deleted                     NUMBER(1,0) NOT NULL,
+    parent_node_name               VARCHAR2(255),
+    hier_level                     NUMBER,
+    path                           VARCHAR2(4000),
+    description                    VARCHAR2(4000),
+    node_type_name                 VARCHAR2(120),
+    created_by                     number(18) NOT NULL,
+    date_created                   DATE  NOT NULL,
+    is_leaf                        NUMBER(1,0),
+    modified_by                    NUMBER (18),
+    date_modified                  DATE)
+/
+CREATE INDEX RPT_HIERARCHY_IDX ON RPT_HIERARCHY
+  (NODE_ID ASC)
+/
+CREATE INDEX RPT_HIERARCHY_IDX2 ON RPT_HIERARCHY
+(PARENT_NODE_ID, NODE_ID)
+/
+CREATE INDEX RPT_HIERARCHY_IDX3 ON RPT_HIERARCHY
+(IS_DELETED, NODE_ID, NODE_NAME, PARENT_NODE_ID, NODE_TYPE_NAME)
+/
+COMMENT ON COLUMN rpt_hierarchy.created_by IS 'Audit column'
+/
+COMMENT ON COLUMN rpt_hierarchy.date_created IS 'Audit column'
+/
+COMMENT ON COLUMN rpt_hierarchy.description IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy.hier_level IS 'pseudo column to indicate the depth of hierarchy'
+/
+COMMENT ON COLUMN rpt_hierarchy.is_deleted IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy.is_leaf IS 'Qualifies the node_id is valued 1 if there are no child nodes attached and 0 if child nodes are found for the node_id'
+/
+COMMENT ON COLUMN rpt_hierarchy.node_id IS 'node_id from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy.node_name IS 'Name from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy.node_type_id IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy.node_type_name IS 'of node_type_id from CM table'
+/
+COMMENT ON COLUMN rpt_hierarchy.parent_node_id IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy.parent_node_name IS 'Name from hierarchy table for the parent node'
+/
+COMMENT ON COLUMN rpt_hierarchy.path IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy.rpt_hierarchy_id IS 'System generated Primary Key'
+/
+

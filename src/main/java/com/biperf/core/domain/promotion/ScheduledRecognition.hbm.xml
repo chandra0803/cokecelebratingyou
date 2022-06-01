@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.promotion.ScheduledRecognition"
+		table="scheduled_recognition">
+
+		<!-- This is the surrogate primary key. Make sure the column and sequence 
+			names are correct. -->
+		<id name="id" column="SCHEDULED_RECOG_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">scheduled_recog_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="triggerName" type="java.lang.String" column="TRIGGER_NAME" not-null="true" />
+		<property name="triggerGroup" type="java.lang.String" column="TRIGGER_GROUP" not-null="true"/>
+		<property name="fired" type="boolean" column="IS_FIRED" not-null="true"/>
+		<property name="deliveryDate" type="java.util.Date" column="DELIVERY_DATE" />
+		<property name="claimId" type="java.lang.Long" column="CLAIM_ID" />		
+		<property name="isScheduled" type="java.lang.String" column="IS_SCHEDULED" />
+  		<property name="submitterNodeId" type="java.lang.String" column="SENDER_NODE_ID" />
+  		<property name="proxyUserId" type="java.lang.String" column="PROXY_USER_ID" />
+  		<property name="recipientNodeId" type="java.lang.String" column="RECIPIENT_NODE_ID" />
+  		<property name="submitterComments" type="java.lang.String" column="SENDER_COMMENTS" />
+  		<property name="budgetId" type="java.lang.String" column="BUDGET_ID" />
+  		<property name="teamId" type="java.lang.String" column="TEAM_ID" />
+  		<property name="behavior" type="java.lang.String" column="BEHAVIOR" />
+  		<property name="certificateId" type="java.lang.String" column="CERTIFICATE_ID" />
+  		<property name="cardId" type="java.lang.String" column="CARD_ID" />
+		<property name="copySender" type="java.lang.String" column="COPY_SENDER" />
+		<property name="copyManager" type="java.lang.String" column="COPY_MANAGER" />
+		<property name="copyOthers" type="java.lang.String" column="COPY_OTHERS" />
+		<property name="sendCopyToOthers" type="java.lang.String" column="SEND_COPY_TO_OTHERS" />
+		<property name="awardQuantity" type="java.lang.String" column="AWARD_QTY"/>
+		<property name="calculatorScore" type="java.lang.String" column="CALCULATOR_SCORE"/>
+  		<property name="levelId" type="java.lang.String" column="LEVEL_ID" />
+  		<property name="productId" type="java.lang.String" column="PRODUCT_ID" />
+  		<property name="recipientCountryCode" type="java.lang.String" column="RECIPIENT_COUNTRY_CODE" />
+  		<property name="claimElements" type="java.lang.String" column="CLAIM_ELEMENTS" />
+  		<property name="calculatorResponses" type="java.lang.String" column="CALCULATOR_RESPONSE" />
+    	<property name="anniversaryNumberOfDays" type="java.lang.String" column="ANNIVERSARY_NUM_DAYS" />
+    	<property name="anniversaryNumberOfYears" type="java.lang.String" column="ANNIVERSARY_NUM_YEARS" />
+  		<property name="celebrationManagerMessageId" type="java.lang.String" column="CELEBRATION_MGR_MESSAGE_ID" />
+  		<property name="hidePublicRecognition" type="boolean" column="HIDE_PUBLIC_RECOGNITION" />
+  		<property name="source" column="SOURCE">
+			<type name="com.biperf.core.domain.enums.HibernateVarCharEnum">
+					<param name="enumClass">com.biperf.core.domain.claim.RecognitionClaimSource</param>
+			</type>
+		</property>
+		<property name="ownCardName" column="OWN_CARD_NAME" type="java.lang.String" />
+		<many-to-one name="promotion" class="com.biperf.core.domain.promotion.Promotion" column="PROMOTION_ID" not-null="true" lazy="false"/>
+		<many-to-one name="sender" class="com.biperf.core.domain.user.User" column="SENDER_ID" not-null="true" lazy="false"/>
+		<many-to-one name="recipient" class="com.biperf.core.domain.user.User" column="RECIPIENT_ID" not-null="true" lazy="false"/>
+
+	</class>
+	
+	<query name="com.biperf.core.domain.promotion.ScheduledRecognition.GetScheduledRecognitionByTriggerName">
+    <![CDATA[
+		from ScheduledRecognition as scheduledRecognition
+		where scheduledRecognition.triggerName = :triggerName
+		]]>
+    </query>	
+    
+    <sql-query name="com.biperf.core.domain.promotion.ScheduledRecognition.getScheduledRecognitionIdsForRetryProcess">
+	  <return-scalar column="scheduled_recog_id" type="long"/>
+		<![CDATA[
+			select scheduled_recog_id
+			from scheduled_recognition 
+			where claim_id is null 
+			and is_fired = 0 
+			and is_scheduled = 'true'
+			and TRUNC(delivery_date) < TRUNC(SYSDATE) 
+			and trigger_name NOT IN (select trigger_name from qrtz_triggers) 
+			order by 1
+		]]>
+	</sql-query>
+</hibernate-mapping>

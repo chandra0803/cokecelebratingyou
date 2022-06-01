@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.PromotionSweepstakeWinner" table="PROMO_SWEEPSTAKE_WINNERS">
+		<id name="id" type="java.lang.Long" column="WINNER_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">PROMO_SWEEPSTAKE_WINNER_PK_SQ</param>
+	        </generator>
+	    </id>
+
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+        <many-to-one name="promotionSweepstake"
+				 class="com.biperf.core.domain.promotion.PromotionSweepstake"
+				 outer-join="false" lazy="false">
+			<column name="SWEEPSTAKE_DRAWING_ID" not-null="true" />
+		</many-to-one>
+		
+		<many-to-one name="participant" class="com.biperf.core.domain.participant.Participant" column="PARTICIPANT_ID" lazy="false"/>
+		<many-to-one name="participantBadge" class="com.biperf.core.domain.gamification.ParticipantBadge" column="PARTICIPANT_BADGE_ID" lazy="false"/>
+		<property name="consumerId" type="java.lang.Long" column="CONSUMER_ID"/>
+		<property name="removed" type="boolean" column="IS_REMOVED" not-null="true"/>
+		<property name="winnerType" type="java.lang.String" column="WINNER_TYPE" not-null="true"/>
+		<property name="guid" type="java.lang.String" column="GUID" not-null="true"/>
+			
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED"/>
+			<column name="CREATED_BY"/>
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,601 @@
+<!-- ======== PUBLIC PROFILE PAGE ======== -->
+<div id="careerMomentsProfileWrapper" class="page-content profile careerMomentsProfilePageView"><!-- .profile was borrowed to apply the styles from that CSS -->
+
+    <div class="page-topper">
+        <!-- User info and user menu  -->
+        <div class="row-fluid">
+            <div class="span6">
+
+                <span class="avatarwrap small48">
+                        <!-- if profile photo -->
+                           <img id="partProfAvatar" alt="" src="http://placehold.it/60x60">
+                        <!-- else no profile photo -->
+                            <!-- <div class="avatar-initials">JD</div> -->
+                </span>
+
+                <h3><span id="partProfFirstName">firstName</span> <span id="partProfLastName">Lastname</span></h3>
+            </div>
+            <div class="span6">
+                <a href='#' class="btn btn-primary fl regonizeFromPubProfile" data-participant-id="9876543210" data-node-id="1234">Recognize<!--<i class="icon-team-1"></i>--></a>
+                <a href='#' class="btn btn-success fl miniProfFollowLink unfollow" style="display: none" data-participant-id="9876543210">Unfollow<!--<i class="icon-user-check"></i>--></a>
+                <a href='#' class="btn btn-primary fl miniProfFollowLink follow" data-participant-id="9876543210">Follow<!--<i class="icon-user-add"></i>--></a>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span12" id="publicProfileTabs">
+                <ul class="nav nav-tabs">
+                    <li class="tabPersonalInfo active"><a href="#PersonalInfo" data-toggle="tab">Personal Info</a></li>
+                    <li class="tabBadges"><a href="#Badges" data-toggle="tab">Earned Badges</a></li>
+                    <li class="tabRecognition"><a href="#Recognition" data-toggle="tab">Recognition</a></li>
+                    <li class="tabPlayerStats"><a href="#PlayerStats" data-toggle="tab">Throwdown Player Stats</a></li>
+                </ul>
+            </div><!-- /#publicProfileTabs.span12 -->
+        </div><!-- /.row-fluid -->
+    </div><!-- /.page-topper -->
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="PersonalInfo">
+            <div class="row-fluid" id="profilePagePersonalInfoTab"><!-- ID borrowed from the regular profile page -->
+
+                <div class="span12">
+                    <h3>Personal Information</h3>
+                </div>
+
+                <div class="span3">
+
+                    <span class="avatarwrap">
+                        <!-- if profile photo -->
+                           <img alt="User Profile Picture" id="personalInformationAvatar" src="http://placehold.it/160x160">
+                        <!-- else no profile photo -->
+                            <!-- <div class="avatar-initials">JD</div> -->
+                    </span>
+
+                </div>
+
+                <div id="profileMainInfoWrapper" class="span5">
+                    <dl class="dl-horizontal">
+                        <dt>Name</dt>
+                        <dd>
+                            <span>Firstname Lastname</span>
+                        </dd>
+
+                        <dt>Org Name</dt>
+                        <dd>
+                            <p>Title - Org Name</p>
+                            <p>Title - Org Name2</p>
+                            <p>Title - Org Name3</p>
+                        </dd>
+
+                        <dt>Department</dt>
+                        <dd>
+                            <span>Department</span>
+                        </dd>
+
+                        <dt>Job Title</dt>
+                        <dd>
+                            <span>Job Title</span>
+                        </dd>
+
+                        <dt>Country</dt>
+                        <dd>
+                            <span>CountryName</span>
+                        </dd>
+
+                        <dt>Hire Date</dt>
+                        <dd>
+                            <span>MM/DD/YYYY</span>
+                        </dd>
+
+                        <dt>Birth Date</dt>
+                        <dd>
+                            <span>Month DD</span>
+                        </dd>
+                    </dl>
+                </div><!-- /#profileMainInfoWrapper.span5 -->
+
+                <div id="profileQuestionsWrapper" class="span12">
+                    <h3>About Me</h3>                    
+                    <div class="row-fluid" id="iAmWrapper">
+                    
+                    </div>
+                    <script id="iAmItemTpl" type="text/x-handlebars-template">
+                        <div class="span4 likeAndCommentsWrapper" id="iam_{{id}}">
+                            <label for="question1" class="statement"><strong>I am</strong></label>
+                            <p class="question">{{iamComment}}</p>
+
+                            {{#if isLiked}}
+                                <a href="#" class="iamCommentsLike liked mylike" data-iam-id="{{id}}" id="iamCommentsLike_{{id}}" data-like="Like" data-unlike="Unlike"><i class="icon-star"></i>Unlike</a>      
+                                <span id="iamLikeCounts_{{id}}"><span class="numLikers">({{numLikers}})</span></span>
+                                <div class="mask" style="display:none"></div>    
+                            {{else}}
+                                <a href="#" class="iamCommentsLike" data-like="Like" data-unlike="Unlike" data-iam-id="{{id}}" id="iamCommentsLike_{{id}}"><i class="icon-star"></i>Like</a>     
+                                    <span id="iamLikeCounts_{{id}}" ><span class="numLikers">({{numLikers}})</span></span>    
+                                    <div class="mask" style="display:none"></div>     
+                            {{/if}}
+                        </div>
+                    </script>
+                    <div class="contribCommentWrapper careerMomentsCommentsWrapper">
+                       <div class="mask" style="display:none"></div>                       
+                       <div class="indent">
+                          <div class="indent-row">
+                             <div class="commentWrapper">
+                                <div class="contribName">
+                                    <h3>Share something with firstname lastname </h3>
+                                </div>
+                                <div class="commentTools">
+                                   Remaining Characters: <span class="remChars">1,000</span>
+                                   <span class="spellchecker dropdown">
+                                      <button class="checkSpellingDdBtn btn btn-mini btn-icon btn-primary btn-inverse dropdown-toggle" title="check spelling" data-toggle="dropdown">
+                                      <i class="icon-check"></i>
+                                      </button>
+                                      <ul class="dropdown-menu">
+                                         <li><a class="check"><b>Check spelling</b></a></li>
+                                         <li><a href="de_DE">Deutsch [Deutschland]</a></li>
+                                         <li><a href="en_GB">English [British]</a></li>
+                                         <li><a href="en_US">English [U.S.]</a></li>
+                                         <li><a href="es_MX">Español [América Latina]</a></li>
+                                         <li><a href="fr_CA">Français [Canada]</a></li>
+                                      </ul>
+                                   </span>
+                                </div>
+                                <div class="commentFauxInput">
+                                   <textarea class="contribCommentInp" rows="4" maxlength="1000" placeholder="Add a Comment or Paste a Video Link."></textarea>
+                                   <div class="contribCommentBadWords"></div>
+                                   <div class="uploadWrapper">
+                                      <input type="file" name="purlUploadFiles" class="uploadInput ready">
+                                      <!-- <img class="uploadBtn" src="../../skins/default/img/video-upload-icon-white.png"/>
+                                         <span class="uploadBtn-mobile ready">
+                                             <img src="../../skins/default/img/upload-icon-mobile.png"/>
+                                             <span>Upload Photo or Video</span>
+                                         </span> -->
+                                      <button class="uploadBtn btn"><i class="icon-camera"></i> <i class="icon-video-camera"></i></button>
+                                      <div class="attachedMediaDisplayWrapper" style="display:none">
+                                         <div class="attachedMediaContent">
+                                            <!-- dyn -->
+                                         </div>
+                                      </div>
+                                      <span class="upSpin" style="display:none">&nbsp;</span>
+                                   </div>
+                                   <!-- /.uploadWrapper -->
+                                </div>
+                                <!-- /.commentFauxInput -->
+                             </div>
+                             <!-- /.commentWrapper -->
+                          </div>
+                          <!-- /.indent-row -->
+                          <div class="contribBottomControls">
+                             <button class="btn btn-primary btn-fullmobile submitContribCommentBtn" disabled="disabled">
+                             Submit
+                             </button>                             
+                          </div>
+                          <!-- /.contribBottomControls -->
+                       </div>
+                       <!-- /.indent -->
+                    </div>
+                    <div class="careerMomentsCommentsSection">
+                        <div class="lowerControls">
+                            <button class="translateTextBtn btn btn-link">Translate Comments</button>
+                        </div>
+
+                        <div class="commentsListWrapper">
+                            <!-- dyn -->
+                        </div>
+                    </div><!-- /.careerMomentsCommentsSection -->
+                    
+                    <script id="levelOneCommentItemTpl" type="text/x-handlebars-template">
+                    <!-- publicProfileSubComments {{id}} -->
+                    <div class="app-row comment-block clearfix publicProfileSubComments comment{{commentId}}" data-comment-id="{{commentId}}">
+
+                        <div class="app-col">
+                            <div class="avatarwrap commenterAvatar">
+                                <a class="profile-popover " data-participant-ids="[{{commenter.id}}]">
+                                    {{#if commenter.avatarUrl}}
+                                        <img alt="{{commenter.firstName}} {{commenter.lastName}}" src="{{commenter.avatarUrl}}" />
+                                    {{else}}
+                                        <span class="avatar-initials">{{trimString commenter.firstName 0 1}}{{trimString commenter.lastName 0 1}}</span>
+                                    {{/if}}
+                                </a>
+                            </div>
+
+                        </div>
+
+                        <div class="app-col comment {{#if isMine}}mine{{/if}}">
+
+                            <p>
+                                <a class="profile-popover" href="#" data-participant-ids="[{{commenter.id}}]">
+                                    {{commenter.firstName}} {{commenter.lastName}}
+                                </a>
+                                <div class="readMore" data-read-more-num-lines="2" data-msg-read-more="more">
+                                    {{comment}}
+                                </div>
+                                <div class="likeAndCommentsWrapper" data-comment-id="{{levelOneId}}">
+                                    <div class="mask" style="display:none"></div>                      
+                                    {{#if isLiked}}
+                                        <a href="#" class="commentsLike liked mylike" id="commentsLike_{{levelOneId}}" data-like="Like" data-unlike="Unlike"><i class="icon-star"></i>Unlike</a>      
+                                        <span id="likeCounts_{{levelOneId}}"><span class="numLikers">({{numLikers}})</span></span>
+                                        
+                                    {{else}}
+                                        <a href="#" class="commentsLike" data-like="Like" data-unlike="Unlike" id="commentsLike_{{levelOneId}}"><i class="icon-star"></i>Like</a>     
+                                            <span id="likeCounts_{{levelOneId}}" ><span class="numLikers">({{numLikers}})</span></span>         
+                                    {{/if}}    
+                                </div>                                
+
+                                {{#if isMine}}
+                                    
+                                    {{#if allowTranslate}}
+                                        <span class="translateCont">
+                                            <a href="#" class="translatePubRec">Translate</a>
+                                        </span>
+                                    {{/if}}
+
+                                {{else}}
+                                    {{#if allowTranslate}}
+                                        <span class="translateCont">
+                                            <a href="#" class="translatePubRec">Translate</a>
+                                        </span>
+                                    {{/if}}
+
+                                {{/if}}
+
+                            </p>
+                        </div>
+                    </div>
+                    <!-- /publicProfileSubComments {{id}} -->
+
+
+                    </script>
+                    
+                    <script id="commentItemTpl" type="text/x-handlebars-template">
+                        {{#if _isEmpty}}
+                        <div class="row-fluid commentsItemWrapper isEmptyMessage">
+                            <div class="span12">
+                                <div class="alert alert-info">No contributions yet. You could be first!</div>
+                            </div>
+                        </div>
+                        {{else}}
+                        <div class="row-fluid commentsItemWrapper comment_{{commentId}}" data-id="{{commentId}}">
+                            <div class="span12 commentItem">
+                                <div class="innerCommentWrapper">
+                                    <!-- need to update json to have first name and last name -->
+                                    <span class="avatarwrap avatarImg">
+                                        {{#if userInfo.0.profilePhoto}}
+                                            <img src="{{userInfo.0.profilePhoto}}"  />
+                                        {{else}}
+                                            <div class="avatar-initials">{{trimString userInfo.0.firstName 0 1}}{{trimString userInfo.0.lastName 0 1}}</div>
+                                        {{/if}}
+                                    </span>
+                                    <div class="indent">
+                                        <div class="userInfo" data-id="{{userInfo.0.contributorID}}">
+                                            {{userInfo.0.userName}}
+                                        </div>
+                                        {{#if commentText}}
+                                        <div class="text">
+                                            {{commentText}}
+                                        </div>
+                                        <!--div class="translateTextLink"><a href="clientState=XXX"  data-id="{{commentId}}">Translate</a></div-->
+                                        {{/if}}
+
+                                        <div class="likeAndCommentsWrapper" data-contributor-id="{{userInfo.0.contributorID}}" data-comment-id="{{commentId}}" id="likeAndCommentsWrapper_{{commentId}}">
+                                            <div class="mask" style="display:none"></div>                      
+                                            {{#if isLiked}}
+                                                <a href="#" class="commentsLike liked mylike" id="commentsLike_{{commentId}}" data-like="Like" data-unlike="Unlike"><i class="icon-star"></i>Unlike</a>      
+                                                <span id="likeCounts_{{commentId}}"><span class="numLikers">({{numLikers}})</span></span>
+                                                
+                                            {{else}}
+                                                <a href="#" class="commentsLike" data-like="Like" data-unlike="Unlike" id="commentsLike_{{commentId}}"><i class="icon-star"></i>Like</a>     
+                                                    <span id="likeCounts_{{commentId}}" ><span class="numLikers">({{numLikers}})</span></span>         
+                                            {{/if}}
+                                            <a href="#" class="userComment">
+                                               <i class="icon-message-2"></i>Comment
+                                            </a>
+                                            <div class="app-row comment-block">
+                                                <div class="app-col commentInputWrapper" style="display:none;">
+                                                    <!-- DEVELOPER NOTE: the form action attr below will be used as the URL to get JSON
+                                                        - make sure the class 'publicRecognitionCommentForm' stays on the form element
+                                                    -->
+                                                    <form class="form-inline publicProfileCommentForm" action="ajax/careerMomentsLevelOneSaveComment.json">
+
+                                                        <textarea name="comment" class="comment-input commentInputTxt" placeholder="Leave A Comment" maxlength="300"></textarea>
+
+                                                            <div class="levelOneComments" style="">
+                                                                    <!-- dynamic - populated by view -->
+                                                            </div><!-- /.pubRecComments -->
+
+                                                    </form>
+                                                </div><!-- /.commentInputWrapper -->
+                                            </div>
+                                        </div>
+
+                                        {{#or videoHtml media}}
+                                        <div class="media">
+                                            {{#if videoHtml}}
+                                                {{#each videoHtml}}
+                                                <div class="videoWrapper">
+                                                    <div class="responsiveVideoContainer">
+                                                        {{{this}}}
+                                                    </div>
+                                                </div>
+                                                {{/each}}
+                                            {{else}}
+                                                {{#if videoWebLink}}
+                                                    <a class="mediaLink" href="{{videoWebLink}}" target="_blank">{{videoWebLink}}</a>
+                                                    <i class="icon-share-1"></i>
+                                                {{/if}}
+                                            {{/if}}
+
+                                            {{#if media}}
+                                                {{#if media.0.video}}
+                                                <div class="videoWrapper">
+                                                    <div class="responsiveVideoContainer">
+                                                        <video id="careerMomentContribVideo{{commentId}}" class="video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls preload="auto" data-setup="{}">
+                                                            {{#each media.0.video}}
+                                                                <source src="{{src}}" type="video/{{fileType}}">
+                                                            {{/each}}
+                                                        </video>
+                                                    </div>
+                                                </div>
+                                                {{/if}}
+
+                                                {{#if media.0.photo.0.src}}
+                                                <img src="{{media.0.photo.0.src}}">
+                                                {{/if}}
+                                            {{/if}}
+                                        </div>
+                                        {{/or}}
+                                    </div><!-- /.indent -->
+                                </div><!-- /.innerCommentWrapper -->
+                            </div>
+                        </div>
+                        {{/if}}
+                    </script>
+                </div><!-- /#profileQuestionsWrapper.span12 -->
+
+            </div><!-- /.row-fluid -->
+        </div><!-- /#PersonalInfo.tab-pane -->
+
+        <div class="tab-pane pubProfileBadgePane" id="Badges">
+            <div class="row-fluid" id="profilePageBadgesTab"><!-- ID borrowed from the regular profile page -->
+                <div class="span12">
+
+                    <div class="badge-groups"></div>
+
+                </div><!-- /.span12 -->
+            </div><!-- /.row-fluid -->
+        </div><!-- /#Badges.pubProfileBadgePane.tab-pane -->
+
+        <div class="tab-pane pubRecTabs publicRecognition page" id="Recognition"><!-- .publicRecognition and .page were borrowed to apply the pubRec styles -->
+            <!-- publicRecognition doesn't get row-fluid or span12 on purpose -->
+            <!-- <div class="publicRecognitionItems"></div> -->
+
+
+
+
+            <!-- Recognitions -->
+            <div class="page-liner pubRecItemsCont" data-msg-empty="No recognitions found">
+
+                <div class="publicRecognitionItems">
+                    <!-- dynamic - pubRecItems -->
+                </div>
+
+                <!-- shown when there are more recognitions -->
+                <div class="app-row">
+                    <p>
+                        <a href="#" class="viewAllRecognitions"  style="display: none">
+                            View More
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+
+        </div><!-- /#Recognition.pubRecTabs.tab-pane -->
+
+		<div class="tab-pane pubProfilePlayerStats" id="PlayerStats">
+            <div class="row-fluid" id="profilePagePlayerStatsTab">
+                <div class="span12">
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <form class="form-inline form-labels-inline">
+
+                                <fieldset>
+
+                                    <div class="control-group" id="controlMatchSelect">
+
+                                        <div class="controls">
+                                            <select id="promotionSelect" data-no-rankings="There are no promotions for this Match Filter.">
+                                                <option>Promotion 1</option>
+                                                <option>Promotion 2</option>
+                                            </select>
+                                        </div>
+
+                                    </div><!-- /.control-group -->
+
+                                </fieldset>
+
+                            </form>
+                        </div>
+
+                        <div class="span6">
+                            <ul class="export-tools fr">
+                                <li><a href="#" class="pageView_print btn btn-small">Print <i class="icon-printer"></i></a></li>
+                            </ul>
+                        </div>
+                    </div><!-- /.row-fluid -->
+
+                    <div id="tabPlayerStatsCont">
+                        <div class="row-fluid">
+                            <div class="span5">
+								<div class="fl avatarContainer">
+									<div class="fl avatarContainerBorder">
+										<span class="avatarwrap">
+                                                <!-- if profile photo -->
+                                                  <!-- <img id="partProfAvatar" alt="" src="http://placehold.it/60x60">-->
+                                                <!-- else no profile photo -->
+                                                   <div class="avatar-initials">JD</div>
+                                        </span>
+									</div>
+								</div>
+								<div class="td-player-info">
+									<p class="firstName">Joe</p>
+									<p class="lastName">Smith</p>
+									<p class="tdRank">Rank 23</p>
+									<ul class="td-wl-count">
+										<li>W:<span class="tdWins">5</span></li>
+										<li>L:<span class="tdLoses">0</span></li>
+										<li>T:<span class="tdTies">0</span></li>
+									</ul>
+									<span>as of 05/05/2012</span>
+								</div>
+                            </div>
+
+                            <div class="span7">
+                                <div class="td-badges">
+                                    <ul class="td-match-badge-list">
+
+                                        <li>
+											<img src="img/throwdown/badges/gold_glove_sm.png" alt="Gold Badge!">
+											<span class="td-gold-badge">Gold Badge</span>
+											<span class="td-badge-earned-date">Earned 01/08/2013</span>
+										</li>
+
+                                        <li>
+											<img src="img/throwdown/badges/silver_glove_sm.png" alt="Silver Badge!">
+											<span class="td-silver-badge">Silver Badge</span>
+											<span class="td-badge-earned-date">Earned 03/28/2013</span>
+										</li>
+
+                                        <li>
+											<img src="img/throwdown/badges/bronze_glove_sm.png" alt="Bronze Badge!">
+											<span class="td-bronze-badge">Bronze Badge</span>
+											<span class="td-badge-earned-date">Earned 11/15/2013</span>
+										</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- /.row-fluid -->
+
+                        <div class="row-fluid td-player-schedule">
+                            <div class="span12">
+                                <h4>Schedule</h4>
+
+                                <table class="td-matches-schedule table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td>Round</td>
+                                            <td>Date</td>
+                                            <td>Player</td>
+                                            <td class="td-record">Record</td>
+                                            <td colspan="3">Score</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="td-round-number">1</td>
+                                        <td class="td-round-dates">1/20/2013 - <br/>2/10/2013</td>
+                                        <td><img src="http://www.placebear.com/30/30" alt=""/><p class="currentParticipantProfile">Joe Smith</p> <br/> <img src="http://www.fillmurray.com/g/30/30" alt=""/> <p><a class="profile-popover" href="" data-participant-ids="1223">FirstName LastName</a></p></td>
+                                        <td class="td-record"><p>W:<span>4</span> L:<span>1</span> T:<span>0</span></p><br/> <p>W:<span>5</span> L:<span>0</span> T:<span>0</span></p></td>
+                                        <td colspan="2"><p class="td-round-score">12,000 <span class="td-win-tie">W</span></p><br/><p class="td-round-score">10,000 <span class="td-win-tie"></span></p></td>
+                                        <td><a href="#" class="btn throwdown-match-detail-btn">Match Details</a> <div class="app-col chevron"><a href="#"><i class="icon-arrow-1-right"></i></a></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-round-number">2</td>
+                                        <td class="td-round-dates">2/20/2013 - <br/>3/10/2013</td>
+                                        <td><img src="http://www.placebear.com/30/30" alt=""/><p class="currentParticipantProfile">Joe Smith</p> <br/> <img src="http://www.fillmurray.com/g/30/30" alt=""/> <p><a class="profile-popover" href="" data-participant-ids="1223">FirstName LastName</a></p></td>
+                                        <td class="td-record"><p>W:<span>4</span> L:<span>1</span> T:<span>0</span></p><br/> <p>W:<span>5</span> L:<span>0</span> T:<span>0</span></p></td>
+                                        <td colspan="2"><p class="td-round-score">600 <span class="td-win-tie"></span></p><br/><p class="td-round-score">2000 <span class="td-win-tie">W</span></p></td>
+                                        <td><a href="#" class="btn throwdown-match-detail-btn">Match Details</a> <div class="app-col chevron"><a href="#"><i class="icon-arrow-1-right"></i></a></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-round-number">3</td>
+                                        <td class="td-round-dates">3/20/2013 - <br/>4/10/2013</td>
+                                        <td><img src="http://www.placebear.com/30/30" alt=""/><p class="currentParticipantProfile">Joe Smith</p> <br/> <img src="http://www.fillmurray.com/g/30/30" alt=""/> <p><a class="profile-popover" href="" data-participant-ids="1223">FirstName LastName</a></p></td>
+                                        <td class="td-record"><p>W:<span>4</span> L:<span>1</span> T:<span>0</span></p><br/> <p>W:<span>5</span> L:<span>0</span> T:<span>0</span></p></td>
+                                        <td colspan="2"><p class="td-round-score">6 <span class="td-win-tie">T</span></p><br/><p class="td-round-score">6 <span class="td-win-tie">T</span></p></td>
+                                        <td><a href="#" class="btn throwdown-match-detail-btn">Match Details</a> <div class="app-col chevron"><a href="#"><i class="icon-arrow-1-right"></i></a></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-round-number">4</td>
+                                        <td class="td-round-dates">4/20/2013 - <br/>5/10/2013</td>
+                                        <td><img src="http://www.placebear.com/30/30" alt=""/><p class="currentParticipantProfile">Joe Smith</p> <br/> <img src="http://www.fillmurray.com/g/30/30" alt=""/> <p><a class="profile-popover" href="" data-participant-ids="1223">FirstName LastName</a></p></td>
+                                        <td class="td-record"><p>W:<span>4</span> L:<span>1</span> T:<span>0</span></p><br/> <p>W:<span>5</span> L:<span>0</span> T:<span>0</span></p></td>
+                                        <td colspan="2"><p class="td-round-score">&nbsp; <span class="td-win-tie"></span></p><br/><p class="td-round-score">&nbsp; <span class="td-win-tie"></span></p></td>
+                                        <td><a href="#" class="btn throwdown-match-detail-btn">Match Details</a> <div class="app-col chevron"><a href="#"><i class="icon-arrow-1-right"></i></a></div></td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div><!-- /.row-fluid -->
+                    </div><!-- ./tabPlayerStatsCont -->
+
+                </div><!-- /.span12 -->
+            </div><!-- /.row-fluid -->
+
+        </div><!-- /#PlayerStats.pubProfilePlayerStats.tab-pane -->
+
+    </div><!-- /.tab-content -->
+
+    <div class="modal hide fade module recognition" id="ezRecognizeMiniProfileModal" data-backdrop="static" data-keyboard="false">
+    </div>
+
+</div><!-- /#careerMomentsProfileWrapper.careerMomentsProfileWrapper.page-content -->
+
+
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+
+	$(document).ready(function() {
+		//attach the view to an existing DOM element
+		var $profileWrapper = $('#careerMomentsProfileWrapper');
+        var json;
+
+        // bootstrap json
+        json = {            
+            contributor: {
+                id: 1234,
+                firstName: 'Cornelius',
+                lastName: 'Contributor',
+                avatarUrl: null,
+                email: 'cornelius.contributor@eternalove.com'
+            },
+            recipient: {
+                id: 4321
+            },
+            iaminfo: [
+                {
+                    numLikers : 1,
+                    iamComment : "I am so cool",
+                    id : 10
+                },
+                {
+                    numLikers : 2,
+                    iamComment : "I like Pizza",
+                    id : 11
+                },
+                {
+                    numLikers : 0,
+                    iamComment : "I like Rock Music.. ",
+                    id : 12
+                }
+            ]
+        };
+		window.cmppp = new CareerMomentsPublicProfilePageView({
+			el: $profileWrapper,
+			pageNav: {
+				back: {
+					text: 'Back',
+					url: 'layout.html'
+				},
+				home: {
+					text: 'Home',
+					url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+				}
+			},
+      json: json,
+			pageTitle: 'Career Moments Public Profile'
+		});
+	});
+
+</script>

@@ -1,0 +1,125 @@
+{{! NOTE: isCreator is set in JavaScript}}
+
+{{#if contests}}
+<div class="row-fluid">
+    <div class="span12">
+        <table id="" class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="sortHeader unsorted" data-sort="name">
+                        <a href="#">
+                            Contest Name
+                            <i class="icon-arrow-1-up"></i>
+                            <i class="icon-arrow-1-down"></i>
+                        </a>
+                    </th>
+                    <th class="sortHeader unsorted" data-sort="startDate">
+                        <a href="#">
+                            Start Date
+                            <i class="icon-arrow-1-up"></i>
+                            <i class="icon-arrow-1-down"></i>
+                        </a>
+                    </th>
+                    <th class="sortHeader unsorted" data-sort="endDate">
+                        <a href="#">
+                            End Date
+                            <i class="icon-arrow-1-up"></i>
+                            <i class="icon-arrow-1-down"></i>
+                        </a>
+                    </th>
+
+                    {{#if isAdmin}}
+                    <th class="sortHeader unsorted" data-sort="updatedBy">
+                        Updated By
+                        <i class="icon-arrow-1-up"></i>
+                        <i class="icon-arrow-1-down"></i>
+                    </th>
+
+                    <th class="sortHeader unsorted" data-sort="updatedOn">
+                        Last Update
+                        <i class="icon-arrow-1-up"></i>
+                        <i class="icon-arrow-1-down"></i>
+                    </th>
+                    {{/if}}
+
+                    {{#if isCreator}}
+                    <th>
+                        Copy
+                    </th>
+                    {{/if}}
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each contests}}
+                <tr>
+                    <td>
+                        {{#eq contestType "awardThemNow"}}
+                        <a href="{{extraJSON.contestSummaryUrl}}&amp;id={{id}}" title="">{{name}}</a>
+                        {{else}}
+                        <a href="{{detailPageUrl}}" title="">{{name}}</a>
+                        {{/eq}}
+                    </td>
+                    <td>
+                        {{startDate}}
+                    </td>
+                    <td>
+                        {{endDate}}
+                    </td>
+
+                    {{#if ../isAdmin}}
+                     <td>
+                        {{updatedBy}}
+                    </td>
+
+                    <td>
+                        {{updatedOn}}
+                    </td>
+                    {{/if}}
+
+                    {{#if ../isCreator}}
+
+                    <td class="iconCol">
+                        {{#ueq contestType "awardThemNow"}}
+                        <button type="button" class="btn btn-link btn-small promptAction"><i class="icon-file-copy"></i></button>
+                        <div class="prompt promptCopy" data-prompt="copy">
+                            <button type="button" class="promptClose close">
+                                <i class="icon-close"></i>
+                            </button>
+                            <form class="copyContest" action="#URL_TO_CREATE_CONTEST" method="post">
+                                <fieldset>
+                                    <legend>Copy Contest</legend>
+                                    <label for="contestName">New Contest Name</label>
+                                    <input type="text" class="contestName" name="contest_name" value="" placeholder="" data-validate-fail-msgs='{"nonempty":"You must enter a contest name."}' maxlength="50">
+                                    <input type="hidden" class="contestId" name="contest_id" value="{{id}}">
+                                    <div class="contestStatus contestNameStatus">
+                                        <span class="pending"></span>
+                                        <i class="valid icon-check-circle"></i>
+                                        <i class="invalid icon-cancel-circle"></i>
+                                        <p class="msg"></p>
+                                    </div>
+                                    <div class="submitWrap clearfix">
+                                        <button type="submit" class="submitCopy">Next</button>
+                                        <div class="contestStatus contestCopyStatus">
+                                            <span class="pending"></span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                        {{/ueq}}
+                    </td>
+                    {{/if}}
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{else}}
+<div class="row-fluid ssiEmptyTableMsg">
+    <div class="span12">
+        <h3>You have no archived contests</h3>
+    </div>
+</div>
+{{/if}}

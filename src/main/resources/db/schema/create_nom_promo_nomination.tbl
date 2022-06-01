@@ -1,0 +1,49 @@
+CREATE TABLE promo_nomination (
+    promotion_id                   NUMBER(18) NOT NULL,
+    award_active                   NUMBER(1,0) NOT NULL,
+    behavior_active                NUMBER(1,0) NOT NULL,
+    card_active                    NUMBER(1,0) NOT NULL,
+    certificate_active             NUMBER(1,0) NOT NULL,
+    one_cert_per_promotion         NUMBER(1,0) NOT NULL,
+    card_client_email              VARCHAR2(75),
+    card_client_setup_done         NUMBER(1,0) NOT NULL,
+    include_certificate            NUMBER(1,0) NOT NULL,
+    award_group_type               VARCHAR2(40) NOT NULL,
+    max_group_members              NUMBER(10),
+    evaluation_type                VARCHAR2(40) NOT NULL,
+    self_nomination                NUMBER(1,0) NOT NULL,
+    ALLOW_PUBLIC_RECOGNITION	   NUMBER(1,0) NOT NULL,
+    ALLOW_PROMOTION_PRIVATE        NUMBER(1,0) DEFAULT 0 NOT NULL,
+    publication_date_active		   NUMBER(1,0) DEFAULT 0 NOT NULL,    
+    publication_date			   DATE,
+    ALLOW_YOUR_OWN_CARD			   NUMBER(1,0) DEFAULT 0 NOT NULL,
+  	DRAW_YOUR_OWN_CARD			   NUMBER(1,0) DEFAULT 0 NOT NULL,
+  	PAYOUT_LEVEL_TYPE			   VARCHAR2(40 )DEFAULT NULL, 
+	AWARD_GROUP_SIZE 			   VARCHAR2(20), 
+	REQUEST_MORE_BUDGET            NUMBER(1,0) DEFAULT 0 NOT NULL, 
+	BUDGET_APPROVER                NUMBER(18,0),
+	DEFAULT_APPROVER               NUMBER(18,0),
+	TIME_PERIOD_ACTIVE 			   NUMBER DEFAULT 0,
+	PAX_DISPLAY_ORDER 			   VARCHAR2(40),
+	ALLOW_PUBLIC_RECOG_POINTS      NUMBER(1,0) DEFAULT 0 NOT NULL,
+	PUBLIC_REC_AWARD_AMOUNT_MIN    NUMBER(18,0),
+	PUBLIC_REC_AWARD_AMOUNT_MAX    NUMBER(18,0),
+	PUBLIC_REC_BUDGET_MASTER_ID    NUMBER(18),
+	PUBLIC_REC_AUDIENCE_TYPE       VARCHAR2(40),
+	PUBLIC_REC_AWARD_TYPE_FIXED	   NUMBER(1,0) NOT NULL,
+	PUBLIC_REC_AWARD_AMOUNT_FIXED  NUMBER(18,0),
+	IS_WHY					       NUMBER(1,0) DEFAULT 1 NOT NULL,
+	RECOMMENDED_AWARD			   NUMBER(1,0) DEFAULT 0 NOT NULL,
+	VIEW_PAST_WINNERS			   NUMBER(1,0) DEFAULT 0 NOT NULL,
+	LAST_PNT_BUD_REQ_DATE		   DATE,
+	LAST_CASH_BUD_REQ_DATE		   DATE
+  )
+/
+ALTER TABLE promo_nomination
+ADD CONSTRAINT promo_nomination_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promo_nomination
+ADD CONSTRAINT promo_nomination_fk FOREIGN KEY (promotion_id)
+REFERENCES promotion (promotion_id)
+/

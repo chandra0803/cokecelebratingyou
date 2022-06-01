@@ -1,0 +1,41 @@
+// Core application variables and measurements
+// -------------------------
+@import "base/colors";
+@import "base/variables";
+@import "base/mixins";
+@import "compass/css3";
+
+// make use of SCSS files in core* without actually outputting those files here
+// -------------------------
+$base_variablesOnly: true;
+@import 'base/pages';
+@import 'base/global';
+@import 'base/globalSidebar';
+
+// actual imports
+// -------------------------
+// home app styles
+//@import "base/homeApp";
+@import "base/launchApp";
+@import "base/allModules";
+
+// apps
+@import "apps/bannerModule";
+@import "apps/budgetTracker";
+@import "apps/gamification";
+@import "apps/hero";
+@import "apps/instantPoll";
+@import "apps/resourceCenter";
+@import "apps/managerToolkit";
+@import "apps/news";
+@import "apps/onTheSpotCard";
+@import "apps/plateauAwards";
+@import "apps/profile";
+@import "apps/publicProfile";
+@import "apps/programSelect";
+@import "apps/recognitionAdvisor";
+@import "base/rules";
+@import "apps/survey";
+@import "apps/tip";
+@import "apps/workHappier";
+@import "apps/xpromo";

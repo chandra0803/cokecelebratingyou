@@ -1,0 +1,27 @@
+CREATE SEQUENCE promo_card_pk_sq START WITH 250 INCREMENT BY 1
+/
+
+CREATE TABLE PROMO_CARD (
+PROMO_CARD_ID number(18) NOT NULL,
+PROMOTION_ID NUMBER(18) NOT NULL, 
+CARD_TYPE VARCHAR2(80) NOT NULL, 
+CARD_ID NUMBER(18), 
+CATEGORY_ID NUMBER(18),
+ORDER_NUMBER NUMBER(18),
+created_by number(18) NOT NULL, 
+DATE_CREATED DATE NOT NULL,
+version NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE promo_card
+ADD CONSTRAINT promo_card_pk PRIMARY KEY (promo_card_id)
+USING INDEX
+/
+ALTER TABLE promo_card ADD CONSTRAINT promo_card_promotion_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id) 
+/
+ALTER TABLE promo_card ADD CONSTRAINT promo_card_ecard_fk
+  FOREIGN KEY (card_id) REFERENCES ecard (card_id) 
+/
+ALTER TABLE promo_card ADD CONSTRAINT promo_card_category_fk
+  FOREIGN KEY (category_id) REFERENCES odd_cast_category (category_id) 
+/

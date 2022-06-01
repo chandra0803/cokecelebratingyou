@@ -1,0 +1,71 @@
+CREATE TABLE product_category
+    (product_category_id            NUMBER(18) NOT NULL,
+     product_category_name          VARCHAR2(50),
+     is_active                      NUMBER(1),
+     description                    VARCHAR2(250),
+     parent_category_id             NUMBER(18),
+     created_by number(18) NOT NULL,
+     date_created                   DATE NOT NULL,
+     modified_by number(18),
+     date_modified                  DATE,
+     version                        NUMBER(18) NOT NULL)
+/
+COMMENT ON COLUMN PRODUCT_CATEGORY.PARENT_CATEGORY_ID IS 'Links back to PRODUCT_CATEGORY_ID'
+/
+ALTER TABLE product_category
+ADD CONSTRAINT prod_category_pk PRIMARY KEY (product_category_id)
+USING INDEX
+/
+ALTER TABLE product_category
+ADD CONSTRAINT product_category_master_fk FOREIGN KEY (parent_category_id)
+REFERENCES product_category (product_category_id)
+/
+CREATE INDEX PRODUCT_CAT_PARENT_CAT_FK_idx ON PRODUCT_CATEGORY
+  (PARENT_CATEGORY_ID)
+/
+ALTER TABLE product_category DROP COLUMN is_active
+/
+CREATE TABLE product
+   (product_id                     NUMBER(18) NOT NULL,
+    product_name                   VARCHAR2(70),
+    description                    VARCHAR2(250),
+    category_id                    NUMBER(18) NOT NULL,
+    sku_code                       VARCHAR2(70),
+    created_by number(18) NOT NULL,
+    date_created                   DATE NOT NULL,
+    modified_by number(18),
+    date_modified                  DATE,
+    version                        NUMBER(18) NOT NULL)
+/
+ALTER TABLE product
+ADD CONSTRAINT product_pk PRIMARY KEY (product_id)
+USING INDEX
+/
+ALTER TABLE product
+ADD CONSTRAINT product_productname_uk UNIQUE (product_name)
+USING INDEX
+/
+COMMENT ON TABLE product IS 'The product table stores all products for promotions. Products are commodities or services offered by the client to participants, and they are used as a way to further define the type of transaction.  The participants performance is measured through the sale or usage of these products.  Products may be grouped, but a product may only be assigned to one product group.'
+/
+COMMENT ON COLUMN product.product_id IS 'System-generated key that identifies a specific product.'
+/
+COMMENT ON COLUMN PRODUCT.CATEGORY_ID IS 'FK to the PRODUCT_CATEGORY table'
+/
+COMMENT ON COLUMN PRODUCT.SKU_CODE IS 'product SKU/code/Item number'
+/
+COMMENT ON COLUMN product.date_modified IS '- Retrofitted'
+/
+COMMENT ON COLUMN product.modified_by IS '- Retrofitted'
+/
+ALTER TABLE product
+ADD CONSTRAINT product_category_fk FOREIGN KEY (category_id)
+REFERENCES product_category (product_category_id)
+/
+create sequence product_category_pk_sq start with 1540
+/
+create sequence product_pk_sq start with 1700
+/
+CREATE INDEX PRODUCT_CATEGORY_FK_idx ON PRODUCT
+  (CATEGORY_ID)
+/
+

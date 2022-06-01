@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <subclass name="com.biperf.core.domain.activity.StackStandingActivity" extends="com.biperf.core.domain.activity.Activity" discriminator-value="stackstanding">
+  	<property name="awardQuantity" column="AWARD_QUANTITY" type="java.lang.Long" />	
+    <many-to-one name="stackStandingParticipant" column="STACKSTANDING_PAX_ID" not-null="true" lazy="proxy" />
+  </subclass>
+  
+    <sql-query name="com.biperf.core.domain.activity.activityByStackStandingPaxId">
+     <return-scalar column="result" type="integer" />
+    <![CDATA[
+    	select count(*) as result 
+         from ( select ac.*
+		from  activity ac
+		where ac.STACKSTANDING_PAX_ID = :stackStandingPaxId )
+	]]>
+   </sql-query>
+
+</hibernate-mapping>

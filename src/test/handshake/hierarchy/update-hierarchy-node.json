@@ -1,0 +1,195 @@
+{
+  "description": "Update a Hierarchy Node",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "nodeName":"tester-${faker:random.number}"
+  },
+  "steps": [
+    {
+      "id": "createHierarchy",
+      "description": "Create a new Hierachy",
+      "call": {
+        "path": "./create-hierarchy.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createHierarchy.export.newHierarchyId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createParentHierarchyNode",
+      "description": "POST /hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"name":"${ref:params.nodeName}",
+  			"hierarchyNodeAttributes": [
+    			{
+      			"name": "division",
+      			"value": "tester"
+    			}
+  			]
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createParentHierarchyNode.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createParentHierarchyNode.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createParentHierarchyNode.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.nodeName}"
+        },
+        {
+          "a": "${ref:createParentHierarchyNode.res.body.id}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createChildHierarchyNode",
+      "description": "POST /hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"name":"${ref:params.nodeName}-child",
+  			"parentId":"${ref:createParentHierarchyNode.res.body.id}",
+  			"hierarchyNodeAttributes": [
+    			{
+      			"name": "division",
+      			"value": "tester"
+    			}
+  			]
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createChildHierarchyNode.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createChildHierarchyNode.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createChildHierarchyNode.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.nodeName}-child"
+        }
+      ]
+    },
+    {
+      "id": "createSecondChildHierarchyNodeWithAttributes",
+      "description": "POST /hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"name":"${ref:params.nodeName}-child-child",
+  			"parentId":"${ref:createChildHierarchyNode.res.body.id}",
+  			"hierarchyNodeAttributes": [
+    			{
+      			"name": "division",
+      			"value": "tester"
+    			}
+  			]
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createSecondChildHierarchyNodeWithAttributes.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createSecondChildHierarchyNodeWithAttributes.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createSecondChildHierarchyNodeWithAttributes.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.nodeName}-child-child"
+        }
+      ]
+    },
+    {
+      "id": "updateHierarchyNodeAttributes",
+      "description": "PUT /hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes/${ref:createSecondChildHierarchyNodeWithAttributes.res.body.id}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes/${ref:createSecondChildHierarchyNodeWithAttributes.res.body.id}",
+        "options": {
+          "method": "put",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "hierarchyNodeAttributes": [
+            {
+               "name":"location",
+               "value": "someplace"
+            },
+            {
+               "name":"division",
+               "value": "updated"
+            }
+           ],
+           "name": "Updated Name with new parent",
+           "parentId": "${ref:createParentHierarchyNode.res.body.id}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:updateHierarchyNodeAttributes.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:updateHierarchyNodeAttributes.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:updateHierarchyNodeAttributes.res.body.parentId}",
+          "compare": "to.equal",
+          "b": "${ref:createParentHierarchyNode.res.body.id}"
+        },
+        {
+          "a": "${ref:updateHierarchyNodeAttributes.res.body.name}",
+          "compare": "to.equal",
+          "b": "Updated Name with new parent"
+        }
+      ]
+    }
+  ]
+}

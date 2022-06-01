@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+	<class name="com.biperf.core.domain.client.TccNomLevelPayout" table="ADIH_LEVEL_PAYOUT">
+		<id name="id" type="java.lang.Long" column="LEVEL_PAYOUT_ID">
+      		<generator class="seqhilo">
+        		<param name="max_lo">0</param> <param name="sequence">ADIH_LEVEL_PAYOUT_ID_SQ</param>
+      		</generator>
+    	</id>
+    
+    	<!-- Using version number optimistic locking -->
+    	<version name="version" column="VERSION" type="java.lang.Long" />
+
+    	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      		<column name="DATE_CREATED" />
+      		<column name="CREATED_BY" />
+    	</property>
+
+    	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      		<column name="DATE_MODIFIED" />
+      		<column name="MODIFIED_BY" />
+    	</property>
+    
+    	<!-- This domain class is not being used, Just left it for backup -->
+        <many-to-one name="promotion" class="com.biperf.core.domain.promotion.Promotion" column="PROMOTION_ID"/>
+    	<property name="levelDescription" type="java.lang.String" column="LEVEL_DESCRIPTION" />
+    	<property name="totalPoints" type="java.lang.Long" column="TOTAL_POINTS" />
+    	
+	</class>
+  <sql-query name="com.biperf.core.domain.client.getLevelTotalPoints">
+    <return alias="nomlevelpayout" class="com.biperf.core.domain.client.TccNomLevelPayout"/>
+    <![CDATA[
+      select {nomlevelpayout.*}  from ADIH_LEVEL_PAYOUT nomlevelpayout where PROMOTION_ID=:promotionId
+    ]]>
+  </sql-query>
+    
+</hibernate-mapping>

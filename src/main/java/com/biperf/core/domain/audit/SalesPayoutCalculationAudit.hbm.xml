@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <subclass name="com.biperf.core.domain.audit.SalesPayoutCalculationAudit"
+            extends="com.biperf.core.domain.audit.PayoutCalculationAudit"
+            discriminator-value="sales">
+    <many-to-one name="claim" column="CLAIM_ID" class="com.biperf.core.domain.claim.Claim" lazy="false"/>
+    <many-to-one name="promotionPayoutGroup" column="PROMO_PAYOUT_GROUP_ID" class="com.biperf.core.domain.promotion.PromotionPayoutGroup" lazy="false"/>
+  </subclass>
+
+  <query name="com.biperf.core.domain.audit.AllSalesPayoutCalculationAuditRecords">
+  <![CDATA[
+    from com.biperf.core.domain.audit.SalesPayoutCalculationAudit
+  ]]>
+  </query>
+
+</hibernate-mapping>

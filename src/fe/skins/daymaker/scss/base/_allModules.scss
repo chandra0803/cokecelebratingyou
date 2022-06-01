@@ -1,0 +1,32 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $launchModule_zebraOddBkg: ;
+
+// $allModules_spinnerColor: ;
+// $allModules_spinnerBkgColor: ;
+// $allModules_spinnerBkgBorderRadius: ;
+
+// $allModules_visitAppBtnColor: ;
+// $allModules_visitAppBtnBorderColor: ;
+// $allModules_visitAppBtnColorInvert: ;
+// $allModules_visitAppBtnBorderColorInvert: ;
+
+// $allModules_cycleDotWidth: ;
+// $allModules_cycleDotBkg: ;
+// $allModules_cycleDotBorder: ;
+// $allModules_cycleDotBkgHover: ;
+// $allModules_cycleDotBorderHover: ;
+// $allModules_cycleDotBkgActive: ;
+// $allModules_cycleDotBorderActive: ;
+// $allModules_cycleDotBorderRadius: ;
+
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/allModules";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

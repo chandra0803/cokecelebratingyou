@@ -1,0 +1,125 @@
+// Partial-specific variables
+// =========================
+
+
+// Partial-specific code
+// ==================================================
+
+.spellcheck-suggestbox {
+	position: absolute;
+	display: none;
+	z-index: 9999;
+	z-index: 20001; // pull this above modals (example: EZ Rec spellchecker in a modal) // see core/base/_modals.scss
+	overflow: none;
+	// padding: 0px 9px 9px 0px;
+	// background: transparent url(../img/spellchecker_shadow.png) no-repeat scroll right bottom;
+	// font: normal 13px arial;
+}
+.spellcheck-suggestbox em {
+	// border-top: 1px solid #ccc;
+	// border-left: 1px solid #bbb;
+	// border-right: 1px solid #bbb;
+	// padding: 3px 6px 3px 6px;
+	display: block;
+	margin: 0px;
+	text-decoration: none;
+	// color: #333;
+	font-style: italic;
+}
+.spellcheck-suggestbox a, .spellcheck-suggestbox a:visited {
+	// border-left: 1px solid #bbb;
+	// border-right: 1px solid #bbb;
+	// padding: 3px 6px 3px 6px;
+	display: block;
+	margin: 0px;
+	text-decoration: none;
+	color: #333;
+	outline: none;
+}
+.spellcheck-suggestbox a.first, .spellcheck-suggestbox a.first:visited {
+	// border-top: 1px solid #ccc;
+}
+.spellcheck-suggestbox a:hover {
+	// color: #000;
+	// background: #ddd;
+}
+.spellcheck-suggestbox-words {
+	// background: #fff;
+}
+.spellcheck-suggestbox-foot {
+	// border-top: 1px solid #ddd;
+	// background: #fff;
+	.ignoreAll {
+		display: none;
+	}
+}
+.spellcheck-suggestbox-foot a, .spellcheck-suggestbox-foot a:visited {
+	outline: none;
+}
+.pellcheck-focus-helper {
+	position: absolute;
+	top: -2000px;
+	z-index: 0;
+}
+.spellcheck-word-highlight {
+	// color: #d70303;
+	text-decoration: none;
+	// background: url(../img/spellchecker_bg.gif) repeat-x 100% 100%;
+	cursor: pointer;
+}
+.spellcheck-badwords {
+	// margin-bottom: 2em;
+	// margin-top: -0.5em;
+	// font-size: 12px;
+	// border: 1px solid #bbb;
+	// padding: 4px 6px;
+}
+.spellcheck-sep {
+	padding-right: 0.5em;
+}
+.spellcheck-sep-last {
+	display: none;
+}
+
+
+// dropdowns
+// --------------------
+.spellchecker {
+	&.dropdown {
+		display: inline-block;
+	}
+	.dropdown-menu {
+	    left: auto;
+	    right: -10px;
+	    text-align: left;
+	    font-size: $baseFontSize;
+
+	    li:first-child:hover {
+	        background: transparent;
+	    }
+	    & .check:hover {
+	        background: transparent;
+	        color: $brand_color_black;
+	        cursor: default;
+	    }
+
+	    &::before {
+	        left: 100%;
+
+	        top: -8px;
+	        margin-left: -28px;
+	        border-right-width: 8px;
+	        border-bottom-width: 8px;
+	        border-left-width: 8px;
+	    }
+	    &::after {
+	        left: 100%;
+
+	        top: -7px;
+	        margin-left: -27px;
+	        border-right-width: 7px;
+	        border-bottom-width: 7px;
+	        border-left-width: 7px;
+	    }
+	}
+}

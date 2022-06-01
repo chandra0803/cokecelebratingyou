@@ -1,0 +1,58 @@
+CREATE TABLE SUPPLIER
+    (supplier_id            NUMBER(18,0) NOT NULL,
+     supplier_name          VARCHAR2(30) NOT NULL,
+     supplier_type          VARCHAR2(30) NOT NULL,
+     description            VARCHAR2(250),
+     status                 VARCHAR2(30) NOT NULL,
+     allow_partner_sso	      NUMBER(1,0) DEFAULT 0 NOT NULL,
+     catalog_url            VARCHAR2(250),
+     catalog_target_id      VARCHAR2(30),
+     statement_url          VARCHAR2(250),
+     statement_target_id    VARCHAR2(30),     
+     cm_asset_code		    VARCHAR2(255),
+     image_cm_key			VARCHAR2(255),
+   	 title_cm_key 			VARCHAR2(500),
+   	 desc_cm_key			VARCHAR2(500),
+   	 button_cm_key          VARCHAR2(500),    
+     created_by number(18) NOT NULL,
+     date_created           DATE NOT NULL,
+     modified_by number(18),
+     date_modified          DATE,
+     version                NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE supplier
+ADD CONSTRAINT supplier_id_pk PRIMARY KEY (supplier_id)
+USING INDEX
+/
+ALTER TABLE supplier
+ADD CONSTRAINT supplier_udk UNIQUE (supplier_name)
+using index
+/
+COMMENT ON TABLE supplier IS 'The SUPPLIER table lists avaliable suppliers.'
+/
+COMMENT ON COLUMN supplier.supplier_id IS 'System-generated key that identifies a specific supplier.'
+/
+COMMENT ON COLUMN supplier.supplier_name IS 'What the supplier will be called on the screens.'
+/
+COMMENT ON COLUMN supplier.supplier_type IS 'The type of supplier being used (Internal/External).'
+/
+COMMENT ON COLUMN supplier.status IS 'Status of the supplier (Active/Inactive).'
+/
+COMMENT ON COLUMN supplier.catalog_url IS 'Whether the budget amount can be overridden.'
+/
+COMMENT ON COLUMN supplier.catalog_target_id IS 'Whether the budget amount can be overridden.'
+/
+COMMENT ON COLUMN supplier.statement_url IS 'Whether the budget amount can be overridden.'
+/
+COMMENT ON COLUMN supplier.statement_target_id IS 'Whether the budget amount can be overridden.'
+/
+CREATE SEQUENCE supplier_pk_sq
+  INCREMENT BY 1
+  START WITH 5000
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+

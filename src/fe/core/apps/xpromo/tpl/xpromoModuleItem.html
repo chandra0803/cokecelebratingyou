@@ -1,0 +1,23 @@
+<div class="xpromo-story {{type}} {{data.classes}}"
+    style="background-image:url({{data.bannerImageUrl_placeholder}}{{data.storyImageUrl_placeholder}})">
+
+    <div class="comm-story"
+        data-image="{{data.bannerImageUrl}}{{data.storyImageUrl}}"
+        data-image-mobile="{{data.bannerImageUrl_mobile}}{{data.storyImageUrl_mobile}}"
+        data-image-max="{{data.bannerImageUrl_max}}{{data.storyImageUrl_max}}">
+
+        {{#eq type "banner"}}
+        <a href="{{data.linkUrl}}" target="{{data.target}}">
+        {{/eq}}
+        {{#eq type "news"}}
+        <a href="layout.html?tpl=newsPageDetail&amp;tplPath=apps/news/tpl/&amp;messageUniqueId={{data.id}}">
+        <div class="story">
+            <h3>{{data.storyName}}</h3>
+        </div>
+        {{/eq}}
+
+        </a>
+
+    </div>
+
+</div>

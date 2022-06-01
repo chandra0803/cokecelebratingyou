@@ -1,0 +1,31 @@
+// App-specific variables
+// =========================
+
+$underarmour_module_images_path: $appImagesPath + "/underarmour";
+$underarmour_connect_button_bgColor: #ef2028 !default;
+$underarmour_login_button_bgColor1: rgba(240,32,51,1) !default;
+$underarmour_login_button_bgColor2: rgba(231,0,25,1) !default;
+$underarmour_connect_dot_size: 28px !default;
+
+// App-specific code
+// ==================================================
+
+.btn-uaconnect {
+    background: $underarmour_connect_button_bgColor;
+    font-size: $fontSizeExtraLarge;
+    padding: 1em 1.25em;
+    font-weight: $fontWeightNormal;
+    text-shadow: 0px -1px 0 $brand_color_black;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    background: linear-gradient(to bottom, $underarmour_login_button_bgColor1 0%,$underarmour_login_button_bgColor2 100%);
+    @media (max-width: $breakpoint_mobile_max) {
+        line-height: 1.1em;
+        display: block;
+        strong {
+            display: block;
+        }
+    }
+    &:hover {
+        background: linear-gradient(to bottom, $underarmour_login_button_bgColor2 0%,$underarmour_login_button_bgColor1 100%);
+    }
+}

@@ -1,0 +1,25 @@
+// App-specific variables
+// =========================
+$celebrationTimeline_ImgUrlPath: $appImagesPath !default;
+$celebrationTimeline_ImgUrl: "celebration/celebrationTimelineBG.jpg" !default;
+/* ----- MODULE STYLES ----- */
+.celebrationCompanyTimeline {
+    .module-content{
+        display: table;
+        width: 100%;
+    }
+    .module-liner{
+        text-align: center;
+    }
+    @if $celebrationChooseAward_ImgUrl {
+        @include safeImgUrls($celebrationTimeline_ImgUrl, $celebrationTimeline_ImgUrlPath, $property: 'background-image');
+        background-repeat: no-repeat;
+        filter: none;
+        background-position: center bottom;
+        background-size:cover;
+    }
+    .timelineBtn{
+        margin-top: $baseLineHeight;
+    }
+
+}

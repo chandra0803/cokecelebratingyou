@@ -1,0 +1,266 @@
+// App-specific variables
+// =========================
+$celebrationManagerMessage_bgColor: $g5ModuleBgColor !default;
+$celebrationManagerMessage_gradType: $g5ModuleGradType !default;
+$celebrationManagerMessage_gradMeta: $g5ModuleGradMeta !default;
+$celebrationManagerMessage_gradStops: $g5ModuleGradStops !default;
+$celebrationManagerMessage_bgNoGrad: true !default;
+
+$celebrationManagerMessage_commentTitleLargeColor: $brand_color_primary !default;
+$celebrationManagerMessage_commenterMetaColor: $brand_color_black !default;
+$celebrationManagerMessage_commenterNameColor: $brand_color_black !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.celebrationManagerMessage {
+
+} /* /.celebrationManagerMessage */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.celebrationManagerMessage {
+    padding-bottom:0;
+    @if $celebrationManagerMessage_bgNoGrad {
+        .module-liner {
+            background: transparent;
+        }
+    }
+    @else {
+        @include module_moduleLinerBackground(
+            $bgColor: $celebrationManagerMessage_bgColor,
+            $gradType: $celebrationManagerMessage_gradType,
+            $gradMeta: $celebrationManagerMessage_gradMeta,
+            $gradStops: $celebrationManagerMessage_gradStops
+        );
+    }
+    .module-liner {
+            padding-bottom:0;
+            padding-top: $baseLineHeight*2;
+        }
+    .wide-view {
+        padding: 0;
+    }
+
+    .carousel {
+        .slick-list {
+        }
+
+        .slick-arrow {
+            color:$brand_color_primary;
+            &.slick-prev {
+                left: -50px;
+            }
+            &.slick-next {
+                right: -50px;
+            }
+        }
+        .item {
+            height: 400px;
+            width: 100%;
+        }
+
+         @media (min-width: $breakpoint_tablet_min) {
+            .item  {
+               height:320px;
+            }
+        }
+        // @media (min-width: $breakpoint_desktop_min) {
+        //     .item  {
+        //        //height:320px;
+        //     }
+        // }
+
+        .item-wrap {
+            //padding-left: 60px;
+            height: 100%;
+            width: 90%;
+            margin-left: 5%;
+            //background:blue;
+            position:relative;
+
+            .comment {
+                color: $celebrationManagerMessage_commentTitleLargeColor;
+                font-size: $baseFontSize * 8;
+                font-style: italic;
+                letter-spacing: 0;
+                line-height: 1.25;
+                margin: 0;
+                padding: 0 ;
+                position: relative;
+                height: 76%;
+                overflow-x: hidden;
+                overflow-y: auto;
+                width:100%;
+                top: 0;
+                //p {position:absolute; bottom:0; left:0;}
+            }
+             @media (min-width: $breakpoint_tablet_min) {
+                .comment  {
+                    height: 70%;
+                }
+            }
+            // @media (min-width: $breakpoint_desktop_min) {
+            //     .comment  {
+            //        height: 70%;
+            //     }
+            // }
+            .commenter {
+                bottom: 20px;
+                position: absolute;
+                right: $g5ModulePadding;
+                width: 100%;
+                .avatarwrap {
+                    float: right;
+                }
+                @include avatarSizing(60px);
+                .commenter-avatar[src=""]{
+                    display:none;
+                }
+
+                .commenter-meta {
+                    color: $celebrationManagerMessage_commenterMetaColor;
+                    //padding: 28.8px 10px 0 0;
+                    right: 80px;
+                    text-align: right;
+                    p {
+                        margin: 0;
+                    }
+                    @include vertical-align(absolute);
+                }
+
+                .commenter-name {
+                    color: $celebrationManagerMessage_commenterNameColor;
+                    font-size: $baseFontSize * 1.14;
+                    font-weight: bold;
+                    line-height: 1.2;
+                }
+
+                .commenter-title {
+                    font-size: $baseFontSize * .857;
+                    line-height: 1;
+                }
+            }
+        }
+    }
+} /* /.module.celebrationManagerMessage   */
+
+/* ----- PAGE STYLES ----- */
+.page.celebration {
+    &#celebrationManagerMessagePageView {
+        .celebrationRecipientMeta {
+            .recipientMetaRight {
+                span.recipientName {
+                    display: block;
+                    font-weight: $fontWeightBold;
+                }
+            }
+        }
+
+        .celebrationRecipientMetaRight div {
+            float: left;
+
+            span {
+                font-size: $fontSizeSmall;
+                line-height: 1.25;
+
+                &.recipientName,
+                &.recipientOrg {
+                    display: block;
+                }
+
+                &.recipientTitle {
+                    float: left;
+                }
+            }
+        }
+
+        @include avatarSizing(48px);
+        .avatarwrap{
+            float: left;
+            margin:0 20px 0 0;
+        }
+
+        .celebrationAwardInfo {
+            margin-bottom: 20px;
+        }
+
+        .celebrationMessageContainer {
+            @include clearfix();
+            margin-top: 30px;
+            margin-bottom: 15px;
+            position: relative;
+
+            .mask {
+                @include opacity(.5);
+                background: $brand_color_black;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                position: absolute;
+                top: 0;
+                z-index: 100;
+            }
+            .spin {
+                left: 50%;
+                margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+                position: absolute;
+                top: 50%;
+            }
+
+            label {
+                float: left;
+            }
+
+            .commentTools {
+                margin-bottom: $baseLineHeight / 4;
+                font-size: $fontSizeSmall;
+                text-align: right;
+
+                .remChars {
+                    font-weight: $fontWeightBold;
+                }
+            }
+
+            .managerMessageInp {
+                @include input-block-level();
+                // margin-bottom: 2px;
+                // font: $baseFontSize $celebration_tertiaryFontFamily;
+
+                .lt-ie8 & { // ie7
+                    width: 95%;
+                }
+            }
+
+            @media (max-width: 480px) {
+
+                .commentTools {
+                    clear: both;
+                    padding-top: 10px;
+                }
+            }
+        }
+
+        .confirmFormSubmit {
+            padding: 5px 5px 0;
+
+            span {
+                display: block;
+                margin-bottom: 5px;
+            }
+        }
+
+        .celebrationManagerMeta {
+            div {
+                float: left;
+
+                .managerName {
+                    font-size: $fontSizeSmall;
+                    line-height: 3.333;
+                }
+            }
+        }
+    }
+
+} /* /.page.celebrationManagerMessage   */

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <subclass name="com.biperf.core.domain.activity.GoalQuestPayoutActivity" extends="com.biperf.core.domain.activity.Activity" discriminator-value="goalquest">
+     <property name="amountAchieved" column="QUANTITY" type="java.lang.Long" />
+     <property name="giftCodeIssueDate" column="GIFT_CODE_ISSUE_DATE" type="java.util.Date" />
+  </subclass>
+
+</hibernate-mapping>

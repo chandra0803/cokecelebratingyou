@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+        <!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+        <hibernate-mapping>
+
+  <class name="com.biperf.core.domain.claim.ClaimFormStepEmailNotification" table="CLAIM_FORM_STEP_EMAIL">
+
+    <id name="id" type="java.lang.Long" column="CLAIM_FORM_STEP_EMAIL_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CLAIM_FORM_STEP_EMAIL_PK_SQ</param>
+      </generator>
+    </id>
+
+	<property name="claimFormStepEmailNotificationType" column="NOTIFICATION_TYPE">
+		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+			<param name="lookupClass">com.biperf.core.domain.enums.ClaimFormStepEmailNotificationType</param>
+		</type>
+	</property>
+
+    <many-to-one name="claimFormStep" class="com.biperf.core.domain.claim.ClaimFormStep" insert="true" lazy="false" update="true" column="CLAIM_FORM_STEP_ID" not-null="true"/>
+
+  </class>
+
+	<query name="com.biperf.core.domain.claim.ClaimFormStepEmailNotificationsByClaimFormStepId">
+		<![CDATA[
+			from com.biperf.core.domain.claim.ClaimFormStepEmailNotification claimFormStepEmailNotification
+			where claim_form_step_id = :claimFormStepId
+		]]>
+	</query>
+
+</hibernate-mapping>

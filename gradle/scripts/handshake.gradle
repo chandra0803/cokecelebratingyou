@@ -1,0 +1,41 @@
+import org.apache.tools.ant.filters.*
+import static org.apache.tools.ant.taskdefs.condition.Os.*
+import java.nio.file.Files;
+
+// Handshake
+task handshake {
+  group "verification"
+  description "Runs all handshake tests"
+  
+  doLast {
+    // Fail-fast connection test, because I can see this being a D'oh moment
+    try {
+      URLConnection urlConnection = new URL( "https://g5gammapprd.performnet.com/g5gamma/login.do" ).openConnection()
+      urlConnection.connect()
+    } catch( Exception e ) {
+      throw new RuntimeException("Could not connect to application server. Failing handshake tests.")
+    }
+    
+    // Run handshake tests. Requires 'handshake' to be on PATH.
+    def handshakeCommandLine = [
+      "handshake",
+      "-t",
+      "src/test/handshake",
+      "-x",
+      "baseUrl=https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+      "-i",
+      "-v"
+    ]
+     println handshakeCommandLine
+     println "Handshake Testing Starts : "
+     println "-----------------------------------------------------"
+    exec {
+      if( isFamily(FAMILY_WINDOWS) ) {        
+        commandLine( ["cmd", "/c"] + handshakeCommandLine )        
+      }
+      else {        
+        commandLine handshakeCommandLine
+      }
+    }
+  }
+}

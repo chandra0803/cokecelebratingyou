@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.StackStandingParticipant" table="THROWDOWN_STACKRANK_PAX">
+
+    <id name="id" column="STACKRANK_PAX_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="sequence">td_stackrank_pax_pk_sq</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <many-to-one name="stackStandingNode" class="com.biperf.core.domain.promotion.StackStandingNode" lazy="false">
+      <column name="STACKRANK_NODE_ID"/>
+    </many-to-one>
+
+    <many-to-one name="participant" class="com.biperf.core.domain.participant.Participant" lazy="false">
+      <column name="USER_ID"/>
+    </many-to-one>
+
+    <property name="stackStandingFactor" column="STACKRANK_FACTOR" type="java.math.BigDecimal" />
+    <property name="standing" column="RANK"/>
+    <property name="tied" column="TIED"/>
+    <property name="payout" type="java.lang.Long" column="PAYOUT"/>
+    <property name="payoutsIssued" column="PAYOUTS_ISSUED" type="boolean"/>
+
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+</hibernate-mapping>

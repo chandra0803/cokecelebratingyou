@@ -1,0 +1,35 @@
+CREATE SEQUENCE CLAIM_FORM_STEP_PK_SQ INCREMENT BY 1 START WITH 5000
+/
+
+CREATE TABLE claim_form_step 
+(
+	CLAIM_FORM_STEP_ID 			NUMBER(18) NOT NULL,
+	CLAIM_FORM_ID 				NUMBER(18) NOT NULL,
+	CM_KEY_FRAGMENT				VARCHAR(255) NOT NULL,	
+	SEQUENCE_NUM				NUMBER(18),
+	TYPE                        VARCHAR(80),
+	IS_SALES_REQUIRED			NUMBER(1) NOT NULL,
+	created_by                  NUMBER(18) NOT NULL,
+	DATE_CREATED       			DATE NOT NULL,
+	modified_by                 NUMBER(18),
+	DATE_MODIFIED      			DATE,
+	VERSION            			NUMBER(18) NOT NULL,
+	CONSTRAINT CLAIM_FORM_STEP_PK PRIMARY KEY (CLAIM_FORM_STEP_ID)
+)
+/
+ALTER TABLE claim_form_step ADD CONSTRAINT cfs_claim_form_fk
+  FOREIGN KEY (claim_form_id) REFERENCES claim_form (claim_form_id) 
+/
+CREATE INDEX CLAIM_FORM_STEP_CLM_FRM_FK_idx ON CLAIM_FORM_STEP
+  (CLAIM_FORM_ID)
+/
+COMMENT ON COLUMN claim_form_step.claim_form_step_id IS 'System-generated key that identifies a specific claim form step.'
+/
+COMMENT ON COLUMN claim_form_step.claim_form_id IS 'Id to the form association for this form step.'
+/
+COMMENT ON COLUMN claim_form_step.CM_KEY_FRAGMENT IS 'Unique key fragment to be used when creating CM Keys for this Claim Form Step.'
+/
+COMMENT ON COLUMN claim_form_step.sequence_num IS 'Order in which this step will be presented.'
+/
+COMMENT ON COLUMN claim_form_step.is_sales_required IS 'Boolean flag toggled to determine if sales is required for this step.'
+/

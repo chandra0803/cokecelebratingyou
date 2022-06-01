@@ -1,0 +1,17 @@
+<%--
+Stuff for URL-driven modal popups.
+Such a popup contains an IFRAME loaded with the given URL.
+See popaction.js and popup.css.
+--%>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<div id="modalPopup" class="modalPopupBase modalPopupMedium" style="display:none;">
+  <iframe frameborder="0" id="modalPopupFrame" class="modalPopupFrame" name="modalPopupFrame" src="<%= RequestUtils.getBaseURI(request) %>/assets/g4skin/images/spacer.gif"></iframe>
+  <div class="modalPopupFooter">
+    <input type="button" id="modalPopupClose" value="<cms:contentText code="system.button" key="CLOSE"/>" onclick="closeModalPopup();" class="content-buttonstyle"/>
+  </div>
+  <div id="modalPopupLoadingIndicator" style="position:relative; top:-20px; text-align:right; margin-right:37px; display:none; z-index:-10; font: 15px arial;">
+    Loading...
+  </div>
+</div>
+
+<div id="popoverlay" class="popoverlay" style="display:none"></div>

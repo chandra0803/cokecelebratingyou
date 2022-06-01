@@ -1,0 +1,439 @@
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+#ezRecognizeMiniProfileModal{
+    // @if $recognition_EZmodule_background {
+    //     background: $recognition_EZmodule_background;
+    // }
+}
+/* ----- MODULE STYLES ----- */
+.recognition .module-liner {
+
+}
+.launchModule.recognition {
+    width: 100%;
+    display: block;
+    @if $recognition_EZmodule_background {
+        background: $recognition_EZmodule_background;
+    }
+    .modal-header{
+        border:none;
+    }
+    .modal-body {
+        position: relative;
+        max-height: none;
+        padding: 0;
+        overflow: visible;
+        @include clearfix();
+
+        @media (max-width: $breakpoint_mobile_max) {
+            padding-top: $baseLineHeight;
+        }
+        /* @media (min-width: $breakpoint_tablet_min) {
+            padding: 0 $g6PagePaddingX_tablet $g6PagePaddingY_tablet;
+        }
+        @media (min-width: $breakpoint_desktop_min) {
+            padding: 0 $g6PagePaddingX_desktop $g6PagePaddingY_desktop;
+        }
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            padding: 0 $g6PagePaddingX_desktopLarge $g6PagePaddingY_desktopLarge;
+        } */
+    }
+    .ezRecLiner {
+        height: auto;
+        //padding-bottom:50px;
+
+        .cardContainer{
+            max-width: none;
+        }
+    }
+
+    #ezRecModalCloseBtn {
+        position: absolute;
+        bottom: 100%;
+        left: 100%;
+
+        @media (max-width: $breakpoint_mobile_max) {
+            left: auto;
+            right: 0;
+        }
+    }
+}
+
+.recognition {
+    // "flipSide" state
+    &.ezRecView,
+    &.module{
+        &:not(.hide){
+            display: inline-block;
+        }
+    }
+    &.modal{
+        // modal specific info
+        .modal-body {
+            padding-top: nth($modal_padding, 1);
+
+            @media (min-width: $breakpoint_tablet_min) {
+                padding-top: nth($modal_padding_tablet, 1);
+            }
+            @media (min-width: $breakpoint_desktop_min) {
+                padding-top: nth($modal_padding_desktop, 1);
+            }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                padding-top: nth($modal_padding_desktopLarge, 1);
+            }
+        }
+        .ezRecLiner{
+            padding:0;
+
+            .cardContainer{
+                // padding:nth($card_padding,1) 0 0 0;
+                display: inline-block;
+                @include avatarSizing(60px);
+                .card-top{
+                    float: left;
+                }
+                .card-details{
+					padding-left: 20px;
+                    float: left;
+                    .participant-name {
+                            font-size: $fontSizeLarge;
+                            line-height: $lineHeightLarge;
+                        }
+                        .participant-info {
+                            font-size: $baseFontSize;
+                            line-height: $lineHeightSmall;
+                        }
+                }
+            }
+            .formContainer{
+                margin: nth($card_padding,1) 0 0 0;
+            }
+            #ezRecognitionCancelBtn {
+                display: none;
+            }
+        }
+    }
+    .ezRecLiner {
+        height: auto;
+
+        .modal-body{
+            //padding:0 3% 3%;
+        }
+        .cardContainer{
+            clear: both;
+            // padding-top:20px;
+            //margin-top:50px;
+            width: 100%;
+            // max-width:400px;
+
+            .follow{
+                display: none;
+            }
+        }
+        .formContainer{
+            //margin-top:50px;
+            width: 100%;
+            .recognition-comment{
+                width:100%;
+                box-sizing:border-box;
+                min-height: 86px;
+            }
+            .form-horizontal .control-label{
+                width: auto;
+                float: none;
+            }
+            .form-horizontal .controls{
+                //float: right;
+                margin:0;
+            }
+        }
+    }
+
+}
+
+@media (min-width: $breakpoint_tablet_min) {
+    .recognition {
+
+        .ezRecLiner {
+
+            .cardContainer{
+                float: left;
+                width: auto;
+                margin-right: 30px;
+
+                .card {
+                    margin-bottom: 0;
+                }
+            }
+            .formContainer{
+                float: left;
+                width: calc(100% - #{$card_width + 30px});
+
+                .form-horizontal .controls{
+                    float: none;
+                }
+            }
+        }
+    }
+}
+@media (min-width: $breakpoint_desktop_min) {
+   //DESKTOP SIZES - and up
+   .recognition {
+
+        .ezRecLiner {
+
+            .cardContainer{
+
+            }
+            .formContainer{
+
+            }
+        }
+    }
+}
+@media (min-width: $breakpoint_desktopLarge_min) {
+    //DESKTOP LARGE
+}
+
+
+
+@media (min-width: $breakpoint_tablet_min) {
+    /* #ezRecognizeMiniProfileModal{
+        width: 90%;
+        margin-left: -45%;
+    } */
+}
+@media (min-width: $breakpoint_desktop_min) {
+    /* #ezRecognizeMiniProfileModal{
+        width: 80%;
+        margin-left: -40%;
+    } */
+}
+@media (min-width: $breakpoint_desktopLarge_min) {
+    //DESKTOP LARGE
+}
+
+// modal
+.recognition.modal {
+    min-height: $spinner_widthHeight * 2;
+    padding-bottom: initial;
+
+    .spin {
+        display: block;
+        margin: ($spinner_widthHeight / 2) auto;
+        height: $spinner_widthHeight;
+        width: $spinner_widthHeight;
+        z-index: 100;
+    }
+
+    .ezRecLiner {
+        overflow: visible;
+
+        .cardContainer{
+            float: none;
+            width: calc(100% - 40px);
+
+            //margin:0;
+            .card{
+                margin: 0 auto;
+            }
+        }
+        .formContainer{
+            float: none;
+            width: 100%;
+            margin: 25px 0 0 0;
+            .form-horizontal .controls{
+                float: none;
+            }
+        }
+    }
+    @media (min-width: $breakpoint_mobileMini_min) {
+        .ezRecLiner {
+            overflow: visible;
+            .cardContainer{
+                margin:0;
+            }
+        }
+    }
+}
+
+
+
+
+
+// OLD SLOWLY MOVE THIS OUT -- MOBILE FIRST
+.recognition {
+    // "flipSide" state
+    // note, .ezRecLiner is a parent of .wide-view. We're leaving out the latter to reduce selector count
+    .ezRecLiner {
+        .control-group {
+            clear: both;
+            margin-bottom: $baseLineHeight / 2;
+
+            label {
+                text-align: left;
+            }
+        }
+
+        #ezRecognitionCommentBox {
+            margin-top: $baseLineHeight / 2;
+            .comment-label {
+                float: left;
+                margin-top: 2px;
+                margin-bottom: 10px;
+            }
+        }
+        .commentTools {
+            float: right;
+            text-align: right;
+            font-size: .9em;
+
+            .remCharsLabel {
+                display: none;
+            }
+            .remChars {
+                font-weight: $fontWeightBold;
+            }
+
+            .spellchecker.dropdown {
+                margin-top: 0;
+                vertical-align: top;
+            }
+        }
+
+
+        // .EZModuleCommentCheckSpell {
+        //     float: right;
+        //     margin-right: 0px;
+        //     margin-bottom: 6px;
+        //     color: $brand_color_primary;
+
+        //     .btn {
+        //         border:none;
+        //         background:$brand_color_primary;
+        //         padding: 3px 1px 0 4px;
+        //         color: $brand_color_white;
+        //         border-radius:0;
+
+        //         .icon-check {
+        //             font-size: 19px;
+        //         }
+        //     }
+
+        //     .dropdown-menu {
+        //         left: auto;
+        //         right: 0;
+        //         margin-top: 0;
+        //         position:absolute;
+        //         .check {
+        //             padding: 5px 20px;
+        //             font-weight: bold;
+        //         }
+        //         a {
+        //             color: $brand_color_mid;
+        //             cursor: pointer;
+        //             line-height: $baseLineHeight / 2 + 4px; // in the _jHtmlArea.patchedG5.scss document, we're using a padding of 5px 20px on the list item and a line height of 10px. This .dropdown-menu uses the bootstrap rules of 3px 20px and a line-height of 20px. The 4px are necessary to make them both match. Gross, but effective
+
+        //             &:hover {
+        //                 color: $brand_color_white;
+        //             }
+        //         }
+        //     }
+        // }
+
+
+        // .ezRecharCountError {
+        //     float: right;
+        //     margin-top: 2px;
+        //     margin-right: 6px;
+        //     font-size: 11px;
+        //     color: $recognition_textMutedColor;
+        // }
+
+        form {
+            margin: 0;
+        }
+
+        .ezRecFormBtnsWrapper {
+            // float: left;
+            margin-top: $baseLineHeight;
+            .btn{
+                margin: 0px 10px 10px 0px;
+            }
+        }
+
+        .badwordsContainer {
+            .badwordsWrapper {
+                position: absolute;
+                .spellcheck-badwords {
+                    display: block !important;
+                    position: static !important;
+                    margin: 0 !important;
+
+                    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px;
+                    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px;
+                    -webkit-background-clip: padding-box;
+                    background-clip: padding-box;
+                }
+            }
+        }
+    } // /.ezRecLiner
+
+
+    // .spin {
+    //     z-index: 100;
+    //     color:$brand_color_lighter;
+    // }
+
+    &.hasOverflow {
+        overflow: visible;
+        z-index: 100;
+
+        .module-liner {
+            overflow: visible;
+        }
+    }
+
+
+
+    .title-icon-view {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 0;
+
+        h3 {
+            display: none;
+        }
+    }
+
+
+
+    // "flipSide" state
+    // note, .ezRecLiner is a parent of .wide-view. We're leaving out the latter to reduce selector count
+    .ezRecLiner {
+        .naked-input {
+            //background: transparent;
+            @if $recognition_EZmodule_textColor {
+                color: $recognition_EZmodule_textColor;
+            }
+            //@include box-shadow(none);
+        }
+    } // /.ezRecLiner
+
+
+    #ezRecModalCloseBtn {
+            position: relative;
+            z-index: 10;
+            // color:$brand_color_black;
+            // font-size: $fontSizeExtraLarge;
+                i{
+                    font-weight: $fontWeightBold;
+                }
+        }
+
+    /* END regular recognition module */
+}

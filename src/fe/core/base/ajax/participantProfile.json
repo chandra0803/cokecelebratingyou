@@ -1,0 +1,54 @@
+{
+	"messages":[],
+
+	"participant":{
+		"id":9876,
+		"firstName":"Mildred",
+		"lastName":"Mustafa",
+		"points":"",
+		"numMessages":"",
+		"avatarUrl":"../../skins/default/img/celebration/placeholder-avatar3.jpg",
+		"alert": "",
+		"delegators": [
+			{
+				"id":9876,
+				"firstName":"Mildred",
+				"lastName":"Mustafa",
+				"delegatorUrl":"/actAsDelegate.do?id=9876",
+				"termsAccepted":true
+			},
+
+			{
+				"id":9875,
+				"firstName":"Byoern",
+				"lastName":"Mukluk",
+				"delegatorUrl":"/actAsDelegate.do?id=9875",
+				"termsAccepted":false
+			},
+
+			{
+				"id":9874,
+				"firstName":"Zora",
+				"lastName":"Annolife",
+				"delegatorUrl":"/actAsDelegate.do?id=9874",
+				"termsAccepted":true
+			}
+		],
+
+		"isDelegate": false,
+		"delegateFirstName": "Dillan",
+		"delegateLastName":"Dilettante",
+
+		"largeAudience" : false,
+		"termsAcceptedMsg" : "termsAcceptedMsg",
+
+		"applicableSidebarModules" : [
+			{"name":"budgetTrackerModule","appName":"budgetTracker"},
+			{"name":"gamificationModule","appName":"gamification"},
+			{"name":"engagementModule","appName":"engagement"},
+			{"name":"workHappierPaxModule","appName":"workHappier"},
+			{"name":"bunchBallSideBarModule","appName":"bunchBall"}
+		]
+
+	}
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+	<class name="com.biperf.core.domain.welcomemail.WelcomeMessage" table="WELCOME_MESSAGE">
+	
+		
+	<id name="id" type="java.lang.Long" column="WELCOME_MESSAGE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">MESSAGE_PK_SQ</param>
+      </generator>
+    </id>
+		 <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+   <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">      
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property> 
+    <property name="notificationDate" type="java.util.Date" column="NOTIFICATION_DATE" />
+    <property name="messageId" type="java.lang.Long" column="MESSAGE_ID" not-null="true" />   
+    <property name="secondaryMessageId" type="java.lang.Long" column="SECONDARY_MESSAGE_ID" />   
+    <set name="audienceSet" lazy="false" table="WELCOME_MESSAGE_AUDIENCE" cascade="all-delete-orphan">       
+	    <key column="welcome_message_id"/>
+        <element column="AUDIENCE_ID" type="java.lang.Long"/>
+      </set>
+	</class>
+	
+		<query name="com.biperf.core.domain.welcomemail.AllMessageByNotificationDate">
+		<![CDATA[
+		from item in class com.biperf.core.domain.welcomemail.WelcomeMessage
+		where trunc(item.notificationDate) <= trunc(sysdate)
+		order by item.id desc
+		]]>
+	</query>
+	
+	<sql-query name="com.biperf.core.domain.welcomemail.AllMessage">	
+		
+			<![CDATA[
+                SELECT wm.welcome_message_id,
+                       to_char(wm.notification_date,'MM/dd/yyyy') as notification_date,
+                       wma.audience_id,
+                       au.name,
+                       wm.message_id,
+                       mes.message_name,
+                       wm.secondary_message_id,
+                       mes2.message_name as secondary_message_name
+                FROM welcome_message wm
+                INNER JOIN welcome_message_audience wma ON wm.welcome_message_id = wma.welcome_message_id
+                INNER JOIN audience au ON wma.audience_id = au.audience_id
+                INNER JOIN message mes ON wm.message_id = mes.message_id
+                LEFT OUTER JOIN message mes2 ON wm.secondary_message_id = mes2.message_id
+              	]]>
+	</sql-query>
+	
+	
+	
+</hibernate-mapping>

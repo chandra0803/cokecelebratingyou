@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.survey.ParticipantSurvey" table="participant_survey">
+
+	<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+	<id name="id" type="java.lang.Long" column="participant_survey_id">
+		<generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">participant_survey_pk_sq</param>
+		</generator>
+	</id>
+
+	<!-- Using version number optimistic locking -->
+	<version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+      type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+       
+    <property name="surveyDate" column="survey_date" type="java.util.Date"/> 
+    <property name="surveyId" column="SURVEY_ID" type="java.lang.Long" /> 
+    <property name="promotionId" column="PROMOTION_ID" type="java.lang.Long" /> 
+    <many-to-one name="participant" class="com.biperf.core.domain.user.User" lazy="false" not-null="false" column="USER_ID"/>
+    <property name="completed" type="boolean" column="IS_COMPLETED" not-null="true" /> 
+    <property name="nodeId" column="NODE_ID" type="java.lang.Long" /> 
+    
+    <set name="participantSurveyResponse" table="participant_survey_response" inverse="true" cascade="all-delete-orphan">
+      <key column="participant_survey_id" />
+      <one-to-many class="com.biperf.core.domain.survey.ParticipantSurveyResponse" />
+    </set>
+  </class>
+
+  <sql-query name="com.biperf.core.domain.survey.ParticipantSurvey.SurveyTakenList">
+    <return-scalar column="userId" type="long"/>
+    <![CDATA[
+		SELECT ps.user_id AS userId
+		FROM participant_survey ps
+		WHERE ps.promotion_id = :promotionId
+		  AND ps.survey_id = NVL(:surveyId,ps.survey_id)
+	]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.dao.participant.completedSurveysByPromotionId">
+    <![CDATA[
+        from com.biperf.core.domain.survey.ParticipantSurvey paxSurvey
+        where paxSurvey.promotionId = :promoId
+         and paxSurvey.completed = 1
+    ]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.claim.SueveyUserIdsByPromoIdForTimePeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+       select distinct USER_ID from participant_survey 
+        where PROMOTION_ID=:promoId and
+        survey_date between :startDate and :endDate
+    ]]>
+  </sql-query>
+  
+</hibernate-mapping>

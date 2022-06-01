@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+    <form-bean name="processListForm" type="com.biperf.core.ui.process.ProcessListForm" />
+    <form-bean name="processDetailForm" type="com.biperf.core.ui.process.ProcessDetailForm" />
+    <form-bean name="processScheduleListForm" type="com.biperf.core.ui.process.ProcessScheduleListForm" />
+    <form-bean name="scheduleProcessForm" type="com.biperf.core.ui.process.ScheduleProcessForm" />
+    <form-bean name="processLaunchForm" type="com.biperf.core.ui.process.ProcessLaunchForm" />
+    <form-bean name="processExecutionListForm" type="com.biperf.core.ui.process.ProcessExecutionListForm" />
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite"
+             redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+ 
+  <action-mappings>  
+	 	<action path="/processList"
+	  	  name="processListForm"
+	      type="com.biperf.core.ui.process.ProcessListAction"      
+	      parameter="method"
+	      scope="request" >
+	      <forward name="success" path="process.list" redirect="false"/>
+	      <forward name="failure" path="process.list" redirect="false"/>
+	  	</action> 
+	  	
+	  	<action path="/processDetail"
+	  	  name="processDetailForm"
+	      type="com.biperf.core.ui.process.ProcessDetailAction"      
+	      parameter="method"
+	      scope="request" 
+      	  validate="true"
+      	  input="process.detail" cancellable="true">
+	      <forward name="display" path="process.detail" redirect="false"/>
+	      <forward name="success" path="/processList.do" redirect="true"/>
+	      <forward name="cancel" path="/processList.do" redirect="true"/>
+	      <forward name="failure" path="process.detail" redirect="false"/>
+	  	</action> 
+      
+      <!-- same as processDetail but doesn't do validation -->
+    	<action path="/processDetailDisplay"
+	  	  name="processDetailForm"
+	      type="com.biperf.core.ui.process.ProcessDetailAction"      
+	      parameter="method"
+	      scope="request" 
+          validate="false" cancellable="true">
+	      <forward name="display" path="process.detail" redirect="false"/>
+	      <forward name="success" path="/processList.do" redirect="true"/>
+	      <forward name="cancel" path="/processList.do" redirect="true"/>
+	      <forward name="failure" path="process.detail" redirect="false"/>
+	  	</action> 
+	  	 	
+	 	<action path="/inactiveProcessList"
+	  	  name="processListForm"
+	      type="com.biperf.core.ui.process.ProcessListAction"      
+	      parameter="method"
+	      scope="request" 
+          validate="false"
+          input="process.list">
+	      <forward name="success" path="inactive.process.list" redirect="false"/>
+	      <forward name="failure" path="inactive.process.list" redirect="false"/>
+	      <forward name="backToActive" path="/processList.do" redirect="true"/>
+	  	</action> 
+	  	
+	  	<action path="/processLog"
+	  	  name="processListForm"
+	      type="com.biperf.core.ui.process.ProcessLogAction"      
+	      parameter="method"
+	      scope="request"
+	      input="process.list" >
+	      <forward name="success" path="process.log" redirect="false"/>
+	      <forward name="failure" path="process.log" redirect="false"/>
+   	      <forward name="backToActive" path="/processList.do" redirect="true"/>
+	  	</action> 
+	  	
+	  	<action path="/processCommentLog"
+	  	  name="processListForm"
+	      type="com.biperf.core.ui.process.ProcessLogAction"      
+	      parameter="method"
+	      scope="request" >
+	      <forward name="success" path="process.comment.log" redirect="false"/>
+	      <forward name="failure" path="process.comment.log" redirect="false"/>
+   	      <forward name="backToActive" path="/processList.do" redirect="true"/>
+	  	</action>
+	  	
+	  	<action path="/processScheduleList"
+	  	  name="processScheduleListForm"
+	      type="com.biperf.core.ui.process.ProcessScheduleListAction"      
+	      parameter="method"
+	      scope="request" cancellable="true" >
+	      <forward name="display" path="process.schedule.list" redirect="false"/>
+	      <forward name="success" path="process.schedule.list" redirect="false"/>
+	      <forward name="failure" path="process.schedule.list" redirect="false"/>
+	  	</action>
+	  	
+	  	<action path="/scheduleProcess"
+	  	  name="scheduleProcessForm"
+	      type="com.biperf.core.ui.process.ScheduleProcessAction"      
+	      parameter="method"
+	      scope="request" 
+          validate="false"
+          input="schedule.process">
+	      <forward name="display" path="schedule.process" redirect="false"/>
+	      <forward name="failure" path="schedule.process" redirect="false"/>
+	  	</action>
+	  	
+	  	<action path="/scheduleProcessSave"
+	  	  name="scheduleProcessForm"
+	      type="com.biperf.core.ui.process.ScheduleProcessAction"      
+	      parameter="method"
+	      scope="request" 
+          validate="true"
+          input="schedule.process" cancellable="true">
+	      <forward name="display" path="schedule.process" redirect="false"/>
+	      <forward name="success" path="/processScheduleList.do" redirect="true"/>
+	      <forward name="cancel" path="/processScheduleList.do" redirect="true"/>
+	      <forward name="failure" path="schedule.process" redirect="false"/>
+	  	</action>
+	  	 
+	 	<action path="/processLaunch"
+	  	  name="processLaunchForm"
+	  	  scope="request"
+	      type="com.biperf.core.ui.process.ProcessLaunchAction"   
+	      validate="true"   
+	      parameter="method"
+	      input="process.launch" cancellable="true">
+	      <forward name="success" path="process.launch" redirect="false"/>
+	      <forward name="successTestProcess" path="test.process.launch" redirect="false"/>
+	      <forward name="failure" path="process.launch" redirect="false"/>
+	      <forward name="cancel" path="/processList.do?method=unspecified" redirect="true"/>
+	  	</action>
+	  	
+	  	<action path="/processConfirm"
+	  	  name="processLaunchForm"
+	  	  scope="request"
+	      type="com.biperf.core.ui.process.ProcessLaunchAction"      
+	      parameter="method"
+	      validate="true"
+	      input="process.launch" cancellable="true">
+	      <forward name="success" path="process.launch.confirm" redirect="false"/>
+	       <forward name="cancel" path="/processList.do?method=unspecified" redirect="false"/>
+	      <forward name="failure" path="process.launch" redirect="false"/>
+	  	</action>
+	  	
+	  	<action path="/testProcessConfirm" name="processLaunchForm" type="com.biperf.core.ui.process.ProcessLaunchAction" 
+	  		parameter="method" validate="true" input="test.process.launch" cancellable="true" scope="request">
+	      	<forward name="success" path="process.launch.confirm" redirect="false"/>
+	        <forward name="cancel" path="/processList.do?method=unspecified" redirect="false"/>
+	        <forward name="failure" path="test.process.launch" redirect="false"/>
+	  	</action>
+	  	
+	  	<action path="/participantSearch" type="com.biperf.core.ui.proxy.ParticipantSearchAction" scope="request">
+       		<forward name="success" path="pax.ajax.participantsearch"/>
+    	</action>
+    
+	 	<action path="/processExecutionList"
+	  	  name="processExecutionListForm"
+	      type="com.biperf.core.ui.process.ProcessExecutionListAction"      
+	      parameter="method"
+	      scope="request" >
+	      <forward name="success" path="process.execution.list" redirect="false"/>
+	      <forward name="failure" path="process.execution.list" redirect="false"/>
+	  	</action> 
+	  	
+  </action-mappings>
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn"> 
+		<set-property property="pathnames" 
+					  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-process.xml"/>
+	    <set-property property="stopOnFirstError" value="false"/>
+    </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-process.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

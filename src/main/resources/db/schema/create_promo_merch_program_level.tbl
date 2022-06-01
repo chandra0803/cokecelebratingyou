@@ -1,0 +1,43 @@
+CREATE SEQUENCE promo_merch_program_lvl_pk_sq START WITH 250 INCREMENT BY 1
+/
+
+CREATE TABLE promo_merch_program_level (
+    promo_merch_program_level_id    NUMBER(18) NOT NULL,
+    promo_merch_country_id          NUMBER(18) NOT NULL,
+    ordinal_position                NUMBER(12) NOT NULL,
+    cm_asset_key                    VARCHAR2(40),
+    om_level_name                   VARCHAR2(255),
+  	program_id						VARCHAR2(40),
+    created_by                      number(18) NOT NULL,
+    DATE_CREATED                    DATE NOT NULL,
+    modified_by                     number(18),
+    date_modified                   DATE,
+    version                         NUMBER(18,0) NOT NULL
+  )
+/
+ALTER TABLE promo_merch_program_level
+ADD CONSTRAINT promo_merch_program_level_pk PRIMARY KEY (promo_merch_program_level_id)
+USING INDEX
+/
+ALTER TABLE promo_merch_program_level
+ADD CONSTRAINT promo_merch_program_level_udk UNIQUE (promo_merch_country_id, cm_asset_key)
+USING INDEX
+/
+ALTER TABLE promo_merch_program_level
+ADD CONSTRAINT promo_merch_prgrm_lvl_cntry_fk FOREIGN KEY (promo_merch_country_id)
+REFERENCES promo_merch_country (promo_merch_country_id)
+/
+COMMENT ON TABLE PROMO_MERCH_program_level IS 'This table stores the different Merchandise Levels for a given recognition promotion and country'
+/
+COMMENT ON COLUMN PROMO_MERCH_program_level.promo_merch_program_level_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN PROMO_MERCH_program_level.promo_merch_country_id IS 'Promotion Country reference to the promo merchandise Country table'
+/
+COMMENT ON COLUMN PROMO_MERCH_program_level.ordinal_position IS 'Sort Order'
+/
+COMMENT ON COLUMN PROMO_MERCH_program_level.cm_asset_key IS 'Customized Level Name'
+/
+COMMENT ON COLUMN PROMO_MERCH_program_level.om_level_name IS 'Level Name Stored on OM..It is unique key on OM'
+/
+COMMENT ON COLUMN PROMO_MERCH_program_level.program_id IS 'This is duplicate of program_id stored in promo_merch_country and it is to make sure that if program_id is changed we get new level names.'
+/

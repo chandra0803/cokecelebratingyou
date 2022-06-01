@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+"http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+    <form-beans>
+        <form-bean name="promotionsListForm" type="com.biperf.core.ui.mobilerecogapp.PromotionsListForm" />
+        <form-bean name="sendRecognitionForm" type="com.biperf.core.ui.recognition.SendRecognitionForm"/>
+        <form-bean name="publicRecognitionHideForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionHideForm" />
+        <form-bean name="ecardUploadForm" type="com.biperf.core.ui.recognition.EcardUploadForm"/>
+        <form-bean name="publicRecognitionLikeForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionLikeForm" />
+        <form-bean name="publicRecognitionCommentForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionCommentForm" />
+        <form-bean name="publicRecognitionAddPointsForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionAddPointsForm" />
+        <form-bean name="personalInfoForm" type="com.biperf.core.ui.profile.PersonalInfoForm"/>
+    </form-beans>
+
+
+    <action-mappings>
+
+        <action path="/logout" 
+                type="com.biperf.core.ui.mobilerecogapp.LogoutAction"
+                scope="request" 
+                validate="false">
+        </action>
+    
+        <action path="/promotionsList" 
+                name="promotionsListForm"
+                type="com.biperf.core.ui.mobilerecogapp.PromotionsListAction"
+                scope="request" 
+                validate="false">
+            <forward name="details" path="user.security.display" />
+        </action>
+        
+        <action path="/upcomingCelebrations" 
+                type="com.biperf.core.ui.mobilerecogapp.UpcomingCelebrationsAction"
+                scope="request" 
+                validate="false">
+            <forward name="details" path="user.security.display" />
+        </action>
+        
+        <action path="/contributions" 
+                type="com.biperf.core.ui.mobilerecogapp.ContributionsListAction"
+                name="ecardUploadForm"
+                scope="request"
+                parameter="method"                
+                validate="false">
+            <forward name="details" path="user.security.display" />
+        </action>
+    
+        <action path="/recipientSearch"
+                type="com.biperf.core.ui.mobilerecogapp.RecipientSearchAction"
+                parameter="method"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+    
+        <action path="/teamMemberSearch"
+                type="com.biperf.core.ui.mobilerecogapp.TeamMemberRecipientSearchAction"
+                parameter="method"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+    
+        <action path="/mostRecentRecipientsSearch"
+                type="com.biperf.core.ui.mobilerecogapp.MostRecentRecipientsSearchAction"
+                parameter="method"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+    
+        <action path="/participantProfile"
+                type="com.biperf.core.ui.profile.PublicProfileAction"
+                parameter="method" 
+                scope="request" />
+    
+        <action path="/recognitionDetail"
+                type="com.biperf.core.ui.claim.RecognitionDetailAction"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>       
+    
+         <action path="/participantPublicProfile"
+		type="com.biperf.core.ui.profile.PublicProfileAction"
+		parameter="method" scope="request" />
+         
+        <action path="/publicRecognition"
+                type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"
+                parameter="method"/>
+   
+        <action path="/publicRecognitionLike"
+             scope="request"
+             name="publicRecognitionLikeForm"
+             parameter="method"
+             type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"/>
+     
+        <action path="/publicRecognitionHide"
+             scope="request"
+             name="publicRecognitionHideForm"
+             parameter="method"
+             type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"/>
+
+        <action path="/publicRecognitionComment"
+             name="publicRecognitionCommentForm"
+             parameter="method"
+             type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"
+             scope="request"/>  
+     
+        <action
+            path="/publicRecognitionAddPoints" 
+            scope="request"
+            name="publicRecognitionAddPointsForm" 
+            parameter="method"
+            type="com.biperf.core.ui.mobilerecogapp.PublicRecognitionAction"/>
+
+        <action path="/submitRecognition"
+             type="com.biperf.core.ui.mobilerecogapp.SubmitRecognitionAction"
+             scope="request"
+             name="sendRecognitionForm"
+             validate="false"
+             cancellable="true">
+        </action>
+   
+        <action path="/uploadEcardMedia"
+                type="com.biperf.core.ui.mobilerecogapp.EcardMediaUploadAction"
+                name="ecardUploadForm"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+
+        <action path="/registerAndroidDevice"
+                type="com.biperf.core.ui.mobilerecogapp.RegisterAndroidDeviceAction"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+      
+        <action path="/registerIOSDevice"
+                type="com.biperf.core.ui.mobilerecogapp.RegisterIOSDeviceAction"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+
+        <action path="/unregisterDevice"
+                type="com.biperf.core.ui.mobilerecogapp.UnregisterDeviceAction"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+
+        <action path="/userProfile"
+                type="com.biperf.core.ui.mobilerecogapp.UserProfileAction"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+
+        <action path="/uploadAvatar"
+                type="com.biperf.core.ui.mobilerecogapp.AvatarUploadAction"
+                name="personalInfoForm"
+                scope="request"
+                validate="false"
+                cancellable="true">
+        </action>
+        
+    </action-mappings>
+
+    <controller nocache="true"
+                processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor"
+                tempDir="@FILE_UPLOAD_TEMP_DIR@" 
+                multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+    <message-resources null="true" parameter="BeaconResources_en" factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property property="pathnames" 
+                      value="/WEB-INF/validator-rules.xml"/>
+        <set-property property="stopOnFirstError" value="false"/>
+    </plug-in>
+
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml"/>
+        <set-property property="definitions-debug" value="2"/>
+        <set-property property="definitions-parser-details" value="2"/>
+        <set-property property="definitions-parser-validate" value="true"/>
+    </plug-in>
+</struts-config>

@@ -1,0 +1,57 @@
+{
+  "description": "Update a group",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "newGroupName": "Updated ${faker:hacker.adjective} Group"
+  },
+  "steps": [
+    {
+      "id": "createGroup",
+      "description": "First create a group",
+      "call": {
+        "path": "./create-group.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createGroup.export.newGroupId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "updateGroup",
+      "description": "PUT /groups/{groupId}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/groups/${ref:createGroup.export.newGroupId}",
+        "options": {
+          "method": "put",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "name": "${ref:params.newGroupName}",
+            "type": "pax"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:updateGroup.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:updateGroup.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:updateGroup.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.newGroupName}"
+        }
+      ]
+    }
+  ]
+}

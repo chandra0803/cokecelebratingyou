@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+
+  <definition name="celebration.page" extends="g5.default">
+    <put name="content" value="/celebration/celebrationPage.jsp" />
+    <put name='trackingTitle' value='Celebration_Main_Page'/>
+  </definition>
+  
+  <definition name="celebration.page.invalid" extends="g5.default">
+    <put name="content" value="/celebration/celebrationPageInvalid.jsp" />
+    <put name='bodyClass' value='celebrationinvalid' />
+    <put name='trackingTitle' value='Celebration_Invalid'/>
+  </definition>
+
+   <definition name="celebration.congrats.module"
+		path="/celebration/celebrationCongratsModule.jsp" /> 
+
+   <definition name="celebration.ecard.module"
+		path="/celebration/celebrationEcardModule.jsp" /> 
+		
+	<definition name="celebration.choose.award.module"
+		path="/celebration/celebrationChooseAwardModule.jsp" />
+   
+   	<definition name="celebration.browse.awards.module"
+		path="/celebration/celebrationBrowseAwardsModule.jsp" />
+  
+    <definition name="celebration.manager.message.module"
+		path="/celebration/celebrationManagerMessageModule.jsp" />
+
+    <definition name="celebration.recognition.purl.module" 
+    	path="/celebration/celebrationRecognitionPurlModule.jsp"/>
+   
+    <definition name="celebration.anniversary.facts.module"
+		path="/celebration/celebrationAnniversaryFactsModule.jsp" />
+	
+    <definition name="celebration.company.timeline.module"
+		path="/celebration/celebrationCompanyTimelineModule.jsp" />
+   
+    <definition name="celebration.corporate.video.module"
+		path="/celebration/celebrationCorporateVideoModule.jsp" />
+		
+   <definition name="celebration.image.filler.module"
+		path="/celebration/celebrationImageFillerModule.jsp" />		
+
+  <definition name="celebration.manager.message" extends="g5.default">
+    <put name="content" value="/celebration/celebrationManagerMessagePage.jsp" />
+    <put name='bodyClass' value='celebrationManagerMessage' />
+    <put name='trackingTitle' value='Celebration_Manager_Message_Page'/>
+  </definition>
+  		
+</tiles-definitions>

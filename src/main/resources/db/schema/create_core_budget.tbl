@@ -1,0 +1,196 @@
+CREATE TABLE budget_master
+   (budget_master_id NUMBER(18) NOT NULL,
+    budget_type      VARCHAR2(30) NOT NULL,
+    is_active		 NUMBER(1),
+    CM_ASSET_CODE    VARCHAR2(80),
+    NAME_CM_KEY      VARCHAR2(40),
+    overrideable     VARCHAR2(30),
+    multi_promotion  NUMBER(1) NOT NULL,
+    final_payout_rule VARCHAR2(30),
+    start_date        DATE NOT NULL,
+    end_date          DATE,    
+    award_type       VARCHAR2(40) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created     DATE NOT NULL,
+    modified_by number(18),
+    date_modified    DATE,
+	version          NUMBER(18) NOT NULL)
+/
+ALTER TABLE budget_master
+ADD CONSTRAINT budget_master_id_pk PRIMARY KEY (budget_master_id)
+USING INDEX
+/
+COMMENT ON TABLE budget_master IS 'The BUDGET_MASTER table links a specific budget to a promotion payout via the budget_id.'
+/
+COMMENT ON COLUMN budget_master.budget_master_id IS 'System-generated key that identifies a specific budget.'
+/
+COMMENT ON COLUMN budget_master.budget_type IS 'The type of budget relationship being used. '
+/
+COMMENT ON COLUMN budget_master.overrideable IS 'Whether the budget amount can be overridden.  '
+/
+COMMENT ON COLUMN budget_master.final_payout_rule IS 'The rule being used for final payout. '
+/
+COMMENT ON COLUMN budget_master.start_date IS 'The start date of the Budget Master. '
+/
+COMMENT ON COLUMN budget_master.end_date IS 'The end date of the Budget Master. '
+/
+CREATE TABLE budget_segment
+   (budget_segment_id        NUMBER(18) NOT NULL,
+    budget_master_id         NUMBER(18) NOT NULL,
+    name                     VARCHAR2(1000 CHAR) NOT NULL,
+    cm_asset_code            VARCHAR2(1000 CHAR) NOT NULL,
+    status                   NUMBER(1) DEFAULT 1 NOT NULL,
+    start_date               DATE NOT NULL,
+    end_date                 DATE,
+    is_allow_budget_reallocation    	NUMBER(1) DEFAULT 0 NOT NULL,
+    budget_reallocation_elig_type   	VARCHAR2(40),    
+    created_by               NUMBER(18) NOT NULL,
+    date_created             DATE NOT NULL,
+    modified_by              NUMBER(18),
+    date_modified            DATE,
+    version                  NUMBER(18) NOT NULL)
+/
+ALTER TABLE budget_segment
+ADD CONSTRAINT budget_segment_id_pk PRIMARY KEY (budget_segment_id)
+USING INDEX
+/
+ALTER TABLE budget_segment
+ADD CONSTRAINT segment_budget_master_fk FOREIGN KEY (budget_master_id)
+REFERENCES budget_master (budget_master_id)
+/
+ALTER TABLE budget_segment
+ADD CONSTRAINT budget_segment_Uk UNIQUE (budget_master_id,start_date,end_date)
+USING INDEX
+/
+CREATE INDEX BUDGET_SEGMENT_BM_FK_idx ON budget_segment
+  (BUDGET_MASTER_ID)
+/
+COMMENT ON TABLE budget_segment IS 'The budget_segment table stores budget segment data'
+/
+COMMENT ON COLUMN budget_segment.budget_segment_id IS 'Primary key'
+/
+COMMENT ON COLUMN budget_segment.budget_master_id IS 'Database key that links the promotion to the budget'
+/
+COMMENT ON COLUMN budget_segment.status IS 'Status of the record'
+/
+COMMENT ON COLUMN budget_segment.start_date IS 'Start Date of the budget segment'
+/
+COMMENT ON COLUMN budget_segment.end_date IS 'End Date of the budget segment'
+/
+COMMENT ON COLUMN budget_segment.IS_ALLOW_BUDGET_REALLOCATION IS 'Budget Reallocation enabled '
+/
+COMMENT ON COLUMN budget_segment.BUDGET_REALLOCATION_ELIG_TYPE IS 'Whether budget reallocation is enabled for pax in org unit or org unit and below'
+/
+CREATE TABLE budget
+   (budget_id        NUMBER(18) NOT NULL,
+    budget_segment_id   NUMBER(18) NOT NULL,
+    user_id          NUMBER(18) ,
+    node_id          NUMBER(18) ,
+    original_value   NUMBER(20,8),
+    current_value    NUMBER(20,8),
+    overdrawn        VARCHAR2(30),
+    status           VARCHAR2(30) NOT NULL,
+    action_type      VARCHAR2(30) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created     DATE NOT NULL,
+    modified_by number(18),
+    date_modified    DATE,
+	version          NUMBER(18) NOT NULL)
+/
+ALTER TABLE budget 
+ADD (effective_date DATE)
+/
+ALTER TABLE budget
+ADD CONSTRAINT budget_id_pk PRIMARY KEY (budget_id)
+USING INDEX
+/
+ALTER TABLE budget
+ADD CONSTRAINT budget_Uk UNIQUE (budget_segment_id,user_id,node_id)
+USING INDEX
+/
+CREATE INDEX BUDGET_BUDGET_SEGMENT_FK_idx ON BUDGET
+  (BUDGET_SEGMENT_ID)
+/
+COMMENT ON TABLE budget IS 'The BUDGET_OWNER table indicates who possess each budget, how much the budget was originally allocated and if it is currently overdrawn.'
+/
+COMMENT ON COLUMN budget.budget_segment_id IS 'Database key that links the budget segment to the budget master.'
+/
+COMMENT ON COLUMN budget.budget_id IS 'System-generated key that identifies a specific budget owner.'
+/
+COMMENT ON COLUMN budget.user_id IS 'Is the participant IDdepending on the value in the budget_type in the budget_master record.'
+/
+COMMENT ON COLUMN budget.node_id IS 'Is the node ID depending on the value in the budget_type in the budget_master record.'
+/
+COMMENT ON COLUMN budget.current_value IS 'The current value of the budget.'
+/
+COMMENT ON COLUMN budget.original_value IS 'The original value of the budget.'
+/
+COMMENT ON COLUMN budget.overdrawn IS 'Flag that shows if the budget is considered overdrawn (the value of the budget does not necessarily need to be negative).'
+/
+COMMENT ON COLUMN budget.status IS 'The status of the record.'
+/
+ALTER TABLE budget
+ADD CONSTRAINT budget_budget_segment_fk FOREIGN KEY (budget_segment_id)
+REFERENCES budget_segment (budget_segment_id)
+/
+CREATE TABLE budget_history
+   (budget_history_id NUMBER(18) NOT NULL,
+    budget_id        NUMBER(18) NOT NULL,
+    original_value_before_xaction   NUMBER(20,8),
+    current_value_before_xaction    NUMBER(20,8),
+    original_value_after_xaction   NUMBER(20,8),
+    current_value_after_xaction    NUMBER(20,8),
+    action_type      VARCHAR2(30) NOT NULL,
+    claim_id         NUMBER(12),
+    created_by number(18) NOT NULL,
+    date_created     DATE NOT NULL)
+/
+ALTER TABLE budget_history
+ADD CONSTRAINT budget_history_id_pk PRIMARY KEY (budget_history_id)
+USING INDEX
+/
+COMMENT ON TABLE budget_history IS 'The BUDGET_HISTORY table stores an audit trail of the updated budget values.'
+/
+COMMENT ON COLUMN budget_history.claim_id IS 'The Claim_id is added to this table as a reference only.No functionality changes done.'
+/
+CREATE TABLE budget_reallocation_history
+(
+    budget_reallocation_history_id NUMBER(18) NOT NULL,
+    tx_node_id       NUMBER(18),
+    tx_user_id       NUMBER(18),
+    budget_id        NUMBER(18) NOT NULL,
+    amount           NUMBER(20,8),
+    created_by       NUMBER(18) NOT NULL,
+    date_created     DATE NOT NULL
+)
+/
+ALTER TABLE budget_reallocation_history
+ADD CONSTRAINT budget_realloc_history_id_pk PRIMARY KEY (budget_reallocation_history_id)
+USING INDEX
+/
+COMMENT ON TABLE budget_reallocation_history IS 'The budget_reallocation_history table stores budget reallocation data'
+/
+COMMENT ON COLUMN budget_reallocation_history.budget_reallocation_history_id IS 'Primary key'
+/
+COMMENT ON COLUMN budget_reallocation_history.tx_node_id IS 'Node performing the reallocation for node-based transfers'
+/
+COMMENT ON COLUMN budget_reallocation_history.tx_user_id IS 'User performing the reallocation for pax-based transfers'
+/
+COMMENT ON COLUMN budget_reallocation_history.budget_id IS 'Database key linking to Budget'
+/
+COMMENT ON COLUMN budget_reallocation_history.amount IS 'Budget reallocation amount'
+/
+COMMENT ON COLUMN budget_reallocation_history.created_by IS 'Audit key'
+/
+COMMENT ON COLUMN budget_reallocation_history.date_created IS 'Audit key'
+/
+CREATE SEQUENCE budget_master_pk_sq INCREMENT BY 1   START WITH 5000
+/
+CREATE SEQUENCE BUDGET_PK_SQ INCREMENT BY 1   START WITH 5000
+/
+CREATE SEQUENCE BUDGET_HISTORY_PK_SQ INCREMENT BY 1   START WITH 5000
+/
+CREATE SEQUENCE BUDGET_TX_HISTORY_PK_SQ INCREMENT BY 1   START WITH 5000
+/
+CREATE SEQUENCE BUDGET_SEGMENT_PK_SQ INCREMENT BY 1   START WITH 5000
+/

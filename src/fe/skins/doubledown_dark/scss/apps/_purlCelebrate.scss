@@ -1,0 +1,60 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $purlCelebrate_moduleBgColor: ;
+// $purlCelebrate_moduleBgImg: ;
+// $purlCelebrate_moduleBgImgPath: ;
+// $purlCelebrate_moduleBgImgSize: ;
+// $purlCelebrate_moduleBgImgPosition: ;
+
+// $purlCelebrate_pageTopperColor: ;
+// $purlCelebrate_pageTopperBgColor: ;
+// $purlCelebrate_pageTopperBgImg: ;
+// $purlCelebrate_pageTopperBgImgPath: ;
+// $purlCelebrate_pageTopperBgImgSize: ;
+// $purlCelebrate_pageTopperBgImgPosition: ;
+// $purlCelebrate_pageTopperBgImgOpacity: ;
+
+// $purlCelebrate_titleColor: ;
+// $purlCelebrate_titleSpanColor: ;
+// $purlCelebrate_titleNumberColor: ;
+
+// $purlCelebrate_timeLeftColor: ;
+// $purlCelebrate_timeLeftTodayColor: ;
+
+// $purlCelebrate_fontFamily: ;
+// $purlCelebrate_moduleListInfoColor: ;
+// $purlCelebrate_modulePopoverColor: ;
+
+// $purlCelebrate_magnifyColor: ;
+
+// for the PURL backs of cards (search results)
+// $card_purlRec_color: ;
+// $card_purlRec_bgColor: ;
+// $card_purlRec_bgImg: ;
+// $card_purlRec_bgImgPath: ;
+// $card_purlRec_bgImgSize: ;
+// $card_purlRec_bgImgPosition: ;
+// $card_purlRec_bgImgOpacity: ;
+// $card_purlRec_timeLeftColor: ;
+// $card_purlRec_timeLeftTodayColor: ;
+
+// $slick-dot-color: transparent !default;
+// $slick-dot-color-border: $brand_color_primary !default;
+// $slick-dot-color-active: $brand_color_primary !default;
+// $slick-prev-character: "\2190" !default;
+// $slick-next-character: "\2192" !default;
+// $slick-dot-character: "\2022" !default;
+// $slick-dot-size: 8px !default;
+// $slick-opacity-default: 1 !default;
+// $slick-opacity-on-hover: 1 !default;
+// $slick-opacity-not-active: 1 !default;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "purlContribute/scss/purlCelebrate";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

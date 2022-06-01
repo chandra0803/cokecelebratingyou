@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div>
+  <div
+    className="modal-footer"
+    id="ModalFooter"
+  >
+    <table
+      className="table table-striped"
+    >
+      <tbody>
+        <tr>
+          <td>
+            <button
+              className="btnRecognize btn btn-primary btn-block flipButton"
+              onClick={[Function]}
+              type="button"
+            />
+          </td>
+          <td>
+            <button
+              className="btnRecognize btn default btn-block flipButton"
+              data-url={undefined}
+              onClick={[Function]}
+              type="button"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

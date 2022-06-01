@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+
+<tiles-definitions> <!-- Tiles Definitions for Hierarchy Module -->
+	<!--
+	* Base tiles definiitons (page parts).  Section contains main definitions for:
+	*
+	* 1.  title		    - title that appears in Browser header
+	* 2.  header   	    - header that appears at top of page
+    * 3.  topNav        - display top bar navigation menu
+    * 4.  userInfo		- User Information bar
+	* 5.  messages		- any messages or errors returned from the struts action
+    * 6.  content       - main content tile
+    * 7.  footer        - page footer
+    -->
+	
+    
+    <definition name="claimform.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.claimform.ClaimFormListController">
+		<put name="content" value="/claimform/claimFormList.jsp" />
+		<put name='trackingTitle' value='Claim_Form_List' />
+	</definition>
+
+    <definition name="claimform.promotionList" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.claimform.ClaimFormPromotionListController">
+		<put name="content" value="/claimform/claimFormPromotionList.jsp" />
+		<put name='trackingTitle' value='Claim_Form_Promotion_List' />
+	</definition>
+	    
+	<definition name="claimform.create" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.claimform.ClaimFormMaintainController">
+		<put name="content" value="/claimform/claimFormAdd.jsp" />
+		<put name='trackingTitle' value='Claim_Form_Create' />
+	</definition>
+	
+	<definition name="claimform.update" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.claimform.ClaimFormMaintainController">
+		<put name="content" value="/claimform/claimForm.jsp" />
+		<put name='trackingTitle' value='Claim_Form_Update' />
+	</definition>
+	
+	<definition name="claimform.copy" extends="beacon.default">
+		<put name="content" value="/claimform/claimFormCopy.jsp" />
+		<put name='trackingTitle' value='Claim_Form_Copy' />
+	</definition>
+
+	<!-- Claim Form Step -->
+	<definition name="claimformstep.create" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.ClaimFormStepCreateController">
+		<put name="content" value="/claimform/claimFormStepCreate.jsp" />
+		<put name='trackingTitle' value='Claim_Form_Step_Create' />
+	</definition>
+
+	<definition name="claimformstep.update" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.ClaimFormStepUpdateController">
+		<put name="content" value="/claimform/claimFormStepUpdate.jsp" />
+		<put name='trackingTitle' value='Claim_Form_Step_Update' />
+	</definition>
+	
+	<definition name="claimformstep.view" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.ClaimFormStepViewController">
+		<put name="content" value="/claimform/claimFormStepView.jsp" />
+		<put name='trackingTitle' value='Claim_Form_Step_View' />
+	</definition>
+
+	<definition name="claimformstep.update.success" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.ClaimFormStepViewController">
+		<put name="content" value="/claimform/claimFormStepView.jsp" />
+		<put name='trackingTitle' value='Claim_Form_Step_Update_Success' />
+	</definition>
+	<!-- Claim Form Step -->
+
+  <definition name="claimform.display" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.ClaimFormViewController">
+    <put name="content" value="/claimform/claimFormDisplay.jsp" />
+    <put name='trackingTitle' value='Claim_Form_Display' />
+  </definition>
+  
+  <definition name="claimformstep.cib.maintain" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.CustomerInformationBlockController">
+    <put name="content" value="/claimform/customerInformationBlock.jsp" />
+    <put name='trackingTitle' value='Claim_Form_Step_CIB_Maintain' />
+  </definition>
+  
+  <definition name="claimformstepelement.create" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.ClaimFormStepElementCreateController">
+    <put name="content" value="/claimform/claimFormStepElemCreate.jsp" />
+    <put name='trackingTitle' value='Claim_Form_Step_Element_Create' />
+  </definition>
+
+  <definition name="claimformstepelement.update" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.ClaimFormStepElementCreateController">
+    <put name="content" value="/claimform/claimFormStepElemUpdate.jsp" />
+    <put name='trackingTitle' value='Claim_Form_Step_Element_Update' />
+  </definition>
+
+  <definition name="claimformstepelement.view" extends="beacon.default" controllerClass="com.biperf.core.ui.claimform.ClaimFormStepElementViewController">
+    <put name="content" value="/claimform/claimFormStepElemView.jsp" />
+    <put name='trackingTitle' value='Claim_Form_Step_Element_View' />
+  </definition>
+  
+  <definition name="claimformstepelement.preview" extends="g5.default" controllerClass="com.biperf.core.ui.claim.ProductClaimPageController">
+    <put name="content" value="/claimform/claimPageAdminFormPreview.jsp" />
+    <put name='trackingTitle' value='Claim_Form_Step_Element_Preview' />
+  </definition>
+
+  <definition name="claim.details.printer" extends="beacon.printerFriendly">
+  	<put name="content" value="claim.details.printer.content" />
+  	<put name='trackingTitle' value='Claim_Details_Printer' />
+  </definition>
+
+  <definition name="claim.details.printer.content"
+              path="/claim/productClaimDetailsPrinterFriendlyDisplay.jsp"
+              controllerClass="com.biperf.core.ui.claim.ProductClaimDetailsController"/>
+
+  <definition name="claim.details" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.claim.ProductClaimDetailsController">
+	<put name="content" value="/claim/productClaimDetailsDisplay.jsp" />
+	<put name='trackingTitle' value='Claim_Details' />
+  </definition>
+
+  <definition name="claim.details.approvercomments" extends="beacon.printerFriendly"
+		controllerClass="com.biperf.core.ui.claim.ClaimDetailsApproverCommentsController">
+	<put name="content" value="/claim/claimDetailsApproverCommentsDisplay.jsp" />
+	<put name='trackingTitle' value='Claim_Details_Approver_Comments' />
+  </definition>
+  
+  <definition name="claim.carryoveractivities.list" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.claim.CarryOverActivitiesController">
+    <put name="content" value="/claim/carryoverActivitiesList.jsp" />
+    <put name='trackingTitle' value='Claim_Carry_Over_Activities_List' />
+  </definition>
+    
+  <definition name="recognition.approval.list" extends="beacon.default" >
+	<put name="content" value="/empty.jsp" />    
+  </definition>
+    
+  <definition name="recognition.approval.details" extends="beacon.default" >
+	<put name="content" value="/empty.jsp" />    
+  </definition>
+    
+  <definition name="recognition.view" extends="g5.default"
+              controllerClass="com.biperf.core.ui.claim.RecognitionViewCardController">
+    <put name="content" value="/claim/nomrec/viewRecognition.jsp" />     
+  </definition>
+
+  <definition name="claim.recognition.history" extends="beacon.default" controllerClass="com.biperf.core.ui.claim.RecognitionHistoryListController">
+    <put name="content" value="/claim/nomrec/recognitionHistory.jsp" />
+    <put name='trackingTitle' value='Claim_Recognition_History' />  
+  </definition>
+  
+  <definition name="claim.recognition.card"
+    controllerClass="com.biperf.core.ui.claim.RecognitionHistoryDetailController"
+    path="/claim/nomrec/recognitionHistoryDetail.jsp">
+    <!-- all attributes set in the Controller -->
+	<put name="cardInsert" value="" />
+  </definition>
+    
+  <definition name="claim.recognition.detail" extends="beacon.default">
+    <put name="content" value="claim.recognition.card" />
+    <put name='trackingTitle' value='Claim_Recognition_Detail' />  
+  </definition>
+  
+    <definition name="claim.recognition.detail.printerFriendly" extends="beacon.printerFriendly">
+	        <put name="content" value="claim.recognition.card" />
+	        <put name='trackingTitle' value='Claim_Recognition_Detail_Printer' />
+    </definition>
+
+	<!-- G4 NOMINATION APPROVAL TILES -->
+  	<definition name="nomination.approval.list" extends="beacon.default">
+    	<put name="content" value="/empty.jsp" />
+  	</definition>
+  
+  	<definition name="nomination.approval.list.with.details.printerFriendly" extends="beacon.printerFriendly">
+   	 	<put name="content" value="/empty.jsp" />
+  	</definition>
+
+  	<definition name="nomination.approval.details" extends="beacon.default">
+    	 	<put name="content" value="/empty.jsp" />
+  	</definition>
+  	
+  	<definition name="nomination.approval.details.printerFriendly" extends="beacon.printerFriendly">
+  		<put name="content" value="/empty.jsp" />
+  	</definition>
+	<!-- END G4 NOMINATION APPROVAL TILES -->
+  
+  <!--  -->
+  
+  <definition name="transaction.empty.display.detail"
+     	controllerClass="com.biperf.core.ui.claim.TransactionHistoryClaimListController"
+        path="/claim/transactionHistory.jsp">
+     	<!-- all attributes set in the Controller -->
+	 	<put name="transactionList" value="" />
+    </definition>
+    
+   <definition name="transaction.empty.display" extends="beacon.default">
+     <put name="content" value="transaction.empty.display.detail" />
+     <put name='trackingTitle' value='Transaction_Empty_Display' />
+   </definition>
+   
+   <definition name="transaction.productclaim.display.list"
+     	controllerClass="com.biperf.core.ui.claim.TransactionHistoryProductClaimListController"
+        path="/claim/transactionHistory.jsp">
+     	<!-- all attributes set in the Controller -->
+	 	<put name="transactionList" value="" />
+    </definition>
+    
+    <definition name="transaction.productclaim.display" extends="beacon.default">
+     <put name="content" value="transaction.productclaim.display.list" />
+     <put name='trackingTitle' value='Transaction_Product_Claim_Display' />
+   </definition>
+   
+   <definition name="transaction.recognition.display.list"
+     	controllerClass="com.biperf.core.ui.claim.TransactionHistoryRecognitionListController"
+        path="/claim/transactionHistory.jsp">
+     	<!-- all attributes set in the Controller -->
+	 	<put name="transactionList" value="" />
+	 	<put name='trackingTitle' value='Transaction_Recognition_Display_List' />
+    </definition>
+    
+   <definition name="transaction.recognition.display" extends="beacon.default">
+     <put name="content" value="transaction.recognition.display.list" />
+     <put name='trackingTitle' value='Transaction_Recognition_Display' />
+   </definition>
+   
+   <definition name="transaction.discretionary.display" extends="beacon.default">
+     <put name="content" value="transaction.discretionary.display.list" />
+     <put name='trackingTitle' value='Transaction_Discretionary_Display' />
+   </definition>
+   
+   <definition name="transaction.discretionary.display.list"
+     	controllerClass="com.biperf.core.ui.claim.TransactionHistoryDiscretionaryListController"
+        path="/claim/transactionHistory.jsp">
+     	<!-- all attributes set in the Controller -->
+	 	<put name="transactionList" value="" />
+	 	<put name='trackingTitle' value='Transaction_Discretionary_Display_List' />
+    </definition>
+    
+   <definition name="transaction.goalquest.display" extends="beacon.default">
+     <put name="content" value="transaction.goalquest.display.list" />
+     <put name='trackingTitle' value='Transaction_Goalquest_Display' />
+   </definition>
+   
+   <definition name="transaction.goalquest.display.list"
+     	controllerClass="com.biperf.core.ui.claim.TransactionHistoryGoalquestListController"
+        path="/claim/transactionHistory.jsp">
+     	<!-- all attributes set in the Controller -->
+	 	<put name="transactionList" value="" />
+	 	<put name='trackingTitle' value='Transaction_Goalquest_Display_List' />
+    </definition>        
+    
+   <definition name="transaction.reversal.display" extends="beacon.default">
+     <put name="content" value="transaction.reversal.display.list" />
+     <put name='trackingTitle' value='Transaction_Reversal_Display_List' />
+   </definition>
+   
+   <definition name="transaction.reversal.display.list"
+     	controllerClass="com.biperf.core.ui.claim.TransactionHistoryReversalListController"
+        path="/claim/transactionHistory.jsp">
+     	<!-- all attributes set in the Controller -->
+	 	<put name="transactionList" value="" />
+    </definition>       
+   
+   <definition name="transaction.quiz.display.list"
+     	controllerClass="com.biperf.core.ui.claim.TransactionHistoryQuizListController"
+        path="/claim/transactionHistory.jsp">
+     	<!-- all attributes set in the Controller -->
+	 	<put name="transactionList" value="" />
+    </definition>
+    
+    <definition name="transaction.quiz.display" extends="beacon.default">
+     <put name="content" value="transaction.quiz.display.list" />
+     <put name='trackingTitle' value='Transaction_Quiz_Display' />
+   </definition>
+    
+  <definition name="claim.quiz.detail.display"  extends="g5.default" controllerClass="com.biperf.core.ui.claim.QuizHistoryDetailController">
+	<put name="content" value="/profile/activityHistory/profilePageQuizDetail.jsp" />
+    <put name='trackingTitle' value='Claim_Quiz_Detail' />
+  </definition>
+
+  <definition name="claim.quiz.detail.sheet" controllerClass="com.biperf.core.ui.claim.QuizHistoryDetailController" path="/profile/activityHistory/profilePageQuizDetail.jsp"/>
+  
+  <definition name="transaction.recognition.detail.card"
+    controllerClass="com.biperf.core.ui.claim.TransactionHistoryRecognitionDetailController"
+    path="/claim/nomrec/recognitiontransactionDetail.jsp">
+    <!-- all attributes set in the Controller -->
+	<put name="cardInsert" value="" />
+  </definition>
+    
+  <definition name="transaction.recognition.detail" extends="beacon.default">
+    <put name="content" value="transaction.recognition.detail.card" />
+    <put name='trackingTitle' value='Transaction_Recognition_Detail' />
+  </definition>
+  
+  <definition name="transaction.quiz.detail" extends="beacon.default" controllerClass="com.biperf.core.ui.claim.TransactionHistoryQuizDetailController">
+    <put name="content" value="/quiz/quizTransactionDetail.jsp" />
+    <put name='trackingTitle' value='Transaction_Quiz_Detail' />
+  </definition>
+  
+  <definition name="claim.transaction.activities" extends="beacon.default" controllerClass="com.biperf.core.ui.claim.TransactionHistoryActivitiesListController">
+    <put name="content" value="/claim/activitiesTransactionHistory.jsp" />
+    <put name='trackingTitle' value='Claim_Transaction_Activities' />
+  </definition>
+  
+  <definition name="claim.transaction.payouts" extends="beacon.default" controllerClass="com.biperf.core.ui.claim.TransactionHistoryPayoutsListController">
+    <put name="content" value="/claim/payoutsTransactionHistory.jsp" />
+    <put name='trackingTitle' value='Claim_Transaction_Payouts' />
+  </definition>
+  
+  <definition name="claim.transaction.auditmessages" extends="beacon.default" controllerClass="com.biperf.core.ui.claim.TransactionHistoryAuditMessagesListController">
+    <put name="content" value="/claim/auditMessagesTransactionHistory.jsp" />
+    <put name='trackingTitle' value='Claim_Transaction_Audit_Messages' />
+  </definition>
+
+ <definition name="payout.transaction.details" extends="beacon.default" controllerClass="com.biperf.core.ui.claim.PayoutTransactionDetailsController">
+    <put name="content" value="/claim/payoutTransactionDetails.jsp" />
+    <put name='trackingTitle' value='Payout_Transaction_Details' />
+  </definition>
+  
+  <!-- QUIZ -->
+  
+  <definition name="non.html.cert.page" path="/promotion/displayNonHtmlCertificate.jsp">
+  </definition>
+
+ <!--  approvals module entries-->    
+ 
+    <definition name="approvals.list.page" extends="g5.default" controllerClass="com.biperf.core.ui.approvals.ApprovalsController">    
+            <put name="content" value="/approvals/approvalsPageIndex.jsp" /> 
+   </definition>   
+    
+    <definition name="approvals.recognition.list" extends="g5.default" controllerClass="com.biperf.core.ui.approvals.ApprovalsRecognitionListController">
+    <put name="content" value="/approvals/approvalsRecognitionList.jsp" />
+    <put name='trackingTitle' value='Recognition_Approval_List' />
+  </definition>
+  <definition name="approvals.recognition.details" extends="g5.default" controllerClass="com.biperf.core.ui.approvals.ApprovalsRecognitionDetailsController">
+    <put name="content" value="/approvals/approvalsRecognitionDetails.jsp" />
+     <put name='trackingTitle' value='Recognition_Approval_Details' />
+  </definition>
+  
+  <definition name="approvals.recognition.noemail" extends="g5.default" controllerClass="com.biperf.core.ui.approvals.ApprovalsRecognitionNoEmailController">
+    <put name="content" value="/approvals/approvalsRecognitionNoEmailList.jsp" />
+     <put name='trackingTitle' value='Approval_No_Email' />
+  </definition>
+  
+  <definition name="approvals.nomination.list" extends="g5.default" controllerClass="com.biperf.core.ui.approvals.ApprovalsNominationListController">
+    <put name="content" value="/approvals/approvalsNominationList.jsp" />
+    <put name='trackingTitle' value='Nomination_Approval_List' />
+  </definition>
+   <definition name="approvals.nomination.details" extends="g5.default" controllerClass="com.biperf.core.ui.approvals.ApprovalsNominationDetailsController">
+    <put name="content" value="/approvals/approvalsNominationDetails.jsp" />
+    <put name='trackingTitle' value='Nomination_Approval_Details' />
+  </definition>
+  
+  <definition name="approvals.claims.list" extends="g5.default" controllerClass="com.biperf.core.ui.approvals.ApprovalsClaimsListController">
+    <put name="content" value="/approvals/approvalsPageClaims.jsp" />
+    <put name='trackingTitle' value='Claims_Approval_List' />
+  </definition>
+  
+  <definition name="approvals.claims.details" extends="g5.default" controllerClass="com.biperf.core.ui.approvals.ApprovalsClaimDetailsController">
+    <put name="content" value="/approvals/approvalsClaimsDetail.jsp" />
+     <put name='trackingTitle' value='Claims_Approval_Details' />
+  </definition>
+  
+  <definition name="manager.addpoints"  extends="g5.default">	
+	    <put name="content" value="/submitrecognition/tpl/managerAddPoints.jsp"/>  
+  </definition> 
+  
+  <definition name="manager.addpoints.inactive"  extends="g5.default">	
+	    <put name="content" value="/submitrecognition/tpl/managerAddPointsInactive.jsp"/>  
+  </definition> 
+   
+  <definition name="claim.page" extends="g5.default" controllerClass="com.biperf.core.ui.claim.ProductClaimPageController">
+	<put name="content" value="/productclaim/claimPage.jsp" />
+	<put name="trackingTitle" value="Submit Claim" />
+  </definition> 
+  
+  <definition name="product.claim.detail.display"  extends="g5.default" controllerClass="com.biperf.core.ui.claim.ProductClaimDetailsController">
+	<put name="content" value="/profile/activityHistory/profilePageClaimDetail.jsp" />
+    <put name='trackingTitle' value='Product_Claim_Details' />
+  </definition>
+
+  <definition name="product.claim.detail.sheet" controllerClass="com.biperf.core.ui.claim.ProductClaimDetailsController" path="/profile/activityHistory/profilePageClaimDetail.jsp"/>
+  
+  <definition name="claim.tpl.participantsearchview" path="/profileutil/participantSearchView.jsp" />
+  <definition name="claim.tpl.participantsearchtablerow" path="/profileutil/participantSearchTableRow.jsp" /> 
+  <definition name="claim.tpl.claimproductrow" path="/productclaim/claimProductRow.jsp" />
+  <definition name="claim.tpl.claimforminputs" path="/productclaim/claimFormInputs.jsp" />
+  <definition name="claim.tpl.claimproducteditqtip" path="/productclaim/claimProductEditQtip.jsp" />
+  
+  <definition name="claim.preview.page" extends="g5.default">
+	<put name="content" value="/productclaim/claimPagePreview.jsp" />
+  </definition> 
+  
+  <definition name="claim.edit.page" extends="g5.default" controllerClass="com.biperf.core.ui.claim.ProductClaimPageController">
+	<put name="content" value="/productclaim/claimPage.jsp" />
+	<put name="trackingTitle" value="Edit Claim" />
+  </definition>
+  
+  <definition name="claim.detail" extends="g5.default">
+    <put name="content" value="/viewrecognition/recognitionPageDetail.jsp" />
+    <put name="trackingTitle" value="recognitionDetail" />
+  </definition>
+  
+  <definition name="claim.detail.sheet" path="/viewrecognition/recognitionPageDetail.jsp" /> 
+  
+  
+  <definition name="pending.nominations.approval.list" extends="g5.default">
+    <put name="content" value="/nomination/nominationsApprovalPromoListPageView.jsp" />
+  </definition>
+  
+  <definition name="pending.nominations.approval.page" extends="g5.default">
+    <put name="content" value="/nomination/nominationsApprovalPageView.jsp" />
+  </definition>
+  
+   <definition name="nomination.more.information.page" extends="g5.default">
+    <put name="content" value="/nomination/nominationsMoreInfo.jsp" />
+  </definition>
+  
+</tiles-definitions>

@@ -1,0 +1,2 @@
+CREATE SEQUENCE import_record_pk_sq START WITH 5000
+/

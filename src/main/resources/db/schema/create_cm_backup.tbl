@@ -1,0 +1,20 @@
+CREATE TABLE bu_cms_application AS (SELECT * FROM cms_application)
+/
+CREATE TABLE bu_cms_section AS (SELECT * FROM cms_section)
+/
+CREATE TABLE bu_cms_asset_type AS (SELECT * FROM cms_asset_type)
+/
+CREATE TABLE bu_cms_asset_type_item AS (SELECT * FROM cms_asset_type_item)
+/
+CREATE TABLE bu_cms_asset AS (SELECT * FROM cms_asset)
+/
+CREATE TABLE bu_cms_audience AS (SELECT * FROM cms_audience)
+/
+CREATE TABLE bu_cms_content_key AS (SELECT * FROM cms_content_key)
+/
+CREATE TABLE bu_cms_content_key_aud_lnk AS (SELECT * FROM cms_content_key_audience_lnk)
+/
+CREATE TABLE bu_cms_content AS (SELECT * FROM cms_content)
+/
+CREATE TABLE bu_cms_content_data AS (SELECT * FROM cms_content_data)
+/

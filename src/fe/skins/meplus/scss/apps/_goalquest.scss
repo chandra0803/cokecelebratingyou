@@ -1,0 +1,32 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $goalquest_textColor_muted: ;
+// $goalquest_textColor_success: ;
+// $goalquest_textColor_fail: ;
+
+// $goalquest_levelChosenIconColor: ;
+// $goalquest_levelOpenIconColor: ;
+// $goalquest_statusTxtBgColor: ;
+
+// $goalquest_progressBarToolTipBgColor: ;
+// $goalquest_progressBarToolTipBorderColor: ;
+// $goalquest_progressBarToolTipBoxShadow: ;
+
+// $goalquest_multiPromo_itemBgColor: ;
+// $goalquest_multiPromo_itemBoxShadow: ;
+// $goalquest_multiPromo_borderRadius: ;
+
+// $goalquest_pageMultiItemBgColor: ;
+// $goalquest_pageActiveLevelBg: ;
+
+// $goalquestUAHeaderHeight: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "goalquest/scss/goalquest";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

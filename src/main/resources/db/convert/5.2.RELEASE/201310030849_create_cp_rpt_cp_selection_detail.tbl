@@ -1,0 +1,44 @@
+CREATE SEQUENCE RPT_CP_SELECTION_DETAIL_SQ
+  START WITH 1
+  MAXVALUE 999999999999999999999999999
+  MINVALUE 1
+/
+
+CREATE TABLE RPT_CP_SELECTION_DETAIL
+(
+  RPT_CP_SELECTION_DETAIL_ID    NUMBER(18)      NOT NULL,
+  USER_ID                       NUMBER(18)      NOT NULL,
+  LAST_NAME                     VARCHAR2(40 CHAR),
+  FIRST_NAME                    VARCHAR2(40 CHAR),
+  MIDDLE_INIT                   VARCHAR2(40 CHAR),
+  USER_STATUS                   VARCHAR2(30 CHAR),
+  JOB_POSITION                  VARCHAR2(100 CHAR),
+  DEPARTMENT                    VARCHAR2(100 CHAR),
+  MANAGER                       NUMBER(1),
+  NODE_ID                       NUMBER(18),
+  PROMOTION_ID                  NUMBER(18),
+  PROMO_START_END_DATE          VARCHAR2(30),
+  PAX_GOAL_ID				    NUMBER(18),
+  LEVEL_ID                      NUMBER(18),
+  BASIC_AWARD_EARNED            NUMBER(18),
+  BASIC_AWARD_DEPOSITED         NUMBER(18),
+  THRESHOLD                     NUMBER(1),
+  INCREMENT_QUANTITY            NUMBER(18,2),
+  CURRENT_VALUE                 NUMBER(18,2),
+  BASE_QUANTITY                 NUMBER(18,2),
+  AMOUNT_TO_ACHIEVE             NUMBER(18,2),
+  PROGRESS_CHALLENGEPOINT       NUMBER(18,2), -- Percent of progress
+  ACHIEVED                      NUMBER(1),
+  CALCULATED_PAYOUT             NUMBER(18),
+  CALCULATED_THRESHOLD          NUMBER(18,2),
+  CREATED_BY                    NUMBER(18),
+  DATE_CREATED                  DATE,
+  MODIFIED_BY                   NUMBER(18),
+  DATE_MODIFIED                 DATE,
+  PROMOTION_NAME                VARCHAR2(90 CHAR),
+  LEVEL_NAME                    VARCHAR2(80 CHAR),
+  VERSION                       NUMBER(18),
+  COUNTRY_ID                    NUMBER(18),
+  CONSTRAINT                    RPT_CP_SELECTION_DETAIL_PK PRIMARY KEY(RPT_CP_SELECTION_DETAIL_ID)
+)
+/

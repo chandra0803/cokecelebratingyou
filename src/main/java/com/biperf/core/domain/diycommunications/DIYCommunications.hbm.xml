@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.diycommunications.DIYCommunications" table="DIY_COMMUNICATIONS">
+	<cache usage="read-write"/>
+    <id name="id" type="java.lang.Long" column="ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">DIY_COMMN_ID_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+    <column name="DATE_MODIFIED"/>
+    <column name="MODIFIED_BY"/>
+    </property>
+    
+    <property name="communicationType" type="java.lang.String" column="COMMUNICATION_TYPE"/>
+    <property name="startDate" type="java.util.Date" column="START_DATE" />
+	<property name="endDate" type="java.util.Date" column="END_DATE" />
+	<property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE" />
+	<property name="contentTitle" type="java.lang.String" column="CONTENT_TITLE"/>
+    
+    <many-to-one name="managerUser" column="MANAGER_USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="false"/>
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.diycommunications.getActiveByCommunicationType">
+    <return alias="diy_communications" class="com.biperf.core.domain.diycommunications.DIYCommunications" />
+    <![CDATA[
+        select {diy_communications.*}
+		    from diy_communications 
+  		  WHERE trunc(end_date) >= trunc(SYSDATE)
+  		    and diy_communications.manager_user_id = :managerId
+   			and diy_communications.communication_type = :communicationType order by upper(content_title)
+		]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.diycommunications.getAllActiveByCommunicationType">
+    <return alias="diy_communications" class="com.biperf.core.domain.diycommunications.DIYCommunications" />
+    <![CDATA[
+        select {diy_communications.*}
+		    from diy_communications 
+  		  WHERE trunc(end_date) >= trunc(SYSDATE)
+  		    and trunc(start_date) <= trunc(SYSDATE)
+   			and diy_communications.communication_type = :communicationType order by upper(content_title)
+		]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.diycommunications.getArchievedByCommunicationType">
+    <return alias="diy_communications" class="com.biperf.core.domain.diycommunications.DIYCommunications" />
+    <![CDATA[
+        select {diy_communications.*}
+		    from diy_communications 
+  		  WHERE trunc(end_date) < trunc(SYSDATE)
+    		and diy_communications.manager_user_id = :managerId
+   			and diy_communications.communication_type = :communicationType order by upper(content_title)
+		]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.diycommunications.getPublicAudienceList">
+    <return alias="a" class="com.biperf.core.domain.participant.Audience" />
+    <![CDATA[
+	    SELECT {a.*}
+	  		FROM audience a
+  			where a.IS_AUDIENCE_PUBLIC = 1
+		]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.diycommunications.getCommunicationsByTitleAndType">
+    <return alias="diy_communications" class="com.biperf.core.domain.diycommunications.DIYCommunications" />
+    <![CDATA[
+	    SELECT {diy_communications.*}
+	  		FROM diy_communications
+  		  WHERE lower(content_title) = :communicationsTitle
+  		    and communication_type = :communicationsType
+		]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.participant.getUsersByIds">
+		<![CDATA[
+			SELECT au.user_id AS id,
+			  au.first_name   AS firstName,
+			  au.last_name    AS lastName			  
+			FROM application_user au, participant_audience pa
+			WHERE au.is_active    =1
+			AND au.user_id = pa.user_id
+			AND pa.audience_id = :audienceId
+			order by au.first_name asc
+		 ]]>
+	</sql-query>
+</hibernate-mapping>

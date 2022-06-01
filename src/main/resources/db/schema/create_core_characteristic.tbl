@@ -1,0 +1,70 @@
+CREATE TABLE CHARACTERISTIC
+   (characteristic_id     		number(18)  NOT NULL,  	-- pk
+    characteristic_type  		varchar2(30) not null, 	-- USER, PROMO, NT, PAX...
+    domain_id 					number(18), 			-- NODE_TYPE_ID
+    description           		varchar2(250),
+    characteristic_data_type   	varchar2(30) NOT NULL, -- NUMBER/INTEGER,BOOLEAN,DATE,PL,TEXT (DATA TYPE)
+    CM_ASSET_CODE         		varchar2(80) NOT NULL,
+    NAME_CM_KEY           		varchar2(40) NOT NULL,
+    min_value             	number(23,4),
+    max_value             	number(23,4),
+    max_size              	number(18),
+    pl_name               	varchar2(80),
+    date_start            	date,
+    date_end              	date,
+    is_required           	number(1),
+    is_active              	number(1) NOT NULL,
+    is_unique              	number(1),
+    created_by number(18) NOT NULL,
+    date_created          	date NOT NULL,
+    modified_by number(18),
+    date_modified         	date,
+	version                 number(18) not null)
+/
+CREATE INDEX pax_char_perf1_idx ON characteristic
+  (characteristic_type             ASC)
+/
+ALTER TABLE characteristic
+ADD CONSTRAINT characteristic_pk PRIMARY KEY (characteristic_id)
+USING INDEX
+/
+ALTER TABLE characteristic
+ADD CONSTRAINT characteristic_udk UNIQUE (characteristic_type,CM_ASSET_CODE,NAME_CM_KEY,domain_id)
+using index
+/
+COMMENT ON TABLE characteristic IS 'The CHARACTERISTIC table stores the definition of specific characteristics.  A characteristic is a user-defined attribute that is pertinent only to a particular client .  These characteristics are used to group or segment participants, are available to CSRs, and can drive custom processes.  This database table is available as a catchall for unique details that might otherwise require customization.'
+/
+COMMENT ON COLUMN characteristic.characteristic_id IS 'System generated Primary Key '
+/
+COMMENT ON COLUMN characteristic.characteristic_type IS 'User defined group for the tag name of the characteristic (For instance USER, PROMO, NT, PAX...).'
+/
+COMMENT ON COLUMN characteristic.domain_id IS 'User defined domain_id for the characteristic.  Nonconstrained ref to node_type_id.  Can be null if type is not NT.'
+/
+COMMENT ON COLUMN characteristic.characteristic_data_type IS 'Data type for the user defined field NUMBER/INTEGER,BOOLEAN,DATE,PL,TEXT (DATA TYPE)'
+/
+COMMENT ON COLUMN characteristic.min_value IS 'Applicable for TYPE NUMBER'
+/
+COMMENT ON COLUMN characteristic.max_value IS 'Applicable for TYPE NUMBER'
+/
+COMMENT ON COLUMN characteristic.max_size IS 'Specifies the scale of the data type'
+/
+COMMENT ON COLUMN characteristic.pl_name IS 'Pick list name for the type '
+/
+COMMENT ON COLUMN characteristic.date_created IS '- Retrofitted'
+/
+COMMENT ON COLUMN characteristic.created_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN characteristic.is_active IS 'Boolean'
+/
+COMMENT ON COLUMN characteristic.is_required IS 'Boolean'
+/
+CREATE SEQUENCE characteristic_pk_sq
+  INCREMENT BY 1
+  START WITH 6500
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+

@@ -1,0 +1,42 @@
+CREATE SEQUENCE rpt_hierarchy_summary_pk_sq
+  INCREMENT BY 1
+  START WITH 1
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE TABLE rpt_hierarchy_summary
+   (rpt_hierarchy_summary_id       NUMBER(18,0) NOT NULL,
+    record_type                    VARCHAR2(49),
+    header_node_id                 NUMBER(18,0),
+    detail_node_id                 NUMBER(18,0),
+    hier_level                     NUMBER,
+    is_leaf                        NUMBER(1,0),
+    date_created                   DATE NOT NULL,
+    created_by                     number(18) NOT NULL,
+    modified_by   		   NUMBER (18),
+    date_modified 		   DATE)
+/
+
+-- Comments for RPT_HIERARCHY_SUMMARY
+
+COMMENT ON TABLE rpt_hierarchy_summary IS 'The rpt_summary table can be used for all summary reports.  It establishes the hierarchy rollup that is needed for the iReports'
+/
+COMMENT ON COLUMN rpt_hierarchy_summary.rpt_hierarchy_summary_id IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN rpt_hierarchy_summary.record_type IS 'Psuedo column to indicate teamsum or nodesum'
+/
+COMMENT ON COLUMN rpt_hierarchy_summary.header_node_id IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy_summary.detail_node_id IS 'from hierarchy table'
+/
+COMMENT ON COLUMN rpt_hierarchy_summary.hier_level IS 'Pseudo column to indicate the depth of hierarchy'
+/
+COMMENT ON COLUMN rpt_hierarchy_summary.is_leaf IS 'Qualifies the node_id is valued 1 if there are no child nodes attached and 0 if child nodes are found for the node_id'
+/
+COMMENT ON COLUMN rpt_hierarchy_summary.date_created IS 'Audit field'
+/
+COMMENT ON COLUMN rpt_hierarchy_summary.created_by IS 'Audit field'
+/

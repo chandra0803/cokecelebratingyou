@@ -1,0 +1,38 @@
+<%--UI REFACTORED--%> 
+<%@ page import="java.util.*" %>
+<%@ page import="com.biperf.core.domain.user.Acl" %>
+<%@ page import="com.biperf.core.utils.ClientStateUtils" %>
+
+<%	Map clientStateParameterMap = new HashMap();
+		Acl temp;
+%>
+<display:table defaultsort="1" defaultorder="ascending" name="aclList" id="acl" pagesize="20" sort="list" requestURI="aclListDisplay.do">
+<display:setProperty name="basic.empty.showtable" value="true"></display:setProperty>
+	<display:column titleKey="admin.acl.ACL_NAME" headerClass="crud-table-header-row" class="crud-content left-align nowrap" sortable="true" sortProperty="name">						
+  <%	temp = (Acl)pageContext.getAttribute("acl");
+			clientStateParameterMap.put( "aclId", temp.getId() );
+			request.setAttribute("encodedUrl", ClientStateUtils.generateEncodedLink( "", "displayUpdateAcl.do?method=displayUpdate", clientStateParameterMap ) );
+	%>
+		<a href='<c:out value="${encodedUrl}"/>'><c:out value="${acl.name}"/></a>
+	</display:column>
+     
+	<display:column titleKey="admin.acl.ACL_CODE" headerClass="crud-table-header-row" class="crud-content left-align nowrap" sortable="true">						
+		<c:out value="${acl.code}"/>
+	</display:column>
+     
+	<display:column titleKey="admin.acl.ACL_CLASS_NAME" headerClass="crud-table-header-row" class="crud-content left-align" sortable="true">						
+		<c:out value="${acl.className}"/>
+	</display:column>
+     
+	<display:column titleKey="admin.acl.ACL_ACTIVE" headerClass="crud-table-header-row" class="crud-content left-align" sortable="true" sortProperty="activityName">						
+		<c:choose>
+			<c:when test="${acl.active}">
+				<cms:contentText code="admin.acl" key="YES"/>
+			</c:when>
+			<c:otherwise>
+				<cms:contentText code="admin.acl" key="NO"/>
+			</c:otherwise>
+		</c:choose>
+	</display:column>
+</display:table>
+

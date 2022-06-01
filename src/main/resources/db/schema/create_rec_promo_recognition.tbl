@@ -1,0 +1,137 @@
+CREATE TABLE promo_recognition (
+    promotion_id                   		NUMBER(18) NOT NULL,
+    award_active                   		NUMBER(1) NOT NULL,
+    award_amount_type_fixed        		NUMBER(1) NOT NULL,
+    award_amount_fixed             		NUMBER(14,2),
+    award_amount_min               		NUMBER(14,2),
+    award_amount_max               		NUMBER(14,2),
+    behavior_active                		NUMBER(1) NOT NULL,
+    is_behavior_required                NUMBER(1) DEFAULT 0,
+    fileload_budget_amount         		NUMBER(1) NOT NULL,
+    card_active                    		NUMBER(1) NOT NULL,
+    card_client_email              		VARCHAR2(75),
+    card_client_setup_done         		NUMBER(1) NOT NULL,
+    include_certificate            		NUMBER(1) NOT NULL,
+    copy_recipient_manager         		NUMBER(1) NOT NULL,
+    allow_manager_award            		NUMBER(1,0) DEFAULT 0 NOT NULL,
+    is_copy_others                 		NUMBER(1) DEFAULT 0 NOT NULL,
+    mgr_award_promotion_id         		NUMBER(18,0),
+    award_structure	               		VARCHAR2(250),    
+    apq_conversion                 		NUMBER(1) DEFAULT 0 NOT NULL,
+    no_notification                		NUMBER(1) DEFAULT 0 NOT NULL,
+    FEATURED_AWARDS_ENABLED        		NUMBER(1) DEFAULT 0 NOT NULL,
+  	IS_OPEN_ENROLLMENT_ENABLED     		NUMBER(1) DEFAULT 0 NOT NULL,
+  	IS_SELF_RECOGNITION_ENABLED    		NUMBER(1) DEFAULT 0 NOT NULL,
+  	IS_BUDGET_SWEEP_ENABLED        		NUMBER(1) DEFAULT 0 NOT NULL,
+  	IS_SHOW_IN_BUDGET_TRACKER      		NUMBER(1) DEFAULT 0 NOT NULL,
+  	IS_INCLUDE_PURL 			   		NUMBER(1) DEFAULT 0 NOT NULL,  	
+  	PURL_MEDIA_TYPE                		VARCHAR2(30),
+  	PURL_MEDIA_VALUE	           		VARCHAR2(30),
+  	ALLOW_PUBLIC_RECOGNITION       		NUMBER(1,0) DEFAULT 0 NOT NULL,
+  	ALLOW_PROMOTION_PRIVATE       	    NUMBER(1,0) DEFAULT 0 NOT NULL,
+   	ALLOW_YOUR_OWN_CARD			   		NUMBER(1,0) DEFAULT 0 NOT NULL,
+  	DRAW_YOUR_OWN_CARD			   		NUMBER(1,0) DEFAULT 0 NOT NULL,
+  	IS_SET_RECOGNITION_DATE        		NUMBER(1) DEFAULT 0 NOT NULL,
+  	ALLOW_PUBLIC_RECOG_POINTS     		NUMBER(1) DEFAULT 0 NOT NULL,
+  	PUBLIC_REC_AWARD_AMOUNT_MIN    		NUMBER(18,0),
+	PUBLIC_REC_AWARD_AMOUNT_MAX    		NUMBER(18,0),
+	PUBLIC_REC_BUDGET_MASTER_ID    		NUMBER(18),
+	PUBLIC_REC_AUDIENCE_TYPE       		VARCHAR2(40),
+	PUBLIC_REC_AWARD_TYPE_FIXED			NUMBER(1) NOT NULL,
+	PUBLIC_REC_AWARD_AMOUNT_FIXED		NUMBER(18,0),
+	MAX_DAYS_DELAYED					NUMBER(2),
+	IS_MOB_APP_ENABLED					NUMBER(1) DEFAULT 0,
+	IS_EMAIL_ENABLED					NUMBER(1) DEFAULT 0,
+    EMAIL_CONFIRM_ENABLED               NUMBER(1) DEFAULT 1,
+	IS_PURL_STANDARD_MESSAGE			NUMBER(1) DEFAULT 0,
+	PURL_STANDARD_MESSAGE				VARCHAR2(1024),
+	DEFAULT_CONTRIBUTOR_AVATAR			VARCHAR2(512),
+	DEFAULT_CONTRIBUTOR_NAME			VARCHAR2(50),
+	CONTENT_RESOURCE                    VARCHAR2(100),
+	INCLUDE_CELEBRATIONS				NUMBER(1) DEFAULT 0,
+	CELEBRATION_DISPLAY_PERIOD			NUMBER(4),
+	ALLOW_OWNER_MESSAGE					NUMBER(1) DEFAULT 1,
+	DEFAULT_MESSAGE						VARCHAR(1500),
+	YEAR_TILE_ENABLED					NUMBER(1) DEFAULT 0,
+	TIMELINE_TILE_ENABLED				NUMBER(1) DEFAULT 0,
+	VIDEO_TILE_ENABLED					NUMBER(1) DEFAULT 0,
+	VIDEO_PATH							VARCHAR(30),
+	SHARE_TO_MEADIA						NUMBER(1) DEFAULT 1,
+ 	FILLER_IMG_1_AWARD_NUM_ENABLED      NUMBER(1) DEFAULT 0 NOT NULL,
+ 	FILLER_IMG_2_AWARD_NUM_ENABLED      NUMBER(1) DEFAULT 0 NOT NULL,
+ 	FILLER_IMG_3_AWARD_NUM_ENABLED      NUMBER(1) DEFAULT 0 NOT NULL,
+ 	FILLER_IMG_4_AWARD_NUM_ENABLED      NUMBER(1) DEFAULT 0 NOT NULL,
+ 	FILLER_IMG_5_AWARD_NUM_ENABLED      NUMBER(1) DEFAULT 0 NOT NULL,
+	CELEBRATION_FILLER_IMAGE_1			VARCHAR(30),
+	CELEBRATION_FILLER_IMAGE_2			VARCHAR(30),
+	CELEBRATION_FILLER_IMAGE_3			VARCHAR(30),
+	CELEBRATION_FILLER_IMAGE_4			VARCHAR(30),
+	CELEBRATION_FILLER_IMAGE_5			VARCHAR(30),
+	SERVICE_ANNIVERSARY                 NUMBER(1) DEFAULT 1,
+	ANNIVERSARY_IN_YEARS				NUMBER(2),
+	CELEBRATION_GENERIC_ECARD			VARCHAR(30),
+	DISPLAY_PURL_IN_PURL_TILE           NUMBER(1) DEFAULT 0,
+	DEFAULT_CELEBRATION_AVATAR			VARCHAR2(512),
+	DEFAULT_CELEBRATION_NAME			VARCHAR2(50),
+	ALLOW_DEFAULT_MESSAGE				NUMBER(1) DEFAULT 1,
+	PAX_DISPLAY_ORDER 			   		VARCHAR2(40)
+  )
+/
+ALTER TABLE promo_recognition
+ADD CONSTRAINT promo_recognition_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promo_recognition
+ADD CONSTRAINT promo_recognition_fk FOREIGN KEY (promotion_id)
+REFERENCES promotion (promotion_id)
+/
+COMMENT ON TABLE PROMO_RECOGNITION IS 'The CHARACTERISTIC table stores the definition of specific characteristics.  A characteristic is a user-defined attribute that is pertinent only to a particular client .  These characteristics are used to group or segment participants, are available to CSRs, and can drive custom processes.  This database table is available as a catchall for unique details that might otherwise require customization.'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.PROMOTION_ID IS 'System generated PK.'
+/
+COMMENT ON COLUMN promo_recognition.award_structure IS 'Award Structure for Spotlight'
+/
+COMMENT ON COLUMN promo_recognition.apq_conversion IS 'Stores Preference on Points Conversion for Spotlight'
+/
+COMMENT ON COLUMN promo_recognition.FEATURED_AWARDS_ENABLED IS 'Stores whether the Promotion Contains Featured Awards'
+/
+COMMENT ON COLUMN promo_recognition.IS_OPEN_ENROLLMENT_ENABLED IS 'Specifies whether Promotion is eligible for Open Enrollment'
+/
+COMMENT ON COLUMN promo_recognition.IS_SELF_RECOGNITION_ENABLED IS 'Specifies whether Promotion is eligible for Self Recognition'
+/
+COMMENT ON COLUMN promo_recognition.IS_BUDGET_SWEEP_ENABLED IS 'Specifies whether Promotion is eligible for Budget Sweep'
+/
+COMMENT ON COLUMN promo_recognition.IS_SHOW_IN_BUDGET_TRACKER IS 'Display in Budget Tracker Tile'
+/
+COMMENT ON COLUMN promo_recognition.IS_INCLUDE_PURL IS 	'Allow PURL in Recognition Promotion'
+/
+COMMENT ON COLUMN promo_recognition.PURL_MEDIA_TYPE IS 	'Purl media type is picture or video'
+/
+COMMENT ON COLUMN promo_recognition.PURL_MEDIA_VALUE IS 'Purl media value for picture or video'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.ALLOW_PUBLIC_RECOGNITION  IS 'whether the promotion allows public recognition or not'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.ALLOW_YOUR_OWN_CARD  IS 'whether the promotion allows to upload own card or not'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.DRAW_YOUR_OWN_CARD  IS 'whether the promotion allows to draw own card or not'
+/
+COMMENT ON COLUMN promo_recognition.IS_SET_RECOGNITION_DATE IS 	'Allow givers to set Recognition Send Date'
+/
+COMMENT ON COLUMN promo_recognition.PUBLIC_REC_AUDIENCE_TYPE IS 'save public recognition audience type'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.ALLOW_PUBLIC_RECOG_POINTS  IS 'whether the promotion allows public recognition add on points'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.IS_MOB_APP_ENABLED  IS 'whether the promotion has MobileAPP enabled'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.IS_EMAIL_ENABLED  IS 'whether the promotion is SEA/Email enabled'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.FILLER_IMG_1_AWARD_NUM_ENABLED  IS 'whether the filler image 1 will use award number'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.FILLER_IMG_2_AWARD_NUM_ENABLED  IS 'whether the filler image 2 will use award number'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.FILLER_IMG_3_AWARD_NUM_ENABLED  IS 'whether the filler image 3 will use award number'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.FILLER_IMG_4_AWARD_NUM_ENABLED  IS 'whether the filler image 4 will use award number'
+/
+COMMENT ON COLUMN PROMO_RECOGNITION.FILLER_IMG_5_AWARD_NUM_ENABLED  IS 'whether the filler image 5 will use award number'
+/

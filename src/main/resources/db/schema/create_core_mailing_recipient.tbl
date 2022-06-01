@@ -1,0 +1,45 @@
+CREATE SEQUENCE mailing_recipient_pk_sq start with 250 increment by 1
+/
+CREATE TABLE mailing_recipient
+    (mailing_recipient_id			NUMBER(18) NOT NULL,
+     mailing_id        				NUMBER(18) NOT NULL,     
+     user_id						NUMBER(18),
+     claim_item_id                  NUMBER(18),      
+     preview_email_address			VARCHAR2(75),
+     preview_sms_address        VARCHAR2(75),
+     date_sent						DATE,
+     sms_date_sent        DATE,
+     locale       					VARCHAR2(10),
+     guid                     		VARCHAR2(80) NOT NULL,
+     created_by number(18) NOT NULL,
+     date_created     				DATE NOT NULL,
+     modified_by number(18),
+     date_modified    				DATE,
+     version          				NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE mailing_recipient
+ADD CONSTRAINT mailing_recipient_pk PRIMARY KEY (mailing_recipient_id)
+USING INDEX
+/
+ALTER TABLE mailing_recipient ADD CONSTRAINT mailing_recipient_user_fk
+  FOREIGN KEY (user_id) REFERENCES application_user(user_id) 
+/
+ALTER TABLE mailing_recipient ADD CONSTRAINT mail_rec_claim_item_fk
+  FOREIGN KEY (claim_item_id) REFERENCES CLAIM_ITEM (claim_item_id)
+/
+ALTER TABLE mailing_recipient ADD CONSTRAINT mailing_recipient_mailing_fk
+  FOREIGN KEY (mailing_id) REFERENCES mailing(mailing_id) 
+/
+ALTER TABLE mailing_recipient
+ADD CONSTRAINT mailing_recipient_uk UNIQUE (guid)
+/
+CREATE INDEX MAILING_RECIPIENT_MLING_FK_idx ON MAILING_RECIPIENT
+  (MAILING_ID)
+/
+CREATE INDEX MAILING_RECIPIENT_USER_FK_idx ON MAILING_RECIPIENT
+  (USER_ID)
+/
+COMMENT ON TABLE mailing_recipient IS 'The mailing_recipient table defines the recipients for the mailing.'
+/
+COMMENT ON COLUMN mailing_recipient.mailing_recipient_id IS 'System generated PK.'
+/

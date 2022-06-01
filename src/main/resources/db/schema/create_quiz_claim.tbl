@@ -1,0 +1,36 @@
+CREATE TABLE quiz_claim
+ (claim_id            NUMBER(12) NOT NULL,
+  current_question_id NUMBER(12) NOT NULL, 
+  pass                NUMBER(1), 
+  passing_score       NUMBER(12) NOT NULL, 
+  score               NUMBER(12) NOT NULL, 
+  question_count      NUMBER(12) NOT NULL)
+/
+ALTER TABLE quiz_claim
+ADD CONSTRAINT quiz_claim_id_pk PRIMARY KEY (claim_id)
+USING INDEX
+/
+ALTER TABLE quiz_claim ADD CONSTRAINT quiz_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES claim (claim_id)
+/
+ALTER TABLE quiz_claim ADD CONSTRAINT quiz_current_question_id_fk
+  FOREIGN KEY (current_question_id) REFERENCES quiz_question (quiz_question_id)
+/
+CREATE INDEX QUIZ_CLAIM_CUR_QUESTION_FK_idx ON QUIZ_CLAIM
+  (CURRENT_QUESTION_ID)
+/
+COMMENT ON TABLE quiz_claim IS 'The CLAIM table defines a instance of a quiz claim.'
+/
+COMMENT ON COLUMN quiz_claim.claim_id IS 'System-generated key that identifies a specific claim.'
+/
+COMMENT ON COLUMN quiz_claim.pass IS 'Pass/fail or unassigned if NULL'
+/
+COMMENT ON COLUMN quiz_claim.score IS 'Number of correctly answered questions'
+/
+COMMENT ON COLUMN quiz_claim.question_count IS 'Total number of questions in the quiz'
+/
+ALTER TABLE quiz_claim add quiz_id NUMBER(12)
+/
+ALTER TABLE quiz_claim ADD CONSTRAINT quiz_id_fk
+  FOREIGN KEY (quiz_id) REFERENCES quiz (quiz_id)
+/

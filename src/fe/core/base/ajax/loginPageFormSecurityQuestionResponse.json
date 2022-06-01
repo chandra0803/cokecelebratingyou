@@ -1,0 +1,18 @@
+<?php sleep(1); ?>
+<?php /* empty out the messages array to see a successful submit */ ?>
+{
+	"messages":[
+        {
+            "type":"error",
+            "code":"validationError",
+
+            "fields":[
+                {
+                    "name" : "secretAnswer",
+                    "text" : "Your secret answer was incorrect. Please try again."
+                }
+            ]
+        }
+    ]
+
+}

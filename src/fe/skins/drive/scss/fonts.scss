@@ -1,0 +1,49 @@
+@import "base/colors";
+@import "base/variables";
+@import "base/mixins";
+
+
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+$fontsUrlPath: $appFontsPath;
+
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "../../../core/base/scss/fonts";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================
+// If there are any custom @font-face fonts, put the rules for them here using the code block below.
+// Note: Your font files must be located in the skin's rsrc folder for this code structure to work. For fonts in other directories, you will need to pass $path arguments to the font-face() and font-files-safe() functions. See core/base/scss/fonts.scss for how to use those arguments
+// Note: For brevity, you may leave off the argument names ($name, $font-files, etc) provided all arguments are included in the correct order
+// @include font-face(
+//     $name: 'FontAwesome',
+//     $font-files: font-files-safe(
+//             $fonts: ("fontawesome-webfont.woff" 'woff',
+//                 "fontawesome-webfont.ttf" 'truetype',
+//                 "fontawesome-webfont.svg#FontAwesome" 'svg')
+//         ),
+//     $eot: 'fontawesome-webfont.eot',
+//     $weight: normal,
+//     $style: normal);
+
+
+
+
+
+// -------------------- Special Cases -------------------- //
+// If you are ADDING glyphs to the base G5 Fonticons font, uncomment the following lines. Note the filenames.
+// @include font-face(
+//     $name: 'G5FonticonsExtended',
+//     $font-files: font-files-safe(
+//             $fonts: ("G5FonticonsExtended.woff" 'woff',
+//                 "G5FonticonsExtended.ttf" 'truetype',
+//                 "G5FonticonsExtended.svg#G5FonticonsExtended" 'svg')
+//         ),
+//     $eot: 'G5FonticonsExtended.eot',
+//     $weight: normal,
+//     $style: normal);

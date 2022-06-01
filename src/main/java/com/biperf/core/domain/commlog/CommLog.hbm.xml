@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.commlog.CommLog" table="COMM_LOG">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="comm_log_id">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">COMM_LOG_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="guid" column="GUID" type="java.lang.String"/>
+    <property name="message" column="MESSAGE" not-null="false" type="text"/>
+    <property name="subject" column="SUBJECT" not-null="false" type="java.lang.String"/>
+    <property name="dateInitiated" column="date_initiated" type="timestamp"/>
+    <property name="dateEscalated" column="date_escalated" type="timestamp"/>
+    <property name="plainMessage" column="plain_message" not-null="false" type="text"/>
+    <property name="messageType" column="MESSAGE_TYPE" not-null="false" type="java.lang.String"/>
+
+    <property name="commLogReasonType" column="REASON_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.CommLogReasonType</param>
+      </type>
+    </property>
+    <property name="commLogUrgencyType" column="URGENCY_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.CommLogUrgencyType</param>
+      </type>
+    </property>
+    <property name="commLogCategoryType" column="CATEGORY_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.CommLogCategoryType</param>
+      </type>
+    </property>
+    <property name="commLogSourceType" column="SOURCE_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.CommLogSourceType</param>
+      </type>
+    </property>
+    <property name="commLogStatusType" column="STATUS_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.CommLogStatusType</param>
+      </type>
+    </property>
+
+    <many-to-one name="assignedToUser" column="assigned_to_user_id" not-null="false" lazy="proxy" />
+    <many-to-one name="assignedByUser" column="assigned_by_user_id" not-null="false" lazy="proxy" />
+    <many-to-one name="user" column="user_id" lazy="proxy" />
+    <many-to-one name="mailing" column="mailing_id" not-null="false" lazy="proxy" />
+
+    <set name="comments" table="comm_log_comment" order-by="date_created desc" cascade="all-delete-orphan" >
+      <key column="comm_log_id"/>
+      <one-to-many class="com.biperf.core.domain.commlog.CommLogComment"/>
+    </set>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+      type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+  </class>
+
+  <query name="com.biperf.core.dao.commlog.CommLogsAssignedToUser">
+    <![CDATA[
+    from com.biperf.core.domain.commlog.CommLog where assigned_to_user_id = :userId
+		]]>
+  </query>
+
+  <query name="com.biperf.core.dao.commlog.CommLogsByUser">
+    <![CDATA[
+    from com.biperf.core.domain.commlog.CommLog where user_id = :userId
+		]]>
+  </query>
+
+  <query name="com.biperf.core.dao.commlog.OpenCommLogsAssignedToUser">
+    <![CDATA[
+    from com.biperf.core.domain.commlog.CommLog
+      where assigned_to_user_id = :userId
+      and STATUS_TYPE_CODE = :statusTypeCode
+		]]>
+  </query>
+
+  <query name="com.biperf.core.dao.commlog.AllOpenCommLogs">
+    <![CDATA[
+    from com.biperf.core.domain.commlog.CommLog
+      where STATUS_TYPE_CODE = :statusTypeCode
+		]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.dao.commlog.NonFailureCommLogCountByUser">
+    <return-scalar column="commLogCount" type="long"/>
+  	<![CDATA[
+  	      select sum(row_cnt) commLogCount
+		  from ( SELECT count(cl.USER_ID) row_cnt              
+		         FROM comm_log cl, Mailing m, Mailing_recipient mr, Claim_recipient cr
+		         WHERE m.mailing_id = cl.mailing_id
+		        	AND m.MAILING_ID = mr.MAILING_ID
+		        	AND mr.CLAIM_ITEM_ID = cr.CLAIM_ITEM_ID
+		        	AND mr.USER_ID = cl.USER_ID
+		        	AND cl.USER_ID = cr.PARTICIPANT_ID
+		        	AND cl.user_id = :userId
+		        	AND m.message_id IN ('7032')
+		        	AND cl.subject not like '%Notice: %'
+		            AND cl.message_type ='email'
+         			AND trunc(cl.date_created) BETWEEN :startDate AND :endDate		        
+		        UNION
+		         SELECT count(cl.USER_ID) row_cnt         
+		         FROM comm_log cl, Mailing m, Mailing_recipient mr
+		         WHERE m.mailing_id = cl.mailing_id
+		        	AND m.MAILING_ID = mr.MAILING_ID
+		        	AND mr.USER_ID = cl.USER_ID
+		        	AND cl.user_id = :userId
+		        	AND m.message_id NOT IN ('7032')
+		        	AND cl.reason_type_code IN ('emailwizard','emailpromotion','emailother')
+		        	AND m.mailing_type NOT IN ('loginemail','passwordemail','bothemail')
+		            AND cl.message_type ='email'
+         			AND trunc(cl.date_created) BETWEEN :startDate AND :endDate		        
+		        )
+  	]]>
+  </sql-query>
+
+</hibernate-mapping>

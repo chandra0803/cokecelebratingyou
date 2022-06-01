@@ -1,0 +1,89 @@
+.narrow-form-page {
+    position: relative;
+
+    .narrow-form {
+        // position and z-index to make sure it's on top of the theme image
+        position: relative;
+        z-index: 2;
+        // lots of bottom margin here to handle the "theme" image always being below the form itself
+        // it's a bit of a magic number but not sure how else you'd do it
+        margin: 0 auto;
+    }
+
+    .gq-input {
+        width: 100%;
+        box-sizing: border-box;
+        height: 2.4rem;
+    }
+
+    .theme-image {
+        // background: url( ../../assets/img/themes/default/bg-login-mountain.jpg ) no-repeat bottom center;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 810px;
+        z-index: 1;
+    }
+    .input-wrap {
+        margin: 3em 0;
+        text-align: left;
+        position: relative;
+        width: 100%;
+		
+		&.forgot-emailId {
+			margin-top: 1em;
+		}
+        &:last-of-type {
+            margin-bottom: 6px;
+        }
+    }
+    textarea {
+        min-height: 200px;
+        line-height: 1.6;
+        padding: 6px 12px;
+    }
+    // .control-label {
+    //     font-size:18px;
+    //     font-weight: 400;
+    //     opacity: 0.4;
+    //     pointer-events: none;
+    //     position: absolute;
+    //     transform: translate3d( 15px, 15px, 0 ) scale(1);
+    //     transform-origin: 0px -60px;
+    //     transition: 240ms;
+    // }
+
+	.form-group.focused .control-label {
+		opacity: 1;
+		transform: scale( 0.75 );
+		font-weight:bold;
+		color: teal;
+		text-transform: uppercase;
+	}
+	.eye, .calendar-icon {
+		box-sizing: border-box;
+		display: inline-block;
+		width: 1.3rem;
+		position: absolute;
+		right: .75rem;
+		top: 8px;
+		cursor: pointer;
+		z-index: 100;
+        height: 22px;
+	}
+	.secondary-button {
+		margin-top: 30px;
+	}
+	.preview {
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		img {
+			width: 100%;
+		}
+	}
+
+}

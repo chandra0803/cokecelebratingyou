@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.product.Product" table="PRODUCT">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PRODUCT_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PRODUCT_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<property name="name" type="java.lang.String" column="PRODUCT_NAME" />
+		<property name="description" type="java.lang.String"
+			column="DESCRIPTION" />
+		<property name="code" type="java.lang.String" column="SKU_CODE" />
+
+		<!-- product category -->
+		<many-to-one name="productCategory" lazy="false"
+			class="com.biperf.core.domain.product.ProductCategory" cascade="save-update"
+			outer-join="false">
+			<column name="CATEGORY_ID" not-null="false" />
+		</many-to-one>
+
+		<set name="productCharacteristics" lazy="false" table="PRODUCT_CHARACTERISTIC" inverse="true" cascade="all-delete-orphan">
+          <key column="PRODUCT_ID" />
+          <one-to-many class="com.biperf.core.domain.product.ProductCharacteristic" />
+        </set>
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+	</class>
+
+	<query name="com.biperf.core.domain.product.AllProducts">
+		<![CDATA[
+		  from com.biperf.core.domain.product.Product product
+		]]>
+	</query>
+
+	<query name="com.biperf.core.domain.product.CategoryProducts">
+		<![CDATA[
+		  from com.biperf.core.domain.product.Product product
+      where product.productCategory = :productCategory
+		]]>
+	</query>
+
+	<sql-query name="com.biperf.core.domain.product.GetProductsByPromotion">
+	  <return alias="product" class="com.biperf.core.domain.product.Product"/>
+	  	<![CDATA[
+		  	SELECT
+		  		{product.*}
+		  	FROM
+		  		PRODUCT product
+			where ( product.category_id in
+			  (select distinct pc.product_category_id
+ 				 from product_category pc
+  				start with pc.product_category_id in
+       			 (select pp.product_category_id
+         			from promo_payout pp
+         		   where pp.promo_payout_group_id in
+            	     (select a.promo_payout_group_id
+            	        from promo_payout_group a
+             		   where promotion_id = :promotionId)
+                         and product_category_id is not null
+                  )
+                  connect by prior product_category_id = parent_category_id  )
+               or product_id in
+                (select pp.product_id
+                   from promo_payout pp
+                  where pp.promo_payout_group_id in
+                    (select a.promo_payout_group_id
+                       from promo_payout_group a
+                      where promotion_id = :promotionId)
+                        and product_id is not null
+                )
+             )
+			ORDER BY
+				product.product_name
+		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.product.GetProductsByPromotionAndDateRange">
+	  <return alias="product" class="com.biperf.core.domain.product.Product"/>
+	  	<![CDATA[
+		  	SELECT
+		  		{product.*}
+		  	FROM
+		  		PRODUCT product
+			where ( product.category_id in
+			  (select distinct pc.product_category_id
+ 				 from product_category pc
+  				start with pc.product_category_id in
+       			 (select pp.product_category_id
+         			from promo_payout pp
+         		   where pp.promo_payout_group_id in
+            	     (select a.promo_payout_group_id
+            	        from promo_payout_group a
+             		   where promotion_id = :promotionId)
+                         and product_category_id is not null
+                         and TRUNC(:onThisDate) between TRUNC(pp.product_or_category_start_date) and TRUNC(NVL(pp.product_or_category_end_date, :currentDate))
+                  )
+                  connect by prior product_category_id = parent_category_id  )
+               or product_id in
+                (select pp.product_id
+                   from promo_payout pp
+                  where pp.promo_payout_group_id in
+                    (select a.promo_payout_group_id
+                       from promo_payout_group a
+                      where promotion_id = :promotionId)
+                        and product_id is not null
+                        and TRUNC(:onThisDate) between TRUNC(pp.product_or_category_start_date) and TRUNC(NVL(pp.product_or_category_end_date, :currentDate))
+                )
+             )
+			ORDER BY
+				product.product_name
+		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.product.ProductByNameCount">
+		<return-scalar column="result" type="integer"/>
+	  	<![CDATA[
+		SELECT count(1) as result
+		  FROM product
+		 WHERE lower(product_name) = :productName
+		   AND product_id != :productId
+		   AND category_id = :categoryId
+		]]>
+	</sql-query>
+
+	<query name="com.biperf.core.domain.product.ProductByNameAndCategory">
+		<![CDATA[
+		  from com.biperf.core.domain.product.Product product
+		  where product.productCategory.id = :categoryId and
+		  lower(product.name) = :productName
+		]]>
+	</query>
+
+
+</hibernate-mapping>

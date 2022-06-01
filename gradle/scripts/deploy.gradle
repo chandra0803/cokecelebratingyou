@@ -1,0 +1,855 @@
+import org.apache.tools.ant.filters.*
+import static org.apache.tools.ant.taskdefs.condition.Os.*
+import java.nio.file.Files;
+
+compileJava {
+  options.incremental = true
+}
+
+//*******************************************************//
+//******************Start Project Structure**************//
+//*******************************************************//
+eclipse {
+  classpath {
+    defaultOutputDir = file('build/eclipse')
+  }
+}
+
+project.buildDir = "${projectDir}/build"
+
+sourceSets {
+  main {
+    resources {
+      srcDirs = ['src/main/java']
+    }
+  }
+  test {
+    resources {
+      srcDirs = ["${config.envResourceDir}", "${config.cm.sourceDir}"]
+    }
+  }
+  // SourceSet with only cmData, so checkstyle will recognize it
+  cmData {
+    resources {
+      srcDirs = ["${config.dbResourceDir}"]
+      include "cmData.xml"
+    }
+  }
+}
+
+//*******************************************************//
+//******************End Project Structure****************//
+//*******************************************************//
+
+
+
+def isCmWarDeployed() {
+  try {
+    return (file("${config.tomcat.webapps}/${config.installation.data.name}-cm.war").exists()
+        || file("${config.tomcat.webapps}/${config.installation.data.name}-cm").exists())
+  } catch(Exception e) {
+    System.err.println("Error checking for CM war file: " + e.getMessage())
+    return false
+  }
+}
+
+// Returns a collection of strings
+// It is a list of exclusion rules for modules that are not installed.  This is so unnecessary JSPs
+// are not included in the war file.
+def modulesToExclude() {
+  def exclusions = []
+
+  // Note: From the old build, it appears throwdown and leaderboard are never excluded
+  if(!productClaimInstalled) {
+    exclusions << "product/*.jsp*"
+    exclusions << "productclaim/*.jsp*"
+    exclusions << "promotion/productclaim/*.jsp*"
+  }
+  if(!quizInstalled) {
+    exclusions << "quiz/*.jsp*"
+    exclusions << "promotion/quiz/*.jsp*"
+  }
+  if(!wellnessInstalled) {
+    exclusions << "promotion/wellness/*.jsp*"
+  }
+  if(!surveyInstalled) {
+    exclusions << "promotion/survey/*.jsp*"
+  }
+  if(!recognitionInstalled) {
+    exclusions << "promotion/recognition/*.jsp*"
+  }
+  if(!engagementInstalled) {
+    exclusions << "engagement/*.jsp*"
+    exclusions << "promotion/engagement/*.jsp*"
+  }
+  if(!ssiInstalled) {
+    exclusions << "ssi/*.jsp*"
+    exclusions << "promotion/ssi/*.jsp*"
+  }
+  if(!nominationInstalled) {
+    exclusions << "promotion/nomination/*.jsp*"
+  }
+  if(!nominationInstalled && !recognitionInstalled) {
+    exclusions << "claim/nomrec/*.jsp*"
+  }
+  if(!goalquestInstalled) {
+    exclusions << "goalquest/*.jsp*"
+    exclusions << "promotion/goalquest/*.jsp*"
+  }
+  if(!challengepointInstalled) {
+    exclusions << "challengepoint/*.jsp*"
+    exclusions << "promotion/challengepoint/*.jsp*"
+  }
+
+  return exclusions
+}
+
+// Add struts-config references to web.xml based on which modules are installed
+// Does this by using an XSTL transformation
+// Outputs the transformed web.xml to a temp folder. Task output should be piped to an input
+task web_xml_struts_config(type: XsltTransformTask) {
+  group zapGroup
+  description "Generate a web.xml with optional struts configurations included"
+  templateFile file("${config.xslResourceDir}/struts-modules.xsl")
+  sourceFile file("src/main/webapp/WEB-INF/web.xml")
+  outputFile file("${buildDir}/tmp/webXmlStrutsConfig/web.xml")
+  parameters = [
+    'nom': project.nominationInstalled.toString(),
+    'pc': project.productClaimInstalled.toString(),
+    'quiz': project.quizInstalled.toString(),
+    'rec': project.recognitionInstalled.toString(),
+    'eng': project.engagementInstalled.toString(),
+    'gq': project.goalquestInstalled.toString(),
+    'cp': project.challengepointInstalled.toString(),
+    'svy': project.surveyInstalled.toString(),
+    'wel': project.wellnessInstalled.toString(),
+    'td': project.throwdownInstalled.toString(),
+    'ssi': project.ssiInstalled.toString()
+  ]
+}
+
+// Creates a modules.properties file describing which modules are installed
+// Outputs the file to a temporary directory. Output can be piped to an input
+task create_module_properties(type: CreatePropertiesTask) {
+  group zapGroup
+  description "Generate a properties file with which modules are installed"
+  outputFile file("${buildDir}/tmp/moduleProps/modules.properties")
+  properties = [
+    'modules.nomination.installed': project.nominationInstalled.toString(),
+    'modules.productclaim.installed': project.productClaimInstalled.toString(),
+    'modules.quiz.installed': project.quizInstalled.toString(),
+    'modules.survey.installed': project.surveyInstalled.toString(),
+    'modules.recognition.installed': project.recognitionInstalled.toString(),
+    'modules.engagement.installed': project.engagementInstalled.toString(),
+    'modules.ssi.installed': project.ssiInstalled.toString(),
+    'modules.goalquest.installed': project.goalquestInstalled.toString(),
+    'modules.challengepoint.installed': project.challengepointInstalled.toString(),
+    'modules.wellness.installed': project.wellnessInstalled.toString(),
+    'modules.leaderboard.installed': project.leaderboardInstalled.toString(),
+    'modules.throwdown.installed': project.throwdownInstalled.toString()
+  ]
+}
+
+// Runs before the war archive is created.
+// Configures the archive to include static assets if the includeStatic property is set
+// (The includeStatic property is set after configuration phase, before execution phase -- see whenReady)
+task war_static_include {
+  group zapGroup
+  description "Dynamically configures war task to include static assets in archive"
+  onlyIf { isPropertyTrue(war, "includeStatic") }
+  doLast {
+    war {
+      from ('src/fe/build')
+      from ('src/main/webapp/assets/g4skin') {
+        into 'assets/g4skin'
+      }
+      from ('src/main/webapp/assets/client') {
+        into 'assets/client'
+      }
+    }
+    println "Static asssets included in war file (should be for dev only)"
+  }
+}
+
+
+// Call the skins:scss portion of the FE build
+// Intent is to build just email.css for the stage_war tasks
+task call_fe_build__skins_scss {
+  group zapGroup
+  description "Delegates to the FE Build, skins:scss"
+  dependsOn 'define_skins'
+  doLast {
+    println "Starting FE Build"
+
+    exec() {
+      if(isFamily(FAMILY_WINDOWS)) {
+        commandLine 'cmd', '/c', /node_modules\.bin\gulp.cmd/, 'skins:scss', '--env=build', /--skin=${project.definedSkins}/
+      }
+      else {
+        commandLine 'node_modules/.bin/gulp', 'skins:scss', '--env=build', /--skin=${project.definedSkins}/
+      }
+    }
+
+    println "FE Build done"
+  }
+}
+
+// Runs before the war archive is created.
+// If the flag is true, calls the fe.build to do the static build
+// (The doFeBuild flag is set after the configuration phase, before execution phase -- see whenReady)
+task call_fe_build {
+  group zapGroup
+  description "Delegates to the FE Build"
+  dependsOn 'define_skins'
+  doLast {
+    println "Starting FE Build"
+
+    exec() {
+      if(isFamily(FAMILY_WINDOWS)) {
+        commandLine 'npm.cmd', 'run', 'build', '--', /--skin=${project.definedSkins}/
+      }
+      else {
+        commandLine 'npm', 'run', 'build', '--', /--skin=${project.definedSkins}/
+      }
+    }
+
+    println "FE Build done"
+  }
+}
+
+// Configuration of the war archive. Mostly defining which files to copy into it.
+// Note that all of this is configuration, Gradle handles all execution details.
+// This is the singular war creation code.  Other tasks simply [re]define its behavior.
+war {
+
+  // war_static_include will change configuration to add static files. Only does this includeStatic flag is true.
+  dependsOn war_static_include
+
+  // Make sure FE build runs first. War task does not depend on it, so it does not *always* run. Other tasks may.
+  mustRunAfter tasks['call_fe_build']
+
+  // Extra properties.
+  ext {
+    cmsTagImplementation = "com.objectpartners.cms.taglib.ContentTextTag" // Default. *not* cms debug
+    includeStatic = false // Set to true to include static assets in war archive
+  }
+
+  def gitBranchName = obtainGitBranchName()
+  def gitCommitHash = obtainGitCommitHash()
+  def computerUsername = obtainBuildUsername()
+
+  archiveName "${config.installation.data.name}.war"
+  includeEmptyDirs = false
+  manifest {
+    attributes([
+      "Implemenation-Title": "${project.title} - ${project.config.installation.data.name} Application",
+      "Implemenation-Version": "${version} - ${buildTime}"
+    ])
+  }
+
+  doFirst {
+    println "Building application WAR archive..."
+    println "Builder: $computerUsername, from branch:commit $gitBranchName:$gitCommitHash"
+  }
+  doLast {
+    println "$archiveName built"
+  }
+
+  // Take [almost] everything under src/main/webapp - Everything is taken by default, exclude this stuff
+  exclude modulesToExclude()
+  exclude "WEB-INF/web.xml" // Exclude stock web.xml. Use XSLT transformed version.
+  exclude "assets/g4skin" // Only included for static builds
+  exclude "assets/client" // Only included for static builds
+  exclude "videos/**"
+  exclude "companyTimeline/**"
+  exclude "sysadmin/version.html"
+  exclude "WEB-INF/classes/USWebCoatedSWOP.zip"
+  exclude "WEB-INF/images/*"
+  exclude "WEB-INF/tld/c.tld"
+  exclude "WEB-INF/tld/c-rt.tld"
+  exclude "WEB-INF/tld/displaytag-el-12.tld"
+  exclude "WEB-INF/tld/fmt.tld"
+  exclude "WEB-INF/tld/fmt-rt.tld"
+
+  from (tasks.web_xml_struts_config) {
+    into 'WEB-INF'
+  }
+  from (tasks.create_module_properties) {
+    into 'WEB-INF/classes'
+  }
+  // Grab some files from the 'env' folder
+  from ("${config.envResourceDir}") {
+    into 'WEB-INF/classes'
+    include "spring-security.xml"
+    include "cmsConfigBeaconApplicationContext.xml"
+    include "ehcache-entity-config.xml"
+    include "applicationContext.xml"
+    include "applicationContext-fileload-template.xml"
+    include "applicationContext-jms.xml"
+    include "OrderInformationMapping.xml"
+    include "applicationContext-processes.xml"
+    include "dataAccessContext-hibernate.xml"
+    include "dataAccessContext-hibernate-properties.xml"
+    include "datasourceContext-server.xml"
+    include "ServiceLocatorConfig.xml"
+    include "*log4j-config.xml"
+    include "webservicesContext.xml"
+    include "build.properties"
+    include "wssecurity/wssec.xml"
+    include "wssecurity/props/*.*"
+	include "wssecurity/keystore/*.*"    
+  }
+  from ("${config.envResourceDir}") {
+    into 'WEB-INF'
+    include "springWeb-servlet.xml"
+  }
+  // Emails from the FE folder
+  from ('src/fe/build/assets') {
+    into 'assets'
+    include "**/email.css"
+  }
+  // Font stuff
+  from ('src/fe/core/base/rsrc') {
+    into 'fonts/rsrc'
+  }
+  // "Unzip" stuff
+  from (zipTree(file('src/main/webapp/WEB-INF/classes/USWebCoatedSWOP.zip'))) {
+    into 'WEB-INF/classes'
+  }
+  /** Token filtering.  Trying to be somewhat concise, to avoid excessive file scanning **/
+  filesMatching([
+      "WEB-INF/web.xml",
+      "cmsConfigBeaconApplicationContext.xml",
+      "ehcache-entity-config.xml",
+      "applicationContext.xml",
+      "applicationContext-jms.xml",
+      "applicationContext-processes.xml",
+      "dataAccessContext-hibernate.xml",
+      "datasourceContext-server.xml",
+      "*log4j-config.xml"
+    ]) {
+    filter(ReplaceTokens, tokens:[
+      "PROJECT_NAME": project.config.installation.data.name,
+      "PROJECT_URL": project.config.installation.data.url,
+      "DAM_HOST": project.config.installation.data.damhost,
+      "WEBDAV_PREFIX": project.config.installation.data.qa.schema_user
+    ])
+  }
+  filesMatching(["WEB-INF/struts*.xml", "WEB-INF/classes/fusioncharts_export.properties"]) {
+    filter(ReplaceTokens, tokens:[
+      "FILE_UPLOAD_TEMP_DIR": "/zdata/tomcat/sg${project.config.installation.data.cluster.number}/tmp".toString()
+    ])
+  }
+  filesMatching(["WEB-INF/tld/cms.tld"]) {
+    filter(ReplaceTokens, tokens:[
+      "CMS_TAG_IMPLEMENTATION": "${cmsTagImplementation}".toString()
+    ])
+  }
+  filesMatching(["sysadmin/version.jsp", "layouts/*.jsp", "include/layouts/*.jsp", "claim/nomrec/recognitiontransactionDetail.jsp", "build.properties"]) {
+    filter(ReplaceTokens, tokens:[
+      "VERSION": project.version.toString(),
+      "MODULE.NOMINATION.INSTALLED": project.nominationInstalled.toString(),
+      "MODULE.PRODUCTCLAIM.INSTALLED": project.productClaimInstalled.toString(),
+      "MODULE.QUIZ.INSTALLED": project.quizInstalled.toString(),
+      "MODULE.SURVEY.INSTALLED": project.surveyInstalled.toString(),
+      "MODULE.RECOGNITION.INSTALLED": project.recognitionInstalled.toString(),
+      "MODULE.ENGAGEMENT.INSTALLED": project.engagementInstalled.toString(),
+      "MODULE.SSI.INSTALLED": project.ssiInstalled.toString(),
+      "MODULE.GOALQUEST.INSTALLED": project.goalquestInstalled.toString(),
+      "MODULE.LEADERBOARD.INSTALLED": project.leaderboardInstalled.toString(),
+      "MODULE.CHALLENGEPOINT.INSTALLED": project.challengepointInstalled.toString(),
+      "MODULE.WELLNESS.INSTALLED": project.wellnessInstalled.toString(),
+      "MODULE.THROWDOWN.INSTALLED": project.throwdownInstalled.toString(),
+      "VERSION.BUILD_DATE": project.buildTime.toString(),
+      "TIMESTAMP": String.valueOf(System.currentTimeMillis()),
+      "GIT.BRANCH.NAME": gitBranchName.toString(),
+      "GIT.COMMIT.HASH": gitCommitHash.toString(),
+      "BUILDER.USERNAME": computerUsername.toString()
+    ])
+  }
+  /** End token filtering **/
+}
+
+task cmsauth_jar(type: Jar) {
+  group zapGroup
+  description "Creates a cmsauth.jar needed for the CM war archive"
+  dependsOn classes
+
+  archiveName "cmsauth.jar"
+  includeEmptyDirs = false
+
+  from (sourceSets.main.java.outputDir) {
+    include "com/biperf/core/dao/cm/CmsAuthenticationDao.class"
+    include "com/biperf/core/dao/cm/impl/CmsAuthenticationDaoImpl*.class"
+    include "com/biperf/core/security/CmsAuthorizationUtil.class"
+    include "com/biperf/core/service/cms/CmsAuthenticationService.class"
+    include "com/biperf/core/service/cms/impl/CMSSOAuthorizationServiceImpl.class"
+    include "com/biperf/core/service/cms/impl/CMSSOAuthenticationServiceImpl.class"
+  }
+}
+
+// Task is jar type because war will include src/main/webapp - we do not want that. Jar avoids a lot of unnecessary exclusion.
+task war_cm(type: Jar) {
+  group zapGroup
+  description "Builds the context-specific CM War archive"
+
+  archiveName "${config.installation.data.name}-cm.war"
+  includeEmptyDirs = false
+  manifest {
+    attributes([
+      "Implemenation-Title": "${project.title} - ${project.config.installation.data.name} Application",
+      "Implemenation-Version": "${version} - ${buildTime}"
+    ])
+  }
+
+  // Essentially the classpath. The CM dependencies into the lib folder.
+  from (project.configurations.cmWarLibConfiguration) {
+    into 'WEB-INF/lib'
+  }
+  from (cmsauth_jar) {
+    into 'WEB-INF/lib'
+  }
+
+  // Most of the files come from this war file.  We just add a few and filter them.
+  from zipTree(project.configurations.cmDistributionWarConfiguration.asPath).matching {
+    exclude "WEB-INF/classes/cms*.xml"
+    exclude "WEB-INF/classes/*log4j-config.xml"
+  }
+
+  from ("${config.cm.sourceDir}") {
+    into 'WEB-INF/classes'
+    include "cms*.xml"
+    include "*log4j-config.xml"
+    filter(ReplaceTokens, tokens:[
+      "PROJECT_NAME": project.config.installation.data.name,
+      "PROJECT_URL": project.config.installation.data.url,
+      "DAM_HOST": project.config.installation.data.damhost,
+    ])
+  }
+}
+
+
+//***************************************************//
+//***************** App Deploy tasks ****************//
+//***************************************************//
+task copy_app_to_webapps(type: Copy) {
+  group zapGroup
+  description "Copy generated war file to tomcat webapps folder"
+  from war
+  into "${project.config.tomcat.webapps}"
+  doFirst {
+    println "Copying application war to ${project.config.tomcat.webapps}"
+  }
+}
+
+task copy_cm_to_webapps(type: Copy) {
+  group zapGroup
+  description "Copy generated CM war file to tomcat webapps folder"
+  from war_cm
+  into "${project.config.tomcat.webapps}"
+  doFirst {
+    println "Copying CM war to ${project.config.tomcat.webapps}"
+  }
+}
+
+task app_undeploy(type: Delete) {
+  group deployGroup
+  description "Delete application and CM war archives from Tomcat webapps folder"
+  delete "${project.config.tomcat.webapps}/${war.archiveName}"
+  delete "${project.config.tomcat.webapps}/${war_cm.archiveName}"
+}
+
+task app_deploy {
+  group deployGroup
+  description "Build and deploy the war to a local tomcat instance"
+  dependsOn copy_app_to_webapps
+  ext {
+    includeStaticInWar = true
+    createUncompressedWar = true
+  }
+  doLast {
+    println "Application deployed"
+  }
+}
+
+task app_deploy_cms_debug {
+  group deployGroup
+  description "Build and deploy the war to a local tomcat instance -- With CMS DebugText tag"
+  dependsOn copy_app_to_webapps
+  ext {
+    includeStaticInWar = true
+    useCmsDebugTag = true
+    createUncompressedWar = true
+  }
+  doLast {
+    println "Application deployed"
+  }
+}
+
+task app_deploy_with_static {
+  group deployGroup
+  description "Do the FE build, then build and deploy the war to a local tomcat instance"
+  dependsOn call_fe_build, copy_app_to_webapps
+  ext {
+    includeStaticInWar = true
+    createUncompressedWar = true
+  }
+  doLast {
+    println "Application deployed"
+  }
+}
+
+task app_deploy_with_static_cms_debug {
+  group deployGroup
+  description "Do the FE build, then build and deploy the war to a local tomcat instance -- With CMS DebugText tag"
+  dependsOn call_fe_build, copy_app_to_webapps
+  ext {
+    includeStaticInWar = true
+    useCmsDebugTag = true
+    createUncompressedWar = true
+  }
+  doLast {
+    println "Application deployed"
+  }
+}
+
+// Expanded variants. Create the application directory as an expanded folder directly in the tomcat webapps folder
+// In terms of time performance, expect to basically save the time tomcat spends unpacking the war itself, plus change
+task war_cm_expanded(type: Copy) {
+  group zapGroup
+  description "cm war folder directly to webapps"
+
+  into "${project.config.tomcat.webapps}/${config.installation.data.name}-cm"
+  with war_cm
+}
+task war_expanded(type: Copy) {
+  group zapGroup
+  description "war folder directly to webapps"
+  dependsOn war_static_include
+  mustRunAfter tasks['call_fe_build']
+
+  into "${project.config.tomcat.webapps}/${config.installation.data.name}"
+  with war
+}
+task app_deploy_expanded() {
+  group deployGroup
+  description "Creates the application directory as an expanded folder directly in the tomcat webapps directory (With CMSDebug)"
+  dependsOn war_expanded // war_cm_expanded is added conditionally - only if folder does not already exist
+  ext {
+    includeStaticInWar = true
+    useCmsDebugTag = true
+  }
+}
+task app_deploy_expanded_static() {
+  group deployGroup
+  description "With FE Build - Creates the application directory as an expanded folder directly in the tomcat webapps directory (With CMSDebug)"
+  dependsOn call_fe_build, war_expanded // war_cm_expanded is added conditionally - only if folder does not already exist
+  ext {
+    includeStaticInWar = true
+    useCmsDebugTag = true
+  }
+}
+
+// When doing app_deploy_XXX, only create the CM war if it's not already there
+if( !isCmWarDeployed() ) {
+  app_deploy.dependsOn copy_cm_to_webapps
+  app_deploy_cms_debug.dependsOn copy_cm_to_webapps
+  app_deploy_with_static.dependsOn copy_cm_to_webapps
+  app_deploy_with_static_cms_debug.dependsOn copy_cm_to_webapps
+
+  app_deploy_expanded.dependsOn war_cm_expanded
+  app_deploy_expanded_static.dependsOn war_cm_expanded
+}
+
+task war_jsp_stage_expanded(type: Copy) {
+  group deployGroup
+  description "Move only JSPs into expanded tomcat webapps directory"
+  includeEmptyDirs = false
+  into "${project.config.tomcat.webapps}/${project.config.installation.data.name}"
+  from ('src/main/webapp') {
+    include "**/*jsp*"
+  }
+}
+//***************************************************//
+//***************** App Deploy tasks ****************//
+//***************************************************//
+
+
+
+//***************************************************//
+//***************** Stage tasks ****************//
+//***************************************************//
+task assert_ctech_stage() {
+  group zapGroup
+  description "Make sure that the staging directories are available - if not, throw exception"
+  doLast {
+    if(!file(config.ctech.appStageDir).exists()) {
+      throw new GradleException("Ctech app staging directory ($config.ctech.appStageDir) does not exist")
+    }
+
+    if(!file(config.ctech.staticStageDir).exists()) {
+      throw new GradleException("Ctech static staging directory ($config.ctech.staticStageDir) does not exist")
+    }
+  }
+}
+
+task ensure_cm3dam_created {
+  group zapGroup
+  description "Creates cm3dam static folder if it does not exist"
+  dependsOn assert_ctech_stage
+  doLast {
+    def directoryPath = file( "${config.ctech.staticStageDir}/${config.installation.data.name}-cm/cm3dam" ).toPath()
+    Files.createDirectories( directoryPath )
+  }
+}
+
+task copy_app_to_stage(type: Copy) {
+  group zapGroup
+  description "Copy generated war file to Ctech staging folder"
+  dependsOn ensure_cm3dam_created, call_fe_build__skins_scss
+
+  into "${config.ctech.appStageDir}"
+  from war
+  doFirst {
+    println "Copying application war to ${config.ctech.appStageDir}"
+  }
+
+  // If on the dev team, copy the current cmdata out so we can use it for diffs
+  doLast {
+    if( isProductTeam() ) {
+      doCpdCmdataShare()
+    }
+  }
+}
+
+task copy_cm_to_stage(type: Copy) {
+  group zapGroup
+  description "Copy generated CM war file to Ctech staging folder"
+  dependsOn ensure_cm3dam_created
+
+  into "${config.ctech.appStageDir}"
+  from war_cm
+  doFirst {
+    println "Copying CM war to ${config.ctech.appStageDir}"
+  }
+}
+
+task stage_war {
+  group deployGroup
+  description "Build the war and copy it to the Ctech staging directory"
+  dependsOn copy_app_to_stage, copy_cm_to_stage
+}
+
+task stage_war_cms_debug {
+  group deployGroup
+  description "Build the war and copy it to the Ctech staging directory -- With CMS DebugText tag"
+  dependsOn copy_app_to_stage, copy_cm_to_stage
+  ext {
+    useCmsDebugTag = true
+  }
+}
+
+task stage_static_js(type: Sync) {
+  group deployGroup
+  description "Stage JavaScript files to the Ctech staging directory"
+  dependsOn ensure_cm3dam_created, call_fe_build
+  includeEmptyDirs = false
+
+  into "${config.ctech.staticStageDir}/${config.installation.data.name}/assets/js"
+  from 'src/fe/build/assets/js'
+}
+
+task stage_static_skins(type: Sync) {
+  group deployGroup
+  description "Compile and stage CSS files to the Ctech staging directory"
+  dependsOn ensure_cm3dam_created, call_fe_build
+  includeEmptyDirs = false
+
+  into "${config.ctech.staticStageDir}/${config.installation.data.name}/assets/skins"
+  from 'src/fe/build/assets/skins'
+}
+
+task stage_static_skins_js() {
+  group deployGroup
+  description "Compile/Stage CSS and JS static files"
+  dependsOn stage_static_js, stage_static_skins
+}
+
+task stage_static_client_content(type: Copy) {
+  group deployGroup
+  description "Stage files under src/web/assets/client and src/fe/core/base/img/cards"
+  dependsOn ensure_cm3dam_created
+  includeEmptyDirs = false
+
+  // Think of this as the root/common directory to put stuff into
+  into ("${config.ctech.staticStageDir}/${config.installation.data.name}")
+
+  // ... and this says "put this stuff into a subfolder"
+  into ('assets/client') {
+    from 'src/main/webapp/assets/client'
+  }
+
+  // cards subfolder
+  into ('assets/img/cards') {
+    from 'src/fe/core/base/img/cards'
+  }
+}
+
+// Copy Spec for staging all static files. Shared by stage_static and assemble_static_content_local
+def staticContentCopySpec = copySpec {
+  // This says "put this stuff into a subfolder"
+  into ("${config.installation.data.name}") {
+    // FE build stuff
+    from ('src/fe/build')
+
+    // This'll pick up static assets hanging out in the application source
+    from ('src/main/webapp') {
+      exclude "WEB-INF/**"
+      exclude "**/*.jsp*"
+    }
+  }
+
+   // ... CM subfolder. Just pull files from the pre-bundled war file
+  into ("${config.installation.data.name}-cm") {
+    from (zipTree(project.configurations.cmDistributionWarConfiguration.asPath)) {
+      exclude "**/*.jsp*"
+      exclude "**/*.inc*"
+      exclude "WEB-INF/**/*"
+    }
+  }
+}
+
+task stage_static(type: Sync) {
+  group deployGroup
+  description "Full static build and stage. Does not include war archives"
+  dependsOn ensure_cm3dam_created, call_fe_build
+  includeEmptyDirs = false
+
+  // Do not delete these folders... * represents the stuff in the top level folder
+  preserve {
+    include '*'
+    include "${config.installation.data.name}/companyTimeline/**"
+    include "${config.installation.data.name}-cm/cm3dam/**"
+  }
+
+  // Think of this as the top level directory to put stuff into
+  into ("${config.ctech.staticStageDir}")
+  with staticContentCopySpec
+}
+
+task assemble_static_content_local(type: Copy) {
+  group zapGroup
+  description "Creates local copy of all static content in the format in which it will be staged"
+  dependsOn call_fe_build
+  includeEmptyDirs = false
+
+  // Put the static content into a local directory
+  into ("${config.staging.staticPrepDir}")
+  with staticContentCopySpec
+
+  doLast{
+    println "local copy of static content was written to ${config.staging.staticPrepDir}"
+  }
+}
+
+
+task stage {
+  group deployGroup
+  description "Full build and stage: FE, images, war"
+  dependsOn stage_war, stage_static
+}
+
+task stage_cms_debug {
+  group deployGroup
+  description "Full build and stage: FE, images, war -- With CMS DebugText tag"
+  dependsOn stage_war_cms_debug, stage_static
+  ext {
+    useCmsDebugTag = true
+  }
+}
+//***************************************************//
+//***************** Stage tasks ****************//
+//***************************************************//
+
+
+
+//***************************************************//
+//******************** Clean tasks ******************//
+//***************************************************//
+task clean_compiled_classes(type: Delete) {
+  group deployGroup
+  description "Deletes compiled class files (generated by Gradle -- Eclipse is separate)"
+  delete "$buildDir/classes"
+}
+
+task clean_war_files(type: Delete) {
+  group deployGroup
+  description "Deletes the generated war files from the build directory"
+  delete fileTree(dir: "$war.destinationDir", includes: ['*.war'])
+}
+
+task clean_tomcat_webapps(type: Delete) {
+  group deployGroup
+  description "Deletes entire contents of the tomcat webapps folder"
+  File webappsFolder = file(config.tomcat.webapps)
+  if( webappsFolder != null ) {
+    File[] webappFiles = webappsFolder.listFiles()
+    if( webappFiles != null ) {
+      delete webappFiles
+    }
+  }
+}
+
+task clean_all {
+  group deployGroup
+  description "clean_compiled_classes, clean_war_files, clean_tomcat_webapps"
+  dependsOn clean_compiled_classes, clean_war_files, clean_tomcat_webapps
+}
+//***************************************************//
+//******************** Clean tasks ******************//
+//***************************************************//
+
+// List the skins that are installed and available locally
+// Save those skins in the extra property "definedSkins"
+task define_skins() {
+  group zapGroup
+  description "List available, installed skins"
+  doLast {
+    def installedSkins = ["default"]
+    def skinIndices = "${project.config.installation.data.skins.iterationlist}".split(",")
+    skinIndices.each {
+      def skinName = project.config.installation.data.skins?.get(it)?.name
+      if(skinName != null && project.file("src/fe/skins/${skinName}").exists()) {
+        installedSkins << skinName
+      }
+    }
+    installedSkins.unique()
+    project.ext {
+      // if no skins were found, supply a default
+      definedSkins = String.join(",", *installedSkins) ?: "default"
+    }
+    println "Skins list from install wizard: ${project.definedSkins}"
+  }
+}
+
+// Called after configuration, before execution
+gradle.taskGraph.whenReady { taskGraph ->
+  // Look for any queued task that wants the war file to include static assets
+  if(taskGraph.allTasks.find{ isPropertyTrue(it, "includeStaticInWar") }) {
+    war.includeStatic = true
+    println "Including static assets in war archive"
+  }
+
+  // Look for any task that wants to use the cms debug tag
+  if(taskGraph.allTasks.find{ isPropertyTrue(it, "useCmsDebugTag") }) {
+    war.cmsTagImplementation = "com.biperf.core.ui.taglib.DebugContentTextTag"
+    println "Using CMS Debug tag"
+  }
+
+  // App Deploy tasks don't need to compress the war archive... save a few seconds
+  if(taskGraph.allTasks.find{ isPropertyTrue(it, "createUncompressedWar") }) {
+    war.entryCompression = ZipEntryCompression.STORED
+    war_cm.entryCompression = ZipEntryCompression.STORED
+    println "Using uncompressed war archives"
+  }
+}

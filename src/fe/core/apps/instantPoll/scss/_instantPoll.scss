@@ -1,0 +1,38 @@
+// App-specific variables
+// =========================
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.instantPoll {
+
+    #pollsContainer {
+
+        // hide survey things we aren't using for polls
+        h2,
+        .intro,
+        hr,
+        .questionHead,
+        .saveForLaterBtn,
+        .results .form-actions,
+        .ends {
+            display: none;
+        }
+
+        .complete .control-group {
+            margin-bottom: 0;
+        }
+
+        // the submit spinner in survey wants to make the form tag position:relative but that screws up our modal .form-actions
+        form {
+            position: static !important;
+        }
+    }
+
+} /* /.instantPoll */
+
+/* ----- PAGE STYLES ----- */
+.page.instantPoll {
+}

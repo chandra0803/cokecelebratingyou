@@ -1,0 +1,28 @@
+CREATE SEQUENCE calc_criterion_rating_pk_sq INCREMENT BY 1 START WITH 5000
+/
+
+CREATE TABLE calculator_criterion_rating
+   (calculator_criterion_rating_id	NUMBER(18) NOT NULL,
+   	calculator_criterion_id 	   	  NUMBER(18) NOT NULL,
+   	cm_asset_name				        		VARCHAR2(255) NOT NULL,
+   	rating_value                    NUMBER(10) NOT NULL,
+   	sequence_num				        		NUMBER(10) NOT NULL,
+    created_by                      NUMBER(18) NOT NULL,
+    date_created   		 	            DATE NOT NULL,
+    modified_by                     NUMBER(18),
+    date_modified  				        	DATE,
+    version        				        	NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE calculator_criterion_rating ADD CONSTRAINT ccr_calc_criterion_fk
+  FOREIGN KEY (calculator_criterion_id) REFERENCES calculator_criterion(calculator_criterion_id) 
+/
+
+ALTER TABLE calculator_criterion_rating
+ADD CONSTRAINT calc_criterion_rating_id_pk PRIMARY KEY (calculator_criterion_rating_id)
+USING INDEX
+/
+
+CREATE INDEX CCR_CALC_CRIT_FK_idx ON CALCULATOR_CRITERION_RATING
+  (CALCULATOR_CRITERION_ID)
+/

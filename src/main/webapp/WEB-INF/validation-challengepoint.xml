@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN" 
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+	<formset>
+
+		<!-- Select your goal form -->
+	    <form name="selectYourGoalForm" >
+	      <field property="goalSelected" depends="required">
+	        <arg0 key="promotion.goalquest.selectgoal.GOAL_LEVEL" />
+	      </field>
+	    </form>
+	    <form name="selectAwardForm" >
+	      <field property="awardSelected" depends="required">
+	        <msg name="required" key="promotion.goalquest.select.award.AWARD_SELECTION_REQUIRED"/>
+	      </field>
+	    </form>
+	    <form name="replaceGiftCodeForm" >
+			<field property="oldGiftCode" depends="required">
+				<arg0 key="promotion.goalquest.replacegiftcode.OLD_GIFT_CODE" />
+			</field>
+	    </form>
+	    <form name="challengepointProgressForm" >
+      <field property="newQuantity" depends="required,double" >
+        <arg0 key="participant.challengepoint.progress.detail.NEW_QUANTITY"/>
+        <msg name="double"  key="participant.challengepoint.progress.detail.NEW_QUANTITY_NUMERIC"/>
+      </field>
+      <field property="addReplaceType" depends="required" >
+        <arg0 key="participant.challengepoint.progress.detail.ADD_REPLACE" />
+      </field>
+    </form> 
+    </formset>
+</form-validation>

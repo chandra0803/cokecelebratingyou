@@ -1,0 +1,18 @@
+CREATE SEQUENCE promo_certificate_pk_sq START WITH 250 INCREMENT BY 1
+/
+
+CREATE TABLE PROMO_CERTIFICATE (
+PROMO_CERTIFICATE_ID number(18) NOT NULL,
+PROMOTION_ID NUMBER(18) NOT NULL, 
+CERTIFICATE_ID VARCHAR2(30) NOT NULL, 
+ORDER_NUMBER NUMBER(18),
+created_by number(18) NOT NULL, 
+DATE_CREATED DATE NOT NULL)
+/
+ALTER TABLE promo_certificate
+ADD CONSTRAINT promo_certificate_pk PRIMARY KEY (promo_certificate_id)
+USING INDEX
+/
+ALTER TABLE promo_certificate ADD CONSTRAINT promo_certificate_promotion_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id) 
+/

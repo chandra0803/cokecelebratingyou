@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.PromotionNotification" table="PROMO_NOTIFICATION">
+	<cache usage="nonstrict-read-write" include="all"/>
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+	<id name="id" type="java.lang.Long" column="PROMO_NOTIFICATION_ID">
+	  <generator class="seqhilo">
+		<param name="max_lo">0</param> <param name="sequence">PROMO_NOTIFICATION_PK_SQ</param>
+	  </generator>
+	</id>
+    
+    <discriminator type="java.lang.String" column="PROMOTION_NOTIFICATION_TYPE"/> 
+	
+	<!-- Using version number optimistic locking -->
+	<version name="version" column="VERSION" type="java.lang.Long" />
+	
+    <property name="notificationMessageId" type="long" column="NOTIFICATION_MESSAGE_ID" />
+    
+    <!-- promotion -->
+	<many-to-one name="promotion" insert="false" update="false"
+	  class="com.biperf.core.domain.promotion.Promotion" outer-join="false" lazy="false">
+	  <column name="PROMOTION_ID" not-null="true" />
+	</many-to-one>
+    
+	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	  <column name="DATE_CREATED" />
+	  <column name="CREATED_BY" />
+	</property>
+
+	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	  <column name="DATE_MODIFIED" />
+	  <column name="MODIFIED_BY" />
+	</property>
+
+	<subclass name="com.biperf.core.domain.promotion.ClaimFormNotificationType"
+       		  discriminator-value="CLAIM_FORM_NOTIFICATION_TYPE" >
+      <many-to-one name="claimFormStepEmailNotification" lazy="false" class="com.biperf.core.domain.claim.ClaimFormStepEmailNotification" column="CLAIM_FORM_STEP_EMAIL_ID" />
+      <property name="claimFormStepEmailNotificationType" column="NOTIFICATION_TYPE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.ClaimFormStepEmailNotificationType</param>
+        </type>
+      </property>
+    </subclass>
+    
+    <subclass name="com.biperf.core.domain.promotion.PromotionNotificationType"
+       		  discriminator-value="PROMOTION_NOTIFICATION_TYPE">        		  
+      <property name="promotionEmailNotificationType" column="NOTIFICATION_TYPE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PromotionEmailNotificationType</param>
+        </type>
+      </property>
+      <property name="numberOfDays" type="integer" column="NUMBER_OF_DAYS" />      
+      <property name="PromotionNotificationFrequencyType" column="FREQUENCY_TYPE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PromotionNotificationFrequencyType</param>
+        </type>
+      </property>
+      <property name="DayOfWeekType" column="DAYOFWEEK_TYPE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.DayOfWeekType</param>
+        </type>
+      </property>
+      <property name="descriminator" type="java.lang.String" column="DESCRIMINATOR" />      
+      <property name="dayOfMonth" type="integer" column="DAY_OF_MONTH" />
+    </subclass>
+    
+  </class>
+
+  <query name="com.biperf.core.domain.promotion.AllClaimFormNotificationTypeByPromotionIdList">
+    <![CDATA[
+	    from com.biperf.core.domain.promotion.ClaimFormNotificationType 
+	    where promotion_Id = :promotionId 
+	  ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.promotion.AllPromotionNotificationTypeByPromotionIdList">
+    <![CDATA[
+	    from com.biperf.core.domain.promotion.PromotionNotificationType 
+		where promotion_Id = :promotionId 
+	  ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.promotion.ClaimPromotionNotificationByClaimFormStepEmailNotificationId">
+    <![CDATA[
+      FROM com.biperf.core.domain.promotion.PromotionNotification promotionNotification
+      WHERE promotion_id = :promotionId AND
+      claim_form_step_email_id = :claimFormStepEmailNotificationId
+    ]]>
+  </query>
+  
+</hibernate-mapping>

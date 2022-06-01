@@ -1,0 +1,65 @@
+CREATE TABLE recognition_claim
+ (claim_id                NUMBER(12) NOT NULL,
+  source                  VARCHAR2(200 char) DEFAULT 'UNKNOWN' NOT NULL,
+  card_id                 NUMBER(12),
+  certificate_id          NUMBER(12),  
+  copy_manager            NUMBER(1),
+  copy_sender             NUMBER(1),
+  behavior                VARCHAR2(40),
+  submitter_comments      VARCHAR2(4000),
+  SUBMITTER_COMMENTS_LANG_ID VARCHAR2(10),
+  is_reverse              NUMBER default 0,
+  OWN_CARD_NAME			  VARCHAR2(200),
+  hide_public_recognition NUMBER(1) DEFAULT 0 NOT NULL,
+  team_id          NUMBER(12),
+  COPY_OTHERS varchar2(1000),
+  SKIP_STANDARD_RECOG_EMAIL NUMBER(1) DEFAULT 0 NOT NULL,
+  ANNIVERSARY_NUM_DAYS      NUMBER(5),
+  ANNIVERSARY_NUM_YEARS     NUMBER(5),
+  CELEBRATION_MANAGER_MESSAGE_ID     NUMBER(12),
+  CARD_VIDEO_URL           VARCHAR2(400 char),
+  CARD_VIDEO_IMAGE_URL     VARCHAR2(400 char) 
+  )
+/
+ALTER TABLE recognition_claim
+ADD CONSTRAINT recognition_claim_id_pk PRIMARY KEY (claim_id)
+USING INDEX
+/
+ALTER TABLE RECOGNITION_CLAIM
+ADD CONSTRAINT chk_rec_claim_is_reverse CHECK (is_reverse IN (0,1))
+/
+ALTER TABLE recognition_claim ADD CONSTRAINT recognition_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES claim (claim_id)
+/
+CREATE INDEX RECOGNITION_CLAIM_CARD_FK_IDX ON RECOGNITION_CLAIM
+(CARD_ID)
+/
+ALTER TABLE RECOGNITION_CLAIM ADD (
+  CONSTRAINT RECOGNITION_CLAIM_CARD_FK 
+  FOREIGN KEY (CARD_ID) 
+  REFERENCES CARD (CARD_ID)
+  ENABLE VALIDATE)
+/
+CREATE INDEX rec_claim_idx ON recognition_claim (team_id,hide_public_recognition,claim_id)
+/
+COMMENT ON TABLE recognition_claim IS 'The CLAIM table defines a instance of recognition claim form.'
+/
+COMMENT ON COLUMN recognition_claim.claim_id IS 'System-generated key that identifies a specific claim.'
+/
+COMMENT ON COLUMN recognition_claim.card_id IS '- Retrofitted'
+/
+COMMENT ON COLUMN recognition_claim.copy_manager IS '- Retrofitted'
+/
+COMMENT ON COLUMN recognition_claim.copy_sender IS '- Retrofitted'
+/
+COMMENT ON COLUMN recognition_claim.behavior IS '- Retrofitted'
+/
+COMMENT ON COLUMN recognition_claim.hide_public_recognition IS 'Flag dictating whether or not this claim should show up on public recognition'
+/
+COMMENT ON COLUMN recognition_claim.team_id IS 'Id grouping together the participants recognized in a single submission'
+/
+COMMENT ON COLUMN recognition_claim.copy_others IS 'Contains other email addresses copied on the recognition'
+/
+COMMENT ON COLUMN recognition_claim.skip_standard_recog_email IS 'Whether the standard recognition email will be skipped for the claim or not'
+/
+COMMENT ON COLUMN recognition_claim.celebration_manager_message_id IS 'Contains celebration manager message id'

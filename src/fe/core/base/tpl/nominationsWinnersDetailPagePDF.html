@@ -1,0 +1,299 @@
+<style type="text/css">
+.extractHere {
+    width: 792px;
+}
+.awardContent {
+    font-family: "DINCond-Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.awardContent [class*="span"] {
+    float: left;
+    margin-left: 30px;
+}
+.awardContent .span6 {
+    width: 522px;
+}
+.title {
+    color: #137dbf;
+    font-size: 30px;
+}
+.awardWrap {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+p {
+    margin: 0 0 10px;
+}
+.awardWrap .awardName {
+    color: #137dbf;
+}
+.awardedDate {
+    color: #888888;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+.awardMain {
+    background-image: url('{{nominationWinnersDetail.0.contextPath}}img/nomination/winnersDetailBackground.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-attachment: scroll;
+    margin-bottom: 85px;
+}
+.awardContainer {
+    margin: 30px auto;
+    max-width: 190px;
+    height: 200px;
+}
+.awardContainer .awardCircle {
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+    background: #137dbf;
+    color: #fff;
+    height: 160px;
+    margin: 20px auto;
+    text-align: center;
+    width: 160px;
+    float: left;
+    display: inline-block;
+}
+.awardPoints {
+    font-size: 42px;
+    font-weight: bold;
+    height: 42px;
+    line-height: 42px;
+    margin: 0px;
+}
+.awardTitle {
+    font-size: 15px;
+    margin-left: 10px;
+    padding-top: 34px;
+}
+.awardContainer .ecard {
+    text-align: center;
+    width: 160px;
+    display: inline-block;
+    margin: 20px auto;
+}
+.ecardImg {
+    height:160px;
+}
+.nominatorInfo {
+    font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-right: 20px;
+    float:left;
+    margin-top: -65px;
+    width: 360px;
+}
+.comment-text {
+    margin: 15px 0;
+}
+.nominatorInfoWrap .nominatorAvatar {
+    float: left;
+}
+.nominatorInfoWrap .nominatorName {
+    display: inline-block;
+    margin-top: 20px;
+}
+.nominatorInfoWrap img {
+    margin-right: 10px;
+}
+.nominationDetails {
+    border-left: 1px solid #cdcdcd;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-left: 50px;
+    width: 295px;
+    float: left;
+    /* margin-left: 30px; */
+    margin-top: -65px;
+}
+.nominationsTableWrap .subTitle {
+    font-size: 20px;
+}
+.nominationDetails .detailsData {
+    width: 120px;
+    float: left;
+}
+.span3 {
+    width: 246px;
+    float: left;
+}
+.span5 {
+    width: 300px;
+}
+.nominationDetails .detailsData.nofloat {
+    float: none;
+}
+.fl {
+    float: left;
+}
+.dateSubmitted {
+    margin-left: 5px;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+    padding-left: 10px;
+}
+</style>
+<div class="extractHere">
+    {{#nominationWinnersDetail}}
+
+
+				<div class="span12 awardContent">
+                    {{#if isWinner}}
+    					{{#if isMine}}
+
+
+                        {{else}}
+                        <div class="awardHeader">
+    						<div class="title">Congratulations, {{winnerName}}</div>
+    					{{/if}}
+
+    						<p class="awardWrap">The <span class="awardName">{{awardName}}</span> award!</p>
+    						<p class="awardedDate">Awarded on {{awardedDate}}</p>
+
+    					</div><!--/.awardHeader-->
+                        {{/if}}
+					<div class="awardMain">
+						<div class="awardContainer">
+						 {{#if isWinner}}
+							{{#if award}}
+                            {{#if isMine}}
+                            <div class="slide item">
+    							<div class="awardCircle">
+    								<div class="pointCircle">
+    									<p class="awardTitle">Your award:</p>
+    									{{#if currencyLabel}}
+    									<p class="awardPoints">
+    										{{award}}
+											{{currencyLabel}}
+    									</p>
+    									{{else}}
+											{{#if other}}
+	                                            <p class="awardPoints">{{award}}</p>
+	                                        {{else}}
+										        <p class="awardPoints">{{award}}</p>
+										        <p class="points">Points</p>
+	                                        {{/if}}
+										{{/if}}
+    								</div>
+                                </div>
+							</div>
+                            {{/if}}
+							{{/if}}
+                            {{/if}}
+
+							{{#if nominatorInfo.0.ecardImg}}
+
+							<div class="ecard ">
+
+									<img class="ecardImg" src="{{nominatorInfo.0.ecardImg}}" title="ecard" />
+
+
+							</div>
+                            {{else}}
+                            
+                                {{#if nominatorInfo.0.videoUrl}}
+                                    <div class="mediaContainer ">
+                                        <img src="{{nominatorInfo.0.videoUrl}}"/></a>
+                                    </div>
+                                 {{/if}}
+                             {{/if}}
+
+						</div>
+					</div><!--/.awardMain-->
+				</div><!--/.awardContent-->
+
+				<div class="nominatorInfo span6">
+
+					<p class="subTitle"><strong>Your Nomination:</strong></p>
+                    {{#nominatorInfo}}
+
+
+					<div>
+                        <p class="comment-text translate" data-claimId="{{claimId}}" data-type="textarea">{{{commentText}}}</p>
+
+
+						<div class="nominatorInfoWrap">
+							<p class="nominatorAvatar">
+                                <img alt="{{this.firstName}} {{this.lastName}}" src="{{this.avatarUrl}}">
+
+							</p>
+
+							<p class="nominatorName">
+                                <a class="profile-popover" href="#" data-participant-ids="[{{this.id}}]">
+									{{this.lastName}},{{this.firstName}}
+
+								</a>
+							</p>
+                            {{#if countryCode}}
+								<img class="flag" src="{{../contextPath}}img/flags/{{countryCode}}.png" title="{{countryName}}" />
+							{{/if}}
+
+							<p class="orgAndTitle">{{#if orgName}} {{this.orgName}}{{#if departmentName}}, {{this.departmentName}}{{/if}}{{/if}}{{#if title}}, {{this.title}}{{/if}}</p>
+
+						</div>
+					</div>
+                    {{/nominatorInfo}}
+				</div><!--/.nominatorInfo-->
+
+				<div class="nominationDetails span5">
+                    {{#nominationInfo}}
+					<div class="row-fluid table-row">
+						<div class="span2 detailsData nofloat table-cell">
+							<p><strong>Date Submitted</strong></p>
+						</div>
+
+						<div class="table-cell">
+							<p class="">{{dateSubmitted}}</p>
+						</div>
+					</div>
+
+					<div class="row-fluid table-row">
+						<div class="span2 detailsData nofloat table-cell">
+							<p><strong>Behaviors</strong></p>
+						</div>
+
+						<div class=" table-cell">
+                            {{#badges}}
+                            {{#if badgeUrl}}
+                            <img class="behaviorBadge" src="{{../contextPath}}{{badgeUrl}}" alt="{{behavior}}"/>
+                            {{else}}
+                                {{behavior}}
+                            {{/if}}
+
+                        {{/badges}}
+
+						</div>
+					</div>
+
+					<div class="break">
+                        <br />
+					</div>
+                        {{#if fields}}
+                            {{#each fields}}
+
+
+        					<div class="row-fluid table-row">
+        						<div class="span2 detailsData nofloat table-cell">
+        							<p><strong>{{label}}</strong></p>
+        						</div>
+
+        						<div class=" table-cell">
+        							<p class="recipientWrap translate" data-type="{{type}}" data-fieldId="{{fieldId}}">{{value}}</p>
+        						</div>
+        					</div>
+                            {{/each}}
+                        {{/if}}
+                    {{/nominationInfo}}
+
+
+
+
+				</div><!--nominationDetails-->
+                {{/nominationWinnersDetail}}
+
+    </div>

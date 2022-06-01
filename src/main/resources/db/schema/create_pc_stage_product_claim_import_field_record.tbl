@@ -1,0 +1,27 @@
+-- <ScriptOptions statementTerminator="/" />CREATE SEQUENCE prd_claim_imp_fld_record_pk_sq START WITH 5000/CREATE TABLE stage_prd_claim_imp_fld_record
+  (
+    import_field_record_id  NUMBER(18) NOT NULL,    import_record_id  NUMBER(18) NOT NULL,
+    CFSE_ID        NUMBER(18),    CFSE_NAME      VARCHAR2(40),        CFSE_VALUE     VARCHAR2(4000),  
+    created_by number(18) NOT NULL,
+    date_created      DATE NOT NULL
+  )
+/
+ALTER TABLE stage_prd_claim_imp_fld_record
+ADD CONSTRAINT stg_prd_claim_imp_fld_rec_pk PRIMARY KEY (import_field_record_id)
+USING INDEX
+/
+ALTER TABLE stage_prd_claim_imp_fld_record
+ADD CONSTRAINT stg_prd_claim_imp_fld_rec_fk FOREIGN KEY (import_record_id)
+REFERENCES stage_prd_claim_imp_record (import_record_id)
+/
+CREATE INDEX STG_PC_MPRT_RC_MPRT_FLD_FK_idx ON stage_prd_claim_imp_fld_record
+  (import_record_id)
+/
+COMMENT ON TABLE stage_prd_claim_imp_fld_record IS 'Information about a product claim import claim form field record.'
+/
+COMMENT ON COLUMN stage_prd_claim_imp_fld_record.import_record_id IS 'FK to main import record.'
+/
+COMMENT ON COLUMN stage_prd_claim_imp_fld_record.created_by IS 'The username of the user who created this record.'
+/
+COMMENT ON COLUMN stage_prd_claim_imp_fld_record.date_created IS 'The date and time at which this record was created.'
+/

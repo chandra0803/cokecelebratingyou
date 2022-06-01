@@ -1,0 +1,180 @@
+// App-specific variables
+// =========================
+$celebrationCongrats_bgColor: $brand_color_primary!default;
+$celebrationCongrats_bgAlpha: 0.8 !default;
+
+$celebrationCongrats_VideoUrl: "img/celebration/bokeh" !default; // THIS SHOULD BE WRITTEN AS PATH and FILE NAME no extension myvideo with myvideo.ogg myvideo.webm and myvideo.mp4 existing on server
+$celebrationCongrats_VidPosterUrl: 'celebration/bokeh.jpg' !default;
+$celebrationCongrats_ImgUrlPath: $appImagesPath !default;
+$celebrationCongrats_ImgUrl: null !default; // send as null for color overlay for video //"celebration/celebration_contribute_bg.png"
+
+$celebrationCongrats_fontColor: $brand_color_white !default;
+$celebrationCongrats_nameFontColor: $brand_color_white !default;
+
+
+/* ----- MODULE STYLES ----- */
+.launchModule.celebrationCongrats {
+    .congrats-fulldiv{
+        width: 100%;
+        height: 100%;
+        left:0;
+        right:0;
+        top: 0;
+        bottom:0;
+        position: absolute;
+    }
+    .congrats-vid-container{
+        overflow: hidden;
+        &:before{
+                //content: $celebrationCongrats_VideoUrl;
+               content: $docSourcePath + $celebrationCongrats_VideoUrl;
+               display: none;
+
+            }
+        video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            transform: translateX(-50%) translateY(-50%);
+            @include safeImgUrls($celebrationCongrats_ImgUrl, $celebrationCongrats_VidPosterUrl, $property: 'background');
+            //background: url('//demosthenes.info/assets/images/polina.jpg') no-repeat;
+            background-size: cover;
+            transition: 1s opacity;
+        }
+    }
+    .congrats-bg-container {
+
+        @if $celebrationCongrats_ImgUrl {
+            @include safeImgUrls($celebrationCongrats_ImgUrl, $celebrationCongrats_ImgUrlPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-position:center;
+            filter: none;
+        }
+        @else {
+            // @include module_moduleLinerBackground(
+            //     $bgColor: $celebrationCongrats_bgColor,
+            //     $gradType: $celebrationCongrats_gradType,
+            //     $gradMeta: $celebrationCongrats_gradMeta,
+            //     $gradStops: $celebrationCongrats_gradStops
+            // );
+            background-color: rgba($celebrationCongrats_bgColor, $celebrationCongrats_bgAlpha);
+        }
+    }
+    .module-content{
+        //display: table;
+        width: 100%;
+        white-space: nowrap;
+
+    }
+    .celebrationCongratsInfoContainer,.celebrationCongratsEcard{
+
+        vertical-align: middle;
+    }
+    .celebrationCongratsEcard{
+        text-align: center;
+        img{
+            @include border-radius($card_borderRadius);
+            @include box-shadow($card_boxShadow);
+        }
+    }
+    .celebrationCongratsInfoContainer{
+        .celebrationCongratsInfo {
+            text-align: center;
+            white-space: normal;
+            span {
+                display: block;
+            }
+            .congrats-intro {
+                color: $celebrationCongrats_fontColor;
+                font-size: round($fontSizeMid * 2.5);
+            }
+
+            .congrats-name {
+                color: $celebrationCongrats_nameFontColor;
+                text-transform: uppercase;
+                font-size: round($fontSizeMid * 2);
+            }
+
+            .congrats-msg {
+                color: $celebrationCongrats_fontColor;
+                font-size: $baseFontSize;
+
+            }
+
+        }
+        margin-bottom: 20px;
+    }
+
+    @media only screen and (min-width: $breakpoint_tablet_min) {
+        .celebrationCongratsEcard{
+            text-align: left;
+            padding-left: $g6ModulePaddingX_tablet/2;
+            box-sizing:border-box;
+        }
+        .celebrationCongratsInfoContainer{
+            padding-right: $g6ModulePaddingX_tablet/2;
+            box-sizing:border-box;
+            text-align: right;
+            .celebrationCongratsInfo {
+
+                margin-bottom: 0;
+                text-align: right;
+                .congrats-intro {
+                    font-size: round($fontSizeMid * 2.97);
+                }
+
+                .congrats-name {
+                    font-size: round($fontSizeMid * 2.475);
+                }
+
+                .congrats-msg {
+                   font-size: $fontSizeMid;
+                }
+            }
+        }
+    }
+    @media only screen and (min-width: $breakpoint_desktop_min) {
+        .celebrationCongratsEcard{
+            padding-left: $g6ModulePaddingX_desktop/2;
+        }
+        .celebrationCongratsInfoContainer{
+            padding-right: $g6ModulePaddingX_desktop/2;
+            .celebrationCongratsInfo {
+                .congrats-intro {
+                    font-size: round($fontSizeMid * 3.375);
+                }
+                .congrats-name {
+                    font-size: round($fontSizeMid * 2.8125);
+                }
+                .congrats-msg {
+                   font-size: $fontSizeLarge;
+                }
+            }
+        }
+    }
+    @media only screen and (min-width: $breakpoint_desktopLarge_min) {
+        .celebrationCongratsEcard{
+            padding-left: $g6ModulePaddingX_desktopLarge/2;
+        }
+        .celebrationCongratsInfoContainer{
+            padding-right: $g6ModulePaddingX_desktopLarge/2;
+            .celebrationCongratsInfo {
+                .congrats-intro {
+                    font-size: round($fontSizeMid * 4.5); // ~72px;
+                }
+                .congrats-name {
+                    font-size: round($fontSizeMid * 3.75); // ~60px;
+                }
+                .congrats-msg {
+                   font-size: $fontSizeExtraLarge;
+                }
+            }
+        }
+    }
+}

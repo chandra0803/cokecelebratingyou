@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.diyquiz.DIYQuizParticipant" table="DIY_QUIZ_PARTICIPANT">
+        <id name="id" column="DIY_QUIZ_PARTICIPANT_ID" type="java.lang.Long">
+          <generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">DIY_QUIZ_PARTICIPANT_PK_SQ</param>
+		  </generator>
+        </id>
+        <many-to-one name="quiz" column="QUIZ_ID" class="com.biperf.core.domain.quiz.Quiz" lazy="false" not-null="true"/>
+        <many-to-one name="participant" column="PARTICIPANT_ID" class="com.biperf.core.domain.participant.Participant" lazy="false" not-null="true"/>
+        <property name="statusType" type="string" column="STATUS_TYPE" not-null="true"/>
+        <property name="isNotificationSent" type="boolean" column="IS_NOTIFICATION_SENT" not-null="false" />
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,174 @@
+import org.apache.tools.ant.filters.*
+
+compileTestJava {
+	options.incremental = true
+}
+
+task configure_test_classpath {
+  group zapGroup
+  dependsOn processTestResources, create_module_properties
+  
+  doLast {
+    println "================================================"
+    println "configure_test_classpath"
+    println "================================================"
+	
+	promptForEnvNoProd()
+
+    //copy modules properties
+    copy {
+      from create_module_properties
+      into sourceSets.test.output.resourcesDir
+    }
+
+    def filenameRoot = "datasourceContext"
+    def testSuffix = "-test"
+    def templateSuffix = "-template"
+
+    //fill in the datasource property placeholders
+    copy {
+      from sourceSets.test.resources.srcDirs[0]
+      include "${filenameRoot}${testSuffix}${templateSuffix}.xml"
+      into sourceSets.test.output.resourcesDir
+      rename { String fileName ->
+        fileName.replace("${testSuffix}${templateSuffix}", "${testSuffix}");
+      }
+      filter(ReplaceTokens, tokens: [
+		  "LOCAL_DB_JDBC_URL": project.db.url.toString(), 
+		  "LOCAL_DB_USERNAME": project.db.username.toString(), 
+		  "LOCAL_DB_PASSWORD": project.db.password.toString()
+	  ])
+    }
+  }
+}
+
+test {
+	//dependsOn configure_test_classpath
+  	ignoreFailures = true
+	// Logging configuration. Show a fair amount more than default.
+	testLogging {
+		lifecycle {
+			events "failed", "passed"
+			showStandardStreams true
+			exceptionFormat "full"
+			showCauses true
+		}
+	}
+  
+    // If unit test debug flag is set, then set debug flag on test task -
+    // will pause and wait for remote debugger to attach
+    if(config.unittest.debug) {
+      debug true
+    }
+}
+
+// Jacoco
+jacoco {
+	toolVersion = "${jacocoVersion}"
+}
+
+jacocoTestReport {
+  dependsOn test
+  group jacocoGroup
+  description = "Generate Jacoco coverage reports after running tests."
+  jacocoClasspath += configurations.jacocoConfiguration
+  reports {
+    xml.enabled false
+    csv.enabled false
+    html.destination new File(buildDir, "jacoco")
+  }
+}
+
+// START snippet violation-rules-configuration
+jacocoTestCoverageVerification {
+dependsOn test
+	group jacocoGroup
+	description = "Verifies Jacoco test coverage rules"
+	jacocoClasspath += configurations.jacocoConfiguration
+	violationRules {
+		rule {
+
+			limit {
+
+				minimum = 0.007
+			}
+		}
+	}
+}
+
+// We want to include Spring controllers in unit testing, but not Tiles controllers
+// We're figuring out the exclusions only if a verification task is running, to save ~400ms on _every_ task
+gradle.taskGraph.whenReady { taskGraph ->
+  if( taskGraph.hasTask( jacocoTestReport ) || taskGraph.hasTask( jacocoTestCoverageVerification ) )
+  {
+    // Build list of classes to exclude. Excluding Tiles controllers based on name and content
+    def testReportExclusions = ['**/domain/**','**/exception/**','**/*Factory*','**/logging/**','**/value/**','**/dao/*DAO.class','**/service/*Service.class','**/*Action.class']
+    sourceSets.main.java.srcDirs.each({srcDir ->
+      fileTree(dir: srcDir, include: '**/core/ui/**/*Controller*.java').files.findAll({ sourceFile ->
+        sourceFile.text.contains('import org.apache.struts.tiles.ComponentContext')
+      }).each({tilesControllerFile ->
+        testReportExclusions << '**/' + tilesControllerFile.name.replace('.java', '.class')
+      })
+      
+      fileTree(dir: srcDir, include: '**/core/ui/**/*Form*.java').files.findAll({ sourceFile ->
+        sourceFile.text.contains('import com.biperf.core.ui.BaseForm') || sourceFile.text.contains('import com.biperf.core.ui.BaseActionForm')
+      }).each({strutsFormFile ->
+        testReportExclusions << '**/' + strutsFormFile.name.replace('.java', '.class')
+      })
+    })
+    
+    // Apply exclusion list to the tasks that use it
+    jacocoTestReport.classDirectories = files(jacocoTestReport.classDirectories.files.collect {
+      fileTree(dir: it, exclude : testReportExclusions)
+    })
+    
+    jacocoTestCoverageVerification.classDirectories = files(jacocoTestCoverageVerification.classDirectories.files.collect {
+      fileTree(dir: it, exclude : testReportExclusions)
+    })
+  }
+}
+// END snippet violation-rules-configuration
+
+// Checkstyle
+tasks.withType(Checkstyle) {
+	group = checkstyleGroup
+	checkstyleClasspath += configurations.checkstyleConfiguration
+	reports {
+		xml.enabled false
+		html.enabled true
+	}
+	// All checkstyle tasks currently come with one dependency (as of gradle 3.4) -- compilation
+	// Removing that dependency to speed things up on Jenkins
+	dependsOn = []
+}
+	
+checkstyle {
+	toolVersion = "${checkstyleVersion}"
+	configFile = 'gradle/project/checkstyle/checkstyle.xml' as File
+}
+
+tasks.checkstyleCmData {
+  source "${project.config.dbResourceDir}"
+  include "cmData.xml"
+}
+
+task checkstyleAll {
+  group = checkstyleGroup
+  description "Run all checkstyle tasks"
+  dependsOn checkstyleMain, checkstyleTest, checkstyleCmData
+}
+
+// Find Bugs
+tasks.withType(FindBugs) {
+	group = findBugsGroup
+	findbugsClasspath += configurations.findBugsConfiguration
+	reports {
+		xml.enabled false
+		html.enabled true
+	}
+	dependsOn = []
+}
+
+findbugs {
+	toolVersion = "${findBugsVersion}"
+}

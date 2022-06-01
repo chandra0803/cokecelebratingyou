@@ -1,0 +1,25 @@
+<?php sleep(1); ?>
+{
+    "certificate" :
+        {
+        "nominees" : [
+            {
+                "nominee":"first name last name"
+            }
+        ],
+        "nominator" : "first name last name",
+        "date_submitted" : "MM/DD/YYYY",
+        "team_name" : "team name",
+        "level_name" : "level name/level number",
+        "time_period_name" : "time period name",
+        "promotion_name" : "Promotion Name",
+        "reason" : "The reason why the nominee was awared the certificate",
+        "cert_type" : "individual",
+        "cert_background" : "http://localhost:8888/g5noms/fe/core/base/img/certificates/angles-full.jpg",
+        "position" : "left",
+        "text_color" : "light",
+        "presented_to": "Presented To",
+        "nominated_by": "Nominated By",
+        "on": "On"
+        }
+}

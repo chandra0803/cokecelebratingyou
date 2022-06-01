@@ -1,0 +1,15 @@
+--liquibase formatted sql
+
+--changeset gorantla:1
+--comment ADD column
+--preconditions onFail:MARK_RAN onError:MARK_RAN
+--precondition-sql-check expectedResult:0 SELECT COUNT(1) FROM USER_TAB_COLUMNS WHERE TABLE_NAME='AUDIENCE' AND COLUMN_NAME ='AUDIENCE_UUID';
+ ALTER TABLE AUDIENCE ADD AUDIENCE_UUID VARCHAR2(50) ;
+--rollback ALTER TABLE AUDIENCE DROP COLUMN AUDIENCE_UUID;
+ 
+--changeset gorantla:2
+--comment Add unique constraint on AUDIENCE_UUID
+--preconditions onFail:MARK_RAN onError:MARK_RAN
+--precondition-sql-check expectedResult:0 SELECT COUNT(1) FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'AUDIENCE' AND CONSTRAINT_NAME = 'AUDIENCE_UUID_UK';
+ ALTER TABLE AUDIENCE ADD CONSTRAINT AUDIENCE_UUID_UK UNIQUE (AUDIENCE_UUID);
+--rollback ALTER TABLE AUDIENCE DROP CONSTRAINT AUDIENCE_UUID_UK;

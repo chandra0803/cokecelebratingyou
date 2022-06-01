@@ -1,0 +1,6 @@
+CREATE TABLE STRONGMAIL_USER
+(
+  USER_ID   NUMBER(18)                          NOT NULL,
+  PASSWORD  VARCHAR2(100 CHAR)                  NOT NULL
+)
+/

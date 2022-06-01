@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.Approver" table="APPROVER">
+    
+    <composite-id>
+      <key-many-to-one name="approverCriteria" column="APPROVER_CRITERIA_ID" class="com.biperf.core.domain.promotion.ApproverCriteria" lazy="false" />
+      <key-many-to-one name="participant" column="USER_ID" class="com.biperf.core.domain.participant.Participant" lazy="proxy" />
+    </composite-id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    
+    <property name="id" type="java.lang.Long" formula="0"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+	
+  </class>
+  <sql-query name="com.biperf.core.domain.promotion.approver.getAllEligibleApproversForCustomApproval">
+	  <return-scalar column="userId" type="long"/>
+	  <![CDATA[
+			  select DISTINCT a.user_id userId
+		  from approver a, 
+		       approver_criteria ac, 
+		       approver_option ao
+		 where ao.approver_option_id = ac.approver_option_id
+		   and ac.approver_criteria_id = a.approver_criteria_id
+		   and ao.promotion_id = :promotionId
+	  ]]>
+  </sql-query>
+  <sql-query name="com.biperf.core.domain.promotion.approver.getPendingNominationCountForApprover">
+	  <return-scalar column="pend_nom_count" type="long"/>
+	  <![CDATA[
+				SELECT COUNT(1) pend_nom_count
+                      FROM (SELECT c.claim_id
+                              FROM claim_approver_snapshot cm,
+                                   claim c,
+                                   promotion p
+                             WHERE cm.approver_user_id = :p_in_user_id 
+                               AND cm.claim_id = c.claim_id
+                               AND c.is_open = 1
+                               AND c.promotion_id = p.promotion_id
+                               AND p.promotion_status='live'
+                            )
+       ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.promotion.approver.getAllEligibleApproversForCustomApprovalWithOpenClaims">
+	  <return-scalar column="userId" type="long"/>
+	  <![CDATA[
+		 select DISTINCT a.user_id userId
+		  from approver a, 
+		       approver_criteria ac, 
+		       approver_option ao, 
+		       claim_approver_snapshot snap, 
+		       claim claim,
+		       promotion p,
+		       claim_item ci
+		 where ao.approver_option_id = ac.approver_option_id
+		   and ac.approver_criteria_id = a.approver_criteria_id
+		   and ao.promotion_id = :promotionId
+		   and a.user_id = snap.approver_user_id
+		   and snap.claim_id = claim.claim_id
+		   and claim.promotion_id = ao.promotion_id
+		   and claim.is_open = 1
+		   and claim.promotion_id = p.promotion_id
+		   AND TRUNC(SYSDATE) BETWEEN TRUNC(NVL(p.approval_start_date, SYSDATE)) AND TRUNC(NVL(p.approval_end_date, SYSDATE))
+		   and claim.claim_id = ci.claim_id
+		   AND ci.approval_status_type = 'pend'
+	  ]]>
+  </sql-query>
+  
+</hibernate-mapping>
+

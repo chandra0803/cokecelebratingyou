@@ -1,0 +1,47 @@
+{
+  "description": "Create a group",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "groupName": "New ${faker:hacker.adjective} Group"
+  },
+  "export": {
+    "newGroupId": "${ref:createGroup.res.body.id}"
+  },
+  "steps": [
+    {
+      "id": "createGroup",
+      "description": "POST /groups",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/groups",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "name": "${ref:params.groupName}",
+            "type": "pax"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createGroup.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createGroup.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createGroup.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.groupName}"
+        }
+      ]
+    }
+  ]
+}

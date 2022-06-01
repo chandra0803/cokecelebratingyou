@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+	<class name="com.biperf.core.domain.client.TcccApproverMatrix" table="ADIH_APPROVER_MATRIX">
+		<id name="id" type="java.lang.Long" column="APPROVER_MATRIX_ID">
+      		<generator class="seqhilo">
+        		<param name="max_lo">0</param> <param name="sequence">ADIH_APPROVER_MATRIX_ID_SQ</param>
+      		</generator>
+    	</id>
+    
+    	<!-- Using version number optimistic locking -->
+    	<version name="version" column="VERSION" type="java.lang.Long" />
+
+    	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      		<column name="DATE_CREATED" />
+      		<column name="CREATED_BY" />
+    	</property>
+
+    	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      		<column name="DATE_MODIFIED" />
+      		<column name="MODIFIED_BY" />
+    	</property>
+    
+    	<!-- This domain class is not being used, Just left it for backup -->
+        <many-to-one name="promotion" class="com.biperf.core.domain.promotion.Promotion" lazy="false" insert="false" update="false" not-null="true" column="PROMOTION_ID"/>
+    	<property name="divisionNumber" type="java.lang.String" column="DIVISION_NUMBER" />
+    	<property name="approverUsername" type="java.lang.String" column="APPROVER_ID" />
+    	<property name="approvalLevel" type="int" column="APPROVAL_LEVEL" />
+    	<property name="processing" type="boolean" column="IS_PROCESSING" />
+    	<property name="dateEnd" type="java.util.Date" column="DATE_END" />
+	</class>
+  	
+  	<sql-query name="com.biperf.core.domain.client.getDivisionApprover">
+	  <return-scalar column="approver" type="string"/>
+	  <![CDATA[
+		select APPROVER_ID as approver
+		from ADIH_APPROVER_MATRIX where 
+		APPROVAL_LEVEL=1 and PROMOTION_ID=:promotionId 
+		and DIVISION_NUMBER=:divisionNumber and DATE_END is null
+		]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.client.getApproverUserNameForLevel">
+	  <return-scalar column="approver" type="string"/>
+	  <![CDATA[
+		select APPROVER_ID as approver
+		from ADIH_APPROVER_MATRIX where 
+		APPROVAL_LEVEL=:level and PROMOTION_ID=:promotionId 
+		and DIVISION_NUMBER=:divisionNumber and DATE_END is null
+		]]>
+    </sql-query>
+    
+</hibernate-mapping>

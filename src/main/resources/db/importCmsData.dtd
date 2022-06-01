@@ -1,0 +1,68 @@
+	<!ELEMENT cm_data (application_entry*)>
+	<!ATTLIST cm_data importType (full|diff) "full">
+
+	<!ELEMENT application_entry (audience_entry*,section_entry*,asset_type_entry*)>
+	<!ATTLIST application_entry	code CDATA #REQUIRED
+                     			name CDATA #REQUIRED
+                     			desc CDATA #IMPLIED
+                     			action (add|update|nop|update_stop|nop_stop) "add">
+	<!ELEMENT audience_entry EMPTY>
+	<!ATTLIST audience_entry code CDATA #REQUIRED
+                     			name CDATA #REQUIRED
+                     			desc CDATA #IMPLIED
+                     			action (add|update|nop) "add">
+	<!ELEMENT section_entry EMPTY>
+	<!ATTLIST section_entry	code CDATA #REQUIRED
+                     		name CDATA #REQUIRED
+                     		desc CDATA #IMPLIED
+                     		action (add|update|nop) "add">
+	<!ELEMENT asset_type_entry (asset_type_item_entry*,asset_entry*)>
+	<!ATTLIST asset_type_entry	name CDATA #REQUIRED
+                     		desc CDATA #IMPLIED
+							multi (T|F|t|f) "F"
+							previewable (T|F|t|f) "T"
+							publik (T|F|t|f) "T"
+							display (T|F|t|f) "T"
+							action (add|update|nop|update_stop|nop_stop) "add">
+	<!ELEMENT asset_type_item_entry EMPTY>
+	<!ATTLIST asset_type_item_entry	key CDATA #REQUIRED
+                     				name CDATA #REQUIRED
+                     				desc CDATA #IMPLIED
+									order CDATA #IMPLIED
+									required (T|F|t|f) "F"
+									unique (T|F|t|f) "F"
+									translatable (T|F|t|f) "T"
+									type (BOOLEAN|DATE|HTML|IMAGE|NUMBER|STRING|TEMPHTML|TEMPSTR|URL|HTML_FRAG) "STRING"
+									action (add|update|nop) "add">
+	<!ELEMENT asset_entry (content_key_entry*)>
+	<!ATTLIST asset_entry	code CDATA #REQUIRED
+                     		name CDATA #REQUIRED
+                     		desc CDATA #IMPLIED
+							publik (T|F|t|f) "F"
+							parent CDATA #IMPLIED
+							section CDATA #IMPLIED
+							previewPage CDATA #IMPLIED
+							module CDATA #IMPLIED
+							paxOrAdmin CDATA #IMPLIED							
+							productVersion CDATA #REQUIRED
+							action (add|update|nop|update_stop|nop_stop) "add">
+	<!ELEMENT content_key_entry (content_entry+)>
+	<!ATTLIST content_key_entry	audiences CDATA #REQUIRED
+							order CDATA #IMPLIED
+							startDate CDATA #IMPLIED
+							endDate CDATA #IMPLIED
+							filterString CDATA #IMPLIED
+							guid CDATA #REQUIRED
+							action (add|update|nop|update_stop|nop_stop) "add">
+	<!ELEMENT content_entry (content_data_entry+)>
+	<!ATTLIST content_entry	status (Edited|Submitted|Approved|Live) "Submitted"
+							locale CDATA #REQUIRED
+							contentVersion CDATA #REQUIRED							
+							action (add|update|nop|update_stop|nop_stop) "add">
+	<!ELEMENT content_data_entry (value, oldValue?)>
+	<!ATTLIST content_data_entry	key CDATA #REQUIRED
+	            action (add|update|nop|update_stop|nop_stop) "add">
+
+	<!ELEMENT value (#PCDATA)>
+	<!ELEMENT oldValue (#PCDATA)>
+

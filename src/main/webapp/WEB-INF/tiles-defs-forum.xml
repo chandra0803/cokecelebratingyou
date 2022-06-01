@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+	<!-- ======================================================= -->
+	<!-- ADMIN Definitions -->
+	<!-- ======================================================= -->
+
+	<definition name="forumtopic.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.forum.ForumTopicListController">
+		<put name="content" value="/forum/forumTopicList.jsp" />
+		<put name='trackingTitle' value='Forum_Topic_List' />
+	</definition>
+
+	<definition name="forum.topic.add" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.forum.ForumTopicController">
+		<put name="content" value="/forum/forumTopicMaintain.jsp" />
+		<put name='trackingTitle' value='Forum_Topic_Add' />
+	</definition>
+	
+	<definition name="audience.paxlist" extends="beacon.printerFriendly">
+    <put name="content" value="/promotion/promotionAudiencePaxList.jsp" />
+    </definition>
+    
+    <definition name="forum.discussion.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.forum.ForumDiscussionListController">
+		<put name="content" value="/forum/forumDiscussionListMaintain.jsp" />
+		<put name='trackingTitle' value='Forum_Discussion_List' />
+	</definition>
+	
+	<definition name="forum.display.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.forum.ForumTopicDisplayListController">
+		<put name="content" value="/forum/forumTopicDisplayList.jsp" />
+	</definition>
+	
+	<!-- ======================================================= -->
+	<!-- PAX Side Definitions -->
+	<!-- ======================================================= -->
+	
+	<definition name="forum.page.topics" extends="g5.default">
+		<put name="content" value="/forum/forumPageTopics.jsp" />
+	</definition>
+
+    <definition name="forum.page.topics.response" path="/forum/forumTopicsDisplayTableAjaxResponse.jsp" controllerClass="com.biperf.core.ui.forum.ForumTopicsListForPaxController"/>
+	
+	<definition name="forum.comment.item"  path="/forum/forumCommentItem.jsp"/>
+	
+	<definition name="forum.page.discussions" extends="g5.default" controllerClass="com.biperf.core.ui.forum.ForumPageDiscussionsForPaxController">
+		<put name="content" value="/forum/forumPageDiscussions.jsp" />
+	</definition>
+	
+	<definition name="forum.page.discussions.from.tile" extends="g5.default" controllerClass="com.biperf.core.ui.forum.ForumPageDiscussionsFromTileController">
+		<put name="content" value="/forum/forumPageDiscussions.jsp" />
+	</definition>
+	
+	<definition name="discussions.from.start.discussion.page" extends="g5.default" controllerClass="com.biperf.core.ui.forum.ForumPageDiscussionsFromStartDiscussionController">
+		<put name="content" value="/forum/forumPageDiscussions.jsp" />
+	</definition>
+	
+	<definition name="forum.page.discussions.response" path="/forum/forumDiscussionsDisplayTableAjaxResponse.jsp" controllerClass="com.biperf.core.ui.forum.ForumDiscussionsListForPaxController"/>
+	
+	<definition name="forum.page.discussion.detail" extends="g5.default">
+		<put name="content" value="/forum/forumPageDiscussion.jsp" />
+	</definition>
+	
+	<definition name="forum.discussion.start" extends="g5.default">
+		<put name="content" value="/forum/forumPageNewDiscussion.jsp" />
+	</definition>
+	
+	<definition name="forum.discussion.preview" extends="g5.default">
+		<put name="content" value="/forum/forumPageNewDiscussion.jsp" />
+	</definition>
+	
+	<definition name="forum.page" extends="g5.default">
+		<put name="content" value="/forum/forumPage.jsp" />
+	</definition>
+	
+	<definition name="forum.pagination.view"
+              path="/include/paginationView.jsp"/> 
+	
+	<!-- Forum Module -->
+     <definition name="forum.module"
+              path="/forum/forumModule.jsp"/> 
+
+</tiles-definitions>

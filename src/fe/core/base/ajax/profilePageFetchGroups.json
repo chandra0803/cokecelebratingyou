@@ -1,0 +1,18 @@
+{
+    "groups": [{
+        "id": 262,
+        "name": "Srikanth",
+        "paxCount": 3,
+        "groupUserIds": [6643, 60032, 6195]
+    }, {
+        "id": 322,
+        "name": "testing the group new",
+        "paxCount": 3,
+        "groupUserIds": [60035, 6195, 6643]
+    }, {
+        "id": 323,
+        "name": "SrikanthSrikanthSrikanthSrikanthSrikanthSrikanthSrikanthSrikanthSrikanthSrikanthSrikanthSrikanth New Group",
+        "paxCount": 9,
+        "groupUserIds": [60033, 6100, 6617, 6130, 6146, 6275, 6304, 60037, 60035]
+    }]
+}

@@ -1,0 +1,46 @@
+{
+    "participants": [
+        {
+            "id":"9870",
+            "lastName":"Dupont",
+            "firstName":"Aaron",
+            "countryName":"United States",
+            "countryCode":"us",
+            "countryRatio":1.0,
+            "nodes":[
+                {
+                    "id":123,
+                    "name":"Super long org name that never stops"
+                },
+                {
+                    "id":123,
+                    "name":"Org/Node B"
+                }
+            ],
+            "jobName":"Some Job",
+            "departmentName":"Some Dept.",
+            "awardQuantity": 23
+        },
+        {
+            "id":"456",
+            "lastName":"Aalexson",
+            "firstName":"Tom",
+            "countryName":"United States",
+            "countryCode":"us",
+            "countryRatio":1.0,
+            "nodes":[
+                {
+                    "id":123,
+                    "name":"Yet another Org/Node"
+                },
+                {
+                    "id":123,
+                    "name":"Last Org/Node"
+                }
+            ],
+            "jobName":"Some Job",
+            "departmentName":"Some Dept.",
+            "awardQuantity": 50
+        }
+    ]
+}

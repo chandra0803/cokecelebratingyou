@@ -1,0 +1,49 @@
+-- <ScriptOptions statementTerminator="/" />
+CREATE TABLE stage_prd_claim_imp_prd_record
+  (
+    import_product_record_id  NUMBER(18) NOT NULL,
+    import_record_id  NUMBER(18) NOT NULL,
+    PRODUCT_ID NUMBER(18),
+    PRODUCT_NAME      VARCHAR2(40),    
+    SOLD_QUANTITY NUMBER(18),
+    PRODUCT_CHARACTERISTIC_ID1        NUMBER(18),
+    PRODUCT_CHARACTERISTIC_NAME1      VARCHAR2(40),    
+    PRODUCT_CHARACTERISTIC_VALUE1     VARCHAR2(4000), 
+    PRODUCT_CHARACTERISTIC_ID2        NUMBER(18),
+    PRODUCT_CHARACTERISTIC_NAME2      VARCHAR2(40),    
+    PRODUCT_CHARACTERISTIC_VALUE2     VARCHAR2(4000), 
+    PRODUCT_CHARACTERISTIC_ID3        NUMBER(18),
+    PRODUCT_CHARACTERISTIC_NAME3      VARCHAR2(40),    
+    PRODUCT_CHARACTERISTIC_VALUE3     VARCHAR2(4000), 
+    PRODUCT_CHARACTERISTIC_ID4        NUMBER(18),
+    PRODUCT_CHARACTERISTIC_NAME4      VARCHAR2(40),    
+    PRODUCT_CHARACTERISTIC_VALUE4     VARCHAR2(4000), 
+    PRODUCT_CHARACTERISTIC_ID5        NUMBER(18),
+    PRODUCT_CHARACTERISTIC_NAME5      VARCHAR2(40),    
+    PRODUCT_CHARACTERISTIC_VALUE5     VARCHAR2(4000),
+    created_by number(18) NOT NULL,
+    date_created      DATE NOT NULL
+  )
+/
+ALTER TABLE stage_prd_claim_imp_prd_record
+ADD CONSTRAINT stg_prd_claim_imp_prd_pk PRIMARY KEY (import_product_record_id)
+USING INDEX
+/
+ALTER TABLE stage_prd_claim_imp_prd_record
+ADD CONSTRAINT stg_prd_claim_imp_prd_rec_fk FOREIGN KEY (import_record_id)
+REFERENCES stage_prd_claim_imp_record (import_record_id)
+/
+CREATE INDEX STG_PC_MPRT_RC_MPRT_PRD_FK_idx ON stage_prd_claim_imp_prd_record
+  (import_record_id)
+/
+COMMENT ON TABLE stage_prd_claim_imp_prd_record IS 'Information about a product claim import product record.'
+/
+COMMENT ON COLUMN stage_prd_claim_imp_prd_record.import_record_id IS 'FK to main import record.'
+/
+COMMENT ON COLUMN stage_prd_claim_imp_prd_record.created_by IS 'The username of the user who created this record.'
+/
+COMMENT ON COLUMN stage_prd_claim_imp_prd_record.date_created IS 'The date and time at which this record was created.'
+/
+ALTER TABLE STAGE_PRD_CLAIM_IMP_PRD_RECORD
+MODIFY PRODUCT_NAME VARCHAR2(70)
+/

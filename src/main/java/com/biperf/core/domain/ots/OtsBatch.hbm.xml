@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.ots.OTSBatch" table="OTS_BATCH">
+		
+		<id name="id" column="OTS_BATCH_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">OTS_BATCH_SQ</param>
+			</generator>
+		</id>
+		
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		
+		<property name="batchNumber" type="java.lang.Long" column="OTS_BATCH_NBR"/>
+		<property name="cmAssetCode" type="java.lang.String" column="OTS_CMS_ASSET_CODE" />
+		<many-to-one name="otsProgram" column="OTS_PROGRAM_ID" class="com.biperf.core.domain.ots.OTSProgram" not-null="true"/>
+			
+		
+		
+		
+		
+	</class>
+		
+		
+	
+</hibernate-mapping>
+ 

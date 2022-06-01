@@ -1,0 +1,17 @@
+ <form id="regForm" action="" method="POST" class="form-horizontal">
+ <div class="modal-body">
+    <fieldset id="regFieldset">
+        <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter your login id"}'>
+            <label class="control-label" for="regcode">Registration Code</label>
+            <div class="controls">
+                <input type="text" id="regcode" name="registrationCode">
+                <!--<span class="help-inline sheetOverlay"><a href="?tplPath=base/tpl/&amp;tpl=loginPageRegistrationHelp.html">What is this?</a></span>-->
+            </div>
+        </div>
+    </fieldset>
+</div>
+<div class="modal-footer">
+        <button type="submit" id="regFormSubmit" name="button" value="regFormSubmit" formaction="ajax/loginPageFormRegistrationResponse.json" class="btn btn-primary form-action-btn">Register</button>
+        <a id="contactUsFormCancel" href="layout.html?tplPath=base/tpl/&amp;tpl=loginPage.html" class="btn cancel-btn" data-dismiss="modal">Cancel</a>
+</div>
+</form>

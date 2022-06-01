@@ -1,0 +1,177 @@
+<!-- ======== Recipient selection DETAIL ======== -->
+
+<div id="recipientSelection" class="page-content">
+
+   
+    <div id="recipientSelectionDetailWrapper">
+        <div class="row">
+            <div class="span6">
+                <h3>Bravo Awards</h3>
+            </div>
+           
+        </div>
+
+
+        <form class="form-horizontal recipientformPage " method="post" name="recipientformPage" action="layout.html">
+			<!-- using styles from recipient Detail -->
+			<div class="recipient-item">
+
+				<div class="span12 recipientInformation">
+					<div class="row">
+						<div class="span2">
+							<p><strong>To:</strong></p>
+						</div>
+						<div class="span6">
+							<p>
+								<a class="profile-popover" href="#" data-participant-ids="[45]">
+									<img alt="Ron Smith" class="recipient-detail-avatar" src="img/_samples/x-profile-pic2.jpg">
+									Smith, Ron
+								</a>
+								<img class="flag" src="img/flags/us.png" title="United States">
+								Sales, Director
+							</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="span2">
+							<p><strong>From:</strong></p>
+						</div>
+						<div class="span6">
+							<p>
+								<a class="profile-popover" href="#" data-participant-ids="[102]">
+									<img alt="Jane Anderson" class="recipient-detail-avatar" src="img/_samples/x-profile-pic1.jpg">
+									Anderson,Jane
+								</a>
+								<img class="flag" src="img/flags/us.png" title="United States">
+								TSG, Director
+							</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="span2">
+							<p><strong>Date:</strong></p>
+						</div>
+						<div class="span6">
+							<p>01/01/2013</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="span2">
+							<p><strong>Behavior:</strong></p>
+						</div>
+						<div class="span6">
+							<p>Above and Beyond</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="span2">
+							<p><strong>Comments:</strong></p>
+						</div>
+						<div class="span6">
+							<!-- do no wrap comment in P tag, it will have its own -->
+							Great work, keep it up!
+						</div>
+					</div>
+
+				</div><!-- /.span8 -->
+
+			</div><!-- /.recipient-item -->
+
+            <div class="row">
+                <div class="span6">
+        
+                <h5>Award - Please select ONE of the options below:</h5>
+        
+
+				<div class="control-group type-radio validateme" data-validate-flags="nonempty" data-validate-fail-msgs="{&quot;nonempty&quot; : &quot;Please choose any one&quot;}">
+					<div class="controls">  
+						<table class="table">
+							<tbody>
+								<tr>
+									<td><input type="radio" name="cash_selection" value="cash" class="cash_selection pendingRadio rdochk"></td>
+									<td><input type="text" name="cash_selection.cash" size="7" value="8,000" class="span1" disabled="disabled"> </td>
+									<td><span class="currency_val">GBP</span></td>
+								</tr>
+								<tr>
+									<td><input type="radio" name="cash_selection" value="points" class="cash_selection pendingRadio rdochk"></td>
+									<td><input type="text" name="cash_selection.points" size="7" value="2700" class="span1" disabled="disabled"> </td>
+									<td><span class="currency_val">Points </span></td>
+									
+								</tr>
+								<tr>
+									<td><input type="radio" name="cash_selection" value="cashAndPoints" class="cash_selection pendingRadio rdochk"></td>
+									<td><input type="text" name="cash_selection.Points" size="7" value="1,350" class="span1" disabled="disabled"> </td>
+									<td>Points </td> 
+									<td> And </td>
+									<td><input type="text" name="cash_selection.cash" size="7" value="4,000" class="span1" disabled="disabled"> </td> 
+									<td><span class="currency_val">GBP</span></td>							
+								</tr>
+							</tbody>
+						</table>
+                    </div>
+				</div>
+                   
+                </div><!-- /.span6 -->
+				
+					<div class="span12">
+						<div class="form-actions pullBottomUp">							
+							<a href="#" id="confirmButton" class="btn btn-primary">Submit</a>
+							<input type="submit" name="cancelButton" value="Cancel" class="btn cancelBtn btn-primary"/>
+						</div>
+					</div>
+				
+            </div><!-- /.row -->			
+	
+			<div id="recipientConfirm" class="modal hide fade">
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" type="button">
+						<i class="icon-remove"></i>
+					</button>
+					<div class="padding text-center"><h2>CONFIRMATION</h2></div>
+				</div>
+				<div class="modal-body">					
+					Please review your selection carefully your choice before submitting. Once submitted, the selection cannot be changed.
+					<div class="control-group text-center">
+						<h5>Award Selected</h5>
+						<h4 class="selected_award"></h4>
+					</div>	
+					<div class="control-group text-center">
+							<input type="submit" name="submitButton" id="submitButton" value="Submit" class="btn btn-primary"/>
+							<input type="submit" name="cancelButton" value="Return to Previous Page" class="btn cancelBtn btn-primary"/>											
+						
+					</div>			
+				</div>				
+					
+			</div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+$(document).ready(function() {
+
+    //attach the view to an existing DOM element
+    aimlp = new RecipientSelectionModelView({
+            el:$('#recipientSelection'),            
+            pageNav : {
+                back : {
+                    text : 'Back',
+                    url : 'layout.html?tpl=approvalsPagePendingNominations&tplPath=apps/approvals/tpl/'
+                },
+                home : {
+                    text : 'Home',
+                    url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+                }
+            },
+            pageTitle : 'Recipient Selection'
+        });
+    });
+</script>
+
+

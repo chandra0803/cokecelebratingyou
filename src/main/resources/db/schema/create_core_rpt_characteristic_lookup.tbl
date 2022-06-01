@@ -1,0 +1,10 @@
+CREATE TABLE rpt_characteristic_lookup
+    (characteristic_type            VARCHAR2(30) NOT NULL,
+     characteristic_id              NUMBER(18,0) NOT NULL,
+     cm_asset_code                  VARCHAR2(80),
+     characteristic_data_type       VARCHAR2(30),
+     display_order                  NUMBER)
+/
+COMMENT ON TABLE RPT_CHARACTERISTIC_LOOKUP IS 
+'Used by the report objects to display the five characteristics and to drive the order and the characteristics that are reported.'
+/

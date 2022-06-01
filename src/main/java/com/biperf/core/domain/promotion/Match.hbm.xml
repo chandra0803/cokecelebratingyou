@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.Match" table="THROWDOWN_MATCH">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="MATCH_ID">
+			<generator class="seqhilo">
+				<param name="sequence">td_match_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED" />
+	      <column name="MODIFIED_BY" />
+	    </property>
+
+    	<many-to-one name="round" column="ROUND_ID" not-null="true" lazy="proxy" />
+    	
+    	<property name="status" column="STATUS">
+		    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+		      <param name="lookupClass">com.biperf.core.domain.enums.MatchStatusType</param>
+		    </type>
+		</property> 
+		
+    	<set name="teamOutcomes" table="THROWDOWN_MATCH_TEAM_OUTCOME" lazy="true" inverse="true" cascade="all-delete-orphan">
+		   <key column="MATCH_ID" not-null="true" />
+		   <one-to-many class="com.biperf.core.domain.promotion.MatchTeamOutcome"/>
+		</set>
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.match.getMatchesByPromotionAndTeam">
+	<return alias="tdMatch" class="com.biperf.core.domain.promotion.Match" />
+	<![CDATA[
+	      SELECT distinct {tdMatch.*}
+	      from throwdown_match tdMatch, throwdown_match_team_outcome tdOutcome, throwdown_team tdTeam 
+	      where tdMatch.match_id = tdOutcome.match_id 
+	      and tdOutcome.team_id = tdTeam.team_id  
+	      and tdTeam.team_id = :teamId
+	      and tdOutcome.promotion_id = :promotionId	order by tdMatch.round_id     
+  		 ]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.match.getMatchesByPromotionAndRoundNumber">
+	<return alias="tdMatch" class="com.biperf.core.domain.promotion.Match" />
+	<![CDATA[
+          SELECT distinct {tdMatch.*}
+          from throwdown_match tdMatch, throwdown_match_team_outcome tdOutcome, throwdown_round tdRound    
+          where tdMatch.match_id = tdOutcome.match_id
+          and tdMatch.round_id = tdRound.round_id  
+          and tdOutcome.promotion_id = :promotionId
+          and tdRound.round_number = :roundNumber
+  		 ]]>
+	</sql-query>
+	
+
+	<sql-query name="com.biperf.core.domain.match.getMatchesByRound">
+	<return alias="tdMatch" class="com.biperf.core.domain.promotion.Match" />
+	<![CDATA[
+          SELECT distinct {tdMatch.*}
+          from throwdown_match tdMatch, throwdown_round tdRound    
+          where tdMatch.round_id = tdRound.round_id  
+          and tdRound.round_id = :roundId
+  		 ]]>
+	</sql-query>	
+	
+	<sql-query name="com.biperf.core.domain.match.getMatchesByPromotionAndRoundIdAndTeam">
+	<return alias="tdMatch" class="com.biperf.core.domain.promotion.Match" />
+	<![CDATA[
+	      SELECT distinct {tdMatch.*}
+	      from throwdown_match tdMatch, throwdown_match_team_outcome tdOutcome, throwdown_team tdTeam, throwdown_round tdRound    
+	      where tdMatch.match_id = tdOutcome.match_id
+          and tdMatch.round_id = tdRound.round_id  	       
+	      and tdOutcome.team_id = tdTeam.team_id  
+	      and tdTeam.team_id = :teamId
+	      and tdOutcome.promotion_id = :promotionId
+	      and tdRound.round_id = :roundId
+  		 ]]>
+	</sql-query>	
+	
+	<sql-query name="com.biperf.core.domain.match.getMatchesByPromotionAndRoundNumberAndTeam">
+	<return alias="tdMatch" class="com.biperf.core.domain.promotion.Match" />
+	<![CDATA[
+	      SELECT distinct {tdMatch.*}
+	      from throwdown_match tdMatch, throwdown_match_team_outcome tdOutcome, throwdown_team tdTeam, throwdown_round tdRound    
+	      where tdMatch.match_id = tdOutcome.match_id
+          and tdMatch.round_id = tdRound.round_id  	       
+	      and tdOutcome.team_id = tdTeam.team_id  
+	      and tdTeam.team_id = :teamId
+	      and tdOutcome.promotion_id = :promotionId
+	      and tdRound.round_number = :roundNumber
+	      and rownum = 1
+  		 ]]>
+	</sql-query>		
+	
+</hibernate-mapping>

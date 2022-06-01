@@ -1,0 +1,228 @@
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<%@ include file="/include/yui-imports.jspf"%>
+<link rel="stylesheet" href="<%= RequestUtils.getBaseURI(request) %>/styles/yui-styles.css" type="text/css"></link>
+
+<script type="text/javascript">
+<!--
+
+var paxSearch_searchingMsg = '<cms:contentText key="SEARCHING" code="participant.search"/>';
+var paxSearch_notFoundMsg = '<cms:contentText key="NOT_FOUND" code="participant.search"/>';
+var paxSearch_noneAvailableMsg = '<cms:contentText key="NONE_AVAILABLE" code="participant.search"/>';
+var countryRequired = false; //Check recognitionSelectRecipients.jsp for usage
+
+function paxSearch_instantiate( pSearchUrl, pMainUserNode, pIndex, pAdditionalQueryString, pNodeSearch, pPromotionId, isPartnerSearch ) {
+  return new function() {
+
+  var searchUrl = pSearchUrl;
+  var mainUserNode = pMainUserNode;
+  var nodeSearch = pNodeSearch;
+  var additionalQueryString = pAdditionalQueryString;
+  var index = ( pIndex ? pIndex : '' );
+  var promotionId = pPromotionId;
+  var isPartnerModule = isPartnerSearch;
+  
+  var searchById = 'searchBy' + index;
+  var searchQueryId = 'searchQuery' + index;
+  var searchResultsId = 'searchResults' + index;
+  var secondaryResultsId = 'secondaryResults' + index;
+  var secondaryResultsButtonsId = 'secondaryResultsButtons' + index;
+  var secondaryResultsRowId = 'secondaryResultsRow' + index;
+
+  // Instantiate an XHR DataSource and define schema as an array:
+  this.oACDS = new YAHOO.widget.DS_XHR( searchUrl, ["result","key","value"]);
+  this.oACDS.responseType = YAHOO.widget.DS_XHR.TYPE_XML; // use XML
+  this.oACDS.queryMatchContains = true;
+  this.oACDS.scriptQueryAppend = 'results=100'; // Needed for YWS
+
+  //This function adds search by criteria
+  this.secondLevelResposeHandler = function( sQuery, aResults, oSelf ) {
+    document.getElementById(secondaryResultsId).options.length = 0;
+    if ( aResults.length == 0 ) {
+      document.getElementById(secondaryResultsButtonsId).style.display = 'none';
+      addOptions( paxSearch_noneAvailableMsg, paxSearch_noneAvailableMsg, document.getElementById(secondaryResultsId) );
+    } else {
+      for ( var i = 0; i < aResults.length; i++ ) {
+        addOptions( aResults[i][1], aResults[i][0], document.getElementById(secondaryResultsId) );
+      }
+      document.getElementById(secondaryResultsButtonsId).style.display = '';
+    }
+    document.getElementById(secondaryResultsRowId).style.display = '';
+  }
+
+  // Instantiate an XHR DataSource for second level query and define schema as an array:
+  this.secondLevelQuery = new YAHOO.widget.DS_XHR( searchUrl, ["result","key","value"]);
+  this.secondLevelQuery.responseType = YAHOO.widget.DS_XHR.TYPE_XML; // use XML
+  this.secondLevelQuery.queryMatchContains = true;
+
+  // Instantiate AutoComplete
+  this.oAutoComp = new YAHOO.widget.AutoComplete( searchQueryId, searchResultsId, this.oACDS);
+  if( isPartnerModule !=null && isPartnerModule!='' && isPartnerModule=='true')
+  {
+  this.oAutoComp.minQueryLength = 3;
+  }else
+  { 
+  this.oAutoComp.minQueryLength = 2;
+  }
+  this.oAutoComp.maxResultsDisplayed=1000;
+  this.oAutoComp.useIFrame = true;
+  //this.oAutoComp.alwaysShowContainer = true;
+
+  // this function formats the results list the user selects from
+  this.oAutoComp.formatResult = function( aResultItem, sQuery ) {
+    var key = aResultItem[0];
+    var value = aResultItem[1];
+    return value;
+  };
+
+  //This function adds search by criteria
+  this.oAutoComp.doBeforeSendQuery = function( sQuery ) {
+    this.setBody( '<div id="searchQueryDefault">' + paxSearch_searchingMsg + '</div>' );
+    this._oContainer._oContent.style.height = "20px";
+    this._toggleContainer( true );
+    sQuery += '&criteria=' + document.getElementById(searchById).value;
+    sQuery += '&doNotSaveToken=true';
+    sQuery += '&countryRequired=' + countryRequired;
+    if ( mainUserNode && mainUserNode.length > 0 ) {
+      sQuery += '&mainUserNode=' + mainUserNode;
+    }
+    if ( additionalQueryString ) {
+      sQuery += additionalQueryString;
+    }
+    if ( promotionId &&     promotionId != 0 ) {
+      sQuery += '&promotionId=' + promotionId;
+    }
+    return sQuery;
+  };
+
+  // Show custom message if no results found
+  this.myOnDataReturn = function( sType, aArgs ) {
+    var oAutoComp = aArgs[0];
+    var sQuery = aArgs[1];
+    var aResults = aArgs[2];
+    if(aResults.length == 0) {
+      oAutoComp.setBody( '<div id="searchQueryDefault">' + paxSearch_notFoundMsg + '</div>' );
+      oAutoComp._oContainer._oContent.style.height = '15px';
+      oAutoComp._toggleContainer(true);
+    }
+  };
+  this.oAutoComp.dataReturnEvent.subscribe( this.myOnDataReturn );
+
+  // customize the itemSelectEvent listener
+  this.oAutoComp.itemSelectEvent = new YAHOO.util.CustomEvent( 'itemSelect', this );
+
+  // update to insert a new element into the HTML collection of paxes (a multi-select box)
+  this.oAutoComp.itemSelectEvent.fire = function ( oSelf , elItem , oData ) {
+    var criteria = document.getElementById(searchById).value;
+    if (criteria == 'firstName' || criteria == 'lastName' || nodeSearch == true) {
+      document.getElementById(searchQueryId).value = '';
+      paxSearch_showSelection( oData[0], oData[1], index );
+    } else {
+      document.getElementById(secondaryResultsId).options.length = 0;
+      addOptions( paxSearch_searchingMsg, '', document.getElementById(secondaryResultsId) );
+      document.getElementById(secondaryResultsRowId).style.display = '';
+      document.getElementById(searchQueryId).value = oData[1];
+     // this.scope.secondLevelQuery.scriptQueryAppend = 'results=100&secondLevel=true&doNotSaveToken=true&mainUserNode='+mainUserNode+'&criteria=' + criteria; // Needed for YWS
+     // Added promotionId for partner results( promotion Specific)
+      if ( promotionId &&     promotionId != 0 ) {
+         this.scope.secondLevelQuery.scriptQueryAppend = 'results=100&secondLevel=true&doNotSaveToken=true&mainUserNode='+mainUserNode+'&criteria='+criteria+'&promotionId='+promotionId+'&countryRequired='+countryRequired; // Needed for YWS
+      }else{
+         this.scope.secondLevelQuery.scriptQueryAppend = 'results=100&secondLevel=true&doNotSaveToken=true&mainUserNode='+mainUserNode+'&criteria='+criteria+'&countryRequired='+countryRequired;// Needed for YWS
+      }
+       //To fix the bug 19931
+      this.scope.secondLevelQuery.doQuery( this.scope.secondLevelResposeHandler, escape(oData[0]), this );
+    }
+  };
+
+  };
+
+}
+
+function paxSearch_addSelectedSecondaryResults( secondaryResultsId, index ) {
+  var secondaryResults = document.getElementById( secondaryResultsId + ( index ? index : '' ) );
+  for ( var i = 0; i < secondaryResults.options.length; i++ ) {
+    if ( secondaryResults.options[i].selected ) {
+      if ( !paxSearch_showSelection( secondaryResults.options[i].value, secondaryResults.options[i].text, index ) ) {
+        break;
+      }
+    }
+  }
+}
+
+function paxSearch_showSelection( id, value, index ) {
+  var result = false;
+  var paxId = id;
+  var nodeId = null;
+  var countryId = null;
+  var pos = id.indexOf( ':' );
+  if ( pos >= 0 ) {
+    paxId = id.substring( 0, pos );
+    nodeId = id.substring( pos + 1 );
+    pos = nodeId.indexOf( ':' );
+    if( pos >= 0 ) {
+    	countryId = nodeId.substring( pos + 1 );
+    	nodeId = nodeId.substring( 0, pos );
+   	}
+  }
+  if ( paxId == '0' ) {
+    paxSearch_showError( value );
+  } else {
+	  if(countryRequired == true) {
+		paxSearch_selectPax( paxId, nodeId, countryId, value, index );
+	  } else {
+		paxSearch_selectPax( paxId, nodeId, value, index );
+	  }
+    result = true;
+  }
+  return result;
+}
+
+function paxSearch_showError( errorText ) {
+  var errorArray = new Array();
+  errorArray[errorArray.length] = errorText;
+  paxSearch_showErrorPanel( errorArray );
+}
+
+function paxSearch_showErrorPanel( errorArray ) {
+  // if (this.errorPanel == null) {
+
+  this.errorPanel = new YAHOO.widget.Panel( "error",
+      { width: "500px", 
+        fixedcenter: true, 
+        close: false, 
+        draggable: false, 
+        modal: true,
+        zindex:4,
+        visible: false
+      } 
+  );
+
+  var body = ''
+      + '<span class="subheadline">'
+      + '<cms:contentText key="INELIGIBLE_RECIPIENTS" code="recognition.select.recipients"/></span><br><br>'
+      + '<cms:contentText key="INELIGIBLE_ERROR_PAX" code="recognition.select.recipients"/><br>'
+      + '<ul style="list-style: none; margin-left:0px;">'
+  ;
+
+  for ( var i = 0; i < errorArray.length; i++ ) {
+    body = body + '<li>' + errorArray[i] + '</li>';
+  }
+
+  body = body
+      + '</ul><br>'
+      + '<div align="center"><button class="content-buttonstyle" onclick="paxSearch_hideErrorPanel();">'
+      + '<cms:contentText key="OK" code="system.button"/></button></div>';                                    
+
+  this.errorPanel.setBody( body );
+  this.errorPanel.render( document.body );
+
+  //}
+
+  this.errorPanel.show();
+}
+    
+function paxSearch_hideErrorPanel() {
+  this.errorPanel.hide();
+}
+
+//-->
+</script>

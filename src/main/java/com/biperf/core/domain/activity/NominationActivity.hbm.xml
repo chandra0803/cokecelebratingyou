@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<subclass name="com.biperf.core.domain.activity.NominationActivity" extends="com.biperf.core.domain.activity.Activity" discriminator-value="nomination">
+  <property name="awardQuantity" column="QUANTITY" type="java.lang.Long" />
+  <property name="cashAwardQuantity" type="java.math.BigDecimal" column="CASH_AWARD_QTY"/>
+  <property name="submitter" column="IS_SUBMITTER" type="boolean" />
+  <many-to-one name="claimGroup" column="CLAIM_GROUP_ID" not-null="false" lazy="proxy" />
+</subclass>
+
+</hibernate-mapping>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- ==== DATASOURCE ==== -->
+
+	<!-- JNDI lookup of datasource -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName"><value>java:/comp/env/jdbc/@PROJECT_NAME@</value></property>
+	</bean>
+
+	<!-- ==== DAOs ==== -->
+
+  <!--
+  	Parent ProxyFactoryBean Definition for DAOs.  All Interceptors are defined here.
+	  Other beans can extend this definition by defining a parent, target and proxyInterface
+	-->
+	<bean id="daoProxyFactoryParent" class="org.springframework.aop.framework.ProxyFactoryBean" abstract="true">
+		<property name="interceptorNames">
+			<list>
+				<value>loggingInterceptor</value>
+				<value>performanceMonitorInterceptor</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

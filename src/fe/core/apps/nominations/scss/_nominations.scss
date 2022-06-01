@@ -1,0 +1,100 @@
+// App-specific variables
+// =========================
+/* * * * *
+* Global Styles
+* * * * */
+$nominations_primaryFontFamily: $bodyFont !default;
+$nominations_secondaryFontFamily: $titleFont !default;
+$nominations_pageTopBgColor: $brand_color_lighter !default;
+$nominations_pageTopFontColor: $brand_color_black !default;
+$nominations_tooltipBg: $brand_color_darker !default;
+
+/* * * * *
+* Module Styles
+* * * * */
+// PAST WINNERS MODULE
+// these styles should sync up with the "nom item" styles in _publicRecognition.scss (unless otherwise noted by Creative)
+$nominationsPastWinnersModule_bgColor: #55b97c !default;
+$nominationsPastWinnersModule_bgImg: 'publicRecognition/nominationBg.png' !default;
+$nominationsPastWinnersModule_bgImgPath: $appImagesPath !default;
+$nominationsPastWinnersModule_bgImgPosition: 50% 25% !default;
+$nominationsPastWinnersModule_bgImgRepeat: false !default;
+$nominationsPastWinnersModule_bgImgSize: false !default;
+$nominationsPastWinnersModule_titleColor: $brand_color_white !default;
+$nominationsPastWinnersModule_linkColor: false !default;
+
+/* * * * *
+* Submit Styles
+* * * * */
+$nominationsSubmitPage_bgColor: $brand_color_white !default;
+
+$nominationsSubmitPage_tabsCompleteIconColor: $brand_color_success !default;
+$nominationsSubmitPage_tabsCompleteTextColor: $brand_color_success !default;
+$nominationsSubmitPage_tabsActiveIconColor: $brand_color_primary !default;
+$nominationsSubmitPage_tabsActiveTextColor: $brand_color_primary !default;
+$nominationsSubmitPage_tabsIncompleteBgColor: $brand_color_white !default;
+$nominationsSubmitPage_tabsIncompleteIconColor: $brand_color_dark !default;
+$nominationsSubmitPage_tabsIncompleteTextColor: $brand_color_dark !default;
+$nominationsSubmitPage_tabsErrorColor: $brand_color_alert !default;
+
+
+$nominationsSubmitPage_individualTeamBgColor: $brand_color_black !default;
+$nominationsSubmitPage_individualTeamTextColor: $brand_color_white !default;
+$nominationsSubmitPage_individualTeamActiveBgColor: $brand_color_primary !default;
+
+$nominationsSubmitPage_behaviorSelectedBgColor: $brand_color_light !default;
+$nominationsSubmitPage_behaviorSelectedTextColor: $brand_color_primary !default;
+
+/* * * * *
+* Approval Styles
+* * * * */
+$nominationsApproval_compareBgColor: $brand_color_lighter !default;
+$nominationsApproval_tableEvenBgColor: $brand_color_lighter !default;
+
+/* * * * *
+* Past Winner Styles
+* * * * */
+$nominationsWinner_bgColor: $brand_color_white !default;
+$nominationsWinner_bgImg: "nomination/winnersDetailBackground.png" !default; // "nomination/winnersDetailBackground.png"
+$nominationsWinner_bgImgUrlPath: $appImagesPath !default;
+$nominationsWinner_bgImgPosition: center center !default;
+$nominationsWinner_bgImgRepeat: no-repeat !default;
+$nominationsWinner_bgImgSize: cover !default;
+$nominationsWinner_bgImgAttachment: scroll !default;
+
+// $nominationsWinner_titleTextColor: $grayDark !default;
+$nominationsWinner_awardNameTextColor: $brand_color_primary !default;
+$nominationsWinner_awardDateTextColor: $brand_color_dark !default;
+
+$nominationsPastWinner_awardCircleBgColor: $brand_color_primary !default;
+$nominationsPastWinner_awardCircleTextColor: $brand_color_white !default;
+
+/* * * * *
+* Noms Winner Modal Styles
+* * * * */
+$nominationsWinnerModal_image: false !default; // false uses the default image provided with G6. Any other value looks in the skin
+$nominationsWinnerModal_fontFamily: $titleFont !default;
+$nominationsWinnerModal_fgColor: $brand_color_white !default;
+$nominationsWinnerModal_bgColor: $brand_color_primary !default;
+
+$nominationsWinnerModal_fontFamily_bottom: $titleFont !default;
+$nominationsWinnerModal_fgColor_bottom: $textColor !default;
+$nominationsWinnerModal_bgColor_bottom: $brand_color_white !default;
+$nominationsWinnerModal_accentColor_bottom: $brand_color_primary !default;
+
+//Noms Winner Modal BG Variables
+$nominationsWinnerModal_total: 140; // total particles
+$nominationsWinnerModal_time: 3s; // length of animation
+$nominationsWinnerModal_frames: 100; // total frames in each keyframe
+$nominationsWinnerModal_perc: 100/$nominationsWinnerModal_frames * 1%; // percent to increment by in keyframe loop
+
+
+// App-specific code
+// ==================================================
+/* ----- GLOBAL STYLES ----- */
+
+/* ----- IMPORTS ----- */
+@import "nominationsModules";
+@import "nominationsApproval";
+@import "nominationsSubmission";
+@import "nominationsWinners";

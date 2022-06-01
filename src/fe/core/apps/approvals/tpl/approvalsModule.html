@@ -1,0 +1,110 @@
+<!-- ======== APPROVALS: APPROVALS MODULE ======== -->
+
+<div class="module-liner">
+    <div class="wide-view">
+        <h3 class="module-title">Approval Dashboard</h3>
+
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="approvalDashboardWrap">
+
+                </div>
+            </div>
+        </div>
+    </div> <!-- ./wide-view -->
+
+</div> <!-- ./module-liner -->
+<!--subTpl.approvalDashboardTpl=
+    {{#if nominationApprovals}}
+        {{#gte nominationapprovalsCount 1}}
+            <div class="approvalCard card">
+                <div class="card-front">
+                    <div class="card-top">
+                        <span class="approvalCount">{{nominationApprovals.[0].numberOfApprovables}}</span>
+                    </div>
+
+                    <div class="card-details">
+                        <h4 class="type">
+                            Nominations
+                        </h5>
+
+                        {{#ueq nominationApprovals.[0].numberOfApprovables 0}}
+                            <a href="#">View All</a>
+                        {{else}}
+                            <a href="#">View Past Approvals</a>
+                        {{/ueq}}
+                    </div>
+                </div>
+            </div>
+        {{/gte}}
+    {{/if}}
+
+    {{#if RecognitionApprovals}}
+        {{debug}}
+        {{#gte recognitionapprovalsCount 1}}
+            <div class="approvalCard card">
+                <div class="card-front">
+                    <div class="card-top">
+                        <span class="approvalCount">{{RecognitionApprovals.[0].numberOfApprovables}}</span>
+                    </div>
+
+                    <div class="card-details">
+                        <h4 class="type">
+                            Recognitions
+                        </h5>
+
+                        {{#ueq RecognitionApprovals.[0].numberOfApprovables 0}}
+                            <a href="#">View All</a>
+                        {{else}}
+                            <a href="#">View Past Approvals</a>
+                        {{/ueq}}
+                    </div>
+                </div>
+            </div>
+        {{/gte}}
+    {{/if}}
+
+    {{#if claimApprovals}}
+        <div class="approvalCard card">
+            <div class="card-front">
+                <div class="card-top">
+                    <span class="approvalCount">{{claimapprovalsCount}}</span>
+                </div>
+
+                <div class="card-details">
+                    <h4 class="type">
+                        Claims
+                    </h5>
+
+                    {{#ueq claimapprovalsCount 0}}
+                        <a href="#">View All</a>
+                    {{else}}
+                        <a href="#">View Past Approvals</a>
+                    {{/ueq}}
+                </div>
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if ssiApprovals}}
+        <div class="approvalCard card">
+            <div class="card-front">
+                <div class="card-top">
+                    <span class="approvalCount">{{ssiapprovalsPendingCount}}</span>
+                </div>
+
+                <div class="card-details">
+                    <h4 class="type">
+                        SSI
+                    </h4>
+
+                    {{#ueq ssiapprovalsPendingCount 0}}
+                        <a href="#">View All</a>
+                    {{else}}
+                        <a href="#">View Past Approvals</a>
+                    {{/ueq}}
+                </div>
+            </div>
+        </div>
+    {{/if}}
+subTpl-->

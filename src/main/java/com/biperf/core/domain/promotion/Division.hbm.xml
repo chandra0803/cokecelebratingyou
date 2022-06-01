@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.Division" table="THROWDOWN_DIVISION">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="DIVISION_ID">
+			<generator class="seqhilo">
+				<param name="sequence">td_division_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED" />
+	      <column name="MODIFIED_BY" />
+	    </property>
+
+		<property name="divisionNameAssetCode" type="java.lang.String" column="DIVISION_NAME_ASSET_CODE" />
+		<property name="minimumQualifier" type="java.math.BigDecimal" column="MINIMUM_QUALIFIER" />
+		
+		<many-to-one name="promotion" column="PROMOTION_ID" not-null="true" lazy="proxy"/>
+		
+		<set name="payouts" table="THROWDOWN_DIVISION_PAYOUT" lazy="true" inverse="false" cascade="all-delete-orphan">
+		   <key column="DIVISION_ID" not-null="true" />
+		   <one-to-many class="com.biperf.core.domain.promotion.DivisionPayout"/>
+		</set>
+		
+		<set name="rounds" table="THROWDOWN_ROUND" lazy="true" inverse="false" cascade="all-delete-orphan" order-by="ROUND_NUMBER">
+		   <key column="DIVISION_ID" not-null="true" />
+		   <one-to-many class="com.biperf.core.domain.promotion.Round"/>
+		</set>
+		
+		<set name="teams" table="THROWDOWN_TEAM" lazy="true" inverse="true" cascade="all-delete-orphan">
+		   <key column="DIVISION_ID" not-null="true" />
+		   <one-to-many class="com.biperf.core.domain.promotion.Team"/>
+		</set>
+		
+		<set name="competitorsAudience" table="THROWDOWN_DIVISION_AUDIENCE" lazy="true" inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="DIVISION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.DivisionCompetitorsAudience" />
+		</set>
+    
+	</class>
+</hibernate-mapping>

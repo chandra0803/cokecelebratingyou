@@ -1,0 +1,4 @@
+DROP PACKAGE pkg_query_budget_balance
+/
+ALTER TABLE rpt_behavior_detail ADD (PROXY_FIRST_NAME VARCHAR2(120 CHAR), PROXY_LAST_NAME VARCHAR2(120 CHAR))
+/

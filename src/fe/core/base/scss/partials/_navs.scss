@@ -1,0 +1,520 @@
+// Partial-specific variables
+// =========================
+$globalNav_filterNavHeight:         $global_nav_height !default;
+$globalNav_filterNavHeight_mobile:  $global_nav_height_mobile !default;
+$globalNav_filterMargin:            $global_nav_margin !default;
+$globalNav_filterMargin_mobile:     $global_nav_margin_mobile !default;
+
+$globalNav_background: $brand_color_white !default;
+$globalNav_borderWidth:              0 !default; // mobile doesn't have a top border
+$globalNav_borderWidth_tablet:       $g6HeadNavBorderWidth_tablet !default;
+$globalNav_borderWidth_desktop:      $g6HeadNavBorderWidth_desktop !default;
+$globalNav_borderWidth_desktopLarge: $g6HeadNavBorderWidth_desktopLarge !default;
+$globalNav_borderColor: $g6HeadNavBorderColor !default;
+
+$globalNav_filterFontFamily: $titleFont !default;
+
+$globalNav_filterTextSize: $baseFontSize !default;
+$globalNav_filterFontColor: $brand_color_black !default;
+$globalNav_filterFontStyle: false !default;
+$globalNav_filterFontWeight: $fontWeightSemiBold !default;
+$globalNav_filterTextDecoration: false !default;
+$globalNav_filterTextTransform: false !default;
+$globalNav_filterBorderBottomWidth: 5px !default;
+$globalNav_filterBorderBottomColor: transparent !default;
+
+$globalNav_filterTextSizeSelected: $globalNav_filterTextSize !default;
+$globalNav_filterFontColorSelected: $brand_color_primary !default;
+$globalNav_filterFontStyleSelected: false !default;
+$globalNav_filterFontWeightSelected: false !default;
+$globalNav_filterTextDecorationSelected: false !default;
+$globalNav_filterTextTransformSelected: false !default;
+$globalNav_filterBorderBottomSelectedColor: $brand_color_primary !default;
+
+$tabs_paddingY: 12px !default;
+$tabs_paddingX: 18px !default;
+$tabs_lineHeight: 18px !default;
+$tabs_fontWeight: $fontWeightSemiBold !default;
+
+$tabs_borderColor: $brand_color_mid !default;
+$tabs_borderWidth: 1px !default;
+$tabs_textColor:   $brand_color_dark !default;
+
+$tabs_hoverTextColor: $brand_color_primary !default;
+$tabs_hoverBkgColor:  transparent !default;
+
+$tabs_activeTextColor:   $brand_color_primary !default;
+$tabs_activeBorderColor: $brand_color_primary !default;
+$tabs_activeBorderWidth: 3px !default;
+
+
+
+// Partial-specific code
+// ==================================================
+
+// NAVIGATION
+#globalNav {
+    position: relative;
+    // overflow: hidden;
+    // visibility: hidden;
+    height: $globalNav_filterNavHeight;
+    line-height: $globalNav_filterNavHeight;
+    background: $globalNav_background;
+
+    &.rendered {
+        // visibility: visible;
+    }
+
+
+    .opened .opener,
+    .closed .closer {
+        display: none;
+    }
+
+
+    .nav {
+        // border-bottom: 1px solid $brand_color_border;
+        margin: 0;
+        padding: 0;
+        height: $globalNav_filterNavHeight;
+        line-height: $globalNav_filterNavHeight;
+        position: relative; // for justification
+        white-space: nowrap;
+        border-top: $globalNav_borderWidth solid $globalNav_borderColor;
+        // border-top-width: 0;
+
+        @if $globalNav_borderWidth_tablet != $globalNav_borderWidth {
+            @media (min-width: $breakpoint_tablet_min) {
+                border-top-width: $globalNav_borderWidth_tablet;
+            }
+        }
+        @if $globalNav_borderWidth_desktop != $globalNav_borderWidth_tablet {
+            @media (min-width: $breakpoint_desktop_min) {
+                border-top-width: $globalNav_borderWidth_desktop;
+            }
+        }
+        @if $globalNav_borderWidth_desktopLarge != $globalNav_borderWidth_desktop {
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                border-top-width: $globalNav_borderWidth_desktopLarge;
+            }
+        }
+
+        .item {
+            //position: absolute; // for justification
+            // bottom: ($globalNav_filterTextSizeSelected - $globalNav_filterTextSize) / 2 * .3; // divide by 2 to get the amount of space on the top and bottom. Multiply by 30% to get an adjustment that trial-and-error has found to be about right
+            display: block;
+            float: left;
+            font-family: $globalNav_filterFontFamily;
+            font-size: $globalNav_filterTextSize;
+            line-height: $globalNav_filterNavHeight - ($globalNav_filterBorderBottomWidth * 2);
+            margin: 0;
+            padding: 0 $globalNav_filterMargin;
+            padding-top: $globalNav_filterBorderBottomWidth;
+            //width:$globalNav_filterLiWidth;
+
+            a {
+                display: block;
+                margin: 0;
+                padding: 0;
+                line-height: inherit;
+                white-space: nowrap;
+                @include ignoreGlobalLinkStyles();
+
+                @if $globalNav_filterFontStyle {
+                    font-style: $globalNav_filterFontStyle;
+                }
+                @if $globalNav_filterFontWeight {
+                    font-weight: $globalNav_filterFontWeight;
+                }
+                @if $globalNav_filterTextDecoration {
+                    text-decoration: $globalNav_filterTextDecoration;
+                }
+                @if $globalNav_filterTextTransform {
+                    text-transform: $globalNav_filterTextTransform;
+                }
+                color: $globalNav_filterFontColor;
+
+                border-bottom: $globalNav_filterBorderBottomWidth solid $globalNav_filterBorderBottomColor;
+
+                &:hover {
+                    background: none;
+                }
+
+                &:focus {
+                    background: none;
+                    outline: none;
+                    text-decoration: none;
+                }
+            }
+
+            &.active {
+                // bottom: 0;
+                font-size: $globalNav_filterTextSizeSelected;
+                // line-height: $globalNav_filterTextSizeSelected;
+
+                a {
+                    @if $globalNav_filterFontStyleSelected {
+                        font-style: $globalNav_filterFontStyleSelected;
+                    }
+                    @if $globalNav_filterFontWeightSelected {
+                        font-weight: $globalNav_filterFontWeightSelected;
+                    }
+                    @if $globalNav_filterTextDecorationSelected {
+                        text-decoration: $globalNav_filterTextDecorationSelected;
+                    }
+                    @if $globalNav_filterTextTransformSelected {
+                        text-transform: $globalNav_filterTextTransformSelected;
+                    }
+                    color: $globalNav_filterFontColorSelected;
+                    background: none;
+                    border-bottom-color: $globalNav_filterBorderBottomSelectedColor;
+                }
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .slick-arrow {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            z-index: 1;
+            margin-top: -1 * $globalNav_filterNavHeight / 2;
+            padding-right: $globalNav_filterNavHeight / 4;
+            height: $globalNav_filterNavHeight;
+            width: $globalNav_filterNavHeight / 2;
+            line-height: $globalNav_filterNavHeight;
+            text-align: center;
+            cursor: pointer;
+            background: linear-gradient(to right, $globalNav_background 0%, transparentize($globalNav_background, 1));
+
+            // hides the icons but keeps the fades intact
+            &:before {
+                display: none;
+            }
+
+            &.slick-next {
+                left: auto;
+                right: 0;
+                padding-right: 0;
+                padding-left: $globalNav_filterNavHeight / 4;
+                background: linear-gradient(to right, transparentize($globalNav_background, 1), $globalNav_background 100%);
+            }
+
+            &.slick-disabled {
+                display: none !important;
+            }
+        }
+
+    @media (max-width: $breakpoint_mobile_max) {
+        @if $globalNav_filterNavHeight_mobile != $globalNav_filterNavHeight {
+            height: $globalNav_filterNavHeight_mobile;
+            line-height: $globalNav_filterNavHeight_mobile;
+
+            .item {
+                line-height: $globalNav_filterNavHeight_mobile - ($globalNav_filterBorderBottomWidth * 2);
+            }
+
+            .slick-arrow {
+                margin-top: -1 * $globalNav_filterNavHeight_mobile / 2;
+                padding-right: $globalNav_filterNavHeight_mobile / 4;
+                height: $globalNav_filterNavHeight_mobile;
+                width: $globalNav_filterNavHeight_mobile / 2;
+                line-height: $globalNav_filterNavHeight_mobile;
+
+                &.slick-next {
+                    padding-left: $globalNav_filterNavHeight_mobile / 4;
+                }
+            }
+        } // /@if
+        @if $globalNav_filterMargin_mobile != $globalNav_filterMargin {
+            .item {
+                padding: 0 $globalNav_filterMargin_mobile;
+            }
+        } // /@if
+    } // /@media
+
+    }
+
+    // ============ slick slider >>> ==============
+    /* Slider */
+    .slick-slider
+    {
+        position: relative;
+
+        display: block;
+        // box-sizing: border-box;
+
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+
+        -webkit-touch-callout: none;
+        -khtml-user-select: none;
+        -ms-touch-action: pan-y;
+            touch-action: pan-y;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .slick-list
+    {
+        position: absolute;
+
+        display: block;
+        overflow: hidden;
+
+        margin: 0;
+        padding: 0;
+
+        width: 100%;
+        height: $globalNav_filterNavHeight;
+    }
+    .slick-list:focus
+    {
+        outline: none;
+    }
+    .slick-list.dragging
+    {
+        cursor: pointer;
+        cursor: hand;
+    }
+
+    .slick-slider .slick-track,
+    .slick-slider .slick-list
+    {
+        -webkit-transform: translate3d(0, 0, 0);
+           -moz-transform: translate3d(0, 0, 0);
+            -ms-transform: translate3d(0, 0, 0);
+             -o-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+    }
+
+    .slick-track
+    {
+        position: relative;
+        top: 0;
+        left: 0;
+
+        display: block;
+    }
+    .slick-track:before,
+    .slick-track:after
+    {
+        display: table;
+
+        content: '';
+    }
+    .slick-track:after
+    {
+        clear: both;
+    }
+    .slick-loading .slick-track
+    {
+        visibility: hidden;
+    }
+
+    .slick-slide
+    {
+        display: none;
+        float: left;
+
+        height: 100%;
+        min-height: 1px;
+    }
+    // [dir='rtl'] .slick-slide
+    // {
+    //     float: right;
+    // }
+    // .slick-slide img
+    // {
+    //     display: block;
+    // }
+    // .slick-slide.slick-loading img
+    // {
+    //     display: none;
+    // }
+    // .slick-slide.dragging img
+    // {
+    //     pointer-events: none;
+    // }
+    .slick-initialized .slick-slide
+    {
+        display: block;
+    }
+    .slick-loading .slick-slide
+    {
+        visibility: hidden;
+    }
+    // .slick-vertical .slick-slide
+    // {
+    //     display: block;
+
+    //     height: auto;
+
+    //     border: 1px solid transparent;
+    // }
+    .slick-arrow.slick-hidden {
+        display: none;
+    }
+    // ============ <<< slick slider ==============
+
+}
+
+/***
+ *     .d8888888b.                                    888 888
+ *    d88P"   "Y88b                                   888 888
+ *    888  d8b  888                                   888 888
+ *    888  888  888 .d8888b   .d8888b 888d888 .d88b.  888 888
+ *    888  888bd88P 88K      d88P"    888P"  d88""88b 888 888
+ *    888  Y8888P"  "Y8888b. 888      888    888  888 888 888
+ *    Y88b.     .d8      X88 Y88b.    888    Y88..88P 888 888
+ *     "Y88888888P"  88888P'  "Y8888P 888     "Y88P"  888 888
+ *
+ *
+ *
+ */
+.fix-gnav {
+    #globalNav {
+        position: fixed;
+        top: 0 !important;
+        left: 0;
+        right: 0;
+        z-index: 1101;
+
+        .nav {
+            border-top-width: 0;
+            // border-bottom: $globalNav_borderWidth_tablet solid $globalNav_borderColor;
+            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.125);
+        }
+
+        @media (min-width: $breakpoint_desktop_min) {
+            right: $global_sidebar_width_desktop;
+        }
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            right: $global_sidebar_width_desktopLarge;
+        }
+        @media (min-width: $breakpoint_siteMax_min) {
+            left: calc((100% - #{$breakpoint_siteMax_min}) / 2);
+            right: calc((100% - #{$breakpoint_siteMax_min}) / 2 + #{$global_sidebar_width_desktopLarge});
+        }
+    }
+
+    &.fix-body {
+        #contents {
+            margin-top: 0 !important;
+        }
+
+        &.pin-body {
+            #globalNav {
+                position: fixed;
+                top: 0 !important;
+            }
+        }
+    }
+}
+
+
+.appPageContainerViewElement {
+    position:relative;
+}
+
+.appPageContainerViewElement .goBackBtn {
+    margin-bottom:20px;
+}
+
+.appPageContainerDynamicContent {
+    position:relative;
+    min-height:600px;
+    //@include box-shadow(#eeeeee 0px 0px 9px 2px);
+    border:1px solid $brand_color_border;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/***
+ *                                          888             888
+ *                                          888             888
+ *                                          888             888
+ *        88888b.   8888b.  888  888        888888  8888b.  88888b.  .d8888b
+ *        888 "88b     "88b 888  888        888        "88b 888 "88b 88K
+ *        888  888 .d888888 Y88  88P 888888 888    .d888888 888  888 "Y8888b.
+ *    d8b 888  888 888  888  Y8bd8P         Y88b.  888  888 888 d88P      X88
+ *    Y8P 888  888 "Y888888   Y88P           "Y888 "Y888888 88888P"   88888P'
+ *
+ *
+ *
+ */
+
+// Give the tabs something to sit on
+.nav-tabs {
+    border-bottom: $tabs_borderWidth solid $tabs_borderColor;
+}
+
+// Make the list-items overlay the bottom border
+.nav-tabs > li {
+    margin-bottom: -1 * $tabs_borderWidth;
+}
+
+// Actual tabs (as links)
+.nav-tabs > li > a {
+    margin: 0;
+    padding: $tabs_paddingY $tabs_paddingX;
+    line-height: $tabs_lineHeight;
+    outline: none;
+    @include border-radius(0);
+    @include ignoreGlobalLinkStyles();
+    font-weight: $tabs_fontWeight;
+    color: $tabs_textColor;
+    background: transparent;
+    border: 0;
+    border-bottom: $tabs_borderWidth solid $tabs_borderColor;
+
+    &:hover,
+    &:focus {
+        color: $tabs_hoverTextColor;
+        background: $tabs_hoverBkgColor;
+        border: 0;
+        border-bottom: $tabs_borderWidth solid $tabs_borderColor;
+    }
+}
+
+// Active state, and it's :hover/:focus to override normal :hover/:focus
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
+    color: $tabs_activeTextColor;
+    padding-bottom: $tabs_paddingY + $tabs_borderWidth - $tabs_activeBorderWidth;
+    background: transparent;
+    border: 0;
+    border-bottom: $tabs_activeBorderWidth solid $tabs_activeBorderColor;
+}
+
+// ON DARK BACKGROUNDS IN MODULE AND PAGE TOPS
+// see _allModules.scss and _pages.scss for further refinement
+// .module .nav-tabs,
+// .page-topper .nav-tabs {
+//     padding-top: 4px;
+//     border-bottom: 0;
+
+//     > li {
+//         margin-bottom: 0;
+
+//         > a,
+//         &.active > a,
+//         &.active > a:hover {
+//             border: 0;
+//         }
+//     }
+// }

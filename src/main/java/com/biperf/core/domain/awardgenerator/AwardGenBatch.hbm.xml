@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.awardgenerator.AwardGenBatch" table="AWARDGEN_BATCH">
+
+        <id name="id" type="java.lang.Long" column="AWARDGEN_BATCH_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">AWARDGEN_BATCH_PK_SQ</param>
+            </generator>
+        </id>
+
+        <version name="version" column="VERSION" type="java.lang.Long" />
+
+        <property name="startDate" type="java.util.Date" column="START_DATE" />
+        <property name="endDate" type="java.util.Date" column="END_DATE" />
+        
+        <property name="useIssueDate" type="boolean" column="USE_ISSUE_DATE" not-null="true"/>
+        <property name="issueDate" type="java.util.Date" column="ISSUE_DATE"/>
+                  
+ 		<many-to-one name="awardGen" column="AWARDGEN_ID" class="com.biperf.core.domain.awardgenerator.AwardGenerator" not-null="true" lazy="false"/>
+		
+		<set name="awardGenParticipants" table="AWARDGEN_PARTICIPANT" lazy="true" inverse="true" cascade="all-delete-orphan"> 
+			<key column="AWARDGEN_BATCH_ID" />
+			<one-to-many class="com.biperf.core.domain.awardgenerator.AwardGenParticipant" />
+		</set>
+            
+		<set name="awardGenManagers" table="AWARDGEN_MANAGER" lazy="true" inverse="true" cascade="all-delete-orphan"> 
+			<key column="AWARDGEN_BATCH_ID" />
+			<one-to-many class="com.biperf.core.domain.awardgenerator.AwardGenManager" />
+		</set>
+		
+   	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED"/>
+            <column name="CREATED_BY"/>
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+            <column name="DATE_MODIFIED"/>
+            <column name="MODIFIED_BY"/>
+        </property>
+
+    </class>
+    
+    <query name="com.biperf.core.domain.awardgenerator.AwardGenBatch.allBatchesByAwardGenId">
+		<![CDATA[
+          from com.biperf.core.domain.awardgenerator.AwardGenBatch awardGenBatch
+          where awardGenBatch.awardGen.id = :awardGenId       
+          order by awardGenBatch.startDate asc
+    ]]>
+	</query>
+		   	
+	<sql-query name="com.biperf.core.domain.awardgenerator.AwardGenBatch.countOfBatchMatchingStartAndEndDate">
+	<return-scalar column="result" type="integer" />
+		<![CDATA[
+    	select count(1) as result
+		from awardgen_batch
+		where awardgen_id = :awardGenId
+		and start_date = to_date(:batchStartDate,'mm/dd/YYYY')
+		and end_date = to_date(:batchEndDate,'mm/dd/YYYY')
+   		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.awardgenerator.AwardGenBatch.managerAlertPaxListByPromotion">
+	<![CDATA[
+       select au.user_id as userId, 
+       		  au.first_name || '  ' || au.last_name as userName,
+       		  ap.awardgen_participant_id as awardGenPaxId, 
+       		  ap.anniversary_date as anniversaryDate, 
+       		  ap.issue_date  as awardDate
+       from awardgen_manager am, 
+              awardgen_participant ap, 
+              awardgenerator ag, 
+              awardgen_batch ab, 
+              application_user au 
+       where am.awardgen_batch_id = :batchId
+       and  am.awardgen_batch_id = ab.awardgen_batch_id 
+       and ab.awardgen_id         = ag.awardgen_id 
+       and am.user_Id             = :userId 
+       and am.awardgen_participant_id = ap.awardgen_participant_id
+       and ap.user_id = au.user_id
+   		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.awardgenerator.AwardGenBatch.getManagerUserIdByBatchId">
+	<return-scalar column="USER_ID" type="long"/>
+	<![CDATA[
+		select distinct am.user_id as user_id 
+		from awardgen_manager am
+		where am.awardgen_batch_id = :batchId	
+	]]>
+	</sql-query>
+	
+</hibernate-mapping>

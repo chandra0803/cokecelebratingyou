@@ -1,0 +1,100 @@
+CREATE SEQUENCE rpt_goal_selection_summary_sq
+  START WITH 1
+  CACHE 20
+/
+
+CREATE TABLE rpt_goal_selection_summary
+   (rpt_goal_selection_summary_id   	NUMBER(18,0) NOT NULL,
+    header_node_id                      NUMBER(18,0),
+    detail_node_id                      NUMBER(18,0),
+    total_participants                  NUMBER(18,0),
+    goal_level                    		NUMBER(18,0),
+    promotion_id                    	NUMBER(18,0),
+    promo_start_end_date                VARCHAR2(30),
+    pax_status                   		VARCHAR2(30),
+    job_position                    	VARCHAR2(100),
+    department                        	VARCHAR2(100),
+    hier_level                   		NUMBER,
+    is_leaf                    			NUMBER(1,0),
+    date_created                  		DATE NOT NULL,
+    created_by                  		NUMBER(18,0) NOT NULL,
+    nbr_goal_achieved              		NUMBER(18,0),
+    calculated_payout                	NUMBER(18,0),
+    record_type							VARCHAR2(49),
+    nbr_pax_25_percent_of_goal          NUMBER(18,0),
+    nbr_pax_50_percent_of_goal          NUMBER(18,0),
+    nbr_pax_75_percent_of_goal          NUMBER(18,0),
+    nbr_pax_76_99_percent_of_goal       NUMBER(18,0),
+    nbr_pax_100_percent_of_goal         NUMBER(18,0),
+    manager                  		NUMBER(1),
+    modified_by   			NUMBER (18),
+    date_modified 			DATE,
+    total_selected                 number(18),
+    base_quantity                  number(18,4),
+    goal                           number(18,2),
+    actual_result                  number(18,4))
+/
+ALTER TABLE rpt_goal_selection_summary ADD CONSTRAINT rpt_goal_selection_summary_pk
+  PRIMARY KEY ( rpt_goal_selection_summary_id)
+ USING INDEX   
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.rpt_goal_selection_summary_id IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.header_node_id IS 'parent node id'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.detail_node_id IS 'child node id'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.total_participants IS 'total number of participants'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.goal_level IS 'from goal level'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.promotion_id IS 'from promotion'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.promo_start_end_date IS 'promotion begin/end date range search string'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.pax_status IS 'from participant'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.job_position IS 'from participant_employer'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.department IS 'from participant_employer'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.hier_level IS 'Indicate the depth level in the hierarchy 1 indicates the topmost level.'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.is_leaf IS 'pseudo column to designate the end of drill down. basically indicates that there are no further child nodes for this.'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.date_created IS 'audit field'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.created_by IS 'audit field'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.nbr_goal_achieved IS 'number of users who have achieved their goal'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.calculated_payout IS 'Calculated amount(Awards)'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.record_type IS 'To qualify the row as either the node summary or team summary'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.nbr_pax_25_percent_of_goal IS 'number of users who have achieved 0-25% of goal'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.nbr_pax_50_percent_of_goal IS 'number of users who have achieved 26-50% of goal'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.nbr_pax_75_percent_of_goal IS 'number of users who have achieved 51-75% of goal'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.nbr_pax_76_99_percent_of_goal IS 'number of users who have achieved 76-99% of goal'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.nbr_pax_100_percent_of_goal IS 'number of users who have achieved 100% or more of goal'
+/
+COMMENT ON COLUMN rpt_goal_selection_summary.manager IS 'Is participant a node owner'
+/
+CREATE OR REPLACE TRIGGER trg_rptgoalselectionsummary_bi
+ BEFORE
+  INSERT
+ ON rpt_goal_selection_summary
+REFERENCING NEW AS NEW OLD AS OLD
+ FOR EACH ROW
+BEGIN
+IF :new.RPT_GOAL_SELECTION_SUMMARY_ID IS NULL THEN
+    SELECT rpt_goal_selection_summary_sq.NEXTVAL
+      INTO :new.RPT_GOAL_SELECTION_SUMMARY_ID
+      FROM dual ;
+END IF ;
+END  ;
+/

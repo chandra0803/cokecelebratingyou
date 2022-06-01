@@ -1,0 +1,103 @@
+<%--UI REFACTORED--%>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<%@ include file="/include/taglib.jspf" %>
+	<script type="text/javascript">
+	<!--
+	function maintainCharacteristic( method, charId )
+	{
+		document.characteristicForm.method.value = method;
+		document.characteristicForm.charId.value = charId;	
+		document.characteristicForm.submit();
+	}
+	//-->
+	</script>
+  <html:hidden property="charId"/>
+	
+	<display:table defaultsort="1" defaultorder="ascending" name="charList" id="charItem" sort="list" requestURI="<%=RequestUtils.getOriginalRequestURI(request)%>">
+	<display:setProperty name="basic.empty.showtable" value="true"></display:setProperty>
+   		<display:column titleKey="admin.characteristic.list.CHAR_NAME" headerClass="crud-table-header-row" class="crud-content left-align nowrap" sortable="true" sortProperty="characteristicName">
+   		  <beacon:authorize ifAnyGranted="PROJ_MGR,BI_ADMIN">		   
+		    <a href="javascript:maintainCharacteristic('displayUpdate','<c:out value="${charItem.id}" />')" class="crud-content-link">
+		  </beacon:authorize>
+			  <c:out value="${charItem.characteristicName}" />
+		  <beacon:authorize ifAnyGranted="PROJ_MGR,BI_ADMIN">	
+			</a>
+		  </beacon:authorize>
+		</display:column>
+	    <display:column titleKey="admin.characteristic.list.CHAR_TYPE" headerClass="crud-table-header-row" class="crud-content left-align nowrap" sortable="true">
+	       <c:out value="${charItem.characteristicDataType.name}" />
+	    </display:column>            	
+	    <display:column titleKey="admin.characteristic.list.VALID_VALS" headerClass="crud-table-header-row" class="crud-content left-align nowrap">
+		     <c:choose>
+		       <c:when test="${charItem.characteristicDataType.code =='txt'}">
+			     <cms:contentText code="admin.characteristic.list" key="MAX_SIZE" /> <c:out value="${charItem.maxSize}"/>
+	           </c:when>
+	           <c:when test="${charItem.characteristicDataType.code =='boolean'}">
+	             <cms:contentText code="admin.characteristic.list" key="TRUE_OR_FALSE" />
+	           </c:when>
+	           <c:when test="${charItem.characteristicDataType.code =='int'}">
+	             <c:out value="${charItem.minValue}"/> - <c:out value="${charItem.maxValue}"/>
+	           </c:when>
+	           <c:when test="${charItem.characteristicDataType.code =='decimal'}">
+	             <c:out value="${charItem.minValue}"/> - <c:out value="${charItem.maxValue}"/>
+	           </c:when>    		   
+	           <c:when test="${charItem.characteristicDataType.code =='single_select'}">
+	             <c:out value="${charItem.plName}"/>
+	           </c:when>    		   
+	           <c:when test="${charItem.characteristicDataType.code =='multi_select'}">
+	             <c:out value="${charItem.plName}"/>
+	           </c:when>    		       		       		   
+	           <c:when test="${charItem.characteristicDataType.code =='date'}">
+	             <c:out value="${charItem.displayDateStart}"/> - <c:out value="${charItem.displayDateEnd}"/>
+	           </c:when>    		   
+	           <c:otherwise>
+	             &nbsp;
+	           </c:otherwise>
+	         </c:choose>
+        </display:column>
+        <display:column titleKey="admin.characteristic.list.REQ_LABEL" headerClass="crud-table-header-row" class="crud-content left-align nowrap" sortable="true">
+             <c:out value="${charItem.isRequired}" />
+        </display:column>
+      <c:if test="${pageScope.characteristicType == 'Product'}">
+        <display:column titleKey="admin.characteristic.list.UNIQUE_LABEL" headerClass="crud-table-header-row" class="crud-content left-align nowrap">
+          <c:out value="${charItem.isUnique}" />
+        </display:column>
+      </c:if>
+      	
+      	<display:column titleKey="admin.characteristic.list.VISIBILITY_LABEL" headerClass="crud-table-header-row" class="crud-content center-align  nowrap">
+          <c:out value="${charItem.visibility.name}" /> 
+        </display:column>
+        
+        <display:column titleKey="admin.characteristic.list.REMOVE_LABEL" headerClass="crud-table-header-row" class="crud-content center-align  nowrap">
+          <html:checkbox property="deleteValues" value="${charItem.id}" /> 
+        </display:column>
+        
+     </display:table>
+     
+     <beacon:authorize ifAnyGranted="PROJ_MGR,BI_ADMIN">
+     <tr>
+       <td>
+         <table width="100%">
+            <tr>
+              <td align="left" class="content-field-label">
+				<cms:contentText key="ADD_CHAR" code="admin.characteristic.list"/>&nbsp;
+		    	<html:select property="characteristicDataType" styleClass="content-field">
+		           <html:options collection="charTypeList" property="code" labelProperty="name" />
+		     	</html:select>&nbsp;
+		        <cms:contentText key="CHAR_NAME" code="admin.characteristic.list"/>&nbsp;&nbsp;
+		        <html:submit styleClass="content-buttonstyle" onclick="setDispatch('displayCreate')">
+		          <cms:contentText key="GO" code="system.button"/>
+		        </html:submit>	
+              </td>
+              <td align="right">
+                <c:if test="${!empty charList}">
+                  <html:submit styleClass="content-buttonstyle" onclick="setDispatch('deleteCharacteristic')">
+ 	    			      <cms:contentText key="REMOVE_SELECTED" code="system.button"/>
+	      	        </html:submit>
+                </c:if>
+              </td>
+            </tr>
+         </table>
+       </td>
+     </tr>
+     </beacon:authorize>

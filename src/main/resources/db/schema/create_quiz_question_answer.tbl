@@ -1,0 +1,38 @@
+CREATE SEQUENCE quiz_question_answer_pk_sq INCREMENT BY 1 START WITH 5000
+/
+
+CREATE TABLE quiz_question_answer
+   (quiz_question_answer_id		NUMBER(18) NOT NULL,
+   	quiz_question_id 	   	  	NUMBER(18) NOT NULL,
+   	is_correct					      NUMBER(1) NOT NULL,
+   	cm_asset_code				      VARCHAR2(255) NOT NULL,
+   	answer_cm_key			        VARCHAR2(255) NOT NULL,
+   	explanation_cm_key 	    VARCHAR2(500),
+   	sequence_num				      NUMBER(10) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created   				    DATE NOT NULL,
+    modified_by number(18),
+    date_modified  				    DATE,
+    version        				    NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE quiz_question_answer ADD CONSTRAINT qqa_quiz_fk
+  FOREIGN KEY (quiz_question_id) REFERENCES quiz_question(quiz_question_id) 
+/
+
+ALTER TABLE quiz_question_answer
+ADD CONSTRAINT quiz_question_answer_id_pk PRIMARY KEY (quiz_question_answer_id)
+USING INDEX
+/
+
+CREATE INDEX QUIZ_QSTN_ANS_QUIZ_QSTN_FK_idx ON QUIZ_QUESTION_ANSWER
+  (QUIZ_QUESTION_ID)
+/
+COMMENT ON TABLE quiz_question_answer IS 'The QUIZ_QUESTION_ANSWER table defines a specific quiz question answer for a quiz question.'
+/
+
+COMMENT ON COLUMN quiz_question_answer.quiz_question_answer_id IS 'System-generated key that identifies a specific quiz question answer.'
+/
+
+COMMENT ON COLUMN quiz_question_answer.quiz_question_id IS 'Foreign key to quiz.'
+/

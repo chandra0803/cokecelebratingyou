@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.ssi.SSIContestAwardThemNow" table="SSI_CONTEST_ATN">
+        <id name="id" column="SSI_CONTEST_ATN_ID" type="java.lang.Long">
+          <generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">SSI_CONTEST_ATN_PK_SQ</param>
+		  </generator>
+        </id>
+
+        <!-- Using version number optimistic locking -->
+	    <version name="version" column="VERSION" type="java.lang.Long" />
+	
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+	    
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<many-to-one name="contest" column="SSI_CONTEST_ID" not-null="true" class="com.biperf.core.domain.ssi.SSIContest"  lazy="false"/>
+	    <property name="issuanceNumber" column="ISSUANCE_NUMBER" type="java.lang.Short"/>
+	    <property name="issuanceDate" column="ISSUANCE_DATE" type="java.util.Date"/>
+	    <property name="payoutIssuedDate" column="PAYOUT_ISSUE_DATE" type="java.util.Date"/>
+	    <property name="approvedByLevel1" column="APPROVED_BY_LEVEL1" type="long"/>
+		<property name="dateApprovedLevel1" column="DATE_APPROVED_LEVEL1" type="java.util.Date"/>
+		<property name="approvedByLevel2" column="APPROVED_BY_LEVEL2" type="long"/>
+		<property name="dateApprovedLevel2" column="DATE_APPROVED_LEVEL2" type="java.util.Date"/>
+		<property name="denialReason" column="DENIED_REASON" type="string"/>
+		<property name="levelApproved" column="APPROVAL_LEVEL_ACTION_TAKEN" type="int"/>
+	    <property name="notificationMessageText" column="NOTIFICATION_MESSAGE_TEXT" type="string"/>
+	    <property name="issuanceStatusType" column="ISSUANCE_STATUS">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SSIContestIssuanceStatusType</param>
+			</type>
+		</property>
+    </class>
+    
+    <sql-query name="com.biperf.core.domain.contest.getExistingContestParticipantIdsWithIssuanceNumber">
+		<return-scalar column="USER_ID" type="long"/>
+		<![CDATA[
+			select USER_ID from SSI_CONTEST_PARTICIPANT where SSI_CONTEST_ID=:contestId and AWARD_ISSUANCE_NUMBER =:awardIssuanceNumber and USER_ID in (:paxIds)
+		]]>
+	</sql-query>
+	
+</hibernate-mapping>

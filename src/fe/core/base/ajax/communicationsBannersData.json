@@ -1,0 +1,98 @@
+{
+    "bannerTable": {
+        "banners": [
+            {
+                "id": "1234",
+                "index": 0,
+                "languageDisplay": "U.S. English",
+                "language": "en_US",
+                "isDefaultLang": true,
+                "systemLocale": true,
+                "imageId":123,
+                "imageSize": "http://placehold.it/1410x600",
+                "imageSize_mobile": "http://placehold.it/705x300",
+                "imageSize_max": "http://placehold.it/2820x1200",
+                "link": "example.pdf"
+            },
+            {
+                "id": "1235",
+                "index": 1,
+                "languageDisplay": "Spanish",
+                "language": "sp",
+                "imageId":12543,
+                "imageSize": "http://placehold.it/1410x600/4386ca",
+                "imageSize_mobile": "http://placehold.it/705x300/4386ca",
+                "imageSize_max": "http://placehold.it/2820x1200/4386ca",
+                "link": "www.example.com"
+            }
+        ]
+    },
+    "bannerTitle": "New Banner",
+    "bannerStartDate": "05/23/2014",
+    "bannerEndDate": "06/01/2014",
+    "bannerImages": {
+        "images": [
+            {
+                "id":123,
+                "imageSize":"http://placehold.it/1410x600",
+                "imageSize_mobile":"http://placehold.it/705x300",
+                "imageSize_max":"http://placehold.it/2820x1200"
+            },
+            {
+                "id":1234,
+                "imageSize":"http://placehold.it/1410x600/000000",
+                "imageSize_mobile":"http://placehold.it/705x300/000000",
+                "imageSize_max":"http://placehold.it/2820x1200/000000"
+            },
+            {
+                "id":12543,
+                "imageSize":"http://placehold.it/1410x600/4386ca",
+                "imageSize_mobile":"http://placehold.it/705x300/4386ca",
+                "imageSize_max":"http://placehold.it/2820x1200/4386ca"
+            },
+            {
+                "id":12345,
+                "isSelected": true,
+                "imageSize":"http://placehold.it/1410x600/ffffff",
+                "imageSize_mobile":"http://placehold.it/705x300/ffffff",
+                "imageSize_max":"http://placehold.it/2820x1200/ffffff"
+            },
+            {
+                "id":11234,
+                "imageSize":"http://placehold.it/1410x600",
+                "imageSize_mobile":"http://placehold.it/705x300",
+                "imageSize_max":"http://placehold.it/2820x1200"
+            },
+            {
+                "id":11876,
+                "imageSize":"http://placehold.it/1410x600/000000",
+                "imageSize_mobile":"http://placehold.it/705x300/000000",
+                "imageSize_max":"http://placehold.it/2820x1200/000000"
+            },
+            {
+                "id":11548,
+                "imageSize":"http://placehold.it/1410x600/4386ca",
+                "imageSize_mobile":"http://placehold.it/705x300/4386ca",
+                "imageSize_max":"http://placehold.it/2820x1200/4386ca"
+            },
+            {
+                "id":11468,
+                "imageSize":"http://placehold.it/1410x600/ffffff",
+                "imageSize_mobile":"http://placehold.it/705x300/ffffff",
+                "imageSize_max":"http://placehold.it/2820x1200/ffffff"
+            },
+            {
+                "id":11945,
+                "imageSize":"http://placehold.it/1410x600",
+                "imageSize_mobile":"http://placehold.it/705x300",
+                "imageSize_max":"http://placehold.it/2820x1200"
+            },
+            {
+                "id":11542,
+                "imageSize":"http://placehold.it/1410x600/000000",
+                "imageSize_mobile":"http://placehold.it/705x300/000000",
+                "imageSize_max":"http://placehold.it/2820x1200/000000"
+            }
+        ]
+    }
+}

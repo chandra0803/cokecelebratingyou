@@ -1,0 +1,3 @@
+endpoints:
+  hc-gateway-context-uri: /hcgateway/services/v1.0
+  employer-sync-uri: /employerSync

@@ -1,0 +1,36 @@
+CREATE SEQUENCE ROLE_PK_SQ INCREMENT BY 1 START WITH 5000
+/
+CREATE TABLE role
+   (role_id     	NUMBER(18) NOT NULL,
+    name			VARCHAR2(80) NOT NULL,
+    code			VARCHAR2(40) NOT NULL,
+    help_text 		VARCHAR2(255),
+    is_active		NUMBER(1) NOT NULL,
+    is_pax_specific NUMBER(1),
+    created_by number(18) NOT NULL,
+    date_created    DATE NOT NULL,
+    modified_by number(18),
+    date_modified	DATE,
+	version			NUMBER (18) NOT NULL,
+	CONSTRAINT role_pk PRIMARY KEY (role_id),
+	CONSTRAINT role_udk UNIQUE (code))
+/
+
+COMMENT ON TABLE role IS 'The ROLE table stores the various user roles that will need access to the system.  Application maintains security at the role level.  This means that all users assigned to a specific role have the same security level.  This table defines the roles, and the SECURITY_RESTRICTION table defines the access rights assigned to each role.'
+/
+COMMENT ON COLUMN role.created_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN role.date_created IS '- Retrofitted'
+/
+COMMENT ON COLUMN role.date_modified IS '- Retrofitted'
+/
+COMMENT ON COLUMN role.help_text IS 'A text explanation of the role.'
+/
+COMMENT ON COLUMN role.code IS 'A text lable of the role.'
+/
+COMMENT ON COLUMN role.modified_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN role.role_id IS 'Unique code that identifies the role, and is normally the acronym for the users job position.'
+/
+COMMENT ON COLUMN role.is_active IS 'A number that indicates the active status of this role.'
+/

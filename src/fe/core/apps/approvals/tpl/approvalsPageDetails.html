@@ -1,0 +1,272 @@
+<!-- ======== APPROVALS: APPROVAL DETAILS ======== -->
+
+<div id="approvalsNominationDetailView" class="approvalSearchWrapper page-content">
+    <input type="hidden" class="levelInputs" name="level[0].totalpoints" value="100">
+    <input type="hidden" class="levelInputs" name="level[1].totalpoints" value="50">
+    <input type="hidden" class="levelInputs" name="level[2].totalpoints" value="300">
+    <input type="hidden" class="capPerPax" name="capPerPax" value="125">
+    <input type="hidden" class="teamSizeValue" name="teamSizeValue" value="2">
+	<div class="row-fluid">
+		<div class="span12">
+	    	<div id="approvalErrorBlock" class="alert alert-block alert-error" style="display:none">
+				<h4>The following errors occurred</h4>
+	         	<ul>
+	    			<li>This is an example of a specific error message</li>
+				</ul>
+				<input type="hidden" id="serverReturnedErrored" value="true">
+	     	</div>
+     	</div>
+	</div>
+
+    <div id="approvalsNominationDetailWrapper">
+        <div class="row-fluid">
+            <div class="span6">
+                <h3>Team Nomination</h3>
+            </div>
+            <div class="span6">
+                <ul class="export-tools fr">
+                    <li><a href="#" class="pageView_print btn btn-small">Print <i class="icon-printer"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <form class="form-horizontal">
+            <div class="row-fluid">
+                <div id="ecardImage" class="ecard-span span4">
+                    <img src="img/cards/03-You-are-a-Rock-Star-432.jpg" alt="image" width="250" height="250" border="0" style="margin: 0 0 10px 0;">
+                </div>
+
+                <div id="nominationDetails" class="nominationDetails span8">
+
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <p><strong>Nominee</strong></p>
+                        </div>
+                        <div class="span5">
+                            <p>LastName, FirstName | OrgName</p>
+                            <p>LastName, FirstName | OrgName</p>
+                            <p>LastName, FirstName | OrgName</p>
+                            <p>LastName, FirstName | OrgName</p>
+                            <p>LastName, FirstName | OrgName</p>
+                            <p>LastName, FirstName | OrgName</p>
+                            <p>LastName, FirstName | OrgName</p>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <p><strong>Team Name</strong></p>
+                        </div>
+                        <div class="span5">
+                            <p>TeamName</p>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <!-- if !approvable.promotion.cumulative -->
+                        <div class="span3">
+                            <p><strong>Nominator</strong></p>
+                        </div>
+                        <div class="span5">
+                            <p>TeamName, FirsttName | OrgName</p>
+                        </div>
+
+                        <div class="span3">
+                            <p><strong>Comments</strong></p>
+                        </div>
+                        <div class="span5 comment-wrapper">
+                            <div class="comment-text">
+                                Comments go here.
+                            </div>
+                            <a href="clientState=XXX" class="translateTextLink">Translate</a>
+                        </div>
+                        <!-- /if !approvable.promotion.cumulative -->
+
+                        <!-- if approvable.promotion.cumulative -->
+                        <div class="claimgroup">
+                            <div class="span3">
+                                <p><strong>Nominator</strong></p>
+                            </div>
+                            <div class="span5">
+                                <p>TeamName, FirsttName | OrgName</p>
+                            </div>
+
+                            <div class="span3">
+                                <p><strong>Comments</strong></p>
+                            </div>
+                            <div class="span5 comment-wrapper">
+                                <div class="comment-text">
+                                    Comments go here.
+                                </div>
+                                <a href="clientState=XXX" class="translateTextLink">Translate</a>
+                            </div>
+                        </div><!-- /.claimgroup -->
+
+                        <div class="claimgroup">
+                            <div class="span3">
+                                <p><strong>Nominator</strong></p>
+                            </div>
+                            <div class="span5">
+                                <p>TeamName, FirsttName | OrgName</p>
+                            </div>
+
+                            <div class="span3">
+                                <p><strong>Comments</strong></p>
+                            </div>
+                            <div class="span5 comment-wrapper">
+                                <div class="comment-text">
+                                    Comments go here.
+                                </div>
+                                <a href="clientState=XXX" class="translateTextLink">Translate</a>
+                            </div>
+                        </div><!-- /.claimgroup -->
+                        <!-- /if approvable.promotion.cumulative -->
+                    </div><!-- /.row-fluid -->
+
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <p><strong>Behavior</strong></p>
+                        </div>
+                        <div class="span5">
+                            <p>Reason for Nomination goes here.</p>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <p><strong>Date of Implementation</strong></p>
+                        </div>
+                        <div class="span5">
+                            <p>5/26/2012</p>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <p><strong>Date Submitted</strong></p>
+                        </div>
+                        <div class="span5">
+                            <p>5/26/2012</p>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span8">
+                            <table id="budgetTable" class="table table-bordered table-striped approvalBudgetTable approvalsNoBudgetTable">
+                                <tbody>
+                                    <tr>
+                                        <td>Available Budget</td>
+                                        <td id="availableBudget">2000</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Calculated Budget Deduction</td>
+                                        <td id="budgetDeductionElm"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Remaining Budget</td>
+                                        <td id="remainingBudgetElm"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div><!-- /.span8 -->
+            </div><!-- /.row-fluid -->
+
+            <div class="row-fluid">
+                <div class="span12">
+
+                    <div id="approverActions" class="approverActions">
+
+                        <legend>Approver Action</legend>
+                        <div class="control-group">
+                            <label class="control-label">
+                                Status
+                            </label>
+                            <div class="controls">
+                                <select name="approvalStatus" class="approvalNominationStatus nominationDetial">
+                                    <option value="winner">Winner</option>
+                                    <option value="non_winner">Non-Winner</option>
+                                    <option value="pend">Pending</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Custom for coco cola wip#58122 starts -->
+                        <div class="control-group approverAction">
+                            <label class="control-label">
+                                Level Selection
+                            </label>                            
+                            <div class="controls">
+                                <select name="nominationApprovalFormByApprovableUid(91518246102).level" class="levelSelect">
+                                    <option value="">Select one</option>
+                                    <option value="level1">1 Moderate</option>
+                                    <option value="level2">2 Significant</option>
+                                    <option value="level3">3 Breakthrough</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Custom for coco cola wip#58122 ends -->
+                        <div id="awardPoints" class="control-group approverAction">
+                            <label class="control-label">
+                                Award (Range: 1-100)
+                            </label>
+                            <div class="controls">
+                                <input name="awardPoints" id="awardPointsInput" class="awardPointsInput" type="text" data-range-min="1" data-range-max="100" readonly />
+                            </div>
+                            <input type="hidden" value="3" id="participantNumber">
+                        </div>
+
+                        <div class="control-group approverAction">
+                            <label class="control-label">
+                                Notification Date
+                            </label>
+                            <div class="controls">
+                                <div class="input-append datepickerTrigger"
+                                    data-date-format="mm/dd/yyyy"
+                                    data-date-language="en_US"
+                                    data-date-startdate="11/14/2012"
+                                    data-date-autoclose="true">
+                                    <input type="text" id="awardScheduleDate" name="awardScheduleDate" readonly="readonly" value="1/1/2013">
+                                    <button class="btn"><i class="icon-calendar"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions pullBottomUp">
+                            <input type="submit" name="submitButton" id="submitButton" value="Save" class="btn btn-primary"/>
+                            <input type="submit" name="cancelButton" value="Cancel" class="btn cancelBtn"/>
+                        </div>
+
+                    </div>
+
+                </div><!-- /.span12 -->
+            </div><!-- /.row-fluid -->
+        </form>
+
+    </div>
+</div>
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+    $(document).ready(function(){
+        //attach the view to an existing DOM element
+        var aimlp = new ApprovalsNominationDetailModelView({
+            el:$('#approvalsNominationDetailView'),
+            pageNav : {
+                back : {
+                    text : 'Back',
+                    url : 'layout.html?tpl=approvalsPagePendingNominations&tplPath=apps/approvals/tpl/'
+                },
+                home : {
+                    text : 'Home',
+                    url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+                }
+            },
+            pageTitle : 'Nomination Detail'
+        });
+    });
+</script>

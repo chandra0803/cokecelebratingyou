@@ -1,0 +1,611 @@
+// Partial-specific variables
+// =========================
+$forms_labelFontWeight: $fontWeightSemiBold !default;
+$forms_labelFontWeightRadioCheck: $fontWeightNormal !default; // resets radio and checkbox label weights to given value
+
+
+// Partial-specific code
+// ==================================================
+
+// pulled over from the core Bootstrap files. Dominic C had made a custom edit on 30 Jan 2013 but we want the core files to remain unchanged if at all possible
+// Make all forms have space below them, except IE
+form {
+    *margin-bottom: 0px; //ie7 + pullBottomUp
+}
+// end pull
+
+.modal:not(.modal-stack) {
+    form:last-child {
+        margin-bottom: 0;
+    }
+}
+
+
+// global errors inserted as part of G5.util.formValidateHandleJsonErrors
+.globalerrors {
+    ul {
+        margin-bottom: 0;
+    }
+}
+
+
+// experimental - trying to adjust font weight on all form labels
+label {
+    font-weight: $forms_labelFontWeight;
+
+    @if $forms_labelFontWeightRadioCheck {
+        &.radio,
+        &.checkbox {
+            font-weight: $forms_labelFontWeightRadioCheck;
+        }
+    }
+}
+
+
+/* Mobile Safari (and other mobile browsers???) zooms in on input fields when the font-size is less than 16px */
+@media (max-width: $breakpoint_mobile_max) {
+    select,
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"],
+    .uneditable-input {
+        font-size: 16px;
+    }
+} // /@media
+
+
+// Form controls
+// -------------------------
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+.naked-input {
+    height: $formFieldLineHeight;
+    line-height: $formFieldLineHeight;
+    color: $inputTextColor;
+    border-width: $formFieldBorderWidth;
+    box-shadow: none;
+    padding: $formFieldPadding;
+
+    &.primary {
+        // color: $brand_color_primary;
+        border-color: $brand_color_primary;
+    }
+}
+
+// VALIDATION ERRORS INLINE
+.validation-error{
+    display: none;
+
+    background:$brand_color_lighter;
+    @include border-radius(0 0 $inputBorderRadius $inputBorderRadius);
+    border: solid $formFieldBorderWidth  $brand_color_mid;
+    //border-top: none;
+    margin-bottom:10.5px;
+    padding: 4px 8px;
+    .text{
+       color:$brand_color_alert;
+       font-size: $fontSizeSmall;
+       font-weight: $fontWeightBold;
+    }
+}
+.hasValidationError{
+    margin-bottom:3em;
+    .validation-error{
+        display: block;
+    }
+    input {
+        margin-bottom:0;
+        @include border-radius($inputBorderRadius $inputBorderRadius 0 0);
+        border-bottom: none;
+        border-color: $brand_color_mid;
+    }
+
+}
+
+
+
+
+
+
+// Reset height since textareas have rows
+textarea {
+  height: auto;
+}
+
+select {
+    height: $inputHeight;
+    line-height: $inputHeight;
+    padding-top: nth($formFieldPadding, 1) / 2;
+    padding-bottom: nth($formFieldPadding, 1) / 2;
+}
+input[type="file"] {
+    line-height: $formFieldLineHeight;
+}
+
+select {
+    width: 206px + (nth($formFieldPadding, 2) * 2) + $formFieldBorderWidth * 2;
+}
+
+.naked-input {
+    @extend .uneditable-input;
+    // padding: (nth($formFieldPadding, 1) + $formFieldBorderWidth) (nth($formFieldPadding, 2) + $formFieldBorderWidth);
+    // border: 0;
+    background-color: $brand_color_lighter;
+    border-color: transparent;
+    cursor: default;
+
+    &:focus {
+        outline: 0;
+        box-shadow: none;
+    }
+}
+
+.input-auto-width {
+    width: auto;
+
+    @media (max-width: $breakpoint_mobileMini_max) {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        white-space: normal;
+    }
+}
+
+.label,
+.badge {
+    // color: $brand_color_black;
+    text-shadow: none;
+
+    [class^="icon-"],
+    [class*=" icon-"] {
+        vertical-align: middle;
+    }
+}
+
+
+// READONLY STATE
+// --------------
+
+// Explicitly reset the colors here
+input[type="radio"][readonly],
+input[type="checkbox"][readonly] {
+    @include opacity(0.5);
+}
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly] {
+    background: $brand_color_lighter;
+    color: $brand_color_dark;
+}
+
+// FORM ACTIONS
+// ------------
+
+.form-actions {
+    border-top-width: $formActionsBorderWidth;
+    border-top-color: $formActionsBorderColor;
+}
+
+.form-actions,
+.form-horizontal .form-actions {
+    @if $formActionsBackground != transparent and $formActionsBackground != false {
+        @include gridCoreInnerFullSplit($g6PagePaddingX_desktop);
+    }
+    @else {
+        @include gridCoreInnerFullSplit(0);
+    }
+
+    margin-top: $g6PagePaddingY_desktop / 2;
+
+    @if $formActionsBorderWidth > 0 or ($formActionsBackground != transparent and $formActionsBackground != false) {
+        padding-top: $g6PagePaddingY_desktop / 2;
+        padding-bottom: $g6PagePaddingY_desktop / 2;
+    }
+    @else {
+        padding-top: 0;
+        // padding-bottom: $g6PagePaddingY_desktop;
+    }
+
+    .spin {
+        display: inline-block;
+        width: $baseLineHeight + (4px * 2) + (1px * 2); // similar to how the inputs have their sizes calculated in bootstrap/_forms.scss ($baseLineHeight + top/bottom padding + top/bottom border)
+        height: $baseLineHeight + (4px * 2) + (1px * 2); // similar to how the inputs have their sizes calculated in bootstrap/_forms.scss ($baseLineHeight + top/bottom padding + top/bottom border)
+        vertical-align: middle;
+    }
+
+    // @if $formActionsBackground == transparent or $formActionsBackground == false {
+    //     .modal:not(.modal-stack) & {
+    //         margin: 0;
+    //         padding-right: 0;
+    //         padding-left: 0;
+    //     }
+    //     .modal:not(.modal-stack) form:last-child &,
+    //     .modal:not(.modal-stack) &:last-child {
+    //         padding-bottom: 0;
+    //     }
+    // }
+}
+
+
+// INPUT GROUPS
+// ------------
+
+// Allow us to put symbols and text within the input field for a cleaner look
+.input-append,
+.input-prepend {
+  .add-on {
+    height: $formFieldLineHeight;
+    padding: (nth($formFieldPadding, 1)) (nth($formFieldPadding, 2) / 2);
+    line-height: $formFieldLineHeight;
+    text-shadow: none;
+    border-width: $formFieldBorderWidth;
+  }
+
+  .btn {
+    padding-right: (nth($formFieldPadding, 2));
+    padding-left: (nth($formFieldPadding, 2));
+  }
+
+  .btn + .btn {
+    margin-left: $formFieldBorderWidth;
+  }
+
+  .btn-link {
+    @include ignoreGlobalLinkStyles(
+        $color: $brand_color_dark $brand_color_black
+    );
+  }
+
+  .form-horizontal & {
+      display: block;
+  }
+}
+
+.input-prepend {
+  .add-on,
+  .btn {
+    margin-right: -1 * $formFieldBorderWidth;
+  }
+}
+.input-prepend .btn-group > .btn + .btn {
+  margin-left: $formFieldBorderWidth * 2;
+}
+
+.input-append {
+  .add-on,
+  .btn,
+  .btn-group {
+    margin-left: -1 * $formFieldBorderWidth;
+  }
+}
+
+// Remove all border-radius for inputs with both prepend and append
+.input-prepend.input-append {
+  .add-on:first-child,
+  .btn:first-child {
+    margin-right: -1 * $formFieldBorderWidth;
+  }
+  .add-on:last-child,
+  .btn:last-child {
+    margin-left: -1 * $formFieldBorderWidth;
+  }
+  .btn-group:first-child {
+    margin-left: 0;
+  }
+}
+
+
+// SEARCH FORM
+// -----------
+
+input.search-query {
+    $halfInputHeight: ($formFieldLineHeight / 2) + $formFieldBorderWidth + nth($formFieldPadding, 1);
+    padding-right: $halfInputHeight;
+    padding-left: $halfInputHeight;
+    @include border-radius($halfInputHeight);
+}
+
+
+// HORIZONTAL FORM
+// -------------------------
+.form-horizontal .control-group.control-group-wrapper {
+    margin-bottom: 0;
+}
+
+
+// INLINE FORM
+// -------------------------
+
+.form-inline {
+    .control-group {
+        display: inline-block;
+        @include ie7-inline-block;
+        margin-right: 24px;
+    }
+
+    // two next to eachother
+    .control-group+.control-group {
+    //    margin-left: 24px; // two control groups next to eachother
+    }
+    .control-group-pull-right {
+        float: right;
+        line-height: 30px;
+        margin-right: 0;
+    }
+    .control-group-pull-right+.control-group {
+    //    margin-left: 0; // don't add margin if preceding is pulled right
+    }
+    @media (max-width: $breakpoint_mobile_max) {
+        .control-group {
+            margin-right: 0;
+        }
+        .control-group+.control-group {
+            margin-top: 4px; // create some space between them
+        }
+        .control-group-pull-right {
+            float: none;
+            line-height: auto;
+        }
+    }
+
+    .controls {
+        margin-bottom: 9px;
+    }
+}
+
+.form-labels-inline {
+    .controls {
+        display: inline-block;
+        @include ie7-inline-block;
+    }
+}
+
+
+// DATEPICKERS
+// -------------------------
+
+// NOTE: we should not use the .datepicker class on bootstrap-datepickers
+//       (the popover uses this class and it can/will conflict)
+input.datepicker,
+.datepickerTrigger input {
+    cursor: pointer;
+    // margin-top: 0;
+}
+input.datepicker[disabled] {
+  cursor: not-allowed;
+}
+
+.datepickerTrigger.input-append,
+.form-inline .datepickerTrigger.input-append {
+    display: inline-block;
+}
+
+
+// a button that becomes an input (built upon bootstrap)
+// -------------------------
+.input-append.input-append-inside {
+    input, input[type="text"] {
+        //padding-right: 36px;
+        @include border-radius($inputBorderRadius);
+    }
+    .btn {
+        position: relative;
+        z-index: 3;
+        // background: none;
+        // border-color: transparent;
+        @include box-shadow(none);
+        width: 30px;
+        margin-left: -30px;
+        padding-right: 0;
+        padding-left: 0;
+        // padding-top: 5px;
+        // *padding-top:7px;
+        // text-align: center;
+    }
+    .add-on {
+        margin-left: -1 * (30px + $btnBorderWidth * 2);
+    }
+}
+
+/* input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input.date,
+input.number {
+    text-align: right;
+} */
+
+// Placehoders in IE
+// ------------
+input,
+textarea {
+    &.placeholder {
+        color: $placeholderText;
+    }
+}
+
+// OPTIONAL FIELDS
+// ---------------
+.optional {
+    font-size: $fontSizeSmall;
+    color: $brand_color_dark;
+    font-weight: normal;
+    line-height: 1; // should prevent vertical misalignment
+
+    .form-horizontal .control-label & {
+        display: block;
+    }
+}
+
+// SHOW PASSWORD WIDGETS
+// ---------------
+.input-append .show-pw {
+    font-size: $fontSizeLarge;
+    font-weight: $fontWeightBold;
+    cursor: pointer;
+}
+
+
+.page {
+    .row-fluid:last-child div:last-child form:last-child,
+    & > form:last-child {
+        margin-bottom: 0;
+
+        .form-actions:last-child {
+            margin-bottom: -1 * ($g6PagePaddingY_desktop);
+            padding-bottom: $g6PagePaddingY_desktop;
+
+            @media (max-width: $breakpoint_mobileMini_min) {
+                margin-bottom: -1 * ($g6PagePaddingY);
+                padding-bottom: $g6PagePaddingY;
+            }
+            @media (max-width: $breakpoint_tablet_min) {
+                margin-bottom: -1 * ($g6PagePaddingY_tablet);
+                padding-bottom: $g6PagePaddingY_tablet;
+            }
+            @media (max-width: $breakpoint_desktopLarge_min) {
+                margin-bottom: -1 * ($g6PagePaddingY_desktopLarge);
+                padding-bottom: $g6PagePaddingY_desktopLarge;
+            }
+        }
+    }
+    .form-inline label + select,
+    select + .dropdown {
+        margin-left: 6px;
+    }
+
+    .radio, .checkbox {
+        min-height: 20px;
+        // padding-left: 28px;
+    }
+    .radio input[type="radio"],
+    .checkbox input[type="checkbox"] {
+        float: left;
+        // margin-left: -28px;
+    }
+}
+
+
+
+// Media Queries
+@media (min-width: $breakpoint_desktopLarge_max) {
+    .form-actions,
+    .form-horizontal .form-actions {
+        @if $formActionsBackground != transparent and $formActionsBackground != false {
+            @include gridCoreInnerFullSplit($g6PagePaddingX_desktopLarge);
+        }
+        @else {
+            @include gridCoreInnerFullSplit(0);
+        }
+
+        margin-top: $g6PagePaddingY_desktopLarge / 2;
+
+        @if $formActionsBorderWidth > 0 or ($formActionsBackground != transparent and $formActionsBackground != false) {
+            padding-top: $g6PagePaddingY_desktopLarge / 2;
+            padding-bottom: $g6PagePaddingY_desktopLarge / 2;
+        }
+        @else {
+            padding-top: 0;
+            // padding-bottom: $g6PagePaddingY_desktopLarge;
+        }
+    }
+}
+@media (max-width: $breakpoint_tablet_max) {
+    .form-actions,
+    .form-horizontal .form-actions {
+        @if $formActionsBackground != transparent and $formActionsBackground != false {
+            @include gridCoreInnerFullSplit($g6PagePaddingX_tablet);
+        }
+        @else {
+            @include gridCoreInnerFullSplit(0);
+        }
+
+        margin-top: $g6PagePaddingY_tablet / 2;
+
+        @if $formActionsBorderWidth > 0 or ($formActionsBackground != transparent and $formActionsBackground != false) {
+            padding-top: $g6PagePaddingY_tablet / 2;
+            padding-bottom: $g6PagePaddingY_tablet / 2;
+        }
+        @else {
+            padding-top: 0;
+            // padding-bottom: $g6PagePaddingY_tablet;
+        }
+    }
+}
+// Tablet sizes and below
+@media (max-width: $breakpoint_mobileMini_max) {
+    .form-search,
+    .form-inline,
+    .form-horizontal {
+        .help-inline,
+        .uneditable-input,
+        .naked-input,
+        .input-prepend,
+        .input-append,
+        .control-group {
+            display: block;
+        }
+
+        .input-append {
+            .btn {
+                display: inline-block;
+                width: auto;
+                // padding: 4px 14px;
+            }
+        }
+    }
+    .form-actions,
+    .form-horizontal .form-actions {
+        @if $formActionsBackground != transparent and $formActionsBackground != false {
+            @include gridCoreInnerFullSplit($g6PagePaddingX);
+        }
+        @else {
+            @include gridCoreInnerFullSplit(0);
+        }
+
+        margin-top: $g6PagePaddingY / 2;
+
+        @if $formActionsBorderWidth > 0 or ($formActionsBackground != transparent and $formActionsBackground != false) {
+            padding-top: $g6PagePaddingY / 2;
+            padding-bottom: $g6PagePaddingY / 2;
+        }
+        @else {
+            padding-top: 0;
+            // padding-bottom: $g6PagePaddingY;
+        }
+    }
+}

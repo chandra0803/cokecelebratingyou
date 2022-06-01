@@ -1,0 +1,131 @@
+{
+  "description": "Reset a Person's' Attributes",
+  "params": {
+   "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "attributeName": "age",
+    "attributeValue": "43"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "Create a new Attribute: POST /persons/${ref:createPerson.export.newPersonId}",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": []
+    },
+    {
+      "id": "createPersonAttribute",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "${ref:params.attributeName}",
+  			"value": "${ref:params.attributeValue}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.attributeName}"
+        }
+        ,
+        {
+          "a": "${ref:createPersonAttribute.res.body.value}",
+          "compare": "to.equal",
+          "b": "${ref:params.attributeValue}"
+        }
+      ]
+    },
+    {
+      "id": "resetPersonAttribute",
+      "description": "Reset /persons/${ref:createPerson.export.newPersonId}/attributes/reset",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes/reset",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+	          "attributes": [
+				    {
+				      "name": "age"
+				    },
+				    {
+				      "name": "eyeColor",
+				      "value": "green"
+				    }
+				  ]
+	          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:resetPersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:resetPersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    },
+    {
+      "id": "resetPersonAttribute",
+      "description": "Reset /persons/${ref:createPerson.export.newPersonId}/attributes/reset",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes/reset",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+	          "attributes": [
+				    {
+				      "value": "43"
+				    },
+				    {
+				      "name": "eyeColor",
+				      "value": "green"
+				    }
+				  ]
+	          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:resetPersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:resetPersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    }
+  ]
+}

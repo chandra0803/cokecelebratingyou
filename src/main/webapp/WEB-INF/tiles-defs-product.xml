@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Product Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	    - header that appears at top of page
+  * 3.  topNav        - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content       - main content tile
+  * 7.  footer        - page footer
+  -->
+  
+  <definition name="product.add" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductMaintainViewController">
+    <put name='content' value='/product/productCreate.jsp'/>
+    <put name='trackingTitle' value='Add_Product' />
+  </definition>
+
+  <definition name="product.edit" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductMaintainViewController">
+    <put name='content' value='/product/productUpdate.jsp'/>
+    <put name='trackingTitle' value='Update_Product' />
+  </definition>
+
+  <definition name="product.view" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductCharacteristicTypeController">
+    <put name='content' value='/product/productView.jsp'/>
+    <put name='trackingTitle' value='View_Product' />
+  </definition>
+
+  <definition name="product.category.list" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductCategoryListController">
+    <put name='content' value='/product/productCategoryList.jsp'/>
+    <put name='trackingTitle' value='Product_Category_List' />
+  </definition>
+
+  <definition name="product.category.add" extends="beacon.default">
+    <put name='content' value='/product/productCategoryMaintain.jsp'/>
+    <put name='trackingTitle' value='Add_Product_Category' />
+  </definition>
+
+  <definition name="product.category.view" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductCategoryViewController">
+    <put name='content' value='/product/productCategoryView.jsp'/>
+    <put name='trackingTitle' value='View_Product_Category' />
+  </definition>
+
+  <definition name="product.subcategory.add" extends="beacon.default">
+    <put name='content' value='/product/productSubCategoryMaintain.jsp'/>
+    <put name='trackingTitle' value='Product_SubCategory' />
+  </definition>
+
+  <definition name="product.subcategory.view" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductSubCategoryViewController">
+    <put name='content' value='/product/productSubCategoryView.jsp'/>
+    <put name='trackingTitle' value='View_Product_Subcategory' />
+  </definition>
+
+  <definition name="product.library" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductLibraryController">
+    <put name='content' value='/product/productLibrary.jsp'/>
+    <put name='trackingTitle' value='Product_Library' />
+  </definition>
+  
+  <definition name="product.library.subcategory" extends="beacon.default">
+    <put name='content' value='/product/productLibrary.jsp'/>
+    <put name='trackingTitle' value='Product_Library' />
+  </definition>
+
+  <definition name="product.library.search.success" extends="beacon.default">
+    <put name='content' value='/product/productLibrary.jsp'/>
+    <put name='trackingTitle' value='Product_Library_Search' />
+  </definition>
+  
+  <definition name="characteristic.list.product" extends="beacon.default"
+        controllerClass="com.biperf.core.ui.product.ProductCharacteristicTypeListController" >
+    <put name='content' value='/product/viewProductCharacteristicTypeList.jsp' />
+    <put name='trackingTitle' value='Characteristic_List_Product' />
+  </definition>
+
+  <definition name="characteristic.create.product" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.characteristic.CharacteristicEditController">
+    <put name='content' value='/product/createProductCharacteristicType.jsp'/>
+    <put name='trackingTitle' value='Characteristic_Product_Create' />
+  </definition>
+
+  <definition name="characteristic.update.product" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.characteristic.CharacteristicEditController">
+    <put name='content' value='/product/updateProductCharacteristicType.jsp'/>
+    <put name='trackingTitle' value='Product_Characteristic_Update' />
+  </definition>
+
+  <definition name="prod.category.search" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductCategorySearchController">
+    <put name='content' value='/product/prodCategorySearch.jsp'/>
+    <put name='trackingTitle' value='Product_Category_Search' />
+  </definition>
+  
+  <definition name="product.search" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.product.ProductSearchController">
+    <put name='content' value='/product/productSearch.jsp'/>
+    <put name='trackingTitle' value='Product_Search' />
+  </definition>
+        
+</tiles-definitions>

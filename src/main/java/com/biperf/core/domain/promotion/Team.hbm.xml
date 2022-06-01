@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.Team" table="THROWDOWN_TEAM">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="TEAM_ID">
+			<generator class="seqhilo">
+				<param name="sequence">td_team_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		<property name="shadowPlayer" type="boolean" column="IS_SHADOW_PLAYER" />
+		
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED" />
+	      <column name="MODIFIED_BY" />
+	    </property>
+
+    	<many-to-one name="participant" column="USER_ID" insert="true" update="true"/>
+    	<many-to-one name="division" column="DIVISION_ID" not-null="true" insert="true" update="true"/>
+    	<property name="active" type="java.lang.Boolean" column="IS_ACTIVE" />
+    	
+    	<set name="matchTeamOutcomes" table="THROWDOWN_MATCH_TEAM_OUTCOME" lazy="true" inverse="true">
+		   <key column="TEAM_ID" not-null="true" />
+		   <one-to-many class="com.biperf.core.domain.promotion.MatchTeamOutcome"/>
+		</set>
+		
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.throwdown.Team.AllForPromotionAndDivision">
+		<return alias="team" class="com.biperf.core.domain.promotion.Team" />
+		<![CDATA[
+		SELECT {team.*} 
+		FROM THROWDOWN_TEAM team
+		where 
+		is_shadow_player = 0 AND
+		team_id in
+		(
+			select
+			     distinct this_.TEAM_ID
+			from
+			    THROWDOWN_TEAM this_
+			inner join
+			    THROWDOWN_MATCH_TEAM_OUTCOME outcome1_
+			        on this_.TEAM_ID=outcome1_.TEAM_ID
+			inner join
+			    THROWDOWN_MATCH match2_
+			        on outcome1_.MATCH_ID=match2_.MATCH_ID
+			inner join
+			    THROWDOWN_ROUND round3_
+			        on match2_.ROUND_ID=round3_.ROUND_ID
+			inner join
+			    THROWDOWN_DIVISION division4_
+			        on round3_.DIVISION_ID=division4_.DIVISION_ID
+			where
+			    outcome1_.PROMOTION_ID=:promotionId
+			    and division4_.DIVISION_ID=:divisionId
+		)
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.throwdown.Team.randomForPromotionAndDivision">
+		<return alias="team" class="com.biperf.core.domain.promotion.Team" />
+		<![CDATA[
+		select {team.*}
+
+    from
+        ( select
+          team.TEAM_ID,
+        team.VERSION,
+        team.IS_SHADOW_PLAYER,
+        team.DATE_CREATED,
+        team.CREATED_BY,
+        team.DATE_MODIFIED,
+        team.MODIFIED_BY,
+        team.USER_ID,
+        team.DIVISION_ID,
+        team.IS_ACTIVE
+        from
+            throwdown_team  team, throwdown_division div, promo_throwdown promo         
+        where
+        	DIV.DIVISION_ID = :divisionId AND
+            DIV.DIVISION_ID = team.DIVISION_ID AND
+            DIV.PROMOTION_ID = PROMO.PROMOTION_ID AND
+            team.is_shadow_player = 0 AND
+            team.IS_ACTIVE = 1 AND
+            PROMO.PROMOTION_ID = :promotionId                                      
+        order by
+            dbms_random.value )  team
+    where
+        rownum = 1
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.throwdown.Team.getTeamByUserIdForPromotion">
+		<return alias="team" class="com.biperf.core.domain.promotion.Team" />
+		<![CDATA[
+		select {team.*}
+			 from
+        THROWDOWN_TEAM  team, THROWDOWN_MATCH_TEAM_OUTCOME match_outcome
+    	where
+	        team.USER_ID=:userId and 
+	        team.TEAM_ID=match_outcome.TEAM_ID  and 
+	        match_outcome.PROMOTION_ID=:promotionId and
+	        rownum = 1
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.throwdown.Team.getTeamsByUserIdsForPromotion">
+		<return alias="team" class="com.biperf.core.domain.promotion.Team" />
+		<![CDATA[
+		select distinct {team.*}
+			 from
+        THROWDOWN_TEAM  team, THROWDOWN_MATCH_TEAM_OUTCOME match_outcome
+    	where
+	        team.USER_ID in (:userIds) and 
+	        team.TEAM_ID=match_outcome.TEAM_ID  and 
+	        match_outcome.PROMOTION_ID=:promotionId
+    ]]>
+	</sql-query>	
+	
+  	<sql-query name="com.biperf.core.domain.throwdown.Team.isTeamUndefeatedTillNow">
+	<return-scalar column="count" type="long"/>
+    <![CDATA[
+	   select count(*) as count from throwdown_match_team_outcome outcome, throwdown_match match, throwdown_round round 
+       where outcome.promotion_id = :promotionId 
+       and outcome.team_id = :teamId 
+       and ( outcome.outcome_type != 'win' and outcome.outcome_type != 'tie' )
+       and round.round_number < :currentRound       
+       and outcome.match_id = match.match_id
+       and match.round_id = round.round_id 
+    ]]>
+  	</sql-query>	
+	
+</hibernate-mapping>

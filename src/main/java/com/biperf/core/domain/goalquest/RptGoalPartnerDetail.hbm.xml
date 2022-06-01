@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.goalquest.RptGoalPartnerDetail" table="RPT_GOAL_PARTNER">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" column="RPT_GOAL_PARTNER_ID" type="java.lang.Long">
+	  <generator class="seqhilo">
+	    <param name="max_lo">0</param> <param name="sequence">RPT_GOAL_PARTNER_PK_SQ</param>
+	  </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" type="java.lang.Long" column="VERSION" />	
+    
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+	      	  type="com.biperf.core.utils.hibernate.AuditCreateType">
+			  <column name="DATE_CREATED" />
+			  <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+	      	  type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			  <column name="DATE_MODIFIED" />
+			  <column name="MODIFIED_BY" />
+    </property>			
+    
+    <property name="currentValue" column="CURRENT_VALUE" type="java.math.BigDecimal" />
+    <property name="baseQuantity" column="BASE_QUANTITY" type="java.math.BigDecimal" />
+    <property name="amountToAchieve" column="AMOUNT_TO_ACHIEVE" type="java.math.BigDecimal" />
+    <property name="percentOfGoal" column="PERCENT_OF_GOAL" type="java.math.BigDecimal" />
+    <property name="calculatedPayout" column="PRTNR_AWARD" type="java.math.BigDecimal" />	
+    <property name="achieved" column="ACHIEVED" type="java.lang.Boolean" />
+    
+	<!-- participant -->	
+    <many-to-one name="participant" column="PAX_USER_ID" not-null="true" 
+      class="com.biperf.core.domain.participant.Participant" lazy="false">
+    </many-to-one>
+    
+    <!-- promotion -->
+    <many-to-one name="goalQuestPromotion" column="PROMOTION_ID" not-null="true" 
+	  class="com.biperf.core.domain.promotion.GoalQuestPromotion" lazy="false">
+    </many-to-one>
+    
+	<!-- partner -->	
+    <many-to-one name="partner" column="PRTNR_USER_ID" not-null="true" 
+      class="com.biperf.core.domain.participant.Participant" lazy="false">
+    </many-to-one>
+	
+  </class>
+
+  <query name="com.biperf.core.domain.goalquest.AllRptGoalPartnerDetails">
+	<![CDATA[
+		from com.biperf.core.domain.goalquest.RptGoalPartnerDetail rptGoalPartnerDetail
+	]]>
+  </query>
+  
+</hibernate-mapping>

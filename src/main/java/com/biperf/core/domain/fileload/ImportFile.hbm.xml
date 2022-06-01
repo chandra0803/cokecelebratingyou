@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.fileload.ImportFile" table="IMPORT_FILE">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="IMPORT_FILE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">IMPORT_FILE_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="fileName" type="java.lang.String" column="FILE_NAME"/>
+
+    <property name="fileType" column="FILE_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ImportFileTypeType</param>
+      </type>
+    </property>
+
+    <property name="fileImportApprovalType" column="FILE_IMPORT_APPROVAL_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.FileImportApprovalType</param>
+      </type>
+    </property>
+
+    <property name="importRecordCount" type="int" column="IMPORT_RECORD_COUNT"/>
+    <property name="importRecordErrorCount" type="java.lang.Integer" column="IMPORT_RECORD_ERROR_COUNT" />
+
+    <property name="status" column="STATUS">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ImportFileStatusType</param>
+      </type>
+    </property>
+
+    <many-to-one name="hierarchy" column="HIERARCHY_ID" class="com.biperf.core.domain.hierarchy.Hierarchy" lazy="false"/>
+    <many-to-one name="message" column="MESSAGE_ID" class="com.biperf.core.domain.message.Message" lazy="false"/>
+    <!-- lazy set to false since we can't (or don't have a good way to) downcast a proxy -->
+    <many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.promotion.Promotion" lazy="false"/>
+	<many-to-one name="country" column="COUNTRY_ID" class="com.biperf.core.domain.country.Country" lazy="false"/>
+    
+    <property name="replaceValues" column="REPLACE_VALUES" type="boolean" />        
+	<property name="progressEndDate" column="PROGRESS_END_DATE" type="java.util.Date" />
+	
+	<property name="actionType" column="ACTION" type="java.lang.String"/>
+	<property name="asOfDate" column="AS_OF_DATE" type="java.util.Date"/>
+	<property name="leaderboardId" column="LEADERBOARD_ID" type="java.lang.Long"/>
+	<property name="badgepromotionId" column="PROMO_BADGE_ID" type="java.lang.Long"/>
+	<property name="earnedDate" column="EARNED_DATE" type="java.util.Date"/>
+	<!-- <many-to-one name="leaderboardId" column="LEADERBOARD_ID" class="com.biperf.core.domain.leaderboard.LeaderBoard" lazy="false"/> --> 
+	<property name="budgetSegmentId" column="BUDGET_SEGMENT_ID" type="java.lang.Long"/>
+	<property name="budgetMasterId" column="BUDGET_MASTER_ID" type="java.lang.Long"/>
+	<property name="contestId" column="CONTEST_ID" type="java.lang.Long" />
+		
+    <property name="recognitionDeposit" column="IS_RECOGNITION_DEPOSIT" type="boolean" />        
+    <property name="card" column="CARD_ID" type="java.lang.Long" />
+    <property name="submitterComments" column="SUBMITTER_COMMENTS" type="java.lang.String" />
+    <many-to-one name="submitter" column="SUBMITTER_ID" class="com.biperf.core.domain.participant.Participant"  lazy="false"/>
+    <many-to-one name="submitterNode" column="SUBMITTER_NODE_ID" class="com.biperf.core.domain.hierarchy.Node"  lazy="false"/>
+    
+    <property name="copyManager" column="COPY_MANAGER"   type="boolean" >
+    </property>
+    
+    <property name="importedBy" type="java.lang.String" column="IMPORTED_BY"/>
+    <property name="dateImported" type="java.util.Date" column="DATE_IMPORTED"/>
+
+    <property name="stagedBy" type="java.lang.String" column="STAGED_BY"/>
+    <property name="dateStaged" type="java.util.Date" column="DATE_STAGED"/>
+
+    <property name="verifiedBy" type="java.lang.String" column="VERIFIED_BY"/>
+    <property name="dateVerified" type="java.util.Date" column="DATE_VERIFIED"/>
+    <property name="certificateId" column="CERTIFICATE_ID" type="java.lang.Long" />
+    <property name="behavior" column="BEHAVIOR" type="java.lang.String" />
+    <property name="roundNumber" type="java.lang.Integer" column="ROUND_NUMBER"/>
+    
+    <property name="delayAwardDate" column="DELAY_AWARD_DATE" type="java.util.Date"/>
+    
+    <set name="budgetImportRecords" table="STAGE_BUDGET_IMPORT_RECORD" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.BudgetImportRecord"/>
+    
+    </set>
+    <set name="leaderBoardImportRecords" table="STAGE_LEADERBOARD_LOAD" cascade="all-delete-orphan" inverse="true">
+       <key column="IMPORT_FILE_ID"/>
+       <one-to-many class="com.biperf.core.domain.fileload.LeaderBoardImportRecord"/>
+    </set>
+
+    <set name="depositImportRecords" table="STAGE_DEPOSIT_IMPORT_RECORD" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.DepositImportRecord"/>
+    </set>
+
+    <set name="hierarchyImportRecords" table="STAGE_HIERARCHY_IMPORT_RECORD" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.HierarchyImportRecord"/>
+    </set>
+
+    <set name="participantImportRecords" table="STAGE_PAX_IMPORT_RECORD" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ParticipantImportRecord"/>
+    </set>
+
+    <set name="productImportRecords" table="STAGE_PRODUCT_IMPORT_RECORD" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ProductImportRecord"/>
+    </set>
+
+    <set name="productClaimImportRecords" table="STAGE_PRODUCT_CLAIM_IMPORT_RECORD" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ProductClaimImportRecord"/>
+    </set>
+
+    <set name="quizImportRecords" table="STAGE_QUIZ_IMPORT_RECORD" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.QuizImportRecord"/>
+    </set>
+
+    <set name="progressCPImportRecords" table="STAGE_CP_PROGRESS_DATA_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ChallengepointProgressImportRecord"/>
+    </set>
+    
+    <set name="progressImportRecords" table="STAGE_GQ_PROGRESS_DATA_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.GoalQuestProgressImportRecord"/>
+    </set>
+    <set name="vinImportRecords" table="STAGE_GQ_VIN_NBR_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.AutoVinImportRecord"/>
+    </set>    
+    
+    <set name="importRecordErrors" table="IMPORT_RECORD_ERROR" cascade="delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ImportRecordError"/>
+    </set>
+   
+    <set name="paxBaseImportRecords" table="STAGE_GQ_BASE_DATA_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.PaxBaseImportRecord"/>
+    </set>
+    
+    <set name="paxGoalImportRecords" table="STAGE_GQ_GOAL_DATA_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.PaxGoalImportRecord"/>
+    </set>
+    
+     <set name="paxCPLevelImportRecords" table="STAGE_CP_DATA_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.PaxCPLevelImportRecord"/>
+    </set>
+    
+    <set name="paxCPBaseImportRecords" table="STAGE_CP_BASE_DATA_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.PaxCPBaseImportRecord"/>
+    </set>
+    
+    <set name="awardLevelImportRecords" table="STAGE_AWARD_LEVEL_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.AwardLevelImportRecord"/>
+    </set>
+    
+     <set name="badgeImportRecords" table="STAGE_BADGE_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.BadgeImportRecord"/>
+    </set>
+    
+    <set name="budgetDistributionImportRecords" table="STAGE_INACTIVE_BUDGET_RD" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.BudgetDistributionImportRecord"/>
+    </set>     
+    
+    <set name="nominationApproverImportRecords" table="STAGE_NOM_APPROVERS_IMPORT" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_FILE_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.NominationApproverImportRecord"/>
+    </set>
+     
+  </class>
+
+  <sql-query name="com.biperf.core.domain.fileload.getListOfNodeAndUserIdsByImportFile">
+   	<return-scalar column="NODE_ID" type="long"/>
+   	<return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+    SELECT node_id,user_id from (
+			SELECT user_id, node_id FROM user_node WHERE node_id IN (
+ 				SELECT node_id FROM (
+			 		SELECT user_id, node_id FROM VUE_STAGE_USER_NODE_ROLE WHERE node_role='own' AND import_file_id = :importFileId
+			 				AND node_id IN (SELECT node_id FROM user_node WHERE ROLE='own' AND status = 1)
+			 		MINUS
+			 		SELECT user_id, node_id FROM user_node  WHERE role='own' AND status = 1
+			 	)
+			)
+			AND ROLE = 'own'
+
+			MINUS
+			SELECT user_id, node_id from VUE_STAGE_USER_NODE_ROLE 
+ 				WHERE import_file_id = :importFileId AND node_ROLE != 'own'
+ 				)
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.fileload.getImportFileIdsByDateImported">
+   	<return-scalar column="IMPORT_FILE_ID" type="long"/>
+    <![CDATA[
+    	SELECT import_file_id
+    	FROM import_file
+    	WHERE status = 'imp'
+    	AND file_type = 'par'
+    	AND to_char(date_imported, 'mm/dd/yyyy') = to_char(:dateImported, 'mm/dd/yyyy')
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.fileload.getParticipantIdsToResendWelcomeEmailByImportFileId">
+   	<return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		SELECT distinct au.user_id
+		FROM import_file impf, stage_pax_import_record stgpax, application_user au
+		WHERE impf.import_file_id = stgpax.import_file_id
+		AND stgpax.import_record_id not in ( select impr.import_file_id from import_record_error impr where impr.import_file_id = :importFileId )
+		AND upper(stgpax.user_name) = upper(au.user_name)
+		AND impf.status = 'imp'
+		AND impf.file_type = 'par'
+		AND au.is_active = 1
+		AND au.is_welcome_email_sent = 1
+		AND impf.import_file_id = :importFileId
+    ]]>
+  </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.fileload.getContestProgressLoadPaxIdsByImportFileId">
+   	<return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+        SELECT distinct au.user_id
+        FROM import_file impf, stage_ssi_pax_progress_load stgpax, ssi_contest_participant cp, application_user au
+        WHERE impf.import_file_id = stgpax.import_file_id
+        AND stgpax.import_record_id not in ( select impr.import_record_id from import_record_error impr where impr.import_file_id = :importFileId )
+        AND stgpax.user_id = cp.user_id
+        AND cp.user_id = au.user_id
+        AND au.is_active = 1
+        AND stgpax.ssi_contest_id = cp.ssi_contest_id
+        AND cp.ssi_contest_id = :contestId
+        AND impf.status = 'imp'
+        AND impf.file_type = 'ssiprog'
+        AND impf.import_file_id = :importFileId
+    ]]>
+  	</sql-query>
+  
+  <sql-query name="com.biperf.core.domain.fileload.getLastFileLoadDateForPromotionAndRound">
+    <![CDATA[
+    	select max(PROGRESS_END_DATE) from import_file where FILE_TYPE = 'tdprog' and STATUS = 'imp' and PROMOTION_ID = :promotionId and ROUND_NUMBER = :roundNumber
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.fileload.getLastFileLoadDateForPromotion">
+    <![CDATA[
+    	select max(PROGRESS_END_DATE) from import_file where FILE_TYPE = 'tdprog' and STATUS = 'imp' and PROMOTION_ID = :promotionId
+    ]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.importfile.getImportFileByPromotionId">
+    <![CDATA[
+		from com.biperf.core.domain.fileload.ImportFile as importFile where importFile.promotion.id = :promotionId
+		]]>
+  </query>
+  
+  
+  <sql-query name="com.biperf.core.domain.fileload.DeleteStagedFile">
+	  	<![CDATA[
+		DELETE FROM IMPORT_FILE
+		WHERE import_file_id = :importFileId 
+		 
+		]]>
+  </sql-query>
+
+</hibernate-mapping>

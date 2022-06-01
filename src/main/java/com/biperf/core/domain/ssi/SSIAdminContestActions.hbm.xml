@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.ssi.SSIAdminContestActions" table="SSI_ADMIN_ACTIONS">
+	<id name="id" type="java.lang.Long" column="SSI_ADMIN_ACTIONS_ID">
+	  <generator class="seqhilo">
+		<param name="max_lo">0</param> <param name="sequence">SSI_ADMIN_ACTIONS_PK_SQ</param>
+	  </generator>
+	</id>
+
+	<property   name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+		<column name="DATE_CREATED" />
+		<column name="CREATED_BY" />
+	</property>	
+    
+	<property name="userID" column="USER_ID" type="long"/>
+	<property name="contestID" column="SSI_CONTEST_ID" type="long"/>
+	<property name="action" column="ACTION" type="string"/> 
+	<property name="description" column="DESCRPTION" type="string"/>
+    
+  </class>
+</hibernate-mapping>

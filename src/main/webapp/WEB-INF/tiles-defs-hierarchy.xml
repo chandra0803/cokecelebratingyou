@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+
+<tiles-definitions> <!-- Tiles Definitions for Hierarchy Module -->
+	<!--
+	* Base tiles definiitons (page parts).  Section contains main definitions for:
+	*
+	* 1.  title		    - title that appears in Browser header
+	* 2.  header   	    - header that appears at top of page
+    * 3.  topNav        - display top bar navigation menu
+    * 4.  userInfo		- User Information bar
+	* 5.  messages		- any messages or errors returned from the struts action
+    * 6.  content       - main content tile
+    * 7.  footer        - page footer
+    -->
+
+  <definition name="node.search.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.node.NodeSearchController" >
+    <put name='content' value='/hierarchy/lookupNode.jsp' />
+     <put name='trackingTitle' value='Node_Search_List' /> 
+  </definition>
+
+	<definition name="node.update.widget"
+		path="/hierarchy/updateNode.jsp"
+		controllerClass="com.biperf.core.ui.node.NodeListController" />
+	<definition name="node.update" extends="beacon.default">
+		<put name='content' value='node.update.widget' />
+		 <put name='trackingTitle' value='Node_Update' /> 
+	</definition>
+
+	<definition name="node.update.success" extends="beacon.default">
+		<put name='content' value='/hierarchy/updateNodeSuccess.jsp' />
+		<put name='trackingTitle' value='Update_Node_Success' /> 
+	</definition>
+
+	<definition name="node.view" extends="beacon.default" 
+		controllerClass="com.biperf.core.ui.node.NodeViewController">
+		<put name='content' value='/hierarchy/viewNode.jsp' />
+		<put name='trackingTitle' value='Node_View' /> 
+	</definition>
+
+	<definition name="node.delete" extends="beacon.default" controllerClass="com.biperf.core.ui.node.NodeDeleteController">
+		<put name='content' value='/hierarchy/deleteNode.jsp' />
+		 <put name='trackingTitle' value='Delete_Node' /> 
+	</definition>
+
+	<definition name="node.search" extends="beacon.default">
+		<put name='content' value='/hierarchy/searchNode.jsp' />
+		 <put name='trackingTitle' value='Search_Node' /> 
+	</definition>
+	<definition name="node.search.success" extends="beacon.default">
+		<put name='content' value='/hierarchy/searchNodeSuccess.jsp' />
+		<put name='trackingTitle' value='Search_Node_Success' /> 
+	</definition>
+
+	<definition name="node.create.widget"
+		path="/hierarchy/createNode.jsp"
+		controllerClass="com.biperf.core.ui.node.NodeListController" />
+	<definition name="node.create" extends="beacon.default">
+		<put name='content' value='node.create.widget' />
+		<put name='trackingTitle' value='Create_Node' /> 
+	</definition>
+
+	<definition name="node.create.success" extends="beacon.default" 
+		controllerClass="com.biperf.core.ui.node.NodeViewController">
+		<put name='content' value='/hierarchy/viewNode.jsp' />
+		 <put name='trackingTitle' value='Create_Node_Sucess' /> 
+	</definition>
+
+    <definition name="hierarchy.list" extends="beacon.default" 
+    	controllerClass="com.biperf.core.ui.hierarchy.HierarchyListController">
+        <put name="content" value="/hierarchy/hierarchyList.jsp" />
+         <put name='trackingTitle' value='Hierarchy_List' /> 
+    </definition>
+	
+	<definition name="hierarchy.view" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.hierarchy.HierarchyController">
+		<put name="content" value="/hierarchy/hierarchyView.jsp" />
+		<put name='trackingTitle' value='Hierarchy_View' /> 
+	</definition>
+
+	<definition name="hierarchy.create" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.hierarchy.HierarchyController">
+		<put name="content" value="/hierarchy/hierarchyCreate.jsp" />
+		<put name='trackingTitle' value='Hierarchy_Create' /> 
+	</definition>
+	
+    <definition name="nodeType.create" extends="beacon.default">
+    	<put name="content" value="/hierarchy/createNodeType.jsp"/>
+    	 <put name='trackingTitle' value='Node_Type_Create' /> 
+    </definition>
+    
+    <definition name="nodeType.update" extends="beacon.default">
+    	<put name="content" value="/hierarchy/updateNodeType.jsp"/>
+    	<put name='trackingTitle' value='Node_Type_Update' /> 
+    </definition>
+    
+    <definition name="nodeType.list" extends="beacon.default"
+                controllerClass="com.biperf.core.ui.nodetype.NodeTypeListController" >
+    	<put name="content" value="/hierarchy/viewNodeTypeList.jsp"/>
+    	<put name='trackingTitle' value='Node_Type_List' /> 
+    </definition>
+
+    <definition name="nodeParticipant.list" extends="beacon.default"
+                controllerClass="com.biperf.core.ui.node.NodeParticipantListController" >
+    	<put name="content" value="/hierarchy/viewNodeParticipantList.jsp"/>
+    	<put name='trackingTitle' value='Node_Participant_List' /> 
+    </definition>
+    
+    <definition name="nodeParticipant.reassign" extends="beacon.default"
+                controllerClass="com.biperf.core.ui.node.NodeParticipantReassignController" >
+    	<put name="content" value="/hierarchy/nodeParticipantReassign.jsp"/>
+    	<put name='trackingTitle' value='Node_Participant_Reassign' /> 
+    </definition>
+
+  <definition name="characteristic.list.nodeType" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.characteristic.NodeTypeCharacteristicTypeController" >
+    <put name='content' value='/hierarchy/viewNodeTypeCharacteristicTypeList.jsp' />
+    <put name='trackingTitle' value='Characteristic_List' /> 
+  </definition>
+
+  <definition name="characteristic.create.nodeType" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.characteristic.CharacteristicEditController" >
+    <put name='content' value='/hierarchy/createNodeTypeCharacteristicType.jsp' />
+    <put name='trackingTitle' value='Characterisitc_Create_Node_Type' /> 
+  </definition>
+
+  <definition name="characteristic.update.nodeType" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.characteristic.CharacteristicEditController" >
+    <put name='content' value='/hierarchy/updateNodeTypeCharacteristicType.jsp' />
+     <put name='trackingTitle' value='Update_Node_Type_CharacteristicType' /> 
+  </definition>
+
+</tiles-definitions>

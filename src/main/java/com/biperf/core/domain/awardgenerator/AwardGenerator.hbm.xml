@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.awardgenerator.AwardGenerator" table="AWARDGENERATOR">
+
+        <id name="id" type="java.lang.Long" column="AWARDGEN_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">AWARDGENERATOR_PK_SQ</param>
+            </generator>
+        </id>
+
+        <version name="version" column="VERSION" type="java.lang.Long" />
+        <property name="name" type="java.lang.String" column="NAME"/>
+        <property name="examinerField" type="java.lang.String" column="EXAMINER_FIELD"/>
+        <property name="active" type="boolean" column="IS_ACTIVE"/>
+        <property name="notifyManager" type="java.lang.Boolean" column="NOTIFY_MANAGER" />
+        <property name="numberOfDaysForAlert" type="java.lang.Integer" column="NUMBER_OF_DAYS_FOR_ALERT" />      
+         
+   	    <many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.promotion.Promotion" not-null="true" lazy="false"/>
+
+		<set name="awardGenAwards" table="AWARDGEN_AWARD" lazy="false" inverse="true" cascade="all-delete-orphan" where="DELETED='0'" > 
+			<key column="AWARDGEN_ID" />
+			<one-to-many class="com.biperf.core.domain.awardgenerator.AwardGenAward" />
+		</set>
+		
+		<set name="awardGenBatches" table="AWARDGEN_BATCH" lazy="true" inverse="true" cascade="all-delete-orphan"> 
+			<key column="AWARDGEN_ID" />
+			<one-to-many class="com.biperf.core.domain.awardgenerator.AwardGenBatch" />
+		</set>
+		
+		<!-- set for awardgen_award -->
+   	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED"/>
+            <column name="CREATED_BY"/>
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+            <column name="DATE_MODIFIED"/>
+            <column name="MODIFIED_BY"/>
+        </property>
+
+    </class>
+    
+     <query name="com.biperf.core.domain.awardgenerator.ActiveAwardGeneratorList">
+   	 	<![CDATA[
+			from com.biperf.core.domain.awardgenerator.AwardGenerator awardgen
+			where awardgen.active = 1
+			order by awardgen.name asc
+		]]>
+  		</query>
+    
+	   <query name="com.biperf.core.domain.awardgenerator.GetAwardGeneratorByName">
+	     <![CDATA[
+			from com.biperf.core.domain.awardgenerator.AwardGenerator awardgen
+		 	where upper(awardgen.name) = upper(:name)
+		   	and awardgen.active = 1
+	  	  ]]>
+	  	</query>
+  
+</hibernate-mapping>

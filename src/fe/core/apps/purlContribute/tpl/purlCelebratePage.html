@@ -1,0 +1,130 @@
+<!-- ======== PURL CELEBRATE PAGE ======== -->
+<div id="purlCelebratePageView" class="page-content">
+
+    <div class="page-liner purlCelebrateItemsCont" data-msg-empty="No celebrations found">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="page-topper">
+                    <div class="purlCelebrateView">
+                        <form class="purlCelebrateSelectView">
+                            <!-- <span class="toggleLabel">&nbsp;</span> -->
+
+                            <div class="control-group" id="purlPastPresentSelect">
+                                <div class="controls">
+
+                                    <input type="radio" class="purlSelectRadio" id="purlPastPresentSelectA" name="purlPastPresentSelect" value="upcoming" checked>
+
+                                    <label class="radio btn btn-primary" for="purlPastPresentSelectA" style="display: inline-block;">
+                                    Upcoming
+                                    </label>
+
+                                    <input type="radio" class="purlSelectRadio" id="purlPastPresentSelectB" name="purlPastPresentSelect" value="past">
+
+                                    <label class="radio btn" for="purlPastPresentSelectB" style="display: inline-block;">
+                                    Past
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="purlCelebrateFilterWrap">
+                        <span class="filterLabel">Filter By:</span>
+
+                        <div class="filterTokens">
+                            <!-- dynamic from PurlCelebratePageView.js-->
+                        </div>
+
+                        <div class="dropdown">
+                            <ul class="dropdown-menu purlCelebrateTabs" role="menu" aria-labelledby="dLabel">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="purlCelebrateSearch">
+                        <form id="purlCelebrateSearchForm">
+                            <div class="selected-filters">
+                                <label for="purlCelebrateNameInput">Search: </label>
+
+                                <span class="selected-filter" style="display:none">
+                                    <span class="filter-bold"></span>
+                                        <span class="removeSearchToken">
+                                            <i class="icon icon-cancel-circle" ></i>
+                                        </span>
+                                </span>
+                            </div>
+
+                            <div class="input-append input-append-inside validateme searchWrap dropdown"
+                                data-validate-fail-msgs='{"minlength":"Enter at least 2 characters to start"}'
+                                data-validate-flags='minlength'
+                                data-validate-min-length="2">
+
+                                <input name="purlCelebrateNameInput" id="purlCelebrateNameInput" type="text" placeholder="Last Name"
+                                        data-autocomp-delay="500"
+                                        data-autocomp-min-chars="2"
+                                        data-autocomp-url="ajax/participantSearch_autocomp_firstName.json">
+
+                                <ul class="dropdown-menu purlSearchDropdownMenu" role="menu"
+                                    data-msg-instruction="Start typing please."
+                                    data-msg-no-results="No results found, please refine text.">
+                                    <!-- dynamic -->
+                                </ul>
+
+                                <button class="btn btn-link add-on searchBtn"><i class="icon-magnifier-1"></i></button>
+                                <div class="spinnerWrap"></div>
+                            </div>
+
+                            <div class="searchList" style="display: none" data-msg-no-results="No celebrations found, please refine search.">
+                                 <!-- dynamic from purlCelebrateSearchItem.html -->
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- /.page-topper -->
+            </div><!-- /.span12 -->
+        </div><!-- /.row-fluid -->
+
+        <div class="row-fluid">
+            <div class="span12">
+                <h2 class="celebrationTitle upcomingTitle">Upcoming Recognition PURLs</h2>
+                <h2 class="celebrationTitle pastTitle">Past Recognition PURLs</h2>
+
+                <p class="purlCelebrateDesc">Descriptive text for contributing to upcoming PURLs.</p>
+
+                <div class="pagination pagination-right paginationControls first"></div>
+
+                <div class="purlCelebrateItems">
+                    <!-- dynamic - purlCelebrateSet.html -->
+                </div>
+
+                <div class="pagination pagination-right paginationControls first"></div>
+                <!--
+                    NOTE: you can safely take the JSP conversion of core/base/tpl/paginationView.html and include it here. Then, remove the "XXX" above and the script will use this child template instead of the remote one
+                -->
+                <!--subTpl.paginationTpl=
+                    <?php include("core/base/tpl/paginationView.html"); ?>
+                subTpl-->
+            </div><!-- /.span12 -->
+        </div><!-- /.row-fluid -->
+    </div>
+</div><!-- /#purlCelebratePageView -->
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+    $(document).ready(function(){
+        //attach the view to an existing DOM element
+        var pcpv = new PurlCelebratePageView({
+            el:$('#purlCelebratePageView'),
+            pageNav : {
+                back : {
+                    text : 'Back',
+                    url : 'layout.html'
+                },
+                home : {
+                    text : 'Home',
+                    url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+                }
+            },
+            pageTitle : 'Recognition PURLs'
+        });
+    });
+</script>

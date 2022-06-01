@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.cashcurrency.CashCurrencyCurrent" table="CASH_CURRENCY_CURRENT">
+
+    <id name="id" type="java.lang.Long" column="CASH_CURRENCY_CURRENT_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CASH_CURRENCY_CURRENT_ID_PK_SQ</param>
+      </generator>
+    </id>
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    
+    <property name="fromCurrency" type="java.lang.String" column="FROM_CUR"/>
+	<property name="toCurrency" type="java.lang.String" column="TO_CUR" />
+	<property name="rtType" type="java.lang.String" column="RT_TYPE" />
+	<property name="effectiveDate" type="java.util.Date" column="EFFDT" />
+	<property name="bPomEnteredRate" type="java.lang.Float" column="BPOM_ENTERED_RATE" />
+	<property name="rateMult" type="java.lang.Float" column="RATE_MULT" />
+	<property name="rateDiv" type="java.lang.Float" column="RATE_DIV" />
+	
+	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>    
+  </class> 
+  
+  <query name="com.biperf.core.domain.cashcurrency.getAllOldCashCurrencyList">
+		from CashCurrencyCurrent
+  </query>
+   
+   <query name="com.biperf.core.domain.cashcurrency.getCurrentCashCurrencyList">
+		from CashCurrencyCurrent
+  </query>
+
+	<sql-query
+	name="com.biperf.core.domain.cashcurrency.getCashCurrencyFromCurrentAndHistory">
+	<return-scalar column="BPOM_ENTERED_RATE" />
+	<return-scalar column="RATE_MULT" />
+	<return-scalar column="RATE_DIV" />
+	<![CDATA[
+	  SELECT BPOM_ENTERED_RATE,RATE_MULT,RATE_DIV FROM (SELECT ROW_NUMBER () OVER (
+                                                                        PARTITION BY pe.FROM_CUR,PE.TO_CUR
+                                                                        ORDER BY
+                                                                           EFFDT DESC)
+                                                                        AS rec_rank,
+		BPOM_ENTERED_RATE,RATE_MULT,RATE_DIV FROM (
+		select * from cash_currency_current
+		where from_cur=:fromCurrency and to_cur=:toCurrency and effdt<=:effectiveDate
+		UNION ALL
+		select * from cash_currency_history
+		where from_cur=:fromCurrency  and to_cur=:toCurrency and effdt<=:effectiveDate  ) PE) WHERE rec_rank=1
+    ]]>
+</sql-query>
+  
+  
+</hibernate-mapping>
+

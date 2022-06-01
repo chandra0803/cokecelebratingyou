@@ -1,0 +1,18 @@
+.site-header {
+	.logo {
+		margin: 0;
+		img{
+			margin: 1rem 2rem;
+			height: 56px;
+		}
+	}
+}
+@media (min-width: 1025px){
+	.site-header {
+		.logo {
+			img{
+				height: 72px;
+			}
+		}
+	}
+}

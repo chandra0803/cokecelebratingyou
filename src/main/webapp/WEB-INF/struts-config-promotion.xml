@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+    <form-bean name="promotionListForm" type="com.biperf.core.ui.promotion.PromotionListForm" />
+    <form-bean name="promotionOverviewForm" type="com.biperf.core.ui.promotion.PromotionOverviewForm" />
+    <form-bean name="promotionAudienceForm" type="com.biperf.core.ui.promotion.PromotionAudienceForm" />
+    <form-bean name="promotionTypeForm" type="com.biperf.core.ui.promotion.PromotionTypeForm" />
+    <form-bean name="promotionCopyForm" type="com.biperf.core.ui.promotion.PromotionCopyForm" />
+    <form-bean name="promotionRulesForm" type="com.biperf.core.ui.promotion.PromotionRulesForm" />
+    <form-bean name="discretionaryAwardForm" type="com.biperf.core.ui.promotion.discretionary.AwardForm" />
+    <form-bean name="pendingWinnersForm" type="com.biperf.core.ui.promotion.sweepstakes.PendingWinnersForm" />
+    <form-bean name="sweepstakesWinnerHistoryForm" type="com.biperf.core.ui.promotion.sweepstakes.SweepstakesWinnerHistoryForm" />    
+    <form-bean name="createWinnersForm" type="com.biperf.core.ui.promotion.sweepstakes.CreateWinnersForm" />
+    <form-bean name="createStackRankForm" type="com.biperf.core.ui.promotion.stackrank.CreateStackRankForm" />
+    <form-bean name="stackRankHistoryForm" type="com.biperf.core.ui.promotion.stackrank.StackRankHistoryForm" />
+    <form-bean name="stackRankPendingListForm" type="com.biperf.core.ui.promotion.stackrank.StackRankPendingListForm" />
+    <form-bean name="pendingStackRankForm" type="com.biperf.core.ui.promotion.stackrank.PendingStackRankingDetailsForm" />
+    <form-bean name="stackRankNodeForm" type="com.biperf.core.ui.promotion.stackrank.StackRankNodeForm" />
+    <form-bean name="badgeForm" type="com.biperf.core.ui.gamification.BadgeForm"/>
+    <form-bean name="diyQuizForm" type="com.biperf.core.ui.diyquiz.DIYQuizForm"/>
+    <form-bean name="promotionSweepstakesForm" type="com.biperf.core.ui.promotion.PromotionSweepstakesForm" />
+    <form-bean name="promotionExpectationBenchmarkForm" type="com.biperf.core.ui.promotion.PromotionExpectationBenchmarkForm" />
+    <form-bean name="ssiContestSearchForm" type="com.biperf.core.ui.ssi.SSIContestSearchForm" />    
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite" redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+
+    <!-- =============================================== -->
+    <!-- PROMOTION MAINTENANCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- =============================================== -->
+
+    <action path="/promotionListDisplay"
+            name="promotionListForm"
+            parameter="promotion.list"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+            
+	<action path="/nominationApprovalsListDisplay"
+            parameter="nomination.approvals.list"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>            
+
+    <action path="/promotionListMaintain"
+            name="promotionListForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionListAction"
+            scope="request"
+            validate="false"
+            input="promotion.list" cancellable="true">
+      <forward name="success" path="promotion.list" redirect="false"/>
+      <forward name="cancel" path="promotion.list" redirect="false"/>
+      <forward name="failure" path="promotion.list" redirect="false"/>
+    </action>
+
+    <action path="/expiredPromoListDisplay"
+            name="promotionListForm"
+            parameter="expired.promotion.list"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+
+    <action path="/expiredPromoListMaintain"
+            name="promotionListForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionListAction"
+            scope="request"
+            validate="false"
+            input="promotion.list" cancellable="true">
+      <forward name="success" path="expired.promotion.list" redirect="false"/>
+      <forward name="cancel" path="expired.promotion.list" redirect="false"/>
+      <forward name="failure" path="expired.promotion.list" redirect="false"/>
+    </action>
+
+    <action path="/copyPromotion"
+            name="promotionCopyForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionCopyAction"
+            validate="false"
+            scope="request"
+            input="promotion.copy">
+      <forward name="display" path="promotion.copy" redirect="false"/>
+    </action>
+
+    <action path="/promotionCopy"
+            name="promotionCopyForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionCopyAction"
+            scope="request"
+            validate="true"
+            input="promotion.copy" cancellable="true">
+      <forward name="display" path="promotion.copy" redirect="false"/>
+      <forward name="success_copy" path="/promotionListDisplay.do" redirect="true"/>
+      <forward name="cancel" path="/promotionOverview.do" redirect="true"/>
+      <forward name="failure_copy" path="promotion.copy" redirect="false"/>
+    </action>
+
+    <!-- ============================================ -->
+    <!-- PROMOTION OVERVIEW ACTIONS (CRUD OPERATIONS) -->
+    <!-- ============================================ -->
+
+    <action path="/promotionOverview"
+            name="promotionOverviewForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionOverviewAction"
+            scope="session"
+            validate="false"
+            input="promotion.overview">
+      <forward name="success" path="promotion.overview" redirect="false"/>
+      <forward name="copy" path="/promotionCopy.do" redirect="false"/>
+      <forward name="failure" path="promotion.overview" redirect="false"/>
+    </action>
+
+    <action path="/promotionOverviewComplete"
+            name="promotionOverviewForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionOverviewAction"
+            scope="session"
+            validate="false"
+            input="promotion.overview">
+      <forward name="success" path="/promotionListDisplay.do" redirect="true"/>
+      <forward name="copy" path="/promotionCopy.do" redirect="false"/>
+      <forward name="failure" path="promotion.overview" redirect="false"/>
+    </action>
+
+    <action path="/promotionOverviewEnd"
+            name="promotionOverviewForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionOverviewAction"
+            scope="session"
+            validate="false"
+            input="promotion.overview">
+      <forward name="success" path="promotion.list" redirect="false"/>
+      <forward name="copy" path="/promotionCopy.do" redirect="false"/>
+      <forward name="failure" path="promotion.overview" redirect="false"/>
+    </action>
+
+    <action path="/promotionOverviewLaunch"
+            name="promotionOverviewForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionOverviewAction"
+            scope="session"
+            validate="false"
+            input="promotion.overview">
+      <forward name="success" path="promotion.list" redirect="false"/>
+      <forward name="copy" path="/promotionCopy.do" redirect="false"/>
+      <forward name="failure" path="promotion.overview" redirect="false"/>
+    </action>
+
+    <!-- ============================================ -->
+    <!-- PROMOTION RULES ACTIONS  -->
+    <!-- ============================================ -->
+    <action path="/promotionRules"
+            name="promotionRulesForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionRulesAction"
+            scope="request"
+            validate="false"
+            input="promotion.rules">
+      <forward name="success" path="promotion.rules" redirect="false"/>
+      <forward name="printerFriendly" path="promotion.rules.printerFriendly" redirect="false"/>
+      <forward name="modalFriendly" path="promotion.rules.modalFriendly" redirect="false"/>
+      <forward name="multiple" path="rules.page" redirect="false"/>
+    </action>
+
+    <!-- ============================================ -->
+    <!-- PROMOTION AUDIENCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- ============================================ -->
+    <action path="/promotionAudience"
+            name="promotionAudienceForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionAudienceAction"
+            scope="request"
+            validate="false">
+      <forward name="success" path="promotion.audience" redirect="false"/>
+      <forward name="submitterAudienceLookup" path="/promotionAddSubmitterAudience.do" redirect="false"/>
+      <forward name="teamAudienceLookup" path="/promotionAddTeamAudience.do" redirect="false"/>
+      <forward name="listbuilder" module="/participant" path="/listBuilderAddAudienceDisplay.do" redirect="true"/>
+      <forward name="paxListPopup" module="/participant" path="promotion.audience.paxlist" redirect="false"/>
+      <forward name="failure" path="promotion.audience" redirect="false"/>
+    </action>
+
+    <!-- ========================================== -->
+    <!-- PROMOTION SWEEPSTAKES ACTIONS              -->
+    <!-- ========================================== -->
+    <action path="/promotionSweepstakesListDisplay"
+            name="promotionSweepstakesListForm"
+            parameter="promotion.sweepstakes.list"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+
+    <action path="/pendingSweepstakesWinnersDisplay"
+            name="pendingWinnersForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.sweepstakes.PendingWinnersAction"
+            validate="false"
+            scope="request">
+      <forward name="success" path="promotion.sweepstakes.pending.winners" redirect="false"/>
+      <forward name="failure" path="promotion.sweepstakes.pending.winners" redirect="false"/>
+    </action>
+
+    <action path="/pendingSweepstakesWinnersSave"
+            name="pendingWinnersForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.sweepstakes.PendingWinnersAction"
+            scope="request"
+            validate="true"
+            input="promotion.sweepstakes.pending.winners">
+      <forward name="cancel" path="/promotionSweepstakesListDisplay.do" redirect="true"/>
+      <forward name="success" path="promotion.sweepstakes.award.confirmation" redirect="true"/>
+      <forward name="success_update" path="promotion.sweepstakes.pending.winners" redirect="false"/>
+      <forward name="failure" path="promotion.sweepstakes.pending.winners" redirect="false"/>
+    </action>
+
+    <action path="/sweepstakesWinnerHistoryDisplay"
+            name="sweepstakesWinnerHistoryForm"
+            parameter="promotion.sweepstakes.winnerhistory"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+
+    <action path="/createSweepstakesWinnersList"
+            name="createWinnersForm"
+            parameter="promotion.sweepstakes.create.winners"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+
+    <action path="/createSweepstakesWinnersListSave"
+            name="createWinnersForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.sweepstakes.CreateWinnersAction"
+            scope="request"
+            validate="true"
+            input="promotion.sweepstakes.create.winners" cancellable="true">
+      <forward name="cancel" path="/promotionSweepstakesListDisplay.do" redirect="true"/>
+      <forward name="success" path="/promotionSweepstakesListDisplay.do" redirect="true"/>
+      <forward name="failure" path="promotion.sweepstakes.create.winners" redirect="false"/>
+    </action>
+
+    <!-- ============================================ -->
+    <!-- DISCRETIONARY ACTIONS  -->
+    <!-- ============================================ -->
+    <action path="/discretionaryAward"
+            name="discretionaryAwardForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.discretionary.AwardAction"
+            scope="request"
+            validate="false"
+            input="promotion.discretionary.award">
+      <forward name="success" path="promotion.discretionary.award" redirect="false"/>
+      <forward name="failure" path="promotion.discretionary.award" redirect="false"/>
+    </action>
+    
+    <action path="/discretionaryAwardSave"
+            name="discretionaryAwardForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.discretionary.AwardAction"
+            scope="request"
+            validate="true"
+            input="promotion.discretionary.award">
+      <forward name="success" path="/discretionaryAward.do" redirect="true"/>
+      <forward name="failure" path="promotion.discretionary.award" redirect="false"/>
+    </action>
+
+    <!-- ============================================ -->
+    <!-- PROMOTION CREATE ACTIONS  -->
+    <!-- ============================================ -->
+    <action path="/startPromotionWizard"
+            parameter="promotionTypeForm"
+            type="com.biperf.core.ui.promotion.PromotionWizardStartAction">
+      <forward name="success" path="/displayPromotionWizardCreatePromotionType.do?method=display"/>
+    </action>
+
+    <action path="/startChildPromotionWizard"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionWizardStartAction">
+      <forward name="continue" module="/promotionWizard" path="/displayPromotionWizardCreatePromotion.do?method=display"/>
+      <forward name="product_claim" module="/promotionProductClaim" path="/promotionBasics.do?method=display"/>
+      <forward name="recognition" module="/promotionRecognition" path="/promotionBasics.do?method=display"/>
+      <forward name="quiz" module="/promotionQuiz" path="/promotionBasics.do?method=display"/>
+      <forward name="nomination" module="/promotionNomination" path="/promotionBasics.do?method=display"/>      
+    </action>
+
+    <!-- Promotion Type Start -->
+    <action path="/displayPromotionWizardCreatePromotionType"
+      type="com.biperf.core.ui.promotion.PromotionTypeAction"
+      scope="request"
+      parameter="method"
+      name="promotionTypeForm"
+      validate="false">
+      <forward name="continue" path="promotion.wizard.type.list"/>
+    </action>
+
+    <action path="/submitPromotionWizardCreatePromotionType"
+      type="com.biperf.core.ui.promotion.PromotionTypeAction"
+      scope="request"
+      name="promotionTypeForm"
+      parameter="method"
+      input="promotion.wizard.type.list" 
+      cancellable="true" >
+      <forward name="continue" module="/promotionWizard" path="/displayPromotionWizardCreatePromotion.do?method=display"/>
+      <forward name="cancel"  path="/promotionListDisplay.do" redirect="true"/>
+      <forward name="failure" path="promotion.wizard.type.list"/> 
+      <forward name="product_claim" module="/promotionProductClaim" path="/promotionBasics.do?method=display"/>
+      <forward name="recognition" module="/promotionRecognition" path="/promotionBasics.do?method=display"/>
+      <forward name="quiz" module="/promotionQuiz" path="/promotionBasics.do?method=display"/>
+      <forward name="diy_quiz" module="/promotionQuiz" path="/promotionBasics.do?method=display"/>
+      <forward name="nomination" module="/promotionNomination" path="/promotionBasics.do?method=display"/>
+      <forward name="survey" module="/promotionSurvey" path="/promotionBasics.do?method=display"/>
+      <forward name="goalquest" module="/promotionGoalQuest" path="/promotionBasics.do?method=display"/>
+      <forward name="challengepoint" module="/promotionChallengepoint" path="/promotionBasics.do?method=display"/>
+      <forward name="wellness" module="/promotionWellness" path="/promotionBasics.do?method=display"/>
+      <forward name="throwdown" module="/promotionThrowDown" path="/promotionBasics.do?method=display"/>
+      <forward name="engagement" module="/promotionEngagement" path="/promotionBasics.do?method=display"/>
+      <forward name="self_serv_incentives" module="/promotionSSI" path="/promotionBasics.do?method=display"/>
+    </action>
+    <!-- Promotion Type End -->
+
+    <!-- ============================================ -->
+    <!-- STACK RANK ACTIONS  -->
+    <!-- ============================================ -->
+
+    <action path="/stackRankListDisplay"
+          name="promotionListForm"
+          parameter="stackrank.list"
+          type="org.apache.struts.actions.ForwardAction"
+          validate="false"
+          scope="request"/>
+
+    <action path="/expiredStackRankListDisplay"
+          name="promotionListForm"
+          parameter="expired.stackrank.list"
+          type="org.apache.struts.actions.ForwardAction"
+          validate="false"
+          scope="request"/>
+          
+    <action path="/stackRankHistory"
+            name="stackRankHistoryForm"
+            type="com.biperf.core.ui.promotion.stackrank.StackRankHistoryAction"
+            scope="request"
+            validate="false"
+            parameter="method"
+            input="stackrank.history">
+      <forward name="success" path="stackrank.history" redirect="false"/>
+      <forward name="failure" path="stackrank.history" redirect="false"/>
+    </action>
+
+    <action path="/stackRankPendingList"
+          name="stackRankPendingListForm"
+          parameter="stackrank.pending.list"
+          type="org.apache.struts.actions.ForwardAction"
+          validate="false"
+          scope="request"/>
+
+    <action path="/stackRankPendingListSave"
+		    name="stackRankPendingListForm"
+			parameter="method"
+			type="com.biperf.core.ui.promotion.stackrank.StackRankPendingListAction"
+        	scope="request"
+        	validate="true"
+        	input="stackrank.pending.list">
+      <forward name="success" path="stackrank.approval.confirmation" redirect="false"/>
+      <forward name="cancel" path="stackrank.list" redirect="false"/>
+      <forward name="failure" path="stackrank.pending.list" redirect="false"/>
+	</action>
+
+	<action path="/pendingStackRankingDetails"
+			name="pendingStackRankForm"
+			parameter="method"
+			type="com.biperf.core.ui.promotion.stackrank.PendingStackRankingDetailsAction"
+       		scope="request"
+       		validate="false"
+       		input="pending.stackrank.details">
+       	<forward name="success" path="pending.stackrank.details" redirect="true"/>
+       	<forward name="details" path="pending.stackrank.details" redirect="false"/>
+       	<forward name="failure" path="pending.stackrank.details" redirect="false"/>
+         <forward name="listbuildercancel" module="" path="/homePage.do" redirect="true"/>
+	</action>
+
+    <action path="/displayCreateStackRankForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="stackrank.create"
+            name="createStackRankForm"
+            scope="request"
+            validate="false"/>
+
+    <action path="/createStackRank"
+            type="com.biperf.core.ui.promotion.stackrank.StackRankPendingListAction"
+            parameter="method"
+            name="createStackRankForm"
+            scope="request"
+            validate="true"
+            input="stackrank.create" cancellable="true">
+      <forward name="success" path="/stackRankListDisplay.do" redirect="false" />
+      <forward name="failure" path="stackrank.create" redirect="false" />
+    </action>
+
+    <action path="/displayStackRankNode"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="stackranknode.display"
+            name="stackRankNodeForm"
+            scope="request"
+            validate="true"
+            input="stackranknode.display"/>
+            
+	<action path="/viewGoalRegistrationCodes" 
+			parameter="promotion.goalquest.view.registration.codes" 
+			type="org.apache.struts.actions.ForwardAction" 
+			validate="false"
+			scope="request">
+    </action>   
+    
+    <action path="/viewChallengePointRegistrationCodes" 
+			parameter="promotion.challengepoint.view.registration.codes" 
+			type="org.apache.struts.actions.ForwardAction" 
+			validate="false"
+			scope="request">
+    </action> 
+    
+    <!-- ============================================ -->
+    <!-- SSI ADMIN ACTIONS  -->
+    <!-- ============================================ -->
+    
+   <action path="/ssiContestSearch"
+   		    type="org.apache.struts.actions.ForwardAction"
+   		    name="ssiContestSearchForm" 
+   		    parameter="ssicontest.list"/>
+   		    
+	<action path="/ssiContestSearchResults" 
+			name="ssiContestSearchForm"
+			parameter="method"
+			type="com.biperf.core.ui.ssi.SSIAdminContestSearchAction"
+       		scope="session" 
+       		validate="true"
+       		input="ssicontest.editcreator">
+       	<forward name="success" path="ssicontest.list" redirect="true"/>
+       	<forward name="failure" path="ssicontest.list" redirect="false"/>
+       	<forward name="search" path="ssicontest.editcreator" redirect="false"/>
+	</action>
+
+   <action path="/ssiEditCreator"
+   		    type="org.apache.struts.actions.ForwardAction"
+   		    parameter="ssicontest.editcreator"/>	
+	
+	          
+     <!-- Gamification Action Mapping Starts Here -->
+   
+   <action path="/gamificationModule"
+             parameter="social.gamification.module"
+            type="org.apache.struts.actions.ForwardAction"
+             />
+   <action path="/gamificationResult"
+            parameter="method" type="com.biperf.core.ui.gamification.GamificationAdminAction"
+			scope="request"/>
+			
+   <action path="/gamificationDetailResult"
+            parameter="method" type="com.biperf.core.ui.gamification.GamificationAdminAction"
+			scope="request"/>		
+			
+    <action path="/badgeList"
+			type="com.biperf.core.ui.gamification.GamificationAdminAction" scope="request">
+			<forward name="showBadgeList" path="badge.list" redirect="false" />
+	</action>
+   
+   			
+	<action path="/badgeAddAction" name="badgeForm"
+			parameter="method" type="com.biperf.core.ui.gamification.GamificationAdminAction"
+			scope="request" input="badge.create" validate="false">
+			 <forward name="showBadgeList" path="/badgeList.do" redirect="true"/>
+			 <forward name="createBadge" path="badge.create" redirect="false"/>
+	</action>
+	
+	<action path="/badgeMaintain" name="badgeForm"
+			parameter="method" type="com.biperf.core.ui.gamification.GamificationAdminAction"
+			scope="request" input="badge.update" validate="false">
+			 <forward name="update" path="badge.update" redirect="false" />
+			 <forward name="showBadgeList" path="/badgeList.do" redirect="true"/>
+			 <forward name="createBadge" path="badge.create" redirect="false"/>
+			 <forward name="showExpiredBadgeList" path="badge.expired" redirect="true"/>
+	</action>
+    <!-- Gamification Action Mapping Ends Here -->
+    
+    <!-- DIY Quiz Action Mapping Start here -->
+    <action path="/diyQuizList"
+			name="diyQuizForm" 
+			type="com.biperf.core.ui.diyquiz.DIYQuizAdminAction"
+			scope="request">
+		<forward name="showDIYQuizList" path="diyquiz.list" redirect="false" />
+	</action>
+	
+	<action path="/diyQuizRemove"
+    		name="diyQuizForm"
+    		parameter="method"
+    		input="diyquiz.list"
+			type="com.biperf.core.ui.diyquiz.DIYQuizAdminAction" 
+			scope="request">
+		<forward name="showDIYQuizList" path="diyquiz.list" redirect="false" />
+	</action>
+	
+	<action path="/diyQuizMaintain" name="diyQuizForm"
+			parameter="method" type="com.biperf.core.ui.diyquiz.DIYQuizAdminAction"
+			scope="request" input="diyquiz.update" validate="false">
+			 <forward name="updateDIYQuiz" path="diyquiz.update" redirect="false" />
+			 <forward name="createDIYQuiz" path="diyquiz.create" redirect="false"/>
+			<forward name="showInactiveDIYQuizList" path="diyquiz.inactive.list" redirect="false" />
+			<forward name="showDIYQuizList" path="/diyQuizList.do" redirect="true" />
+	</action>
+	
+	<action path="/diyQuizSave" name="diyQuizForm"
+			parameter="method" type="com.biperf.core.ui.diyquiz.DIYQuizAdminAction"
+			scope="request" input="diyquiz.create" validate="true">
+			<forward name="failure" path="diyquiz.create" redirect="false" />
+			<forward name="admin" path="/promotion/diyQuizList.do" redirect="true" />		
+			<forward name="pax" path="/quiz/diyQuizManage.do?method=manage" redirect="true" />	
+	</action>
+	<!-- DIY Quiz Action Mapping End Here -->
+	
+	<!-- Sweepstakes for Badges starts -->
+	<action path="/promotionSweepstakes"
+            name="promotionSweepstakesForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionSweepstakesAction"
+            scope="request"
+            validate="false"
+            input="promotion.sweepstakes">
+      <forward name="success" path="promotion.sweepstakes" redirect="false"/>
+      <forward name="failure" path="promotion.sweepstakes" redirect="false"/>
+    </action>
+
+    <action path="/promotionSweepstakesSave"
+            name="promotionSweepstakesForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionSweepstakesAction"
+            scope="request"
+            validate="true"
+            input="promotion.sweepstakes" cancellable="true">
+      <forward name="cancel" path="/promotionSweepstakesListDisplay.do" redirect="true"/>
+      <forward name="sweeps_list" path="/promotionSweepstakesListDisplay.do" redirect="true"/>
+      <forward name="failure" path="promotion.sweepstakes" redirect="false"/>      
+    </action>
+	<!-- Sweepstakes for Badges ends -->
+	
+	<!-- Engagement Refresh scores process -->
+    <action path="/promotionEngagementRefreshScores"
+            name="promotionExpectationBenchmarkForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionExpectationBenchmarkAction"
+            scope="request"
+            validate="false"
+            input="promotion.overview">
+      <forward name="success" path="/promotionOverview.do" redirect="true"/>
+      <forward name="failure" path="/promotionOverview.do" redirect="true"/>
+    </action>
+    <!--  -->
+    
+     <action path="/dataService"            
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionDataServiceAction" >
+    </action>
+    
+  </action-mappings>
+  
+  
+  
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" tempDir="@FILE_UPLOAD_TEMP_DIR@" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />  
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+                  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-promotion.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-promotion.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

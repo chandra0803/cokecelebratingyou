@@ -1,0 +1,224 @@
+// App-specific variables
+// =========================
+$banner_cycleDotWidth_mobile: 12px !default;
+$banner_cycleDotBkg_mobile: $brand_color_white !default;
+$banner_cycleDotBorderRadius_mobile: 50% !default;
+
+$banner_cycleThumbScale: 10% !default;
+$banner_cycleThumbSpacing: 3.3% !default;
+
+$banner_pagerTextColor: $brand_color_white !default;
+$banner_pagerTextColorHover: $brand_color_primary !default;
+$banner_pagerBgColor: black !default; // real black instead of brand black on purpose
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.bannerModule {
+
+} /* /.bannerModule */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.bannerModule {
+    .module-liner {
+        padding: 0;
+        padding-top: calc(#{1 / 2.35 * 100%} - 144px); // 2.35:1 ratio - min-height
+        min-height: 144px;
+    }
+
+    .slick-counter {
+        background: rgba(0,0,0,0.5);
+        border-radius: 6px;
+        z-index: 9999;
+        position: absolute;
+        text-align: center;
+        width: 4em;
+        padding: 0.25em;
+        color: $brand_color_white;
+        font-weight: 600;
+        margin: 0 auto;
+        display: none;
+        bottom: 5%;
+        left: 48%;
+        @media (max-width: $breakpoint_mobile_max) {
+            left: 41%;
+        }
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            left: 50%;
+        }
+    }
+
+    .visitAppBtn {
+        display: none;
+    }
+
+    .module-content {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 100%;
+    }
+
+    .carousel {
+        overflow: hidden;
+        height: 100%;
+        position: relative;
+
+        .slick-arrow {
+            position: absolute;
+            top: 50%;
+            margin-top: -1em;
+            padding: 0.5em;
+            font-size: 25px;
+            border-radius: 50%;
+            text-shadow: 0px 1px 6px transparentize($banner_pagerBgColor, 0.67);
+            @include ignoreGlobalLinkStyles(
+                $color: $banner_pagerTextColor $banner_pagerTextColorHover,
+                $fontWeight: $fontWeightBold
+            );
+            background: transparentize($banner_pagerBgColor, 0.85);
+
+            @media (max-width: $breakpoint_mobile_max) {
+                display: none !important;
+            }
+            &.slick-prev {
+                left: 2%;
+                z-index: 9;
+            }
+            &.slick-next {
+                right: 2%;
+            }
+            &:hover {
+                cursor: pointer;
+            }
+            &.slick-disabled {
+                visibility: hidden;
+            }
+        }
+
+        .slick-list {
+            height: 100%;
+        }
+
+        .slick-track {
+            height: 100%;
+        }
+
+        .item {
+            display: inline-block;
+            height: 100%;
+            background-size: cover;
+            background-position: 50% 50%;
+
+            .item-link {
+                display: block;
+                height: 100%;
+                background-size: cover;
+                background-position: 50% 50%;
+            }
+
+            a,
+            span {
+                display: block;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                @include ignoreGlobalLinkStyles();
+
+                &.noLink {
+                    &:hover {
+                        cursor: default;
+                    }
+                }
+                p {
+                    text-align: center;
+                    display: none;
+                }
+            }
+        }
+
+        .slick-dots {
+            // we want this to end up $banner_cycleThumbScale of the height, but we need $banner_cycleThumbSpacing of padding top and bottom
+            // unfortunately, top and bottom padding are calculated off the width so we have to get crafty
+            // all the percentage math is doing just that
+            position: absolute;
+            top: 100% - $banner_cycleThumbSpacing - $banner_cycleThumbScale - $banner_cycleThumbSpacing;
+            bottom: 0;
+            line-height: 0;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            height: $banner_cycleThumbSpacing + $banner_cycleThumbScale + $banner_cycleThumbSpacing;
+            vertical-align: middle;
+            background: linear-gradient(to bottom, transparentize($banner_pagerBgColor, 1) 0%, transparentize($banner_pagerBgColor, 0.75) 100%);
+
+            li {
+                position: relative;
+                top: ($banner_cycleThumbSpacing / ($banner_cycleThumbSpacing + $banner_cycleThumbScale + $banner_cycleThumbSpacing) * 100%);
+                margin: 0 ($banner_cycleThumbSpacing / 2);
+                display: inline-block;
+                width: $banner_cycleThumbScale;
+                height: ($banner_cycleThumbScale / ($banner_cycleThumbSpacing + $banner_cycleThumbScale + $banner_cycleThumbSpacing) * 100%);
+                background: transparentize($banner_cycleDotBkg_mobile, 0.75);
+                opacity: 0.25;
+                cursor: pointer;
+                @include box-shadow(0 2px 8px rgba(0,0,0, 0.33));
+                @include transition(opacity 0.5s);
+
+                &:hover,
+                &.slick-active {
+                    opacity: 1;
+                    @include box-shadow(0 3px 12px rgba(0,0,0, 0.5));
+                }
+                &.slick-active {
+                    cursor: default;
+                }
+
+                img {
+                    display: block;
+                    height: 100%;
+                    width: 100%;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                }
+            }
+        }
+
+        @media (max-width: $breakpoint_mobile_max) {
+            .slick-dots {
+                top: auto;
+                height: $banner_cycleDotWidth_mobile * 3;
+
+                li {
+                    top: $banner_cycleDotWidth_mobile;
+                    width: $banner_cycleDotWidth_mobile;
+                    height: $banner_cycleDotWidth_mobile;
+                    background: $banner_cycleDotBkg_mobile;
+                    border-radius: $banner_cycleDotBorderRadius_mobile;
+
+                    img {
+                       display: none;
+                    }
+                }
+            }
+        }
+    }
+    .bannerPager {
+        display: none;
+    }
+
+    &.singleBanner {
+        .carousel {
+            .item {
+                display: block;
+            }
+        }
+    }
+} /* /.launchModule.bannerModule */

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<mapping>
+	<description>Mapping of OrderInformation Data</description>
+
+<!--
+Mapping Rules for castor xml data binding:
+The field name should be reflection compatible with the class method name
+and should also relate to either an element or attribute in xml file.
+For example, for following entry in xml file
+
+	<service-name>SiteEntity</service-name>
+	
+the corresponding field name would become serviceName (hyphen is removed 
+and first letter of second word is capitalized. And then class should be 
+having corresponding methods getServiceName() and setServiceName().
+-->
+	<class name="com.biperf.core.value.order.OrderInformation">
+		<field name="customer" type="com.biperf.core.value.order.Customer" />
+		<field name="order" type="com.biperf.core.value.order.Order" />
+		<field name="orderLineItems" type="com.biperf.core.value.order.OrderLineItems"/>
+	</class>
+	
+	<class name="com.biperf.core.value.order.OrderLineItems">
+		<field name="lineItemList" type="com.biperf.core.value.order.LineItem" collection="collection" />
+	</class>
+	
+	<class name="com.biperf.core.value.order.LineItem">
+		<field name="quantity" type="integer" />
+	</class>
+
+</mapping>

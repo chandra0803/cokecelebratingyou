@@ -1,0 +1,172 @@
+// App-specific variables
+// =========================
+$budgetTracker_progressBackColor: false !default; // progress bar background color. pass false to use defaults in _progress-bars.scss
+$budgetTracker_progressBackMeta: false !default;  // progress bar background gradient meta. pass false for a solid background. to work, requires a value for the Color above or Stops below
+$budgetTracker_progressBackStops: false !default; // progress bar background gradient stops. pass false to use default gradient shading
+$budgetTracker_progressBarColor: false !default;  // progress bar foreground color. pass false to use defaults in _progress-bars.scss
+$budgetTracker_progressBarMeta: false !default;   // progress bar foreground gradient meta. pass false for a solid background. to work, requires a value for the Color above or Stops below
+$budgetTracker_progressBarStops: false !default;  // progress bar foreground gradient stops. pass false to use default gradient shading
+$budgetTracker_progressBarToolTipBgColor: $brand_color_primary !default;
+$budgetTracker_progressBarToolTipBorderColor: $brand_color_primary !default;
+$budgetTracker_progressBarToolTipBoxShadow: none !default;
+
+
+// App-specific code
+// ==================================================
+
+
+/***
+ *             888          888               888
+ *             888          888               888
+ *             888          888               888
+ *     .d88b.  888  .d88b.  88888b.   8888b.  888
+ *    d88P"88b 888 d88""88b 888 "88b     "88b 888
+ *    888  888 888 888  888 888  888 .d888888 888
+ *    Y88b 888 888 Y88..88P 888 d88P 888  888 888
+ *     "Y88888 888  "Y88P"  88888P"  "Y888888 888
+ *         888
+ *    Y8b d88P
+ *     "Y88P"
+ */
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.budgetTracker {
+
+} /* /.budgetTracker */
+
+
+/***
+ *                                888          888
+ *                                888          888
+ *                                888          888
+ *    88888b.d88b.   .d88b.   .d88888 888  888 888  .d88b.
+ *    888 "888 "88b d88""88b d88" 888 888  888 888 d8P  Y8b
+ *    888  888  888 888  888 888  888 888  888 888 88888888
+ *    888  888  888 Y88..88P Y88b 888 Y88b 888 888 Y8b.
+ *    888  888  888  "Y88P"   "Y88888  "Y88888 888  "Y8888
+ *
+ *
+ *
+ */
+/* ----- MODULE STYLES ----- */
+.sidebarModule.budgetTracker {
+    .budget-date {
+        margin-bottom: $globalSidebar_vertMargin;
+        font-size: $fontSizeMini;
+        line-height: 16.5px; // TODO: NEED GLOBAL
+    }
+    .budgetAsOfTimestamp {
+        strong {
+            font-weight: normal;
+        }
+    }
+    .reloadBtn {
+        font-size: $fontSizeSmall;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+    .budgetItem {
+        &.odd {
+            // background: $budgetTracker_itemBgColorOdd;
+        }
+        &.even {
+            // background: $budgetTracker_itemBgColorEven;
+        }
+        .budgetName {
+            // single line ellipsis cutoff
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .promoItem {
+            margin-top: 0 !important;
+        }
+        .promoName {
+            display: inline;
+            float: left;
+            margin-right: 4px;
+            max-width: 100%;
+            // single line ellipsis cutoff
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .promoEndDate {
+            display: inline-block;
+            font-size: $fontSizeSmall;
+            line-height: 16px; // TODO: GLOBAL VALUE
+        }
+        .minMax {
+            overflow: auto;
+            font-size: $fontSizeSmall;
+            line-height: 16px; // TODO: GLOBAL VALUE
+
+            .min {
+                float: left;
+            }
+            .max {
+                float: right;
+            }
+        }
+    }
+    .progress {
+        // height: 10px;
+        // margin-top: $baseLineHeight * 1.25;
+        margin-bottom: 0;
+        // border-radius: 0;
+        @if $budgetTracker_progressBackColor or $budgetTracker_progressBackStops {
+            @include progressBarHelper($budgetTracker_progressBackColor or nth($budgetTracker_progressBackStops, 1), $budgetTracker_progressBackMeta, $budgetTracker_progressBackStops);
+        }
+
+        .bar {
+            @if $budgetTracker_progressBarColor or $budgetTracker_progressBarStops {
+                @include progressBarHelper($budgetTracker_progressBarColor or nth($budgetTracker_progressBarStops, 1), $budgetTracker_progressBarMeta, $budgetTracker_progressBarStops);
+            }
+            // reset the transition -- we manually animate this so we can
+            // add budget qtips after (also will animate in ie8/7)
+            @include transition(none);
+        }
+    }
+    .remBudgTip {
+        min-width: 40px;
+
+        @if $budgetTracker_progressBarToolTipBgColor {
+            background: $budgetTracker_progressBarToolTipBgColor;
+        }
+        @if $budgetTracker_progressBarToolTipBorderColor {
+            border-color: $budgetTracker_progressBarToolTipBorderColor;
+        }
+        @if $budgetTracker_progressBarToolTipBoxShadow {
+            @include box-shadow($budgetTracker_progressBarToolTipBoxShadow);
+        }
+    }
+    .remBudgTip .ui-tooltip-content {
+        font-size: $baseFontSize;
+        font-weight: bold;
+        text-align: center;
+        padding: 2px 0;
+    }
+
+    .transfer-button {
+        text-align: center;
+    }
+} /* /.sidebarModule.budgetTracker */
+
+
+/***
+ *
+ *
+ *
+ *    88888b.   8888b.   .d88b.   .d88b.
+ *    888 "88b     "88b d88P"88b d8P  Y8b
+ *    888  888 .d888888 888  888 88888888
+ *    888 d88P 888  888 Y88b 888 Y8b.
+ *    88888P"  "Y888888  "Y88888  "Y8888
+ *    888                    888
+ *    888               Y8b d88P
+ *    888                "Y88P"
+ */
+/* ----- PAGE STYLES ----- */
+.page.budgetTracker {
+
+} /* /.page.budgetTracker */

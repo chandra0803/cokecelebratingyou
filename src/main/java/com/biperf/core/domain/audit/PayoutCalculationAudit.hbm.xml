@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.audit.PayoutCalculationAudit" table="PAYOUT_CALCULATION_AUDIT" discriminator-value="PCA">
+
+    <id name="id" column="PAYOUT_CALCULATION_AUDIT_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PAYOUT_CALC_AUDIT_PK_SQ</param>
+      </generator>
+    </id>
+
+    <discriminator column="DISCRIMINATOR" type="java.lang.String"/>
+
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <property name="reasonType" column="REASON_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.PayoutCalculationAuditReasonType</param>
+      </type>
+    </property>
+        
+    <property name="reasonText" column="REASON_TEXT" type="java.lang.String"/>
+    <many-to-one name="journal" column="JOURNAL_ID" class="com.biperf.core.domain.journal.Journal" unique="true"  lazy="false"/>
+    <many-to-one name="participant" column="PARTICIPANT_ID" class="com.biperf.core.domain.participant.Participant" lazy="false"/>
+
+    <subclass name="com.biperf.core.domain.audit.ClaimBasedPayoutCalculationAudit" discriminator-value="claimbased">
+      <many-to-one name="claim" column="CLAIM_ID" class="com.biperf.core.domain.claim.Claim" lazy="false"/>
+      <many-to-one name="claimGroup" column="CLAIM_GROUP_ID" class="com.biperf.core.domain.claim.ClaimGroup" lazy="false"/>
+    </subclass>
+    
+    <subclass name="com.biperf.core.domain.audit.GoalQuestPayoutCalculationAudit" discriminator-value="goalquest">
+    </subclass>    
+    
+    <subclass name="com.biperf.core.domain.audit.ChallengepointPayoutCalculationAudit" discriminator-value="challengepoint">
+    </subclass>    
+
+    <subclass name="com.biperf.core.domain.audit.SimplePayoutCalculationAudit" discriminator-value="simple">
+    </subclass>
+  </class>
+
+  <query name="com.biperf.core.domain.audit.AllRecognitionPayoutCalculationAuditRecords">
+  <![CDATA[
+    from com.biperf.core.domain.audit.ClaimBasedPayoutCalculationAudit
+  ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.audit.AllGoalQuestPayoutCalculationAuditRecords">
+  <![CDATA[
+    from com.biperf.core.domain.audit.GoalQuestPayoutCalculationAudit
+  ]]>
+  </query>  
+  
+  <query name="com.biperf.core.domain.audit.PayoutCalculationAuditRecordsListByClaimIdAndParticipantId">
+    <![CDATA[
+		from com.biperf.core.domain.audit.PayoutCalculationAudit payoutCalculationAudit
+		where payoutCalculationAudit.claim = :claimId 
+		and payoutCalculationAudit.participant = :participantId
+	]]>
+  </query>
+   
+  <query name="com.biperf.core.domain.audit.PayoutCalculationAuditRecordsListByClaimId">
+    <![CDATA[
+		from com.biperf.core.domain.audit.PayoutCalculationAudit payoutCalculationAudit
+		where payoutCalculationAudit.claim = :claimId 
+	]]>
+  </query>   
+  
+  <sql-query name="com.biperf.core.domain.audit.isManagerOverrideExist">
+    <return alias="payoutCalculationAudit" class="com.biperf.core.domain.audit.PayoutCalculationAudit" />
+    <![CDATA[
+      select *
+	    from payout_calculation_audit payoutCalculationAudit
+	   where journal_id = :journalId
+	     and participant_id = :participantId 
+	     and reason_type = 'mo_success'
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.audit.isCPAwardExist">
+    <return alias="payoutCalculationAudit" class="com.biperf.core.domain.audit.PayoutCalculationAudit" />
+    <![CDATA[
+      select *
+	    from payout_calculation_audit payoutCalculationAudit
+	   where journal_id = :journalId
+	     and participant_id = :participantId 
+	     and reason_type = 'challengepoint_success'
+	]]>
+  </sql-query>   
+
+</hibernate-mapping>

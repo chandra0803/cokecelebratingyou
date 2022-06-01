@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib
+    PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+    "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>1.2</jsp-version>
+  <short-name>beacon</short-name>
+	<function>
+		<name>systemVarBoolean</name>
+		<function-class>com.biperf.core.ui.el.ElFunctions</function-class>
+		<function-signature>java.lang.String systemVarBoolean( java.lang.String )</function-signature>
+	</function>
+	
+	<function>
+		<name>systemVarInteger</name>
+		<function-class>com.biperf.core.ui.el.ElFunctions</function-class>
+		<function-signature>int systemVarInteger( java.lang.String )</function-signature>
+	</function>
+	
+	<function>
+		<name>systemVarString</name>
+		<function-class>com.biperf.core.ui.el.ElFunctions</function-class>
+		<function-signature>int systemVarString( java.lang.String )</function-signature>
+	</function>
+	
+	<function>
+		<name>autoCompleteDelay</name>
+		<function-class>com.biperf.core.ui.search.AutoCompleteFunctions</function-class>
+		<function-signature>int getAutoCompleteDelay()</function-signature>
+	</function>
+	
+	<function>
+		<name>isCMSDebugEnabled</name>
+		<function-class>com.biperf.core.utils.cms.CMSDebugUtil</function-class>
+		<function-signature>boolean isCMSDebugEnabled()</function-signature>
+	</function>
+	
+	<function>
+		<name>escapeDoubleQuote</name>
+		<function-class>com.biperf.core.utils.StringUtil</function-class>
+		<function-signature>java.lang.String escapeDoubleQuote( java.lang.String )</function-signature>
+	</function>
+	
+  <tag>
+    <name>menu</name>
+    <tag-class>com.biperf.core.ui.taglib.MenuTag</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
+  
+  <tag>
+    <name>reduxmenu</name>
+    <tag-class>com.biperf.core.ui.taglib.G3ReduxMenuTag</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
+  
+  <tag>
+    <name>participantadmin</name>
+    <tag-class>com.biperf.core.ui.taglib.G3ReduxParticipantAdminTag</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
+
+  <tag>
+    <name>authorize</name>
+    <tag-class>com.biperf.core.ui.taglib.AuthorizeTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+      A simple tag to output or not the body of the tag if the principal has or doesn't have
+      certain authorities.
+    </description>
+
+    <attribute>
+      <name>ifNotGranted</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>
+        A comma separated list of roles which the user must not have for the body to be
+        output.
+      </description>
+    </attribute>
+
+    <attribute>
+      <name>ifAllGranted</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>
+        A comma separated list of roles which the user must all possess for the body to be
+        output.
+      </description>
+    </attribute>
+
+    <attribute>
+      <name>ifAnyGranted</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>
+        A comma separated list of roles, one of which the user must possess for the body to
+        be output.
+      </description>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>acl</name>
+    <tag-class>com.biperf.core.ui.taglib.AclTag</tag-class>
+    <description>
+      Allows inclusion of a tag body if the current Authentication has one of the specified
+      permissions to the presented domain object instance. This tag uses the AclManager
+      hasPermissions to authenticate.
+    </description>
+
+    <attribute>
+      <name>code</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>
+        Code of the ACL Entry that we use to check permissions against.
+      </description>
+    </attribute>
+
+    <attribute>
+      <name>hasPermission</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>
+        A comma separated list of integers, each representing a required bit mask permission
+        from a subclass of org.acegisecurity.acl.basic.AbstractBasicAclEntry.
+      </description>
+    </attribute>
+    <attribute>
+      <name>domainObject</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>
+        The actual domain object instance for which permissions are being evaluated.
+      </description>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>client-state</name>
+    <tag-class>com.biperf.core.ui.taglib.ClientStateTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+      This tag generates an HTML hidden tag whose value is a serialized, encrypted, and
+      base-64 encoded version of the name/value pairs specified by the entry tags (see below)
+      it contains.
+    </description>
+  </tag>
+
+  <tag>
+    <name>client-state-entry</name>
+    <tag-class>com.biperf.core.ui.taglib.ClientStateEntryTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      A name/value pair to be stored on the client by the containing client-state tag.
+    </description>
+
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>value</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>label</name>
+    <tag-class>com.biperf.core.ui.taglib.LabelTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+      Label that will add the appropriate td's and class styles onto the label.
+    </description>
+
+    <attribute>
+      <name>required</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>property</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>styleClass</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+
+    <attribute>
+      <name>colspan</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    
+    <attribute>
+      <name>requiredColumnWidth</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+    
+    <attribute>
+      <name>labelColumnWidth</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+    </attribute>
+  </tag>
+
+ <tag>
+    <name>username</name>
+    <tag-class>com.biperf.core.ui.taglib.UserNameTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+      Tag that will print user name.
+    </description>
+
+    <attribute>
+      <name>userId</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+ <tag>
+    <name>addressDisplay</name>
+    <tag-class>com.biperf.core.ui.taglib.AddressDisplayTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+      Tag that will print Addess.
+    </description>
+
+    <attribute>
+      <name>address</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>toJavascriptString</name>
+    <tag-class>com.biperf.core.ui.taglib.ToJavaScriptStringTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+      Make content assignable to a JavaScript string.
+    </description>
+  </tag>
+
+</taglib>

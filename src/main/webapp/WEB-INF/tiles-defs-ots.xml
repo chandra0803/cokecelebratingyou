@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+    "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <definition name="ots.program" extends="beacon.default">
+    <put name="content" value="/ots/otsProgramDisplay.jsp"/>
+  </definition>
+  <definition name="ots.program.add" extends="beacon.default" >
+		<put name='content' value="/admin/ots/addOTSProgram.jsp" />
+		<put name='trackingTitle' value='OTS Admin' />
+	</definition>
+	
+	<definition name="ots.program.show" extends="beacon.default" controllerClass="com.biperf.core.ui.ots.OTSProgramDetailsController">
+		<put name='content' value="/admin/ots/otsProgramDetails.jsp" />
+		<put name='trackingTitle' value='OTS Program Details' />
+	</definition>
+	 <definition name="promo.audience.widget"
+	      	  path="/ots/programAudienceShell.jsp"
+              controllerClass="com.biperf.core.ui.ots.ProgramAudienceController">	
+		<put name="audiencePageTop" value="/ots/programAudience.jsp" />
+  </definition>
+
+  <definition name="promotion.audience" extends="beacon.default">
+    <put name="content" value="promo.audience.widget" />
+    <put name='trackingTitle' value='Recognition_Promotion_Audience' />
+	</definition>
+	<definition name="ots.batch.update" extends="beacon.default"  controllerClass="com.biperf.core.ui.ots.BatchEditController">
+		<put name='content' value="/ots/otsUpdateBatch.jsp" />
+		<put name='trackingTitle' value='OTS Program Details' />
+	</definition>
+	<definition name="ots.batch.update" extends="beacon.default"
+  			controllerClass="com.biperf.core.ui.ots.BatchEditController">
+    <put name='content' value="ots.bill.code.widget" />
+    <put name='trackingTitle' value='OTS_Bill_Codes' />
+  </definition>
+  
+   <definition name="ots.bill.code.widget"
+            path="/ots/otsUpdateBatch.jsp">
+  	
+  	<put name="otsBillCodeJS" value="/ots/otsBillCodeJS.jsp" />
+  	 
+  </definition>  
+</tiles-definitions>

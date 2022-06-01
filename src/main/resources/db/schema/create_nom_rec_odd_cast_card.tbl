@@ -1,0 +1,39 @@
+CREATE TABLE odd_cast_card
+   (card_id                        NUMBER(18) NOT NULL,
+    category_id                    NUMBER(18) NOT NULL,
+    character_id                   NUMBER(18),
+    character_name                 VARCHAR2(70),
+    char_small_image_name          VARCHAR2(120),
+    char_large_image_name          VARCHAR2(120),
+    outfit_id                      NUMBER(18),
+    outfit_name                    VARCHAR2(70),
+    outfit_small_image_name        VARCHAR2(120),
+    outfit_large_image_name        VARCHAR2(120),
+    accessory_id                   NUMBER(18),
+    accessory_name                 VARCHAR2(70),
+    accessory_small_image_name     VARCHAR2(120),
+    accessory_large_image_name     VARCHAR2(120),
+    scene_header_script            VARCHAR2(250),
+    scene_body_script              VARCHAR2(250),
+    voice_id					   NUMBER(18),
+    language_id					   NUMBER(18),
+    voice_family_id			   	   NUMBER(18) )
+/
+ALTER TABLE odd_cast_card
+ADD CONSTRAINT odd_cast_card_pk PRIMARY KEY (card_id)
+USING INDEX
+/
+ALTER TABLE odd_cast_card ADD CONSTRAINT odd_cast_card_fk
+  FOREIGN KEY (card_id) REFERENCES card (card_id)
+/
+ALTER TABLE odd_cast_card ADD CONSTRAINT odd_cast_card_category_fk
+  FOREIGN KEY (category_id) REFERENCES odd_cast_category (category_id)
+/
+CREATE INDEX ODD_CAST_CARD_CATEGORY_FK_idx ON ODD_CAST_CARD
+  (CATEGORY_ID)
+/
+COMMENT ON TABLE odd_cast_card IS 'The odd_cast_card table defines concrete odd_cast_card implementation of card.'
+/
+COMMENT ON COLUMN odd_cast_card.card_id IS 'PK and FK to Card'
+/
+

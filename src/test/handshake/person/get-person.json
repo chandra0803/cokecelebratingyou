@@ -1,0 +1,42 @@
+{
+  "description": "Get a Person userId(5590)",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "personId": "00000000-0000-0000-0000-0000000015d6"
+  },
+  "steps": [
+    {
+      "id": "getPerson",
+      "description": "GET /persons/{personId}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:params.personId}",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getPerson.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getPerson.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:getPerson.res.body.id}",
+          "compare": "to.equal",
+          "b": "${ref:params.personId}"
+        }
+      ]
+    }
+  ]
+}

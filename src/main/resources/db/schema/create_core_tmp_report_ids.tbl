@@ -1,0 +1,5 @@
+CREATE GLOBAL TEMPORARY TABLE TMP_REPORT_IDS (
+ ID                                  NUMBER(18)
+) ON COMMIT DELETE ROWS
+
+/

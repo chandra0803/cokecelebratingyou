@@ -1,0 +1,150 @@
+CREATE SEQUENCE activity_pk_sq start with 250 increment by 1
+/
+create table activity
+(
+  activity_id                 NUMBER(12) NOT NULL,
+  user_id                     NUMBER(12),
+  product_id                  NUMBER(12),
+  node_id                     NUMBER(12),
+  promotion_id                NUMBER(12) NOT NULL,
+  claim_id                    NUMBER(12),
+  approval_round			  NUMBER(10),
+  quantity                    NUMBER(12),
+  submission_date             DATE NOT NULL,
+  is_posted                   NUMBER(1) NOT NULL,
+  guid                        VARCHAR2(80) NOT NULL,
+  created_by number(18)       NOT NULL,
+  date_created                DATE NOT NULL,
+  modified_by                 number(18),
+  date_modified               DATE,
+  version                     NUMBER(18) NOT NULL,
+  is_carryover                NUMBER(1),
+  activity_discrim            VARCHAR2 (30),
+  mo_submitter_payout         NUMBER(12),
+  is_submitter                NUMBER(1),
+  min_qualifier_status_id     NUMBER(18),
+  sweepstake_drawing_id       NUMBER(12),
+  stack_rank_participant_id   NUMBER(18),
+  stackstanding_pax_id   	  NUMBER(18),
+  claim_group_id              NUMBER(18),
+  merch_order_id	    	  NUMBER(18),
+  MATCH_OUTCOME_ID	    	  NUMBER(18),
+  gift_code_issue_date        DATE,
+  comments                    VARCHAR2(1000),
+  date_posted                 DATE,
+  is_primary                    NUMBER(1),
+  revenue                       NUMBER(12),
+  award_quantity                NUMBER(12),
+  ref_payout_recipient          VARCHAR2(80),
+  ref_payout_instance           VARCHAR2(80),
+  promo_merch_program_level_id  NUMBER(18),
+  country_id					NUMBER(12),
+  CASH_AWARD_QTY              NUMBER(18,4)
+ )
+/
+
+ALTER TABLE activity
+ADD CONSTRAINT activity_pk PRIMARY KEY (activity_id)
+USING INDEX
+/
+
+ALTER TABLE activity ADD CONSTRAINT activity_user_fk
+  FOREIGN KEY (user_id) REFERENCES application_user(user_id)
+/
+ALTER TABLE activity ADD CONSTRAINT activity_node_fk
+  FOREIGN KEY (node_id) REFERENCES node(node_id)
+/
+ALTER TABLE activity ADD CONSTRAINT activity_promotion_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion(promotion_id)
+/
+ALTER TABLE activity ADD CONSTRAINT activity_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES claim(claim_id)
+/
+ALTER TABLE activity ADD CONSTRAINT activity_SWEEPSTAKE_DRAWING_fk
+  FOREIGN KEY (SWEEPSTAKE_DRAWING_ID) REFERENCES PROMO_SWEEPSTAKE_DRAWING(SWEEPSTAKE_DRAWING_ID)
+/
+ALTER TABLE activity ADD CONSTRAINT activity_claim_group_fk
+  FOREIGN KEY (claim_group_id) REFERENCES claim_group(claim_group_id)
+/
+ALTER TABLE activity ADD CONSTRAINT activity_program_level_fk
+  FOREIGN KEY (promo_merch_program_level_id) REFERENCES promo_merch_program_level(promo_merch_program_level_id) 
+/
+ALTER TABLE activity ADD CONSTRAINT activity_country_id_fk
+  FOREIGN KEY (country_id) REFERENCES country(country_id)
+/
+CREATE INDEX ACTIVITY_CLAIM_FK_idx ON ACTIVITY
+  (CLAIM_ID)
+/
+CREATE INDEX ACTIVITY_NODE_FK_idx ON ACTIVITY
+  (NODE_ID)
+/
+CREATE INDEX ACTIVITY_PRODUCT_FK_idx ON ACTIVITY
+  (PRODUCT_ID)
+/
+CREATE INDEX ACTIVITY_PROMOTION_FK_idx ON ACTIVITY
+  (PROMOTION_ID)
+/
+CREATE INDEX ACTIVITY_DRAWING_FK_idx ON ACTIVITY
+  (SWEEPSTAKE_DRAWING_ID)
+/
+CREATE INDEX ACTIVITY_USER_FK_idx ON ACTIVITY
+  (USER_ID)
+/
+CREATE INDEX ACTIVITY_MO_FK_idx ON ACTIVITY
+	(MERCH_ORDER_ID)
+/
+CREATE INDEX ACTIVITY_COUNTRY_FK_idx ON ACTIVITY
+  (COUNTRY_ID)
+/
+CREATE INDEX activity_claim_gpid_idx ON ACTIVITY
+(CLAIM_GROUP_ID)
+/
+COMMENT ON TABLE activity IS 'The ACTIVITY table stores participant 
+activity.  Specifically, activity transactions record the client/participant 
+relationship generated through the participants interaction with the clients 
+products and services.  Activity transactions can also record recognition 
+activity between two participants.  Participants can have one or many 
+activity transactions associated with their participant_id.'
+/
+COMMENT ON column activity.activity_id IS 'System generated PK.'
+/
+COMMENT ON column activity.user_id IS 'FK to APPLICATION_USER.'
+/
+COMMENT ON column activity.product_id IS 'FK to PRODUCT.'
+/
+COMMENT ON column activity.node_id IS 'FK to NODE.'
+/
+COMMENT ON column activity.promotion_id IS 'FK to PROMOTION.'
+/
+COMMENT ON column activity.claim_id IS 'FK to CLAIM.'
+/
+COMMENT ON column activity.SWEEPSTAKE_DRAWING_ID IS 'FK to PROMO_SWEEPSTAKE_DRAWING.'
+/
+COMMENT ON column activity.submission_date IS 'date the claim is/was submitted.'
+/
+COMMENT ON column activity.is_posted IS 'status POSTED TRUE or FALSE.'
+/
+COMMENT ON column activity.guid IS 'This column is used to generate the unique business key for equals and hash in java.'
+/
+COMMENT ON column activity.is_carryover IS 'For a Sales Activity TRUE if is Carryover or FALSE otherwise'
+/
+COMMENT ON column activity.min_qualifier_status_id IS 'manager override only. FK to minimum qualifier status'
+/
+COMMENT ON column activity.activity_discrim IS 'Hibernate discriminator column.'
+/
+COMMENT ON column activity.mo_submitter_payout IS 'Manager override submitter payout'
+/
+COMMENT ON COLUMN activity.claim_group_id IS 'Associates nomination activity to a group of nomination claims that are approved cumulatively.' 
+/
+COMMENT ON COLUMN activity.gift_code_issue_date IS 'gift code issue date'
+/
+COMMENT ON COLUMN activity.merch_order_id IS 'Merchandise Order id'
+/
+COMMENT ON COLUMN activity.comments IS 'Activity Comments'
+/
+COMMENT ON COLUMN activity.date_posted IS 'Date Comments posted'
+/
+COMMENT ON COLUMN activity.revenue IS 'Product Revenue'
+/
+COMMENT ON COLUMN activity.approval_round IS 'Approval round'
+/

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.process.ProcessRole" table="PROCESS_ROLE" >
+    
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PROCESS_ROLE_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PROCESS_ROLE_PK_SQ</param>
+			</generator>
+		</id>
+
+    	<discriminator type="java.lang.String" column="PROCESS_ROLE_TYPE"/> 
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" type="java.lang.Long" column="VERSION" />
+
+		<!-- process -->
+		<many-to-one name="process"
+					 class="com.biperf.core.domain.process.Process"
+					 outer-join="false" lazy="false">
+			<column name="PROCESS_ID" not-null="true" />
+		</many-to-one>
+		
+		<!-- role -->
+		<many-to-one name="role"
+					 class="com.biperf.core.domain.user.Role"
+					 outer-join="false"
+					 lazy="false"><!-- lazy must be false in this case else instanceof failing. see t3 or Joe Dunne. -->
+			<column name="ROLE_ID" not-null="true" />
+		</many-to-one>
+		
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+		
+		<subclass name="com.biperf.core.domain.process.ProcessRoleEdit"
+				  discriminator-value="EDIT"/>
+
+		<subclass name="com.biperf.core.domain.process.ProcessRoleLaunch"
+				  discriminator-value="LAUNCH"/>
+
+		<subclass name="com.biperf.core.domain.process.ProcessRoleViewLog"
+				  discriminator-value="VIEW_LOG"/>
+	</class>
+
+</hibernate-mapping>

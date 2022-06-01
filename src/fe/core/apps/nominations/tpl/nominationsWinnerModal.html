@@ -1,0 +1,88 @@
+<div class="modal hide fade nomination-winner-modal" id="nominationWinnerModal">
+    <div class="modal-head">
+        <button data-dismiss="modal" class="close" type="button"><i class="icon-close"></i></button>
+    </div>
+    <div class="modal-body">
+        <div class="trophyContainer">
+            <img src="img/nomination/trophy.png" class="trophy img-circle" alt="trophy">
+        </div>
+        <div class="textInfo">
+            <p>Congratulations!</p>
+        </div>
+    </div>
+
+    <div class="modal-footer tc">
+        <div class="nominationInfo" >
+            <div class="nomination-details-container">
+                {{#if multipleNominationsWon}}
+                    <p class="multiple">You have won multiple Nominations!</p>
+                {{else}}
+                    <p>You’ve been selected as the <span class="nominationDetails"> {{nominationDetails}}</span> winner.</p>
+                    {{#if receivedAward}}
+                        <p class="receivedAwardContainer">You have won: <span class="received-award">{{receivedAward}}</span></p>
+                    {{/if}}
+                {{/if}}
+            </div>
+            <p class="viewNomination">
+                {{#if multipleNominationsWon}}
+                    <a href="layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsMyNomsListPage.html" class="btn viewNominationBtn">View Nominations</a>
+                {{else}}
+                    <a href="{{detailURL}}" class="btn viewNominationBtn">View Nomination</a>
+                {{/if}}
+            </p>
+        </div>
+    </div>
+
+    <div class='circleBgWrap hide'>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+        <div class='c'></div>
+    </div>
+</div>

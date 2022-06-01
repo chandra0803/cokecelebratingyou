@@ -1,0 +1,33 @@
+CREATE TABLE rpt_awardmedia_dtl_character
+    (rpt_awardmedia_detail_id       NUMBER(18,0) NOT NULL,
+    characteristic_type            VARCHAR2(30),
+    characteristic_id1             NUMBER(18,0),
+    characteristic_label1          VARCHAR2(300),
+    characteristic_value1          VARCHAR2(100),
+    characteristic_id2             NUMBER(18,0),
+    characteristic_label2          VARCHAR2(300),
+    characteristic_value2          VARCHAR2(100),
+    characteristic_id3             NUMBER(18,0),
+    characteristic_label3          VARCHAR2(300),
+    characteristic_value3          VARCHAR2(100),
+    characteristic_id4             NUMBER(18,0),
+    characteristic_label4          VARCHAR2(300),
+    characteristic_value4          VARCHAR2(100),
+    characteristic_id5             NUMBER(18,0),
+    characteristic_label5          VARCHAR2(300),
+    characteristic_value5          VARCHAR2(100))
+/
+
+COMMENT ON TABLE rpt_awardmedia_dtl_character IS 'The rpt_awardmedia_dtl_character table defines 5 possible pax_characteristics and 5 possible node_characteristics for the awardmedia detail report.'
+/
+COMMENT ON COLUMN rpt_awardmedia_dtl_character.characteristic_id1 IS 'Id of the first characteristic for the report - references characteristic_id on user_characteristic, node_characteristic, etc.'
+/
+COMMENT ON COLUMN rpt_awardmedia_dtl_character.characteristic_label1 IS 'Label of the first characteristic for the report - references cms_content_data.value.'
+/
+COMMENT ON COLUMN rpt_awardmedia_dtl_character.characteristic_type IS 'FK to characteristic.'
+/
+COMMENT ON COLUMN rpt_awardmedia_dtl_character.characteristic_value1 IS 'Value of the first characteristic for the report - references characteristic_id on user_characteristic, node_characteristic, etc.'
+/
+COMMENT ON COLUMN rpt_awardmedia_dtl_character.rpt_awardmedia_detail_id IS 'FK to rpt_awardmedia_detail.'
+/
+

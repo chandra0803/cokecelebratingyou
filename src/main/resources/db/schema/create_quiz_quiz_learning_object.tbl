@@ -1,0 +1,25 @@
+CREATE SEQUENCE quiz_learning_pk_sq start with 250 increment by 1
+/
+create table Quiz_learning_object
+(
+  id                    	  NUMBER(18) NOT NULL,
+  quiz_id                     NUMBER(18,0) NOT NULL,
+  status                      VARCHAR2(15) NOT NULL,
+  Content_Resource  	 	  VARCHAR2(100) NOT NULL,
+  Slide_number 				  NUMBER(18) NOT NULL,
+  created_by                  NUMBER(18) NOT NULL,
+  date_created                DATE NOT NULL,
+  modified_by                 NUMBER(18),
+  date_modified               DATE,
+  version                     NUMBER(18) NOT NULL
+ )
+/
+
+ALTER TABLE Quiz_learning_object
+ADD CONSTRAINT quiz_learnning_object_id_pk PRIMARY KEY (id)
+USING INDEX
+/
+ALTER TABLE Quiz_learning_object
+ADD CONSTRAINT quiz_learning_quiz_id_fk FOREIGN KEY (quiz_id)
+REFERENCES quiz(quiz_id)
+/

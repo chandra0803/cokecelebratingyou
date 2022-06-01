@@ -1,0 +1,54 @@
+create sequence QUIZ_RESPONSE_PK_SQ start with 5000
+/
+CREATE TABLE quiz_response
+(quiz_response_id NUMBER(18) NOT NULL,
+ claim_id                          NUMBER(18) NOT NULL,
+ quiz_question_id                  NUMBER(18) NOT NULL,
+ SELECTED_QUIZ_ANSWER_ID           NUMBER(18),
+ CORRECT  									       NUMBER(1),
+ sequence_num	                     NUMBER(10) NOT NULL,
+ date_created                      DATE NOT NULL,
+ created_by                        number(18) NOT NULL,
+ date_modified                     DATE,
+ modified_by                       number(18),
+ approval_status_type              VARCHAR2(18),
+ approval_option_reason_type       VARCHAR2(18),
+ version		                       NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE quiz_response
+ADD CONSTRAINT quiz_response_pk PRIMARY KEY (quiz_response_id)
+USING INDEX
+/
+ALTER TABLE quiz_response ADD CONSTRAINT quiz_response_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES QUIZ_CLAIM (claim_id) 
+/
+ALTER TABLE quiz_response ADD CONSTRAINT quiz_response_quiz_question_fk
+  FOREIGN KEY (quiz_question_id) REFERENCES QUIZ_QUESTION (quiz_question_id) 
+/
+ALTER TABLE quiz_response ADD CONSTRAINT quiz_resp_selected_answer_fk
+  FOREIGN KEY (SELECTED_QUIZ_ANSWER_ID) REFERENCES QUIZ_QUESTION_ANSWER (quiz_question_answer_id) 
+/
+CREATE INDEX QUIZ_RESPONSE_CLAIM_FK_idx ON QUIZ_RESPONSE
+  (CLAIM_ID)
+/
+CREATE INDEX QUIZ_RESP_QUIZ_QSTN_FK_idx ON QUIZ_RESPONSE
+  (QUIZ_QUESTION_ID)
+/
+CREATE INDEX QUIZ_RESP_SEL_QUIZ_ANS_FK_idx ON QUIZ_RESPONSE
+  (SELECTED_QUIZ_ANSWER_ID)
+/
+COMMENT ON TABLE quiz_response IS 'Holds the responses to the questions in a quiz'
+/
+COMMENT ON COLUMN quiz_response.quiz_response_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN quiz_response.claim_id IS 'FK to Claim.'
+/
+COMMENT ON COLUMN quiz_response.quiz_question_id IS 'Represents the quiz question. FK to quiz_question.'
+/
+COMMENT ON COLUMN quiz_response.SELECTED_QUIZ_ANSWER_ID IS 'The selected answer, or null if question not yet answered. FK to QUIZ_QUESTION_ANSWER'
+/
+COMMENT ON COLUMN quiz_response.CORRECT IS 'boolean, true/false or unassigned if NULL'
+/
+COMMENT ON COLUMN quiz_response.sequence_num IS 'THe order of questions asked(to be asked) in the quiz'
+/

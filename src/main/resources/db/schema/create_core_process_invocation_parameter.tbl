@@ -1,0 +1,41 @@
+CREATE TABLE process_invocation_parameter
+    (process_invocation_param_id   NUMBER(18) NOT NULL,
+     process_invocation_id           NUMBER(18),
+     process_parameter_name         VARCHAR2(80) NOT NULL,
+     created_by number(18) NOT NULL,
+     date_created                   DATE NOT NULL,
+     modified_by number(18),
+     date_modified                  DATE,
+     version                        NUMBER(18) NOT NULL)
+/
+ALTER TABLE process_invocation_parameter
+ADD CONSTRAINT proc_invoc_param_pk PRIMARY KEY (process_invocation_param_id)
+USING INDEX
+/
+COMMENT ON TABLE process_invocation_parameter IS 'The process_invocation_parameter table stores a record of a process each time it is run.'
+/
+COMMENT ON COLUMN process_invocation_parameter.process_invocation_param_id IS 'System-generated key that identifies a specific processinvocation.'
+/
+COMMENT ON COLUMN process_invocation_parameter.process_invocation_id IS 'FK to the ProcessInvocation table'
+/
+COMMENT ON COLUMN process_invocation_parameter.process_parameter_name IS 'Process parameter name'
+/
+COMMENT ON COLUMN process_invocation_parameter.created_by IS 'Created by'
+/
+COMMENT ON COLUMN process_invocation_parameter.date_created IS 'Date Created'
+/
+COMMENT ON COLUMN process_invocation_parameter.modified_by IS 'Modified by.'
+/
+COMMENT ON COLUMN process_invocation_parameter.date_modified IS '- Date Modified.'
+/
+COMMENT ON COLUMN process_invocation_parameter.version IS '- Version.'
+/
+ALTER TABLE process_invocation_parameter
+ADD CONSTRAINT proc_invoc_proc_invo_param_fk FOREIGN KEY (process_invocation_id)
+REFERENCES process_invocation (process_invocation_id)
+/
+create sequence PROCESS_INVOC_PARAM_PK_SQ start with 1540
+/
+CREATE INDEX PRC_INVOC_PRM_PRC_INVOC_FK_idx ON PROCESS_INVOCATION_PARAMETER
+  (PROCESS_INVOCATION_ID)
+/

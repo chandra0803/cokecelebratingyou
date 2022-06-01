@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+
+  <appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="${applogdir}/${environment.name}.@PROJECT_NAME@_cms_server_error.log" />
+    <param name="Append" value="true" />
+    <param name="DatePattern" value="'.'yyyy-MM-dd" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d [%t]:${svr} %-5p %x - %m %n" />
+    </layout>
+  </appender>
+
+  <category name="com.objectpartners.cms" additivity="false">
+    <priority value="warn" />
+    <appender-ref ref="file" />
+  </category>
+
+  <category name="cmreader">
+    <level value="debug" />
+    <appender-ref ref="file" />
+  </category>   
+
+  <category name="org.apache" additivity="false">
+    <priority value="error" />
+    <appender-ref ref="file" />
+  </category>
+
+  <category name="com.biperf.cache" additivity="false">
+    <priority value="error" />
+    <appender-ref ref="file" />
+  </category>
+
+  <category name="org.displaytag" additivity="false">
+    <priority value="error" />
+    <appender-ref ref="file" />
+  </category>
+
+  <category name="org.hibernate" additivity="false">
+    <priority value="error" />
+    <appender-ref ref="file" />
+  </category>
+
+  <category name="org.springframework.security" additivity="false">
+    <priority value="error" />
+    <appender-ref ref="file" />
+  </category>
+
+  <category name="com.opensymphony.oscache" additivity="false">
+    <priority value="error" />
+    <appender-ref ref="file" />
+  </category>
+
+  <category name="org.springframework" additivity="false">
+    <priority value="error" />
+    <appender-ref ref="file" />
+  </category>
+
+  <root>
+    <priority value="error" />
+    <appender-ref ref="file" />
+  </root>
+
+</log4j:configuration>

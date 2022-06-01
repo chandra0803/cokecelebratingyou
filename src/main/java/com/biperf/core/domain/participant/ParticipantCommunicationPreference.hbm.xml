@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.participant.ParticipantCommunicationPreference" table="PARTICIPANT_COMM_PREFERENCE">
+
+    <id name="id" type="java.lang.Long" column="PARTICIPANT_COMM_PREFERENCE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PAX_COMM_PREFERENCE_PK_SQ</param>
+      </generator>
+    </id>
+    
+    <many-to-one name="participant" lazy="false"
+			class="com.biperf.core.domain.participant.Participant">
+			<column name="USER_ID" not-null="true" />
+	</many-to-one>
+
+	<property name="messageSMSGroupType" column="SMS_GROUP_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.MessageSMSGroupType</param>
+      </type>
+    </property> 
+         
+	<property name="participantPreferenceCommunicationsType" column="COMMUNICATION_CODE">
+	  <type name="com.biperf.core.utils.hibernate.PickListUserType">
+	    <param name="lookupClass">com.biperf.core.domain.enums.ParticipantPreferenceCommunicationsType</param>
+	  </type>
+	</property>
+          		
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    
+  </class>
+
+</hibernate-mapping>

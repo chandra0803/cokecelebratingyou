@@ -1,0 +1,110 @@
+// Partial-specific variables
+// =========================
+
+
+// Partial-specific code
+// ==================================================
+
+
+//Stack modal stylings
+
+.modal-stack {
+    // position: absolute;
+    top: 5% !important; // this can be adjusted via plugin
+    left: $g6PagePaddingX / 2;
+    right: $g6PagePaddingX / 2;
+    margin: 0;
+    margin-bottom: nth($modal_padding, 1);
+    width: auto;
+    overflow: hidden;
+
+    &:not(.hide) ~ .ui-tooltip {
+        z-index: 20001 !important;
+    }
+
+    .modal-body {
+        // padding: 0;
+        min-height: none;
+        // max-height: none;
+        // overflow: visible;
+    }
+
+    .page-content {
+        margin: 0 (-1 * nth($modal_padding, 2));
+    }
+
+    // Responsive: tablet and up
+    @media (min-width: $breakpoint_tablet_min) {
+        @include transform(none !important);
+
+        left: $g6PagePaddingX_tablet / 2;
+        right: $g6PagePaddingX_tablet / 2;
+        margin-bottom: nth($modal_padding_tablet, 1);
+
+        .page-content {
+            margin: 0 (-1 * nth($modal_padding_tablet, 2));
+        }
+    } // /@media
+
+    // Responsive: desktop and up
+    @media (min-width: $breakpoint_desktop_min) {
+        left: $g6PagePaddingX_desktop / 2;
+        right: $global_sidebar_width_desktop - ($g6PagePaddingX_desktop / 2);
+
+        @if nth($modal_padding_desktop, 2) != nth($modal_padding_tablet, 2)
+            and nth($modal_padding_desktop, 2) > nth($modal_padding_tablet, 2) {
+                margin-bottom: nth($modal_padding_desktop, 1);
+
+            .page-content {
+                margin: 0 (-1 * nth($modal_padding_desktop, 2));
+            }
+        } // /@if
+
+        .page-content & {
+            right: -1 * ($g6PagePaddingX_desktop / 2);
+        }
+
+        .loginPage &,
+        .no-sidebar &,
+        .search-overlay-open & {
+            right: $g6PagePaddingX_desktop / 2;
+        }
+    } // /@media
+
+    // Responsive: Large desktop and up
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        left: $g6PagePaddingX_desktopLarge / 2;
+        right: $global_sidebar_width_desktopLarge  - ($g6PagePaddingX_desktopLarge / 2);
+
+        @if nth($modal_padding_desktop, 2) != nth($modal_padding_desktopLarge, 2) {
+            margin-bottom: nth($modal_padding_desktopLarge, 1);
+
+            .page-content {
+                margin: 0 (-1 * nth($modal_padding_desktopLarge, 2));
+            }
+        } // /@if
+
+        .page-content & {
+            right: -1 * ($g6PagePaddingX_desktopLarge / 2);
+        }
+
+        .loginPage &,
+        .no-sidebar &,
+        .search-overlay-open & {
+            right: $g6PagePaddingX_desktopLarge / 2;
+        }
+    } // /@media
+
+    // Responsive: siteMax and up
+    @media (min-width: $breakpoint_siteMax_min) {
+        left: calc((100% - #{$breakpoint_desktopLarge_max}) / 2 + #{$g6PagePaddingX_desktopLarge / 2});
+        max-width: $breakpoint_desktopLarge_max - $global_sidebar_width_desktopLarge - (2 * nth($modal_padding_desktopLarge, 2)) - (2 * $modal_borderWidth);
+
+        .loginPage &,
+        .no-sidebar &,
+        .search-overlay-open & {
+            max-width: none;
+            right: calc((100% - #{$breakpoint_desktopLarge_max}) / 2 + #{$g6PagePaddingX_desktopLarge / 2});
+        }
+    } // /@media
+}

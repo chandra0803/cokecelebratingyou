@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+  <joined-subclass name="com.biperf.core.domain.claim.QuizClaimItem" extends="com.biperf.core.domain.claim.ClaimItem" table="QUIZ_CLAIM_ITEM">
+
+    <key column="CLAIM_ITEM_ID" not-null="true" />
+    <property name="dateTaken" type="java.util.Date" column="DATE_TAKEN"/>   
+    
+  </joined-subclass>   
+</hibernate-mapping>

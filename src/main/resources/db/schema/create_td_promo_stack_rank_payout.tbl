@@ -1,0 +1,26 @@
+CREATE SEQUENCE td_stackrank_payout_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE throwdown_stackrank_payout
+(stackrank_payout_id       		NUMBER(18,0) NOT NULL,
+ stackrank_paygroup_id 			NUMBER(18,0) NOT NULL, 
+ start_rank	   					NUMBER(18,0),
+ end_rank            			NUMBER(18,0),
+ payout              			NUMBER(18,0) NOT NULL,
+ created_by 					NUMBER(18) NOT NULL,
+ date_created           		DATE NOT NULL,
+ modified_by 		 			NUMBER(18),
+ date_modified          		DATE,
+ version                		NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE throwdown_stackrank_payout
+ADD CONSTRAINT td_stackrank_payout_pk PRIMARY KEY (stackrank_payout_id)
+USING INDEX
+/
+ALTER TABLE throwdown_stackrank_payout ADD CONSTRAINT td_stackrank_payout_fk
+  FOREIGN KEY (stackrank_paygroup_id) REFERENCES throwdown_stackrank_paygroup (stackrank_paygroup_id)
+/
+CREATE INDEX TD_STACKRANK_PAY_FK_idx ON THROWDOWN_STACKRANK_PAYOUT
+  (STACKRANK_PAYGROUP_ID)
+/
+COMMENT ON COLUMN THROWDOWN_STACKRANK_PAYOUT.STACKRANK_PAYGROUP_ID IS 'system generated PK .'
+/

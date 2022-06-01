@@ -1,0 +1,180 @@
+<div id="selectPointsOrTrainingView" class="page-content">
+    <div class="row">
+        <div class="span12">
+            <h1 class="selectPointsTitle">Select Points or Training</h1>
+        </div>
+        <form class="form-horizontal selectpointsformPage" method="post" name="selectpointsformPage" action="layout.html">
+            <div class="span12">
+                <div class="row">
+                    <div class="span2">
+                        <p>
+                            <strong>From:</strong>
+                        </p>
+                    </div>
+                    <div class="span6">
+                        <p>
+                            <a class="profile-popover" href="#" data-participant-ids="[102]">
+                                <img alt="Jane Anderson" class="recipient-detail-avatar" src="img/_samples/x-profile-pic1.jpg"> Anderson,Jane
+                            </a>
+                            <img class="flag" src="img/flags/us.png" title="United States"> TSG, Director
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span2">
+                        <p>
+                            <strong>Date:</strong>
+                        </p>
+                    </div>
+                    <div class="span6">
+                        <p>01/01/2013</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span2">
+                        <p>
+                            <strong>Behavior:</strong>
+                        </p>
+                    </div>
+                    <div class="span6">
+                        <p>Above and Beyond</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span2">
+                        <p>
+                            <strong>Comments:</strong>
+                        </p>
+                    </div>
+                    <div class="span6">
+                        <!-- do no wrap comment in P tag, it will have its own -->
+                        Great work, keep it up!
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span6">
+
+                        <h5>Award - Please select ONE of the options below:</h5>
+
+                        <div class="control-group type-radio validateme" data-validate-flags="nonempty" data-validate-fail-msgs="{&quot;nonempty&quot; : &quot;Please choose any one&quot;}">
+                            <div class="controls">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="radio" name="award_type_selected" value="points" class="award_type_selected pendingRadio rdochk">
+                                            </td>
+                                            <td>
+                                                <input type="text" name="award_type_selected.points" size="7" value="2700" id="selectPointsValue" class="span1"
+                                                    readonly> </td>
+                                            <td>
+                                                <span class="currency_val">Points </span>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="radio" name="award_type_selected" value="training" class="award_type_selected pendingRadio rdochk">
+                                            </td>
+                                            <td>Training </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="radio" name="award_type_selected" value="decline" class="award_type_selected pendingRadio rdochk">
+                                            </td>
+                                            <td>Decline Award </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.span6 -->
+
+                    <div class="span12">
+                        <div class="form-actions pullBottomUp">
+                            <button type="button" id="confirmButton" class="btn btn-primary" disabled="disabled">Claim Award</button>
+                            <input type="submit" name="cancelButton" value="Cancel" class="btn btn-fullmobile cancelBtn" />
+                        </div>
+                    </div>
+
+                </div> <!-- /.row -->
+            </div>
+
+        </form>
+    </div> <!-- /.row -->
+    <div id="selectPointsConfirm" class="modal hide fade">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <i class="icon-close"></i>
+            </button>
+            <div class="padding text-center"><h2>CONFIRMATION</h2></div>
+        </div>
+        <div class="modal-body">					
+            Please review your selection carefully and confirm your choice before submitting. Once submitted, the selection cannot be changed.
+            <div class="control-group text-center">
+                <h5>Award Selected</h5>
+                <h4 class="selected_award"></h4>
+            </div>	
+            <div class="control-group text-center form-actions pullBottomUp">
+                <input type="submit" name="submitButton" id="submitConfirm" value="Claim Award" class="btn btn-primary"/>
+                <input type="button" name="cancelButton" id="cancelConfirm" value="Return to Previous Page" class="cancelBtn btn btn-fullmobile"/>
+            </div>			
+        </div>				              
+    </div>
+    
+    <div id="selectPointsSuccess" class="modal hide fade">
+        <div class="modal-header">
+            <div class="padding text-center">
+                <h2>Success</h2>
+            </div>
+        </div>
+        <div class="modal-body">					
+            <p class="pointsSuccess hide">
+                SUCCESS!  Your selection has been confirmed.  <span class="pointsNumber"></span> Celebrating You points have been loaded into your account.
+            </p>	
+            <p class="trainingSuccess hide">
+                SUCCESS!  Your selection has been confirmed.  You will be contacted regarding your Training award. ????? get text from Tawnyia
+            </p>
+            <p class="pointsOptout hide">
+                Your selection has been confirmed.  You will not receive an award.
+            </p>
+            <div class="control-group text-center form-actions pullBottomUp">
+                <form class="form-horizontal selectpointssuccessform" method="post" name="selectpointssuccessform" action="layout.html">
+                    <input type="submit" name="successClose" id="successClose" value="Close" class="btn btn-primary"/>
+                </form>
+            </div>			
+        </div>				              
+    </div>
+</div> <!-- /#selectPointsOrTrainingView -->
+
+<script>
+    $(document).ready(function () {
+
+        // attach the view to an existing DOM element
+        window.spot = new SelectPointsOrTrainingView({
+            el: $('#selectPointsOrTrainingView'),
+            // $dataForm: $('#dataForm'), //pass a reference to the 'data' form (struts populated)
+            // formSetup: formSetup, //form setup data
+            pageNav: {
+                back: {
+                    text: 'Back',
+                    url: 'layout.html'
+                },
+                home: {
+                    text: 'Home',
+                    url: 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+                }
+            },
+            pageTitle: 'Select Points or Training',
+            cancelUrl: 'layout.html'
+        });
+
+    });
+
+</script>

@@ -1,0 +1,27 @@
+CREATE TABLE stage_gq_goal_data_import
+    (import_record_id               NUMBER(18,0),
+    import_file_id                 NUMBER(18,0),
+    action_type                    VARCHAR2(10),
+    login_id                       VARCHAR2(100),
+    user_id                        NUMBER(10,0),
+    first_name                     VARCHAR2(100),
+    last_name                      VARCHAR2(100),
+    email_address                  VARCHAR2(250),
+    goal_level                     VARCHAR2(250),
+    created_by                     NUMBER(10,0) NOT NULL,
+    date_created                   DATE NOT NULL)
+/
+ALTER TABLE stage_gq_goal_data_import
+ADD CONSTRAINT stage_gq_goal_data_import_pk PRIMARY KEY (import_record_id)
+USING INDEX
+/
+ALTER TABLE stage_gq_goal_data_import
+ADD CONSTRAINT stage_gq_goal_data_import_fk FOREIGN KEY (import_file_id)
+REFERENCES IMPORT_FILE (import_file_id)
+/
+CREATE INDEX STG_GQ_GOAL_MPRT_RC_FL_FK_idx ON stage_gq_goal_data_import
+  (IMPORT_FILE_ID)
+/
+
+
+

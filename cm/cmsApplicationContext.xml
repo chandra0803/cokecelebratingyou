@@ -1,0 +1,916 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:sec="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+<!--
+  Copyright (c) 2005 Object Partners, Inc. All Rights Reserved.
+-->
+
+
+  <!-- ================================================= -->
+  <!--   Property Configurator                           -->
+  <!-- ================================================= -->
+
+  <bean id="propertyConfigurer" class="com.objectpartners.cms.util.spring.CustomPropertyConfigurer" >
+    <property name="ignoreUnresolvablePlaceholders">
+      <value>true</value>
+    </property>  
+  </bean>
+
+  <!-- ================================================= -->
+  <!--   Interceptors                                    -->
+  <!-- ================================================= -->
+
+  <!-- Spring AOP intercepters -->
+
+  <bean id="performanceMonitorInterceptor" class="com.objectpartners.cms.aop.PerformanceMonitorInterceptor" />
+
+  <bean id="hibernateLogChangeInterceptor" class="com.objectpartners.cms.aop.HibernateLogChangeInterceptor">
+    <property name="cmsConfiguration">
+      <ref bean="cmsConfiguration" />
+    </property>
+  </bean>
+
+  <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+    <property name="transactionManager">
+      <ref bean="transactionManager" />
+    </property>
+
+    <property name="transactionAttributes">
+      <props>
+        <prop key="getExportDataForTranslation">PROPAGATION_NOT_SUPPORTED,readOnly,timeout_6000</prop>      
+        <prop key="getTranslationExportData">PROPAGATION_NOT_SUPPORTED,readOnly,timeout_6000</prop>
+        <prop key="getExportData">PROPAGATION_NOT_SUPPORTED,readOnly,timeout_6000</prop>
+        <prop key="synchronize">PROPAGATION_NOT_SUPPORTED,readOnly,timeout_6000</prop>                
+        <prop key="storeData">PROPAGATION_REQUIRED,timeout_3000</prop>
+        <prop key="get*">PROPAGATION_REQUIRED, readOnly</prop>
+        <prop key="find*">PROPAGATION_REQUIRED, readOnly</prop>
+        <prop key="load*">PROPAGATION_REQUIRED, readOnly</prop>
+        <prop key="has*">PROPAGATION_REQUIRED, readOnly</prop>
+        <prop key="remove*">PROPAGATION_REQUIRED</prop>
+        <prop key="add*">PROPAGATION_REQUIRED</prop>
+        <prop key="update*">PROPAGATION_REQUIRED</prop>
+        <prop key="store*">PROPAGATION_REQUIRED</prop>
+        <prop key="save*">PROPAGATION_REQUIRED</prop>
+        <prop key="*">PROPAGATION_REQUIRED</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="securityInterceptor" class="org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor">
+    <property name="authenticationManager">
+      <ref bean="authenticationManager" />
+    </property>
+    <property name="accessDecisionManager">
+      <ref bean="httpRequestAccessDecisionManager" />
+    </property>
+    <property name="securityMetadataSource">
+      <sec:method-security-metadata-source>
+        <sec:protect method="com.objectpartners.cms.service.AdminService.*" access="ROLE_ContentAdministrator,ROLE_ContentViewer"/>
+        <sec:protect method="com.objectpartners.cms.service.AssetService.*" access="ROLE_ContentAdministrator,ROLE_ContentViewer"/>
+        <sec:protect method="com.objectpartners.cms.service.AudienceService.*" access="ROLE_ContentAdministrator,ROLE_ContentViewer"/>
+        <sec:protect method="com.objectpartners.cms.service.MetaDataService.*" access="ROLE_ContentAdministrator,ROLE_ContentViewer"/>
+        <sec:protect method="com.objectpartners.cms.service.ContentService.*" access="ROLE_ContentAdministrator,ROLE_ContentViewer"/>
+        <sec:protect method="com.objectpartners.cms.service.DataLoadService.*" access="ROLE_ContentAdministrator,ROLE_ContentViewer"/>       
+      </sec:method-security-metadata-source>
+    </property>
+  </bean>
+
+  <!-- Hibernate Interceptor -->
+
+  <bean id="hibernateAuditInterceptor" class="com.objectpartners.cms.aop.HibernateAuditInterceptor" />
+
+  <!-- ================================================= -->
+  <!--   Resources                                       -->
+  <!-- ================================================= -->
+
+  <bean id="cmsContentReaderFactory" class="com.objectpartners.cms.util.DefaultContentReaderFactory">
+    <property name="cmsConfiguration">
+      <ref bean="cmsConfiguration" />
+    </property>
+    <property name="adminService">
+      <ref bean="adminService" />
+    </property>
+  </bean>
+
+  <bean id="cmsCacheAdministrator" class="com.biperf.cache.oscache.ManageableCacheAdministrator" destroy-method="destroy">
+    <constructor-arg index="0">
+      <ref bean="cmsCacheProperties" />
+    </constructor-arg>
+  </bean>
+
+  <bean id="cmsCacheProperties" class="java.util.Properties">
+    <constructor-arg index="0">
+      <props>
+        <prop key="cache.memory">true</prop>
+        <prop key="cache.capacity">200</prop> <!-- Increase it to 50000 if there are more languages involved. 10000 is for english only -->
+        <prop key="cache.blocking">false</prop>
+        <prop key="cache.event.listeners">com.biperf.core.cache.G3SpringJmsBroadcastListener</prop>
+        <prop key="cache.cluster.jms.topic.factory">java:comp/env/jms/ConnectionFactory</prop>
+        <prop key="cache.cluster.jms.topic.name">java:comp/env/jms/cluster${bi.appGrpNum}g5CacheFlushTopic</prop>
+        <prop key="cache.cluster.jms.node.name">${com.sun.aas.instanceName}_@PROJECT_NAME@</prop><!-- ${com.sun.aas.instanceName}_@PROJECT_NAME@ -->
+      </props>
+    </constructor-arg>
+  </bean>
+
+  <bean id="damCacheFactory" class="com.biperf.cache.jdk.JdkCacheFactoryImpl">
+    <property name="regionProperties">
+      <map>
+        <entry key="dam">
+          <props>
+            <prop key="cache.capacity">50</prop>
+          </props>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="dataSource">
+      <ref bean="dataSource" />
+    </property>
+    <property name="mappingResources">
+      <list>
+        <value>com/objectpartners/cms/domain/Application.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/Section.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/Audience.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/Content.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/ContentKey.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/Asset.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/AssetType.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/AssetTypeItem.hbm.xml</value>
+        <!--value>com/objectpartners/cms/domain/process/Process.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/process/ProcessInvocation.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/process/ProcessInvocationComment.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/process/ProcessInvocationParameter.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/process/ProcessInvocationParameterValue.hbm.xml</value-->
+      </list>
+    </property>
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.show_sql">false</prop>      
+        <prop key="hibernate.dialect">${DB_DIALECT}</prop>
+        <prop key="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</prop>
+        <prop key="hibernate.transaction.flush_before_completion">true</prop>
+        <prop key="hibernate.jdbc.use_streams_for_binary">false</prop>
+        <prop key="hibernate.jdbc.batch_size">0</prop>
+      </props>
+    </property>
+    <property name="entityInterceptor">
+      <ref bean="hibernateAuditInterceptor" />
+    </property>
+  </bean>
+
+  <!-- ================================================= -->
+  <!--   Services                                        -->
+  <!-- ================================================= -->
+
+  <!--
+    Parent ProxyFactoryBean Definition for Services.  All Interceptors are defined here.
+    Other beans can extend this definition by defining a parent, target and proxyInterface
+  -->
+  <bean id="serviceProxyFactoryParent" class="org.springframework.aop.framework.ProxyFactoryBean" abstract="true">
+    <property name="interceptorNames">
+      <list>
+        <value>transactionInterceptor</value>
+        <!--<value>securityInterceptor</value>-->
+        <value>performanceMonitorInterceptor</value>
+        <value>hibernateLogChangeInterceptor</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="adminService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.AdminService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.AdminServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="sectionDao">
+          <ref bean="sectionDao" />
+        </property>
+        <property name="assetDao">
+          <ref bean="assetDao" />
+        </property>
+        <property name="audienceDao">
+          <ref bean="audienceDao" />
+        </property>
+        <property name="contentDao">
+          <ref bean="contentDao" />
+        </property>
+        <property name="applicationDecisionManager">
+          <ref bean="domainAccessDecisionManager" />
+        </property>
+        <property name="sectionDecisionManager">
+          <ref bean="domainAccessDecisionManager" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="assetService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.AssetService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.AssetServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="sectionDao">
+          <ref bean="sectionDao" />
+        </property>
+        <property name="assetDao">
+          <ref bean="assetDao" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="cmsAudienceService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.AudienceService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.AudienceServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="audienceDao">
+          <ref bean="audienceDao" />
+        </property>
+      </bean>
+    </property>
+  </bean>  
+
+  <bean id="metaDataService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.MetaDataService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.MetaDataServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="assetTypeDao">
+          <ref bean="assetTypeDao" />
+        </property>
+        <property name="assetTypeItemDao">
+          <ref bean="assetTypeItemDao" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="contentService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.ContentService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.ContentServiceImpl">
+        <property name="contentDao">
+          <ref bean="contentDao" />
+        </property>
+        <property name="contentJdbcDao">
+          <ref bean="contentJdbcDao" />
+        </property>          
+        <property name="contentKeyDao">
+          <ref bean="contentKeyDao" />
+        </property>
+        <property name="assetDao">
+          <ref bean="assetDao" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="dataLoadService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.DataLoadService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.DataLoadServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="audienceDao">
+          <ref bean="audienceDao" />
+        </property>
+        <property name="assetTypeDao">
+          <ref bean="assetTypeDao" />
+        </property>
+        <property name="sectionDao">
+          <ref bean="sectionDao" />
+        </property>
+        <property name="assetDao">
+          <ref bean="assetDao" />
+        </property>
+        <property name="contentKeyDao">
+          <ref bean="contentKeyDao" />
+        </property>        
+        <property name="contentDao">
+          <ref bean="contentDao" />
+        </property>
+        <property name="cmsConfiguration">
+          <ref bean="cmsConfiguration" />
+        </property>
+        <property name="contentService">
+          <ref bean="contentService" />
+        </property>        
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="dataExportService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.DataExportService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.DataExportServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="assetDao">
+          <ref bean="assetDao" />
+        </property>
+        <property name="cmsConfiguration">
+          <ref bean="cmsConfiguration" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="translateService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.TranslateService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.TranslateServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="assetDao">
+          <ref bean="assetDao" />
+        </property>  
+        <property name="contentDao">
+          <ref bean="contentDao" />
+        </property>     
+        <property name="processDao">
+          <ref bean="processDao" />
+        </property>                     
+      </bean>
+    </property>    
+  </bean>  
+  
+  <bean id="synchronizeService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.SynchronizeService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.SynchronizeServiceImpl">
+        <property name="dataLoadService">
+          <ref bean="dataLoadService" />
+        </property>
+        <property name="dataExportService">
+          <ref bean="dataExportService" />
+        </property>  
+      </bean>
+    </property>    
+  </bean>    
+
+  <bean id="damService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.DamService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.DamServiceImpl" />
+    </property>
+  </bean>
+
+  <bean id="damCacheService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.DamCacheService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.DamCacheServiceImpl">
+        <property name="cacheFactory">
+          <ref bean="damCacheFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="uploadService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.UploadService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.UploadServiceImpl" />
+    </property>
+  </bean>
+
+  <bean id="fileManagementService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.FileManagementService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.FileManagementServiceImpl">
+        <property name="damService">
+          <ref bean="damService" />
+        </property>
+        <property name="damCacheService">
+          <ref bean="damCacheService" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="ajaxService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.AjaxService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.AjaxServiceImpl">
+        <property name="uploadService">
+          <ref bean="uploadService" />
+        </property>
+        <property name="fileManagementService">
+          <ref bean="fileManagementService" />
+        </property>
+        <property name="damAuthorizationService">
+          <ref bean="damAuthorizationService" />
+        </property>
+        <property name="acceptableExtention">
+          <list>
+            <value>avi</value>
+            <value>wma</value>
+            <value>mov</value>
+            <value>mpeg</value>
+            <value>ram</value>
+            <value>wmv</value>
+            <value>swf</value>
+            <value>jpg</value>
+            <value>png</value>
+            <value>gif</value>
+            <value>doc</value>
+            <value>pdf</value>
+            <value>txt</value>
+            <value>csv</value>
+            <value>xls</value>
+            <value>ppt</value>
+            <value>zip</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="customMenuService" parent="serviceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.CustomMenuService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.CustomMenuServiceImpl">
+        <property name="oracleDao">
+          <ref bean="oracleDao" />
+        </property>
+        <property name="adminService">
+          <ref bean="adminService" />
+        </property>
+        <property name="metaService">
+          <ref bean="metaDataService" />
+        </property>
+        <property name="contentService">
+          <ref bean="contentService" />
+        </property>
+        <property name="cmsConfiguration">
+          <ref bean="cmsConfiguration" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <!-- ================================================= -->
+  <!--   CM API Services                                 -->
+  <!-- ================================================= -->
+
+  <bean id="filterUserService" class="com.objectpartners.cms.service.impl.DefaultFilterUserServiceImpl" />
+
+  <bean id="userStorageService" class="com.objectpartners.cms.service.impl.UserStorageServiceImpl" />
+
+  <bean id="damAuthorizationService" class="com.objectpartners.cms.service.impl.DamAuthorizationServiceImpl">
+    <property name="damCacheService">
+      <ref bean="damCacheService" />
+    </property>
+  </bean>
+
+  <!-- ================================================= -->
+  <!--   Data Access Objects                             -->
+  <!-- ================================================= -->
+
+  <!--
+    Parent ProxyFactoryBean Definition for DAOs.  All Interceptors are defined here.
+    Other beans can extend this definition by defining a parent, target and proxyInterface
+  -->
+  <bean id="daoProxyFactoryParent" class="org.springframework.aop.framework.ProxyFactoryBean" abstract="true">
+    <property name="interceptorNames">
+      <list>
+        <value>performanceMonitorInterceptor</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="applicationDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ApplicationDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.ApplicationDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="sectionDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.SectionDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.SectionDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="assetDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.AssetDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.AssetDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="assetTypeItemDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.AssetTypeItemDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.AssetTypeItemDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="audienceDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.AudienceDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.AudienceDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="contentDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ContentDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.ContentDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="contentJdbcDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ContentDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.jdbc.ContentDaoJdbcImpl">
+        <property name="dataSource">
+          <ref bean="dataSource" />
+        </property>
+      </bean>
+    </property>
+  </bean>   
+
+  <bean id="contentKeyDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ContentKeyDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.ContentKeyDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="assetTypeDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.AssetTypeDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.AssetTypeDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="oracleDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.OracleDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.OracleDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="processDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ProcessDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.ProcessDAOImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="processInvocationDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ProcessInvocationDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.ProcessInvocationDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="sessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="cmsAuthenticationDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.cm.CmsAuthenticationDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.cm.impl.CmsAuthenticationDaoImpl">
+	    <property name="dataSource">
+	      <ref bean="dataSource" />
+	    </property>
+      </bean>
+    </property>
+  </bean>
+   
+  <!-- ================================================= -->
+  <!--   CM menu                                         -->
+  <!-- ================================================= -->
+
+  <bean id="cmsMenu" class="com.objectpartners.cms.ui.util.CmsMenu">
+    <property name="submenus">
+      <list>
+        <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+          <property name="key" value="default.menu.HOME" />
+          <property name="url" value="/home.do" />
+        </bean>
+        <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+          <property name="key" value="default.menu.CONTENT" />
+          <property name="application" value="*" />
+          <property name="submenus">
+            <list>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.VIEW_ALL" />
+                <property name="url" value="/sectionList.do" />
+                <property name="roleFilterExcludes" value="ROLE_ContentTranslator" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="cmsQuickLinks" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.SEARCH" />
+                <property name="url" value="/contentSearch.do" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.ADVANCED_SEARCH" />
+                <property name="url" value="/translationSearch.do" />
+                <property name="roleFilterIncludes" value="ROLE_ContentAdministrator,ROLE_ContentTranslator" />
+              </bean>              
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.EXPORT" />
+                <property name="url" value="/applicationExportList.do" />
+                <property name="roleFilterIncludes" value="ROLE_ContentAdministrator,ROLE_ContentTranslator" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.IMPORT" />
+                <property name="roleFilterIncludes" value="ROLE_ContentAdministrator" />
+                <property name="submenus">
+                  <list>
+                    <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                      <property name="key" value="default.menu.content.IMPORT_FULL" />
+                      <property name="url" value="/importContent.do?type=full" />
+                    </bean>
+                    <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                      <property name="key" value="default.menu.content.IMPORT_DIFF" />
+                      <property name="url" value="/importContent.do?type=diff" />
+                    </bean>
+                  </list>
+                </property>
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.TRANSLATION_EXPORT" />
+                <property name="url" value="/translationExport.do" />
+                <property name="roleFilterIncludes" value="ROLE_ContentAdministrator,ROLE_ContentTranslator" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.TRANSLATION_IMPORT" />
+                <property name="url" value="/translationImport.do" />
+                <property name="roleFilterIncludes" value="ROLE_ContentAdministrator" />
+              </bean>    
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.TRACK_CUSTOMIZATIONS" />
+                <property name="url" value="/trackCustomizations.do" />
+                <property name="roleFilterIncludes" value="ROLE_ContentAdministrator" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.SYNCRONIZE_WITH_GOLDCOPY" />
+                <property name="url" value="/synchronize.do" />
+                <property name="roleFilterIncludes" value="ROLE_ContentAdministrator" />
+              </bean>                         
+            </list>
+          </property>
+        </bean>
+        <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+          <property name="key" value="default.menu.FILES" />
+          <property name="application" value="*" />
+          <property name="roleFilterExcludes" value="ROLE_ContentTranslator" />
+          <property name="submenus">
+            <list>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.files.MANAGE" />
+                <property name="url" value="/fileManage.do?mode=manage" />
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+          <property name="key" value="default.menu.CUSTOM_TAB" />
+          <property name="roleFilterIncludes" value="ROLE_ContentAdministrator" />
+          <property name="application" value="*" />
+          <property name="submenus">
+            <list>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.ADD" />
+                <property name="url" value="/customTabCreate.do" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.LIST" />
+                <property name="url" value="/customTabList.do" />
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+          <property name="key" value="default.menu.ADMINISTRATION" />
+          <property name="roleFilterIncludes" value="ROLE_ContentAdministrator" />
+          <property name="submenus">
+            <list>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.admin.CONTENT_TYPES" />
+                <property name="url" value="/assetTypeList.do" />
+                <property name="application" value="*" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.admin.AUDIENCES" />
+                <property name="url" value="/audienceList.do" />
+                <property name="application" value="*" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.admin.APPLICATIONS" />
+                <property name="url" value="/applicationList.do" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.admin.LOCALES" />
+                <property name="url" value="/assetDetail.do?sectionCode=default&amp;assetCode=default.locale.items" />
+                <property name="application" value="*" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.admin.SECURITY" />
+                <property name="submenus">
+                  <list>
+                    <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                      <property name="key" value="default.menu.admin.SECURITY_FLUSH" />
+                      <property name="url" value="/flushCache.do" />
+                    </bean>
+                  </list>
+                </property>
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.admin.MLT" />
+                <property name="url" value="/home.do" />
+                <property name="application" value="*" />
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="cmsQuickLinks" class="com.objectpartners.cms.ui.util.CmsMenu">
+    <property name="submenus">
+      <list>
+        <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+          <property name="key" value="default.menu.content.WELCOME" />
+          <property name="application" value="beacon" />
+          <property name="roleFilterExcludes" value="ROLE_ContentTranslator" />
+          <property name="submenus">
+            <list>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.ADD" />
+                <property name="code" value="home.welcome.messages" />
+                <property name="url" value="/contentDetail.do?action=new&amp;assetId={assetId}&amp;assetTypeId={assetTypeId}" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.LIST" />
+                <property name="url" value="/assetDetail.do?sectionCode=home&amp;assetCode=home.welcome.messages" />
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+          <property name="key" value="default.menu.content.NEWS" />
+          <property name="application" value="beacon" />
+          <property name="roleFilterExcludes" value="ROLE_ContentTranslator" />
+          <property name="submenus">
+            <list>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.ADD" />
+                <property name="code" value="home.news" />
+                <property name="url" value="/contentDetail.do?action=new&amp;assetId={assetId}&amp;assetTypeId={assetTypeId}" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.LIST" />
+                <property name="url" value="/assetDetail.do?sectionCode=home&amp;assetCode=home.news" />
+              </bean>
+            </list>
+          </property>
+        </bean>
+        <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+          <property name="key" value="default.menu.content.FAQS" />
+          <property name="application" value="beacon" />
+          <property name="roleFilterExcludes" value="ROLE_ContentTranslator" />
+          <property name="submenus">
+            <list>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.ADD" />
+                <property name="code" value="help.faq.general.entry" />
+                <property name="url" value="/contentDetail.do?action=new&amp;assetId={assetId}&amp;assetTypeId={assetTypeId}" />
+              </bean>
+              <bean class="com.objectpartners.cms.ui.util.CmsMenu">
+                <property name="key" value="default.menu.content.LIST" />
+                <property name="url" value="/assetDetail.do?sectionCode=help&amp;assetCode=help.faq.general.entry" />
+              </bean>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+</beans>

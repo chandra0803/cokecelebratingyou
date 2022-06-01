@@ -1,0 +1,98 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $careerMoments_moduleBgColor: ;
+// $careerMoments_moduleBgImg: ;
+// $careerMoments_moduleBgImgPath: ;
+// $careerMoments_moduleBgImgSize: ;
+// $careerMoments_moduleBgImgPosition: ;
+
+// $careerMoments_pageTopperColor: ;
+// $careerMoments_pageTopperBgColor: ;
+// $careerMoments_pageTopperBgImg: ;
+// $careerMoments_pageTopperBgImgPath: ;
+// $careerMoments_pageTopperBgImgSize: ;
+// $careerMoments_pageTopperBgImgPosition: ;
+// $careerMoments_pageTopperBgImgOpacity: ;
+
+// $careerMoments_titleColor: ;
+// $careerMoments_titleSpanColor: ;
+// $careerMoments_titleNumberColor: ;
+
+// $careerMoments_timeLeftColor: ;
+// $careerMoments_timeLeftTodayColor: ;
+
+$careerMoments_fontFamilyRegular: $bodyFont !default;
+// $careerMoments_fontFamily: ;
+// $careerMoments_moduleListInfoColor: ;
+// $careerMoments_modulePopoverColor: ;
+
+// $careerMoments_magnifyColor: ;
+
+// for the PURL backs of cards (search results)
+// $card_purlRec_color: ;
+// $card_purlRec_bgColor: ;
+// $card_purlRec_bgImg: ;
+// $card_purlRec_bgImgPath: ;
+// $card_purlRec_bgImgSize: ;
+// $card_purlRec_bgImgPosition: ;
+// $card_purlRec_bgImgOpacity: ;
+// $card_purlRec_timeLeftColor: ;
+// $card_purlRec_timeLeftTodayColor: ;
+
+// $slick-dot-color: transparent !default;
+// $slick-dot-color-border: $brand_color_primary !default;
+// $slick-dot-color-active: $brand_color_primary !default;
+// $slick-prev-character: "\2190" !default;
+// $slick-next-character: "\2192" !default;
+// $slick-dot-character: "\2022" !default;
+// $slick-dot-size: 8px !default;
+// $slick-opacity-default: 1 !default;
+// $slick-opacity-on-hover: 1 !default;
+// $slick-opacity-not-active: 1 !default;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "careerMoments/scss/careerMoments";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================
+.launchModule.careerMoments {
+	.module-liner {
+		.module-content {
+			.module-title {
+				font-size: 20px;
+				line-height: 30px;
+				text-transform: uppercase;
+			}
+		}
+	}
+	.careerMomentsModuleTop .careerMomentsModuleTitle {
+		font-size: 16px;
+		line-height: 20px;		
+		text-transform: capitalize;
+	}
+} 
+
+.page.careerMoments {
+	.careerMomentsView {
+		margin-right: 10px;
+	}
+	.careerMomentsFilterWrap {
+		margin-right: 10px;
+	}
+	.careerMomentsSearch {
+		margin-right: 10px;
+	}
+}
+// Global icon cheers size
+a i.icon-cheers {
+	font-size: 16px !important;
+	margin-right:3px !important;
+}
+
+.btn .icon-cheers {
+	font-size: 16px;		
+}

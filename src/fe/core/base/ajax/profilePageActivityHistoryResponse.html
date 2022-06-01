@@ -1,0 +1,274 @@
+<?php sleep(2); ?>
+<?php
+    $tabClicked = $_GET['tabClicked'];
+
+    if( !isset($tabClicked) ) {
+?>
+<div id="profilePageActivityHistoryResponseData" data-percent-complete=".55">
+    <div class="tabbable" id="profilePageActivityHistoryActiveTabPageTabSet">
+        <ul class="nav nav-tabs" id="profilePageActivityHistoryTabSelectedTabs">
+            <li class="active"><a data-toggle="tab" href="#recognitionsReceived"><span>Recognitions Received</span></a></li>
+
+            <li><a data-toggle="tab" href="#recognitionsSent"><span>Recognitions Sent</span></a></li>
+        </ul>
+
+        <div class="tab-content">
+<?php
+    }
+
+    if( !isset($tabClicked) || $tabClicked == 0 ) {
+?>
+            <div id="recognitionsReceived" class="tab-pane fade active in">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="clearfix">
+                            <ul class="export-tools fr" style="display:none">
+                                <li class="export pdf"><a href="#" class="exportPdfDetailView"><span>Detail View</span> <span class="btn btn-inverse btn-compact btn-export-pdf"> PDF</span></a></li>
+
+                                <li class="export pdf"><a href="layout.html" class="exportPdfButtonReceived" style="display:none"><span>Summary View</span> <span class="btn btn-inverse btn-compact btn-export-pdf"> PDF</span></a></li>
+
+                                <li class="export csv"><a href="layout.html" class="exportCsvButtonReceived" style="display:none"><span class="btn btn-inverse btn-compact btn-export-csv"> CSV</span></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="pagination pagination-left paginationControls paginationDesc">
+                            1-10 / 29
+                        </div>
+
+                        <div class="pagination pagination-right paginationControls first">
+                            <ul>
+                                <li class="disabled"><span>&laquo;</span></li>
+
+                                <li class="active"><span>1</span></li>
+
+                                <li class="clickable"><a href="ajax/profilePageActivityHistoryResponse.html" title="Go to page 2">2</a></li>
+
+                                <li class="clickable"><a href="ajax/profilePageActivityHistoryResponse.html" title="Go to page 3">3</a></li>
+
+                                <li class="clickable"><a href="ajax/profilePageActivityHistoryResponse.html">Next&rsaquo;</a></li>
+
+                                <li class="clickable"><a href="ajax/profilePageActivityHistoryResponse.html">&raquo;</a></li>
+                            </ul>
+                        </div>
+
+                        <table class="table table-striped crud-table" id="valueObject">
+                            <thead>
+                                <tr>
+                                    <th class="row-sortable"><a href="#">Promotion</a></th>
+
+                                    <th class="row-sortable row-sorted row-sorted-des"><a href="#">Date Sent</a></th>
+
+                                    <th class="row-sortable"><a href="#">Sender</a></th>
+
+                                    <th class="row-sortable"><a href="#">Award</a></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="crud-table-row2">
+                                    <td class="sortable promotionsColumn sorted ascending">1_04_Recognition_Auto_11_29</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/09/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Smith, Jarrett</td>
+
+                                    <td class="sortable awardColumn unsorted">10 points</td>
+                                </tr>
+
+                                <tr class="crud-table-row1">
+                                    <td class="sortable promotionsColumn sorted ascending">1_04_Recognition_Auto_11_29</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/09/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Smith, Jarrett</td>
+
+                                    <td class="sortable awardColumn unsorted">10 points</td>
+                                </tr>
+
+                                <tr class="crud-table-row2">
+                                    <td class="sortable promotionsColumn sorted ascending">Celebration Only Points</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/09/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Conyers, Jeanna</td>
+
+                                    <td class="sortable awardColumn unsorted">10 points</td>
+                                </tr>
+
+                                <tr class="crud-table-row1">
+                                    <td class="sortable promotionsColumn sorted ascending">Recognition-No Award</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/09/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Conyers, Jeanna</td>
+
+                                    <td class="sortable awardColumn unsorted"></td>
+                                </tr>
+
+                                <tr class="crud-table-row2">
+                                    <td class="sortable promotionsColumn sorted ascending">Recognition with-Points</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/09/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Reagan, Barbara</td>
+
+                                    <td class="sortable awardColumn unsorted">10 points</td>
+                                </tr>
+
+                                <tr class="crud-table-row1">
+                                    <td class="sortable promotionsColumn sorted ascending">1_04_Recognition_Auto_11_29</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/08/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Smith, Jarrett</td>
+
+                                    <td class="sortable awardColumn unsorted">10 points</td>
+                                </tr>
+
+                                <tr class="crud-table-row2">
+                                    <td class="sortable promotionsColumn sorted ascending">1_04_Recognition_Auto_11_29</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/08/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Smith, Jarrett</td>
+
+                                    <td class="sortable awardColumn unsorted">10 points</td>
+                                </tr>
+
+                                <tr class="crud-table-row1">
+                                    <td class="sortable promotionsColumn sorted ascending">1_04_Recognition_Auto_11_29</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/08/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Smith, Jarrett</td>
+
+                                    <td class="sortable awardColumn unsorted">10 points</td>
+                                </tr>
+
+                                <tr class="crud-table-row2">
+                                    <td class="sortable promotionsColumn sorted ascending">1_04_Recognition_Auto_11_29</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/08/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Smith, Jarrett</td>
+
+                                    <td class="sortable awardColumn unsorted">10 points</td>
+                                </tr>
+
+                                <tr class="crud-table-row1">
+                                    <td class="sortable promotionsColumn sorted ascending">1_01_Recognition_Auto_12_01</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">12/07/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Smith, Jarrett</td>
+
+                                    <td class="sortable awardColumn unsorted">15 points</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pagination pagination-left paginationControls paginationDesc">
+                            1-10 / 29
+                        </div>
+
+                        <div class="pagination pagination-right paginationControls first">
+                            <ul>
+                                <li class="disabled"><span>&laquo;</span></li>
+
+                                <li class="active"><span>1</span></li>
+
+                                <li class="clickable"><a href="ajax/profilePageActivityHistoryResponse.html" title="Go to page 2">2</a></li>
+
+                                <li class="clickable"><a href="ajax/profilePageActivityHistoryResponse.html" title="Go to page 3">3</a></li>
+
+                                <li class="clickable"><a href="ajax/profilePageActivityHistoryResponse.html">Next&rsaquo;</a></li>
+
+                                <li class="clickable"><a href="ajax/profilePageActivityHistoryResponse.html">&raquo;</a></li>
+                            </ul>
+                        </div>
+
+                        <table width="100%">
+                            <tr>
+                                <td align="left"><span class="export"><input type="hidden" class="selectedMode" value="received" /> <a href="#">CSV</a>&nbsp;| <a href="#">XLS</a>&nbsp;| <a href="#">PDF</a></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+<?php
+    }
+
+    if( !isset($tabClicked) || $tabClicked == 1 ) {
+?>
+            <div id="recognitionsSent" class="tab-pane fade in">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="clearfix">
+                            <ul class="export-tools fr" style="display:none">
+                                <li class="export pdf"><a href="#" class="exportPdfDetailView"><span>Detail View</span> <span class="btn btn-inverse btn-compact btn-export-pdf"> PDF</span></a></li>
+
+                                <li class="export pdf"><a href="layout.html" class="exportPdfButtonSent" style="display:none"><span>Summary View</span> <span class="btn btn-inverse btn-compact btn-export-pdf"> PDF</span></a></li>
+
+                                <li class="export csv"><a href="layout.html" class="exportCsvButtonSent" style="display:none"><span class="btn btn-inverse btn-compact btn-export-csv"> CSV</span></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="pagination pagination-right paginationControls paginationDesc">
+                            1-1 / 1
+                        </div>
+
+                        <div class="pagination pagination-right paginationControls onepage"></div>
+
+                        <table class="table table-striped crud-table" id="sentRecognition">
+                            <thead>
+                                <tr>
+                                    <th class="row-sortable"><a href="#">Promotion</a></th>
+
+                                    <th class="row-sortable row-sorted row-sorted-des"><a href="#">Date Sent</a></th>
+
+                                    <th class="row-sortable"><a href="#">Receiver</a></th>
+
+                                    <th class="row-sortable"><a href="#">Award</a></th>
+
+                                    <th class="row-sortable"><a href="#">Status</a></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="crud-table-row2">
+                                    <td class="sortable promotionsColumn sorted ascending">Recognition with Plateau</td>
+
+                                    <td class="sortable dateSentColumn unsorted"><a href="#">11/29/2016</a></td>
+
+                                    <td class="sortable receiverColumn unsorted">Koch, Jarrod</td>
+
+                                    <td class="sortable awardColumn unsorted"></td>
+
+                                    <td class="sortable statusColumn unsorted">Approved</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pagination pagination-right paginationControls paginationDesc">
+                            1-1 / 1
+                        </div>
+
+                        <div class="pagination pagination-right paginationControls onepage"></div>
+
+                        <table width="100%">
+                            <tr>
+                                <td align="left"><span class="export"><input type="hidden" class="selectedMode" value="sent" /> <a href="#">CSV</a>&nbsp;| <a href="#">XLS</a>&nbsp;| <a href="#">PDF</a></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+<?php
+    }
+
+    if( !isset($tabClicked) ) {
+?>
+        </div>
+    </div>
+</div>
+<?php } ?>

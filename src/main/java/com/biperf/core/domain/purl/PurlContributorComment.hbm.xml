@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.purl.PurlContributorComment" table="PURL_CONTRIBUTOR_COMMENT">
+    
+    <id name="id" type="java.lang.Long" column="PURL_CONTRIBUTOR_COMMENT_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PURL_CONTRIBUTOR_COMMENT_PK_SQ</param>
+      </generator>
+    </id>
+    
+     <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+    
+	<many-to-one name="purlContributor" insert="false" update="false"
+	  class="com.biperf.core.domain.purl.PurlContributor" outer-join="false" lazy="false">
+	  <column name="PURL_CONTRIBUTOR_ID" not-null="true" />
+	</many-to-one>
+    
+    <property name="comments" column="COMMENTS" type="java.lang.String" />
+    
+    <property name="commentsLanguageType" column="COMMENTS_LANG_ID">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.LanguageType</param>
+      </type>
+    </property>
+
+      <property name="status" column="STATUS">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PurlContributorCommentStatus</param>
+        </type>
+    </property>
+    
+    <property name="mediaState" column="MEDIA_STATE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PurlMediaState</param>
+        </type>
+    </property>
+    
+    <property name="imageUrl" column="IMAGE_URL" type="java.lang.String" />
+	<property name="imageUrlThumb" column="IMAGE_URL_THUMB" type="java.lang.String" />
+	<property name="videoUrl" column="VIDEO_URL" type="java.lang.String" />
+	<property name="videoUrlThumb" column="VIDEO_URL_THUMB" type="java.lang.String" />
+	<property name="videoUrlExtension" column="VIDEO_URL_EXTENSION" type="java.lang.String" />
+	
+	<property name="imageStatus" column="IMAGE_STATUS">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PurlContributorMediaStatus</param>
+        </type>
+    </property>
+    
+	<property name="videoStatus" column="VIDEO_STATUS">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PurlContributorMediaStatus</param>
+        </type>
+    </property>	
+    
+    <property name="videoType" column="VIDEO_TYPE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PurlContributorVideoType</param>
+        </type>
+    </property>		
+
+  </class>
+  
+    <sql-query name="com.biperf.core.domain.purl.getNotMigratedPurlContributorImgPaxData">
+  	  	<return-scalar column="purlContributorCommentId" type="long"/> 
+  		<return-scalar column="imageUrl" type="string"/>
+  		<return-scalar column="imageUrlThumb" type="string"/> 	 		
+  			<![CDATA[SELECT PURL_CONTRIBUTOR_COMMENT_ID purlContributorCommentId, IMAGE_URL imageUrl, IMAGE_URL_THUMB imageUrlThumb FROM PURL_CONTRIBUTOR_COMMENT WHERE IMAGE_URL IS NOT NULL AND IMAGE_URL NOT LIKE '%biw.cloud/v1%' AND ( MEDIA_STATE != 'deleted' OR MEDIA_STATE IS NULL )]]>
+	</sql-query>
+	
+</hibernate-mapping>

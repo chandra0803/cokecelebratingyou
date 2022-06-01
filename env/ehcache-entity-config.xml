@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="@PROJECT_NAME@" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="ehcache.xsd"
+          updateCheck="false" 
+          dynamicConfig="true" maxBytesLocalHeap="50M">
+
+	<diskStore path="${appdatadir}/cache/ehcache/@PROJECT_NAME@"/>
+
+	<cacheManagerPeerProviderFactory
+		class="com.biperf.core.orm.ehcache.jms.BIJMSCacheManagerPeerProviderFactory"
+		properties="initialContextFactoryName=com.sun.enterprise.naming.SerialInitContextFactory,
+           replicationTopicConnectionFactoryBindingName=java:comp/env/jms/ConnectionFactory,
+           replicationTopicBindingName=java:comp/env/jms/@PROJECT_NAME@/topic/EHCacheReplicationTopic,
+           getQueueConnectionFactoryBindingName=java:comp/env/jms/ConnectionFactory,
+		   getQueueBindingName=java:comp/env/jms/@PROJECT_NAME@/queue/EHCacheLoaderQueue,
+           urlPkgPrefixes=com.sun.enterprise.naming,
+           java.naming.factory.url.pkgs=com.sun.enterprise.naming,
+           java.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl"
+		propertySeparator="," />
+	<!-- 
+		NOTE: the default cache is a bit of a mis-nomer.  This is the default values for caches added programmatically,
+		Caches in this config DO NOT inherit from these attributes.
+	 -->
+	<defaultCache eternal="false" diskPersistent="false" overflowToDisk="false"
+		diskExpiryThreadIntervalSeconds="300"
+		memoryStoreEvictionPolicy="LRU" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</defaultCache>
+		
+	<!-- System Variable -->
+	<cache name="com.biperf.core.domain.system.PropertySetItem" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="4M" overflowToDisk="false"  statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- System Variable Query Cache
+	<cache name="com.biperf.core.dao.system.hibernate.PropertySetItem.getPropertyByName" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="5M" overflowToDisk="false"  statistics="true">
+		
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>-->
+	
+	<!-- Eligible Promotion list Query Cache -->
+	<cache name="com.biperf.core.dao.promotion.hibernate.PromotionDAO.queryCache" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="5M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- Country Cache-->
+	<cache name="com.biperf.core.domain.country.Country" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="1M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- PromotionNotification Cache-->
+	<cache name="com.biperf.core.domain.promotion.PromotionNotification" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="5M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- Audience Cache-->
+	<cache name="com.biperf.core.domain.participant.Audience" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="5M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- Promotion Cache-->
+	<cache name="com.biperf.core.domain.promotion.Promotion" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="12M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- LeaderBoard Cache-->
+	<cache name="com.biperf.core.domain.leaderboard.LeaderBoard" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="3M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- Badges Cache-->
+	<cache name="com.biperf.core.domain.gamification.Badge" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="3M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- BudgetMaster Cache-->
+	<cache name="com.biperf.core.domain.budget.BudgetMaster" timeToIdleSeconds="14200" timeToLiveSeconds="14200" maxBytesLocalHeap="4M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	<!-- Special Timestamp cache Cache
+	<cache name="org.hibernate.cache.UpdateTimestampsCache" eternal="true" maxBytesLocalHeap="1M" overflowToDisk="false" statistics="true">
+		
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>-->
+	
+	<!-- Forum Cache-->
+	<cache name="com.biperf.core.domain.forum.ForumTopic" timeToIdleSeconds="14200" timeToLiveSeconds="43200" maxBytesLocalHeap="1M" overflowToDisk="false" statistics="true">
+		<!-- Do not replicate the cache contents, only notify of changes so as to invalidate the entries -->
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/>
+	</cache>
+	
+	
+	<!-- Homepage Cache PLACEHOLDER 
+	<cache name="com.biperf.core.domain.gamification.Badge" maxBytesLocalHeap="3M" overflowToDisk="false">
+		<cacheEventListenerFactory 
+			class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+			properties="replicateAsynchronously=true, 
+			replicatePuts=false, 
+			replicateUpdates=true, 
+			replicateUpdatesViaCopy=false, 
+			replicateRemovals=true, 
+			asynchronousReplicationIntervalMillis=500" 
+			propertySeparator=","/> 
+	</cache>-->
+	
+	
+	<cache name="recognitionWall" timeToIdleSeconds="18000" maxBytesLocalHeap="1M" overflowToDisk="false" memoryStoreEvictionPolicy="LRU" statistics="true">
+              <cacheEventListenerFactory 
+                     class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory" 
+                     properties="replicateAsynchronously=true, 
+                     replicatePuts=true, 
+                     replicateUpdates=true, 
+                     replicateUpdatesViaCopy=true, 
+                     replicateRemovals=true, 
+                     asynchronousReplicationIntervalMillis=500" 
+                     propertySeparator=","/>
+       </cache>
+	
+	
+		
+</ehcache>

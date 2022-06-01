@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.report.ReportParameter" table="REPORT_PARAMETER">
+
+        <id name="id" type="java.lang.Long" column="REPORT_PARAMETER_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">REPORT_PARAMETER_PK_SQ</param>
+            </generator>
+        </id>
+             
+        <!-- Using version number optimistic locking -->
+
+        <version name="version" column="VERSION" type="java.lang.Long"/>
+
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+          <column name="DATE_MODIFIED"/>
+          <column name="MODIFIED_BY"/>
+        </property>
+        
+        <many-to-one name="report" class="com.biperf.core.domain.report.Report" lazy="false" insert="false" update="false" not-null="true" column="REPORT_ID"/>
+        
+        <!-- tuning of saving dashboard - Changing inverse to true as it is taking very long when child items are added.  -->
+        <set name="reportDashboardItemParams" table="REPORT_DASHBOARD_ITEM_PARAM" inverse="true" lazy="true" cascade="all">
+            <key column="REPORT_PARAMETER_ID" not-null="true"/>
+            <one-to-many class="com.biperf.core.domain.report.ReportDashboardItemParam" />
+        </set>
+        
+        <property name="parameterName" type="java.lang.String" column="PARAMETER_NAME"/>
+        <property name="parameterCmKey" type="java.lang.String" column="PARAMETER_CM_KEY"/>
+        <property name="databaseColumn" type="java.lang.String" column="DATABASE_COLUMN"/>
+		<property name="reportParameterType" column="PARAMETER_TYPE">
+          <type name="com.biperf.core.utils.hibernate.PickListUserType">
+            <param name="lookupClass">com.biperf.core.domain.enums.ReportParameterType</param>
+          </type>
+        </property>
+        <property name="listDefinition" type="java.lang.String" column="LIST_DEFINITION"/>
+        <property name="parameterGroup" type="java.lang.String" column="PARAMETER_GROUP" />
+        <property name="collectionName" type="java.lang.String" column="COLLECTION_NAME"/>
+        <property name="defaultValue" type="java.lang.String" column="DEFAULT_VALUE"/>
+        <property name="adminSelectOnly" type="boolean" column="ADMIN_SELECT_ONLY" />
+        <property name="hideShowAllOption" type="boolean" column="HIDE_SHOW_ALL_OPTION" />
+        <property name="displayOnDashboard" type="boolean" column="DISPLAY_ON_DASHBOARD" />
+        
+    </class>
+   
+  <sql-query name="com.biperf.core.domain.reportParameter.processParameterValueChoices.AllPlateauLevels">
+	<return-scalar column="value" type="string"/>
+	<![CDATA[
+	    select distinct om_level_name value from rpt_award_item_activity order by 1
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.reportParameter.processParameterValueChoices.AllPlateauItemLevels">
+	<return-scalar column="value" type="string"/>
+	<![CDATA[
+	    select distinct om_level_name value from rpt_award_item_selection order by 1
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.reportParameter.reportParameterValueChoices.allThrowdownRoundNumbers">
+	<return-scalar column="id" type="long"/>
+	<return-scalar column="value" type="string"/>
+	<![CDATA[
+	    SELECT DISTINCT round_number AS id, fnc_cms_asset_code_val_extr ('report.throwdownactivity.bypax', 'ROUND',:param) || ' ' || CAST(round_number AS VARCHAR(10)) AS value FROM throwdown_round ORDER BY 1
+    ]]>
+  </sql-query>
+</hibernate-mapping>

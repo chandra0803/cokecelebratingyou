@@ -1,0 +1,30 @@
+CREATE SEQUENCE mailing_recipient_data_pk_sq start with 250 increment by 1
+/
+CREATE TABLE mailing_recipient_data
+    (mailing_recipient_data_id		NUMBER(18) NOT NULL,
+     mailing_recipient_id			NUMBER(18) NOT NULL,     
+     data_key						VARCHAR2(30),
+     data_value						clob,
+     created_by number(18) NOT NULL,
+     date_created     				DATE NOT NULL,
+     modified_by number(18),
+     date_modified    				DATE,
+     version          				NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE mailing_recipient_data
+ADD CONSTRAINT mailing_recipient_data_pk PRIMARY KEY (mailing_recipient_data_id)
+USING INDEX
+/
+ALTER TABLE mailing_recipient_data ADD CONSTRAINT mrd_mailing_recipient_fk
+  FOREIGN KEY (mailing_recipient_id) REFERENCES mailing_recipient(mailing_recipient_id) 
+/
+ALTER TABLE mailing_recipient_data
+ADD CONSTRAINT mailing_recipient_data_uk UNIQUE (mailing_recipient_id, data_key)
+/
+CREATE INDEX MLG_RECIP_DAT_MLG_RECIP_FK_idx ON MAILING_RECIPIENT_DATA
+  (MAILING_RECIPIENT_ID)
+/
+COMMENT ON TABLE mailing_recipient_data IS 'The mailing_recipient_data table defines the data key-value pair to be used in the message if there are custom variables to be filled in.'
+/
+COMMENT ON COLUMN mailing_recipient_data.mailing_recipient_data_id IS 'System generated PK.'
+/

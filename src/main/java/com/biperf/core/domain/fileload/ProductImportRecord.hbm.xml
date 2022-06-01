@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.fileload.ProductImportRecord" table="STAGE_PRODUCT_IMPORT_RECORD">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="IMPORT_RECORD_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">IMPORT_RECORD_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID"/>
+    <property name="actionType" type="java.lang.String" column="ACTION_TYPE"/>
+    <property name="productId" type="java.lang.Long" column="PRODUCT_ID"/>
+    <property name="productName" type="java.lang.String" column="PRODUCT_NAME"/>
+    <property name="productDescription" type="java.lang.String" column="PRODUCT_DESC"/>
+	<property name="skuCode" type="java.lang.String" column="SKU_CODE"/>
+    <property name="categoryId" type="java.lang.Long" column="CATEGORY_ID"/>
+    <property name="categoryName" type="java.lang.String" column="CATEGORY_NAME"/>
+    <property name="categoryDescription" type="java.lang.String" column="CATEGORY_DESC"/>
+    <property name="subCategoryId" type="java.lang.Long" column="SUBCATEGORY_ID"/>
+    <property name="subCategoryName" type="java.lang.String" column="SUBCATEGORY_NAME"/>
+    <property name="subCategoryDescription" type="java.lang.String" column="SUBCATEGORY_DESC"/>
+    <property name="characteristicId1" type="java.lang.Long" column="CHARACTERISTIC_ID1"/>
+    <property name="characteristicId2" type="java.lang.Long" column="CHARACTERISTIC_ID2"/>
+    <property name="characteristicId3" type="java.lang.Long" column="CHARACTERISTIC_ID3"/>
+    <property name="characteristicId4" type="java.lang.Long" column="CHARACTERISTIC_ID4"/>
+    <property name="characteristicId5" type="java.lang.Long" column="CHARACTERISTIC_ID5"/>
+    <property name="characteristicName1" type="java.lang.String" column="CHARACTERISTIC_NAME1"/>
+    <property name="characteristicName2" type="java.lang.String" column="CHARACTERISTIC_NAME2"/>
+    <property name="characteristicName3" type="java.lang.String" column="CHARACTERISTIC_NAME3"/>
+    <property name="characteristicName4" type="java.lang.String" column="CHARACTERISTIC_NAME4"/>
+    <property name="characteristicName5" type="java.lang.String" column="CHARACTERISTIC_NAME5"/>
+    
+    <set name="importRecordErrors" table="IMPORT_RECORD_ERROR" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_RECORD_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ImportRecordError"/>
+    </set>
+
+  </class>
+
+  <query name="com.biperf.core.domain.import.file.ProductRecordsByPage">
+    <![CDATA[
+		from com.biperf.core.domain.fileload.ProductImportRecord productRecord
+	   where productRecord.importFileId = :importFileId 
+    ]]>
+  </query>
+  
+  	<sql-query name="com.biperf.core.domain.import.file.ProductRecordsByPageWithoutError">
+	<return alias="p" class="com.biperf.core.domain.fileload.ProductImportRecord"/>
+	    <![CDATA[
+	      select {p.*}  from STAGE_PRODUCT_IMPORT_RECORD p
+	      where p.import_file_id = :importFileId 
+	      and NOT EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = p.import_record_id
+                      AND ire.import_file_id = p.import_file_id)
+	      order by p.action_Type asc, p.PRODUCT_NAME asc
+	    ]]>
+	 </sql-query>
+	 
+	<sql-query name="com.biperf.core.domain.import.file.ProductRecordsByPageWithError">
+	<return alias="p" class="com.biperf.core.domain.fileload.ProductImportRecord"/>
+	    <![CDATA[
+	      SELECT {p.*}  FROM 
+	       			(select p.import_record_id, p.import_file_id ,
+                        p.action_type,p.product_id,p.product_name, 
+        				p.product_desc,p.sku_code, p.category_id, 
+        				p.category_name,p.category_desc,p.subcategory_id, 
+       					 p.subcategory_name, p.subcategory_desc,p.characteristic_id1, 
+       					 p.characteristic_id2,p.characteristic_id3,p.characteristic_id4, 
+        				p.characteristic_id5,p.characteristic_name1,p.characteristic_name2, 
+        				p.characteristic_name3,p.characteristic_name4,p.characteristic_name5, 
+        				p.created_by,p.date_created from STAGE_PRODUCT_IMPORT_RECORD p
+        				where p.import_file_id = :importFileId 
+        				and EXISTS(SELECT import_record_id
+                     		FROM IMPORT_RECORD_ERROR ire
+                    				WHERE ire.import_record_id = p.import_record_id
+                      				AND ire.import_file_id = p.import_file_id)
+                      				UNION
+						SELECT ire.import_record_id, ire.import_file_id,
+        					NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+        					NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+   							FROM IMPORT_RECORD_ERROR ire
+  								WHERE ire.import_file_id = :importFileId 
+   								 AND NOT EXISTS (SELECT import_record_id
+                      FROM STAGE_PRODUCT_IMPORT_RECORD p
+                     WHERE ire.import_record_id = p.import_record_id
+                       AND ire.import_file_id = p.import_file_id)
+						) p
+			order by p.action_Type asc, p.PRODUCT_NAME asc
+	    ]]>
+	  </sql-query>
+  
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="false">
+  <class name="com.biperf.core.domain.company.Company" table="COMPANY">
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">COMPANY_PK_SQ</param>
+      </generator>
+    </id> 
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+    
+    <property name="companyId" type="uuid-char" column="COMPANY_ID" not-null="true" />
+    
+    <property name="companyIdentifier" type="java.lang.String" column="COMPANY_IDENTIFIER" />
+    
+    <property name="companyName" type="java.lang.String" column="COMPANY_NAME" />
+    
+    <property name="companyEmail" type="java.lang.String" column="COMPANY_EMAIL" />
+    
+  </class>
+	
+</hibernate-mapping>

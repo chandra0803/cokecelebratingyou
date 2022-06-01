@@ -1,0 +1,44 @@
+CREATE SEQUENCE td_stackrank_node_pk_sq INCREMENT BY 1 START WITH 600
+/
+CREATE TABLE throwdown_stackrank_node
+  (
+    stackrank_node_id  			NUMBER(18) NOT NULL,
+    stackrank_id       			NUMBER(18) NOT NULL,
+    node_id             		NUMBER(18),
+    created_by          		NUMBER(18) NOT NULL,
+    date_created        		DATE NOT NULL,
+    modified_by         		NUMBER(18),
+    date_modified       		DATE,
+    version             		NUMBER(18) NOT NULL
+  )
+/
+ALTER TABLE throwdown_stackrank_node
+  ADD CONSTRAINT td_stackrank_node_pk PRIMARY KEY (stackrank_node_id)
+  USING INDEX
+/
+ALTER TABLE throwdown_stackrank_node
+  ADD CONSTRAINT td_srank_node_srank_fk FOREIGN KEY (stackrank_id)
+  REFERENCES throwdown_stackrank (stackrank_id)
+/
+ALTER TABLE throwdown_stackrank_node
+  ADD CONSTRAINT td_srank_node_node_fk FOREIGN KEY (node_id)
+  REFERENCES node (node_id) 
+/
+COMMENT ON TABLE throwdown_stackrank_node IS 'Represents a stack rank list, which ranks participants by stack rank factor for a particular node.'
+/
+COMMENT ON COLUMN throwdown_stackrank_node.stackrank_node_id IS 'Uniquely identifies this stack rank list.'
+/
+COMMENT ON COLUMN throwdown_stackrank_node.stackrank_id IS 'The stack ranking that contains this stack rank list.'
+/
+COMMENT ON COLUMN throwdown_stackrank_node.node_id IS 'All participants on this stack rank list are associated with this node. If node_id is null, it is ranking for entire hierarchy'
+/
+COMMENT ON COLUMN throwdown_stackrank_node.created_by IS 'The ID of the user who created this record.'
+/
+COMMENT ON COLUMN throwdown_stackrank_node.date_created IS 'The date and time at which this record was created.'
+/
+COMMENT ON COLUMN throwdown_stackrank_node.modified_by IS 'The ID of the user who last modified this record.'
+/
+COMMENT ON COLUMN throwdown_stackrank_node.date_modified IS 'The date and time at which this record was last modified.'
+/
+COMMENT ON COLUMN throwdown_stackrank_node.version IS 'The version of this record.'
+/

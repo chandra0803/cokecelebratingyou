@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for System Admin Module -->
+  
+  <definition 
+  	name="performancestats.display" 
+  	path="/sysadmin/performanceStats.jsp" 
+  	controllerClass="com.biperf.core.ui.sysadmin.PerformanceStatsController" />
+
+  <definition 
+  	name="cachestats.display" 
+  	path="/sysadmin/cacheStats.jsp" 
+  	controllerClass="com.biperf.core.ui.sysadmin.CacheStatsController" />
+
+  <definition 
+  	name="cachemanagement.display"
+  	path="/sysadmin/cacheManagement.jsp"
+  	controllerClass="com.biperf.core.ui.sysadmin.CacheManagementController" />
+
+  <definition name="version.display" path="/sysadmin/version.jsp"/>
+
+  <definition name="journal.stats" path="/sysadmin/journalStats.jsp"
+    controllerClass="com.biperf.core.ui.sysadmin.JournalStatsController"/>
+
+</tiles-definitions>

@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer renders properly 1`] = `
+<div>
+  <footer
+    className="site-header"
+    id="footer"
+  >
+    <div
+      className="container"
+    >
+      <div
+        id="globalFooterView"
+      >
+        <ul
+          className="nav"
+        >
+          <li>
+            <a
+              id="privacyPolicyFooterLink"
+              onClick={[Function]}
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "system.general.privacy_policy",
+                  }
+                }
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              href="termsAndConditionsView.do?method=review"
+              id="termsFooterLink"
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "system.general.t&c",
+                  }
+                }
+              />
+            </a>
+          </li>
+          <li
+            className="copyright"
+          >
+            <span
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "system.general.copyright_text",
+                }
+              }
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+`;

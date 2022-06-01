@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.participant.ParticipantPartner" table="PARTICIPANT_PARTNER">
+
+		<id name="id" type="java.lang.Long" column="PAX_PARTNER_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">PARTICIPANT_PARTNER_PK_SQ</param>
+	        </generator>
+	    </id>
+    <!--  Column participant -->
+    <many-to-one name="participant"
+					 class="com.biperf.core.domain.participant.Participant"
+					 outer-join="false" insert="true"
+					 lazy="proxy">
+			<column name="PARTICIPANT_ID" not-null="true" />
+		</many-to-one>
+    <many-to-one name="promotion"
+					 class="com.biperf.core.domain.promotion.Promotion"
+					 outer-join="false"
+					 insert="true"
+					 update="false" lazy="proxy">
+			<column name="PROMOTION_ID" not-null="true" />
+		</many-to-one>
+
+		<!-- partner -->
+		<many-to-one name="partner"
+					 class="com.biperf.core.domain.participant.Participant"
+					 outer-join="false" insert="true"
+					 lazy="proxy">
+			<column name="PARTNER_ID" not-null="true" />
+		</many-to-one>
+    <property  name="partnerDisplayLabel" type="java.lang.String"  column="PARTNER_DISPLAY_LABEL"/>
+    <property name="partnerEmailSent" type="boolean" column="IS_PARTNER_EMAIL_SENT" not-null="true"/>
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+  </class>
+  <query name="com.biperf.core.domain.participant.AllPartnersNotSentSelectionAlertForPromotion">
+    <![CDATA[
+      from  com.biperf.core.domain.participant.ParticipantPartner paxPartner 
+      	where paxPartner.promotion.id = :promotionId and paxPartner.partnerEmailSent = 0
+    ]]>
+  </query>
+  <query name="com.biperf.core.domain.participant.AllPartnersOfParticipantForSpecificPromotion">
+    <![CDATA[
+      from  com.biperf.core.domain.participant.ParticipantPartner paxPartner 
+      	where paxPartner.participant.id = :paxId and paxPartner.promotion.id = :promotionId
+    ]]>
+  </query>
+  <query name="com.biperf.core.domain.participant.AllParticipantsOfPartnerForSpecificPromotion">
+    <![CDATA[
+      from  com.biperf.core.domain.participant.ParticipantPartner paxPartner 
+      	where paxPartner.partner.id = :partnerId and paxPartner.promotion.id = :promotionId
+    ]]>
+  </query>
+  <query name="com.biperf.core.domain.participant.AllParticipantPartnersForSpecificPromotion">
+    <![CDATA[
+      from  com.biperf.core.domain.participant.ParticipantPartner paxPartner 
+      	where paxPartner.promotion.id = :promotionId
+    ]]>
+  </query>
+  <sql-query name="com.biperf.core.domain.participant.DeletePartnersForPaxForPromotion">
+	  	<![CDATA[
+		DELETE FROM PARTICIPANT_PARTNER
+		WHERE PARTICIPANT_ID = :participantId
+		AND PROMOTION_ID = :promotionId 
+		]]>
+  </sql-query>
+</hibernate-mapping>

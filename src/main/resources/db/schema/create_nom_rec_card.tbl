@@ -1,0 +1,27 @@
+CREATE SEQUENCE card_pk_sq start with 5000 increment by 1
+/
+CREATE TABLE card
+    (card_id        	NUMBER(18) NOT NULL,
+    card_name       	VARCHAR2(200) NOT NULL,
+    small_image_name  	VARCHAR2(4000) NOT NULL,
+    large_image_name  	VARCHAR2(4000),
+    is_active        	NUMBER(1),
+    is_mobile			NUMBER(1),
+    created_by number(18) NOT NULL,
+    date_created     	DATE NOT NULL,
+    modified_by number(18),
+    date_modified    	DATE,
+    version          	NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE card
+ADD CONSTRAINT card_pk PRIMARY KEY (card_id)
+USING INDEX
+/
+ALTER TABLE card
+ADD CONSTRAINT card_name_uk unique (card_name)
+USING INDEX
+/
+COMMENT ON TABLE card IS 'The card table defines abstract card to be used in the system.'
+/
+COMMENT ON COLUMN card.card_id IS 'System generated PK.'
+/

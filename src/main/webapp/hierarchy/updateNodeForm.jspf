@@ -1,0 +1,116 @@
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+
+<script type="text/javascript" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/calendar/calendar.js"></script>
+<script type="text/javascript" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/calendar/calendar-en.js"></script>
+<script type="text/javascript" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/calendar/calendar-setup.js"></script>
+
+<html:form action="/nodeMaintainUpdate">
+	<html:hidden property="method"/>	
+	<html:hidden property="version"/>
+	<html:hidden property="dateCreated"/>
+	<html:hidden property="createdBy"/>
+	<beacon:client-state>
+		<beacon:client-state-entry name="id" value="${nodeForm.id}"/>
+		<beacon:client-state-entry name="hierarchyId" value="${nodeForm.hierarchyId}"/>
+		<beacon:client-state-entry name="path" value="${nodeForm.path}"/>
+		<beacon:client-state-entry name="nodeTypeId" value="${nodeForm.nodeTypeId}"/>
+	</beacon:client-state>
+	<table>
+
+		<tr>
+			<td></td>
+			<td align="left" valign="top" class="content-field-label">
+				<cms:contentText key="HIERARCHY_NAME" code="node.list"/>
+			</td>
+			<td class="content-bold">
+				<cms:contentText key="${hierarchy.nameCmKey}" code="${hierarchy.cmAssetCode}"/>
+			</td>
+		</tr>
+		<c:if test="${!empty parentNode.name}">
+			<tr>
+				<td></td>
+				<td align="left" valign="top" class="content-field-label">
+					<cms:contentText key="PARENT" code="node.list"/>
+				</td>
+				<td class="content-bold">
+					<c:out value="${parentNode.name}"/>
+				</td>
+			</tr>
+		</c:if>
+		<tr>
+			<td></td>
+			<td align="left" valign="top" class="content-field-label">
+				<cms:contentText key="NAME" code="node.list"/>
+			</td>
+			<td>
+				<html:text property="name" size="30" maxlength="255" styleClass="content-field"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td></td>
+			<td align="left" valign="top" class="content-field-label">
+				<cms:contentText key="DESCRIPTION" code="node.list"/>
+			</td>
+			<td>
+				<html:textarea property="description" rows="5" cols="30" styleClass="content-field"/>
+			</td>
+		</tr>
+
+    <c:if test="${!empty parentNode.name}">
+		<tr>
+			<td></td>
+			<td align="left" valign="top" class="content-field-label" >
+				<cms:contentText key="PARENT" code="node.list"/>
+			</td>
+			<td>
+				<html:select property="parentNodeId" styleClass="content-field">
+					<option value="0"><c:out value="${parent.node.name}"/></option>
+					<html:options collection="nodeList" property="id" labelProperty="name"/>
+				</html:select>
+			</td>
+		</tr>
+		</c:if>
+    <c:if test="${empty parentNode.name}" >
+			<beacon:client-state>
+				<beacon:client-state-entry name="parentNodeId" value="${nodeForm.parentNodeId}"/>
+			</beacon:client-state>
+    </c:if>
+
+		<html:hidden property="nodeTypeCharacteristicValueListCount" />
+		<c:set var="characteristicType" scope="page" value="nodeType" />
+        <c:forEach items="${nodeForm.nodeTypeCharacteristicValueList}" var="valueInfo" varStatus="status">
+        	<%-- In order for the same page to use characteristicEntry.jspf for two different characteristic
+        	types, we need the iterated value to be named both ValueInfo and userCharacteristicValueInfo, so set
+        	the nodeTypeCharacteristicValueInfo bean to the valueInfo bean. Is there a tag way to do this rather than
+        	using a scriptlet--%>
+			<%
+			pageContext.setAttribute("nodeTypeCharacteristicValueInfo", pageContext.getAttribute("valueInfo")); 
+			%>
+            <%@ include file="/characteristic/characteristicEntry.jspf"%>
+        </c:forEach>
+
+		<tr>
+			<td></td>
+			<td>&nbsp;</td>
+			<td>
+				<table>
+					<tr>
+						<td>
+              <beacon:authorize ifNotGranted="LOGIN_AS">
+							<html:submit styleClass="content-buttonstyle" property="submit">
+                <cms:contentText key="SAVE" code="system.button"/>
+              </html:submit>
+              </beacon:authorize>
+            </td>
+						<td>
+							<html:cancel styleClass="content-buttonstyle">
+								<cms:contentText key="CANCEL" code="system.button"/>
+							</html:cancel>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</html:form>

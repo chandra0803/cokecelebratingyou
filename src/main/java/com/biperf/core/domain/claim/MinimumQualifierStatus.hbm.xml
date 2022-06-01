@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.claim.MinimumQualifierStatus" table="MIN_QUALIFIER_STATUS">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="MIN_QUALIFIER_STATUS_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">MIN_QUALIFIER_STATUS_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="minQualifierMet" column="MIN_QUALIFIER_MET" type="boolean" />
+		<property name="completedQuantity" type="int" column="COMPLETED_QUANTITY" not-null="true" />
+
+    <many-to-one name="promotionPayoutGroup" lazy="proxy"
+      class="com.biperf.core.domain.promotion.PromotionPayoutGroup">
+      <column name="PROMOTION_PAYOUT_GROUP_ID" not-null="true" />
+    </many-to-one>
+    
+    <many-to-one name="submitter" column="SUBMITTER_ID" class="com.biperf.core.domain.participant.Participant" 
+    not-null="true" lazy="proxy" />
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+	</class>
+
+  <query name="com.biperf.core.domain.claim.MinimumQualifierStatusForSubmitterAndPromotion">
+    <![CDATA[
+      from MinimumQualifierStatus status
+        where  
+        status.submitter.id = :submitterId
+        and 
+        status.promotionPayoutGroup.promotion.id = :promotionId 
+    ]]>
+  </query>
+  
+</hibernate-mapping>

@@ -1,0 +1,1779 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+    "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+
+  <form-beans>
+    <form-bean name="changePasswordForm" type="com.biperf.core.ui.profile.ChangePasswordForm" />
+    <form-bean name="termsAndConditionsForm" type="com.biperf.core.ui.profile.TermsAndConditionsForm" />
+    <form-bean name="loginPageFirstTimeForm" type="com.biperf.core.ui.login.LoginPageFirstTimeForm" />
+    <form-bean name="contactUsForm" type="com.biperf.core.ui.help.ContactUsForm" />
+    <form-bean name="externalSupplierForm" type="com.biperf.core.ui.shopping.ExternalSupplierForm" />
+    <form-bean name="forgotPasswordForm" type="com.biperf.core.ui.login.ForgotPasswordForm" />
+    <form-bean name="goalQuestForm" type="com.biperf.core.ui.goalquest.GoalQuestForm" />
+    <form-bean name="tileSetupForm" type="com.biperf.core.ui.filter.TileSetupForm"/>
+    <form-bean name="quickSearchForm" type="com.biperf.core.ui.homepage.QuickSearchForm" />
+    <form-bean name="userCharacteristicForm" type="com.biperf.core.ui.user.UserCharacteristicForm" />
+    <form-bean name="userEmailAddressForm" type="com.biperf.core.ui.user.UserEmailAddressForm" />
+    <form-bean name="userForm" type="com.biperf.core.ui.user.UserForm" />
+    <form-bean name="userSearchForm" type="com.biperf.core.ui.user.UserSearchForm" />
+    <form-bean name="selfEnrollmentPaxRegistrationForm" type="com.biperf.core.ui.selfEnrollment.SelfEnrollmentPaxRegistrationForm" />
+    <form-bean name="activityHistoryForm" type="com.biperf.core.ui.profile.ActivityHistoryForm" />    
+	<form-bean name="convertCertificateForm" type="com.biperf.core.ui.participant.ConvertCertificateForm" />
+	<form-bean name="importFileStageForm" type="com.biperf.core.ui.fileload.ImportFileStageForm" />	
+	<form-bean name="seamlessLogonForm" type="com.biperf.core.ui.login.SeamlessLogonForm" />
+	<form-bean name="budgetReallocationForm" type="com.biperf.core.ui.budget.BudgetReallocationForm" />
+	<form-bean name="budgetReallocationHistoryForm" type="com.biperf.core.ui.budget.BudgetReallocationHistoryForm" />
+	<form-bean name="leaderBoardForm" type="com.biperf.core.ui.leaderBoard.LeaderBoardForm"/>
+	<form-bean name="personalInfoForm" type="com.biperf.core.ui.profile.PersonalInfoForm"/>
+	<form-bean name="managerAlertForm" type="com.biperf.core.ui.managertoolkit.ManagerAlertForm"/>
+	<form-bean name="myAccountForm" type="com.biperf.core.ui.participant.MyAccountForm" />
+	<form-bean name="userForm" type="com.biperf.core.ui.user.UserForm" />
+	<form-bean name="proxyListForm" type="com.biperf.core.ui.proxy.ProxyListForm" />
+    <form-bean name="proxyDetailForm" type="com.biperf.core.ui.proxy.ProxyDetailForm" />    
+    <form-bean name="serverCommandForm" type="com.biperf.core.ui.servercommand.ServerCommandForm" /> 
+    <form-bean name="filterSetupForm" type="com.biperf.core.ui.filter.FilterSetupForm" />
+    <form-bean name="plateauAwardsReminderForm" type="com.biperf.core.ui.managertoolkit.PlateauAwardsReminderForm" />
+    <form-bean name="goalquestWizardForm" type="com.biperf.core.ui.goalquest.GoalQuestWizardForm" />
+    <form-bean name="smackTalkCommentForm" type="com.biperf.core.ui.throwdown.SmackTalkCommentForm" />
+    <form-bean name="smackTalkLikeForm" type="com.biperf.core.ui.throwdown.SmackTalkLikeForm" />
+    <form-bean name="smackTalkHideForm" type="com.biperf.core.ui.throwdown.SmackTalkHideForm" />
+    <form-bean name="participantThrowdownStatsForm" type="com.biperf.core.ui.participant.ParticipantThrowdownStatsForm" />
+    <form-bean name="publicRecognitionAddPointsForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionAddPointsForm" />
+    <form-bean name="publicRecognitionCommentForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionCommentForm" />
+    <form-bean name="surveyListForm" type="com.biperf.core.ui.survey.SurveyListForm" />
+    <form-bean name="surveyForm" type="com.biperf.core.ui.survey.SurveyForm" />
+    <form-bean name="viewSurveyForm" type="com.biperf.core.ui.survey.ViewSurveyForm" />
+    <form-bean name="surveyQuestionForm" type="com.biperf.core.ui.survey.SurveyQuestionForm" />
+    <form-bean name="surveyQuestionResponseForm" type="com.biperf.core.ui.survey.SurveyQuestionResponseForm" />
+    <form-bean name="participantTakeSurveyForm" type="com.biperf.core.ui.survey.ParticipantTakeSurveyForm" />
+    <form-bean name="instantPollForm" type="com.biperf.core.ui.instantpoll.InstantPollForm" />
+    <form-bean name="workHappierFeedbackForm" type="com.biperf.core.ui.workhappier.WorkHappierFeedbackForm" />
+    <!-- Client customization for WIP 58122 -->
+    <form-bean name="tcccNominationClaimAwardForm" type="com.biperf.core.ui.client.TcccNominationClaimAwardForm" />
+    <!-- Client customization for WIP 62128 -->
+    <form-bean name="tcccRecognitionClaimAwardForm" type="com.biperf.core.ui.client.TcccRecognitionClaimAwardForm" />
+    <form-bean name="publicRecognitionCheersForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionCheersForm" />       
+  </form-beans>
+
+  <global-exceptions>
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+  </global-exceptions>
+
+  <global-forwards>
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite" redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+    <forward name="failure_errors_only" path="errors.only.display" redirect="false"/>
+  </global-forwards>
+
+  <action-mappings>
+  
+ <action path="/cmsDebug"
+            type="com.biperf.core.ui.cms.debug.CMSContentLocatorDisplayAction"
+            parameter="method" scope="request">
+      <forward name="success" path="/debug/cmsDebug.jsp" redirect="false"/>
+  </action>  
+ 
+ <!-- G3 redux -->             
+  <action path="/admin"
+            type="com.biperf.core.ui.homepage.HomePageAction">
+      <forward name="homePageDefault" path="g3redux.home.page" redirect="false"/>
+      <forward name="homePageAdmin" path="g3redux.home.page" redirect="false"/>
+  </action>
+
+  <action path="/homePageStatic"
+            type="com.biperf.core.ui.homepage.HomePageAction">
+      <forward name="homePageDefault" path="g5.homepage.hardcoded" redirect="false"/>
+      <forward name="homePageAdmin" path="g3redux.home.page" redirect="false"/>
+  </action>
+  
+  <action path="/homePage"
+            type="com.biperf.core.ui.homepage.HomePageAction">
+      <forward name="homePageDefault" path="g5.homepage" redirect="false"/>
+      <forward name="homePageAdmin" path="g3redux.home.page" redirect="false"/>
+      <forward name="homePageDelegate" path="g5.homepage.delegate" redirect="false"/>      
+  </action>
+  
+  <action path="/loginPageHelp" type="org.apache.struts.actions.ForwardAction"
+	parameter="login.display">
+	</action>
+	
+   <action path="/globalFooterView" type="org.apache.struts.actions.ForwardAction"
+	parameter="g5.loginPage.globalfooter">
+	</action>
+	
+	<action path="/loginPageFormRegistration" type="org.apache.struts.actions.ForwardAction"
+	parameter="g5.loginPage.registration">
+	</action>
+	
+	<action path="/loginPageFormContact" type="org.apache.struts.actions.ForwardAction"
+	   parameter="g5.loginPage.contact">
+	</action>
+	
+	<action path="/loginPageFormForgotPass" type="org.apache.struts.actions.ForwardAction"
+	   parameter="g5.loginPage.forgotpass">
+	</action>
+	
+  <action path="/loginPageFirstTime" type="com.biperf.core.ui.login.LoginPageFirstTimeAction"
+	parameter="method" name="loginPageFirstTimeForm" validate="false" scope="request">
+	<forward name="success" path="g5.loginPageFirstTime" redirect="false"/>
+	</action>	
+  
+  <action path="/loginPageFirstTimeSaveInfo" parameter="method"
+	type="com.biperf.core.ui.login.LoginPageFirstTimeAction" validate="true"
+	name="loginPageFirstTimeForm" scope="request" input="g5.loginPageFirstTime">
+	<forward name="failure" path="g5.loginPageFirstTime" redirect="false"/>
+	<forward name="declineTNC" path="/logout.do" redirect="true"/>
+  </action>
+  
+  <action path="/loginPageFirstTimeUploadAvatar" type="com.biperf.core.ui.login.LoginPageFirstTimeAction"
+	scope="request" name="loginPageFirstTimeForm" parameter="method"
+	validate="false" />
+
+  <action path="/cookiesUpdate"
+            type="com.biperf.core.ui.homepage.CookiesUpdateAction"/>	
+            
+  <action path="/selTab"
+     type="com.biperf.core.ui.homepage.TabSelectionAjaxAction"
+     scope="request"/>
+     
+  <action path="/wellnessKeepAlive"
+     type="com.biperf.core.ui.homepage.WellnessKeepAliveAction"
+     scope="request"/>
+  
+  <action path="/externalService"
+     type="com.biperf.core.ui.externalservices.ExternalServicesAjaxAction"
+     scope="request" parameter="method">
+  </action>  
+  
+  <action path="/changeLanguage"
+            type="com.biperf.core.ui.homepage.HomePageAction"
+            parameter="method">
+      <forward name="success" path="/homePage.do" redirect="true"/>
+  </action>   
+  
+  <action path="/participantAdmin"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="participant.admin"/>  
+               
+    <action path="/convertCertificateSaveBanner" name="convertCertificateForm"
+			parameter="method" type="com.biperf.core.ui.participant.ConvertCertificateAction"
+			scope="request" />
+            
+    <action path="/plateauAwardsResult"
+            type="com.biperf.core.ui.plateauAwards.PlateauAwardsAction"
+            scope="request"/>
+            
+   	<action path="/plateauAwardsViewDetail"
+            type="com.biperf.core.ui.plateauAwards.PlateauAwardsAction"
+            parameter="method"
+            scope="request">
+            <forward name="display" path="activities.plateau.viewDetail" redirect="false"/>
+            </action>
+   
+    <action path="/plateauAwardsDetail"
+            type="com.biperf.core.ui.plateauAwards.PlateauAwardsAction"
+            parameter="method"
+            scope="request"/>
+            
+    <action path="/budgetTrackerResult"
+            type="com.biperf.core.ui.homepage.BudgetTrackerAction"
+            parameter="method" scope="request"/>
+    
+     <action path="/participantPublicProfile"
+		type="com.biperf.core.ui.profile.PublicProfileAction"
+		parameter="method" scope="request" />
+		
+	<!-- Client customizations for WIP #62128 starts -->
+   <action path="/cheersPopoverView" 
+   		   scope="request"
+           name="publicRecognitionCheersForm"
+           parameter="method"
+           type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction">
+ 
+  		<forward name="success" path="cheers.recognition.easy.submit.success" redirect="true"/>
+   </action>
+   <!-- Client customizations for WIP #62128 end -->	
+		
+    <action path="/publicProfileView"
+		type="com.biperf.core.ui.profile.PublicProfileAction"
+		parameter="method" scope="request">
+	<forward name="fullView" path="public.profileView.full" redirect="false" />
+	<forward name="sheetView"   path="public.profileView.sheet" redirect="false" />
+	<forward name="throwdownView"   path="public.profileView.playerStats" redirect="false" />
+	</action> 
+
+	<!-- Resource Module Starts Here -->
+	<action path="/resourceCenterPage"
+             type="org.apache.struts.actions.ForwardAction"
+             parameter="social.resources.page"/> 
+    <!-- Resource Module Ends Here  -->               
+    
+    <!-- Profile Page action calls start -->
+    <action path="/profileView"
+            type="com.biperf.core.ui.profile.ProfileAction" parameter="method"  scope="request" />
+                 
+	<action path="/participantAdvancedSearch" type="org.apache.struts.actions.ForwardAction"
+			parameter="profile.advanced.search.page" />
+			
+	<action path="/findOthersSearch"
+      type="com.biperf.core.ui.search.FindOthersSearchAction"
+      parameter="method"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>
+	
+	<action path="/participantProfilePage" 
+			type="com.biperf.core.ui.profile.ProfilePageAction"
+			parameter="method" scope="request">
+	<forward name="fullView" path="profile.page" redirect="false" />
+	<forward name="throwdownView"   path="public.profileView.playerStats" redirect="false" />
+	<forward name="failure" path="error.page" redirect="false"/> 
+	<forward name="adminHome"   path="/admin.do" redirect="false" />
+	</action>
+
+	<action path="/profilePagePersonalInfoTab" type="com.biperf.core.ui.profile.PersonalInfoAction"
+			scope="request" name="personalInfoForm" parameter="method" validate="false">
+			<forward name="display" path="profile.personalinfo.tab" redirect="false"/>
+	</action>
+      
+    <action path="/profilePageBadgesTab" validate="false" scope="request"
+            parameter="method" type="com.biperf.core.ui.gamification.GamificationAdminAction"/>
+
+    <action path="/profilePageEngagementDashboardTab"
+    		validate="false"
+			scope="request" 
+			parameter="method"
+			type="com.biperf.core.ui.engagement.EngagementDisplayAction" />
+			  
+	<action path="/profilePageAlertsAndMessagesTabAlerts" scope="request"
+           type="com.biperf.core.ui.profile.AlertsTabAction"
+           parameter="method">
+   </action>
+   
+   <action path="/profilePageAlertsAndMessagesTabMessages" scope="request"
+           type="com.biperf.core.ui.profile.MessagesTabAction"
+           parameter="method">
+   </action>
+   
+   <action path="/profilePageFollowListTab" scope="request"
+		   type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction" 
+	       parameter="method"/>
+           
+   <action path="/messageDetail"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="profile.message.detail"/>   
+            
+
+    <action path="/profilePageStatementTab"
+             name="myAccountForm"
+             parameter="method"
+             type="com.biperf.core.ui.participant.MyAccountAction"
+             scope="request"
+             validate="false"
+             input="/participantProfileView">
+        <forward name="details" path="profile.statement.tab" redirect="false"/>
+        <forward name="failure" path="profile.statement.tab" redirect="false"/> 
+    </action>
+    
+    <action path="/profilePageStatementDisplay"
+             name="myAccountForm"
+             parameter="method"
+             type="com.biperf.core.ui.participant.MyAccountAction"
+             scope="request"
+             validate="true"
+             input="profile.statement.tab" cancellable="true">
+	    <forward name="details" path="profile.statement.tab" redirect="false"/>
+        <forward name="failure" path="profile.statement.tab" redirect="false"/> 
+    </action>
+    
+    <action path="/profilePageStatementTabResponse"
+             name="myAccountForm"
+             parameter="method"
+             type="com.biperf.core.ui.participant.MyAccountAction"
+             scope="request"
+             validate="false"
+             input="/participantProfileView">
+        <forward name="details" path="profile.statement.tab.response" redirect="false"/>
+        <forward name="failure" path="profile.statement.tab.response" redirect="false"/> 
+    </action>
+    
+	<action path="/profilePageActivityHistoryTab"
+            type="org.apache.struts.actions.ForwardAction"
+            name="activityHistoryForm"
+            scope="request"
+            parameter="profile.activityhistory.tab"/>
+	            
+	  
+   <action path="/profilePageActivityHistory"
+            type="com.biperf.core.ui.profile.ActivityHistoryAction"
+            name="activityHistoryForm"
+            scope="request">
+            <forward name="activityHistoryLanding" path="profile.activityhistory.tab" redirect="false"/>
+            <forward name="activityHistoryRecognition" path="profile.activityhistory.recognition.home" redirect="false"/>
+            <forward name="recognitionSent" path="profile.activityhistory.recognition.sent" redirect="false"/>
+      		<forward name="recognitionReceived" path="profile.activityhistory.recognition.received" redirect="false"/>
+      		<forward name="activityHistoryNomination" path="profile.activityhistory.nomination.home" redirect="false"/>
+            <forward name="nominationSent" path="profile.activityhistory.nomination.sent" redirect="false"/>
+      		<forward name="nominationReceived" path="profile.activityhistory.nomination.received" redirect="false"/>
+      		<forward name="activityHistoryProductClaim" path="profile.activityhistory.productClaim.home" redirect="false"/>
+            <forward name="productClaimOpen" path="profile.activityhistory.productClaim.open" redirect="false"/>
+      		<forward name="productClaimClosed" path="profile.activityhistory.productClaim.closed" redirect="false"/>
+      		<forward name="activityHistoryQuiz" path="profile.activityhistory.quiz.home" redirect="false"/>
+      		<forward name="quiz" path="profile.activityhistory.quiz" redirect="false"/>
+    </action>
+    
+    <action path="/profilePageActivityHistoryPrintPdf"
+            type="com.biperf.core.ui.profile.ActivityHistoryAction"
+            name="activityHistoryForm"
+            parameter="method" 
+            scope="request">
+    </action>
+	            
+    <action path="/profilePageProxiesTab"
+    		name="proxyListForm"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request" 
+            validate="false"
+            input="/participantProfileView"
+            parameter="profile.proxies.tab">
+    </action>     
+    
+    <action path="/prePopulateDelegates" validate="false" parameter="method"
+			type="com.biperf.core.ui.proxy.ProxyDetailAction" scope="request"/>
+    
+    <action path="/profilePageProxiesTabNew" name="proxyDetailForm"
+			type="com.biperf.core.ui.proxy.ProxyDetailAction" scope="request"
+			validate="false" parameter="method">
+		<forward name="success" path="profile.proxies.tab.new" redirect="false" />
+	</action>
+	
+    <action path="/profilePageProxiesTabEdit" name="proxyDetailForm"
+			type="com.biperf.core.ui.proxy.ProxyDetailAction" scope="request"
+			validate="false" parameter="method">
+		<forward name="success" path="profile.proxies.tab.edit" redirect="false" />
+	</action>  
+    
+    <action path="/profilePageProxiesSubmit" name="proxyDetailForm"
+			parameter="method" type="com.biperf.core.ui.proxy.ProxyDetailAction" scope="request"
+			validate="false">
+		<forward name="cancel" path="/profilePageProxiesTab.do" redirect="false" />
+		<forward name="failure" path="profile.proxies.tab" redirect="false" />
+	</action>
+    
+     <action path="/profilePageProxiesTabAdd"
+    		name="proxyDetailForm"
+    		scope="request"
+    		input="/profilePageProxiesTab"
+            type="com.biperf.core.ui.proxy.ProxyDetailAction"
+            parameter="method"
+            validate="false">
+       <forward name="success" path="profile.proxies.tab.add" redirect="false"/>
+       <forward name="save" path="profile.proxies.tab.add" redirect="false"/>   
+     </action> 
+            
+     <action path="/profilePageProxiesTabPaxSearch"
+    		scope="request"
+            type="com.biperf.core.ui.proxy.ProxyParticipantSearchAction"
+            parameter="method"/>
+             
+    <action path="/profilePageRemoveProxy" name="proxyListForm"
+			validate="false" scope="request" type="com.biperf.core.ui.proxy.ProxyDetailAction"
+			parameter="method"/>
+    
+    <action path="/profilePageProxiesTabListRow"
+    		name="proxyDetailForm"
+    		scope="request"
+    		input="/profilePageProxiesTabEdit.do"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="profile.proxies.list.row"/>   
+	<!-- Profile Page ***END -->
+
+    <action path="/homePagePreviewNews"
+			type="com.biperf.core.ui.G3ReduxForwardAction"
+       		scope="request" 
+       		validate="false">
+       	<forward name="defaultPage" path="g3redux.home.page.news.preview" redirect="false"/>
+	</action> 
+
+    <action path="/clearSkinCache"
+            type="com.biperf.core.ui.homepage.HomePageAction"
+            parameter="method">
+      <forward name="success" path="/homePage.do" redirect="true"/>
+    </action>
+
+    <action path="/clearCache"
+            type="com.biperf.core.ui.homepage.HomePageAction"
+            parameter="method">
+      <forward name="success" path="/homePage.do" redirect="true"/>
+      <forward name="success_details" path="/filterSetup.do" redirect="true"/>
+    </action>
+    
+    <action path="/clearCacheAction"
+            type="com.biperf.core.ui.homepage.HomePageAction"
+            parameter="method">
+      <forward name="success" path="/homePage.do" redirect="true"/>
+    </action>
+
+    <action path="/quickSearch"
+            type="com.biperf.core.ui.homepage.QuickSearchAction"
+            parameter="method"
+            name="quickSearchForm"
+            scope="request"
+            validate="false">
+      <forward name="success" path="beacon.quicksearch" redirect="false"/>
+      <forward name="pax" path="/participant/participantDisplay.do" redirect="false"/>
+      <forward name="claim" path="/claim/claimDetailsDisplay.do" redirect="false"/>
+    </action>
+
+    <action path="/login" parameter="login.display" type="org.apache.struts.actions.ForwardAction" />
+
+    <!-- action path="/loginSuccess" parameter="/homePage.do" type="org.apache.struts.actions.ForwardAction" /> -->
+
+    <action path="/logout" type="com.biperf.core.ui.login.LogoutAction" scope="request">
+      <forward name="success" path="/login.do" redirect="true"/>
+      <forward name="successSso" path="/ssoLogoutRedirect.do" redirect="true"/>
+    </action>
+	
+	<!-- .do used by the SSO Logout Filter - gets redirected within filter -->          
+    <action path="/ssoLogoutRedirect" 
+			parameter="seamlesslogon.logout" 
+			type="org.apache.struts.actions.ForwardAction" />
+            
+    <!-- Static page to go to upon logout -->        
+  	<action path="/logoutStatic" 
+			parameter="seamlesslogon.logout" 
+			type="org.apache.struts.actions.ForwardAction" />
+			  
+	<!-- .do used for the Not Auth Timeout Filter - gets redirected within filter -->       
+    <action path="/notAuthTimeoutRedirect"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="not.authenticated.timeout"/>
+                      
+    <!-- Static Page when timeout or not authenticated -->                   
+    <action path="/notAuthTimeout"
+            type="org.apache.struts.actions.ForwardAction"            
+            parameter="not.authenticated.timeout"/>
+              		
+   <action path="/seamlessLogon" 
+   			name="seamlessLogonForm"       
+            parameter="method"                               
+            type="com.biperf.core.ui.login.SeamlessLogonAction"
+            scope="request"
+            validate="false">
+        <forward name="failure" path="seamlesslogon.errors.display" redirect="false"/>
+        <forward name="test" path="seamlesslogon.test.display" redirect="false"/>
+        <forward name="login" path="seamless.logon" redirect="true"/>  
+         <forward name="access_denied" path="/errors/accessDenied.html" redirect="true"/>                                    
+    </action>
+    
+    <action path="/seamlessLogonFailure"
+            parameter="seamlesslogon.errors.display" 
+            type="org.apache.struts.actions.ForwardAction" /> 
+
+   <!-- Failure page from Shibboleth -->
+   <action path="/ssoLogonFailure"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="sso.logon.failure"/>   
+   
+   <!-- Failure page from SAML Gateway -->
+   <action path="/ssoGatewayLogonFailure"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="sso.logon.failure"/>       
+
+   <!-- start SSO implementation Template for Clients -->
+	<action path="/clientSeamlessLogon"        
+            parameter="method"                               
+            type="com.biperf.core.ui.login.ClientSeamlessLogonAction"
+            scope="request"
+            validate="false">
+        <forward name="failure" path="client.seamlesslogon.errors.display" redirect="false"/>
+        <forward name="test" path="client.seamlesslogon.test.display" redirect="false"/>    
+        <forward name="access_denied" path="/errors/accessDenied.html" redirect="true"/>               
+    </action>
+    
+    <action path="/clientSeamlessLogonTest"
+  	        parameter="client.seamlesslogon.test.display"
+  	        type="org.apache.struts.actions.ForwardAction" />       
+	<!-- end SSO implementation Template for Clients -->   	           	
+            
+    <action path="/seamlessLogonTest"
+  	        parameter="seamlesslogon.test.display"
+  	        type="org.apache.struts.actions.ForwardAction" />
+  	        
+    	
+    <action path="/ManageEmployer" parameter="method" type="com.biperf.core.ui.struts.employer.EmployerAction" scope="request">
+      <forward name="displayList" path="employer.list" redirect="true"/>
+      <forward name="fail" path="employer.list" redirect="false"/>
+    </action>
+
+    <action path="/ManageEmployment" name="employmentForm" parameter="method" type="com.biperf.core.ui.struts.employment.EmploymentAction"
+            scope="request" validate="false">
+      <forward name="success" path="employment.list" redirect="true"/>
+      <forward name="edit" path="employment.edit" redirect="true"/>
+      <forward name="add" path="employment.add" redirect="true"/>
+      <forward name="fail" path="employment.list" redirect="false"/>
+    </action>
+
+    <action path="/ManageEmploymentSave" name="employmentForm" parameter="method" type="com.biperf.core.ui.struts.employment.EmploymentAction"
+            scope="request" validate="true" input="employment.edit">
+      <forward name="save" path="/ManageEmployment.do?method=view" redirect="true"/>
+      <forward name="fail" path="employment.edit" redirect="false"/>
+    </action>
+
+    <action path="/EditEmployer" input="employer.edit" name="employerForm" parameter="method" type="com.biperf.core.ui.struts.employer.EmployerAction" scope="request">
+      <forward name="displayList" path="/ManageEmployer.do?method=displayEmployerList" redirect="true"/>
+      <forward name="displayEdit" path="employer.edit" redirect="true"/>
+      <forward name="success" path="ManageEmployer.do" redirect="true"/>
+      <forward name="fail" path="employer.list" redirect="false"/>
+    </action>
+
+    <action path="/changePasswordView"  forward="changePassword.view" name="changePasswordForm" validate="false"/>
+    
+    <action path="/changePasswordViewNew" type="com.biperf.core.ui.profile.ChangePasswordAction"
+	parameter="method" name="changePasswordForm" validate="false" scope="request">
+	<forward name="success" path="changePassword.view.new" redirect="false"/>
+	</action>
+	
+	<action path="/saveNewPassword" type="com.biperf.core.ui.profile.ChangePasswordAction"
+	parameter="method" name="changePasswordForm" validate="true" scope="request" input="changePassword.view.new">
+	<forward name="success" path="/homePage.do" redirect="true"/>
+	<forward name="failure" path="changePassword.view.new" redirect="false"/>
+	</action>
+
+    <action path="/changePasswordEdit" name="changePasswordForm" parameter="method" type="com.biperf.core.ui.profile.ChangePasswordAction"
+            scope="request" validate="true" input="changePassword.view"  cancellable="true">
+      <forward name="success" path="/admin.do" redirect="true"/>
+      <forward name="failure" path="changePassword.view" redirect="false"/>
+      <forward name="cancel" path="/login.do" redirect="true"/>
+    </action>    
+
+    <action path="/termsAndConditionsReview" name="termsAndConditionsForm" parameter="method" type="com.biperf.core.ui.profile.TermsAndConditionsAction" scope="request">
+      <forward name="success" path="termsAndConditions.review" redirect="false"/>
+    </action>    
+
+    <action path="/termsAndConditionsEdit" name="termsAndConditionsForm" parameter="method" type="com.biperf.core.ui.profile.TermsAndConditionsAction"
+            scope="request" validate="false" input="termsAndConditions.view">
+      <forward name="success" path="/homePage.do" redirect="true"/>
+      <forward name="change_password" path="/changePasswordView.do" redirect="true"/>
+      <forward name="failure" path="termsAndConditions.full.view" redirect="false"/>
+      <forward name="leave_site" path="/logout.do" redirect="true"/>
+      <forward name="back_to_view" path="termsAndConditions.full.view" redirect="false"/>
+    </action>
+                  	
+    <action path="/selfEnrollmentPaxRegistration" name="selfEnrollmentPaxRegistrationForm"
+			parameter="method" type="com.biperf.core.ui.selfEnrollment.SelfEnrollmentPaxRegistrationAction"
+			scope="request" validate="false">
+		<forward name="success" path="selfEnrollmentPaxRegistration.view" redirect="true"/>
+		<forward name="cancel" path="/login.do" redirect="true" />	
+	</action>
+	
+	<action path="/selfEnrollmentPaxRegistrationSave"
+			name="selfEnrollmentPaxRegistrationForm"
+			parameter="method" 
+			type="com.biperf.core.ui.selfEnrollment.SelfEnrollmentPaxRegistrationAction"
+			scope="request"
+			input="selfEnrollmentPaxRegistration.view" 
+			validate="true">
+		<forward name="success" path="/loginPageFirstTime.do?method=display" redirect="true"/>	
+		<forward name="failure" path="selfEnrollmentPaxRegistration.view" redirect="false"/>
+	</action>
+	
+	<action path="/selfEnrollmentPaxPreferencesSave" 
+			name="selfEnrollmentPaxRegistrationForm"
+			parameter="method" 
+			type="com.biperf.core.ui.selfEnrollment.SelfEnrollmentPaxRegistrationAction"
+			scope="request"
+			input="selfEnrollmentPaxPreferences.view" 
+			validate="true">
+		<forward name="failure" path="selfEnrollmentPaxPreferences.view" redirect="false"/>
+	</action>
+	
+    <action path="/contactUsSave" name="contactUsForm" parameter="method" type="com.biperf.core.ui.help.ContactUsAction"
+            scope="request" validate="false">
+      <forward name="success" path="contactUs.confirm" redirect="false"/>
+      <forward name="success_not_logged_in" path="contactUs.confirm.not.logged.in" redirect="false"/>
+      <forward name="cancel_to_homepage" path="/homePage.do" redirect="true"/>
+      <forward name="cancel_to_login" path="/login.do" redirect="true"/>
+    </action>
+
+	<!-- Footer links action mapping starts -->
+	<action path="/privacy" type="com.biperf.core.ui.help.PrivacyPolicyAction" parameter="method" scope="request">
+		<forward name="sheetView" path="privacy.sheet.view" redirect="false"/>
+        <forward name="fullView" path="privacy.full.view" redirect="false"/>
+        <forward name="paxFullView" path="privacy.pax.full.view" redirect="false"/>
+	</action>
+	
+	<action path="/termsAndConditionsView" name="termsAndConditionsForm" parameter="method" type="com.biperf.core.ui.profile.TermsAndConditionsAction" scope="request">
+      <forward name="sheetView" path="termsAndConditions.sheet.view" redirect="false"/>
+      <forward name="fullView" path="termsAndConditions.full.view" redirect="false"/>
+    </action>
+    
+    <action path="/faq"  type="com.biperf.core.ui.help.FaqAction" parameter="method" scope="request" >
+    	<forward name="fullView" path="faq.full.view" redirect="false"/>
+        <forward name="sheetView" path="faq.sheet.view" redirect="false"/>
+    </action>
+            
+   <action path="/rules" parameter="method" scope="request"
+    		type="com.biperf.core.ui.promotion.rules.RulesAction" >
+      <forward name="fullView" path="rules.full.view" redirect="false"/>
+      <forward name="sheetView" path="rules.sheet.view" redirect="false"/>
+    </action>
+    
+    <action path="/contactUs" parameter="method" type="com.biperf.core.ui.help.ContactUsAction" scope="request">
+      <forward name="fullView" path="contactUs.full.view" redirect="false"/>
+      <forward name="sheetView" path="contactUs.sheet.view" redirect="false"/>
+    </action>
+	<!-- Footer links actions mapping ends -->
+	
+	<action path="/contactUsPublic" parameter="contactUs.full.view" type="org.apache.struts.actions.ForwardAction" />
+	
+    <action path="/getSecurityQuestion" parameter="method"
+	type="com.biperf.core.ui.login.ForgotPasswordAction" name="forgotPasswordForm"
+	validate="false" scope="request">
+	<forward name="success" path="populate.security.question"
+		redirect="false" />
+	</action>
+	
+	<action path="/getChangePassword" parameter="method"
+	type="com.biperf.core.ui.login.ForgotPasswordAction" name="forgotPasswordForm"
+	validate="false" scope="request">
+		<forward name="success" path="populate.change.password" redirect="false" />
+		<forward name="success_update" path="/homePage.do" redirect="true" />
+      	<forward name="failure" path="populate.change.password" redirect="false"/>
+	</action>	
+   
+    <action path="/forgotPwd"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="forgotPwd.name"/>
+
+    <action path="/forgotPwdNameValidate"
+            name="forgotPasswordForm"
+            parameter="method"
+            type="com.biperf.core.ui.login.ForgotPasswordAction"
+            input="forgotPwd.name"
+            scope="request">
+      <forward name="success" path="/forgotPwdAnswer.do?method=forgotPwdAnswer" redirect="true"/>
+      <forward name="failure" path="forgotPwd.name" redirect="false"/>
+      <forward name="contact_us" path="/contactUs.do?method=view" redirect="false"/>
+    </action>
+
+    <action path="/forgotPwdCancel"
+            parameter="method"
+            type="com.biperf.core.ui.login.ForgotPasswordAction"
+            scope="request"
+            validate="false">
+      <forward name="success" path="/login.do" redirect="true"/>
+      <forward name="failure" path="/login.do" redirect="true"/>
+    </action>
+
+    <action path="/forgotPwdAnswer"
+            parameter="method"
+            type="com.biperf.core.ui.login.ForgotPasswordAction"
+            scope="request"
+            validate="false">
+      <forward name="success" path="forgotPwd.answer" redirect="true"/>
+      <forward name="failure" path="/login.do" redirect="true"/>
+    </action>
+
+    <action path="/forgotPwdAnswerValidate"
+            name="forgotPasswordForm"
+            parameter="method"
+            type="com.biperf.core.ui.login.ForgotPasswordAction"
+            input="forgotPwd.answer"
+            scope="request"
+            validate="true">
+      <forward name="success" path="forgotPwd.answer" redirect="true"/>
+    </action>
+
+    <action path="/forgotPwdAuth"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="forgotPwd.answer"/>
+
+    <action path="/userList"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="user.list"/>
+
+    <action path="/userDisplay"
+            name="userForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserAction"
+            scope="request"
+            validate="false"
+            input="user.create">
+      <forward name="edit" path="user.updateLoginInfo" redirect="false"/>
+      <forward name="update" path="user.update.personalInfo" redirect="false"/>
+      <forward name="create" path="user.create" redirect="false"/>
+      <forward name="details" path="user.display" redirect="false"/>
+      <forward name="failure" path="/userList.do" redirect="true"/>
+    </action>
+
+    <action path="/userMaintainUpdatePersonalInfo"
+            name="userForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserAction"
+            scope="request"
+            validate="true"
+            input="user.update.personalInfo" cancellable="true">
+      	<forward name="success" path="/participant/participantDisplay.do?method=display"/>
+	  	<forward name="success_bi_user" path="/userDisplayInternal.do?method=display"/>
+		<forward name="success_client_user" path="/userDisplay.do?method=display"/>
+      	<forward name="cancel" path="/participant/participantDisplay.do?method=display"/>
+	  	<forward name="cancel_bi_user" path="/userDisplayInternal.do?method=display"/>
+		<forward name="cancel_client_user" path="/userDisplay.do?method=display"/>
+      	<forward name="failure_update" path="user.update.personalInfo" redirect="false"/>
+      	<forward name="failure" path="user.update.personalInfo" redirect="false"/>
+    </action>
+
+    <action path="/userDisplayInternal"
+            name="userForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserAction"
+            scope="request"
+            validate="false"
+            input="user.createInternal">
+      <forward name="edit" path="user.updateLoginInfo" redirect="false"/>
+      <forward name="update" path="user.update.personalInfo" redirect="false"/>
+      <forward name="details" path="user.displayInternal" redirect="false"/>
+      <forward name="create" path="user.createInternal" redirect="false"/>
+      <forward name="sentWelcomeEmail" path="/userList.do" redirect="true"/>
+      <forward name="failure" path="/userList.do" redirect="true"/>
+    </action>
+
+    <action path="/userMaintainCreate"
+            name="userForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserAction"
+            scope="request"
+            validate="true"
+            input="user.create" cancellable="true">
+      <forward name="success_create" path="/userList.do" redirect="true"/>
+      <forward name="failure_create" path="user.create" redirect="false"/>
+      <forward name="cancel" path="/userList.do" redirect="true"/>
+    </action>
+
+    <action path="/userMaintainCreateInternal"
+            name="userForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserAction"
+            scope="request"
+            validate="true"
+            input="user.createInternal" cancellable="true">
+      <forward name="success_create" path="/userList.do" redirect="true"/>
+      <forward name="failure_create" path="user.createInternal" redirect="false"/>
+      <forward name="cancel" path="/userList.do" redirect="true"/>
+    </action>
+
+    <action path="/userMaintainUpdateLoginInfo"
+            name="userForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserAction"
+            scope="request"
+            validate="true"
+            input="user.updateLoginInfo" cancellable="true">
+      	<forward name="success" path="/participant/participantDisplay.do?method=display"/>
+	  	<forward name="success_bi_user" path="/userDisplayInternal.do?method=display"/>
+		<forward name="success_client_user" path="/userDisplay.do?method=display"/>
+      	<forward name="failure_update" path="user.updateLoginInfo" redirect="false"/>
+      	<forward name="cancel" path="/participant/participantDisplay.do?method=display"/>
+	  	<forward name="cancel_bi_user" path="/userDisplayInternal.do?method=display"/>
+		<forward name="cancel_client_user" path="/userDisplay.do?method=display"/>
+    </action>
+
+    <!--  UserCharacteristic Mappings -->
+    <action path="/userCharacteristicList"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="user.characteristic.list"/>
+
+    <action path="/userCharacteristicEdit"
+            name="userCharacteristicForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserCharacteristicAction"
+            scope="request"
+            validate="true"
+            input="user.characteristic.edit">
+      <forward name="success" path="/participant/participantDisplay.do" redirect="true"/>
+      <forward name="edit" path="user.characteristic.edit" redirect="false"/>
+      <forward name="failure" path="user.characteristic.edit" redirect="false"/>
+    </action>
+
+	<!--  Email Mappings -->
+	<action path="/userBounceBackEmailVerification"
+            type="com.biperf.core.ui.user.BounceBackEmailVerificationAction"            
+            parameter="method">      
+      <forward name="success" path="user.bounceback" redirect="false"/>
+      <forward name="failure" path="user.bounceback" redirect="false"/>
+	  <forward name="success_to_homepage" path="/homePage.do" redirect="false"/>    
+    </action>
+            
+    <action path="/userEmailAddressListDisplay"
+            name="userEmailAddressForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserEmailAddressAction"
+            scope="request"
+            validate="false"
+            input="userEmailAddressList.display">
+      <forward name="paxScreen" path="/participant/participantDisplay.do" redirect="true"/>
+      <forward name="success" path="userEmailAddressList.display" redirect="false"/>
+      <forward name="failure" path="userEmailAddressList.display" redirect="false"/>
+    </action>
+
+    <action path="/userEmailAddressListMaintain"
+            name="userEmailAddressForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserEmailAddressAction"
+            scope="request"
+            validate="true"
+            input="userEmailAddressList.display" cancellable="true">
+      <forward name="success_update" path="/userDisplay.do" redirect="true"/>
+      <forward name="success_delete" path="/userEmailAddressListDisplay.do" redirect="true"/>
+      <forward name="failure_delete" path="userEmailAddressList.display"/>
+      <forward name="success" path="userEmailAddressList.display" redirect="false"/>
+      <forward name="cancel" path="/userDisplay.do" redirect="true" />
+      <forward name="paxScreen" path="/participant/participantDisplay.do" redirect="true"/>
+      <forward name="failure" path="userEmailAddressList.display" redirect="false"/>
+    </action>
+
+    <action path="/userEmailAddressDisplay"
+            name="userEmailAddressForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserEmailAddressAction"
+            scope="request"
+            validate="false"
+            input="userEmailAddress.display">
+      <forward name="edit" path="userEmailAddress.display" redirect="false"/>
+      <forward name="create" path="userEmailAddress.display" redirect="false"/>
+      <forward name="success" path="userEmailAddressList.display" redirect="false"/>
+      <forward name="failure" path="userEmailAddressList.display" redirect="false"/>
+      <forward name="paxScreen" path="/participant/participantDisplay.do" redirect="true"/>
+    </action>
+
+    <action path="/userEmailAddressMaintain"
+            name="userEmailAddressForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserEmailAddressAction"
+            scope="request"
+            validate="true"
+            input="userEmailAddress.display" cancellable="true">
+      <forward name="success_update" path="/userEmailAddressListDisplay.do" redirect="true"/>
+      <forward name="success_create" path="/userEmailAddressListDisplay.do" redirect="true"/>
+      <forward name="paxScreen" path="/participant/participantDisplay.do" redirect="true"/>
+      <forward name="cancel" path="/userEmailAddressListDisplay.do" redirect="true"/>
+      <forward name="success" path="userEmailAddressList.display" redirect="false"/>
+      <forward name="failure" path="userEmailAddressList.display" redirect="false"/>
+    </action>
+
+    <action path="/shopping"
+            parameter="method"
+            type="com.biperf.core.ui.shopping.ShoppingAction">
+      <forward name="success" path="/homePage.do" redirect="false"/>
+      <forward name="failure" path="/homePage.do" redirect="false"/>
+    </action>
+    
+    <action path="/multipleSuppliers"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="multiple.suppliers"/>
+    
+    <action path="/refreshBudgetTracker"
+            parameter="method"
+            type="com.biperf.core.ui.homepage.BudgetTrackerAction">
+      <forward name="success" path="/homePage.do" redirect="true"/>
+    </action>
+    
+    <action path="/merchLevelShopping"
+            parameter="method"
+            type="com.biperf.core.ui.shopping.SpotlightOnlineShoppingAction">
+      <forward name="success" path="/homePage.do" redirect="false"/>
+      <forward name="failure" path="/homePage.do" redirect="false"/>
+    </action>
+    <action path="/secureShopping"
+            parameter="method"
+            type="com.biperf.core.ui.shopping.SpotlightOnlineShoppingAction">
+      <forward name="success" path="/homePage.do" redirect="false"/>
+      <forward name="failure" path="/homePage.do" redirect="false"/>
+    </action>
+    
+    <action path="/externalSupplier"
+            name="externalSupplierForm"
+            parameter="method"
+            type="com.biperf.core.ui.shopping.ShoppingAction"
+            scope="request"
+            validate="false"
+            input="external.supplier.display">
+      <forward name="success" path="external.supplier.display" redirect="true"/>
+    </action>
+    
+    <action path="/myProfileView" 						
+			type="com.biperf.core.ui.G3ReduxForwardAction"
+       		scope="request" 
+       		validate="false">
+       	<forward name="origPage" path="user.profile.view" redirect="false"/>        	
+       	<forward name="defaultPage" path="account.profile.view" redirect="false"/>
+	</action>
+
+    <action path="/profilePasswordChange" 
+    		name="changePasswordForm" 
+    		parameter="method" 
+    		type="com.biperf.core.ui.profile.UserProfileChangePasswordAction"
+            scope="request" 
+            validate="true" 
+            input="/myProfileView.do">
+      <forward name="success" path="/myProfileView.do" redirect="false"/>
+      <forward name="failure" path="/myProfileView.do" redirect="false"/>
+    </action>
+    
+    <action path="/userSearch" 
+            name="userSearchForm"
+            parameter="method"
+            type="com.biperf.core.ui.user.UserSearchAction"
+        		scope="request" 
+        		validate="false"
+        		input="user.search">
+      <forward name="search" path="user.search" redirect="false"/>
+      <forward name="success_search" path="user.search" redirect="false"/>
+	</action>
+	
+	 <action path="/loadStageData" 
+	        name="importFileStageForm" 
+    		type="com.biperf.core.ui.fileload.ImportFileStageAction" 
+    		validate="false" 
+    		scope="request"> 		     		
+    </action>
+    
+ 
+   <action path="/tileSetup" 
+            name="tileSetupForm"
+            parameter="method"
+            type="com.biperf.core.ui.filter.TileSetupAction"
+        	scope="request"
+        	validate="false"
+        	cancellable="true">
+      <forward name="display" path="tilesetup.display" redirect="false"/>
+      <forward name="success" path="tilesetup.display" redirect="false"/>
+      <forward name="failure" path="tilesetup.display" redirect="false"/>
+      <forward name="audienceLookup" path="/tileSetup.do" redirect="false"/>
+      <forward name="listbuilder" module="/participant" path="/listBuilderAddAudienceDisplay.do" redirect="true"/>      
+      <forward name="save" path="/admin.do" redirect="true"/>
+      <forward name="cancel" path="tilesetup.display" redirect="false"/>
+	</action>	
+     
+     <action path="/tileSetupSave" 
+            name="tileSetupForm"
+            parameter="method"
+            type="com.biperf.core.ui.filter.TileSetupAction"
+            input="tilesetup.display"
+            validate="true"
+        	scope="request"
+        	cancellable="true">
+      <forward name="display" path="tilesetup.display" redirect="false"/>
+      <forward name="success" path="tilesetup.display" redirect="false"/>
+      <forward name="failure" path="tilesetup.display" redirect="false"/>
+      <forward name="audienceLookup" path="/tileSetup.do" redirect="false"/>
+      <forward name="listbuilder" module="/participant" path="/listBuilderAddAudienceDisplay.do" redirect="true"/>      
+      <forward name="save" path="/admin.do" redirect="true"/>
+      <forward name="cancel" path="tilesetup.display" redirect="false"/>
+	</action>	
+  
+       <action path="/filterSetup"
+            name="filterSetupForm"
+            parameter="method"
+            type="com.biperf.core.ui.filter.FilterSetupAction"
+            scope="request"
+            validate="false"
+            cancellable="true">
+            <forward name="display" path="filter.setup" redirect="false"/>
+             <forward name="cancel" path="/filterSetup.do?method=display" redirect="true"/>
+        </action>  
+    
+     <action path="/filterSetupSave"
+            name="filterSetupForm"
+            parameter="method"
+            type="com.biperf.core.ui.filter.FilterSetupAction"
+            scope="request"
+            input="filter.setup"
+            cancellable="true"
+            validate="true">
+            <forward name="display" path="filter.setup" redirect="false"/>
+            <forward name="cancel" path="filter.setup" redirect="false"/>
+        </action>  
+    
+    <action path="/challengePoint" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="challengePoint.page"/>
+    
+    <!-- Communications -->
+    <action path="/communicationsResult"
+			type="com.biperf.core.ui.communication.CommunicationsAction"
+            scope="request"/>
+            
+	<action path="/communicationsPage" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="communications.page"/>              
+    
+    <action path="/communicationsDetail" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="communications.page.detail"/>              
+    
+    <action path="/communicationsDetailResult"
+            type="com.biperf.core.ui.communication.CommunicationsAction"
+            scope="request"
+            parameter="method"/>
+      
+   <action path="/communicationsModule" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="communications.module.page"/>
+   
+   <!-- RA -->   	     
+   <action path="/recognitionAdvisorModule" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="recognition.advisor.module"/>
+      	     
+   <!-- TODO path name will be changed as raDetailsPage after changes done by FED --> 
+     	     
+   <action path="/raDetails"
+			type="com.biperf.core.ui.recognitionadvisor.RecognitionAdvisorAction"
+			scope="request"
+			parameter="method">
+ 		<forward name="success" path="recognition.advisor.detailpage" redirect="false"/>
+ 		<forward name="ra_not_enabled" path="/homePage.do" redirect="false"/>
+	</action>
+	
+   <action path="/raLogin"
+			type="com.biperf.core.ui.recognitionadvisor.RecognitionAdvisorAction"
+			scope="request"
+			parameter="method">
+		<forward name="success" path="/homePage.do" redirect="true"/>			
+	</action>     
+            
+     <!-- News -->
+    <action path="/newsResult"
+			type="com.biperf.core.ui.news.NewsModuleAction"
+            scope="request"/>
+            
+	<action path="/newsPage" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="news.page"/>              
+    
+    <action path="/newsDetail" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="news.page.detail"/>              
+    
+    <action path="/newsDetailResult"
+            type="com.biperf.core.ui.news.NewsModuleAction"
+            scope="request"
+            parameter="method"/>  
+
+	<!-- Generic Banner -->
+    <action path="/bannerSlides"
+            type="com.biperf.core.ui.homepage.GenericBannerAction"
+            scope="request"
+            parameter="method"/>  
+      
+		<!-- LeaderBoard Action Mapping Starts Here -->
+		<action path="/leaderBoardMaintain" name="leaderBoardForm"
+			parameter="method" type="com.biperf.core.ui.leaderBoard.LeaderBoardAction"
+			scope="request" validate="false" input="leaderBoard.list">
+			<forward name="create" path="leaderBoard.create" redirect="false" />
+			<forward name="update" path="leaderBoard.update" redirect="false" />
+			<forward name="failure" path="leaderBoard.list" redirect="false" />
+			<forward name="success_update" path="leaderBoard.list" redirect="true"/>
+			<forward name="leaderBoardsList" path="/leaderBoardsList.do"
+				redirect="true" />
+			<forward name="listOfParticipants" path="leaderBoard.participants"
+				redirect="false" />
+		</action>
+		
+		<action path="/leaderBoardsList"
+			type="com.biperf.core.ui.leaderBoard.LeaderBoardAction" scope="request">
+			<forward name="leaderBoardsList" path="leaderBoard.list" />
+		</action>
+
+		<action path="/leaderBoardExpiredDisplay" parameter="expired.leaderboard.list"
+			type="org.apache.struts.actions.ForwardAction" validate="false"
+			scope="request" />
+
+		<!-- This is G5 home page tile action -->
+		<action path="/leaderBoardSearchParticipant" type="com.biperf.core.ui.leaderBoard.LeaderBoardParticipantSearchAction" parameter="method"  scope="request" />
+		<action path="/leaderBoardResult" type="com.biperf.core.ui.leaderBoard.LeaderBoardAction" parameter="method" />
+		
+		<!-- This is G5 detail page action -->
+		<action path="/leaderBoardDetail" type="com.biperf.core.ui.leaderBoard.LeaderBoardAction" parameter="method" />
+        
+        <action path="/leaderBoardsDetailPage" parameter="method"
+	type="com.biperf.core.ui.leaderBoard.LeaderBoardAction" >
+	<forward name="success" path="leaderBoard.display.viewDetail" redirect="true" />
+	</action>
+	    
+	    <action path="/leaderBoardAction" parameter="method" 
+	type="com.biperf.core.ui.leaderBoard.LeaderBoardAction" name="leaderBoardForm" validate="false" scope="request">
+	    <forward name="create" path="leaderBoard.create.new" redirect="false" />
+	    <forward name="leaderBoardDetail" path="/leaderBoardsDetailPage.do?method=getUserRole" redirect="true" />
+	    <forward name="leaderBoardPreview" path="leaderBoard.preview" redirect="true" />
+	    </action>
+	    
+	    <action path="/leaderBoardSaveAction" name="leaderBoardForm"
+			parameter="method" type="com.biperf.core.ui.leaderBoard.LeaderBoardAction"
+			scope="request" input="leaderBoard.create.new" validate="false">
+		<forward name="leaderBoardPreview" path="leaderBoard.preview" redirect="true" />
+		<forward name="detail" path="/leaderBoardsDetailPage.do?method=getUserRole" redirect="true" />
+		<forward name="tile" path="/homePage.do" redirect="true" />
+		<forward name="admin" path="/leaderBoardsList.do" redirect="true" />
+		<forward name="update" path="leaderBoard.create.new" redirect="true" />
+		<forward name="failure_create" path="leaderBoard.create.new" redirect="false" />
+		<forward name="edit" path="leaderBoard.create.new" redirect="false" />
+		<forward name="failure" path="leaderBoard.create.new" redirect="false" />
+		</action>
+		
+		<action path="/leaderBoardEditAction" name="leaderBoardForm" parameter="method" type="com.biperf.core.ui.leaderBoard.LeaderBoardAction"
+			scope="request" validate="false">
+			<forward name="edit" path="leaderBoard.edit" redirect="true" />
+			<forward name="update" path="leaderBoard.create.new" redirect="true" />
+			<forward name="update_pax" path="leaderBoard.pax.edit" redirect="true" />
+			<forward name="detail" path="/leaderBoardsDetailPage.do?method=getUserRole" redirect="true" />
+			<forward name="tile" path="/homePage.do" redirect="true" />
+			<forward name="admin" path="/leaderBoardsList.do" redirect="true" />		
+		</action>
+		
+		<action path="/leaderBoardCopyAction" name="leaderBoardForm" parameter="method" type="com.biperf.core.ui.leaderBoard.LeaderBoardAction"
+		    scope="request" validate="false">
+			<forward name="edit" path="leaderBoard.create.new" redirect="true" />    
+		</action>
+		
+		<action path="/leaderBoardCancelAction" name="leaderBoardForm" parameter="method" type="com.biperf.core.ui.leaderBoard.LeaderBoardAction"
+			scope="request" validate="false">
+			<forward name="detail" path="/leaderBoardsDetailPage.do?method=getUserRole" redirect="true" />
+			<forward name="tile" path="/homePage.do" redirect="true" />
+			<forward name="admin" path="/leaderBoardsList.do" redirect="true" />
+		</action>
+		
+         <action path="/leaderBoardPreviewAction" name="leaderBoardForm"
+			parameter="method" scope="request" validate="false"
+			type="com.biperf.core.ui.leaderBoard.LeaderBoardAction">
+			<forward name="preview" path="leaderBoard.preview" redirect="true" />
+		</action>
+         
+		<!-- LeaderBoard Action Mapping Ends Here -->
+            
+        <!-- RewardOffering Action Mapping Starts Here -->
+		<action path="/submitRewardOffering"
+			type="com.biperf.core.ui.shopping.ShoppingAction" scope="request" parameter="method">
+		</action>
+        <!-- RewardOffering Action Mapping Ends Here -->    
+          
+  	  <!-- Daily Tips -->
+     <action path="/dailyTipResult"
+			type="com.biperf.core.ui.homepage.DailyTipAction"
+       		  scope="request"/>
+       		  
+	<!-- Instant Poll -->
+     <action path="/instantPollTake"
+			 type="com.biperf.core.ui.survey.ParticipantTakeInstantPollAction"
+			 parameter="method"
+       		 scope="request"/>
+       		         		  
+      <!-- Manager Tool Kit -->  		  
+     <action path="/g5ReduxManagerToolKitAlert" 
+      		 scope="request"
+      		 name="managerAlertForm"
+      		 parameter="method"
+			 type="com.biperf.core.ui.managertoolkit.ManagerAlertAction"
+			 validate="false"
+      	     input="manager.toolkit.alert">
+      	<forward name="success" path="manager.toolkit.alert" redirect="false"/>
+        <forward name="failure" path="manager.toolkit.alert" redirect="false"/>
+     </action>
+      	     
+     <action path="/g5ReduxManagerToolKitAlertSave"
+              name="managerAlertForm"
+              parameter="method"
+              type="com.biperf.core.ui.managertoolkit.ManagerAlertAction"
+              scope="request"
+              validate="true"
+              input="manager.toolkit.alert" cancellable="true">
+         <forward name="success" path="/homePage.do" redirect="true"/>
+         <forward name="failure" path="manager.toolkit.alert" redirect="false"/> 
+         <forward name="cancelRequested" path="homePage.do" redirect="true"/>
+     </action>
+     
+     <action path="/g5ReduxManagerToolKitBudgetTransfer" 
+			parameter="method"
+		    name="budgetReallocationForm" 
+			type="com.biperf.core.ui.budget.BudgetReallocationAction"
+        	scope="request" 
+        	validate="false">
+      <forward name="success" path="manager.toolkit.budget" redirect="false"/>
+     </action>
+     
+     <action path="/customBudgetTransfer"  parameter="method" name="budgetReallocationForm" 
+		type="com.biperf.core.ui.budget.BudgetReallocationAction" scope="request"  validate="false"/>
+	 
+     <action path="/g5ReduxManagerToolKitBudgetTransferSubmit" 
+			parameter="method"
+		    name="budgetReallocationForm" 
+			type="com.biperf.core.ui.budget.BudgetReallocationAction"
+        	scope="request" 
+        	validate="true"
+        	input="manager.toolkit.budget">
+      <forward name="review" path="manager.toolkit.budget.preview" redirect="false"/>
+      <forward name="failure_update" path="manager.toolkit.budget" redirect="false"/>
+      <forward name="success_update" module="" path="/homePage.do" redirect="true"/>    
+      <forward name="failure" module="" path="/homePage.do" redirect="true"/>    
+     </action>
+     
+     <action path="/g5ReduxManagerToolKitBudgetPage"
+			type="org.apache.struts.actions.ForwardAction"
+			name="budgetReallocationForm"
+			scope="request"
+       		parameter="manager.toolkit.budget"/> 
+       		
+     <action path="/g5ReduxManagerToolKitPageHistory"
+			type="com.biperf.core.ui.budget.BudgetReallocationHistoryAction"
+			name="budgetReallocationHistoryForm"
+			scope="request"
+       		validate="true"
+       		input="manager.toolkit.budget.history"> 
+        <forward name="success" path="manager.toolkit.budget.history" redirect="false"/>
+        <forward name="failure" path="manager.toolkit.budget.history" redirect="false"/>
+    </action>      	
+     
+	<action path="/profilePagePreferencesTab" 
+			name="userForm"
+			parameter="method"
+			type="com.biperf.core.ui.profile.ParticipantPreferenceAction"
+       		scope="request" 
+       		validate="false"
+       		input="profile.preferences.tab" >
+       	<forward name="create" path="/loadProfilePagePreferences.do?method=prepareUpdatePreferences" redirect="false"/> 
+       	<forward name="update" path="profile.preferences.tab" redirect="false"/>
+       	<forward name="review" path="profile.preferences.tab" redirect="false"/>
+       	<forward name="failure" path="profile.preferences.tab" redirect="false"/>
+       	<forward name="cancel" path="/participantProfilePage.do" redirect="true"/>
+    </action>
+    
+    <action path="/loadProfilePagePreferences" 
+			name="userForm"
+			parameter="method"
+			type="com.biperf.core.ui.profile.ParticipantPreferenceAction"
+       		scope="request" 
+       		validate="false"
+       		input="/participantProfileView" cancellable="true">
+       	<forward name="update" path="/profilePagePreferencesTab.do?method=prepareUpdatePreferences" redirect="false"/>
+    </action>
+
+	<action path="/saveProfilePagePreferences" 
+			name="userForm"
+			parameter="method"
+			type="com.biperf.core.ui.profile.ParticipantPreferenceAction"
+       		scope="request" 
+       		validate="true"
+       		input="/participantProfileView" cancellable="true">
+       	<forward name="create" path="/saveProfilePagePreferences.do?method=updatePreferences" redirect="false"/>
+       	<forward name="update" path="/profilePagePreferencesTab.do?method=prepareUpdatePreferences" redirect="false"/>
+       	<forward name="success" path="profile.preferences.tab" redirect="true"/>
+       	<forward name="success_to_homepage" path="profile.preferences.tab" redirect="true"/>
+       	<forward name="failure_update" path="/profilePagePreferencesTab.do" redirect="false"/>
+       	<forward name="failure" path="/profilePagePreferencesTab.do" redirect="false"/>
+       	<forward name="cancel" path="/participantProfilePage.do" redirect="true"/>
+    </action>
+            
+    <action path="/profilePageSecurityTab"
+			type="org.apache.struts.actions.ForwardAction"
+       		  parameter="profile.security.tab"/>
+    
+    <action path="/saveProfilePageSecurity" 
+    		name="changePasswordForm" 
+   			parameter="method" 
+   			type="com.biperf.core.ui.profile.UserProfileChangePasswordAction"
+            scope="request" 
+            validate="false" 
+            input="profile.security.tab" cancellable="true">
+        <forward name="success" path="/profilePageSecurityTab.do?method=changePassword" redirect="false"/>
+        <forward name="failure" path="profile.security.tab" redirect="false"/>
+        <forward name="cancel" path="/participantProfilePage.do" redirect="true"/>
+    </action>
+    
+    <action path="/profilePageSecurityCancelAction" 
+    		name="changePasswordForm" 
+    		parameter="method" 
+    		type="com.biperf.core.ui.profile.UserProfileChangePasswordAction"
+			scope="request" 
+			validate="false">
+		<forward name="cancel" path="/participantProfilePage.do" redirect="true" />
+	</action>     
+   
+    <!-- START : Roster Management actions -->
+    <action path="/rosterMgmt" name="userForm" scope="request"
+			type="com.biperf.core.ui.managertoolkit.ParticipantRosterMgmtAction" 
+			validate="false" parameter="method">
+		<forward name="success" path="roster.mgmt.list"/>
+    </action>
+		
+	<action path="/rosterManagerListTableResponse" scope="request" validate="false"
+			type="org.apache.struts.actions.ForwardAction" name="userForm"
+			parameter="roster.mgmt.table.response"/>
+    
+	<action path="/rosterMgmtAddInit" name="userForm"
+			type="org.apache.struts.actions.ForwardAction" scope="request"
+			validate="false" parameter="participant.roster.mgmt.add.edit" /> 
+            
+	<action path="/rosterMgmtEditInit" name="userForm" parameter="method"
+			type="com.biperf.core.ui.managertoolkit.ParticipantRosterMgmtAction"
+			scope="request" validate="false">
+		<forward name="display" path="participant.roster.mgmt.add.edit" redirect="false" />
+	</action>
+    
+    <action path="/rosterMgmtAction" name="userForm" scope="request" validate="true"
+			parameter="method" type="com.biperf.core.ui.managertoolkit.ParticipantRosterMgmtAction"
+			input="participant.roster.mgmt.add.edit">
+		<forward name="failure" path="participant.roster.mgmt.add.edit" redirect="false" />
+		<forward name="success" path="/rosterMgmt.do?method=list" redirect="false" />
+	</action>
+    
+    <action path="/enrollmentOpenJsonAction" scope="request"
+			type="com.biperf.core.ui.enrollment.EnrollmentOpenJsonAction" 
+			validate="false" parameter="method"/>
+    <!-- END : Roster Management actions -->
+
+    <!-- START : Plateau Awards Reminder actions -->
+    <action path="/plateauAwardsReminder" name="plateauAwardsReminderForm" scope="request"
+			type="com.biperf.core.ui.managertoolkit.PlateauAwardsReminderAction" 
+			validate="false" parameter="method">
+  		<forward name="display" path="plateauawardsreminder.home"/>
+      <forward name="success" path="/homePage.do" redirect="true" />
+    </action>
+    <!-- END : Plateau Awards Reminder actions -->
+    
+ 	<action path="/goalQuestModuleAjax" type="com.biperf.core.ui.goalquest.GoalQuestModuleAction" />
+ 	
+ 	<action path="/challengepointModuleAjax" type="com.biperf.core.ui.challengepoint.ChallengepointModuleAction" />
+ 	
+ 	<action path="/goalquestModule" type="org.apache.struts.actions.ForwardAction"
+       		  parameter="goalquest.module">
+ 	</action> 
+    
+    <action path="/challengepointModule" type="org.apache.struts.actions.ForwardAction"
+       		  parameter="challengepoint.module">
+ 	</action>
+ 	
+ 	<action path="/publicRecognitionFollowUnFollowPax" parameter="method" scope="request"
+	        type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction" />
+	        
+ 	<action path="/publicRecognitionCommentAction" name="publicRecognitionCommentForm"
+			parameter="method"
+			type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"
+			scope="request"/>  
+            	
+    <action path="/publicRecognitionAddPointsAction" scope="request"
+            name="publicRecognitionAddPointsForm" parameter="method"
+            type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"/>
+    
+	<!-- Server Commands -->
+    <action path="/serverCommandRedirect"
+			type="org.apache.struts.actions.ForwardAction"
+			name="serverCommandForm"
+			scope="request"
+       		parameter="server.command.redirect"/>      			
+    
+    <action path="/serverCommandHtmlRedirect"
+			type="org.apache.struts.actions.ForwardAction"
+			name="serverCommandForm"
+			scope="request"
+       		parameter="server.command.html.redirect"/>   		
+   
+  <action path="/changeFilter"
+     type="com.biperf.core.ui.homepage.TrackFilterSelectionAction"
+     scope="request"/>
+     
+  <action path="/actAsDelegate" parameter="g5.homepage.delegate" type="org.apache.struts.actions.ForwardAction" />
+  
+  
+  	<!-- Engagement -->
+  	
+  	 <action path="/engagementDisplay" 
+		    name="engagementDisplayForm" 
+			parameter="method"
+			type="com.biperf.core.ui.engagement.EngagementDisplayAction"
+        	scope="request" 
+        	validate="false"
+        	input="engagement.dashboard">
+      <forward name="user_dashboard_page" path="engagement.user.dashboard" redirect="false"/>
+      <forward name="display_recognitions_sent_by_promo_chart" path="engagement.chart.rec.sent.bypromo" redirect="false"/>
+      <forward name="display_recognitions_received_by_promo_chart" path="engagement.chart.rec.received.bypromo" redirect="false"/>
+      <forward name="display_unique_recognitions_pax_received_chart" path="engagement.chart.unique.rec.received" redirect="false"/>
+      <forward name="display_unique_recognitions_pax_sent_chart" path="engagement.chart.unique.rec.sent" redirect="false"/>
+  	</action>
+  	
+  	<action path="/publicRecognitionResult"
+            type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"
+            parameter="method"/>	        
+
+	 <!-- Throwdown    ***BEGIN-->
+	 
+	 <action path="/smackTalkSummary" name="smackTalkCommentForm"
+			parameter="method"
+			type="com.biperf.core.ui.throwdown.SmackTalkAction"
+			scope="request"/>
+	 
+	 <action path="/smackTalkComment" name="smackTalkCommentForm"
+			parameter="method"
+			type="com.biperf.core.ui.throwdown.SmackTalkAction"
+			scope="request"/>
+     
+     <action path="/smackTalkLike" scope="request"
+             name="smackTalkLikeForm"  parameter="method"
+             type="com.biperf.core.ui.throwdown.SmackTalkAction"/>
+             
+      <action path="/smackTalkHideAction" scope="request"
+             name="smackTalkHideForm" parameter="method"
+             type="com.biperf.core.ui.throwdown.SmackTalkAction"/>
+      
+    <action path="/throwdownNewsResult"
+			type="com.biperf.core.ui.throwdown.NewsAction"
+            scope="request"/>
+
+    <action path="/throwdownNewsDetail" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="throwdownnews.page.detail"/>              
+    
+    <action path="/throwdownNewsDetailResult"
+            type="com.biperf.core.ui.throwdown.NewsAction"
+            scope="request"
+            parameter="method"/> 
+            
+    <action path="/matchSummary"
+			type="com.biperf.core.ui.throwdown.MatchSummaryAction"
+			parameter="method"
+            scope="request">
+     </action>
+            
+    <action path="/viewMatchesSummary"
+			type="com.biperf.core.ui.throwdown.ViewMatchesAction"
+            scope="request"
+            parameter="method"/>
+            
+    <action path="/rankingsSummary"
+			type="com.biperf.core.ui.throwdown.RankingsAction"
+            scope="request"
+            parameter="method"/>
+    
+	<action path="/standingsSummary"
+			 type="com.biperf.core.ui.throwdown.StandingsAction"
+			 scope="request"
+      	     parameter="method">  
+    </action>
+    
+    <action path="/promotionSelector"
+			 type="com.biperf.core.ui.throwdown.PromotionSelectorAction"
+			 scope="request"
+      	     parameter="method">  
+    </action>
+      	                          
+    <!-- Throwdown    ***END--> 
+    
+    <!-- Survey Library -->
+    <action path="/surveyFormListDisplay"
+	        name="surveyListForm"
+	        parameter="survey.library" 
+	        type="org.apache.struts.actions.ForwardAction" 
+	        validate="false" 
+	        scope="request"/>
+	        
+    <action path="/surveyFormDelete" 
+		    name="surveyListForm" 
+			parameter="method"
+			type="com.biperf.core.ui.survey.SurveyFormListAction"
+        	scope="request" 
+        	validate="false"
+        	input="survey.library">
+      <forward name="success" path="survey.library" redirect="false"/>
+      <forward name="failure" path="survey.library" redirect="false"/>
+  	</action>
+       
+	<action path="/surveyFormDisplay"
+      name="surveyForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyFormAction"
+      scope="request"
+      validate="false"
+      input="surveyform.details">
+      <forward name="success" path="surveyform.details" redirect="false"/>
+      <forward name="failure" path="surveyform.details" redirect="false"/>
+    </action>
+
+	<action path="/surveyFormSave"
+      name="surveyForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyFormAction"
+      scope="request"
+      validate="true"
+      input="surveyform.details" cancellable="true">
+      <forward name="failure" path="surveyform.details" redirect="false"/>
+      <forward name="cancel" path="surveyform.view" redirect="false"/>
+      <forward name="success" path="/surveyFormView.do" redirect="true"/>
+    </action>
+
+ 	<action path="/surveyFormView"
+      name="viewSurveyForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyFormAction"
+      scope="request"
+      validate="false"
+      input="surveyform.details">
+      <forward name="failure" path="surveyform.view" redirect="false"/>
+      <forward name="success" path="surveyform.view" redirect="false"/>
+      <forward name="success_update" path="surveyFormView.do" redirect="true"/>
+      <forward name="failure_update" path="surveyform.view" redirect="false"/>
+      <forward name="success_delete" path="surveyform.view" redirect="false"/>
+      <forward name="failure_delete" path="surveyform.view" redirect="false"/>
+      <forward name="copy" path="surveyform.copy" redirect="false"/>
+    </action>
+
+    <action path="/surveyQuestionDisplay"
+      name="surveyQuestionForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyQuestionAction"
+      scope="request"
+      validate="false"
+      input="survey.question.details">
+      <forward name="success" path="survey.question.details" redirect="false"/>
+      <forward name="failure" path="survey.question.details" redirect="false"/>
+    </action>
+    
+    <action path="/surveyQuestionSave"
+      name="surveyQuestionForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyQuestionAction"
+      scope="request"
+      validate="true"
+      input="survey.question.details" cancellable="true">
+      <forward name="failure" path="survey.question.details" redirect="false"/>
+      <forward name="cancel" path="surveyFormView.do" redirect="true"/>
+      <forward name="success" path="surveyFormView.do" redirect="true"/>
+      <forward name="success_update" path="surveyQuestionView.do" redirect="true"/>      
+    </action>
+
+    <action path="/surveyQuestionView"
+      name="surveyQuestionForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyQuestionAction"
+      scope="request"
+      validate="false"
+      input="survey.question.details">
+      <forward name="success" path="survey.question.view" redirect="false"/>
+      <forward name="failure" path="survey.question.view" redirect="false"/>
+    </action>
+
+    <!-- Survey Question Response -->
+    <action path="/surveyFormMarkComplete"
+      name="viewSurveyForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyFormAction"
+      scope="request"
+      validate="false"
+      input="surveyform.details">
+      <forward name="failure" path="surveyform.view" redirect="false"/>
+      <forward name="success_update" path="survey.library" redirect="false"/>
+    </action>
+    
+    <action path="/surveyFormCopy"
+      name="surveyForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyFormAction"
+      scope="request"
+      validate="true"
+      input="surveyform.details">
+      <forward name="failure" path="surveyform.copy" redirect="false"/>
+      <forward name="success" path="survey.library" redirect="false"/>
+    </action>
+    
+    <action path="/surveyQuestionResponseDisplay"
+      name="surveyQuestionResponseForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyQuestionResponseAction"
+      scope="request"
+      validate="false"
+      input="survey.question.answer.details">
+      <forward name="success" path="survey.question.answer.details" redirect="false"/>
+      <forward name="failure" path="survey.question.answer.details" redirect="false"/>
+    </action>
+
+    <action path="/surveyQuestionResponseSave"
+      name="surveyQuestionResponseForm"
+      parameter="method"
+      type="com.biperf.core.ui.survey.SurveyQuestionResponseAction"
+      scope="request"
+      validate="true"
+      input="survey.question.answer.details" cancellable="true">
+      <forward name="failure" path="survey.question.answer.details" redirect="false"/>
+      <forward name="cancel" path="surveyQuestionView.do" redirect="true"/>
+      <forward name="success" path="surveyQuestionView.do" redirect="true"/>
+      <forward name="success_create" path="survey.question.answer.details" redirect="false"/>      
+    </action>
+      
+    <action path="/surveyPromotionListDisplay"
+	        name="surveyListForm"
+	        parameter="survey.promotions" 
+	        type="org.apache.struts.actions.ForwardAction" 
+	        validate="false" 
+	        scope="request"/>
+	        
+	<action path="/surveyPage"
+			 type="org.apache.struts.actions.ForwardAction"
+       		 parameter="survey.page"/>
+       		 
+    <action path="/takeSurvey" type="com.biperf.core.ui.survey.ParticipantTakeSurveyAction"
+      name="participantTakeSurveyForm" validate="false"
+      parameter="method" scope="request" >
+      <forward name="success" path="survey.take" redirect="false"/>
+	</action>
+	
+    <action path="/surveyPageTakeSurvey" scope="request"
+      type="com.biperf.core.ui.survey.ParticipantTakeSurveyAction"
+      name="participantTakeSurveyForm" parameter="method"
+      validate="false" />
+      
+    <action path="/surveyPageSaveSurvey" scope="request"
+      type="com.biperf.core.ui.survey.ParticipantTakeSurveyAction"
+      name="participantTakeSurveyForm" parameter="method"
+      validate="false" >
+      <forward name="success" path="/homePage.do" redirect="true"/>
+    </action>
+    
+    <action path="/setScriptDebugAction"
+    	type="com.biperf.core.ui.homepage.ScriptDebugAction" parameter="method"  scope="request" />
+    	
+    <!-- ============================================ -->
+    <!-- INSTANTPOLL ACTIONS  -->
+    <!-- ============================================ -->
+    <action path="/instantPollsList"
+	        name="instantPollForm" 
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            parameter="instantpolls.list.page"/>
+    
+    <action path="/instantPollsListMaintain" name="instantPollForm"
+	parameter="method" type="com.biperf.core.ui.instantpoll.InstantPollListAction"
+	scope="request" validate="false" input="instantpolls.list.page">
+			<forward name="success" path="instantpolls.list.page" redirect="false" />
+			<forward name="cancel" path="instantpolls.list.page" redirect="false" />
+			<forward name="failure" path="instantpolls.list.page" redirect="false" />
+		</action>
+    
+    <action path="/instantPollMaintainDisplay" name="instantPollForm"
+			parameter="method" type="com.biperf.core.ui.instantpoll.InstantPollMaintainAction"
+			scope="request" validate="false" input="instant.poll.add">
+			<forward name="create" path="instant.poll.add" redirect="false" />
+			<forward name="update" path="instant.poll.add" redirect="false" />
+	</action>
+	
+	<action path="/instantPollMaintain" name="instantPollForm"
+			parameter="method" type="com.biperf.core.ui.instantpoll.InstantPollMaintainAction"
+			scope="request" validate="true" input="instant.poll.add">
+			<forward name="success_create" path="/instantPollsList.do" redirect="true" />
+			<forward name="success_update" path="/instantPollsList.do" redirect="true" />
+			<forward name="failure_create" path="instant.poll.add" redirect="false" />
+			<forward name="failure_update" path="instant.poll.add" redirect="false" />
+	</action>
+    
+    <action path="/instantPollAudience" name="instantPollForm"
+	    parameter="method" type="com.biperf.core.ui.instantpoll.InstantPollMaintainAction"
+	    scope="request" validate="false">
+	    <forward name="success" path="instant.poll.add" redirect="false" />
+	    <forward name="submitterAudienceLookup" path="/addSubmitterAudience.do" redirect="false"/>
+        <forward name="listbuilder" module="/participant" path="/listBuilderAddAudienceDisplay.do" redirect="true"/>
+	    <forward name="paxListPopup" module="/participant" path="audience.paxlist" redirect="false"/>
+	    <forward name="failure" path="instant.poll.add" redirect="false" />
+    </action>
+        
+    <action path="/addSubmitterAudience"
+            parameter="/instantPollAudience.do?method=returnSubmitterAudienceLookup"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+            
+    <!-- ============================================ -->
+    <!-- PLATEAU AWARD REDEEM PAX ACTIONS  -->
+    <!-- ============================================ -->
+            
+    <action path="/plateauAwardsRedeemModule"
+            parameter="method" type="com.biperf.core.ui.plateauAwards.PlateauAwardsRedeemAction"
+			scope="request"/>
+			
+    <!-- ============================================ -->
+    <!-- WORKHAPPIER PAX ACTIONS  -->
+    <!-- ============================================ -->
+            
+    <action path="/workHappierModule"
+            parameter="method" type="com.biperf.core.ui.workhappier.WorkHappierAction"
+			scope="request"/>
+			
+	<action path="/workHappierFeedback" name="workHappierFeedbackForm"
+			parameter="method" type="com.biperf.core.ui.workhappier.WorkHappierFeedbackAction"
+			scope="request" validate="false" />
+			    
+    <action path="/takeWHSurvey"
+	  	    type="com.biperf.core.ui.workhappier.ExternalSurveyAction" parameter="method" scope="request">
+	  <forward name="success" path="external.survey.test" redirect="true"/>
+	</action>
+	
+	<action path="/globalSidebarView"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="global.sidebar"/>
+    
+    <action path="/resourceCenterAction" parameter="method"
+	type="com.biperf.core.ui.homepage.ResourceCenterAction" scope="request" />
+	        
+      
+    <!-- Client customization for WIP #44041 starts -->
+    <action path="/claimAwardAction" type="com.biperf.core.ui.client.TcccRecognitionClaimAwardAction" 
+    	parameter="method" name="tcccRecognitionClaimAwardForm" validate="false">
+      <forward name="success" path="client.claimAward.display" redirect="false"/>
+    </action>
+    
+    <action path="/claimAwardSubmitAction" type="com.biperf.core.ui.client.TcccRecognitionClaimAwardAction" 
+    	parameter="method" name="tcccRecognitionClaimAwardForm" validate="true" input="client.claimAward.display">
+      <forward name="success" path="/participantProfilePage.do#tab/AlertsAndMessages" redirect="true"/>
+      <forward name="failure" path="client.claimAward.display" redirect="false"/>
+    </action>
+    <!-- Client customization for WIP #44041 ends -->
+    
+
+    <!-- Client customization for WIP 58122 -->
+    <action path="/claimAwardNominationAction" type="com.biperf.core.ui.client.TcccNominationClaimAwardAction" 
+    	parameter="method" name="tcccNominationClaimAwardForm" validate="false">
+      <forward name="success" path="client.claimAwardNomination.display" redirect="false"/>
+    </action>
+    
+    <action path="/claimAwardNominationSubmitAction" type="com.biperf.core.ui.client.TcccNominationClaimAwardAction" 
+    	parameter="method" name="tcccNominationClaimAwardForm" validate="true" input="client.claimAwardNomination.display">
+      <forward name="success" path="/participantProfilePage.do#tab/AlertsAndMessages" redirect="true"/>
+      <forward name="failure" path="client.claimAwardNomination.display" redirect="false"/>
+    </action>
+    <!-- Client customization ends -->
+     
+  </action-mappings>
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" tempDir="@FILE_UPLOAD_TEMP_DIR@" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <message-resources null="true" parameter="BeaconResources_en" factory="com.objectpartners.cms.util.CmsMessageResourcesFactory" />
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+                  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-client.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+    <set-property property="moduleAware" value="true"/>
+  </plug-in>
+
+</struts-config>

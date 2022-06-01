@@ -1,0 +1,11 @@
+<?php sleep(1); ?>
+{
+    "messages":[
+        {
+            "type":"serverCommand",
+            "command":"modal",
+            "name":"Email sent successfully",
+            "text":"Thank you. Your request will be answered within 1 business day."
+        }
+    ]
+}

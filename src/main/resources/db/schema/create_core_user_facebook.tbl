@@ -1,0 +1,28 @@
+CREATE TABLE user_facebook
+(
+  facebook_id     NUMBER(18) NOT NULL, 
+  user_id         VARCHAR2(200 char) NOT NULL, 
+  access_token    VARCHAR2(200 char) NOT NULL, 
+  created_by	  NUMBER (18)	NOT NULL, 
+  date_created	  DATE NOT NULL, 
+  modified_by	  NUMBER (18), 
+  date_modified	  DATE, 
+  version		  NUMBER (18)	NOT NULL
+)
+/
+ALTER TABLE user_facebook
+ADD CONSTRAINT user_facebook_pk PRIMARY KEY (facebook_id)
+USING INDEX
+/
+CREATE SEQUENCE user_facebook_pk_sq
+START WITH 5000
+CACHE 20
+/
+COMMENT ON TABLE user_facebook IS 'Stores user Facebook account information'
+/
+COMMENT ON COLUMN user_facebook.facebook_id IS 'Table primary key'
+/
+COMMENT ON COLUMN user_facebook.user_id IS 'The Facebook API user id'
+/
+COMMENT ON COLUMN user_facebook.access_token IS 'The encrypted access token'
+/

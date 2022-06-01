@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+<!-- Recognition Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.WellnessPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_WELLNESS" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+
+  <property name="awardActive" type="boolean" column="AWARD_ACTIVE" not-null="true"/>
+  <property name="awardAmountTypeFixed" type="boolean" column="AWARD_AMOUNT_TYPE_FIXED" not-null="true"/>
+  <property name="awardAmountFixed" type="java.lang.Long" column="AWARD_AMOUNT_FIXED"/>
+  <property name="awardAmountMin" type="java.lang.Long" column="AWARD_AMOUNT_MIN"/>
+  <property name="awardAmountMax" type="java.lang.Long" column="AWARD_AMOUNT_MAX"/>
+
+</joined-subclass>
+
+</hibernate-mapping>

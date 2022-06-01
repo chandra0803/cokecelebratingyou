@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document
+	PUBLIC "-//UJAC.org//Print Document//EN" 
+	"http://ujac.sourceforge.net/ujac-print-document.dtd">
+	
+<document size="A4" margin-left="25" margin-right="25" margin-top="25" margin-bottom="25">
+	
+	<font-def name="small" family="Helvetica" style="normal" size="9"/>
+	<font-def name="normal" family="Helvetica" size="10" style="normal"/>
+	<font-def name="section" family="Helvetica" size="12" style="bold"/>
+	<font-def name="sub-section" family="Helvetica" size="11" style="italic"/>
+
+	<header font="section">
+		<header-part halign="center">Referral Dashboard \n</header-part>
+	</header>
+	<footer font="small">
+		<footer-part padding-top="10" halign="center">©&nbsp;2004-2009 BI&nbsp;®</footer-part>
+	</footer>
+	
+
+	<paragraph>${highlights}\n\n</paragraph>	
+
+	<table widths="50,50">
+		<cell border-style="box" border-width="1" halign="center">
+			<image   source="${pdf1}" width="225"/>
+		</cell>
+		<cell border-style="box" border-width="1" halign="center">
+			<image   source="${pdf2}" width="225"/>
+		</cell>
+		<cell border-style="box" border-width="1" halign="center">
+			 <image   source="${pdf3}" width="225"/>
+		</cell>
+		<cell border-style="box" border-width="1" halign="center">
+			<image   source="${pdf4}" width="225"/>
+		</cell>
+		<cell border-style="box" border-width="1" halign="center">
+			<image   source="${pdf5}" width="225"/>
+		</cell>
+		<cell border-style="box" border-width="1" halign="center">
+			<image   source="${pdf6}" width="225"/>
+		</cell>
+	</table>
+
+</document>

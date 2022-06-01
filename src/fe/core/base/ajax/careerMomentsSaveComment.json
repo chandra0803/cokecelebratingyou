@@ -1,0 +1,14 @@
+{
+	"messages":[],
+	"comment":{		
+		"id":23,
+		"commenter":{
+			"id":1234,
+			"firstName":"Cornelius",
+			"lastName":"Contributor",
+			"avatarUrl": "https://gyodapprd.performnet.com/gyoda-cm/cm3dam/personal/avatar/5593-1510159792138-_tn_-ScreenShot20171106at72757AM.png"
+		},
+		"isMine": true,
+		"comment":"You rock!"
+	}
+}

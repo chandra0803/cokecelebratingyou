@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.budget.BudgetHistory" table="BUDGET_HISTORY">
+
+      <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="BUDGET_HISTORY_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">BUDGET_HISTORY_PK_SQ</param>
+      </generator>
+    </id>
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    <property name="budgetId" type="java.lang.Long" column="BUDGET_ID" />
+    <property name="originalValueBeforeTransaction" type="java.math.BigDecimal" column="ORIGINAL_VALUE_BEFORE_XACTION" />
+    <property name="currentValueBeforeTransaction" type="java.math.BigDecimal" column="CURRENT_VALUE_BEFORE_XACTION"/>
+    <property name="originalValueAfterTransaction" type="java.math.BigDecimal" column="ORIGINAL_VALUE_AFTER_XACTION" />
+    <property name="currentValueAfterTransaction" type="java.math.BigDecimal" column="CURRENT_VALUE_AFTER_XACTION"/>
+    <property name="claimId" type="java.lang.Long" column="CLAIM_ID" />
+    <property name="actionType" column="ACTION_TYPE">
+    	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+            <param name="lookupClass">com.biperf.core.domain.enums.BudgetActionType</param>
+        </type>
+    </property>
+    <property name="fromBudgetId" type="java.lang.Long" column="FROM_BUDGET_ID" />
+  </class>
+    
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?php sleep(2) ?>
+{
+	"messages" : [
+			{
+			"type":"success",
+			"name":"Image Upload Success",
+			"isSuccess": true,
+			"text":"Some text explaining the nature of the success. If this is false, return the error message.",
+
+			"picURL": "../base/img/cards/beach_lg.jpg",
+			"thumbNailURL": "../base/img/cards/beach_sm.jpg"
+			<?php /*
+			 * use these three lines instead of the previous two lines to test video uploads
+			"vidURL": "http://www.rickety.us/wp-content/uploads/2011/06/Tyrannosaurus_Rex.m4v",
+			"thumbNailURL": "../base/img/cards/beach_sm.jpg",
+			"fileType":"mp4"
+			*/ ?>
+			}
+		]
+}

@@ -1,0 +1,75 @@
+// App-specific variables
+// =========================
+// _EZrecognition.scss
+// -------------------------
+$recognition_EZmodule_background: false !default;
+$recognition_EZmodule_textColor: false !default;
+
+// _recognitionPage.scss
+// -------------------------
+$recognition_recPage_progressBarToolTipBgColor: $brand_color_primary !default;
+$recognition_recPage_progressBarToolTipBorderColor: $brand_color_primary !default;
+$recognition_recPage_progressBarToolTipBoxShadow: none !default;
+
+// _calculatorTemplate.scss
+// -------------------------
+
+// _contributorsView.scss
+// -------------------------
+
+// CHECK BOTTOM FOR IMPORTS - moving there as they may overide styles higher up as this file has been split from one to many
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+
+/* ----- MODULE STYLES ----- */
+.launchModule.recognition {
+
+}/* END regular recognition module */
+
+/* Manager invite contributors to PURL */
+#recognitionPageManagerInviteContributorsView {
+    #sendForm { margin: 0; }
+}
+
+/* SEND a REC Page View */
+#dataForm.recognitionDataForm { display:none; } //this is a data source only, everything is hidden
+
+/* PLATEAU AWARDS BROWSE - LEVEL MERCHANDISE - MODAL */
+#levelMerchModal {
+    z-index: 20000; // greater than default qtip
+}
+
+.approvalCalcTipWrapper{
+    @media (max-width: $breakpoint_mobile_max) {
+        .ui-tooltip-tip{
+            left: 6%!important;
+            display: block !important;
+        }
+    }
+}
+
+//ie stuff
+.lt-ie8 .recognition {
+    .profile-popover {
+        *display: inline; //ie7 is the best
+        zoom: 1;
+        float: left;
+    }
+
+    &.launchModule.grid-fluid{
+        .module-liner .wide-view .recognition-module-wrapper .input-append .btn {
+            margin-top: 1px;
+        }
+    }
+}
+
+// IMPORTS
+@import "purlRecognition";
+@import "EZrecognition";
+@import "recognitionPage";
+@import "calculatorTemplate";
+@import "contributorsView";

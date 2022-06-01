@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+   
+   <http authentication-manager-ref="authenticationManager" access-decision-manager-ref="httpRequestAccessDecisionManager" entry-point-ref="authenticationProcessingFilterEntryPoint" 
+                                                                               auto-config="false" create-session="never">
+   <custom-filter position="FORM_LOGIN_FILTER" ref="authenticationProcessingFilter"/>
+  
+   <session-management session-fixation-protection="migrateSession" />
+   <!--  <logout delete-cookies="JSESSIONID" /> -->
+   </http>
+   
+                        
+  <!-- ======================== FILTER CHAIN ======================= -->
+
+	<!-- FilterChain - the list of beans for the security filter -->
+	<beans:alias name="filterChainProxy" alias="springSecurityFilterChain"/>
+	<beans:bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
+	<filter-chain-map request-matcher="ant">
+      <filter-chain pattern="/**" filters="httpSessionContextIntegrationFilter,authenticationProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor"/>
+    </filter-chain-map>
+    </beans:bean>
+
+   <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener"/>
+
+
+
+   <!-- ======================== AUTHENTICATION ======================= -->
+
+   <!-- HttpSession and Context handling -->
+
+   <beans:bean id="httpSessionContextIntegrationFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+   <beans:constructor-arg>
+      <beans:bean class="org.springframework.security.web.context.HttpSessionSecurityContextRepository" />
+   </beans:constructor-arg>
+   </beans:bean>
+
+
+   <!-- Authentication -->
+
+   <beans:bean id="authenticationProcessingFilter" class="com.biperf.core.ui.servlet.AuthProcessingFilter">
+      <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+      <beans:property name="questionAnswerLoginFailureUrl" value="/forgotPwdAuth.do?login_error=1"></beans:property>
+      <beans:property name="filterProcessesUrl" value="/j_acegi_security_check.do" />
+      <beans:property name="defaultTargetUrl" value="/homePage.do"></beans:property>
+      <beans:property name="authenticationFailureUrl" value="/login.do?login_error=1"></beans:property>
+      <!-- <beans:property name="defaultTargetUrl" value="/loginSuccess.do"></beans:property> -->
+      <!-- <beans:constructor-arg name="defaultFilterProcessesUrl" >
+      <beans:value>/j_acegi_security_check.do</beans:value>
+      </beans:constructor-arg> -->
+      <beans:property name="inactivatedUserUrl" value="/shopping.do?method=displayInternal"></beans:property>
+      <beans:property name="externalSupplierUrl" value="/shopping.do?method=displayExternal"></beans:property>
+      <beans:property name="multipleSupplierUrl" value="/multipleSuppliers.do"></beans:property>
+      <beans:property name="seamlessLogonFailureUrl" value="/seamlessLogonFailure.do"></beans:property>
+      <beans:property name="shoppingService" ref="shoppingService"></beans:property>
+      <beans:property name="awardBanQServiceFactory" ref="awardBanQServiceFactory"></beans:property>
+      <beans:property name="acceptedRedirectUrls">
+        <beans:list>
+          <beans:value>/homePage.do</beans:value>
+		  <beans:value>/claim/claimDetailsDisplay.do</beans:value>
+		  <beans:value>claim/claimSubmissionInitial.do</beans:value> <!-- delete? -->
+          <beans:value>/claim/managerAddPoints.do</beans:value>
+          <beans:value>/recognitionWizard/purlInviteContributors.do</beans:value>
+		  <beans:value>/claim/displayCertificate.do</beans:value>
+		  <beans:value>/claim/adminTestDisplayCertificate.do</beans:value>
+		  <beans:value>/claim/viewrecognition.do</beans:value>
+		  <beans:value>/promotionRecognition/promotionEcard.do</beans:value>
+		  <beans:value>/participant/myAccountDisplay.do</beans:value>
+		  <beans:value>/participant/participantMaintainUpdatePreferences.do</beans:value>
+		  <beans:value>/newspage.do</beans:value>
+		  <beans:value>/contactUs.do</beans:value>
+		  <beans:value>/reports/reportMenu.do</beans:value>
+		  <beans:value>/userBounceBackEmailVerification.do</beans:value>
+		  <beans:value>/shopping.do</beans:value>
+          <beans:value>/secureShopping.do</beans:value>
+          <beans:value>/loadStageData.do</beans:value>
+          <beans:value>/purl/purlMaintenance.do</beans:value>
+          <beans:value>/purl/purlMaintenanceList.do</beans:value>
+          <beans:value>/purl/purlRecipientSubmit.do</beans:value>                  
+          <beans:value>/purl/purlRecipient.do</beans:value>   
+          <beans:value>/purl/externalUnsubscribe.do</beans:value>               
+          <beans:value>/wellnessKeepAlive.do</beans:value>
+          <beans:value>/claim/productClaimDetail.do</beans:value>
+          <beans:value>/celebration/celebrationPage.do</beans:value>                  
+          <beans:value>/celebration/managerMessageCollect.do</beans:value>
+          <beans:value>/ssi/creatorContestListRedirect.do</beans:value>
+          <beans:value>/ssi/managerContestListRedirect.do</beans:value>
+          <beans:value>/ssi/participantContestListRedirect.do</beans:value>
+          <beans:value>/cmsDebug.do</beans:value>          
+		</beans:list>
+	  </beans:property>
+   </beans:bean>
+
+
+  <beans:bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+      <beans:property name="providers">
+         <beans:list>
+            <beans:ref local="authServiceAuthenticationProvider"/>
+            <beans:ref local="anonymousAuthenticationProvider"/>
+         </beans:list>
+      </beans:property>
+   </beans:bean>
+
+   <beans:bean id="authServiceAuthenticationProvider" class="com.biperf.core.security.provider.AuthServiceAuthenticationProvider">
+      <beans:property name="authenticationService"><beans:ref bean="authenticationService"/></beans:property>
+   </beans:bean>
+
+   <beans:bean id="anonymousAuthenticationProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+      <beans:property name="key" value="anonymousKey"></beans:property>
+   </beans:bean>
+
+   <!-- Anonymous User Processing -->
+
+   <beans:bean id="anonymousProcessingFilter" class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+      <beans:property name="key" value="anonymousKey"></beans:property>
+      <beans:property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS"></beans:property>
+   </beans:bean>
+
+   <!-- HttpRequest Authorization -->
+
+   <beans:bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+      <!-- <property name="filterSecurityInterceptor"><ref local="filterInvocationInterceptor"/></property> -->
+      <beans:property name="authenticationEntryPoint"><beans:ref local="authenticationProcessingFilterEntryPoint"/></beans:property>
+   </beans:bean>
+   
+   <!-- NOTE: The URL entries below MUST be all lower case!!!! -->
+   <!-- Note the order that entries are placed against the objectDefinitionSource is critical.
+        The FilterSecurityInterceptor will work from the top of the list down to the FIRST pattern that matches the request URL.
+        Accordingly, you should place MOST SPECIFIC (ie a/b/c/d.*) expressions first, with LEAST SPECIFIC (ie a/.*) expressions last -->
+
+   <beans:bean id="filterInvocationInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+      <beans:property name="authenticationManager"><beans:ref bean="authenticationManager"/></beans:property>
+      <beans:property name="accessDecisionManager"><beans:ref local="httpRequestAccessDecisionManager"/></beans:property>
+      <beans:property name="securityMetadataSource">
+      <filter-security-metadata-source>
+		<intercept-url pattern="/notauthtimeoutredirect.do*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/notauthtimeout.do*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/ssologonfailure.do*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/ssogatewaylogonfailure.do*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/ssologoutredirect.do*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/logoutstatic.do*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/prelogin/*.action*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/selfenrollment/*.action*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/activate/**/*.action*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+      <intercept-url pattern="/seamlesslogon.do*"
+	access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/seamlesslogonfailure.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/seamlesslogontest.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/clientseamlesslogon.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/clientseamlesslogontest.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/clearcache.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/clearcacheaction.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/clearskincache.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/contactus.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/loginPageFormRegistration.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/loginPageFormContact.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />		
+	<intercept-url pattern="/loginPageFormForgotPass.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/contactuspublic.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/privacy.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/contactussave.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/getsecurityquestion.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/contactusforgotid.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/editemployer.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/loginpagehelp.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/selfenrollmentstart.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/selfenrollmentgenerateid.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/enrollmentopenjsonaction.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/participant/chatterauthorizationcallback.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/participant/chatterauthorizationsubmit.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/forgotpwd.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/forgotpwdauth.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/forgotpwdcancel.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/forgotpwdnamevalidate.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/forgotpwdanswer.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/forgotpwdanswervalidate.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/getchangepassword.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/globalheaderview.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/globalfooterview.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/index.html"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/loadstagedata.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/login.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/account/lock.action*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+		<intercept-url pattern="/account/lockAccountConfirm.action*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/account/redirectLock.action*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />		
+	<intercept-url pattern="/logout.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/manageemployer.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/manageemployment.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/manageemploymentsave.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/merchlevelshopping.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/participantprofileview.do*"
+		access="ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/participantProfilePage.do*"
+		access="ROLE_AUTHENTICATED,ROLE_PLATEAU_REDEMPTION" />	
+	<intercept-url pattern="/profilePageAlertsAndMessagesTabAlerts.do*"
+		access="ROLE_AUTHENTICATED,ROLE_PLATEAU_REDEMPTION" />
+	<intercept-url pattern="/profileview.do*" access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED,ROLE_PLATEAU_REDEMPTION" />
+	<intercept-url pattern="/newsresult.do*" access="ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/quicksearch.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/selfenrollmentpaxregistration.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/selfenrollmentpaxregistrationsave.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/servercommandredirect.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/servercommandhtmlredirect.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/termsandconditionsview.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/termsandconditionsedit.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/usercharacteristicedit.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/usercharacteristiclist.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/userlist.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/userdisplayinternal.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/userdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/useremailaddressdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/useremailaddresslistdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/useremailaddresslistmaintain.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/useremailaddressmaintain.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_MODIFY_RECOVERY_CONTACTS" />
+	<intercept-url pattern="/userbouncebackemailverification.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/usermaintaincreate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/usermaintaincreateinternal.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/usermaintainupdatelogininfo.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/usermaintainupdatepersonalinfo.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/usersearch.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/whatisthis.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/admin/systemvariable*" access="ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/messagelist.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/sendadhocmessage*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/sendmessage*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/budgetmaintaincreate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/budgetmaintainupdate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/budgetmasterdetail.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/budgetmasterlistmaintain.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/budgetmastermaintain.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/budget*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/displaybudgetextractparameters.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/clearcache.do*" access="ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/country*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/createacl.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/createrole.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/deleteimportfile*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/displaycreateacl.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/displaycreaterole.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/displayimportfile.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/displayimportrecords*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/displaypreviewmessage.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/admin/displayupdateacl.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/employerdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/employerlistdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/rolelistdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/displayupdaterole.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/acllistdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/aclcreatedisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/displayimportfilelist.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/employerlistmaintain.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/employermaintaincreate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/employermaintainupdate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/findimportfilelist.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/importimportfile.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/maintainacl.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/maintainmessage.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/maintainrole.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/messagedisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/supplier*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/updateacl.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/updaterole.do*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/verifyimportfile.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/admin/awardgeneratorlistdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/calculator/*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/claim/viewrecognition.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/claim/displaycertificate.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/claim/admintestdisplaycertificate.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/claim/claimforminputs.do*"
+		access="ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/claim/claimform*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/goalquest/replacegiftcode*"
+		access="ROLE_BI_ADMIN" />
+	<intercept-url pattern="/goalquest/goalquestsurvey.do*"
+		access="ROLE_ANONYMOUS" />
+	<intercept-url pattern="/hierarchy/hierarchylist*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/hierarchy/hierarchydisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/hierarchy/viewupdatenode.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/maintainnode.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/hierarchy*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/nodetypedisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/hierarchy/nodetypelistdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/hierarchy/nodetype*" access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/nodelookup.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_PARTICIPANT" />
+	<intercept-url pattern="/hierarchy/nodemaintaincreate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/nodemaintainupdate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/nodeparticipantlistdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/hierarchy/nodeparticipantlistmaintain.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/nodeparticipantmaintain.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/nodeparticipantreassigndisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/characteristic*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/viewcreatenode.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/hierarchy/viewnode.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/login/*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/participant/display*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/participant/loginas.do*"
+		access="ROLE_BI_USER,ROLE_LAUNCH_AS_PAX,ROLE_PLATEAU_REDEMPTION" />
+	<intercept-url pattern="/participant/participantdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_VIEW_PARTICIPANTS,ROLE_PLATEAU_REDEMPTION" />
+	<intercept-url pattern="/participant/audience*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/characteristic*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/listbuilderaddaudiencedisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/listbuilderadmindisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/listbuildereditaudiencedisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/listbuilderredisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/maintainusernodes.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/participantemploymentcreatedisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/participant/participantemploymentlistdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/participantemploymentmaintaincreate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/participant/participantemploymentmaintainupdate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/participant/participantemploymentupdatedisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/participantlist.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/participantmaintaincreate.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/participantpromotionsdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/participantsearch.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/paxgoalquestdetailsdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/participant/paxgoalquestprogressdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/challengepoint/challengepointdetailsdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/challengepoint/challengepointprogressdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/challengepoint/awardlistdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/challengepoint/pendingcpawardsummary.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/participant/usernodehistorydisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/usercommlog*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/useraddress*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/userphone*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM,ROLE_VIEW_PARTICIPANTS" />
+	<intercept-url pattern="/participant/userroleadd.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/participant/useracladd.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/participant/updateusernodes.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/process/inactiveprocesslist.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/process/process*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/process/scheduleprocess*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/product/characteristicdisplayproduct.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/product/characteristiclistdisplayproduct.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/product/characteristicmaintaincreateproduct.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/product/characteristicmaintainupdateproduct.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/product/productcategorylistdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/product/productcategory.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/product/productedit.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/product/productlibrary.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/product/productsearch.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/product/productsubcategorydisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/product/productviewdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/product/product*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/promotionrules.do*"
+		access="ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/promotion/promotionlistdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/badgelist.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/copypromotion.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/create*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/discretionary*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/displaystackranknode.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/promotion/display*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/expired*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/pendingsweepstakeswinnersdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/pending*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/promotionaudience.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/promotioncopy.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/promotionlistmaintain.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/promotionoverview.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/promotionoverview*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/promotionsweepstakeslistdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/stackrankhistory.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/stackranklistdisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/stackrankpendinglist.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/sweepstakeswinnerhistorydisplay.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/stackrankpendinglistsave.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotion/start*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url
+		pattern="/promotion/submitpromotionwizardcreatepromotiontype.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/addnewbehavioroption.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/ecardclientuser.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionapproval.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionaudience.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionawards.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionbasics.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionbehaviors.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionecard.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionformrules.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionnotification.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionsweepstakes.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotionwebrules.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionnomination/promotion*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionapproval.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionaudience.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionbasics.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionformrules.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionnotification.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionpayout.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionpayoutlookup.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionsweepstakes.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotionwebrules.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionproductclaim/promotion*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionquiz/promotionaudience.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionquiz/promotionawards.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionquiz/promotionbasics.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionquiz/promotionnotification.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionquiz/promotionsweepstakes.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionquiz/promotionwebrules.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionquiz/promotion*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionwellness/promotionaudience.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionwellness/promotionawards.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionwellness/promotionbasics.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionwellness/promotion*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/addnewbehavioroption.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/ecardclientuser.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionapproval.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionaudience.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionawardgivers.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionawards.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionbasics.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionbehaviors.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionecard.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionformrules.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionnotification.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionsweepstakes.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionwebrules.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotionpublicrecaddon.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url
+		pattern="/promotionrecognition/promotionpublicrecognitiongivers.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionrecognition/promotion*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionsurvey/promotionaudience.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionsurvey/promotionbasics.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionsurvey/promotionnotification.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionsurvey/promotionsweepstakes.do*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/promotionsurvey/promotion*"
+		access="ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR" />
+	<intercept-url pattern="/quiz/quizpromotionlistdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/quiz/quizquestionanswerdisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/quiz/quizquestionanswersave.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/quiz/quizquestiondisplay.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/quiz/quizquestionsave.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/quiz/quizquestionview.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/quiz/quizform*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/reports/*"
+		access="ROLE_MANAGER,ROLE_PROCESS_TEAM,ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_VIEW_REPORTS" />
+	<intercept-url pattern="/tileSetup.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/tileSetupSave.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/filterSetup.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/filterSetupSave.do*"
+		access="ROLE_BI_ADMIN,ROLE_PROJ_MGR,ROLE_PROCESS_TEAM" />
+	<intercept-url pattern="/sysadmin/cachestatsdisplay.do*"
+		access="ROLE_PROJ_MGR" />
+	<intercept-url pattern="/sysadmin/performancestatsdisplay.do*"
+		access="ROLE_PROJ_MGR" />
+	<intercept-url pattern="/sysadmin/version.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED,ROLE_BI_ADMIN" />
+	<intercept-url pattern="/sysadmin/journalstats*"
+		access="ROLE_BI_ADMIN" />
+	<intercept-url pattern="/captcha.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/purl/purlcontribution.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/purl/translate.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/purl/externalUnsubscribe.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/purl/purltnc.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/celebration/celebrationPage.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/purl/purltempimage.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/purl/purlrecipientloadactivity.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/spellchecker/jazzyspellcheck.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/participant/twitterauthorizationcallback.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+    <intercept-url pattern="/ssi/contestprogressload.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />		
+	<intercept-url pattern="/setscriptdebugaction.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/ws/*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />	
+	<intercept-url pattern="/api/**"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />	
+	<intercept-url pattern="/hc/secureClientInfo.action"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/raLogin.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />	
+		<intercept-url pattern="/mtc/callbackpost.action"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />
+	<intercept-url pattern="/profiletempimage.do*"
+		access="ROLE_ANONYMOUS,ROLE_AUTHENTICATED" />	
+				
+	<intercept-url pattern="/admin/extractinactivebudgetsdisplay.do*"
+	access="ROLE_BI_ADMIN" />
+	<intercept-url pattern="/indexing/**" access="ROLE_BI_ADMIN" />
+	<intercept-url pattern="/**" access="ROLE_AUTHENTICATED" />
+      </filter-security-metadata-source>
+      </beans:property>
+   </beans:bean>
+
+  <!-- An access decision voter that reads ROLE_* configuration settings -->
+   <beans:bean id="httpRequestAccessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+      <beans:property name="allowIfAllAbstainDecisions" value="false"></beans:property>
+      <beans:property name="decisionVoters">
+         <beans:list>
+            <beans:ref bean="biRoleIPVoter"/>
+         </beans:list>
+      </beans:property>
+   </beans:bean>
+
+   <!-- An access decision voter that reads ROLE_* configuration settings 
+   <beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter"/>
+   -->
+	<beans:bean id="biRoleIPVoter" class="com.biperf.core.security.voter.BIRoleIPVoter">
+		<beans:property name="adminSecurityAdvisorFactory" ref="adminSecurityAdvisorFactory"/>
+	</beans:bean>
+
+   <beans:bean id="authenticationProcessingFilterEntryPoint" class="com.biperf.core.ui.servlet.AuthProcessingFilterEntryPoint">
+      <beans:property name="ajaxLoginUrl"><beans:value>/serverCommandRedirect.do?targetUrl=/notAuthTimeoutRedirect.do</beans:value></beans:property>
+      <beans:property name="loginFormUrl"><beans:value>/notAuthTimeoutRedirect.do</beans:value></beans:property>
+      <!-- beans:property name="ajaxHtmlLoginUrl"><beans:value>/serverCommandHtmlRedirect.do?targetUrl=/notAuthTimeoutRedirect.do</beans:value></beans:property> -->
+      <beans:property name="forceHttps" value="false"></beans:property>
+   </beans:bean>
+   
+   <beans:bean id="adminSecurityAdvisorFactory" class="com.biperf.core.security.admin.AdminSecurityAdvisorFactoryImpl">
+     <beans:property name="adminSecurityAdvisor" ref="adminSecurityAdvisor"/>
+   </beans:bean>
+   
+   <beans:bean id="adminSecurityAdvisor" class="com.biperf.core.security.admin.impl.AdminSecurityAdvisorSystemPropertyImpl">
+     <beans:property name="systemVariableService" ref="systemVariableService" />
+   </beans:bean>
+   
+</beans:beans>                     

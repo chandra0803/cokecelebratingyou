@@ -1,0 +1,208 @@
+{
+   "tabularData":{
+      "more":false,
+      "cumulativeNomination":false,
+      "sortedOn":"date_submitted",
+      "sortedBy":"asc",
+      "totalRows":1,
+      "rowsPerPage":50,
+      "currentPage":1,
+      "totalPages":1,
+      "isMore":false,
+      "isCustomApprovalType": true,
+      "isCustomPayoutType":false,
+      "isCumulativeNomination":false,
+      "awardType":"none",      
+      "previousLevelName":null,
+      "nextLevelName":"test2",
+      "meta":{
+         "columns":[
+            {
+               "id":1,
+               "name":"expand",
+               "displayName":"Expand",
+               "sortable":false
+            },
+            {
+               "id":2,
+               "name":"nominee_name",
+               "displayName":"Nominee",
+               "sortable":true
+            },
+            {
+               "id":3,
+               "name":"submitted_date",
+               "displayName":"Date Submitted",
+               "sortable":true
+            },
+            {
+               "id":4,
+               "name":"nominator_name",
+               "displayName":"Nominator",
+               "sortable":true
+            },
+            {
+               "id":5,
+               "name":"status",
+               "displayName":"Status",
+               "sortable":false
+            },
+            {
+               "id":6,
+               "name":"level",
+               "displayName":"Level",
+               "sortable":false
+            },
+            {
+               "id":7,
+               "name":"award",
+               "displayName":"Award",
+               "sortable":false
+            },
+            {
+               "id":8,
+               "name":"notificationDate",
+               "displayName":"Notification Date",
+               "sortable":false
+            },
+            {
+               "id":9,
+               "name":"timePeriod",
+               "displayName":"Time Period",
+               "sortable":false
+            },
+            {
+               "id":10,
+               "name":"compare",
+               "displayName":"Compare",
+               "sortable":false
+            }
+         ]
+      },
+      "results":[
+         {
+            "pastWinner":false,
+            "team":true,
+            "claimId":"153928",
+            "claimGroupId":null,
+            "index":0,
+            "paxId":0,
+            "teamId":97691,
+            "nominee":"ASW",
+            "avatarUrl":null,
+            "countryCode":null,
+            "orgName":null,
+            "jobName":null,
+            "departmentName":null,
+            "isPastWinner":false,
+            "pastWinnerMaxLimit":false,
+            "recentTimePeriodWon":null,
+            "mostRecentTimeDate":"",
+            "isTeam":true,
+            "teamMemberCount":3,
+            "dateSubmitted":"03/16/2020",
+            "nominator":"Asahi, Hiroshi",
+            "nominatorId":102569,
+            "award":null,
+            "status":"pend",
+            "eCardImg":null,
+            "videoUrl":null,
+            "videoImg":null,
+            "teamAward":null,
+            "reason":"<p></p>test<p></p>",
+            "submitterLangId":null,
+            "moreInfo":null,
+            "attachmentUrl":null,
+            "attachmentName":null,
+            "eCertUrl":null,
+            "contextPath":"https://celebratingyoudaymakerqa.performnet.com/celebratingyou/assets/",
+            "deinalReason":null,
+            "winnerMessage":null,
+            "moreinfoMessage":null,
+            "nominatorCount":0,
+            "notificationDate":"",
+            "levelName":"test1",
+            "optOutAwards":false,
+            "levels": [
+                  {
+                     "id" : "level1",
+                     "value": "1 Moderate"
+                  },
+                  {
+                     "id" : "level2",
+                     "value": "2 Significant"
+                  },
+                  {
+                     "id" : "level3",
+                     "value": "3 Breakthrough"
+                  }  
+               ],
+            "teamMembers":[
+               {
+                  "paxId":101027,
+                  "name":"Clark, Ryan Ernest",
+                  "countryCode":"us",
+                  "orgName":"SO20079547",
+                  "jobName":"Scientist II",
+                  "award":null,
+                  "departmentName":"CCNA-TI&S Coffee/Tea Product D",
+                  "optOutAwards":false
+               },
+               {
+                  "paxId":2967914,
+                  "name":"Abarca, David",
+                  "countryCode":"cr",
+                  "orgName":"SO20089836",
+                  "jobName":"COR-CPSCR-Plant Manufacturing Operator",
+                  "award":null,
+                  "departmentName":"COR-CPS-Costa Rica Manuf Dry P",
+                  "optOutAwards":false
+               },
+               {
+                  "paxId":107369,
+                  "name":"Abel, Damien",
+                  "countryCode":"us",
+                  "orgName":"SO20019677",
+                  "jobName":"Senior Finance Manager",
+                  "award":null,
+                  "departmentName":"COR-Finance Director IT & Inte",
+                  "optOutAwards":false
+               }
+            ],
+            "behaviors":[
+
+            ],
+            "customFields":[
+
+            ],
+            "timePeriods":[
+               {
+                  "id":0,
+                  "name":null,
+                  "maxWinsllowed":null,
+                  "noOfWinnners":null
+               }
+            ]
+         }
+      ],
+      "budgetBalance":null,
+      "previousApproverCount":0,
+      "nextApproverCount":1,
+      "pendingNominations":0,
+      "budgetPeriod":null,
+      "lastBudgetRequestDate":"",
+      "potentialAwardExceeded":false,
+      "payoutDescription":null,
+      "excelUrl":"/celebratingyou/claim/nominationsApprovalPage.do?method=extractCsv&clientState=brP1WZzkX7ysZ2r79VfZtOX0Hn5I0f17FeLuGvbxwpkWgkmnGB%2Fj0f5qL0xk%2FCHSa5cRgq60Gkdv%0ASxLZtIaSzcPW5qOWWEl4JisuZyJbJGiQMkpe4KXej6%2FWB6bL2euSd6WUtxwLeeEPw3k%2BVpUZY668%0A1%2Br8rs%2BXUFg2%2FaLEyccnGt9Hols8Kv%2FEyOkYHEMjlQHVez%2BcHeE8i8NA0WZUj3NrgYQoCs68MtlG%0AHNpVZaN64Cp3cv1tCUjUCLM6iJfqrZzEanxwIu49GW8hnrO9Ub9LSWM1YA459HD68B8pBdINp9LV%0AqozKy%2B9dQIb%2F35s1lcAXLH9YpXIJ7QulyB7MBb8DKpSFIqUC1x1XW4AmaiUAJZwtoLUBRhahlwfp%0A03G4TL3opRqlIE9wRhjT25fOcXX3KopvPeSk%2BIS%2B8SNNh34zSejScKQdbcXpfodfjAsVTobgbHh%2F%0AT8GDl94v6eQg%2FUk07MaThXTBkgMiS7iz7lCxjHKk9xSjSZ1%2FfBhskcZDrZTSp%2BJQhvKnIawfWClE%0AgdhS3IqHZisPzn7ytwXi1dIlTzE8hhn4fadWQJGyRPLKx7OS8UPTjcG1g5DIGCMMED%2Fl93GnQAsG%0AMvlQeLoMb8OvV7%2FG8WhWOZQ0hXuaIVACzzbsE3XK665WVoGXGYfrio4vL1%2FCwoJCNhdV13Ymn3Nh%0Ak6fl93el6yUjossY8vMxK7Pve0tdSIUtW2QqfEYvLJXQW7fBEO%2B0D5ZHjtB12Ax9o01l6VpxTEem%0AcVH5gEWTXHezIJTccUk3%2BI1TOHF0nXBIoHxBrBmK3O4OEA%3D%3D&cryptoPass=1",
+      "pdfUrl":"/celebratingyou/claim/nominationsApprovalPage.do?method=extractPdf&clientState=ePIKR83abS1zCSF0NgqFvg1HzD2qCDV2Due%2F2yQe31yB9cwu0SNfWu%2BFTcYAqp1SQPPo2qE%2Fgzg1%0Az64BeUXMLXpozOpy3ah2Q1OeoZLT32xDvhwl26kuVfO5%2FRBXi9Syc8RqPrQKxI8cye7fC5fV%2FPBO%0AY83Auu7DqhhYUQZ4saavvgcG3IWnIzNzEosTN0HkSSKM8M0G3zqLgiSD42jBEtn%2FwQaca3QLJ1lV%0A1inJaAlrebahu1JfSu7UDWYZ0M9Ds2TTthMaoHCUIujfDDHejKZopxA32DXrMTAe9UMIM2%2FhGo%2Fm%0ACiC%2FWgH6ywwFXQzVA%2F84FSB621C%2BClyWLarFpRMjF%2FdAquwyC%2Fbn%2B0BSzEEIEfyUg%2BM%2BzVVl49Hz%0AxPM6m3jWJvrwGPuqBHbdWmb%2FJ2DtR1mqZAqe8TS0Ku52qbglWai4oIoFynVWh7MdhbSX%2FqFh8pt3%0AMD%2BekCcHL8VwnVo21oi72O6cKYOcBXadqz416aWvRq1uN74yAdeajyqbcma3uUnp0Gp8gkdcYak5%0AS6SsVX8uhQr%2FDOozIgzKCmWvnytI1536vDTWuq9fFfp9HGWZdOxJTyQTO3RIHyU6AUjyjdzZ31a3%0AnwBPRrFN4BtsTTZh0CyOhftnyZVMOBWyVBcXMZRf2WWsVNgtO12pomFQhvyDV%2F1TVUrbdLyF7Pai%0AbjAhvh2XpRSXvzCkhSJtH7ZtWbvzv0HDNezCCyFHxUeUn%2FDtkHyKJw70MRaJARrVyLkF7MpwEm0k%0AOnV%2F1rbpY6qgS7H9ncX4dg79dVNwygHLk7tHuSFLSrK9eA%3D%3D&cryptoPass=1",
+      "previousApprovers":[
+
+      ],
+      "nextApprovers":[
+         {
+            "id":3294202,
+            "name":"Test, Pax23"
+         }
+      ]
+   }
+}

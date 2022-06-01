@@ -1,0 +1,22 @@
+CREATE SEQUENCE odd_cast_category_pk_sq start with 250 increment by 1
+/
+CREATE TABLE odd_cast_category
+   (category_id              	NUMBER(18) NOT NULL,
+    category_name           	VARCHAR2(70) NOT NULL,
+    category_small_image_name   VARCHAR2(120) NOT NULL,
+    category_large_image_name   VARCHAR2(120) NOT NULL,
+    is_active        			NUMBER(1),
+    created_by number(18) NOT NULL,
+    date_created     			DATE NOT NULL,
+    modified_by number(18),
+    date_modified    			DATE,
+    version          			NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE odd_cast_category
+ADD CONSTRAINT odd_cast_category_pk PRIMARY KEY (category_id)
+USING INDEX
+/
+COMMENT ON TABLE odd_cast_category IS 'The odd_cast_category table defines all of the categories for the odd_cast cards.'
+/
+COMMENT ON COLUMN odd_cast_category.category_id IS 'PK'
+/

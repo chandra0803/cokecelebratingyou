@@ -1,0 +1,55 @@
+CREATE TABLE process_invocation
+    (process_invocation_id          NUMBER(18) NOT NULL,
+     process_id                     NUMBER(18) NOT NULL,
+     start_date                     DATE NOT NULL,
+     end_date                       DATE,
+     run_as_user_id                 NUMBER(18) NOT NULL,
+     created_by 										NUMBER(18) NOT NULL,
+     date_created                   DATE NOT NULL,
+     modified_by 										NUMBER(18),
+     date_modified                  DATE,
+     version                        NUMBER(18) NOT NULL)
+/
+ALTER TABLE process_invocation
+ADD CONSTRAINT process_invocation_pk PRIMARY KEY (process_invocation_id)
+USING INDEX
+/
+COMMENT ON TABLE process_invocation IS 'The process_invocation table stores a record of a process each time it is run.'
+/
+COMMENT ON COLUMN process_invocation.process_invocation_id IS 'System-generated key that identifies a specific processinvocation.'
+/
+COMMENT ON COLUMN process_invocation.process_id IS 'FK to the Process table'
+/
+COMMENT ON COLUMN process_invocation.start_date IS 'process invocation start date'
+/
+COMMENT ON COLUMN process_invocation.end_date IS 'process invocation end date'
+/
+COMMENT ON COLUMN process_invocation.run_as_user_id IS '- ID of the user who ran the process'
+/
+COMMENT ON COLUMN process_invocation.created_by IS 'Created by'
+/
+COMMENT ON COLUMN process_invocation.date_created IS 'Date Created'
+/
+COMMENT ON COLUMN process_invocation.modified_by IS 'Modified by.'
+/
+COMMENT ON COLUMN process_invocation.date_modified IS '- Date Modified.'
+/
+COMMENT ON COLUMN process_invocation.version IS '- Version.'
+/
+ALTER TABLE process_invocation
+ADD CONSTRAINT proc_proc_invoc_fk FOREIGN KEY (process_id)
+REFERENCES Process (process_id)
+/
+ALTER TABLE process_invocation
+ADD CONSTRAINT user_proc_invoc_fk FOREIGN KEY (run_as_user_id)
+REFERENCES application_user (user_id)
+/
+create sequence process_invocation_pk_sq start with 1540
+/
+-- Used for setting a unique Quartz trigger name
+create sequence process_trigger_sq start with 2000
+/
+CREATE INDEX PROCESS_INVOC_PROCESS_FK_idx ON PROCESS_INVOCATION
+  (PROCESS_ID)
+/
+

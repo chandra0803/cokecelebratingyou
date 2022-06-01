@@ -1,0 +1,963 @@
+// Partial-specific variables
+// =========================
+$login_bgColor: $brand_color_dark !default;
+$login_bgImg: false !default; // this variable can take a list of images that will stack front to back. Handy if you want to see a low-res image quickly while the high-res downloads
+$login_bgImgUrlPath: false !default;
+$login_bgImgPosition: 50% 0% !default;
+$login_bgImgRepeat: no-repeat !default;
+$login_bgImgSize: cover !default;
+$login_bgImgAttachment: fixed !default;
+
+// false for any of these Mobile values will cause them not to apply and inherit desktop rules instead
+$login_bgImgMobile: false !default; // this variable can take a list of images that will stack front to back. Handy if you want to see a low-res image quickly while the high-res downloads
+$login_bgImgUrlPathMobile: false !default;
+$login_bgImgPositionMobile: false !default;
+$login_bgImgRepeatMobile: false !default;
+$login_bgImgSizeMobile: false !default;
+$login_bgImgAttachmentMobile: scroll !default; // except this one. 'scroll' by default because touch
+
+// false for any of these SiteMax values will cause them not to apply and inherit desktop rules instead
+$login_bgImgSiteMax: false !default; // this variable can take a list of images that will stack front to back. Handy if you want to see a low-res image quickly while the high-res downloads
+$login_bgImgUrlPathSiteMax: false !default;
+$login_bgImgPositionSiteMax: false !default;
+$login_bgImgRepeatSiteMax: false !default;
+$login_bgImgSizeSiteMax: false !default;
+$login_bgImgAttachmentSiteMax: false !default;
+
+$login_logo_height_mobile: 'desktop' !default; // must be one of 'mobile', 'tablet', 'desktop', 'desktopLarge'
+
+$login_contentsMaxWidth: 320px !default;
+$login_contentsBgColor: rgba(255, 255, 255, 0.8) !default;
+
+$login_headlineColor: $brand_color_primary !default;
+$login_textColor: false !default;
+
+// setting these is only necessary if the login footer needs to be different from the global footer
+// note that this is *highly* unlikely, as the login page is currently the only one with the footer
+$login_footer_bgColor:           false !default;
+$login_footer_gradMeta:          false !default; // top would be an ideal value // only applies when a background color has been set
+$login_footer_gradStops:         false !default;
+$login_footer_borderTopWidth:    false !default;
+$login_footer_borderTopColor:    $global_footer_bgColor !default;
+$login_footer_borderBottomWidth: false !default;
+$login_footer_borderBottomColor: false !default;
+
+$login_footer_linksColor:             false !default;
+$login_footer_linksFontWeight:        false !default;
+$login_footer_linksFontStyle:         false !default;
+$login_footer_linksTextDecoration:    false !default;
+$login_footer_linksTextTransform:     false !default;
+$login_footer_linksDisabledColor:     false !default;
+
+$login_footer_copyrightFontStyle:     false !default;
+$login_footer_copyrightFontWeight:    false !default;
+$login_footer_copyrightTextTransform: false !default;
+$login_footer_copyrightTextColor:     false !default;
+
+
+// Login alert notification for lock
+$login_form_danger_bgColor: #FAD7D6;
+$login_form_success_bgColor: #D8F4E2;
+$login_form_danger_textColor: #E66665;
+$login_form_success_textColor: #6ECF9B;
+$lock_alert_radius: 3px;
+
+
+// Partial-specific code
+// ==================================================
+/* ----- GLOBAL STYLES ----- */
+
+
+
+
+// Note that the loginPages are treated unusually, in that the body tag gets the namespaced class
+body.page--login {
+    // styles that live outside the pageView go here
+    // ----------------------------------------
+    // wrapping these in a media query so they don't pollute the siteMax screen size
+    @media (max-width: $breakpoint_desktopLarge_max) {
+        @if $login_bgColor {
+            background-color: $login_bgColor;
+        }
+        @if $login_bgImg {
+            @include safeImgUrls($login_bgImg, $login_bgImgUrlPath, $property: 'background-image');
+            background-position: $login_bgImgPosition;
+            background-repeat: $login_bgImgRepeat;
+            background-size: $login_bgImgSize;
+            background-attachment: $login_bgImgAttachment;
+        }
+    } // /@media
+    @if $login_bgImgMobile {
+        @media (max-width: $breakpoint_mobileMini_max) {
+            @include safeImgUrls($login_bgImgMobile, ($login_bgImgUrlPathMobile or $login_bgImgUrlPath), $property: 'background-image');
+            @if $login_bgImgPositionMobile {
+                background-position: $login_bgImgPositionMobile;
+            }
+            @if $login_bgImgRepeatMobile {
+                background-repeat: $login_bgImgRepeatMobile;
+            }
+            @if $login_bgImgSizeMobile {
+                background-size: $login_bgImgSizeMobile;
+            }
+            @if $login_bgImgAttachmentMobile {
+                background-attachment: $login_bgImgAttachmentMobile;
+            }
+        }
+    }
+
+    // these two selectors and their rules copied from .no-sidebar in _global.scss
+    #header{
+        padding-right: 0;
+    }
+    #wrapper_inner {
+        position: static;
+        padding-right: 0;
+        background: none;
+    }
+
+    // styles that live inside the pageView go here
+    // ----------------------------------------
+
+    /* /.page */
+
+    // header
+    #header {
+        #globalHeaderView {
+            .logo {
+                display: block;
+            }
+        }
+
+        @if $login_logo_height_mobile != 'mobile' {
+            @media (max-width: $breakpoint_mobile_max) {
+                $height: 0;
+                $logoHeight: 0;
+
+                @if $login_logo_height_mobile == 'tablet' {
+                    $height: $global_header_height_tablet;
+                    $logoHeight: $global_header_logoHeight_tablet;
+                }
+                @if $login_logo_height_mobile == 'desktop' {
+                    $height: $global_header_height_desktop;
+                    $logoHeight: $global_header_logoHeight_desktop;
+                }
+                @if $login_logo_height_mobile == 'desktopLarge' {
+                    $height: $global_header_height_desktopLarge;
+                    $logoHeight: $global_header_logoHeight_desktopLarge;
+                }
+
+                height: $height;
+
+                #globalHeaderView {
+                    .logo {
+                        line-height: $logoHeight;
+                        margin: (($height - $logoHeight) / 2) $global_header_spacing_horiz_mobile;
+
+                        img {
+                            height: $logoHeight;
+                        }
+                    }
+                }
+            } // /@media
+        } // /@if
+    }
+
+    #globalNav {
+        display: none;
+    }
+
+    /**
+     * pageNav commented out until (if?) we bring something like this back (see _pageNav.scss)
+     *
+     *
+
+    // pageNav
+    #pageNav {
+
+        padding-bottom: 0;
+        // need to do some style resets but only if certain values are set in _pageNav.scss
+        @if $pageNav_bgColor {
+            padding: 0;
+            margin-bottom: 0;
+            background: none;
+        }
+        @if $pageNav_borderTopWidth or $pageNav_borderBottomWidth {
+            border: 0;
+        }
+        @if $pageNav_bgColor and $pageNav_gradMeta {
+            .lt-ie9 & {
+                filter: none;
+                width: 100%;
+            }
+        }
+        #pageTitle {
+            display: block;
+            float: none;
+            width: 50%;
+            font-size: $global_header_logoHeight_desktop;
+            line-height: $global_header_logoHeight_desktop;
+        }
+    }
+     *
+     *
+     */
+    /* #pageNav */
+
+    // content
+    #contents {
+        padding: ($g6ModulePaddingY / 2) 0;
+    }
+    #loginPageFormContactUs{
+        position:relative;
+    }
+
+    #contents .page-content {
+        position: relative;
+        padding: ($g6ModulePaddingY / 2) $g6ModulePaddingX;
+        overflow: visible;
+        background-color: $login_contentsBgColor;
+        max-width: $login_contentsMaxWidth;
+        margin: 0 auto;
+        border: 0;
+
+        @media (min-width: ($login_contentsMaxWidth + $g6ModulePaddingX * 2) + 1) {
+            @include border-radius($card_borderRadius);
+            @include box-shadow($card_boxShadow);
+        }
+        @if $login_textColor {
+            color: $login_textColor;
+        }
+
+        .span12 {
+            margin: 0;
+        }
+
+        h2 {
+            color: $login_headlineColor;
+        }
+        p.intro {
+            margin-bottom: $baseLineHeight;
+
+            & + p.intro {
+                margin-top: -1 * $baseLineHeight / 2;
+            }
+        }
+        // form area
+
+        #loginForm {
+            margin-bottom: 0;
+
+            label a,
+            .form-actions a {
+                font-size: $fontSizeSmall;
+            }
+
+            #loginFieldset {
+                .control-label {
+                    width: 100%;
+                    text-align: left;
+                    font-weight: $fontWeightSemiBold;
+                }
+
+                .controls {
+                    display: block;
+                    // width: 100%;
+                }
+
+                input {
+                    width: calc(100% - #{(nth($formFieldPadding, 2) * 2) + $formFieldBorderWidth * 2});
+                }
+
+                select {
+                    width: 100%;
+                }
+
+            }
+
+            .form-actions {
+                padding-right: 0;
+                padding-bottom: 0;
+                padding-left: 0;
+                margin: 0;
+                text-align: center;
+                background: transparent;
+                border: 0;
+
+                #loginFormSubmit {
+                    margin-bottom: 36px;
+                }
+
+                a {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        &.selfEnrollmentOn {} &.selfEnrollmentOff {
+            #loginPageFormRegistration {
+                display: none;
+            } // this div won't even exist in the Java version when self enrollment is off
+            .span6 {
+                float: none;
+                clear: both;
+                margin: 0 auto;
+                padding: 0;
+                width: 50%;
+                border: 0;
+            }
+        }
+
+    } /* #loginPage.page-content */
+
+    // everything in #footer should be optional color overrides ONLY
+    #footer {
+        @if $login_footer_bgColor {
+            // this mixin has a built-in check for whether or not a gradient or solid color has been requested. It also assumes a linear gradient at all times.
+            @include progressBarHelper(
+                $login_footer_bgColor,
+                $login_footer_gradMeta,
+                $login_footer_gradStops
+            );
+        }
+
+        @if $login_footer_borderTopWidth {
+            border-top-width: $login_footer_borderTopWidth;
+        }
+        @if $login_footer_borderTopColor {
+            border-top-color: $login_footer_borderTopColor;
+        }
+        @if $login_footer_borderBottomWidth {
+            border-bottom-width: $login_footer_borderBottomWidth;
+        }
+        @if $login_footer_borderBottomColor {
+            border-bottom-color: $login_footer_borderBottomColor;
+        }
+    }
+
+    // everything in #globalFooterView should be optional color overrides ONLY
+    #globalFooterView {
+        .nav > li {
+            &.copyright {
+                @if $login_footer_copyrightTextColor {
+                    color: $login_footer_copyrightTextColor;
+                }
+                @if $login_footer_copyrightFontStyle {
+                    font-style: $login_footer_copyrightFontStyle;
+                }
+                @if $login_footer_copyrightFontWeight {
+                    font-weight: $login_footer_copyrightFontWeight;
+                }
+                @if $login_footer_copyrightTextTransform {
+                    text-transform: $login_footer_copyrightTextTransform;
+                }
+            }
+        }
+        .nav > li > a {
+            @include unapplyGlobalLinkStyles(
+                $color: $login_footer_linksColor,
+                $fontWeight: $login_footer_linksFontWeight,
+                $fontStyle: $login_footer_linksFontStyle,
+                $textDecoration: $login_footer_linksTextDecoration,
+                $textTransform: $login_footer_linksTextTransform,
+                $bgColor: false,
+                $border: false
+            );
+        }
+
+        .nav > li > a.disabledFootLink {
+            @if $login_footer_linksDisabledColor {
+                color: $login_footer_linksDisabledColor;
+            }
+        }
+    } /* #globalFooterView  */
+
+    // custom media query for when there is no space on either side of the #contents box
+    // $login_contentsMaxWidth is the max-width of the box + padding on either side
+    @media (max-width: ($login_contentsMaxWidth + $g6ModulePaddingX * 2)) {
+        #contents {
+            padding: 0;
+        }
+    }
+
+    @media (min-width: $breakpoint_tablet_min) {
+    //TABLET SIZES - and up
+
+        #contents {
+            padding: $g6PagePaddingY_tablet $g6PagePaddingX_tablet;
+        }
+
+        #contents .page-content {
+            padding: ($g6PagePaddingY_tablet / 2) ($g6PagePaddingX_tablet / 2);
+        }
+
+    }/* TABLET SIZES - and up */
+
+    @media (min-width: $breakpoint_desktop_min) {
+    //DESKTOP SIZES - and up
+
+        #contents {
+            padding: $g6PagePaddingY_desktop $g6PagePaddingX_desktop;
+        }
+
+        #contents .page-content {
+            padding: ($g6PagePaddingY_desktop / 2) ($g6PagePaddingX_desktop / 2);
+        }
+
+    }/* DESKTOP SIZES - and up */
+
+    @media (min-width: $breakpoint_desktopLarge_min) {
+    //DESKTOP LARGE
+
+        #contents {
+            padding: $g6PagePaddingY_desktopLarge $g6PagePaddingX_desktopLarge;
+        }
+
+        #contents .page-content {
+            padding: ($g6PagePaddingY_desktopLarge / 2) ($g6PagePaddingX_desktopLarge / 2);
+        }
+
+    }/* DESKTOP LARGE */
+
+    @media (min-width: $breakpoint_siteMax_min) {
+    //SITEMAX
+
+        $bgImg: $login_bgImgSiteMax or $login_bgImg;
+        $bgImgUrlPath: $login_bgImgUrlPathSiteMax or $login_bgImgUrlPath or '../img/';
+
+        $bgImgString:   linear-gradient(to right, $global_bodyBgColor_siteMax 50%, darken($global_bodyBgColor_siteMax, 10%) 100%),
+                        linear-gradient(to right, darken($global_bodyBgColor_siteMax, 10%) 0%, $global_bodyBgColor_siteMax 50%);
+
+                        @each $img in $bgImg {
+                            $bgImgString: #{$bgImgString + ', ' + url($bgImgUrlPath + $img)};
+                        }
+
+        @if $login_bgColor {
+            background-color: $login_bgColor;
+        }
+        @if $login_bgImg {
+            background-image: $bgImgString;
+
+            background-position: 0 0,
+                                 100% 0,
+                                 ($login_bgImgPositionSiteMax or $login_bgImgPosition);
+            background-repeat: repeat-y,
+                               repeat-y,
+                               ($login_bgImgRepeatSiteMax or $login_bgImgRepeat);
+            background-size: calc((100% - #{$breakpoint_desktopLarge_max}) / 2) 100%,
+                             calc((100% - #{$breakpoint_desktopLarge_max}) / 2) 100%,
+                             ($login_bgImgSizeSiteMax or $login_bgImgSize);
+            background-attachment: scroll,
+                                   scroll,
+                                   ($login_bgImgAttachmentSiteMax or $login_bgImgAttachment);
+        }
+
+    }/* SITEMAX */
+
+
+    // login modals
+    #loginPageFormForgotPass{
+        .modal-body{
+            padding-top:$g6ModulePaddingY;
+        }
+    }
+    .modal{
+        .form-actions {
+            box-shadow: none;
+        }
+        .modal-body-footer{
+            .modal-body{
+                position:relative;
+            }
+        }
+    }
+
+    // .modal-body {
+    //     overflow: visible;
+    // }
+}
+
+
+/* /.loginPage */
+
+// the login help pages get a different body class
+body.loginHelpPage {
+    // styles that live outside the pageView go here
+    // ----------------------------------------
+    // styles that live inside the pageView go here
+    // ----------------------------------------
+    #loginHelpPage {
+        padding-bottom: 0;
+        .form-actions {
+            min-width: 100%;
+            text-align: center;
+        }
+        .page-topper {
+            label {
+                padding-right: 5px;
+                margin-left: -25px;
+            }
+            @media (max-width: 979px) {
+                label {
+                    margin-left: -5px;
+                }
+                select {
+                    width: 200px;
+                }
+            }
+        }
+        .tab-content {
+            overflow: visible;
+        }
+        .row:last-child div:last-child form:last-child .form-actions:last-child,
+        form:last-child fieldset.form-actions:last-child {
+            margin-bottom: 0;
+        }
+        #forgotPasswordFieldset {
+            label {
+                min-width: 55px;
+                max-width: 105px;
+                margin-right: 10px;
+            }
+            .controls {
+                margin-left: 0;
+            }
+        }
+        @media (max-width: 479px) {
+            form .validate-tooltip {
+                top: -3px !important;
+            }
+        }
+    }
+    /* /.page */
+}
+/*
+8888888b.  8888888888        d8888  .d8888b. 88888888888      888      .d88888b.   .d8888b.  8888888 888b    888      8888888b.     d8888  .d8888b.  8888888888
+888   Y88b 888              d88888 d88P  Y88b    888          888     d88P" "Y88b d88P  Y88b   888   8888b   888      888   Y88b   d88888 d88P  Y88b 888
+888    888 888             d88P888 888    888    888          888     888     888 888    888   888   88888b  888      888    888  d88P888 888    888 888
+888   d88P 8888888        d88P 888 888           888          888     888     888 888          888   888Y88b 888      888   d88P d88P 888 888        8888888
+8888888P"  888           d88P  888 888           888          888     888     888 888  88888   888   888 Y88b888      8888888P" d88P  888 888  88888 888
+888 T88b   888          d88P   888 888    888    888          888     888     888 888    888   888   888  Y88888      888      d88P   888 888    888 888
+888  T88b  888         d8888888888 Y88b  d88P    888          888     Y88b. .d88P Y88b  d88P   888   888   Y8888      888     d8888888888 Y88b  d88P 888
+888   T88b 8888888888 d88P     888  "Y8888P"     888          88888888 "Y88888P"   "Y8888P88 8888888 888    Y888      888    d88P     888  "Y8888P88 8888888888
+*/
+.icon-info {
+    padding-left: 5px;
+    font-weight: bold;
+    color: $brand_color_primary;
+    vertical-align: text-top;
+}
+.icon-users-male-female {
+    font-weight: bold;
+    color: $brand_color_primary;
+    vertical-align: text-top;
+}
+.icon-email,
+.icon-smartphone {
+    padding-right: 5px;
+    color: $brand_color_primary;
+    font-weight: bold;
+    float: left;
+    top: 4px;
+    position: relative;
+}
+.react-page {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    max-width: 100vw;
+    @media (min-width: $breakpoint_desktop_min) {
+        .modal {
+            transform: translateX(0px);
+            .modal-header {
+                h3 {
+                    display: inline-block;
+                }
+                .helpClose {
+                    display: inline-block;
+                    float: right;
+                }
+            }
+            @media (min-width: 1600px){
+                &.privacy{
+                    width: 55%;
+                    transform: translateX(-256px);
+                }
+
+            }
+        }
+    }
+
+    h2{
+        margin-bottom: 0;
+    }
+    h2 + p + h3 {
+        margin-top:0;
+        margin-bottom: 35px;
+    }
+    h2 + p + h3.no-bottom {
+        margin-top:0;
+        margin-bottom: 10.5px;
+    }
+    .no-alert-bottom + div {
+        margin-bottom: 10.5px;
+    }
+    .activation {
+        p {
+            text-align: center;
+            font-size: 12px;
+            margin-top: -1.5rem;
+            margin-bottom: 1rem;
+            a {
+                cursor: pointer;
+            }
+        }
+    }
+}
+.activation {
+    .control-label {
+        position: initial;
+    }
+}
+.page--login .narrow-form-page {
+    left: 50%;
+    transform: translateX( -50% );
+}
+.help {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+}
+.moreInfo {
+  margin-top: 10px;
+  text-align: center;
+}
+	p{
+		&.help{
+			a.noneWorks {
+    			text-decoration: underline;
+
+			}
+		}
+	}
+.inline {
+    display: inline-block;
+    margin-top: 10px;
+}
+.narrow-form {
+    .control-label {
+        position: absolute;
+        top: -26px;
+        font-size: 12px;
+        color: $brand_color_black;
+        pointer-events: none;
+        transform-origin: 0px 10px;
+        transition: 240ms;
+		
+		&.forgotUserId{
+            position: relative;
+            top:0px;
+
+		}
+    }
+}
+.login-form {
+  .control-label {
+    max-width: 53%;
+    float: left;
+    line-height: 16px;
+    position: static;
+  }
+  .forgot-link {
+      float: right;
+      line-height: 16px;
+      position: static;
+      text-align: right;
+      max-width: 43%;
+  }
+  &.username-field {
+      &.input-wrap {
+          margin: 0.7em 0;
+      }
+  }
+}
+.input-wrap {
+    &.focused {
+        .control-label {
+            opacity: 1;
+            font-weight: bold;
+        }
+    }
+    &.focusedText {
+         .control-label {
+             opacity: 1;
+             font-weight: bold;
+         }
+     }
+}
+.login-back-link{
+  display: block;
+  margin-top: 1em;
+}
+.forgot-link {
+    position: absolute;
+    top: -27px;
+    right: 0;
+}
+
+
+
+body.page--login #contents .page-content{
+    margin-bottom:126px;
+}
+.page--login {
+
+    .spincover {
+        &.redirectServerCommand,
+        &.pageLoading,
+        &.pageView {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2000000001; // 2e9 is the default z-index in the .spin plugin, so we have to go one higher
+            height: 100%;
+            width: 100%;
+            zoom: 1;
+
+            .spin {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+            }
+        }
+    }
+    a {
+        span {
+            cursor: pointer;
+            font-size: 12px;
+        }
+       &.noneWorks {
+    		text-decoration: underline;
+		}
+    }
+    .alert-panel {
+
+        p {
+            margin-bottom: 0;
+            font-weight: bold;
+        }
+    	&.alert-error{
+    		margin-bottom:-15px;
+    	}
+    }
+
+    #contents #pageLoadingSpinner img {
+        transform: none;
+    }
+    .modal-body {
+        margin: 0 25px;
+        padding-left:0;
+        .alert-panel.alert-error {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+
+        }
+    }
+    .narrow-form {
+
+        .code-link-label {
+            position:relative;
+            float:left;
+            top: 0;
+        }
+        .code-link {
+            position:relative;
+            float: left;
+            margin-left: 12px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            .icon-info {
+                font-size: 14px;
+                padding-left: 0;
+            }
+        }
+        .code-verification-input {
+            margin-top:0;
+        }
+        .code-verification-alert {
+            .alert-panel {
+                margin-bottom: 15px;
+            }
+        }
+    }
+}
+.radio-wrapper {
+    overflow: auto;
+    padding: 5px;
+    max-height: 300px;
+}
+.radio-wrapper.overflow {
+    overflow: visible;
+    padding: 5px;
+}
+.activation {
+    .activation-field-desc:first-child {
+        margin-top:-15px;
+    }
+	.control-label{
+		position:static;
+	}
+}
+.narrow-form-page {
+    .narrow-form {
+
+        .half-width {
+            display: inline-block;
+            width: 49%;
+        }
+        .userIdHint {
+            padding-bottom: 5px;
+        }
+        .input-wrap.language-select {
+            margin-bottom: calc(2.3em - 10.5px);
+            margin-top: calc(3em - 10.5px);
+        }
+    }
+}
+.emailMOC {
+    display: inline-block;
+    width: 80%;
+}
+.info {
+    display: inline-block;
+    top: 3px;
+    position: relative;
+    padding-right: 3px;
+    float: left;
+    .shared {
+        display: none;
+        border: 1px solid $brand_color_darker;
+    }
+}
+.info:hover {
+    .shared {
+        display: inline-block;
+        width: 200px;
+        padding: 8px;
+        color: $brand_color_white;
+        text-align: center;
+        text-decoration: none;
+        background-color: $brand_color_darker;
+        position: absolute;
+        margin-left: 5px;
+        margin-top: -10px;
+        border-radius: 8px;
+        z-index: 100;
+        opacity: .95;
+    }
+}
+.userId {
+    display: inline-block;
+    padding-right: 5px;
+    line-height: 12px;
+    vertical-align: text-top;
+    cursor: pointer;
+    .instructions{
+        display: none;
+    }
+}
+.userId:hover {
+    .instructions  {
+        display: inline-block;
+        max-width: 200px;
+        padding: 8px;
+        color: $brand_color_white;
+        text-align: center;
+        text-decoration: none;
+        background-color: $brand_color_darker;
+        position: absolute;
+        margin-left: 5px;
+        margin-top: -10px;
+        border-radius: 8px;
+        opacity: .95;
+    }
+}
+.password-field {
+    margin: 1em 0;
+}
+.locked {
+    margin-bottom: 10px;
+}
+.alert-panel + .btn {
+    margin-top: 30px;
+}
+.alert-panel + .loginID{
+    margin-top:30px;
+}
+em {
+    a {
+        cursor: pointer;
+    }
+}
+.andor {
+    margin-top: -35px;
+    text-align: center;
+    .and-or-hr {
+        display: inline-block;
+        width: 45px;
+        hr {
+            margin: 0;
+        }
+    }
+    .and-or-text {
+        display: inline-block;
+        vertical-align: sub;
+        margin: 0 10px;
+    }
+}
+.enter-user-text {
+    margin-top: 30px;
+}
+input[name=password1]::-ms-clear {
+    display: none;
+    width:0;
+    height:0;
+}
+.self-enroll {
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    a {
+        cursor: pointer;
+    }
+}
+// Account Lock Screen styles
+.account {
+    &-lock-chosen, &-locked-already {    
+        @include border-radius($lock_alert_radius);
+        padding: 10px;
+    }
+}
+.account-lock-chosen { 
+    background-color: $login_form_success_bgColor;
+    color: $login_form_success_textColor;
+}
+.account-locked-already {
+    background-color: $login_form_danger_bgColor;
+    color: $login_form_danger_textColor;
+}
+.user-lock-selection {
+    background-color: $login_form_danger_bgColor;
+    color: $login_form_danger_textColor;
+    @include border-radius($lock_alert_radius);
+    padding: 10px;
+    margin-bottom: 10px;
+    & .btn+.btn {
+        margin-left: 0;
+    }
+}
+.thanks-msg {
+    font-weight: bold;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" logicalFilePath="changelog-6.4.1.xml"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	
+	<changeSet author="palaniss" id="tagDatabase">
+		<tagDatabase tag="6.4" />
+	</changeSet>
+	
+	<include file="db/convert/6.4.1.RELEASE/alter_os_propertyset.sql" />
+	
+</databaseChangeLog>

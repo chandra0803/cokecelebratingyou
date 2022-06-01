@@ -1,0 +1,26 @@
+CREATE SEQUENCE promo_approval_option_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE promo_approval_option
+(promo_approval_option_id   NUMBER(18,0) NOT NULL,
+ promotion_id          NUMBER(18,0) NOT NULL,
+ approval_option       VARCHAR2(80),
+ created_by number(18) NOT NULL,
+ date_created          DATE NOT NULL,
+ version               NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE promo_approval_option
+ADD CONSTRAINT promo_approval_option_pk PRIMARY KEY (promo_approval_option_id)
+USING INDEX
+/
+ALTER TABLE promo_approval_option ADD CONSTRAINT promo_approval_option_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/
+CREATE INDEX PROMO_APPR_OPTION_PROMO_FK_idx ON PROMO_APPROVAL_OPTION
+  (PROMOTION_ID)
+/
+COMMENT ON COLUMN PROMO_APPROVAL_OPTION.PROMO_APPROVAL_OPTION_ID IS 'system generated PK.'
+/
+COMMENT ON COLUMN PROMO_APPROVAL_OPTION.PROMOTION_ID IS 'FK to promotion.'
+/
+COMMENT ON COLUMN PROMO_APPROVAL_OPTION.APPROVAL_OPTION IS 'the code for the approval option picklist item.'
+/

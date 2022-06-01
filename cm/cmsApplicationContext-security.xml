@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">                      
+                 
+   <sec:http authentication-manager-ref="authenticationManager" access-decision-manager-ref="httpRequestAccessDecisionManager" entry-point-ref="authenticationProcessingFilterEntryPoint" 
+                                                                               auto-config="false" create-session="never">
+   <sec:custom-filter position="FORM_LOGIN_FILTER" ref="authenticationProcessingFilter"/>
+   <sec:intercept-url pattern="/**" access="ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" />   
+   <sec:session-management session-fixation-protection="migrateSession" />
+   <!--  <logout delete-cookies="JSESSIONID" /> -->
+   </sec:http>   
+                 
+
+  <!-- ====================================== -->
+  <!--  filterChainProxy                      -->
+  <!-- ====================================== -->
+
+  <!-- filterChainProxy represents the chain of filters for each request -->
+  
+    <alias name="filterChainProxy" alias="springSecurityFilterChain"/>
+	<bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
+	<sec:filter-chain-map request-matcher="ant">
+      <sec:filter-chain pattern="/**" filters="contextIntegrationFilter,authenticationProcessingFilter,anonymousProcessingFilter,termsAndConditionsFilter,exceptionTranslationFilter,filterInvocationInterceptor"/>
+    </sec:filter-chain-map>
+    </bean>		
+
+  <!-- ====================================== -->
+  <!--  contextIntegrationFilter              -->
+  <!-- ====================================== -->
+
+  <!-- contextIntegrationFilter is the filter that loads/saves the SecureContext from the session -->
+
+  <bean id="contextIntegrationFilter" class="com.objectpartners.cms.provider.ContextByIdCacheIntegrationFilter">
+    <property name="context" value="org.springframework.security.core.context.SecurityContextImpl" />
+  </bean>
+
+  <!-- ====================================== -->
+  <!--  authenticationProcessingFilter        -->
+  <!-- ====================================== -->
+
+  <!-- authenticationProcessingFilter is used to do the authentication for post-form login -->
+
+   <bean id="authenticationProcessingFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+    <property name="authenticationManager">
+      <ref bean="authenticationManager" />
+    </property>
+    <!-- <property name="authenticationFailureUrl" value="/cmsLogin.jsp?code=BAD_PASSWORD" />
+    <property name="defaultTargetUrl" value="/" /> -->
+    <property name="filterProcessesUrl" value="/j_acegi_security_check" />
+  </bean>
+
+  <!-- authenticationManager is used by authenticationProcessingFilter -->
+
+  <bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+    <property name="providers">
+      <list>
+        <ref bean="cmsAuthenticationProvider" />
+        <ref bean="anonymousAuthenticationProvider" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- authentication providers -->
+
+  <bean id="cmsAuthenticationProvider" class="com.objectpartners.cms.provider.CmsAuthenticationProvider" />
+
+  <bean id="anonymousAuthenticationProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+    <property name="key" value="anonymousKey" />
+  </bean>
+
+  <bean id="memoryAuthenticationDao" class="org.springframework.security.provisioning.InMemoryUserDetailsManager">
+   <constructor-arg type="java.util.Properties" index="0">
+     <props>
+     	<prop key="admin">password,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator</prop>
+        <prop key="approver">password,ROLE_ContentViewer</prop>
+        <prop key="editor">password,ROLE_ContentViewer</prop>
+        <prop key="viewer">password,ROLE_ContentViewer</prop>
+        <prop key="filemgr">password,ROLE_ContentViewer</prop>
+        <prop key="filemgr1">password,ROLE_ContentViewer</prop>
+        <prop key="filemgr2">password,ROLE_ContentViewer</prop>
+        <prop key="fileapr">password,ROLE_ContentViewer</prop>
+        <prop key="fileapr1">password,ROLE_ContentViewer</prop>
+        <prop key="custom">password,ROLE_ContentViewer</prop>
+        <prop key="custom1">password,ROLE_ContentViewer</prop>
+        <prop key="everything">password,ROLE_ContentAdministrator,ROLE_ContentViewer</prop>
+        <prop key="translator">password,ROLE_ContentTranslator</prop>
+        <prop key="BHD-133">password,ROLE_ContentViewer</prop>
+        <prop key="BHD-135">password,ROLE_ContentViewer</prop>
+        <prop key="BHD-136">password,ROLE_ContentViewer</prop>
+        <prop key="BHD-139">password,ROLE_ContentViewer</prop>
+     </props>
+   </constructor-arg>
+  </bean>
+
+  <!-- ====================================== -->
+  <!--  anonymousProcessingFilter             -->
+  <!-- ====================================== -->
+
+  <!-- anonymousProcessingFilter sets up context for anonymous users -->
+
+  <bean id="anonymousProcessingFilter" class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+    <property name="key" value="anonymousKey" />
+    <property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS" />
+  </bean>
+
+  <!-- ====================================== -->
+  <!--  termsAndConditionsFilter              -->
+  <!-- ====================================== -->
+  
+  <bean id="termsAndConditionsFilter" class="com.objectpartners.cms.filter.acegi.TermsAndConditionsFilter">
+    <property name="termsAndConditionsUrl">
+      <value>/termsAndConditionsAcceptance.do</value>
+    </property>
+    <property name="authorizationService">
+      <ref bean="cmsAuthorizationService" />
+    </property>
+    <property name="bypassedUrls">
+      <list>
+        <value>/termsAndConditionsAcceptance.do</value>
+        <value>/WEB-INF/pages/termsConditionsAccept.jsp</value>
+        <value>/termsAndConditions.jsp</value>
+        <value>/images/**</value>
+        <value>/cmsLogoff.jsp</value>
+        <value>/cmsLogoffAndClose.jsp</value>
+        <value>/scripts/**</value>
+        <value>/styles/**</value>
+        <value>/redirectToLogin.jsp</value>
+        <value>/tinymce/**</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="cmsAuthenticationService" class="com.biperf.core.service.cms.impl.CMSSOAuthenticationServiceImpl">
+    <property name="cmsAuthenticationDao">
+      <ref bean="cmsAuthenticationDao" />
+    </property>  
+  </bean>
+
+  <bean id="cmsAuthorizationService" class="com.biperf.core.service.cms.impl.CMSSOAuthorizationServiceImpl">
+    <property name="cmsAuthenticationDao">
+      <ref bean="cmsAuthenticationDao" />
+    </property>  
+  </bean>
+
+  <!-- ====================================== -->
+  <!--  exceptionTranslationFilter             -->
+  <!-- ====================================== -->
+
+  <!-- exceptionTranslationFilter checks access for a URL -->
+
+  <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+  	<!---
+    <property name="filterSecurityInterceptor">
+      <ref bean="filterInvocationInterceptor" />
+    </property>
+    -->
+    <property name="authenticationEntryPoint">
+      <ref bean="authenticationProcessingFilterEntryPoint" />
+    </property>
+  </bean>
+
+  <bean id="filterInvocationInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+    <property name="authenticationManager">
+      <ref bean="authenticationManager" />
+    </property>
+    <property name="accessDecisionManager">
+      <ref bean="httpRequestAccessDecisionManager" />
+    </property>
+    <property name="securityMetadataSource">
+      <sec:filter-security-metadata-source>
+        <sec:intercept-url pattern="/images/**" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" />  
+        <sec:intercept-url pattern="/scripts/**" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" />
+        <sec:intercept-url pattern="/styles/**" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" /> 
+        <sec:intercept-url pattern="/tinymce/**" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" /> 
+        <sec:intercept-url pattern="/cmsLogin.jsp**" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" /> 
+        <sec:intercept-url pattern="/cmsLogoff.jsp" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" />
+        <sec:intercept-url pattern="/termsConditions.jsp**" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" /> 
+        <sec:intercept-url pattern="/redirectToLogin.jsp" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" /> 
+        <sec:intercept-url pattern="/home.do" access="ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" /> 
+        <sec:intercept-url pattern="/termsAndConditionsAcceptance.do" access="ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" /> 
+        <sec:intercept-url pattern="/sectionList.do" access="ROLE_ContentAdministrator,ROLE_ContentViewer" /> 
+        <sec:intercept-url pattern="/sectionDetail.do" access="ROLE_ContentAdministrator,ROLE_ContentViewer" /> 
+        <sec:intercept-url pattern="/assetDetail.do" access="ROLE_ContentAdministrator,ROLE_ContentViewer" />
+        <sec:intercept-url pattern="/flushCache.do" access="ROLE_ContentAdministrator" />
+        <sec:intercept-url pattern="/launchProcess.do" access="ROLE_ContentAdministrator" />         
+        <sec:intercept-url pattern="/fileManage.do" access="ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" />
+        <sec:intercept-url pattern="/xmlFileOutput.do" access="ROLE_ContentAdministrator,ROLE_ContentTranslator" />
+        <sec:intercept-url pattern="/translationExportSubmit.do" access="ROLE_ContentAdministrator,ROLE_ContentTranslator" />
+        <sec:intercept-url pattern="/processImportContent.do" access="ROLE_ContentAdministrator" />
+        <sec:intercept-url pattern="/previewImportContent.do" access="ROLE_ContentAdministrator" />                     
+        <sec:intercept-url pattern="/translationImportSubmit.do" access="ROLE_ContentAdministrator" />
+        <sec:intercept-url pattern="/translationSearch.do" access="ROLE_ContentAdministrator,ROLE_ContentTranslator" />
+        <sec:intercept-url pattern="/translateContentDetail.do" access="ROLE_ContentAdministrator,ROLE_ContentTranslator" />                
+        <sec:intercept-url pattern="/ajax.do" access="ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" />
+        <sec:intercept-url pattern="/sso.do" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" />        
+        <sec:intercept-url pattern="/**" access="ROLE_ContentAdministrator,ROLE_ContentViewer,ROLE_ContentTranslator" />
+      </sec:filter-security-metadata-source>
+    </property>
+  </bean>
+
+  <bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+    <property name="loginFormUrl" value="/redirectToLogin.jsp" />
+    <property name="forceHttps" value="false" />
+  </bean>
+
+  <bean id="httpRequestAccessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+    <property name="allowIfAllAbstainDecisions" value="false" />
+    <property name="decisionVoters">
+      <list>
+        <ref bean="roleVoter" />
+      </list>
+    </property>
+  </bean>
+
+    <bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter" />
+
+  <!-- ====================================== -->
+  <!--  application/section azn               -->
+  <!--  this is used by AdminService          -->
+  <!-- ====================================== -->
+
+  <bean id="domainAccessDecisionManager" class="com.objectpartners.cms.security.vote.CMSDomainAccessDecisionManager">
+    <property name="allowIfAllAbstainDecisions" value="false" />
+    <property name="decisionVoters">
+      <list>
+        <ref bean="roleVoter" />
+      </list>
+    </property>
+  </bean>
+
+</beans>

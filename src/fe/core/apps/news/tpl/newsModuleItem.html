@@ -1,0 +1,13 @@
+<div class="item" id="{{id}}"
+    style="background-image:url({{storyImageUrl_placeholder}})"> <!--Should maybe be slide[i] where i is the Id of this story-->
+
+    <a href="{{storySlug}}" class="item-link"
+        data-image="{{storyImageUrl}}"
+        data-image-mobile="{{storyImageUrl_mobile}}"
+        data-image-max="{{storyImageUrl_max}}">
+
+        <div class="story {{storyFormat}}">
+            <h3>{{storyName}}</h3> {{!--no spot for date in here, yet. When it is ready to be added, the handlebars attribute is "storyDate"--}}
+        </div>
+    </a>
+</div>

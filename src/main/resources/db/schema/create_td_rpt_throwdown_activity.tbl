@@ -1,0 +1,115 @@
+CREATE SEQUENCE rpt_throwdown_activity_id_seq
+START WITH 1
+CACHE 20
+/
+CREATE TABLE RPT_THROWDOWN_ACTIVITY
+(
+  RPT_THROWDOWN_ACTIVITY_ID NUMBER(18),
+   PROMOTION_ID                           NUMBER(18),
+   PROMOTION_NAME              VARCHAR2(1000),
+   DIVISION_NAME                  VARCHAR2(1000),
+   MINIMUM_QUALIFIER             NUMBER (18,4),
+   ROUND_ID                                 NUMBER(18),
+   ROUND_NUMBER                       NUMBER(18),
+   NODE_ID                                   NUMBER(18),
+   NODE_NAME                        VARCHAR2(255),
+   MATCH_ID                                 NUMBER(18),
+   MATCH_STATUS                     VARCHAR2(80),
+   TEAM_ID                                   NUMBER(18),
+   USER_ID                                    NUMBER(18),
+   LOGIN_ID                           VARCHAR2(40),
+   LAST_NAME                           VARCHAR2(40),
+   FIRST_NAME                          VARCHAR2(40),
+   MIDDLE_NAME                       VARCHAR2(40),
+   USER_STATUS                       VARCHAR2(30),
+   JOB_POSITION                     VARCHAR2(100),
+   DEPARTMENT                      VARCHAR2(100),
+   OUTCOME                              VARCHAR2(80),
+   CURRENT_VALUE                   NUMBER (30,4),
+   PAYOUT                                    NUMBER(12),
+   ACTIVITY_ID                                    NUMBER(12),
+   PAYOUT_DATE                                DATE,
+   ROUND_START_DATE                        DATE,
+   ROUND_END_DATE                        DATE,   
+   COUNTRY_ID                            NUMBER(12),
+   DATE_CREATED              DATE     NOT NULL,
+   CREATED_BY            NUMBER(18) NOT NULL,
+   MODIFIED_BY                           NUMBER(18),
+   DATE_MODIFIED                                 DATE
+)
+/
+COMMENT ON TABLE rpt_throwdown_activity IS 'to store throwdown report information for each participant, promotion and round combination'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.rpt_throwdown_activity_id IS 'Primary Key'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.promotion_id IS 'Participant User ID'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.middle_name IS 'Participant Middle Initial, Selected from APPLICATION_USER.MIDDLE_NAME'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.last_name IS 'Participant Last Name, Selected from APPLICATION_USER.LAST_NAME'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.match_status IS 'Participant Last Name, Selected from THROWDOWN_MATCH.STATUS'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.match_id IS 'Participant Last Name, Selected from THROWDOWN_MATCH.MATCH_ID'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.minimum_qualifier IS 'Participant Last Name, Selected from THROWDOWN_DIVISION.MINIMUM_QUALIFIER'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.round_number IS 'Participant Last Name, Selected from THROWDOWN_ROUND.ROUND_NUMBER'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.team_id IS 'Participant Last Name, Selected from THROWDOWN_TEAM.TEAM_ID'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.user_id IS 'Partner User ID, Selected from PARTICIPANT_PARTNER.PARTNER_ID'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.first_name IS 'Partner First Name, Selected from APPLICATION_USER.FIRST_NAME'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.user_status IS 'Participant Status, Selected from PARTICIPANT.STATUS'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.job_position IS 'Participant Job Title, Selected from PARTICIPANT_EMPLOYER.POSITION_TYPE'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.outcome IS 'Participant Job Title, Selected from THROWDOWN_MATCH_TEAM_OUTCOME.OUTCOME_TYPE'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.department IS 'Participant Department, Selected from PARTICIPANT_EMPLOYER.DEPARTMENT_TYPE'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.promotion_id IS 'Promotion ID, Selected from PROMO_GOALQUEST.PROMOTION_ID'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.promotion_name IS 'Promotion Name, Selected from PROMOTION.PROMOTION_NAME'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.node_id IS 'Node ID of the Participant'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.round_id IS 'Throwdown round ID, Selected from THROWDOWN_ROUND.ROUND_ID'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.division_name IS 'Throwdown division Name, Selected from THROWDOWN_DIVISION.DIVISION_NAME_ASSET_CODE'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.current_value IS 'Actual Results, Selected from THROWDOWN_MATCH_TEAM_OUTCOME.CURRENT_VALUE'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.round_start_date IS 'Actual Results, Selected from THROWDOWN_ROUND.START_DATE'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.round_end_date IS 'Actual Results, Selected from THROWDOWN_ROUND.END_DATE'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.payout IS 'Award amount'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.created_by IS 'Audit Field'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.date_created IS 'Audit Field'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.modified_by IS 'Audit Field'
+/
+COMMENT ON COLUMN rpt_throwdown_activity.date_modified IS 'Audit Field'
+/
+CREATE SEQUENCE rpt_throwdown_payout_id_seq
+START WITH 1
+/
+CREATE TABLE RPT_THROWDOWN_payout
+(
+  RPT_THROWDOWN_PAYOUT_ID NUMBER(18),
+   PROMOTION_ID                           NUMBER(18),
+   PROMOTION_NAME              VARCHAR2(1000),   
+   USER_ID                                    NUMBER(18),   
+   PAYOUT                                    NUMBER(12),
+   PAYOUT_DATE                                DATE,   
+   DATE_CREATED              DATE     NOT NULL,
+   CREATED_BY            NUMBER(18) NOT NULL,
+   MODIFIED_BY                           NUMBER(18),
+   DATE_MODIFIED                                 DATE
+)
+/

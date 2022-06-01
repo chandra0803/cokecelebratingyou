@@ -1,0 +1,299 @@
+// make use of SCSS files in base* without actually outputting those files here
+$base_variablesOnly: true;
+@import 'base/global';
+
+
+// App-specific variables
+// =========================
+$throwdown_bgColor: $brand_color_dark !default;
+$throwdown_gradType: $g5ModuleGradType !default;
+$throwdown_gradMeta: $g5ModuleGradMeta !default;
+$throwdown_gradStops: $g5ModuleGradStops !default;
+
+$throwdown_bgImg: false !default;
+$throwdown_bgImgUrlPath: $appImagesPath !default;
+$throwdown_bgImgPosition: 0% 0% !default; // 50% 0
+$throwdown_bgImgPositionAdjustY: true !default;
+$throwdown_bgImgRepeat: repeat-y !default; // no-repeat
+$throwdown_bgImgSize: cover !default;
+$throwdown_bgImgAttachment: fixed !default; // scroll
+
+$throwdown_iconColor: $g5ModuleIconColor !default;
+$throwdown_titleColor: $g5ModuleTitleColor !default;
+$throwdown_titleFontFamily: "open-sans", $g5ModuleTitleFontFamily !default;
+$throwdown_titleFontSizes: $g5ModuleTitleFontSizes !default;
+$throwdown_titleFontWeights: $g5ModuleTitleFontWeights !default;
+$throwdown_tileIconColor: $brand_color_dark !default;
+
+$throwdown_moduleTitleFontSize: 20px !default;
+$throwdown_moduleTopperHeight: 45px !default;
+
+$throwdown_primaryFontFamily: "open-sans", $bodyFont !default;
+$throwdown_primaryFontWeight: normal !default;
+$throwdown_primaryAccentColor: $brand_color_mid !default;
+$throwdown_secondaryFontFamily: $bodyFont !default;
+$throwdown_secondaryFontWeight: $fontWeightBold !default;
+$throwdown_secondaryAccentColor: $brand_color_light !default;
+$throwdown_tertiaryFontWeight: $fontWeightLight !default;
+$throwdown_tertiaryAccentColor: $brand_color_lighter !default;
+
+$throwdown_textColor: $brand_color_black !default;
+$throwdown_textDark: $brand_color_dark !default;
+$throwdown_textNormal: $brand_color_mid !default;
+$throwdown_textLight: $brand_color_light !default;
+$throwdown_numberColor: $brand_color_white !default;
+
+$throwdown_gradTypeLinear: $g5ModuleGradType !default;
+$throwdown_gradMetaTop: $g5ModuleGradMeta !default;
+$throwdown_tableYouText: $brand_color_black !default;
+$throwdown_tableOdd: $throwdown_secondaryAccentColor !default;
+$throwdown_tableEven: scale-color($throwdown_tableOdd, $lightness: 15.7%, $saturation: -25% ) !default;
+$throwdown_tableBorderColor: scale-color($throwdown_tableOdd, $lightness: 25.7%, $saturation: -21% ) !default;
+$throwdown_winnerColor: $throwdown_tertiaryAccentColor !default;
+
+$throwdown_rulesButtonGradColor: $brand_color_mid !default;
+$throwdown_rulesButtonGradStops: scale-color($throwdown_rulesButtonGradColor, $lightness: 29.7%, $saturation: -28.8%), $throwdown_rulesButtonGradColor !default;
+$throwdown_rulesButtonTextColor: $brand_color_white !default;
+
+$throwdownCountdown_backgroundColor: $brand_color_black !default;
+$throwdownCountdown_digitColor: $brand_color_white !default;
+$throwdownCountdown_labelColor: $brand_color_white !default;
+
+$throwdown_fancyAvatar_avatarDimension: 60px !default;
+$throwdown_fancyAvatar_avatarPadding: 2px !default;
+$throwdown_fancyAvatar_avatarDimensionBig: 128px !default;
+$throwdown_fancyAvatar_avatarPaddingBig: 5px !default;
+$throwdown_fancyAvatar_avatarDimensionMed: 108px !default;
+$throwdown_fancyAvatar_avatarDimensionSmall: 94px !default;
+$throwdown_fancyAvatar_avatarPaddingSmall: 2px !default;
+$throwdown_fancyAvatar_border: 1px solid #ccc !default;
+
+// App-specific code
+// =========================
+
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+
+/* ----- MIXINS ----- */
+@mixin throwdown_fancyProfile($throwdown_fancyAvatar_avatarDimension, $throwdown_fancyAvatar_avatarPadding, $throwdown_fancyAvatar_border){
+    .avatarContainer{
+       position: relative;
+
+        &:after {
+            @include box-shadow(rgba(0, 0, 0, 0.3) 0 0 11px 1px);
+            @include transform(rotate(3deg));
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+            content:"";
+            height: $throwdown_fancyAvatar_avatarDimension + $throwdown_fancyAvatar_avatarPadding;
+            left: 16%;
+            max-width: $throwdown_fancyAvatar_avatarDimension;
+            position: absolute;
+            top: 6%;
+            width: 84%;
+            z-index: 1;
+        }
+        .avatarContainerBorder {
+            background: white;
+            border: $throwdown_fancyAvatar_border;
+            padding: $throwdown_fancyAvatar_avatarPadding;
+            position: relative;
+            z-index: 2;
+
+            img {
+                border:$throwdown_fancyAvatar_border;
+                height: $throwdown_fancyAvatar_avatarDimension;
+                max-width: $throwdown_fancyAvatar_avatarDimension;
+                min-width: $throwdown_fancyAvatar_avatarDimension;
+                width: $throwdown_fancyAvatar_avatarDimension;
+            }
+        }
+    }
+}
+
+@mixin throwdown_customSelectBox($throwdownCustomSelect_gradColor, $throwdownCustomSelect_gradStops, $throwdownCustomSelect_arrowColor){
+    .control-group {
+        position: relative;
+        width: 286px;
+
+        #promotionSelect {
+            @include opacity(0);
+            height: 29px;
+            left: 0;
+            position: absolute;
+            width: 286px;
+            z-index: 3;
+        }
+        .selectOutput {
+            @include box-shadow( rgba(0, 0, 0, 0.3) -2px 1px 5px );
+            @include module_moduleLinerBackground(
+                $bgColor: $throwdownCustomSelect_gradColor,
+                $gradType: $throwdown_gradTypeLinear,
+                $gradMeta: $throwdown_gradMetaTop,
+                $gradStops: $throwdownCustomSelect_gradStops
+            );
+            border-right: 1px solid $brand_color_mid;
+            border-radius: 9px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            color: $brand_color_black;
+            float: left;
+            font-size: 13px;
+            line-height: 28px;
+            height: 28px;
+            padding-left: 10px;
+            position: relative;
+            width: 240px;
+            z-index: 2;
+        }
+        .down-arrow-container {
+            @include box-shadow( rgba(0, 0, 0, 0.5) 0 1px 7px);
+            @include module_moduleLinerBackground(
+                $bgColor: $throwdownCustomSelect_gradColor,
+                $gradType: $throwdown_gradTypeLinear,
+                $gradMeta: $throwdown_gradMetaTop,
+                $gradStops: $throwdownCustomSelect_gradStops
+            );
+            border-left: 1px solid $brand_color_lighter;
+            border-radius: 9px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            float: left;
+            height: 28px;
+            position: relative;
+            width: 34px;
+        }
+        .down-arrow {
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 6px solid $throwdownCustomSelect_arrowColor;
+            height: 0;
+            position: absolute;
+            right: 11px;
+            top: 12px;
+            width: 0;
+            z-index: 2;
+        }
+        .down-arrow-shadow {
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 9px solid $brand_color_light;
+            height: 0;
+            position: absolute;
+            right: 8px;
+            top: 11px;
+            width: 0;
+            z-index: 1;
+        }
+    }
+}
+
+@mixin promotionCountdown($throwdownCountdown_backgroundColor, $throwdownCountdown_digitColor, $throwdownCountdown_labelColor){
+    li {
+        @include inline-block;
+        font-family: $throwdown_primaryFontFamily;
+        font-size: 34px;
+        margin-right: 11px;
+        position: relative;
+        text-align: center;
+
+        hr {
+            background-color: $throwdownCountdown_backgroundColor;
+            border: none;
+            border-left: 1px solid #a6a6a6;
+            border-right: 1px solid #a6a6a6;
+            height: 1px;
+            left: 0;
+            margin: 0;
+            position: absolute;
+            top: 20px;
+            width: 44px;
+            @include opacity(0.7);
+        }
+        hr + hr {
+            top: 21px;
+            @include opacity(0.4);
+        }
+
+        span {
+            display: block;
+        }
+        .cd-digit {
+            @include box-shadow (0 1px 0 1px $throwdownCountdown_backgroundColor, 0 3px 0 1px #272727, -2px 2px 6px 0px $brand_color_black);
+            width: 46px;
+            padding-top: 4px;
+            border-bottom: 1px solid #272727;
+            border-radius: 1px;
+            color: $throwdownCountdown_digitColor;
+            background-color: $throwdownCountdown_backgroundColor;
+            text-align: center;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .cd-label {
+            color: $throwdownCountdown_labelColor;
+            font-size: 12px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        &.s {
+            margin-right: 0;
+        }
+    }
+}
+
+/* ----- PAGE MODULE STYLES ----- */
+body.throwdownPage {
+    background-color: $throwdown_bgColor;
+
+    @if $throwdown_bgImg {
+        @include safeImgUrls($throwdown_bgImg, $throwdown_bgImgUrlPath, $property: 'background-image');
+        background-position: $throwdown_bgImgPosition;
+        background-repeat: $throwdown_bgImgRepeat;
+        background-size: $throwdown_bgImgSize;
+        background-attachment: $throwdown_bgImgAttachment;
+
+        @if $throwdown_bgImgPositionAdjustY {
+            @media only screen and (min-width: $breakpoint_tablet_min) {
+                background-position-y: $global_header_height_tablet;
+            }
+            @media only screen and (min-width: $breakpoint_desktop_min) {
+                background-position-y: $global_header_height_desktop;
+            }
+            @media only screen and (min-width: $breakpoint_desktopLarge_min) {
+                background-position-y: $global_header_height_desktopLarge;
+            }
+        }
+        @media (min-width: $breakpoint_siteMax_min) {
+            background-size: $breakpoint_siteMax_min;
+        }
+    }
+
+    #contents {
+        padding: 40px 0; // TODO: figure out actual top/bottom spacing
+
+        // @if $throwdown_bgImg {
+        //     @include safeImgUrls($throwdown_bgImg, $throwdown_bgImgUrlPath, $property: 'background-image');
+        //     background-position: $throwdown_bgImgPosition;
+        //     background-repeat: $throwdown_bgImgRepeat;
+        //     background-size: $throwdown_bgImgSize;
+        //     background-attachment: $throwdown_bgImgAttachment;
+        // }
+    }
+}
+
+/* ----- IMPORTS ----- */
+@import "throwdownGlobal";
+@import "bannerModules";
+@import "matchDetail";
+@import "promoSelect";
+@import "rankings";
+@import "trainingCamp";
+@import "news";
+@import "smackTalk";
+@import "standings";
+@import "allMatchesManager";
+@import "profilePlayerStats";
+@import "throwdownCombined";

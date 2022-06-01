@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+     <class name="com.biperf.core.domain.gamification.BadgePromotion" table="BADGE_PROMOTION">
+     
+       <composite-id>    
+			<key-many-to-one name="badgePromotion" column="promotion_id" entity-name="com.biperf.core.domain.gamification.Badge" /> 
+			<key-many-to-one name="eligiblePromotion" column="eligible_promotion_id" entity-name="com.biperf.core.domain.promotion.Promotion" /> 
+	   </composite-id> 
+     
+     <!-- Using version number optimistic locking -->
+     <version name="version" type="long" column="VERSION"/>
+     
+     <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+
+        
+	    </class>
+	    
+	    <sql-query name="com.biperf.core.domain.gamfication.getBadgePromotionCount">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+	    SELECT count(1) as result
+	      FROM badge_promotion
+	      WHERE eligible_promotion_id = :eligPromoId
+    ]]>
+	</sql-query>
+	     
+    	   
+</hibernate-mapping>    
+    
+   

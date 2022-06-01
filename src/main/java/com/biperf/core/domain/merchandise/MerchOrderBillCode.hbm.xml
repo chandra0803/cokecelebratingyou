@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!-- WIP# 25130 Start -->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.merchandise.MerchOrderBillCode"
+		table="MERCH_ORDER_BILL_CODE">
+		<id name="id" type="java.lang.Long" column="MERCH_ORDER_BILL_CODE_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">MERCH_ORDER_BILL_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED" />
+	      <column name="MODIFIED_BY" />
+	    </property>
+	    
+		<one-to-one name="merchOrder" class="com.biperf.core.domain.merchandise.MerchOrder"/>
+
+		<property name="billCode1" type="java.lang.String" column="BILLING_CODE1" />
+		<property name="billCode2" type="java.lang.String" column="BILLING_CODE2" />
+		<property name="billCode3" type="java.lang.String" column="BILLING_CODE3" />
+		<property name="billCode4" type="java.lang.String" column="BILLING_CODE4" />
+		<property name="billCode5" type="java.lang.String" column="BILLING_CODE5" />
+		<property name="billCode6" type="java.lang.String" column="BILLING_CODE6" />
+		<property name="billCode7" type="java.lang.String" column="BILLING_CODE7" />
+		<property name="billCode8" type="java.lang.String" column="BILLING_CODE8" />
+		<property name="billCode9" type="java.lang.String" column="BILLING_CODE9" />
+		<property name="billCode10" type="java.lang.String" column="BILLING_CODE10" />
+	</class>
+	
+	 <sql-query name="com.biperf.core.domain.merchandise.getMerchOrderBillCodes">
+	 <return alias="merchOrderBillCode" class="com.biperf.core.domain.merchandise.MerchOrderBillCode"/>
+		<![CDATA[
+   			SELECT {merchOrderBillCode.*} 
+			FROM merch_order_bill_code merchOrderBillCode
+			WHERE merchOrderBillCode.merch_order_id = :merchOrderId 
+
+   		]]>
+	</sql-query> 
+	<sql-query name="com.biperf.core.domain.merchandise.getMerchOrderBillCodesByGiftCode">
+	 <return alias="merchOrderBillCode" class="com.biperf.core.domain.merchandise.MerchOrderBillCode"/>
+		<![CDATA[
+			SELECT {merchOrderBillCode.*} 
+			FROM merch_order_bill_code merchOrderBillCode
+			WHERE merchOrderBillCode.merch_order_id IN
+  					(SELECT merch_order_id FROM MERCH_ORDER WHERE gift_code in (select FNC_JAVA_ENCRYPT(:giftCode) from dual)  )
+   		]]>
+	</sql-query> 
+	
+</hibernate-mapping>
+ <!-- WIP# 25130 End -->

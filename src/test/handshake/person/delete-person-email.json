@@ -1,0 +1,87 @@
+{
+  "description": "Delete a Person Email",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createPersonEmail",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/email-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/email-addresses",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"address": "random@nowhere.com",
+  			"label": "bus"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonEmail.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonEmail.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonEmail.res.body.label}",
+          "compare": "to.equal",
+          "b": "Business"
+        },
+        {
+          "a": "${ref:createPersonEmail.res.body.address}",
+          "compare": "to.equal",
+          "b": "random@nowhere.com"
+        }
+      ]
+    },
+    {
+      "id": "deletePersonEmailAddress",
+      "description": "Delete /persons/${ref:createPerson.export.newPersonId}/email-addresses/${ref:createPersonEmail.res.body.id}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/email-addresses/${ref:createPersonEmail.res.body.id}",
+        "options": {
+          "method": "delete",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {}
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:deletePersonEmailAddress.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:deletePersonEmailAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    }
+  ]
+}

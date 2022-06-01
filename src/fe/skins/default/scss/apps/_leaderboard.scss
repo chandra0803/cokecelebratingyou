@@ -1,0 +1,32 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $leaderboard_textAsOfColorModule: ;
+// $leaderboard_textAsOfColorPage: ;
+// $leaderboard_rankColor: ;
+// $leaderboard_rankColorModule: ;
+// $leaderboard_largeRankTextFontFamily: ;
+// $leaderboard_largeRankTextFontFamilyModule: ;
+// $leaderboard_largeRankTextFontWeight: ;
+
+// $leaderboard_leaderColMinWidth: ;
+// $leaderboard_leaderAvatarHeight: ;
+
+// $leaderboard_leaderLinkColorModule: ;
+// $leaderboard_leaderLinkColorHoverModule: ;
+// $leaderboard_leaderLinkColorPage: ;
+// $leaderboard_leaderLinkColorHoverPage: ;
+
+// $leaderboard_leaderBgOdd: ;
+// $leaderboard_leaderBgEven: ;
+// $leaderboard_leaderBgYou: ;
+// $leaderboard_leaderTxtYou: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "leaderboard/scss/leaderboard";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

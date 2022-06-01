@@ -1,0 +1,196 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+/* * * * *
+* Global Styles
+* * * * */
+// $ssi_objectives_bgColor: ;
+// $ssi_DTGT_bgColor: ;
+// $ssi_SIU_bgColor: ;
+// $ssi_stackRank_bgColor: ;
+// $ssi_ATN_bgColor: ;
+
+// $ssi_primaryFontFamily: ;
+// $ssi_secondaryFontFamily: ;
+// $ssi_primaryTextColor: ;
+
+// $ssi_giftIcon_circleBgColor: ;
+// $ssi_giftIcon_circleTextColor: ;
+
+// $ssi_giftIconComplete_circleBgColor: ;
+// $ssi_giftIconComplete_circleTextColor: ;
+// $ssi_giftIconCompleteColor: ;
+
+// $ssi_createContestModalBgColor: ;
+// $ssi_createContestModalTextColor: ;
+
+// $ssi_textInputErrorBorderColor: ;
+// $ssi_staleColor: ;
+
+
+/* * * * *
+* Chart Styles
+* * * * */
+// $ssi_SIU_barChart_moduleBarColor: ;
+// $ssi_SIU_barChart_barValueColor: ;
+// $ssi_SIU_barChart_axisBgColor: ;
+// $ssi_SIU_barChart_axisBorderColor: ;
+// $ssi_SIU_barChart_axisTextColor: ;
+
+// $ssi_SIU_barChart_chartHeight: ;
+// $ssi_SIU_barChart_chartAxisHeight: ;
+// $ssi_SIU_barChart_chartBarWidth: ;
+
+// $ssi_objectives_circleChart_bgArcColor: ;
+// $ssi_objectives_circleChart_fgArcColor: ;
+// $ssi_objectives_circleChart_ovArcColor: ;
+
+// $ssi_SIU_circleChart_bgArcColor: ;
+// $ssi_SIU_circleChart_fgArcColor: ;
+// $ssi_SIU_circleChart_ovArcColor: ;
+// $ssi_SIU_circleChart_completedBgColor: ;
+// $ssi_SIU_circleChart_incompleteBgColor: ;
+// $ssi_SIU_circleChart_completedIconColor: ;
+
+// $ssi_chartPercentCompleteColor: ;
+
+// $ssiDetails_chartGoalTextColor: ;
+// $ssiDetails_chartProgressTextColor: ;
+// $ssiDetails_chartLevelTextColor: ;
+// $ssiDetails_chartMiscBorderColor: ;
+
+// $ssiModule_objectives_percentColor: ;
+
+
+/* * * * *
+* Module Styles
+* * * * */
+// $ssiModule_contest_headerBgColor: ;
+// $ssiModule_contest_headerTextColor: ;
+// $ssiModule_contest_headerTypeIconSize: ;
+// $ssiModule_contest_headerBorderColor: ;
+// $ssiModule_contest_footerBorderColor: ;
+
+// $ssiModule_asOf_daysRemaining_textColor: ;
+// $ssiModule_defaultBorder: ;
+// $ssiModule_accentColor: ;
+
+// $ssiModule_objectives_chartHeight_small: ;
+// $ssiModule_objectives_chartHeight_large: ;
+
+// $ssiModule_siu_circleChart_arcWidth: ;
+// $ssiModule_siu_circleChart_chartStepHeight_large: ;
+// $ssiModule_siu_circleChart_chartHeight_large: ;
+
+// $ssiModule_siu_barChart_axisBorderColor: ;
+
+// $ssiModule_siu_barChart_chartHeight: ;
+// $ssiModule_siu_barChart_chartAxisHeight: ;
+// $ssiModule_siu_barChart_chartBarWidth: ;
+
+// $ssiModule_siu_progressTextColor: ;
+// $ssiModule_siu_goalTextColor: ;
+// $ssiModule_siu_dataCompleteColor: ;
+
+// $ssiModule_stackRank_avatarHeight: ;
+// $ssiModule_stackRank_leaderBgYou: ;
+// $ssiModule_stackRank_leaderTxtYou: ;
+// $ssiModule_stackRank_activityProgressCompleteColor: ;
+
+// $ssiModule_contestComplete_footerBgColor: ;
+// $ssiModule_contestComplete_footerTextColor: ;
+
+// $ssiModule_contestList_topperBgColor: ;
+// $ssiModule_contestList_topperTextColor: ;
+// $ssiModule_contestList_asOfColor: ;
+
+// $ssiModule_contestList_listItemBgOdd: ;
+// $ssiModule_contestList_listItemBgEven: ;
+
+
+/* * * * *
+* Detail Page Styles
+* * * * */
+// $ssiDetails_badgeHeightWidth: ;
+
+// $ssiDetails_payoutGraphBarHeight: ;
+// $ssiDetails_payoutGraphBarBgColor: ;
+// $ssiDetails_payoutGraphBarBarColor: ;
+// $ssiDetails_payoutGraphBarMarkerBgColor: ;
+// $ssiDetails_payoutGraphBarMarkerTextColor: ;
+//
+// $ssiDetails_objectives_chartHeight_large: ;
+// $ssiDetails_objectives_chartHeight_small: ;
+// $ssiDetails_objectives_chartStroke_large: ;
+// $ssiDetails_objectives_chartStroke_small: ;
+//
+// $ssiDetails_siu_levelChart_rowHighlight: ;
+// $ssiDetails_siu_levelChart_rowHighlightIntersect: ;
+//
+// $ssiDetails_siu_circleChart_arcWidth: ;
+//
+// $ssiDetails_siu_circleChart_chartStepHeight_large: ;
+//
+// $ssiDetails_siu_circleChart_chartHeight_large: ;
+//
+// $ssiDetails_stackRank_leaderColMinWidth: ;
+// $ssiDetails_stackRank_leaderAvatarHeight: ;
+//
+// $ssiDetails_stackRank_leaderBgOdd:  ;
+// $ssiDetails_stackRank_leaderBgEven: ;
+// $ssiDetails_stackRank_leaderBgYou: ;
+// $ssiDetails_stackRank_leaderTxtYou: ;
+
+/* * * * *
+* Page Edit Styles
+* * * * */
+// $ssiContest_pageEdit_translations_bgColor: ;
+// $ssiContest_pageEdit_translations_textColor: ;
+
+// $ssiContest_pageEdit_objectiveBonusDividerBorderColor: ; // should match $participantCollectionView_thBorderBottomColor in _participantCollectionView.scss
+
+// $ssiContest_pageEdit_activityHeaderFontColor: ;
+// $ssiContest_pageEdit_activityHeaderBgColor: ;
+
+// $ssiContest_pageEdit_activityItem_textColor: ;
+// $ssiContest_pageEdit_activityItem_bgColor: ;
+// $ssiContest_pageEdit_activityItem_borderBottom: ;
+// $ssiContest_pageEdit_activityItem_backgroundFlash: ; // same as backgroundFlash in _participantItem.scss
+// $ssiContest_pageEdit_activityItem_editRemoveIconColor: ; // same as editRemoveIconColor in _participantItem.scss
+
+// $ssiContest_pageEdit_activityItemSortHelper_bgColor: ;
+
+// $ssiContest_pageEdit_noActivitiesFontColor: ;
+
+// $ssiContest_pageEdit_activityItemHover_textColor: ;
+// $ssiContest_pageEdit_activityItemHover_bgColor: ; // same as rowHoverBgColor in _participantItem.scss
+
+// $ssiContest_pageEdit_activityItemActive_textColor: ;
+// $ssiContest_pageEdit_activityItemActive_iconColor: ;
+// $ssiContest_pageEdit_activityItemActive_bgColor: ;
+
+// $ssiContest_pageEdit_estimator_bgColor: ;
+// $ssiContest_pageEdit_estimator_borderRadius: ;
+// $ssiContest_pageEdit_estimatorSliderDisabled_progressColor: ;
+// $ssiContest_pageEdit_estimatorSliderDisabled_tipBgColor: ;
+// $ssiContest_pageEdit_estimatorSliderDisabled_tipTextColor: ;
+
+
+/* * * * *
+* Approve Contest Styles
+* * * * */
+// $ssiApproveContestDetails_linkFontSize: ;
+// $ssiApproveContestDetails_paxManagerTableBg: ;
+
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "ssi/scss/ssi";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================
+.ssiContestPageEdit .ssiBillCodes {
+	display: inline-block;
+}

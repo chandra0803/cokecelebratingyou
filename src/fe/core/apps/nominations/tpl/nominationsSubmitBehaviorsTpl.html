@@ -1,0 +1,68 @@
+ <h3>Select A Behavior</h3>
+
+<span class="nominationSaved" style="display:none">Saved &nbsp;<i class="icon icon-diskette-1"></i></span>
+
+<span class="behaviorSelected">1 Behavior selected</span>
+<span class="behaviorMultiSelected"><span class="numSelected">0</span> Behaviors selected</span>
+<span class="behaviorNotSelected">Behavior not selected</span>
+
+<p>
+You can select up to {{maxBehaviorsAllowed}}
+{{#eq maxBehaviorAllowed 1}}
+behavior.
+{{else}}
+behaviors.
+{{/eq}}
+You must select at least one behavior.
+</p>
+
+<ul class="behaviorList">
+    {{#iter behaviors}}
+    <li class="control-group {{#if img}} hasBadgeImg {{/if}} {{#if selected}} active{{/if}}">
+
+        {{#if img}}
+            <img src="{{img}}" alt="badge" class="behaviorBadge" />
+
+            <label class="checkbox">
+                <input type="checkbox" {{#if selected}} checked="checked"{{/if}} data-id="{{id}}" />
+            </label>
+            <span class="behaviorTitle">{{name}}</span>
+
+        {{else}}
+            <label class="checkbox" >
+                <input type="checkbox" {{#if selected}} checked="checked"{{/if}} data-id="{{id}}" />
+                <span class="behaviorTitle">{{name}}</span>
+            </label>
+        {{/if}}
+    </li>
+    {{/iter}}
+</ul>
+
+<div class="privateNom" style="display:none">
+    <div class="control-label">
+        <h3>Private Nomination</h3>
+    </div>
+    <div class="control-group">
+        <label class="checkbox" for="privateNomination">
+            <input type="checkbox" id="privateNomination" data-model-key="privateNomination" {{#if this.privateNomination}} checked {{/if}} />
+            Make Nomination Private
+        </label>
+    </div>
+</div>
+
+
+<div class="stepContentControls">
+
+    <button class="btn btn-primary submitBtn fl">
+        Submit Nomination
+    </button>
+    <button class="btn btn-primary nextBtn fl" >
+        Next
+    </button>
+	<button href="#" class="btn cancelBtn fl">
+        Cancel
+    </button>
+    <button class="btn saveDraftBtn btn-inverse btn-primary">
+        Save Draft
+    </button>
+</div><!-- /.stepContentControls -->

@@ -1,0 +1,146 @@
+CREATE SEQUENCE rpt_recognition_detail_pk_sq
+  INCREMENT BY 1
+  START WITH 1
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE TABLE rpt_recognition_detail
+   (rpt_recognition_detail_id      NUMBER(18,0) NOT NULL,
+    giver_user_id                  NUMBER(18,0),
+    giver_node_id                  NUMBER(18,0),
+    giver_node_name                VARCHAR2(255),
+    giver_last_name                VARCHAR2(40),
+    giver_first_name               VARCHAR2(40),
+    giver_middle_name              VARCHAR2(40),
+    giver_full_name                VARCHAR2(120),
+    giver_pax_status               VARCHAR2(30),
+    giver_department               VARCHAR2(100),
+    giver_job_position             VARCHAR2(100),
+    giver_login_id                 VARCHAR2(40),
+    giver_activity_id              NUMBER(12,0),
+    recvr_user_id                  NUMBER(18,0),
+    recvr_node_id                  NUMBER(18,0),
+    recvr_node_name                VARCHAR2(255),
+    recvr_last_name                VARCHAR2(40), 
+    recvr_first_name               VARCHAR2(40),
+    recvr_middle_name              VARCHAR2(40),
+    recvr_full_name                VARCHAR2(120),
+    recvr_pax_status               VARCHAR2(30),
+    recvr_department               VARCHAR2(100),
+    recvr_job_position             VARCHAR2(100),
+    recvr_login_id                 VARCHAR2(40),
+    recvr_activity_id              NUMBER(12,0),
+    claim_id                       NUMBER(12,0),
+    claim_recipient_id             NUMBER(18,0),
+    promotion_id                   NUMBER(18,0),
+    promotion_name                 VARCHAR2(1000),
+    behavior                       VARCHAR2(40),
+    award_type                     VARCHAR2(40),
+    trans_date                     DATE,
+    award_amt                      NUMBER(20,4),
+    merchandise_description  	   VARCHAR2(2000),
+    date_submitted                 DATE,
+    date_approved                  DATE,
+    final_approver_id              NUMBER(18,0),
+    final_approver_name            VARCHAR2(120),
+    proxy_user_id                  NUMBER(18),
+    proxy_user_name                VARCHAR2(120),
+    recvr_points                   NUMBER,
+    recvr_plateau_earned           NUMBER,
+    recvr_sweepstakes_won          NUMBER,
+    recvr_sweepstakes_points       NUMBER,
+    giver_sweepstakes_won          NUMBER,
+    giver_sweepstakes_points       NUMBER,
+    recvr_badges_earned            NUMBER,
+    created_by                     NUMBER (18),
+    date_created                   DATE,
+    modified_by                    NUMBER (18),
+    date_modified                  DATE,
+    version                        NUMBER (18),
+    GIVER_COUNTRY_ID               NUMBER (12),
+    RECVR_COUNTRY_ID               NUMBER (12),
+	REASON_DENIED                  VARCHAR2(18),
+	SUBMITTER_COMMENTS 			   VARCHAR2 (4000 Char) NULL,
+	SUBMITTER_COMMENTS_LANG_ID     VARCHAR2 (10 Char) NULL
+	)
+/
+
+-- Comments for RPT_RECOGNITION_DETAIL
+
+COMMENT ON TABLE rpt_recognition_detail IS 'The rpt_recognition_detail table for the recognition report.'
+/
+COMMENT ON COLUMN rpt_recognition_detail.award_amt IS 'from activity'
+/
+COMMENT ON COLUMN rpt_recognition_detail.award_type IS 'from promotion'
+/
+COMMENT ON COLUMN rpt_recognition_detail.behavior IS 'from recognition_claim'
+/
+COMMENT ON COLUMN rpt_recognition_detail.claim_id IS 'from claim'
+/
+COMMENT ON COLUMN rpt_recognition_detail.claim_recipient_id IS 'from claim_recipient'
+/
+COMMENT ON COLUMN rpt_recognition_detail.date_approved IS 'from activity - the date the recognition was approved and the activity was created'
+/
+COMMENT ON COLUMN rpt_recognition_detail.date_submitted IS 'from claim - the date the recognition was submitted'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_activity_id IS 'from activity'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_department IS 'from participant_employer'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_first_name IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_full_name IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_job_position IS 'from participant_employer'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_last_name IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_login_id IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_middle_name IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_node_id IS 'from user_node'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_node_name IS 'from node'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_pax_status IS 'Active or Inactive'
+/
+COMMENT ON COLUMN rpt_recognition_detail.giver_user_id IS 'submitter_id from claim'
+/
+COMMENT ON COLUMN rpt_recognition_detail.promotion_id IS 'from promotion'
+/
+COMMENT ON COLUMN rpt_recognition_detail.promotion_name IS 'from promotion'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_activity_id IS 'from activity'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_department IS 'from participant_employer'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_first_name IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_full_name IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_job_position IS 'from participant_employer'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_last_name IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_login_id IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_middle_name IS 'from application_user'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_node_id IS 'from user_node'
+/
+COMMENT ON COLUMN rpt_recognition_detail.merchandise_description IS 'the merchandise description'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_node_name IS 'from node'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_pax_status IS 'Active or Inactive'
+/
+COMMENT ON COLUMN rpt_recognition_detail.recvr_user_id IS 'submitter_id from claim'
+/
+COMMENT ON COLUMN rpt_recognition_detail.rpt_recognition_detail_id IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN rpt_recognition_detail.trans_date IS 'from activity'
+/

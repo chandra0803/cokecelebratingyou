@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.managertoolkit.AlertMessage" table="ALERT_MESSAGE">
+    <!-- primary key -->
+    <id column="ID" name="id" type="long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">alert_message_id_pk_seq</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version column="VERSION" name="version" type="long"/>
+
+   <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+		<column name="DATE_CREATED" />
+		<column name="CREATED_BY" />
+	</property>
+
+	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+		<column name="DATE_MODIFIED" />
+		<column name="MODIFIED_BY" />
+	</property>
+
+    <!-- attributes -->
+    
+    <property column="MESSAGE_TO" name="messageTo" not-null="true" type="string"/>
+    <property column="SUBJECT" name="subject" not-null="true" type="string"/>
+    <property column="MESSAGE" name="message" not-null="true" type="string"/>
+    <property column="EXPIRY_DATE" name="expiryDate" type="date"/>
+    <property column="ISVALID" name="valid" type="boolean"/>
+    <property column="SSI_CONTEST_ID" name="contestId" type="long"/>
+    <property column="SSI_ALERT_TYPE" name="ssiAlertType" type="string"/>
+    
+    <many-to-one class="com.biperf.core.domain.user.User" column="OWNER_ID" lazy="false" name="submitter"  unique="true"/>
+    <many-to-one name="proxyUser" column="PROXY_USER_ID" class="com.biperf.core.domain.user.User" not-null="false" lazy="false"/>
+   
+  </class>
+</hibernate-mapping>

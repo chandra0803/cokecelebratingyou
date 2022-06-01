@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:task="http://www.springframework.org/schema/task"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.2.xsd
+        http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">	
+        
+        <!--   controller is not Transactional , so care about  ORM  issues  , 
+        		if you want to make controller  in transaction boundary  ...please add   your expression to  jtaTransactionInterceptor  and hibernateSessionInterceptor-->
+       <aop:config >       
+        <!-- 
+        <aop:advisor advice-ref="jtaTransactionInterceptor" pointcut=""/>		
+		<aop:advisor advice-ref="hibernateSessionInterceptor" pointcut=""/>
+		 -->       
+		<aop:advisor advice-ref="loggingInterceptor" pointcut="execution(* com.biperf.core.ui..*(..))"/>
+		<aop:advisor advice-ref="performanceMonitorInterceptor" pointcut="execution(* com.biperf.core.ui..*(..))"/>		
+	  </aop:config>
+     
+     
+     <context:component-scan base-package="com.biperf.core.ui" />
+	
+		<bean
+			class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+			<property name="order" value="1" />
+			<property name="mediaTypes">
+				<map>
+					<entry key="json" value="application/json" />
+					<entry key="html" value="text/html" />
+				</map>
+			</property>
+			<property name="defaultViews">
+				<list>
+					<bean class="com.biperf.core.ui.GMappingJackson2JsonView" />		
+				</list>
+			</property>
+			<property name="ignoreAcceptHeader" value="false" />
+		</bean>
+		
+		<bean
+				class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+				<property name="order" value="2" />
+				<property name="prefix" value="/" />
+				<property name="suffix" value=".jsp" />
+		</bean>
+		
+		
+	<bean id="controllerExceptionResolver"
+        class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">
+        <property name="messageConverters">
+            <list>
+               <ref bean="jacksonMessageConverter" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="jacksonMessageConverter"  class="com.biperf.core.ui.GMappingJackson2HttpMessageConverter"></bean>
+   
+    
+</beans>

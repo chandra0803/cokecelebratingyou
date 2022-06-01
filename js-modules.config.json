@@ -1,0 +1,720 @@
+{
+    "modernizr": {
+        "files": [
+            "src/fe/core/libs/modernizr.js"
+        ],
+        "dest": {
+            "filename": "modernizr.js",
+            "directory": "/libs"
+        },
+        "uglify": false
+    },
+    "jquery": {
+        "files": [
+            "src/fe/core/libs/jquery.js"
+        ],
+        "dest": {
+            "filename": "jquery.js",
+            "directory": "/libs"
+        },
+        "uglify": false
+    },
+    "fusioncharts": {
+        "files": [
+            "src/fe/core/libs/plugins/fusioncharts.js"
+        ],
+        "dest": {
+            "filename": "fusioncharts.js",
+            "directory": "/libs/plugins"
+        },
+        "uglify": false
+    },
+    "fusionchartsCharts": {
+        "files": [
+            "src/fe/core/libs/plugins/fusioncharts.charts.js"
+        ],
+        "dest": {
+            "filename": "fusioncharts.charts.js",
+            "directory": "/libs/plugins"
+        },
+        "uglify": false
+    },
+    "raphael": {
+        "files": [
+            "src/fe/core/libs/raphael-min.js"
+        ],
+        "dest": {
+            "filename": "raphael-min.js",
+            "directory": "/libs"
+        },
+        "uglify": false
+    },
+    "props": {
+        "files": [
+            "src/fe/core/base/js/props.js"
+        ],
+        "dest": {
+            "filename": "props.js",
+            "directory": "/js"
+        }
+    },
+    "cmsDebug": {
+        "files": [
+            "src/fe/core/base/js/cmsDebug.js"
+        ],
+        "dest": {
+            "filename": "cmsDebug.js",
+            "directory": "/js"
+        },
+        "uglify": false
+    },
+    "core": {
+        "files": [
+            "src/fe/core/libs/safeconsole.js",
+            "src/fe/core/libs/underscore.js",
+            "src/fe/core/libs/backbone.js",
+            "src/fe/core/libs/handlebars.js",
+            "src/fe/core/libs/jquery-ui.js",
+            "src/fe/core/libs/plugins/bootstrap-transition.js",
+            "src/fe/core/libs/plugins/bootstrap-modal-patch.js",
+            "src/fe/core/libs/plugins/bootstrap-tooltip.js",
+            "src/fe/core/libs/plugins/bootstrap-popover.js",
+            "src/fe/core/libs/plugins/bootstrap-alert.js",
+            "src/fe/core/libs/plugins/bootstrap-collapse.js",
+            "src/fe/core/libs/plugins/bootstrap-datepicker.patchedG5.js",
+            "src/fe/core/libs/plugins/bootstrap-slider.patchedG5.js",
+            "src/fe/core/libs/plugins/bootstrap-tab.js",
+            "src/fe/core/libs/plugins/bootstrap-button.js",
+            "src/fe/core/libs/plugins/bootstrap-dropdown.js",
+            "src/fe/core/libs/plugins/shake-animator.js",
+            "src/fe/core/libs/plugins/spin.patchedG5.js",
+            "src/fe/core/libs/plugins/number-animator.js",
+            "src/fe/core/libs/plugins/jquery.scrollTo.js",
+            "src/fe/core/libs/plugins/jquery.color.js",
+            "src/fe/core/libs/plugins/jquery.qtip.js",
+            "src/fe/core/libs/plugins/jquery.elastic.js",
+            "src/fe/core/libs/plugins/jquery.ellipsis.js",
+            "src/fe/core/libs/plugins/jquery.placeholder.js",
+            "src/fe/core/libs/plugins/jquery.query.js",
+            "src/fe/core/libs/plugins/jquery.chosen.js",
+            "src/fe/core/libs/plugins/jHtmlArea-0.8.patchedG5.js",
+            "src/fe/core/libs/plugins/jquery.spellchecker.patchedG5.js",
+            "src/fe/core/libs/plugins/jquery.fileupload.js",
+            "src/fe/core/libs/plugins/jquery.format.js",            
+            "src/fe/core/libs/plugins/responsiveTables.js",
+            "src/fe/core/libs/video-js/video.min.js",
+            "src/fe/core/libs/plugins/slick.min.js",
+            "src/fe/core/libs/plugin-patch.js",
+            "src/fe/core/libs/plugins/polyfill-resize.js",
+            "src/fe/core/base/js/backbone/settings.js",
+            "src/fe/core/base/js/backbone/settings.i18n.js",
+            "src/fe/core/base/js/backbone/G5.util.js",
+            "src/fe/core/base/js/backbone/ServerResponse.js",
+            "src/fe/core/base/js/backbone/TemplateManager.js",
+            "src/fe/core/base/js/backbone/PageView.js",
+            "src/fe/core/base/js/backbone/GlobalNavRouter.js",
+            "src/fe/core/base/js/backbone/GlobalNavView.js",
+            "src/fe/core/base/js/backbone/GlobalHeaderView.js",
+            "src/fe/core/base/js/backbone/GlobalSidebarView.js",
+            "src/fe/core/base/js/backbone/GlobalFooterView.js",
+            "src/fe/core/base/js/backbone/SidebarModule.js",
+            "src/fe/core/base/js/backbone/SidebarModuleView.js",
+            "src/fe/core/base/js/backbone/PageNavView.js",
+            "src/fe/core/base/js/backbone/ParticipantCollectionView.js",
+            "src/fe/core/base/js/backbone/ParticipantProfileView.js",
+            "src/fe/core/base/js/backbone/ParticipantPopoverView.js",
+            "src/fe/core/base/js/backbone/SharePopoverPlugin.js",
+            "src/fe/core/base/js/backbone/BreadcrumbView.js",
+            "src/fe/core/base/js/backbone/PaginationView.js",
+            "src/fe/core/base/js/backbone/DisplayTableAjaxView.js",
+            "src/fe/core/base/js/backbone/WizardTabsView.js",
+            "src/fe/core/base/js/backbone/ParticipantChatterAuthorizationView.js",
+            "src/fe/core/base/js/backbone/SelectAudienceParticipantsView.js",
+            "src/fe/core/base/js/backbone/SelectAudienceParticipantsModel.js",
+            "src/fe/core/base/js/backbone/ParticipantPaginatedView.js",
+            "src/fe/core/base/js/backbone/BadgesSelectorView.js",
+            "src/fe/core/apps/drawTool/js/DrawToolView.js",
+            "src/fe/core/apps/drawTool/js/DrawCanvasView.js",
+            "src/fe/core/base/js/backbone/PaxSearchStartView.js",
+            "src/fe/core/base/js/backbone/PaxCollection.js",
+            "src/fe/core/base/js/backbone/PaxSearchCollectionView.js",
+            "src/fe/core/base/js/backbone/PaxSearchCollection.js",
+            "src/fe/core/base/js/backbone/PaxSelectedPaxView.js",
+            "src/fe/core/base/js/backbone/PaxSelectedPaxCollection.js",
+            "src/fe/core/base/js/backbone/CheersPopoverView.js",
+            "src/fe/core/base/js/backbone/CheersRecognitionEzView.js",
+            "src/fe/core/base/js/backbone/PaxSearchModel.js",
+            "src/fe/core/base/js/backbone/PaxSearchView.js",
+            "src/fe/core/base/js/backbone/LaunchApp.js",
+            "src/fe/core/base/js/backbone/LaunchModuleContainerView.js",
+            "src/fe/core/base/js/backbone/LaunchModuleLayoutManager.js",
+            "src/fe/core/base/js/backbone/LaunchModuleView.js",
+            "src/fe/core/base/js/backbone/LaunchModule.js",
+            "src/fe/core/base/js/backbone/LaunchModuleCollection.js",
+            "src/fe/core/base/js/backbone/LaunchPageView.js",
+            "src/fe/core/base/js/backbone/LoginFormView.js",
+            "src/fe/core/apps/contactForm/js/ContactFormView.js",
+            "src/fe/core/apps/publicProfile/js/PublicProfileModel.js"
+        ],
+        "dest": {
+            "filename": "core.js",
+            "directory": "/js"
+        }
+    },
+    "apps": {
+        "files": [
+            "src/fe/core/apps/bannerModule/js/BannerModuleModel.js",
+            "src/fe/core/apps/bannerModule/js/BannerModuleCollection.js",
+            "src/fe/core/apps/bannerModule/js/BannerModuleModuleView.js",
+            "src/fe/core/base/js/backbone/BudgetCollectionView.js",
+            "src/fe/core/apps/budgetTracker/js/BudgetTrackerModuleView.js",
+            "src/fe/core/apps/gamification/js/GamificationCollection.js",
+            "src/fe/core/apps/gamification/js/GamificationDataView.js",
+            "src/fe/core/apps/gamification/js/GamificationModuleView.js",
+            "src/fe/core/apps/hero/js/HeroModuleView.js",
+            "src/fe/core/apps/instantPoll/js/InstantPollCollection.js",
+            "src/fe/core/apps/instantPoll/js/InstantPollModuleView.js",
+			"src/fe/core/apps/recognitionAdvisor/js/RecognitionAdvisorModuleView.js",
+            "src/fe/core/apps/recognitionAdvisor/js/RecognitionAdvisorPageView.js",
+            "src/fe/core/apps/newServiceAnniversary/js/NewServiceAnniversaryModuleView.js",
+            "src/fe/core/apps/newServiceAnniversary/js/NewServiceAnniversaryContributePageView.js",
+            "src/fe/core/apps/resourceCenter/js/ResourceCenterModuleView.js",
+            "src/fe/core/apps/resourceCenter/js/ResourceCenterPageView.js",
+            "src/fe/core/apps/managerToolkit/js/ManagerToolkitModuleView.js",
+            "src/fe/core/apps/managerToolkit/js/ManagerToolkitPageBudgetView.js",
+            "src/fe/core/apps/managerToolkit/js/ManagerToolkitPageHistoryView.js",
+            "src/fe/core/apps/managerToolkit/js/ManagerToolkitPageRosterView.js",
+            "src/fe/core/apps/managerToolkit/js/ManagerToolkitPageRosterEditView.js",
+            "src/fe/core/apps/managerToolkit/js/ManagerToolKitSendAlertPageView.js",
+            "src/fe/core/apps/news/js/NewsModel.js",
+            "src/fe/core/apps/news/js/NewsModuleView.js",
+            "src/fe/core/apps/news/js/NewsCollection.js",
+            "src/fe/core/apps/news/js/NewsCollectionView.js",
+            "src/fe/core/apps/news/js/NewsPageView.js",
+            "src/fe/core/apps/news/js/NewsPageDetailView.js",
+            "src/fe/core/apps/onTheSpotCard/js/OnTheSpotCardModuleView.js",
+            "src/fe/core/apps/plateauAwards/js/PlateauAwardsPageView.js",
+            "src/fe/core/apps/plateauAwards/js/PlateauAwardsPageReminderView.js",
+            "src/fe/core/apps/plateauAwards/js/PlateauAwardsCollection.js",
+            "src/fe/core/apps/plateauAwards/js/PlateauAwardsModuleView.js",
+            "src/fe/core/apps/plateauAwards/js/PlateauAwardsRedeemModuleView.js",
+            "src/fe/core/apps/plateauAwards/js/PlateauAwardsRedeemModel.js",
+            "src/fe/core/apps/profile/js/ProfilePageView.js",
+            "src/fe/core/apps/profile/js/ProfilePageActivityHistoryTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabAlertsModel.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabMessagesModel.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabMessagesCollection.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabAlertsCollection.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabAlertsView.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabMessagesView.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabMessageDetailModel.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabMessageDetailCollection.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsTabMessageDetailView.js",
+            "src/fe/core/apps/profile/js/ProfilePageAlertsAndMessagesTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageBadgesTabCollection.js",
+            "src/fe/core/apps/profile/js/ProfilePageBadgesTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageDashboardTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageFollowListTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageGroupsSaveEditView.js",
+            "src/fe/core/apps/profile/js/ProfileGroupsModel.js",
+            "src/fe/core/apps/profile/js/ProfilePagePersonalInfoTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePagePersonalInformationTabModel.js",
+            "src/fe/core/apps/profile/js/ProfilePagePersonalInformationTabCollection.js",
+            "src/fe/core/apps/profile/js/ProfilePagePreferencesTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageProxiesTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageSecurityTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageStatementTabView.js",
+            "src/fe/core/apps/profile/js/ProfilePageThrowdownStatsTabView.js",
+            "src/fe/core/apps/publicProfile/js/publicProfilePageView.js",
+            "src/fe/core/apps/programSelect/js/ProgramSelectPageView.js",
+            "src/fe/core/apps/programSelect/js/ProgramSelectPageModel.js",
+            "src/fe/core/base/js/backbone/RulesPageView.js",
+            "src/fe/core/base/js/backbone/RulesPromotionModel.js",
+            "src/fe/core/base/js/backbone/RulesPromotionModelView.js",
+            "src/fe/core/base/js/backbone/RulesPromotionCollection.js",
+            "src/fe/core/base/js/backbone/RulesPromotionCollectionView.js",
+            "src/fe/core/apps/survey/js/SurveyModel.js",
+            "src/fe/core/apps/survey/js/SurveyTakeView.js",
+            "src/fe/core/apps/survey/js/SurveyPageListView.js",
+            "src/fe/core/apps/survey/js/SurveyPageTakeView.js",
+            "src/fe/core/apps/tip/js/TipModel.js",
+            "src/fe/core/apps/tip/js/TipCollection.js",
+            "src/fe/core/apps/tip/js/TipModuleView.js",
+            "src/fe/core/libs/BIWHappinessSlider.min.js",
+            "src/fe/core/apps/workHappier/js/WorkHappierPaxModuleView.js",
+            "src/fe/core/apps/workHappier/js/WorkHappierPaxModel.js",
+            "src/fe/core/apps/xpromo/js/xpromoModel.js",
+            "src/fe/core/apps/xpromo/js/xpromoModuleView.js",
+            "src/fe/core/apps/xpromo/js/xpromoCollection.js",
+            "src/fe/core/apps/careerMoments/js/CareerMomentsModel.js", 
+        	"src/fe/core/apps/careerMoments/js/CareerMomentsPageView.js",       
+        	"src/fe/core/apps/careerMoments/js/CareerMomentsModuleView.js",
+        	"src/fe/core/apps/careerMoments/js/CareerMomentsProfileModel.js",
+        	"src/fe/core/apps/careerMoments/js/CareerMomentsPublicProfilePageView.js",
+        	"src/fe/core/apps/bunchball/js/BunchBallModuleView.js",
+        	"src/fe/core/apps/bunchball/js/BunchBallSideBarModuleView.js"
+        ],
+        "dest": {
+            "filename": "apps.js",
+            "directory": "/js"
+        }
+    },
+    "loginBackbone": {
+        "files": [
+            "src/fe/core/base/js/backbone/LoginFormView.js",
+            "src/fe/core/base/js/backbone/LoginPageView.js",
+            "src/fe/core/base/js/backbone/LoginPageFirstTimeView.js",
+            "src/fe/core/base/js/backbone/ChangePasswordPageView.js"
+        ],
+        "dest": {
+            "filename": "login-backbone.js",
+            "directory": "/js"
+        }
+    },
+    "login": {
+        "files": [
+            "wp-out/login.js"
+        ],
+        "dest": {
+            "filename": "login.js",
+            "directory": "/js"
+        },
+        "uglify": false
+    },
+    "manifest": {
+        "files": [
+            "wp-out/manifest.js"
+        ],
+        "dest": {
+            "filename": "manifest.js",
+            "directory": "/js"
+        },
+        "uglify": false
+    },
+    "advisor": {
+        "files": [
+            "wp-out/recAdvisor.js"
+        ],
+        "dest": {
+            "filename": "app-advisor.js",
+            "directory": "/js"
+        },
+        "uglify": false
+    },
+    "sa": {
+        "files": [
+            "wp-out/serAnniversary.js"
+        ],
+        "dest": {
+            "filename": "app-sa.js",
+            "directory": "/js"
+        },
+        "uglify": false
+    },
+    "kinesis": {
+        "files": [
+            "wp-out/manageEvents.js"
+        ],
+        "dest": {
+            "filename": "app-events.js",
+            "directory": "/js"
+        },
+        "uglify": false
+    },
+    "approvals": {
+        "files": [
+            "src/fe/core/apps/approvals/js/ApprovalsModel.js",
+            "src/fe/core/apps/approvals/js/ApprovalsCollection.js",
+            "src/fe/core/apps/approvals/js/ApprovalsModuleView.js",
+            "src/fe/core/apps/approvals/js/ApprovalsIndexModelView.js",
+            "src/fe/core/apps/approvals/js/ApprovalsSearchModelView.js",
+            "src/fe/core/apps/approvals/js/ApprovalsClaimDetailModelView.js",
+            "src/fe/core/apps/approvals/js/ApprovalsNominationDetailModelView.js",
+            "src/fe/core/apps/approvals/js/ApprovalsPageClaimsModel.js",
+            "src/fe/core/apps/approvals/js/ApprovalsPageClaimsView.js",
+            "src/fe/core/apps/approvals/js/RecipientSelectionModelView.js"
+        ],
+        "dest": {
+            "filename": "app-approvals.js",
+            "directory": "/js"
+        }
+    },
+    "celebration": {
+        "files": [
+            "src/fe/core/apps/celebration/js/CelebrationPageView.js",
+            "src/fe/core/apps/celebration/js/CelebrationChooseAwardModuleView.js",
+            "src/fe/core/apps/celebration/js/CelebrationBrowseAwardsModuleView.js",
+            "src/fe/core/apps/celebration/js/CelebrationAnniversaryFactsModuleView.js",
+            "src/fe/core/apps/celebration/js/CelebrationCompanyTimelineModuleView.js",
+            "src/fe/core/apps/celebration/js/CelebrationCongratsModuleView.js",
+            "src/fe/core/apps/celebration/js/CelebrationManagerMessageModuleView.js",
+            "src/fe/core/apps/celebration/js/CelebrationManagerMessagePageView.js",
+            "src/fe/core/apps/celebration/js/CelebrationRecognitionPurlModuleView.js",
+            "src/fe/core/apps/celebration/js/CelebrationRecognitionPurlModel.js",
+            "src/fe/core/apps/celebration/js/CelebrationCorporateVideoModuleView.js"
+        ],
+        "dest": {
+            "filename": "app-celebration.js",
+            "directory": "/js"
+        }
+    },
+    "claims": {
+        "files": [
+            "src/fe/core/apps/productClaim/js/ClaimProductModel.js",
+            "src/fe/core/apps/productClaim/js/ClaimProductCollection.js",
+            "src/fe/core/apps/productClaim/js/ClaimModuleView.js",
+            "src/fe/core/apps/productClaim/js/ClaimPageView.js"
+        ],
+        "dest": {
+            "filename": "app-claims.js",
+            "directory": "/js"
+        }
+    },
+    "communications": {
+        "files": [
+            "src/fe/core/apps/communications/js/CommunicationsPageView.js",
+            "src/fe/core/apps/communications/js/CommunicationsManageView.js",
+            "src/fe/core/apps/communications/js/CommunicationsManageModel.js",
+            "src/fe/core/apps/communications/js/CommunicationsEditView.js",
+            "src/fe/core/apps/communications/js/CommunicationsEditModel.js",
+            "src/fe/core/apps/communications/js/CommunicationsImageUploadView.js"
+        ],
+        "dest": {
+            "filename": "app-communications.js",
+            "directory": "/js"
+        }
+    },
+    "engagement": {
+        "files": [
+            "src/fe/core/apps/engagement/js/EngagementDrawScoreMeter.js",
+            "src/fe/core/apps/engagement/js/EngagementModel.js",
+            "src/fe/core/apps/engagement/js/EngagementModelView.js",
+            "src/fe/core/apps/engagement/js/EngagementSummaryModel.js",
+            "src/fe/core/apps/engagement/js/EngagementSummaryModelView.js",
+            "src/fe/core/apps/engagement/js/EngagementSummaryCollection.js",
+            "src/fe/core/apps/engagement/js/EngagementSummaryCollectionView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailScoreView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailRecView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailRecSentView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailRecRecvView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailPaxView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailPaxRecToView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailPaxRecByView.js",
+            "src/fe/core/apps/engagement/js/EngagementDetailVisitsView.js",
+            "src/fe/core/apps/engagement/js/EngagementRecognizedModel.js",
+            "src/fe/core/apps/engagement/js/EngagementRecognizedModelView.js",
+            "src/fe/core/apps/engagement/js/EngagementTeamMembersModel.js",
+            "src/fe/core/apps/engagement/js/EngagementTeamMembersCollection.js",
+            "src/fe/core/apps/engagement/js/EngagementTeamMembersCollectionView.js",
+            "src/fe/core/apps/engagement/js/EngagementModuleView.js",
+            "src/fe/core/apps/engagement/js/EngagementModuleManagerView.js",
+            "src/fe/core/apps/engagement/js/EngagementPageDashboardView.js",
+            "src/fe/core/apps/engagement/js/EngagementPageUserDashboardView.js",
+            "src/fe/core/apps/engagement/js/EngagementPageTeamDashboardView.js",
+            "src/fe/core/apps/engagement/js/EngagementPageRecognizedView.js",
+            "src/fe/core/apps/engagement/js/EngagementTeamMembersView.js"
+        ],
+        "dest": {
+            "filename": "app-engagement.js",
+            "directory": "/js"
+        }
+    },
+    "goalquest": {
+        "files": [
+            "src/fe/core/apps/goalquest/js/GoalquestCollectionView.js",
+            "src/fe/core/apps/goalquest/js/GoalquestModuleView.js",
+            "src/fe/core/apps/goalquest/js/GoalquestManagerModuleView.js",
+            "src/fe/core/apps/goalquest/js/ChallengepointModuleView.js",
+            "src/fe/core/apps/goalquest/js/ChallengepointManagerModuleView.js",
+            "src/fe/core/apps/goalquest/js/GoalquestPageListView.js",
+            "src/fe/core/apps/goalquest/js/GoalquestPageEditView.js",
+            "src/fe/core/apps/goalquest/js/GoalquestPageDetailView.js"
+        ],
+        "dest": {
+            "filename": "app-goalquest.js",
+            "directory": "/js"
+        }
+    },
+    "leaderboard": {
+        "files": [
+            "src/fe/core/apps/leaderboard/js/LeaderboardModel.js",
+            "src/fe/core/apps/leaderboard/js/LeaderboardCollection.js",
+            "src/fe/core/apps/leaderboard/js/LeaderboardSetModel.js",
+            "src/fe/core/apps/leaderboard/js/LeaderboardSetCollection.js",
+            "src/fe/core/apps/leaderboard/js/LeaderboardModelView.js",
+            "src/fe/core/apps/leaderboard/js/LeaderboardModuleView.js",
+            "src/fe/core/apps/leaderboard/js/LeaderboardPageView.js",
+            "src/fe/core/apps/leaderboard/js/LeaderboardPageCreateEditCopyView.js"
+        ],
+        "dest": {
+            "filename": "app-leaderboard.js",
+            "directory": "/js"
+        }
+    },
+    "nominations": {
+        "files": [
+            "src/fe/core/apps/nominations/js/NominationsWizardTabsVerticalView.js",
+            "src/fe/core/apps/nominations/js/NominationsWizardTabsVerticalModel.js",
+            "src/fe/core/apps/nominations/js/NominationsSubmitPageView.js",
+            "src/fe/core/apps/nominations/js/NominationsSubmitModel.js",
+            "src/fe/core/apps/nominations/js/NominationsSubmitTabNominatingView.js",
+            "src/fe/core/apps/nominations/js/NominationsSubmitTabNomineeView.js",
+            "src/fe/core/apps/nominations/js/NominationsSubmitTabBehaviorView.js",
+            "src/fe/core/apps/nominations/js/NominationsSubmitTabEcardView.js",
+            "src/fe/core/apps/nominations/js/NominationsSubmitTabWhyView.js",
+            "src/fe/core/apps/nominations/js/NominationsInprogressListPageView.js",
+            "src/fe/core/apps/nominations/js/NominationsInprogressListPageModel.js",
+            "src/fe/core/apps/nominations/js/NominationsApprovalPageView.js",
+            "src/fe/core/apps/nominations/js/NominationsApprovalPageModel.js",
+            "src/fe/core/apps/nominations/js/NominationsApprovalPromoListPageModel.js",
+            "src/fe/core/apps/nominations/js/NominationsApprovalPromoListPageView.js",
+            "src/fe/core/apps/nominations/js/NominationWinnersListPageModel.js",
+            "src/fe/core/apps/nominations/js/NominationWinnersListPageView.js",
+            "src/fe/core/apps/nominations/js/NominationsWinnersModuleView.js",
+            "src/fe/core/apps/nominations/js/NominationsWinnersDetailPageModel.js",
+            "src/fe/core/apps/nominations/js/NominationsWinnersDetailPageView.js",
+            "src/fe/core/apps/nominations/js/NominationsMyNomsListPageView.js",
+            "src/fe/core/apps/nominations/js/NominationsMyNomsListPageModel.js",
+            "src/fe/core/apps/nominations/js/NominationsMoreInfoPageView.js",
+            "src/fe/core/apps/nominations/js/NominationsMoreInfoPageModel.js"
+        ],
+        "dest": {
+            "filename": "app-nominations.js",
+            "directory": "/js"
+        }
+    },
+    "purl": {
+        "files": [
+            "src/fe/core/apps/purlContribute/js/purlContributeModel.js",
+            "src/fe/core/apps/purlContribute/js/purlContributeCollection.js",
+            "src/fe/core/apps/purlContribute/js/purlContributeTermsPageView.js",
+            "src/fe/core/apps/purlContribute/js/purlContributePurlListPageView.js",
+            "src/fe/core/apps/purlContribute/js/PurlPageView.js",
+            "src/fe/core/apps/purlContribute/js/PurlModel.js",
+            "src/fe/core/apps/purlContribute/js/PurlCelebrateModel.js",
+            "src/fe/core/apps/purlContribute/js/PurlCelebratePageView.js",
+            "src/fe/core/apps/purlContribute/js/PurlCelebrateModuleView.js"
+        ],
+        "dest": {
+            "filename": "app-purl.js",
+            "directory": "/js"
+        }
+    },
+    "quiz": {
+        "files": [
+            "src/fe/core/apps/quiz/js/QuizPageView.js",
+            "src/fe/core/apps/quiz/js/QuizModelTake.js",
+            "src/fe/core/apps/quiz/js/QuizPageTakeView.js",
+            "src/fe/core/apps/quiz/js/QuizTakeTabIntroView.js",
+            "src/fe/core/apps/quiz/js/QuizTakeTabMaterialsView.js",
+            "src/fe/core/apps/quiz/js/QuizTakeTabQuestionsView.js",
+            "src/fe/core/apps/quiz/js/QuizTakeTabResultsView.js",
+            "src/fe/core/apps/quiz/js/QuizModel.js",
+            "src/fe/core/apps/quiz/js/QuizPageEditView.js",
+            "src/fe/core/apps/quiz/js/QuizEditTabIntroView.js",
+            "src/fe/core/apps/quiz/js/QuizEditTabMaterialsView.js",
+            "src/fe/core/apps/quiz/js/QuizEditTabQuestionsView.js",
+            "src/fe/core/apps/quiz/js/QuizEditTabResultsView.js",
+            "src/fe/core/apps/quiz/js/QuizEditTabPreviewView.js",
+            "src/fe/core/apps/quiz/js/QuizPageManageView.js"
+        ],
+        "dest": {
+            "filename": "app-quiz.js",
+            "directory": "/js"
+        }
+    },
+    "recognition": {
+        "files": [
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionModel.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionCollection.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionSetModel.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionSetCollection.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionModelView.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionSetCollectionView.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionModuleView.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionPageView.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionPageDetailView.js",
+            "src/fe/core/apps/publicRecognition/js/PublicRecognitionPageFollowListView.js",
+            "src/fe/core/apps/recognition/js/RecognitionPageSendView.js",
+            "src/fe/core/apps/recognition/js/RecognitionPageManagerInviteContributorsView.js",
+            "src/fe/core/apps/recognition/js/AwardeeCollectionView.js",
+            "src/fe/core/apps/recognition/js/ContributorsView.js",
+            "src/fe/core/apps/recognition/js/RecognitionPageAddPointsView.js",
+            "src/fe/core/apps/recognition/js/RecognitionEzView.js",
+            "src/fe/core/apps/recognition/js/RecognitionPageBadgesView.js",
+            "src/fe/core/apps/recognition/js/RecognitionPageRecogView.js",
+            "src/fe/core/apps/recognition/js/RecognitionPagePreviewView.js",
+            "src/fe/core/apps/recognition/js/SelectPointsOrTrainingView.js"
+        ],
+        "dest": {
+            "filename": "app-recognition.js",
+            "directory": "/js"
+        }
+    },
+    "reports": {
+        "files": [
+            "src/fe/core/apps/reports/js/ReportsDashboardModuleView.js",
+            "src/fe/core/apps/reports/js/ReportsModuleView.js",
+            "src/fe/core/apps/reports/js/AllReportsModuleView.js",
+            "src/fe/core/apps/reports/js/FavoriteReportsModuleView.js",
+            "src/fe/core/apps/reports/js/ReportModel.js",
+            "src/fe/core/apps/reports/js/ReportCollection.js",
+            "src/fe/core/apps/reports/js/ReportsPageView.js",
+            "src/fe/core/apps/reports/js/ReportsPageAllView.js",
+            "src/fe/core/apps/reports/js/ReportsPageDetailView.js",
+            "src/fe/core/apps/reports/js/ReportsFavoritesPopoverView.js",
+            "src/fe/core/apps/reports/js/ReportsChangeFiltersPopoverView.js"
+        ],
+        "dest": {
+            "filename": "app-reports.js",
+            "directory": "/js"
+        }
+    },
+    "ssi": {
+        "files": [
+            "src/fe/core/apps/ssi/js/SSIModuleView.js",
+            "src/fe/core/apps/ssi/js/SSISharedHelpersView.js",
+            "src/fe/core/apps/ssi/js/SSISharedPaginatedTableView.js",
+            "src/fe/core/apps/ssi/js/SSIEventBus.js",
+            "src/fe/core/apps/ssi/js/SSIContestModel.js",
+            "src/fe/core/apps/ssi/js/SSIDTGTActivityModel.js",
+            "src/fe/core/apps/ssi/js/SSIDTGTActivityCollection.js",
+            "src/fe/core/apps/ssi/js/SSIDTGTActivityModelView.js",
+            "src/fe/core/apps/ssi/js/SSIDTGTActivityCollectionView.js",
+            "src/fe/core/apps/ssi/js/SSISIULevelModel.js",
+            "src/fe/core/apps/ssi/js/SSISIULevelCollection.js",
+            "src/fe/core/apps/ssi/js/SSISIULevelModelView.js",
+            "src/fe/core/apps/ssi/js/SSISIULevelCollectionView.js",
+            "src/fe/core/apps/ssi/js/SSIContestSummaryCollection.js",
+            "src/fe/core/apps/ssi/js/SSIContestSummary_ATN.js",
+            "src/fe/core/apps/ssi/js/SSIContestPayoutDetailsCollection.js",
+            "src/fe/core/apps/ssi/js/SSIContestPayoutDetails_ATN.js",
+            "src/fe/core/apps/ssi/js/SSIApproveContestPageViewATN.js",
+            "src/fe/core/apps/ssi/js/SSIContestPageEditView.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTranslationsView.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabInfoView.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabParticipantsManagersView.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabPayoutsView_objectives.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabPayoutsView_dtgt.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabPayoutsView_siu.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabPayoutsView_atn.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabPayoutsView_sr.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabDataCollectionView.js",
+            "src/fe/core/apps/ssi/js/SSIContestEditTabPreviewView.js",
+            "src/fe/core/apps/ssi/js/SSIPageNavView.js",
+            "src/fe/core/apps/ssi/js/SSIPageCollection.js",
+            "src/fe/core/apps/ssi/js/SSIPageView.js",
+            "src/fe/core/apps/ssi/js/SSICircleChartModel.js",
+            "src/fe/core/apps/ssi/js/SSICircleChartCollection.js",
+            "src/fe/core/apps/ssi/js/SSICircleChartView.js",
+            "src/fe/core/apps/ssi/js/SSIBarChartView.js",
+            "src/fe/core/apps/ssi/js/SSIPayoutChartView.js",
+            "src/fe/core/apps/ssi/js/SSIActionPromptView.js",
+            "src/fe/core/apps/ssi/js/SSISortableTableView.js",
+            "src/fe/core/apps/ssi/js/SSISortableTableCollection.js",
+            "src/fe/core/apps/ssi/js/SSIContestListView.js",
+            "src/fe/core/apps/ssi/js/SSICreatorContestModel.js",
+            "src/fe/core/apps/ssi/js/SSIContestCreateModalView.js",
+            "src/fe/core/apps/ssi/js/SSIStackRankCollection.js",
+            "src/fe/core/apps/ssi/js/SSIStackRankCollectionView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantContestModel.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantContestView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantDoThisGetThatView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantObjectivesView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantStackRankView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantStepItUpView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantSubmitClaimPageView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantSubmitClaimModel.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantSubmitClaimDetailView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantPageView.js",
+            "src/fe/core/apps/ssi/js/SSIParticipantModuleView.js",
+            "src/fe/core/apps/ssi/js/SSIManagerPageView.js",
+            "src/fe/core/apps/ssi/js/SSIManagerModuleView.js",
+            "src/fe/core/apps/ssi/js/SSISuperViewerPageView.js",
+            "src/fe/core/apps/ssi/js/SSISuperViewerModuleView.js",
+            "src/fe/core/apps/ssi/js/SSICreatorPageView.js",
+            "src/fe/core/apps/ssi/js/SSICreatorModuleView.js",
+            "src/fe/core/apps/ssi/js/SSICreatorListModuleView.js",
+            "src/fe/core/apps/ssi/js/SSICreatorContestsModuleView.js",
+            "src/fe/core/apps/ssi/js/SSIAdminContestDetailsView.js",
+            "src/fe/core/apps/ssi/js/SSIAdminContestDetailsModel.js",
+            "src/fe/core/apps/ssi/js/SSIApproveContestPageView.js",
+            "src/fe/core/apps/ssi/js/SSIApproveContestDetailsModel.js",
+            "src/fe/core/apps/ssi/js/SSIApproveContestMembersCollection.js",
+            "src/fe/core/apps/ssi/js/SSIApproveContestMembersCollectionView.js",
+            "src/fe/core/apps/ssi/js/SSIApprovePayoutView.js",
+            "src/fe/core/apps/ssi/js/SSIApprovePayoutCollection.js",
+            "src/fe/core/apps/ssi/js/SSIActivityHistoryView.js",
+            "src/fe/core/apps/ssi/js/SSIActivityHistoryModel.js",
+            "src/fe/core/apps/ssi/js/SSIUpdateResultsPageView.js",
+            "src/fe/core/apps/ssi/js/SSIUpdateResultsModel.js",
+            "src/fe/core/apps/ssi/js/SSIApproveClaimsPageView.js",
+            "src/fe/core/apps/ssi/js/SSIApproveClaimsSummaryCollection.js",
+            "src/fe/core/apps/ssi/js/SSIApproveClaimsDetailPageView.js"
+        ],
+        "dest": {
+            "filename": "app-ssi.js",
+            "directory": "/js"
+        }
+    },
+    "throwdown": {
+        "files": [
+            "src/fe/core/apps/throwdown/js/_throwdown.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownPageView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownPromoSelectModel.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownPromoSelectCollection.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownPromoSelectModuleView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownMatchModel.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownMatchCollection.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownMatchModuleView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownMatchPageView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownAllMatchesModel.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownAllMatchesModuleView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownAllMatchesTeamModel.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownRankingsModel.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownRankingsCollection.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownRankingsSetModel.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownRankingsSetCollection.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownRankingsModelView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownRankingsModuleView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownRankingsPageView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownStandingsModuleView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownStandingsModel.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownStandingsPageView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownTrainingCampModuleView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownTrainingCampPageView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownNewsModel.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownNewsModuleView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownNewsCollection.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownNewsCollectionView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownNewsPageView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownNewsPageDetailView.js",
+            "src/fe/core/apps/throwdown/js/ThrowdownCombinedModuleView.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkModel.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkCollection.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkSetModel.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkSetCollection.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkModelView.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkSetCollectionView.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkModuleView.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkPageView.js",
+            "src/fe/core/apps/throwdown/js/SmackTalkPageDetailView.js"
+        ],
+        "dest": {
+            "filename": "app-throwdown.js",
+            "directory": "/js"
+        }
+    },
+    "commonFunctions": {
+        "files": [
+            "src/main/webapp/assets/g4skin/scripts/commonFunctions.js"
+        ],
+        "dest": {
+            "filename": "commonFunctions.js",
+            "directory": "/g4skin/scripts"
+        }
+    }
+
+
+}

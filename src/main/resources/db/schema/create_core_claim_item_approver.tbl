@@ -1,0 +1,44 @@
+create sequence CLAIM_ITEM_APPROVER_PK_SQ start with 5000
+/
+CREATE TABLE claim_item_approver
+(claim_item_approver_id      NUMBER(18) NOT NULL,
+ claim_item_id     				   NUMBER(18),
+ claim_group_id     				   NUMBER(18),
+ ITEM_APPROVER_DISCRIM       VARCHAR2(12 BYTE) NOT NULL,
+ approval_round              NUMBER(10) NOT NULL,
+ approval_status_type        VARCHAR2(18),
+ approval_option_reason_type VARCHAR2(18),
+ approver_comments           VARCHAR2(4000),
+ approver_user_id				     NUMBER(18),
+ notification_date					 DATE,
+ time_period_id                      NUMBER(18),
+ date_approved					     DATE,
+ date_created     				   DATE NOT NULL,
+ created_by       				   number(18) NOT NULL,
+ date_modified    				   DATE,
+ modified_by      				   number(18),
+ version		  				       NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE claim_item_approver
+ADD CONSTRAINT claim_item_approver_pk PRIMARY KEY (claim_item_approver_id)
+USING INDEX
+/
+ALTER TABLE claim_item_approver ADD CONSTRAINT claim_item_approver_user_fk
+  FOREIGN KEY (approver_user_id) REFERENCES APPLICATION_USER (user_id) 
+/
+CREATE INDEX CLAIM_ITEM_APP_USER_FK_idx ON claim_item_approver
+  (APPROVER_USER_ID)
+/
+create index claim_item_appr_claim_gpid_idx ON
+CLAIM_item_approver(CLAIM_GROUP_ID)
+/
+
+COMMENT ON TABLE claim_item_approver IS 'Association table'
+/
+COMMENT ON COLUMN claim_item_approver.claim_item_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN claim_item_approver.notification_date IS 'Notification date of the approval'
+/
+COMMENT ON COLUMN CLAIM_ITEM_APPROVER.TIME_PERIOD_ID IS 'Time period id when the winner is picked for a time period'
+/

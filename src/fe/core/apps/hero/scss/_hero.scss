@@ -1,0 +1,206 @@
+// App-specific variables
+// =========================
+$hero_bgColor: $brand_color_primary !default;
+$hero_bgImg: false !default; // this variable can take a list of images that will stack front to back. Handy if you want to see a low-res image quickly while the high-res downloads
+$hero_bgImgPosition: 50% 50% !default;
+$hero_bgImgRepeat: no-repeat !default;
+$hero_bgImgSize: cover !default;
+$hero_bgImgAttachment: scroll !default;
+$hero_bgImgAllowedNotHome: false !default; // set to true to have the background image show up on every instance of the hero
+
+$hero_searchMinHeight: 144px !default;
+
+// App-specific code
+// ==================================================
+
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.hero {
+
+} /* /.hero */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.hero {
+
+    > .module-liner {
+        position: relative;
+        padding: 0;
+        background-color: $hero_bgColor;
+
+        // ever so slight shadow when sidebar visible to keep the hero from blending into the sidebar top
+        // could add a check to see if the colors of the two areas are set to the same value before applying this ($hero_bgColor and $globalSidebar_upperSidebarBkg)
+        @media (min-width: $breakpoint_desktop_min) {
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0.05) 100%);
+        }
+
+        @if $hero_bgImg and $hero_bgImgAllowedNotHome {
+            @include safeImgUrls($hero_bgImg, '../img/', $property: 'background-image');
+            background-position: $hero_bgImgPosition;
+            background-repeat: $hero_bgImgRepeat;
+            background-size: $hero_bgImgSize;
+            background-attachment: $hero_bgImgAttachment;
+        }
+        
+
+        .is-home & {
+            height: auto;
+           	//padding-top: 1 / 2.35 * 100%; // 2.35:1 ratio
+            min-height: 0;
+            transition: background-image 1s ease-out;// To avoid the flickr while background image changing for now
+                       
+            
+
+            @if $hero_bgImg and $hero_bgImgAllowedNotHome == false {
+	            &.default {
+	            	@include safeImgUrls($hero_bgImg, '../img/', $property: 'background-image');
+	            }
+                //@include safeImgUrls($hero_bgImg, '../img/', $property: 'background-image');
+                background-position: $hero_bgImgPosition;
+                background-repeat: $hero_bgImgRepeat;
+                background-size: $hero_bgImgSize;
+                background-attachment: $hero_bgImgAttachment;
+            }
+        }
+    }
+    .is-home &.searchEnabled > .module-liner {
+      	//padding-top: calc(#{1 / 2.35 * 100%} - #{$hero_searchMinHeight}); // 2.35:1 ratio - min-height
+        min-height: $hero_searchMinHeight;
+        overflow: hidden; //Added to fix the overlap on the underneath container
+    }
+
+    // overwrite min-height when an inner module is loaded inside
+    // &.inner-module-loaded{
+    //     >.module-liner {
+    //             height: auto;
+    //             // min-height: $hero_searchMinHeight;
+    //             // max-height: 100%;
+    //     }
+    // }
+
+
+    .paxSearchStartView {
+        // margin-top: -1 * 1 / 2.35 * 100%;
+        // transition-property: display;
+        // transition-duration: $global_sidebar_transition_speed;
+        // background: green;
+        position:absolute;
+        top: 50%;
+        //width: 100%;
+        height: auto;
+        min-height: $hero_searchMinHeight;
+        display: none;
+        right: 30px;
+        left: 30px;
+    }
+    &.searchEnabled .paxSearchStartView {
+        display: block;
+    }
+    .select-groups-enabled{
+        // groups dropdown enabled overwrite anything here
+        .paxSearchOuterWrap{
+            margin: (-1 * $inputHeight) auto 0 auto;
+            max-width: 100%;
+
+        }
+        .select-groups{
+            //width: 100%;
+            //padding-left:3%;
+            padding-top: $fontSizeMid/2;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin:0 auto;
+        }
+        .paxSearchWrap {
+            //max-width: 60%;
+            width: 100%;
+        }
+        .icon-magnifier-1{
+            right:0;
+        }
+        .paxSearchInput{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            height: 100%;
+            padding: 6px  $formFieldLineHeight /2;
+            margin: 0;
+
+        }
+        @media (min-width: $breakpoint_mobileMini_min) {
+               .paxSearchOuterWrap{
+                     margin: (-1 * $inputHeight / 2) auto 0 auto;
+                     max-width: 500px;
+                }
+                .select-groups{
+                    width: 34%;
+                    padding-left:1%;
+                    padding-top:0;
+                }
+                .paxSearchWrap {
+                    //max-width: 60%;
+                    width: 65%;
+                }
+            }
+    }
+
+    .paxSearchOuterWrap {
+        // background: orange;
+        //position: absolute;
+        // top: 50%;
+        // right: 30px;
+        // left: 30px;
+        height: $inputHeight;
+        margin: (-1 * $inputHeight / 2) 0 0 0;
+        //line-height: $inputHeight;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .paxSearchWrap {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        max-width: 468px;
+        position: relative;
+    }
+    .paxSearchInput::-ms-clear {
+      width : 0;
+      height: 0;
+    }
+    .paxSearchInput {
+        margin: 0 (-1 * nth($formFieldPadding, 2) - $formFieldBorderWidth);
+        width: 100%;
+    }
+    .icon-magnifier-1 {
+        display:none;
+    }
+    @media (min-width: $breakpoint_tablet_min) {
+        .icon-magnifier-1 {
+            position: absolute;
+            top: 50%;
+            right: (-1 * nth($formFieldPadding, 2)) - $formFieldBorderWidth;
+            margin-top: -1 * $inputHeight / 2;
+            width: $inputHeight;
+            height: $inputHeight;
+            line-height: $inputHeight;
+            font-weight: $fontWeightBold;
+            text-align: center;
+            color: $brand_color_dark;
+            display: block;
+        }
+    }
+    .ezRecView {
+        height: 100%;
+        position:initial;
+        display: block;
+        min-height: $hero_searchMinHeight;
+    }
+} /* /.launchModule.hero */
+
+/* ----- PAGE STYLES ----- */
+.page.hero {
+
+} /* /.page.hero */

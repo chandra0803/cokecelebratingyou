@@ -1,0 +1,76 @@
+{
+  "description": "Delete a Person1",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "deletePerson",
+      "description": "DELETE /persons/{personId}2",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}",
+        "options": {
+          "method": "delete",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:deletePerson.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:deletePerson.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    },
+    {
+      "id": "getPerson",
+      "description": "GET /persons/${ref:createPerson.export.newPersonId}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getPerson.res.status}",
+          "compare": "to.equal",
+          "b": 404
+        },
+        {
+          "a": "${ref:getPerson.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    }
+  ]
+}

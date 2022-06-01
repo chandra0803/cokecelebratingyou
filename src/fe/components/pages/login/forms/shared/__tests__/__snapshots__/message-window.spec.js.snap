@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div
+  className="narrow-form-page login"
+>
+  <form
+    action={undefined}
+    className="narrow-form"
+    method={undefined}
+  >
+    <p>
+      <a
+        onClick={[Function]}
+        tabIndex="5"
+      >
+        <span>
+          <i
+            className="icon-arrow-1-circle-left"
+          />
+           
+        </span>
+      </a>
+    </p>
+    <h3
+      className="no-bottom no-alert-bottom"
+    />
+    <div
+      className="alert-panel alert-success"
+      role="alert-panel"
+    >
+      <p
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "An email was sent to your address",
+          }
+        }
+      />
+    </div>
+    <p
+      className="help"
+    >
+      <a
+        onClick={[Function]}
+        tabIndex="3"
+      >
+        <span />
+      </a>
+    </p>
+  </form>
+  <div
+    className="theme-image"
+  />
+</div>
+`;

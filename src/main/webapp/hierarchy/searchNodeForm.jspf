@@ -1,0 +1,40 @@
+<html:form action="/maintainNode">
+	<html:hidden property="method"/>
+	<table>
+
+		<tr>
+			<td align="right">
+				<%--FIXME CM 2 --%>
+				<cms:contentText key="NAME" code="node"/>
+			</td>
+			<td>
+				<html:text property="name" size="30" maxlength="40"/>
+			</td>
+		</tr>
+
+		<tr>
+			<td align="right">
+				<%--FIXME CM 2 --%>
+				<cms:contentText key="DESCRIPTION" code="node"/>
+			</td>
+			<td>
+				<html:text property="description" size="30" maxlength="40"/>
+			</td>
+		</tr>
+		<tr>
+			<td align="right">
+				<%--FIXME CM 2 --%>
+				<cms:contentText key="DELETED" code="node"/>
+			</td>
+			<td>
+				<html:checkbox property="deleted" value="true"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<%--FIXME CM 2 --%>
+				<html:submit property="submit" value="search"/>
+			</td>
+		</tr>
+	</table>
+</html:form>

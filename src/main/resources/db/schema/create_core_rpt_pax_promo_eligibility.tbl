@@ -1,0 +1,83 @@
+CREATE TABLE rpt_pax_promo_eligibility
+    (KEY_FIELD_HASH                RAW(16)      NOT NULL,
+    promotion_id                   NUMBER(18,0) NOT NULL,
+    participant_id                 NUMBER(18,0) NOT NULL,
+    node_id                        NUMBER(18,0) NOT NULL,
+    audience_id                    NUMBER(18,0) NOT NULL,
+    giver_recvr_type               VARCHAR2(10) NOT NULL,
+    date_created                   DATE NOT NULL,
+    created_by                     NUMBER(18,0) NOT NULL)
+/
+-- Comments for RPT_PAX_PROMO_ELIGIBILITY
+COMMENT ON TABLE rpt_pax_promo_eligibility IS 'The rpt_pax_promo_eligibility table for the recognition report.'
+/
+COMMENT ON COLUMN RPT_PAX_PROMO_ELIGIBILITY.KEY_FIELD_HASH IS 'An MD5 hash of key fields PROMOTION_ID, PARTICIPANT_ID, NODE_ID, AUDIENCE_ID, GIVER_RECVR_TYPE used to speed index efficiency.'
+/
+COMMENT ON COLUMN rpt_pax_promo_eligibility.audience_id IS 'from audience table'
+/
+COMMENT ON COLUMN rpt_pax_promo_eligibility.created_by IS 'Audit field'
+/
+COMMENT ON COLUMN rpt_pax_promo_eligibility.date_created IS 'Audit field'
+/
+COMMENT ON COLUMN rpt_pax_promo_eligibility.giver_recvr_type IS 'Psuedo column to indicate if eligible to give or eligible to receive recognition'
+/
+COMMENT ON COLUMN rpt_pax_promo_eligibility.node_id IS 'from user_node table'
+/
+COMMENT ON COLUMN rpt_pax_promo_eligibility.participant_id IS 'from application_user table'
+/
+COMMENT ON COLUMN rpt_pax_promo_eligibility.promotion_id IS 'from promotion table'
+/
+-- add index with schema appropriate tablespace
+DECLARE
+   v_index_tablespace   VARCHAR2(30);
+   v_stage              execution_log.text_line%TYPE;
+
+   CURSOR cur_index_tablespace IS
+   SELECT ut.tablespace_name
+     FROM user_tablespaces ut
+    WHERE ut.tablespace_name LIKE '%INDEX%'
+      ;
+
+   ----------
+   -- In-line processes
+   ----------
+   -- Executes the input statement
+   PROCEDURE p_exec_stmt
+   ( i_tablespace IN VARCHAR2,
+     i_sql_stmt   IN VARCHAR2
+   ) IS
+      v_sql_stmt  VARCHAR2(1000) := i_sql_stmt;
+   BEGIN
+      IF (i_tablespace IS NOT NULL) THEN
+         v_sql_stmt := v_sql_stmt || ' TABLESPACE ' || i_tablespace;
+      END IF;
+
+      v_stage := 'Execute: ' || v_sql_stmt;
+      dbms_output.put_line(v_stage);
+      EXECUTE IMMEDIATE v_sql_stmt;
+   END p_exec_stmt;
+
+BEGIN
+   -- initialize variables
+   v_stage := 'OPEN cur_index_tablespace';
+   OPEN cur_index_tablespace;
+   v_stage := 'FETCH cur_index_tablespace';
+   FETCH cur_index_tablespace INTO v_index_tablespace;
+   CLOSE cur_index_tablespace;
+
+   v_stage := 'v_index_tablespace >' || v_index_tablespace || '<';
+   dbms_output.put_line('v_stage: ' || v_stage);
+
+   -- create index
+   p_exec_stmt(v_index_tablespace, 'CREATE INDEX RPT_ELIGI_PAX_PROMO_NODE_IDX2 ON RPT_PAX_PROMO_ELIGIBILITY(PROMOTION_ID, KEY_FIELD_HASH)');
+   p_exec_stmt(v_index_tablespace, 'CREATE INDEX RPT_ELIGI_PAX_PROMO_NODE_IDX3 ON RPT_PAX_PROMO_ELIGIBILITY( NODE_ID, GIVER_RECVR_TYPE, PARTICIPANT_ID, PROMOTION_ID)');
+   p_exec_stmt(v_index_tablespace, 'CREATE UNIQUE INDEX RPT_ELIGI_PAX_PROMO_NODE_PK ON RPT_PAX_PROMO_ELIGIBILITY(KEY_FIELD_HASH)');
+   
+END;
+/
+ALTER TABLE RPT_PAX_PROMO_ELIGIBILITY ADD (
+  CONSTRAINT RPT_ELIGI_PAX_PROMO_NODE_PK
+  PRIMARY KEY
+  (KEY_FIELD_HASH)
+  USING INDEX RPT_ELIGI_PAX_PROMO_NODE_PK)
+/

@@ -1,0 +1,196 @@
+{{! JAVA NOTE: isCreator, isManager, isSuperViewer, and isParticipant are set in the JavaScript }}
+
+{{! this template is used for all creator and participant contest modules }}
+
+<div class="wide-view {{#eq status "finalize_results"}}complete{{/eq}} {{#unless includeStackRanking}}noStackRanking{{/unless}}">
+    <div class="row-fluid moduleHeader">
+        <div class="span12">
+            <div class="text-right daysToEnd">
+                {{#eq status "live"}}
+                    {{#ueq daysToEnd "0"}}
+                        {{#eq daysToEnd "1"}}
+                            <span class="daysRemaining label label-warning">
+                                Last Day
+                            </span>
+                        {{else}}
+                            <span class="daysRemaining label label-success">
+                                <strong>{{daysToEnd}}</strong> Days Remaining
+                            </span>
+                        {{/eq}}
+                    {{/ueq}}
+                {{/eq}}
+
+                {{#eq status "pending"}}
+                <span class="daysRemaining label label-inverse">
+                    <strong>{{daysToStart}}</strong> {{#eq daysToStart "1"}}Day{{else}}Days{{/eq}} to start
+                </span>
+                {{/eq}}
+
+                {{#eq daysToEnd "0"}}
+                    {{#if isCreator}}
+                        {{#ueq status "finalize_results"}}
+                            <p class="label label-warning"><i class="icon-warning-circle"></i> Update Final Results</p>
+                        {{else}}
+                            <p class="label label-important">Contest Over</p>
+                        {{/ueq}}
+                    {{else}}
+                        {{#eq status "finalize_results"}}
+                            <p class="label label-important">Contest Over</p>
+                        {{else}}
+                            <p class="label label-warning">Pending Results</p>
+                        {{/eq}}
+                    {{/if}}
+                {{/eq}}
+            </div>
+
+            <h4>
+                <i class="type-icon icon-g5-ssi-{{contestType}} {{contestType}}"></i>
+                {{#if isCreator}}
+                    <a href="{{creatorDetailPageUrl}}&id={{id}}">
+                {{else}}
+                    <a href="{{participantDetailPageUrl}}&id={{id}}">
+                {{/if}}
+                    {{name}}
+                </a>
+            </h4>
+
+            {{#eq status "pending"}}
+                <p class="meta">Starts {{startDate}}</p>
+            {{else}}
+                {{#if isProgressLoaded}}
+                    <p class="meta">as of {{updatedOnDate}}
+                {{else}}
+                    <p class="meta">Starts {{startDate}}
+                {{/if}}
+            {{/eq}}
+        </div>
+    </div>
+
+    {{#ueq contestType "doThisGetThat"}}
+        {{! all other contests share the same module header}}
+        {{! the days remaining counter changes posistions from 4x4 to 4x2, so it needs to be duplicated in html and hidden/shown in css}}
+        <div class="moduleSubHeader row-fluid">
+            <div class="span12">
+                {{#if isCreator}}
+                    <!-- <p>manager or creator</p> -->
+                    {{#eq contestType "objectives"}}
+                        {{#unless hasMultipleObjectives}}
+                            <p class="activityAchieved">{{achievedParticipantsCount}} of {{participantsCount}} Achieved</p>
+                        {{/unless}}
+                    {{else}}
+                        <p class="activityDescription">{{activityDescription}}</p>
+                    {{/eq}}
+                {{else}}
+                    {{#if includeStackRanking}}
+                        {{#ueq stackRank.participantsCount "0"}}
+                        <p class="rankDescription">Rank: #{{stackRank.rank}} of {{stackRank.participantsCount}}</p>
+                        {{/ueq}}
+                    {{/if}}
+                {{/if}}
+            </div>
+        </div>
+
+    {{/ueq}}
+
+
+    <!-- begin contestHtml -->
+    {{{contestHtml}}}
+    <!-- end contestHtml -->
+
+    {{! footer area}}
+    {{#if isCreator}}
+        <div class="row-fluid contestModuleFooter">
+            {{#eq status "finalize_results"}}
+                {{#if totalPayout}}
+                    {{#eq payoutType "points"}}
+                    <div class="span6 payoutIssued">
+                        <span class="payoutWrap">
+                            <strong class="payoutAmount">{{totalPayout}}</strong><span class="payoutType"> Points</span>
+                        </span>
+                    </div>
+                    {{/eq}}
+
+                    {{#eq payoutType "other"}}
+                    <div class="span6 payoutIssued">
+                        <span class="payoutWrap">
+                            <strong class="payoutAmount">{{totalPayout}}</strong><span class="payoutType"> Payout Issued</span>
+                        </span>
+                    </div>
+                    {{/eq}}
+                <div class="span6 text-right">
+                {{else}}
+                <div class="span12 text-right">
+                {{/if}}
+                    <a href="{{creatorDetailPageUrl}}&id={{id}}" class="btn btn-primary btn-inverse final-results" title="">Final Results</a>
+                </div>
+            {{else}}
+                <div class="span12 text-center">
+                    <a href="{{creatorDetailPageUrl}}&id={{id}}" class="btn btn-primary" title="">View Details</a>
+                </div>
+            {{/eq}}
+        </div>
+    {{else}}
+        <div class="row-fluid contestModuleFooter participantFooter">
+            {{#eq status "finalize_results"}}
+                {{#if totalPayout}}
+                    {{#eq payoutType "points"}}
+
+                    <div class="span6 participantPayoutIssued">
+                        <span class="payoutWrap">
+                            <strong class="payoutAmount">{{totalPayout}} </strong><span class="payoutType">points</span>
+                        </span>
+                    </div>
+
+                    <div class="span6 text-right">
+                        <a href="{{participantDetailPageUrl}}&id={{id}}" class="btn btn-primary btn-inverse final-results" title="">Final Results</a>
+                    </div>
+                    {{else}}
+                        {{#if multipleActivities}}
+                            <div class="span6 participantPayoutIssued">
+                                <span class="payoutWrap">
+                                    <span class="payoutType">Congratulations you have earned Awards</span>
+                                </span>
+                            </div>
+
+                            <div class="span6 text-right">
+                                <a href="{{participantDetailPageUrl}}&id={{id}}" class="btn btn-primary btn-inverse final-results" title="">Final Results</a>
+                            </div>
+                            {{else}}
+                            <div class="span6 participantPayoutIssued">
+                                <span class="payoutWrap">
+                                    <strong class="payoutAmount">{{totalPayout}}</strong><span class="payoutType"> earned</span>
+                                </span>
+                            </div>
+
+                            <div class="span6 text-right">
+                                <a href="{{participantDetailPageUrl}}&id={{id}}" class="btn btn-primary btn-inverse final-results" title="">Final Results</a>
+                            </div>
+                        {{/if}}
+                    {{/eq}}
+                {{else}}
+                    <div class="span12 participantPayoutIssued">
+                        <span class="payoutWrap">
+                            <span class="payoutType">No Award Achieved</span>
+                        </span>
+                    </div>
+                {{/if}}
+            {{else}}
+                {{#if includeSubmitClaim}}
+                    {{#ueq claimDaysToEnd "0"}}
+                        <div class="span12 text-center">
+                            <a href="{{claimUrl}}" class="btn btn-primary submit-claim" title="">Submit Claim</a>
+                        </div>
+                    {{else}}
+                        <div class="span12 text-center">
+                            <a href="{{participantDetailPageUrl}}&id={{id}}" class="btn btn-primary" title="">View Details</a>
+                        </div>
+                    {{/ueq}}
+                {{else}}
+                    <div class="span12 text-center">
+                        <a href="{{participantDetailPageUrl}}&id={{id}}" class="btn btn-primary" title="">View Details</a>
+                    </div>
+                {{/if}}
+            {{/eq}}
+        </div>
+    {{/if}}
+</div>

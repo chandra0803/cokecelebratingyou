@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- =======================================================  -->
+  <!-- Layout definitions                                       -->
+  <!-- =======================================================  -->
+
+  <!-- 
+	Extend from this definition to use the master 
+	layout without menu, header, and footer 
+  -->
+    
+  <definition name="report.menu" path="/reports/reportMenu.jsp" />
+    
+  <definition name="reports.display" path="/reports/main.jsp"/>
+  
+  <!-- ============================= -->
+  <!-- ==== RECOGNITION REPORTS ==== -->
+  <!-- ============================= -->
+
+  <definition name="recognition.given.summary.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitiongivenbyorganization/recognitionGivenSummary.jsp"/>
+  </definition>
+  <definition name="recognition.given.detail.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitiongivenbyorganization/recognitionGivenDetails.jsp"/>
+  </definition>
+  <definition name="report.recognition.given.piechart" path="/reports/recognition/recognitiongivenbyorganization/recognitionGivenPiechart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.given.time.barchart" path="/reports/recognition/recognitiongivenbyorganization/recognitionGivenByTimeBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.given.participationrate.barchart" path="/reports/recognition/recognitiongivenbyorganization/recognitionGivenParticipationRateBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.given.participationrate.piechart" path="/reports/recognition/recognitiongivenbyorganization/recognitionGivenParticipationRatePiechart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.points.given.barchart" path="/reports/recognition/recognitiongivenbyorganization/recognitionPointsGivenBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.points.given.bytime.barchart" path="/reports/recognition/recognitiongivenbyorganization/recognitionPointsGivenByTimeBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+
+  <definition name="recognition.received.summary.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitionreceivedbyorganization/recognitionReceivedSummary.jsp"/>
+  </definition>
+  <definition name="recognition.received.detail.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitionreceivedbyorganization/recognitionReceivedDetails.jsp"/>
+  </definition>
+  <definition name="report.recognition.received.piechart" path="/reports/recognition/recognitionreceivedbyorganization/recognitionReceivedPiechart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.received.time.barchart" path="/reports/recognition/recognitionreceivedbyorganization/recognitionReceivedByTimeBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.received.participationrate.barchart" path="/reports/recognition/recognitionreceivedbyorganization/recognitionReceivedParticipationRateBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.received.participationrate.piechart" path="/reports/recognition/recognitionreceivedbyorganization/recognitionReceivedParticipationRatePiechart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.points.received.barchart" path="/reports/recognition/recognitionreceivedbyorganization/recognitionPointsReceivedBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.points.received.bytime.barchart" path="/reports/recognition/recognitionreceivedbyorganization/recognitionPointsReceivedByTimeBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  
+  <definition name="recognition.summary.given.byparticipant.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitionbypax/recognitionSummaryGivenByParticipant.jsp"/>
+  </definition>
+  <definition name="recognition.activity.given.byparticipant.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitionbypax/recognitionActivityGivenByParticipant.jsp"/>
+  </definition>
+  <definition name="recognition.details.given.byparticipant.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitionbypax/recognitionDetailsGivenByParticipant.jsp"/>
+  </definition>
+  <definition name="report.recognitions.given.byparticipant.barchart" path="/reports/recognition/recognitionbypax/recognitionsGivenByParticipantBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.points.given.byparticipant.barchart" path="/reports/recognition/recognitionbypax/recognitionPointsGivenByParticipantBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognitions.given.bypromotion.barchart" path="/reports/recognition/recognitionbypax/recognitionsGivenByPromotionBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.points.given.bypromotion.barchart" path="/reports/recognition/recognitionbypax/recognitionPointsGivenByPromotionBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognitions.given.metrics.barchart" path="/reports/recognition/recognitionbypax/recognitionGivenMetricsBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognitions.given.participation.rate.bypax.piechart" path="/reports/recognition/recognitionbypax/recognitionsGivenParticipationRateByPaxPiechart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+
+  <definition name="recognition.summary.received.byparticipant.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitionreceivedbypax/recognitionSummaryReceivedByParticipant.jsp"/>
+  </definition>
+  <definition name="recognition.details.received.byparticipant.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitionreceivedbypax/recognitionDetailsReceivedByParticipant.jsp"/>
+  </definition>
+  <definition name="recognition.activity.received.byparticipant.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController" >
+    <put name="tabularData" value="/reports/recognition/recognitionreceivedbypax/recognitionActivityReceivedByPax.jsp"/>
+  </definition>
+  <definition name="report.recognitions.received.byparticipant.barchart" path="/reports/recognition/recognitionreceivedbypax/recognitionsReceivedByParticipantBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.points.received.byparticipant.barchart" path="/reports/recognition/recognitionreceivedbypax/recognitionPointsReceivedByParticipantBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognitions.received.bypromotion.barchart" path="/reports/recognition/recognitionreceivedbypax/recognitionsReceivedByPromotionBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognition.points.received.bypromotion.barchart" path="/reports/recognition/recognitionreceivedbypax/recognitionPointsReceivedByPromotionBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognitions.received.metrics.barchart" path="/reports/recognition/recognitionreceivedbypax/recognitionReceivedMetricsBarchart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognitions.received.participation.rate.bypax.piechart" path="/reports/recognition/recognitionreceivedbypax/recognitionsReceivedParticipationRateByPaxPiechart.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+  <definition name="report.recognitions.received.scatter.plot" path="/reports/recognition/recognitionreceivedbypax/recognitionsScatterPlot.jsp" controllerClass="com.biperf.core.ui.reports.recognition.RecognitionReportController"/>
+    
+  <!-- =========================================== -->
+  <!-- ==== RECOGNITION PURL ACTIVITY REPORTS ==== -->
+  <!-- =========================================== --> 
+
+  <definition name="report.recognitionpurl.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/recognitionpurlactivity/recognitionPurlActivitySummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.recognitionpurl.paxlist" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/recognitionpurlactivity/recognitionPurlActivityParticipantTabularData.jsp"/>
+  </definition>
+  <definition name="report.recognitionpurl.activity.chart" path="/reports/recognitionpurlactivity/recognitionPurlActivitychart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/> 
+  <definition name="report.recognitionpurl.overall.contributors.chart" path="/reports/recognitionpurlactivity/recognitionPurlActivityOverallContributorschart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.recognitionpurl.recipients.chart" path="/reports/recognitionpurlactivity/recognitionPurlActivityRecipientschart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+
+  <!-- ============================ -->
+  <!-- ==== NOMINATION REPORTS ==== -->
+  <!-- ============================ -->   
+     
+  <definition name="report.nominationsgiven.org.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController" >
+    <put name="tabularData" value="/reports/nomination/giversummary/nominationsGivenByOrgSummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.nominationsgiven.by.month.chart" path="/reports/nomination/giversummary/totalGivenNominationsByMonthBarChart.jsp" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController"/>
+  <definition name="report.nominationsgiven.org.nominators.chart" path="/reports/nomination/giversummary/totalNominatorsByOrgBarChart.jsp" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController"/>
+  <definition name="report.nominationsgiven.org.nominees.chart" path="/reports/nomination/giversummary/totalNomineesByOrgBarChart.jsp" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController"/>
+  
+  <!-- ================================== -->
+  <!-- = NOMINATION GIVERS REPORTS ==== -->
+  <!-- ================================== --> 
+  
+  <definition name="report.nominationsgiver.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController" >
+    <put name="tabularData" value="/reports/nomination/giversummary/nominationGiverSummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.nominationsgiver.nominationslist" extends="reports.display" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController" >
+    <put name="tabularData" value="/reports/nomination/giversummary/nominationGiverNominationsListTabularData.jsp"/>
+  </definition>
+  <definition name="report.nominationsgiver.top.nominators.chart" path="/reports/nomination/giversummary/topNominators.jsp" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController"/>
+  
+  <!-- ================================== -->
+  <!-- = NOMINATION RECEIVERS REPORTS ==== -->
+  <!-- ================================== --> 
+  <definition name="report.nominationsreceiver.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController" >
+    <put name="tabularData" value="/reports/nomination/nominationreceivers/nominationReceiverTabular.jsp"/>
+  </definition> 
+  <definition name="report.nominations.nominee" extends="reports.display" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController" >
+    <put name="tabularData" value="/reports/nomination/nominationreceivers/nominationNomineeTabular.jsp"/>
+  </definition>
+  <definition name="report.nominationsreceiver.top.nominee" path="/reports/nomination/nominationreceivers/topNominee.jsp" controllerClass="com.biperf.core.ui.reports.nomination.NominationReportController"/> 
+  
+  <!-- ================================== -->
+  <!-- ==== NOMINATION AGING REPORTS ==== -->
+  <!-- ================================== --> 
+  <definition name="report.nom.aging.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/nomination/aging/nominationAgingTabular.jsp"/>
+  </definition>
+  <definition name="report.nom.aging.tabular" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/nomination/aging/nominationAgingTabular.jsp"/>
+  </definition>
+  <definition name="report.nom.aging.barchart" path="/reports/nomination/aging/nominationAgingBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/> 
+  
+  <!-- ============================ -->
+  <!-- ==== ENROLLMENT REPORTS ==== -->
+  <!-- ============================ -->
+  <definition name="report.enrollment.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/enrollment/enrollmentSummary.jsp"/>
+  </definition>
+  <definition name="report.enrollment.details" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/enrollment/enrollmentDetails.jsp"/>
+  </definition>   
+  <definition name="report.enrollment.barchart" path="/reports/enrollment/enrollmentBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.enrollment.piechart" path="/reports/enrollment/enrollmentPiechart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.enrollment.status.percentage.barchart" path="/reports/enrollment/enrollmentStatusBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.enrollment.active.inactive.barchart" path="/reports/enrollment/enrollmentActiveinactiveBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/> 
+  
+  <!-- ================================ -->
+  <!-- ==== BADGE ACTIVITY REPORTS ==== -->
+  <!-- ================================ -->
+  <definition name="report.badgeactivity.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/badge/badgebyorg/badgeActivityByOrgSummaryTabularResults.jsp"/>
+  </definition>
+  <definition name="report.badgeactivity.team" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/badge/badgebyorg/badgeActivityByOrgTeamLevelTabularResults.jsp"/>
+  </definition>
+  <definition name="report.badgeactivity.participant" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/badge/badgebyorg/badgeActivityByOrgParticipantLevelTabularResults.jsp"/>
+  </definition>   
+  <definition name="report.badgeactivity.badgesearned.barchart" path="/reports/badge/badgebyorg/badgeActivityBadgesEarnedBarChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+
+  <!-- ==================================== -->
+  <!-- ==== THROWDOWN ACTIVITY REPORTS ==== -->
+  <!-- ==================================== -->
+  <definition name="report.throwdownactivity.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/throwdown/throwdownactivitybypax/throwdownActivityByPaxSummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.throwdownactivity.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/throwdown/throwdownactivitybypax/throwdownActivityByPaxDetailTabularData.jsp"/>
+  </definition>
+  <definition name="report.throwdownactivity.totalactivity.chart" path="/reports/throwdown/throwdownactivitybypax/throwdownActivityByPaxTotalActivityChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.throwdownactivity.activitybyround.chart" path="/reports/throwdown/throwdownactivitybypax/throwdownActivityByPaxActivityByRoundChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.throwdownactivity.pointsearned.chart" path="/reports/throwdown/throwdownactivitybypax/throwdownActivityByPaxPointsEarnedChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  
+  <!-- ============================ -->
+  <!-- ==== LOGIN REPORTS ==== -->
+  <!-- ============================ -->
+  
+  <definition name="report.loginActivity.org.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/loginactivity/loginActivitySummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.loginActivity.org.paxlist" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/loginactivity/loginActivityParticipantsByOrganization.jsp"/>
+  </definition>
+  
+  <definition name="report.loginActivity.pax.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/loginactivity/loginActivityParticipantSummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.loginActivity.paxdetail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/loginactivity/participantLogonActivity.jsp"/>
+  </definition>  
+    
+  <definition name="report.loginActivity.barchart" path="/reports/loginactivity/loginActivityBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.loginActivity.average.barchart" path="/reports/loginactivity/loginActivityAverageBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.loginActivity.timeframe.barchart" path="/reports/loginactivity/loginActivityTimeFrameBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.loginActivity.organization.barchart" path="/reports/loginactivity/loginActivityOrganizationBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.loginActivity.percentage.barchart" path="/reports/loginactivity/loginActivityPercentageBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.loginActivity.top.level.barchart" path="/reports/loginactivity/loginActivitySummaryTabularData.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.loginActivity.topPax.barchart" path="/reports/loginactivity/loginActivityTopPaxBarchart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+
+  <!-- ============================ -->
+  <!-- ==== INDIVIDUAL REPORTS ==== -->
+  <!-- ============================ -->
+
+  <definition name="report.individualactivity.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityTabular.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.summary.awardsreceived" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityAwardsReceived.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.summary.nominationsreceived" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityNominationsReceived.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.summary.nominationsgiven" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityNominationsGiven.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.summary.productclaim" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityProductClaim.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.summary.recognitionsgiven" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityRecognitionsGiven.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.summary.recognitionsreceived" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityRecognitionsReceived.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.summary.quiz" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityQuiz.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.detail.quiz" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityQuizDetail.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.goalquest" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityGoalQuest.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.challengepoint" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityChallengePoint.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.onthespot" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityOnTheSpot.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.throwdown.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityThrowdownActivity.jsp"/>
+  </definition>
+  <definition name="report.individualactivity.throwdown.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityThrowdownActivityDetail.jsp"/>
+  </definition>
+  
+  <definition name="report.individualactivity.badge.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivityBadge.jsp"/>
+  </definition>
+  
+  <definition name="report.individualactivity.ssicontest.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/individualactivity/individualActivitySSIContest.jsp"/>
+  </definition>
+  
+  <definition name="report.individualactivity.pointsreceived" path="/reports/individualactivity/individualActivityPointsReceivedChart.jsp"  controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.individualactivity.pointsgivenreceived" path="/reports/individualactivity/individualActivityPointsGivenReceivedChart.jsp"  controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.individualactivity.totalactivity" path="/reports/individualactivity/individualActivityTotalActivityChart.jsp"  controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.individualactivity.metrics" path="/reports/individualactivity/individualActivityMetricsChart.jsp"  controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  
+  <!-- ============================ -->
+  <!-- ==== CLAIM REPORTS ==== -->
+  <!-- ============================ -->
+
+  <definition name="report.claimbyorg.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/claim/claimbyorg/claimByOrgTabular.jsp"/>
+  </definition>
+  <definition name="report.claimbyorg.pax.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/claim/claimbyorg/claimByOrgPaxTabular.jsp"/>
+  </definition>
+  <definition name="report.claimbyorg.claim.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/claim/claimbyorg/claimByOrgClaimTabular.jsp"/>
+  </definition>  
+  <definition name="report.claimbyorg.participation.rate" path="/reports/claim/claimbyorg/claimByOrgParticipationRateChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbyorg.participation.level" path="/reports/claim/claimbyorg/claimByOrgParticipationLevelChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbyorg.monthly" path="/reports/claim/claimbyorg/claimByOrgMonthlyChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbyorg.status.submission" path="/reports/claim/claimbyorg/claimByOrgSubmissionStatusChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbyorg.status.item" path="/reports/claim/claimbyorg/claimByOrgItemStatusChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbyorg.totals" path="/reports/claim/claimbyorg/claimByOrgTotalsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  <definition name="report.claimbypax.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/claim/claimbypax/claimByPaxTabular.jsp"/>
+  </definition>
+  <definition name="report.claimbypax.list.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/claim/claimbypax/claimByPaxClaimListTabular.jsp"/>
+  </definition>
+  <definition name="report.claimbypax.participation.rate" path="/reports/claim/claimbypax/claimByPaxParticipationRateChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbypax.participation.level" path="/reports/claim/claimbypax/claimByPaxParticipationLevelChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbypax.averageclaims" path="/reports/claim/claimbypax/claimByPaxAverageClaims.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbypax.status.claim" path="/reports/claim/claimbypax/claimByPaxClaimStatusChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.claimbypax.status.item" path="/reports/claim/claimbypax/claimByPaxItemStatusChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  
+  <!-- ============================ -->
+  <!-- ==== GOAL QUEST REPORTS ==== -->
+  <!-- ============================ -->
+
+  <definition name="report.goalquestprogress.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestprogress/goalQuestProgressTabular.jsp"/>
+  </definition>
+  <definition name="report.goalquestprogress.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestprogress/goalQuestProgressDetail.jsp"/>
+  </definition>  
+  <definition name="report.goalquestprogress.chart.goalprogress" path="/reports/goalquest/goalquestprogress/goalQuestProgressToGoalChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />  
+  <definition name="report.goalquestprogress.chart.progressresults" path="/reports/goalquest/goalquestprogress/goalQuestProgressResultsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />  
+  
+  <definition name="report.goalquestselection.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestselection/goalQuestSelectionTabular.jsp"/>
+  </definition>
+  <definition name="report.goalquestselection.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestselection/goalQuestSelectionDetail.jsp"/>
+  </definition>
+  <definition name="report.goalquestselection.chart.totals" path="/reports/goalquest/goalquestselection/goalQuestSelectionTotalsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.goalquestselection.chart.percentage" path="/reports/goalquest/goalquestselection/goalQuestSelectionPercentageChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.goalquestselection.chart.org" path="/reports/goalquest/goalquestselection/goalQuestSelectionByOrgChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  <definition name="report.goalquestachievement.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestachievement/goalQuestAchievementTabular.jsp"/>
+  </definition>
+  <definition name="report.goalquestachievement.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestachievement/goalQuestAchievementDetail.jsp"/>
+  </definition>
+  <definition name="report.goalquestachievement.chart.percentage" path="/reports/goalquest/goalquestachievement/goalQuestAchievementPercentageChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.goalquestachievement.chart.count" path="/reports/goalquest/goalquestachievement/goalQuestAchievementCountChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.goalquestachievement.chart.results" path="/reports/goalquest/goalquestachievement/goalQuestAchievementResultsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.goalquestachievement.chart.percentagebyorg" path="/reports/goalquest/goalquestachievement/goalQuestAchievementPercentageByOrgChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.goalquestachievement.chart.countbyorg" path="/reports/goalquest/goalquestachievement/goalQuestAchievementCountByOrgChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+    
+  <definition name="report.goalquestmanager.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestmanager/goalQuestManagerTabular.jsp"/>
+  </definition>
+  <definition name="report.goalquestmanager.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestmanager/goalQuestManagerDetailTabular.jsp"/>
+  </definition>
+  <definition name="report.goalquestmanager.chart.pointsearned" path="/reports/goalquest/goalquestmanager/goalQuestManagerTotalPointsEarned.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  <definition name="report.goalquestprogram.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/goalquest/goalquestsummary/goalQuestProgramSummaryTabular.jsp"/>
+  </definition>
+  <definition name="report.goalquestsummary.chart.goalachievement" path="/reports/goalquest/goalquestsummary/goalQuestSummaryGoalAchievement.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.goalquestsummary.chart.incremental" path="/reports/goalquest/goalquestsummary/goalQuestSummaryIncremental.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  
+  <!-- ============================ -->
+  <!-- ==== CHALLENGEPOINT REPORTS ==== -->
+  <!-- ============================ -->
+  
+  <definition name="report.challengepointachievement.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/challengepoint/challengepointachievement/challengepointAchievementTabular.jsp"/>
+  </definition>
+  <definition name="report.challengepointachievement.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/challengepoint/challengepointachievement/challengepointAchievementDetail.jsp"/>
+  </definition>
+  <definition name="report.challengepointachievement.chart.percentage" path="/reports/challengepoint/challengepointachievement/challengepointAchievementPercentageChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.challengepointachievement.chart.count" path="/reports/challengepoint/challengepointachievement/challengepointAchievementCountChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.challengepointachievement.chart.results" path="/reports/challengepoint/challengepointachievement/challengepointAchievementResultsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.challengepointachievement.chart.percentagebyorg" path="/reports/challengepoint/challengepointachievement/challengepointAchievementPercentageByOrgChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.challengepointachievement.chart.countbyorg" path="/reports/challengepoint/challengepointachievement/challengepointAchievementCountByOrgChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+
+  <definition name="report.challengepointselection.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+		<put name="tabularData" value="/reports/challengepoint/challengepointselection/challengePointSelectionTabular.jsp"/>
+  </definition>
+
+  <definition name="report.challengepointselection.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+        <put name="tabularData" value="/reports/challengepoint/challengepointselection/challengePointSelectionDetail.jsp"/>
+  </definition>
+  <definition name="report.challengepointselection.chart.totals" path="/reports/challengepoint/challengepointselection/challengepointSelectionTotalsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.challengepointselection.chart.percentage" path="/reports/challengepoint/challengepointselection/challengepointSelectionPercentageChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.challengepointselection.chart.org" path="/reports/challengepoint/challengepointselection/challengepointSelectionByOrgChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+   
+  <definition name="report.challengepointprogress.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+     <put name="tabularData" value="/reports/challengepoint/challengepointprogress/challengePointProgressTabular.jsp"/>
+  </definition>
+  <definition name="report.challengepointprogress.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/challengepoint/challengepointprogress/challengePointProgressDetail.jsp"/>
+  </definition>  
+  <definition name="report.challengepointprogress.chart.goalprogress" path="/reports/challengepoint/challengepointprogress/challengePointProgressToGoalChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />  
+  <definition name="report.challengepointprogress.chart.progressresults" path="/reports/challengepoint/challengepointprogress/challengePointProgressResultsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />   
+  
+  <definition name="report.challengepointmanager.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/challengepoint/challengepointmanager/challengePointManagerTabular.jsp"/>
+  </definition>
+  <definition name="report.challengepointmanager.detail" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/challengepoint/challengepointmanager/challengePointManagerDetailTabular.jsp"/>
+  </definition>
+  <definition name="report.challengepointmanager.chart.pointsearned" path="/reports/challengepoint/challengepointmanager/challengePointManagerTotalPointsEarned.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  <definition name="report.challengepointprogram.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/challengepoint/challengepointsummary/challengePointProgramSummaryTabular.jsp"/>
+  </definition>
+  <definition name="report.challengepointsummary.chart.goalachievement" path="/reports/challengepoint/challengepointsummary/challengePointSummaryGoalAchievement.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.challengepointsummary.chart.incremental" path="/reports/challengepoint/challengepointsummary/challengePointSummaryIncremental.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  
+  
+  <!-- ============================ -->
+  <!-- ==== BUDGET REPORTS ==== -->
+  <!-- ============================ -->
+
+  <definition name="report.budgetbalance.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/budget/budgetbalance/budgetBalanceTabular.jsp"/>
+  </definition>  
+  <definition name="report.budgetbalance.promotion.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/budget/budgetbalance/budgetBalanceByPromotionTabular.jsp"/>
+  </definition>
+  <definition name="report.budgetbalance.utilization.percentage" path="/reports/budget/budgetbalance/budgetBalanceUtilizationPercentageChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.budgetbalance.promotion.totals" path="/reports/budget/budgetbalance/budgetBalancePromotionTotalsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" /> 
+  <definition name="report.budgetbalance.utilization.level" path="/reports/budget/budgetbalance/budgetBalanceUtilizationLevelChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  <!-- ============================= -->
+  <!-- ==== CASH BUDGET REPORTS ==== -->
+  <!-- ============================= -->
+
+  <definition name="report.cashbudgetbalance.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/budget/cashbudgetbalance/budgetBalanceTabular.jsp"/>
+  </definition>  
+  <definition name="report.cashbudgetbalance.promotion.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/budget/cashbudgetbalance/budgetBalanceByPromotionTabular.jsp"/>
+  </definition>
+  <definition name="report.cashbudgetbalance.utilization.percentage" path="/reports/budget/cashbudgetbalance/budgetBalanceUtilizationPercentageChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  <definition name="report.cashbudgetbalance.promotion.totals" path="/reports/budget/cashbudgetbalance/budgetBalancePromotionTotalsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" /> 
+  <definition name="report.cashbudgetbalance.utilization.level" path="/reports/budget/cashbudgetbalance/budgetBalanceUtilizationLevelChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  <!-- ============================ -->
+  <!-- ====== AWARDS REPORTS ====== -->
+  <!-- ============================ -->
+  
+  <definition name="report.awards.summary.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController" >
+    <put name="tabularData" value="/reports/awards/awardsbyorganization/awardsSummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.awards.first.detail.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController" >
+    <put name="tabularData" value="/reports/awards/awardsbyorganization/awardsFirstDetailTabularData.jsp"/>
+  </definition>
+  <definition name="report.awards.second.detail.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController" >
+    <put name="tabularData" value="/reports/awards/awardsbyorganization/awardsSecondDetailTabularData.jsp"/>
+  </definition>
+  <definition name="report.awards.total.points.issued.for.org.barchart" path="/reports/awards/awardsbyorganization/totalPointsIssuedForOrgBarchart.jsp" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController"/>
+  <definition name="report.awards.received.notreceived.awards.for.org.barchart" path="/reports/awards/awardsbyorganization/receivedNotReceivedAwardsForOrgBarchart.jsp" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController"/>
+  <definition name="report.awards.persons.receiving.awards.for.org.barchart" path="/reports/awards/awardsbyorganization/personsReceivingAwardsForOrgBarchart.jsp" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController"/>
+  
+  <definition name="report.awards.summary.bypax.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController" >
+    <put name="tabularData" value="/reports/awards/awardsbypax/awardsSummaryByPaxTabularData.jsp"/>
+  </definition>  
+  <definition name="report.awards.detail.bypax.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController" >
+    <put name="tabularData" value="/reports/awards/awardsbypax/awardsDetailByPaxTabularData.jsp"/>
+  </definition>  
+  <definition name="report.awards.total.points.issued.bypax.barchart" path="/reports/awards/awardsbypax/totalPointsIssuedByPaxBarchart.jsp" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController"/>
+  <definition name="report.awards.received.notreceived.awards.pax.piechart" path="/reports/awards/awardsbypax/receivedNotReceivedAwardsPaxPiechart.jsp" controllerClass="com.biperf.core.ui.reports.awards.AwardsReportController"/>
+
+  <!-- ==================================== -->
+  <!-- ====== PLATEAU AWARDS REPORTS ====== -->
+  <!-- ==================================== -->
+  <definition name="report.plateauawards.levelactivity.summary.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/plateauawards/awardlevelactivity/plateauAwardLevelActivitySummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.plateauawards.levelactivity.team.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/plateauawards/awardlevelactivity/plateauAwardLevelActivityTeamLevelTabularData.jsp"/>
+  </definition>
+  <definition name="report.plateauawards.levelactivity.activity.chart" path="/reports/plateauawards/awardlevelactivity/plateauAwardLevelActivityChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.plateauawards.levelactivity.percentage.activity.chart" path="/reports/plateauawards/awardlevelactivity/plateauAwardLevelActivityByPercentageChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+
+  <definition name="report.plateauawards.itemselection.summary.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/plateauawards/awarditemselection/plateauAwardItemSelectionSummaryTabularData.jsp"/>
+  </definition>
+  <definition name="report.plateauawards.itemselection.selection.chart" path="/reports/plateauawards/awarditemselection/plateauAwardSelectionChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+  <definition name="report.plateauawards.itemselection.topredeemed.chart" path="/reports/plateauawards/awarditemselection/plateauAwardTopRedeemedAwardsChart.jsp" controllerClass="com.biperf.core.ui.reports.ReportController"/>
+
+  <!-- ============================ -->
+  <!-- ======= QUIZ REPORTS ======= -->
+  <!-- ============================ --> 
+  
+  <definition name="report.quiz.activity.summary.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController" >
+    <put name="tabularData" value="/reports/quiz/quizactivity/quizActivitySummary.jsp"/>
+  </definition>
+  <definition name="report.quiz.activity.detailone.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController" >
+    <put name="tabularData" value="/reports/quiz/quizactivity/quizActivityDetailOne.jsp"/>
+  </definition> 
+  <definition name="report.quiz.activity.detailtwo.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController" >
+    <put name="tabularData" value="/reports/quiz/quizactivity/quizActivityDetailTwo.jsp"/>
+  </definition> 
+  <definition name="report.quiz.activity.detailthree.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController" >
+    <put name="tabularData" value="/reports/quiz/quizactivity/quizActivityDetailThree.jsp"/>
+  </definition> 
+  <definition name="report.quiz.activity.for.org.report.page" path="/reports/quiz/quizactivity/quizActivityForOrgBarchart.jsp" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController"/> 
+  <definition name="report.quiz.status.percent.for.org.report.page" path="/reports/quiz/quizactivity/quizStatusPercentForOrgBarchart.jsp" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController"/>  
+  
+  <definition name="report.quiz.analysis.summary.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController" >
+    <put name="tabularData" value="/reports/quiz/quizanalysis/quizAnalysisSummary.jsp"/>
+  </definition>
+  <definition name="report.quiz.analysis.detailone.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController" >
+    <put name="tabularData" value="/reports/quiz/quizanalysis/quizAnalysisDetailOne.jsp"/>
+  </definition> 
+  <definition name="report.quiz.analysis.detailtwo.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController" >
+    <put name="tabularData" value="/reports/quiz/quizanalysis/quizAnalysisDetailTwo.jsp"/>
+  </definition> 
+  <definition name="report.quiz.question.analysis.report.page" path="/reports/quiz/quizanalysis/quizQuestionAnalysisBarchart.jsp" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController"/> 
+  <definition name="report.quiz.attempts.percent.for.org.report.page" path="/reports/quiz/quizanalysis/quizAttemptsPercentForOrgBarchart.jsp" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController"/> 
+  <definition name="report.quiz.attempts.status.for.org.report.page" path="/reports/quiz/quizanalysis/quizAttemptsStatusForOrgBarchart.jsp" controllerClass="com.biperf.core.ui.reports.quiz.QuizReportController"/>
+  
+  
+  <!-- ==================================== -->
+  <!-- ====== SURVEY REPORTS ====== -->
+  <!-- ==================================== -->
+  
+  <definition name="report.survey.analysis.summary.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.survey.SurveyReportController" >
+    <put name="tabularData" value="/reports/survey/surveyAnalysisSummary.jsp"/>
+  </definition>  
+  
+  <definition name="report.survey.analysis.question.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.survey.SurveyReportController" >
+    <put name="tabularData" value="/reports/survey/surveyAnalysisByQuestion.jsp"/>
+  </definition>  
+  
+  <definition name="report.survey.attempts.status.for.org.report.page" path="/reports/survey/surveyAnalysisByStDevChart.jsp" controllerClass="com.biperf.core.ui.reports.survey.SurveyReportController"/>
+  <definition name="report.survey.attempts.percent.for.org.report.page" path="/reports/survey/surveyAnalysisByTotalRspPerChart.jsp" controllerClass="com.biperf.core.ui.reports.survey.SurveyReportController"/>
+  
+  <!-- ======================================== -->
+  <!-- ======= PARTICIPANT EXPORT REPORT ====== -->
+  <!-- ======================================== -->
+  <definition name="report.participant.export.summary.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/participant/participantExportSummary.jsp"/>
+  </definition>
+  
+  <!-- ====================================== -->
+  <!-- ======= HIERARCHY EXPORT REPORT ====== -->
+  <!-- ====================================== -->
+  <definition name="report.hierarchy.export.summary.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/hierarchy/hierarchyExportSummary.jsp"/>
+  </definition>
+  
+  <!-- ====================================== -->
+  <!-- ======= WORKHAPPIER REPORT ====== -->
+  <!-- ====================================== -->
+  <definition name="report.workhappier.confidentialfeedback.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/workhappier/confidentialFeedbackExportSummary.jsp"/>
+  </definition>
+  
+  <definition name="report.workhappier.happinesspulse.report.page" extends="reports.display" controllerClass="com.biperf.core.ui.reports.ReportController" >
+    <put name="tabularData" value="/reports/workhappier/happinessPulseExportSummary.jsp"/>
+  </definition>
+  
+  <!-- ========================== -->
+  <!-- ==== BEHAVIOR REPORTS ==== -->
+  <!-- ========================== --> 
+  <definition name="report.behavior.summary" extends="reports.display" controllerClass="com.biperf.core.ui.reports.behavior.BehaviorReportController" >
+    <put name="tabularData" value="/reports/behavior/behaviorsTabular.jsp"/>
+  </definition>
+  <definition name="report.behavior.tabular" extends="reports.display" controllerClass="com.biperf.core.ui.reports.behavior.BehaviorReportController" >
+    <put name="tabularData" value="/reports/behavior/behaviorsTabular.jsp"/>
+  </definition>
+  <definition name="report.behavior.barchart" path="/reports/behavior/behaviorsBarchart.jsp" controllerClass="com.biperf.core.ui.reports.behavior.BehaviorReportController"/> 
+  <definition name="report.behavior.piechart" path="/reports/behavior/behaviorsPiechart.jsp" controllerClass="com.biperf.core.ui.reports.behavior.BehaviorReportController"/>
+  
+  <!-- ============================ -->
+  <!-- ==== USER DASHBOARD ==== -->
+  <!-- ============================ -->
+
+  <definition name="report.display.dashboard" path="/reports/dashboard/main.jsp" controllerClass="com.biperf.core.ui.reports.dashboard.DashboardReportController" />
+  <definition name="report.display.individual.dashboard.item" path="/reports/dashboard/displayIndividualDashboardItem.jsp" controllerClass="com.biperf.core.ui.reports.dashboard.DashboardReportController" />
+  <definition name="report.display.update.dashboard.item" path="/reports/dashboard/displayUpdateDashboardItem.jsp" controllerClass="com.biperf.core.ui.reports.dashboard.DashboardReportController" />
+  
+  <definition name="report.display.parameters" path="/reports/newReportParameters.jsp" controllerClass="com.biperf.core.ui.reports.ReportController" />
+  
+  <definition name="all.reports.page" extends="g5.default" controllerClass="com.biperf.core.ui.reports.ReportMenuController">
+    <put name="content" value="/reports/reports.jsp"/>
+  </definition>
+  
+  <definition name="manage.reports.page" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.reports.ReportManageController">
+    <put name='content' value='/reports/reportsManage.jsp' />
+    <put name='trackingTitle' value='System_Variable_List' />
+  </definition>
+  
+  <!-- ============================ -->
+  <!-- ==== PARTICIPANT SEARCH ==== -->
+  <!-- ============================ -->
+  
+  <definition name="reports.tpl.participantsearchview" path="/profileutil/participantSearchView.jsp" />
+  
+  <definition name="reports.tpl.participantsearchtablerow" path="/profileutil/participantSearchTableRow.jsp" />
+
+  <definition name="reports.tpl.participantrowitem" path="/profileutil/participantRowItem.jsp" />
+  
+  <definition name="reports.tpl.participantpopoverview" path="/profileutil/participantPopoverView.jsp" />
+  
+  <definition name="reports.tpl.drawtooltemplate" path="/submitrecognition/tpl/drawToolTemplate.jsp" />
+
+  <definition name="reports.tpl.drawtoolcardlist" path="/submitrecognition/tpl/drawToolCardList.jsp" />
+
+  <definition name="reports.tpl.drawtoolshell" path="/submitrecognition/tpl/drawToolShell.jsp" />
+
+  <definition name="reports.tpl.contributorsview" path="/submitrecognition/tpl/contributorsView.jsp" />
+
+  <definition name="reports.tpl.contributorviewitem" path="/submitrecognition/tpl/contributorViewItem.jsp" />
+  
+  <definition name="reports.ecardupload" path="/submitrecognition/longform/ecardUpload.jsp" />
+  
+  
+
+	<definition name="report.empty" path="/empty.jsp" />
+  
+  
+</tiles-definitions>

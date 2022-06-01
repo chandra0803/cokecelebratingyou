@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+  	  <form-bean name="dummyForm" type="org.apache.struts.action.DynaActionForm" />
+      <form-bean name="smackTalkCommentForm" type="com.biperf.core.ui.throwdown.SmackTalkCommentForm" />
+      <form-bean name="smackTalkHideForm" type="com.biperf.core.ui.throwdown.SmackTalkHideForm" /> 
+      <form-bean name="smackTalkLikeForm" type="com.biperf.core.ui.throwdown.SmackTalkLikeForm" /> 
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key=""
+               path="/login.do"/>
+    <exception type="java.lang.Exception" key="" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+  
+	<action path="/throwdownNewsPage" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="throwdownnews.page"/>
+      	     
+    <action path="/trainingCampPage"
+             type="org.apache.struts.actions.ForwardAction"
+             parameter="throwdown.trainingcamp.page"> 
+    </action>
+    
+    <action path="/standingsPage" scope="request"
+			 type="org.apache.struts.actions.ForwardAction"
+      	     parameter="throwdown.viewmatches.page"/>
+      	     
+      <action path="/matchDetail"
+			type="com.biperf.core.ui.throwdown.MatchSummaryAction"
+			parameter="method"
+            scope="request">
+     		<forward name="details" path="throwdown.matchsummary.page" redirect="false"/>
+	  </action>
+	 <action path="/smackTalkSummary" name="smackTalkCommentForm"
+			parameter="method"
+			type="com.biperf.core.ui.throwdown.SmackTalkAction"
+			scope="request"/>
+	 <action path="/smackTalkPage" name="smackTalkCommentForm"
+	         parameter="method"
+             type="com.biperf.core.ui.throwdown.SmackTalkAction">
+             <forward name="details" path="throwdown.smacktalk.page"/>	 
+     </action>
+             
+    <action path="/smackTalkComment" name="smackTalkCommentForm"
+			parameter="method"
+			type="com.biperf.core.ui.throwdown.SmackTalkAction"
+			scope="request">
+	        <forward name="details" path="throwdown.matchsummary.page" redirect="false"/>
+	</action>
+	 <action path="/smackTalkLike" scope="request"
+             name="smackTalkLikeForm"  parameter="method"
+             type="com.biperf.core.ui.throwdown.SmackTalkAction"/>
+	
+	 <action path="/smackTalkHideAction" scope="request"
+             name="smackTalkHideForm" parameter="method"
+             type="com.biperf.core.ui.throwdown.SmackTalkAction"/>
+             
+    <action path="/smackTalkMatchDetail" name="smackTalkCommentForm"
+			parameter="method"
+			type="com.biperf.core.ui.throwdown.MatchSummaryAction"
+			scope="request">
+	</action>
+	
+	 <action path="/smackTalkDetail" name="smackTalkCommentForm"
+			parameter="method"
+			type="com.biperf.core.ui.throwdown.SmackTalkAction"
+			scope="request">
+			<forward name="details" path="throwdown.smacktalk.page" redirect="false"/>			
+	  </action>
+	
+	<action path="/viewMatchesDetail" scope="request"
+			 type="com.biperf.core.ui.throwdown.ViewMatchesAction"
+      	     parameter="method">  
+      	     <forward name="details" path="throwdown.viewmatches.page"/>
+    </action>
+    
+    <action path="/rankingsDetail"
+			 type="com.biperf.core.ui.throwdown.RankingsAction"
+			 scope="request"
+      	     parameter="method">  
+       <forward name="details" path="throwdown.rankings.page" redirect="false"/>
+    </action>
+	 
+	 <action path="/standingsDetail"
+			 type="com.biperf.core.ui.throwdown.StandingsAction"
+			 scope="request"
+      	     parameter="method">  
+       <forward name="details" path="throwdown.viewmatches.page" redirect="false"/>
+     </action>
+     
+      <action path="/promotionSelector"
+			 type="com.biperf.core.ui.throwdown.PromotionSelectorAction"
+			 scope="request"
+      	     parameter="method">  
+      	     <forward name="details" path="throwdown.selector.page" redirect="false"/>
+    </action>
+
+    <action path="/viewRules" 
+            scope="request"
+			type="com.biperf.core.ui.throwdown.ViewRulesAction"
+			parameter="method">  
+      	     <forward name="details" path="throwdown.viewrules.page"/>
+    </action>
+    
+  </action-mappings>
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+					  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml, /WEB-INF/validation-throwdown.xml"/>
+	    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-throwdown.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.calculator.Calculator" table="CALCULATOR">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="CALCULATOR_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CALCULATOR_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <property name="name" type="java.lang.String" column="NAME"/>
+    <property name="description" type="java.lang.String" column="DESCRIPTION"/>
+    <property name="weightedScore" type="boolean" column="WEIGHTED_SCORE"/>
+    <property name="displayWeights" type="boolean" column="DISPLAY_WEIGHTS"/>
+    <property name="weightCMAssetName" type="java.lang.String" column="WEIGHT_CM_ASSET_NAME"/>
+    <property name="displayScores" type="boolean" column="DISPLAY_SCORES"/>
+    <property name="scoreCMAssetName" type="java.lang.String" column="SCORE_CM_ASSET_NAME"/>
+    <property name="calculatorAwardType" column="AWARD_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.CalculatorAwardType</param>
+      </type>
+    </property>
+    
+    <property name="calculatorStatusType" column="STATUS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.CalculatorStatusType</param>
+      </type>
+    </property>
+
+    <set name="promotions" table="PROMOTION" inverse="true">
+      <key column="CALCULATOR_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.Promotion"/>
+    </set>
+   
+    <list name="calculatorCriterion" table="CALCULATOR_CRITERION" inverse="false" cascade="all-delete-orphan">
+      <key column="CALCULATOR_ID" not-null="true"/>
+      <list-index column="sequence_num"/>      
+      <one-to-many class="com.biperf.core.domain.calculator.CalculatorCriterion"/>
+    </list>
+
+    <set name="calculatorPayouts" table="CALCULATOR_PAYOUT" inverse="true" cascade="all-delete-orphan" order-by="low_score">
+      <key column="CALCULATOR_ID"/>
+      <one-to-many class="com.biperf.core.domain.calculator.CalculatorPayout"/>
+    </set>
+  </class>
+  
+  <query name="com.biperf.core.domain.calculator.CalculatorByName">
+    <![CDATA[
+		from calculator in class com.biperf.core.domain.calculator.Calculator
+		where upper(calculator.name) = :name
+	]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.calculator.CalculatorPayoutByScore">
+    <![CDATA[
+		from calculatorPayout in class com.biperf.core.domain.calculator.CalculatorPayout
+		where calculatorPayout.calculator.id = :calculatorId
+		and :score between calculatorPayout.lowScore and calculatorPayout.highScore
+	]]>
+  </query>
+</hibernate-mapping>

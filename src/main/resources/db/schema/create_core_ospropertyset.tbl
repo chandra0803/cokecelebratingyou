@@ -1,0 +1,41 @@
+CREATE TABLE os_propertyset
+   (entity_id                      NUMBER NOT NULL,
+    entity_name                    VARCHAR2(40) NOT NULL,
+    entity_key                     VARCHAR2(60) NOT NULL,
+    key_type                       NUMBER,
+    boolean_val                    NUMBER,
+    double_val                     NUMBER,
+    string_val                     VARCHAR2(2000),
+    long_val                       NUMBER,
+    int_val                        NUMBER,
+    date_val                       DATE)
+/
+CREATE INDEX os_propertyset_idx ON os_propertyset
+  (    key_type                        ASC  )
+/
+CREATE INDEX OS_PROPERTYSET_IDX2 ON OS_PROPERTYSET
+(ENTITY_NAME, ENTITY_KEY, BOOLEAN_VAL)
+/
+ALTER TABLE OS_PROPERTYSET ADD CONSTRAINT OS_PROPERTYSET_UK
+  UNIQUE ( ENTITY_NAME ,ENTITY_KEY )
+/
+ALTER TABLE os_propertyset
+ADD CONSTRAINT os_propertyset_pk PRIMARY KEY (entity_id)
+USING INDEX
+/
+
+COMMENT ON TABLE os_propertyset IS 'class name="com.opensymphony.module.propertyset.hibernate.PropertySetItem"'
+/
+COMMENT ON COLUMN OS_PROPERTYSET.KEY_TYPE IS 'BOOLEAN = 1,DATA = 10,DATE = 7,DOUBLE = 4,INT = 2,LONG = 3,
+BOOLEAN = 1,INT = 2,LONG = 3,DOUBLE = 4,STRING = 5,TEXT = 6,DATE = 7,OBJECT = 8,XML = 9,DATA = 10,PROPERTIES = 11'
+/
+create sequence entity_id_pk_sq
+  INCREMENT BY 1
+  START WITH 5000
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+

@@ -1,0 +1,105 @@
+CREATE SEQUENCE rpt_goal_partner_pk_sq
+START WITH 1
+CACHE 20
+/
+
+CREATE TABLE rpt_goal_partner
+(
+  rpt_goal_partner_id   NUMBER(18)              NOT NULL,
+  pax_user_id           NUMBER(18)              NOT NULL,
+  pax_first_name        VARCHAR2(40),
+  pax_middle_init       VARCHAR2(40),
+  pax_last_name         VARCHAR2(40),
+  prtnr_user_id         NUMBER(18)              NOT NULL,
+  prtnr_first_name      VARCHAR2(40),
+  prtnr_middle_init     VARCHAR2(40),
+  prtnr_last_name       VARCHAR2(40),
+  pax_user_status       VARCHAR2(30),
+  pax_job_position      VARCHAR2(100),
+  pax_department        VARCHAR2(30),
+  promotion_id          NUMBER(18)              NOT NULL,
+  promotion_name        VARCHAR2(90),
+  promotion_start_date  DATE,
+  promotion_end_date    DATE,
+  node_id               NUMBER(18),
+  pax_goal_id           NUMBER(18),
+  goallevel_id          NUMBER(18),
+  goal_level_name       VARCHAR2(80),
+  base_quantity         NUMBER(18),
+  amount_to_achieve     NUMBER(18,2),
+  current_value         NUMBER(18),
+  percent_of_goal       NUMBER(18,2),
+  achieved              NUMBER(1),
+  prtnr_award           NUMBER(18,2),
+  created_by            NUMBER(18),
+  date_created          DATE,
+  modified_by           NUMBER(18),
+  date_modified         DATE,
+  version               NUMBER(18),
+  country_id            NUMBER(12))
+/
+
+COMMENT ON TABLE rpt_goal_partner IS 'to store partner goal report information for each participant, promotion and partner combination'
+/
+COMMENT ON COLUMN rpt_goal_partner.rpt_goal_partner_id IS 'Primary Key'
+/
+COMMENT ON COLUMN rpt_goal_partner.pax_user_id IS 'Participant User ID'
+/
+COMMENT ON COLUMN rpt_goal_partner.pax_first_name IS 'Participant First Name, Selected from APPLICATION_USER.FIRST_NAME'
+/
+COMMENT ON COLUMN rpt_goal_partner.pax_middle_init IS 'Participant Middle Initial, Selected from APPLICATION_USER.MIDDLE_NAME'
+/
+COMMENT ON COLUMN rpt_goal_partner.pax_last_name IS 'Participant Last Name, Selected from APPLICATION_USER.LAST_NAME'
+/
+COMMENT ON COLUMN rpt_goal_partner.prtnr_user_id IS 'Partner User ID, Selected from PARTICIPANT_PARTNER.PARTNER_ID'
+/
+COMMENT ON COLUMN rpt_goal_partner.prtnr_first_name IS 'Partner First Name, Selected from APPLICATION_USER.FIRST_NAME'
+/
+COMMENT ON COLUMN rpt_goal_partner.prtnr_middle_init IS 'Partner Middle Initial, Selected from APPLICATION_USER.MIDDLE_NAME'
+/
+COMMENT ON COLUMN rpt_goal_partner.prtnr_last_name IS 'Partner Last Name, Selected from APPLICATION_USER.LAST_NAME'
+/
+COMMENT ON COLUMN rpt_goal_partner.pax_user_status IS 'Participant Status, Selected from PARTICIPANT.STATUS'
+/
+COMMENT ON COLUMN rpt_goal_partner.pax_job_position IS 'Participant Job Title, Selected from PARTICIPANT_EMPLOYER.POSITION_TYPE'
+/
+COMMENT ON COLUMN rpt_goal_partner.pax_department IS 'Participant Department, Selected from PARTICIPANT_EMPLOYER.DEPARTMENT_TYPE'
+/
+COMMENT ON COLUMN rpt_goal_partner.promotion_id IS 'Promotion ID, Selected from PROMO_GOALQUEST.PROMOTION_ID'
+/
+COMMENT ON COLUMN rpt_goal_partner.promotion_name IS 'Promotion Name, Selected from PROMOTION.PROMOTION_NAME'
+/
+COMMENT ON COLUMN rpt_goal_partner.promotion_start_date IS 'Promotion Start Date, Selected from PROMOTION.PROMOTION_START_DATE'
+/
+COMMENT ON COLUMN rpt_goal_partner.promotion_end_date IS 'Promotion End Date, Selected from PROMOTION.PROMOTION_END_DATE'
+/
+COMMENT ON COLUMN rpt_goal_partner.node_id IS 'Node ID of the Participant'
+/
+COMMENT ON COLUMN rpt_goal_partner.pax_goal_id IS 'Participant Goal ID, Selected from GOALQUEST_PAXGOAL.PAX_GOAL_ID'
+/
+COMMENT ON COLUMN rpt_goal_partner.goallevel_id IS 'Goal Level ID, Selected from GOALQUEST_GOALLEVEL.GOALLEVEL_ID'
+/
+COMMENT ON COLUMN rpt_goal_partner.goal_level_name IS 'Goal Level Name, Selected from GOALQUEST_GOALLEVEL.GOAL_LEVEL_NAME'
+/
+COMMENT ON COLUMN rpt_goal_partner.base_quantity IS 'Base, Selected from GOALQUEST_PAXGOAL.BASE_QUANTITY'
+/
+COMMENT ON COLUMN rpt_goal_partner.amount_to_achieve IS 'Goal, Calculated by Java'
+/
+COMMENT ON COLUMN rpt_goal_partner.current_value IS 'Actual Results, Calculated by Java'
+/
+COMMENT ON COLUMN rpt_goal_partner.percent_of_goal IS 'Percentage of Goal, Calculated by Java'
+/
+COMMENT ON COLUMN rpt_goal_partner.achieved IS 'Achieved'
+/
+COMMENT ON COLUMN rpt_goal_partner.prtnr_award IS 'Partner Award, Calculated by Java'
+/
+COMMENT ON COLUMN rpt_goal_partner.created_by IS 'Audit Field'
+/
+COMMENT ON COLUMN rpt_goal_partner.date_created IS 'Audit Field'
+/
+COMMENT ON COLUMN rpt_goal_partner.modified_by IS 'Audit Field'
+/
+COMMENT ON COLUMN rpt_goal_partner.date_modified IS 'Audit Field'
+/
+COMMENT ON COLUMN rpt_goal_partner.version IS 'Audit Field'
+/

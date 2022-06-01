@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.budget.BudgetReallocationHistory" table="BUDGET_REALLOCATION_HISTORY">
+
+      <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="BUDGET_REALLOCATION_HISTORY_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">BUDGET_TX_HISTORY_PK_SQ</param>
+      </generator>
+    </id>
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    <property name="txNodeId" type="java.lang.Long" column="TX_NODE_ID" />
+    <property name="txUserId" type="java.lang.Long" column="TX_USER_ID" />
+    <property name="budgetId" type="java.lang.Long" column="BUDGET_ID" />
+    <property name="amount" type="java.math.BigDecimal" column="AMOUNT" />
+  </class>
+    
+   <sql-query name="com.biperf.core.domain.budget.getAllBudgetReallocationHistoryForNode">
+    <return-scalar column="ID" type="long"/>
+    <return-scalar column="TXNODEID" type="long"/>
+    <return-scalar column="TXUSERID" type="long"/>
+    <return-scalar column="BUDGETID" type="long"/>
+    <return-scalar column="AMOUNT" type="big_decimal"/>
+    <return-scalar column="CREATEDBY" type="long"/>
+    <return-scalar column="DATECREATED" type="timestamp"/>    
+    <return-scalar column="SOURCE" type="string"/>
+  	<![CDATA[
+	select 	bh.budget_reallocation_history_id as id, 
+            bh.tx_node_id as txNodeId,
+            bh.tx_user_id as txUserId,
+            bh.budget_id as budgetId, 
+            bh.amount as amount,
+            bh.created_by as createdby,
+            bh.date_created as dateCreated,            
+            'node' as source
+	  from budget_reallocation_history bh, budget b
+	 where bh.tx_node_id = :nodeId
+	   and b.budget_segment_id = :budgetSegmentId
+	   and bh.budget_id = b.budget_id
+	   and bh.created_by not in (select user_id from application_user where user_type like 'bi')
+	   and trunc(bh.date_created) between fnc_locale_to_date_dt(:startDate, :userLocale) and fnc_locale_to_date_dt(:endDate, :userLocale)
+	  union all
+	select 	bh.budget_reallocation_history_id as id, 
+            bh.tx_node_id as txNodeId,
+            bh.tx_user_id as txUserId,
+            bh.budget_id as budgetId, 
+            bh.amount as amount,
+            bh.created_by as createdby,
+            bh.date_created as dateCreated,            
+            'admin' as source
+	  from budget_reallocation_history bh, budget b
+	 where bh.tx_node_id = :nodeId
+	   and b.budget_segment_id = :budgetSegmentId
+	   and bh.budget_id = b.budget_id
+	   and bh.created_by in (select user_id from application_user where user_type like 'bi')
+	   and trunc(bh.date_created) between fnc_locale_to_date_dt(:startDate, :userLocale) and fnc_locale_to_date_dt(:endDate, :userLocale)     
+  	]]>
+    </sql-query> 
+    
+    <sql-query name="com.biperf.core.domain.budget.getAllBudgetReallocationHistoryForPax">
+    <return-scalar column="ID" type="long"/>
+    <return-scalar column="TXNODEID" type="long"/>
+    <return-scalar column="TXUSERID" type="long"/>
+    <return-scalar column="BUDGETID" type="long"/>
+    <return-scalar column="AMOUNT" type="big_decimal"/>
+    <return-scalar column="CREATEDBY" type="long"/>
+    <return-scalar column="DATECREATED" type="timestamp"/>    
+    <return-scalar column="SOURCE" type="string"/>
+  	<![CDATA[
+	select 	bh.budget_reallocation_history_id as id, 
+            bh.tx_node_id as txNodeId,
+            bh.tx_user_id as txUserId,
+            bh.budget_id as budgetId, 
+            bh.amount as amount,
+            bh.created_by as createdby,
+            bh.date_created as dateCreated,            
+            'pax' as source
+	  from budget_reallocation_history bh, budget b
+	 where bh.tx_user_id = :userId
+	   and b.budget_segment_id = :budgetSegmentId
+	   and bh.budget_id = b.budget_id
+	   and bh.created_by not in (select user_id from application_user where user_type like 'bi')
+	   and trunc(bh.date_created) between fnc_locale_to_date_dt(:startDate, :userLocale) and fnc_locale_to_date_dt(:endDate, :userLocale)
+	  union all
+	select 	bh.budget_reallocation_history_id as id, 
+            bh.tx_node_id as txNodeId,
+            bh.tx_user_id as txUserId,
+            bh.budget_id as budgetId, 
+            bh.amount as amount,
+            bh.created_by as createdby,
+            bh.date_created as dateCreated,
+            'admin' as source
+	  from budget_reallocation_history bh, budget b
+	 where bh.tx_user_id = :userId
+	   and b.budget_segment_id = :budgetSegmentId
+	   and bh.budget_id = b.budget_id
+	   and bh.created_by in (select user_id from application_user where user_type like 'bi')
+	   and trunc(bh.date_created) between fnc_locale_to_date_dt(:startDate, :userLocale) and fnc_locale_to_date_dt(:endDate, :userLocale)
+  	]]>
+    </sql-query>  
+  
+</hibernate-mapping>

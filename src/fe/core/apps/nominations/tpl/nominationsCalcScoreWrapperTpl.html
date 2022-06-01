@@ -1,0 +1,16 @@
+<div id="nominationsCalcScoreWrapper" class="nominationsCalcScoreWrapper">
+    <div id="nominationsCalcTotalWrapper" class="nominationsCalcTotalWrapper">
+        <span id="nominationsCalcTotalLabel" class="nominationsCalcTotalLabel">Total Score: </span>
+        <span id="nominationsCalcTotal" class="nominationsCalcTotal">{{totalScore}}</span>
+    </div>
+    {{#if isRange}}
+    <p>Select Amount {{{awardRange}}}</p>
+    {{/if}}
+    {{#if hasFixed}}
+    <p class="nominationsCalcFixedAward">Award Amount: {{fixedAmount}}</p>
+    {{/if}}
+    {{#if hasAwardLevel}}
+    <p class="nominationsCalcFixedAward">Award Level: {{{awardLevel}}}</p>
+    {{/if}}
+    <button disabled="disabled">Save</button>
+</div>

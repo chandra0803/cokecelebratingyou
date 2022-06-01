@@ -1,0 +1,27 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $globalHeaderView_pointsLabel_color: ;
+
+// $globalHeaderView_pointsLabel_fontFamily: ;
+// $globalHeaderView_pointsPoints_fontFamily: ;
+// $globalHeaderView_shopLinks_fontFamily: ;
+
+// $globalHeaderView_pointsSize_mobile: ;
+// $globalHeaderView_pointsSize_tablet: ;
+// $globalHeaderView_pointsSize_desktop: ;
+// $globalHeaderView_pointsSize_desktopLarge: ;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/globalHeader";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================
+#globalHeaderView {
+    h1.logo {
+        //border-right: solid 1px $brand_color_mid;
+    }
+}

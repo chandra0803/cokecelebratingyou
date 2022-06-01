@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Quiz Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+  
+  <!--  Challengepoint Content Definition -->
+  
+  <definition name="promotion.challengepoint.details" extends="beacon.default" controllerClass="com.biperf.core.ui.challengepoint.ChallengepointPromoDetailsController">
+    <put name="content"	value="/challengepoint/challengepointPromoDetails.jsp" />
+    <put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+	<put name='trackingTitle' value='Promotion_Challengepoint_Details' />
+  </definition>
+  
+  <definition name="promotion.challengepoint.progress" extends="beacon.default" 
+  							controllerClass="com.biperf.core.ui.challengepoint.ChallengepointPromoProgressController">
+    <put name="content"	value="/challengepoint/challengepointProgress.jsp" />
+    <put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+	<put name='trackingTitle' value='Promotion_Challengepoint_Progress' />
+  </definition>  
+
+  <definition name="promotion.challengepoint.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.challengepoint.ChallengepointListController">
+    <put name="content" value="/challengepoint/calculationPromotionList.jsp"/>
+    <put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+	<put name='trackingTitle' value='Promotion_Challengepoint_List' />
+  </definition>
+
+  <definition name="promotion.challengepoint.awardSummary" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.challengepoint.PendingCPAwardSummaryController">
+    <put name="content" value="/challengepoint/pendingCPAwardSummary.jsp"/>
+    <put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+	<put name='trackingTitle' value='Promotion_Challengepoint_Award_Summary' />
+  </definition>  
+  
+ <definition name="promotion.challengepoint.progress.summary"
+	      	  path="/challengepoint/challengepointProgressSummary.jsp">
+	<put name="challengepoint.header" value="promotion.challengepoint.progressSummary.header" />
+  </definition> 
+ <definition name="promotion.challengepoint.progressSummary.header"
+	      	  path="/challengepoint/progressSummaryHeader.jsp">
+  </definition>
+  
+  <definition name="promotion.challengepoint.confirmation" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.challengepoint.ChallengepointProcessConfirmationController">
+    <put name="content" value="/challengepoint/challengepointProcessConfirmation.jsp"/>
+    <put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+	<put name='trackingTitle' value='Promotion_Challengepoint_Confirmation' />
+  </definition>
+  
+  <definition name="promotion.challengepoint.extract.details" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.challengepoint.ChallengepointDetailExtractController">
+    <put name="content" value="/challengepoint/challengepointDetailExtractConfirmation.jsp"/>
+    <put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+	<put name='trackingTitle' value='Promotion_Challengepoint_Extract_Details' />
+  </definition>  
+
+  <definition name="challengepoint.promotion.list" extends="g5.default">
+  	<put name="content" value="/goalquest/goalquestPageList.jsp"/>
+  </definition>
+  
+</tiles-definitions>

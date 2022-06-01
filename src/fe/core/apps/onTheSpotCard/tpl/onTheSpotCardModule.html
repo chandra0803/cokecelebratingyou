@@ -1,0 +1,43 @@
+
+<!-- ======== On The Spot Card Module ======== -->
+
+<div class="module-liner">
+
+    <div class="module-content">
+        <h3 class="module-title">On the Spot</h3>
+       <div class="instruction">
+            <div class="bottom-text">
+            Please enter your On The Spot Card serial number below:
+            </div>
+        </div>
+        <!--
+            DEVELOPERS NOTE:
+            - the JSON url is pulled from the action attr of the form if it exists
+                otherwise it is in G5.props.URL_JSON_ON_THE_SPOT_CERT
+            - the data-* attributes below will be included in JSON requests for budgetItems
+            - the names will be converted to camel-case without 'data'
+                EX: 'data-some-param' => 'someParam'
+        -->
+        <form class="onTheSpotCertForm" action="ajax/onTheSpot_cert_success.json" data-some-param="someValue" data-another-param="anotherValue">
+
+                <input type="text" size="16" name="inputCertNum" class="inputCertNum">
+                <button id="btnSendCert" type="button" class="btn btn-lg btn-primary">Submit</button>
+
+        </form>
+        <div class="OTSfieldText">"Serial Number" (CM Key Here...)</div>
+
+	</div>
+
+    <!--subTpl.modal=
+        <div class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                <h3>{{title}}</h3>
+            </div>
+            <div class="modal-body">
+                <p>{{text}}</p>
+            </div>
+        </div>
+    subTpl-->
+
+</div>

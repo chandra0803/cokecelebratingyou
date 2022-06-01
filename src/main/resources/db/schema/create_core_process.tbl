@@ -1,0 +1,48 @@
+CREATE TABLE process
+    (Process_ID                 NUMBER(18) NOT NULL,
+     Process_Name               VARCHAR2(100),
+     Process_Last_Executed_Date DATE,
+     Process_Bean_Name          VARCHAR2(100),
+     Process_Status_Type        VARCHAR2(50) NOT NULL,
+     Description                VARCHAR2(250),
+     created_by number(18) NOT NULL,
+     Date_created               DATE NOT NULL,
+     modified_by number(18),
+     Date_modified              DATE,
+     Version                    NUMBER(18) NOT NULL)
+/
+ALTER TABLE process
+ADD CONSTRAINT process_pk PRIMARY KEY (process_id)
+USING INDEX
+/
+ALTER TABLE process
+ADD CONSTRAINT process_uk UNIQUE (Process_Name)
+USING INDEX
+/
+COMMENT ON TABLE process IS 'The process table stores all defined processes.'
+/
+COMMENT ON COLUMN process.process_id IS 'System-generated key that identifies a specific process.'
+/
+COMMENT ON COLUMN process.process_name IS 'name of process.'
+/
+COMMENT ON COLUMN process.process_Last_Executed_Date IS 'last executed date.'
+/
+COMMENT ON COLUMN process.process_Bean_Name IS '- process bean name.'
+/
+COMMENT ON COLUMN process.process_Status_Type IS '- process status type.'
+/
+COMMENT ON COLUMN process.description IS '- description of process.'
+/
+COMMENT ON COLUMN process.created_by IS 'created by.'
+/
+COMMENT ON COLUMN process.date_created IS '- date created.'
+/
+COMMENT ON COLUMN process.modified_by IS 'modified by.'
+/
+COMMENT ON COLUMN process.date_modified IS '- date modified.'
+/
+COMMENT ON COLUMN process.version IS '- version.'
+/
+create sequence PROCESS_PK_SQ start with 1540
+/
+

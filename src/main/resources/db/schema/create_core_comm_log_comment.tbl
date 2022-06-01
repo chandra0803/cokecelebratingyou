@@ -1,0 +1,31 @@
+create sequence COMM_LOG_COMMENT_PK_SQ start with 5000
+/
+CREATE TABLE comm_log_comment
+(comm_log_comment_id  NUMBER(18) NOT NULL,
+ comm_log_id          NUMBER(18) NOT NULL,
+ comments             VARCHAR2(4000),
+ comment_user_id      NUMBER(18),
+ guid                 VARCHAR2(80) NOT NULL,
+ date_created         DATE NOT NULL,
+ created_by           NUMBER(18) NOT NULL,
+ date_modified        DATE,
+ modified_by          NUMBER(18),
+ version		          NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE comm_log_comment
+ADD CONSTRAINT comm_log_comment_pk PRIMARY KEY (comm_log_comment_id)
+USING INDEX
+/
+ALTER TABLE comm_log_comment ADD CONSTRAINT comm_log_comment_user_fk
+  FOREIGN KEY (comment_user_id) REFERENCES APPLICATION_USER (user_id)
+/
+ALTER TABLE comm_log_comment ADD CONSTRAINT comm_log_comment_comm_log_fk
+  FOREIGN KEY (comm_log_id) REFERENCES comm_log (comm_log_id)
+/
+CREATE INDEX COMM_LOG_CMT_COMM_LOG_FK_idx ON COMM_LOG_COMMENT
+  (COMM_LOG_ID)
+/
+CREATE INDEX COMM_LOG_CMT_CMNT_USER_FK_idx ON COMM_LOG_COMMENT
+  (COMMENT_USER_ID)
+/

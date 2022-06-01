@@ -1,0 +1,49 @@
+
+package com.biperf.core.ui.publicrecognition;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import com.biperf.core.utils.crypto.Base64;
+
+public class TestingImage
+{
+
+  /**
+   * @param args
+   */
+  public static void main( String[] args )
+  {
+    // this is not the real stream just for example
+    String base64String = "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";
+    byte[] decodedBytes = Base64.decode( base64String );
+
+    String uploadFile = "C:\\smile.png";
+    BufferedImage image = null;
+    try
+    {
+      image = ImageIO.read( new ByteArrayInputStream( decodedBytes ) );
+    }
+    catch( IOException e )
+    {
+      e.printStackTrace();
+    }
+    File f = new File( uploadFile );
+
+    // write the image
+    try
+    {
+      ImageIO.write( image, "png", f );
+    }
+    catch( IOException e )
+    {
+      e.printStackTrace();
+    }
+
+  }
+
+}

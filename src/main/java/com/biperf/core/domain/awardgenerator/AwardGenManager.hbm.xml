@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.awardgenerator.AwardGenManager" table="AWARDGEN_MANAGER">
+
+        <id name="id" type="java.lang.Long" column="AWARDGEN_MANAGER_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">AWARDGEN_MANAGER_PK_SQ</param>
+            </generator>
+        </id>
+
+        <version name="version" column="VERSION" type="java.lang.Long" />
+
+        <property name="expiryDate" type="java.util.Date" column="EXPIRY_DATE" />
+         
+ 		<many-to-one name="awardGenBatch" column="AWARDGEN_BATCH_ID" class="com.biperf.core.domain.awardgenerator.AwardGenBatch" not-null="true" lazy="false"/>
+	    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="false"/>
+	    <many-to-one name="awardGenParticipant" column="AWARDGEN_PARTICIPANT_ID" class="com.biperf.core.domain.awardgenerator.AwardGenParticipant"  lazy="false"/>
+	               
+   	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED"/>
+            <column name="CREATED_BY"/>
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+            <column name="DATE_MODIFIED"/>
+            <column name="MODIFIED_BY"/>
+        </property>
+
+    </class>
+    
+    
+</hibernate-mapping>

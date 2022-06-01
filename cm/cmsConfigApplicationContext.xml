@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+  - Copyright (c) 2005 Object Partners, Inc. All Rights Reserved.
+-->
+<beans>
+
+  <bean id="cmsConfiguration" class="com.objectpartners.cms.util.CmsConfiguration">
+    <property name="cmsProperties">
+      <props>
+        <prop key="defaultLocale">en_US</prop>
+        <prop key="defaultApplicationCode">beacon</prop>
+        <prop key="defaultParentApplicationCode">cm</prop>
+        <prop key="cmApplicationCode">cm</prop>
+        <prop key="cmApplicationVersion">@VERSION@</prop>
+        <prop key="consumerApplicationVersion">@VERSION@</prop>
+        <prop key="goldCopyInstall">false</prop>
+        <prop key="loginPageURI">/@PROJECT_NAME@/login.do</prop>
+        <prop key="errorFooterKey">system.errors.FOOTER</prop>
+        <prop key="errorHeaderKey">system.errors.HEADER</prop>
+        <prop key="errorPrefixKey">system.errors.PREFIX</prop>
+        <prop key="errorSuffixKey">system.errors.SUFFIX</prop>
+        <prop key="hibernateSqlLogLevel">WARN</prop>
+        <prop key="hibernateLogLevel">WARN</prop>
+        <prop key="hibernateTypeLogLevel">WARN</prop>
+        <prop key="standaloneMode">false</prop>
+        <prop key="filterEnable">false</prop>
+        <prop key="customContentEnable">true</prop>
+        <prop key="dev.previewHost">/@PROJECT_NAME@</prop>
+        <prop key="qa.previewHost">/@PROJECT_NAME@</prop>
+        <prop key="preprod.previewHost">/@PROJECT_NAME@</prop>
+        <prop key="prod.previewHost">/@PROJECT_NAME@</prop>
+        <prop key="sso.salt">c@t2014seeMss0gefiv</prop>        
+      </props>
+    </property>
+    <property name="damProperties">
+      <props>
+        <prop key="statusSupported">true</prop>
+        <prop key="damScanSkipped">false</prop>
+        <prop key="damMaxUploadSize">2048000</prop>
+        <prop key="damTempLocation"></prop><!-- If empty, it picks up value from environment variable 'apptmpdir' -->
+        <prop key="damHost">@DAM_HOST@</prop>
+        <prop key="damApp">/@PROJECT_URL@/@PROJECT_NAME@-cm/cm3dam/</prop>
+        <!-- prop key="damHostProtocol">https</prop-->
+        <prop key="virusScanScript">/cgi-bin/dav_sync.pl</prop>
+		<prop key="rescanIntervalInSec">600</prop>
+		<prop key="scanTimeoutIntervalInSec">120</prop>
+      </props>
+    </property>
+    <property name="defaultAudienceNames">
+      <list>
+        <value>Default Audience</value>
+      </list>
+    </property>
+  </bean>
+
+</beans>

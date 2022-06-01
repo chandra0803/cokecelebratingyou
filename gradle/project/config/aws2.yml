@@ -1,0 +1,35 @@
+installation:
+    pid: "04252017"
+    useUrl: true
+    propertiesUrl: "http://beaconqa.biworldwide.com/g3installwizard/exportProject.do?pid=${project.config.installation.pid}"
+    propertiesProdUrl: "http://beacon.biworldwide.com/g3installwizard/exportProject.do?pid=${project.config.installation.pid}"
+
+database:
+    driver: "oracle.jdbc.driver.OracleDriver"
+    jdbcUrl: "jdbc:oracle:thin:@localhost:49161:XE"
+    port: 49161
+    name: "XE"
+    userName: "placeholder.schemaName"
+    password: "placeholder.schemaPassword"
+
+cmdiff:
+    baseDir: "D:/projects/cmdiff"
+    cpdBaseDir: "//ss3/ndstat/java/GSeries/Product-g-cmdiffs"
+    importExportFilePath: "src/main/resources/db/cmData.xml"
+    goldcopyImportExportFilePath: "src/main/resources/db/cmData-goldcopy.xml"
+    goldcopyDifftFilePath: "src/main/resources/db/cmDiff-goldcopy.xml"
+    goldcopyCmDiff: true #Should be set to true only for development branch
+    importLogError: "false"
+
+unittest:
+    debug: false
+    driver: "oracle.jdbc.driver.OracleDriver"
+    jdbcUrl: "jdbc:oracle:thin:@ora1dev.bius.bi.corp:1524:bi10_qa"
+    port: 1524
+    name: "bi10_qa"
+    userName: "ADNN"
+    password: "placeholder.schemaPassword"
+
+# props that control how gradle builds code
+build:
+    javaEncoding: "UTF-8"

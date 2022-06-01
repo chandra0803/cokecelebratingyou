@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.user.UserTNCHistory" table="USER_TNC_HISTORY">
+	<id name="id" type="java.lang.Long" column="USER_TNC_HISTORY_ID">
+	  <generator class="seqhilo">
+		<param name="max_lo">0</param> <param name="sequence">USER_TNC_HISTORY_PK_SQ</param>
+	  </generator>
+	</id>
+
+	<property name="tncAction" column="TNC_ACTION" type="java.lang.String" />
+     
+	<many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User"/>
+	
+	<property name="historyDateCreated" type="java.util.Date" column="DATE_CREATED" />
+	
+	<property name="historyCreatedBy" type="java.lang.Long" column="CREATED_BY" />
+    
+  </class>
+    
+</hibernate-mapping>

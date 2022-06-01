@@ -1,0 +1,10 @@
+<?php sleep(2); ?>
+{
+    "messages": [],
+
+    "slides":[
+        {
+           "heroImageUrl":"img/hero/G6_Banner_2017_02_Wellness2_Mobile.jpg"
+        }
+    ]
+}

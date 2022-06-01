@@ -1,0 +1,122 @@
+task resources_create_server(type: XsltTransformTask) {
+  group zapGroup
+  description "resources_create_server"
+  String sourceFileName = "server.xml"
+  String tmpFileName = "server_tmp.xml"
+  templateFile file("${config.xslResourceDir}/resources-pool-create-server.xsl")
+  sourceFile file("${config.tomcat.conf}/"+sourceFileName)
+  outputFile file("${config.tomcat.conf}/"+tmpFileName)
+  parameters = [:]
+  
+  doFirst {
+    // Database dialog. Sets up DB variables, too. Only if DB hasn't already been chosen
+    if(!project.db.username) {
+       promptForEnvNoDev()
+    }
+
+    parameters = [
+      'projectName': project.config.installation.data.name,
+	  'driver': "$project.db.driver",
+      'url': "$project.db.url",
+      'username': "$project.db.username",
+      'password': "$project.db.password",
+      'dialect': "$project.db.dialect"
+    ]
+    
+    ant.copy(file:"${config.tomcat.conf}/${sourceFileName}", tofile:"${config.tomcat.conf}/server_bk.xml" )
+  }
+  
+  doLast {
+  
+  	  ant.copy(file:"${config.tomcat.conf}/${tmpFileName}", tofile:"${config.tomcat.conf}/${sourceFileName}" )
+  	  ant.delete(file:"${config.tomcat.conf}/${tmpFileName}" )
+  }
+}
+
+task resources_create_context(type: XsltTransformTask) {
+  group zapGroup
+  description "resourcesCreateContext"
+  String sourceFileName = "context.xml"
+  String tmpFileName = "context_tmp.xml"
+  templateFile file("${config.xslResourceDir}/resources-pool-create-context.xsl")
+  sourceFile file("${config.tomcat.conf}/"+sourceFileName)
+  outputFile file("${config.tomcat.conf}/"+tmpFileName)
+  parameters = [:]
+  
+  doFirst {
+    // Database dialog. Sets up DB variables, too. Only if DB hasn't already been chosen
+    if(!project.db.username) {
+      promptForEnvNoDev()
+    }
+
+    parameters = [
+      'projectName': project.config.installation.data.name,
+      'upperProjectName': project.config.installation.data.name.toUpperCase()
+    ]
+    
+    ant.copy(file:"${config.tomcat.conf}/${sourceFileName}", tofile:"${config.tomcat.conf}/context_bk.xml" )
+  }
+  
+  doLast {
+  	  ant.copy(file:"${config.tomcat.conf}/${tmpFileName}", tofile:"${config.tomcat.conf}/${sourceFileName}" )
+  	  ant.delete(file:"${config.tomcat.conf}/${tmpFileName}" )
+  }
+}
+
+task resources_pool_jdbc_jms_create {
+  group tomcatGroup
+  description "Create connection pool in server.xml and context.xml"
+  dependsOn resources_create_server, resources_create_context
+}
+
+task resources_delete_server(type: XsltTransformTask) {
+  group zapGroup
+  description "resources_delete_server"
+
+  doFirst {
+    ant.copy(file:"${config.tomcat.conf}/server.xml", tofile:"${config.tomcat.conf}/server_bk.xml" )
+  }
+  
+  String sourceFileName = "server.xml"
+  String tmpFileName = "server_tmp.xml"
+  templateFile file("${config.xslResourceDir}/resources-pool-delete-server.xsl")
+  sourceFile file("${config.tomcat.conf}/"+sourceFileName)
+  outputFile file("${config.tomcat.conf}/"+tmpFileName)
+  parameters = [
+      'projectName': project.config.installation.data.name
+  ]
+  
+  doLast {
+  	  ant.copy(file:"${config.tomcat.conf}/${tmpFileName}", tofile:"${config.tomcat.conf}/${sourceFileName}" )
+  	  ant.delete(file:"${config.tomcat.conf}/${tmpFileName}" )
+  }
+}
+
+task resources_delete_context(type: XsltTransformTask) {
+  group zapGroup
+  description "resources_delete_context"
+
+  doFirst {
+    ant.copy(file:"${config.tomcat.conf}/context.xml", tofile:"${config.tomcat.conf}/context_bk.xml" )
+  }
+  
+  String sourceFileName = "context.xml"
+  String tmpFileName = "context_tmp.xml"
+  templateFile file("${config.xslResourceDir}/resources-pool-delete-context.xsl")
+  sourceFile file("${config.tomcat.conf}/"+sourceFileName)
+  outputFile file("${config.tomcat.conf}/"+tmpFileName)
+  parameters = [
+      'projectName': project.config.installation.data.name,
+      'upperProjectName': project.config.installation.data.name.toUpperCase()
+  ]
+    doLast {
+  	  ant.copy(file:"${config.tomcat.conf}/${tmpFileName}", tofile:"${config.tomcat.conf}/${sourceFileName}" )
+  	  ant.delete(file:"${config.tomcat.conf}/${tmpFileName}" )
+  }
+}
+
+task resources_pool_jdbc_jms_delete {
+  group tomcatGroup
+  description "Delete connection pool in server.xml and context.xml"
+  dependsOn resources_delete_server, resources_delete_context
+}

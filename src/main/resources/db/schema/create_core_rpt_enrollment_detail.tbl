@@ -1,0 +1,119 @@
+CREATE SEQUENCE rpt_enrollment_detail_pk_sq start with 1 increment by 1
+/
+CREATE TABLE rpt_enrollment_detail
+   (rpt_enrollment_detail_id       NUMBER(18,0) NOT NULL,
+    user_id                        NUMBER(18,0) NOT NULL,
+    last_name                      VARCHAR2(40),
+    first_name                     VARCHAR2(40),
+    middle_init                    VARCHAR2(40),
+    title                          VARCHAR2(30),
+    suffix                         VARCHAR2(30),
+    birth_date                     DATE,
+    gender                         VARCHAR2(10),
+    enrollment_date                DATE,
+    enrollment_source              VARCHAR2(30),
+    status                         VARCHAR2(30),
+    status_change_date             DATE,
+    hire_date                      DATE,
+    role                           VARCHAR2(30),
+    job_position                   VARCHAR2(100),
+    department                     VARCHAR2(100),
+    node_id                        NUMBER(18,0),
+    primary_address_type           VARCHAR2(255),
+    country_id                     NUMBER(12),
+    address1                       VARCHAR2(4000),
+    address2                       VARCHAR2(4000),
+    address3                       VARCHAR2(4000),
+    address4                       VARCHAR2(4000),
+    address5                       VARCHAR2(4000),
+    address6                       VARCHAR2(4000),
+    city                           VARCHAR2(40),
+    state                          VARCHAR2(4000),
+    postal_code                    VARCHAR2(4000),
+    primary_phone_type             VARCHAR2(30),
+    primary_phone_number           VARCHAR2(4000),
+    primary_email_addr_type        VARCHAR2(30),
+    primary_email_address          VARCHAR2(75),
+    language_preference            VARCHAR2(10),    
+    date_created                   DATE NOT NULL,
+    created_by                     NUMBER(18) NOT NULL,
+    modified_by 		   NUMBER (18), 
+    date_modified 		   DATE)
+/
+ALTER TABLE RPT_ENROLLMENT_DETAIL ADD CONSTRAINT RPT_ENROLLMENT_DETAIL_PK
+  PRIMARY KEY (RPT_ENROLLMENT_DETAIL_ID)
+ USING INDEX 
+/
+COMMENT ON TABLE RPT_ENROLLMENT_DETAIL IS 
+'Reporting table for the Enrollement details that will be used to create the summary records and iReport for the enrollment detail.'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.RPT_ENROLLMENT_DETAIL_ID IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.USER_ID IS 'application_user.user_id'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.LAST_NAME IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.FIRST_NAME IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.MIDDLE_INIT IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.TITLE IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.SUFFIX IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.BIRTH_DATE IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.GENDER IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.ENROLLMENT_DATE IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.ENROLLMENT_SOURCE IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.STATUS IS 'from participant'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.STATUS_CHANGE_DATE IS 'from participant'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.HIRE_DATE IS 'from participant_employer'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.JOB_POSITION IS 'from participant_employer'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.DEPARTMENT IS 'from participant_employer'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.NODE_ID IS 'from user_node of the primary hierarchy'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.PRIMARY_ADDRESS_TYPE IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.COUNTRY_ID IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.ADDRESS1 IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.ADDRESS2 IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.ADDRESS3 IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.ADDRESS4 IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.ADDRESS5 IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.ADDRESS6 IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.CITY IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.STATE IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.POSTAL_CODE IS 'from user_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.PRIMARY_PHONE_TYPE IS 'from user_phone'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.PRIMARY_PHONE_NUMBER IS 'from user_phone'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.PRIMARY_EMAIL_ADDR_TYPE IS 'from user_email_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.PRIMARY_EMAIL_ADDRESS IS 'from user_email_address'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.LANGUAGE_PREFERENCE IS 'from application_user'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.DATE_CREATED IS 'audit column'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_DETAIL.CREATED_BY IS 'audit column to store the process name'
+/

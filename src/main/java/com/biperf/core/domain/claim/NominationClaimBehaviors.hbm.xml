@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.claim.NominationClaimBehaviors" table="NOMINATION_CLAIM_BEHAVIORS">
+	<id name="id" type="java.lang.Long" column="NOMINATION_CLAIM_BEHAVIORS_ID">
+	  <generator class="seqhilo">
+		<param name="max_lo">0</param> <param name="sequence">NOMINATION_CLAIM_BEH_PK_SQ</param>
+	  </generator>
+	</id>
+    
+  <many-to-one name="nominationClaim" column="CLAIM_ID" class="com.biperf.core.domain.claim.NominationClaim" lazy="false" />
+  
+  <property name="behavior" column="BEHAVIOR">
+  	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+    	<param name="lookupClass">com.biperf.core.domain.enums.PromoNominationBehaviorType</param>
+    </type>
+  </property>
+</class>
+</hibernate-mapping>

@@ -1,0 +1,76 @@
+CREATE TABLE tmp_nonredemption_reminder
+(nonredemption_id             NUMBER(18)        ,
+ login_id                     VARCHAR2 (40 CHAR),
+ email_addr                   VARCHAR2(75 CHAR) ,
+ first_name                   VARCHAR2(40 CHAR) , 
+ last_name                    VARCHAR2(40 CHAR) ,
+ gift_code                    VARCHAR2(250 CHAR), 
+ promotion_name               VARCHAR2(90 CHAR) , 
+ level_name                   VARCHAR2(80 CHAR) ,
+ link_to_merchlinq_to_redeem  VARCHAR2(2000 CHAR),
+ is_valid                     NUMBER,
+ addr1                        VARCHAR2 (4000 CHAR),
+ addr2                        VARCHAR2 (4000 CHAR),
+ addr3                        VARCHAR2 (4000 CHAR),
+ addr4                        VARCHAR2 (4000 CHAR),
+ addr5                        VARCHAR2 (4000 CHAR),
+ addr6                        VARCHAR2 (4000 CHAR),
+ city                         VARCHAR2 (40 CHAR),
+ state                        VARCHAR2 (4000 CHAR),
+ country                      VARCHAR2 (30 CHAR),
+ postal_code                  VARCHAR2 (4000 CHAR),
+ characteristic_charvalue1    VARCHAR2 (100 CHAR),
+ characteristic_charvalue2    VARCHAR2 (100 CHAR),
+ characteristic_charvalue3    VARCHAR2 (100 CHAR),
+ characteristic_charvalue4    VARCHAR2 (100 CHAR),
+ characteristic_charvalue5    VARCHAR2 (100 CHAR)
+ )
+/
+
+COMMENT ON TABLE TMP_NONREDEMPTION_REMINDER IS 'The TMP_NONREDEMPTION_REMINDER holds participants details who have not redeemed the giftcode for a particular promotion. A process is used to generate data in this table, for each run of the process data is newly created by removing the existing data.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.NONREDEMPTION_ID IS 'Database key that uniquely identifies the row.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.LOGIN_ID IS 'Login ID of the participant.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.EMAIL_ADDR IS 'The email address of the participant.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.FIRST_NAME IS 'The first name of the participant.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.LAST_NAME IS 'The last name of the participant.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.GIFT_CODE IS 'Gift code.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.PROMOTION_NAME IS 'Promotion name.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.LEVEL_NAME IS 'Program Level Name.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.LINK_TO_MERCHLINQ_TO_REDEEM IS 'Web link to redeem the gift code'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.IS_VALID IS 'Whether the reminder email bounceback?'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.ADDR1 IS 'Address 1 identifier used for NA and INTL address.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.ADDR2 IS 'Address 2 identifier used for NA and INTL address.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.ADDR3 IS 'Address 3 identifier used for NA and INTL address.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.ADDR4 IS 'Address 4 identifier used for INTL address.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.ADDR5 IS 'Address 5 identifier used for INTL address.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.ADDR6 IS 'Address 6 identifier used for INTL address.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.CITY IS 'City identifier used for INTL address for NA address.' 
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.STATE IS 'State/province identifier for NA address.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.COUNTRY IS 'Address country.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.POSTAL_CODE IS 'Postal Code identifier  for NA address.'
+/
+COMMENT ON COLUMN TMP_NONREDEMPTION_REMINDER.CHARACTERISTIC_CHARVALUE1 IS 'Value of the first characteristic for the participant'
+/
+CREATE SEQUENCE nonredemption_id_seq
+ START WITH 1
+/

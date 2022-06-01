@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.leaderboard.LeaderBoardPaxActivity" table="LEADERBOARD_PAX_ACTIVITY">
+    
+    <id name="id" type="long" column="LEADERBOARD_PAX_ACTIVITY_ID">
+       <generator class="seqhilo">
+         <param name="max_lo">0</param> <param name="sequence">LEADERBOARD_PAX_ACTIVITY_PK_SQ</param>
+       </generator>
+     </id>
+     
+     <!-- Using version number optimistic locking -->
+     <version name="version" type="long" column="VERSION"/>
+     
+     <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+	   
+	    <property name="type" column="TYPE" type="string"/>
+	    <property name="asofDate" column="AS_OF_DATE" type="java.util.Date"/>
+	    <property name="submissionDate" column="SUBMISSION_DATE" type="java.util.Date"/>
+	    
+	    <many-to-one name="leaderBoard" column="LEADERBOARD_ID" class="com.biperf.core.domain.leaderboard.LeaderBoard" not-null="true" lazy="false"/>
+
+       <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="false"/>	    
+    </class>
+    
+     <query name="com.biperf.core.domain.leaderboard.getLeaderBoardPaxActivityByUserId">
+    <![CDATA[
+    from com.biperf.core.domain.leaderboard.LeaderBoardPaxActivity lbpa
+     where lbpa.user.id = :userId
+    ]]>
+     </query>
+    
+     <query name="com.biperf.core.domain.leaderboard.getLeaderBoardPaxActivityByLeaderBoardId">
+    <![CDATA[
+    from com.biperf.core.domain.leaderboard.LeaderBoardPaxActivity lbpa
+     where lbpa.leaderBoard.id = :leaderBoardId
+    ]]>
+     </query>
+
+</hibernate-mapping>    

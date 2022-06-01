@@ -1,0 +1,152 @@
+<!-- isAdmin class is added if isAdmin is true -->
+<div id="globalSidebarView" class="">
+  <div class="upper-sidebar">
+    <div class="adminOverlay hide">
+        <div class="adminOverlayInner">
+        <a href=" " class="btn btn-primary btn-block">Log out</a>
+        <a href=" " class="btn  btn-block">Return to Admin</a>
+      </div>
+    </div>
+    <a href="#" class="open-sidebar toggle-sidebar">
+      <!-- <i class="icon-arrow-1-circle-left"></i> -->
+    </a>
+    <a href="#" class="close-sidebar toggle-sidebar">
+      <i class="icon-close"></i>
+    </a>
+  </div>
+<!-- /#loginPageFormRegistrationModal -->
+  <div class="lower-sidebar">
+    <!--Small Tabs-->
+    <ul class="nav nav-tabs sidebar-tabs">
+      <li class="sidebar-tab dashboard">
+        <a href="#sidebar-dashboard">
+          <i class="icon-bar-chart dash-icon"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="sidebar-tab settings">
+        <a href="#sidebar-settings">
+          <i class="icon-settings-1 settings-icon"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-main-content">
+      <!-- dashboard -->
+      <div class="sidebar-panel dashboard" id="sidebar-dashboard">
+      </div><!-- /.sidebar-panel.dashboard -->
+
+      <!-- settings -->
+      <div class="sidebar-panel settings" id="sidebar-settings">
+
+        <div class="sidebar-section sidebar-rules">
+          <h3 class="section-header">Program Rules</h3>
+
+          <ol class="unstyled sidebar-list">
+            <li class="item rules">
+              <div class="sidebar-subsection rules">
+                <h4 class="subsection-header">
+                  <a href="#drawer-rules" class="drawer-trigger rules collapsed">
+                    My Rules
+
+                    <span class="icon-container">
+                      <i class="icon-plus-circle expand"></i>
+                      <i class="icon-minus-circle collapse"></i>
+                    </span>
+                  </a>
+                </h4>
+
+                <div class="drawer rules collapsed" id="drawer-rules">
+                </div><!-- /.drawer.rules -->
+              </div>
+            </li>
+          </ol>
+        </div><!-- /.sidebar-subsection.rules -->
+
+        <div class="sidebar-section settings-info">
+          <h3 class="section-header">My Settings And Info</h3>
+
+          <ol class="unstyled sidebar-list">
+            <li class="item lists" data-route="profile/FollowList"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/FollowList">My Lists</a></li>
+            <li class="item groups" data-route="profile/Groups"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/Groups">My Groups</a></li>
+            <li class="item about" data-route="profile/PersonalInfo"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/PersonalInfo">About Me</a></li>
+            <li class="item messages" data-route="profile/AlertsAndMessages"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/AlertsAndMessages">Messages</a></li>
+            <li class="item acthist" data-route="profile/ActivityHistory"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/ActivityHistory">Activity History</a></li>
+            <li class="item statement" data-route="profile/Statement"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/Statement">Statement</a></li>
+            <li class="item security" data-route="profile/Security"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/Security">Security</a></li>
+            <li class="item prefs" data-route="profile/Preferences"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/Preferences">Preferences</a></li>
+
+            <li class="item delegates">
+              <div class="sidebar-subsection delegates">
+                <h4 class="subsection-header">
+                  <a href="#drawer-delegates" class="drawer-trigger delegates collapsed">
+                    Delegates
+
+                    <span class="icon-container">
+                      <i class="icon-plus-circle expand"></i>
+                      <i class="icon-minus-circle collapse"></i>
+                    </span>
+                  </a>
+                </h4>
+
+                <div class="drawer delegates collapsed" id="drawer-delegates">
+                  <ol class="unstyled sidebar-list">
+                    <li class="item delegatesAssign" data-route="profile/Proxies"><a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/Proxies">Assign Delegates</a></li>
+                    <li class="item delegatesAct"></li>
+                  </ol>
+                </div><!-- /.drawer.delegates -->
+              </div>
+            </li>
+          </ol><!--sidebar-list-->
+        </div><!-- /.sidebar-section.settings-info -->
+
+        <div class="sidebar-section site-info">
+          <h3 class="section-header">Site Info</h3>
+
+          <ol class="unstyled sidebar-list">
+            <li class="item admin"><a href="#">Admin Panel</a></li>
+            <li class="item faqs" data-route="faqs"><a href="layout.html?tplPath=base/tpl/&amp;tpl=faqPage.html#faqs">FAQs</a></li>
+            <li class="item privacy" data-route="privacy"><a href="layout.html?tplPath=base/tpl/&amp;tpl=privacyPolicyPage.html#privacy">Privacy Policy</a></li>
+            <li class="item terms" data-route="terms"><a href="layout.html?tplPath=base/tpl/&amp;tpl=termsPage.html#terms">Terms &amp; Conditions</a></li>
+            <li class="item contact" data-route="contact"><a href="layout.html?tplPath=apps/contactForm/tpl/&amp;tpl=ContactForm.html#contact">Contact Us</a></li>
+            <li class="item logout"><a href="layout.html?tplPath=base/tpl/&amp;tpl=loginPage.html">Logout</a></li>
+          </ol>
+        </div><!-- /.sidebar-section.site-info -->
+
+        <div class="sidebar-section footer">
+          <p class="copyright">
+            <span>Copyright &copy;2016 BI WORLDWIDE&trade;.</span>
+            <span>All rights reserved.</span>
+          </p>
+        </div><!-- /.sidebar-section.footer -->
+
+      </div><!-- /.sidebar-panel.settings -->
+    </div><!-- /.sidebar-main-content -->
+  </div><!-- /.lower-sidebar -->
+
+</div> <!-- /#globalSidebarView-->
+<!--subTpl.globalSidebarShowRulesTpl=
+  <ol class="unstyled sidebar-list">
+      {{#each this}}
+      <li class="item rules" data-route="rules/{{id}}"><a href="layout.html?tplPath=base/tpl/&amp;tpl=rulesPage.html#rules/{{id}}">{{name}}</a></li>
+      {{/each}}
+    </ol>
+  </div>
+subTpl-->
+
+<!--subTpl.globalSidebarShowDelegatesTpl=
+  <div class="sidebar-subsection delegatesAct">
+    <h5 class="subsection-header">Act as Delegate</h5>
+
+    <ol class="unstyled sidebar-list">
+      {{#each this}}
+        {{#unless  termsAccepted}}
+            <li class="item delegate "><span class="deltoolTip" data-toggle="tooltip"  data-original-title="{{../termsAcceptedMsg}}" data-placement="top">{{firstName}} {{lastName}}</span></li>
+        {{else}}
+            <li class="item delegate"><a href="{{delegatorUrl}}">{{firstName}} {{lastName}}</a></li>
+        {{/unless}}
+      {{/each}}
+    </ol>
+  </div>
+subTpl-->

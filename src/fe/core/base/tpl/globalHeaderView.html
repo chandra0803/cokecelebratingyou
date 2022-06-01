@@ -1,0 +1,25 @@
+<div id="globalHeaderView">
+    {{#if clientLogo}}<h1 class="logo"><a href="layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html"><img src="{{clientLogo}}" alt="{{clientName}} logo" /></a></h1>{{/if}}
+
+    {{#if loggedIn}}
+        {{#if programLogo}}
+            <p class="proglogo">
+                <img src="{{programLogo}}" alt="{{programName}} logo" />
+            </p>
+        {{/if}}
+        <div class="pointsContainer {{#if showPoints}}showPoints{{else}}hidePoints{{/if}}">
+            <span class="profile-points">
+                <span class="profile-points-label">
+                    Points:
+                </span>
+                <a href="layout.html?tplPath=apps/profile/tpl/&tpl=profilePage.html#profile/Statement" class="pointsLink">
+                    {{formatNumber data.points}}
+                </a>
+            </span>
+
+            <a href="#" class="shopLink" target="_blank"><i class="icon-cart-1"></i> Shop</a>
+
+            <a href="#" class="travelLink" target="_blank"><i class="icon-airplane-mode"></i> Travel</a>
+        </div>
+    {{/if}}
+</div><!-- /#globalHeaderView -->

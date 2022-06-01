@@ -1,0 +1,46 @@
+{
+  "description": "Search for pax groups",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+  },
+  "steps": [
+    {
+      "id": "searchGroups",
+      "description": "POST /groups/search",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/groups/search",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "type": "pax"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:searchGroups.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:searchGroups.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:searchGroups.res.body.data}",
+          "compare": "to.not.be.empty"
+        },
+        {
+          "a": "${ref:searchGroups.res.body.data}",
+          "compare": "to.containSubset",
+          "b": [ { "name": "Reagan Last Name", "type": "pax" } ]
+        }
+      ]
+    }
+  ]
+}

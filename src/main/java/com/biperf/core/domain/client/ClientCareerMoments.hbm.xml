@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+	<class name="com.biperf.core.domain.client.ClientCareerMoments" table="ADIH_CAREER_MOMENTS">
+	
+	<id name="id" type="java.lang.Long" column="ADIH_CAREER_MOMENTS_ID"></id>
+    
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <property name="userId" type="java.lang.Long" column="USER_ID" />
+    <property name="enrollmentDate" type="java.util.Date" column="ENROLLMENT_DATE" />
+    <property name="jobChangeDate" type="java.util.Date" column="JOB_CHANGE_DATE" />
+    <property name="termsAccepted" type="boolean" column="ACCEPTED_TERMS" />
+    <property name="dateTermsAccepted" type="java.util.Date" column="DATE_ACCEPTED_TERMS" />
+    <property name="inviteEmailSent" type="boolean" column="INVITE_EMAIL_SENT" />
+    <property name="jobChangeValue" type="java.lang.String" column="JOB_CHANGE_VALUE" />
+    <property name="moveType" type="java.lang.String" column="MOVE_TYPE" /> 
+    
+	</class>
+</hibernate-mapping>

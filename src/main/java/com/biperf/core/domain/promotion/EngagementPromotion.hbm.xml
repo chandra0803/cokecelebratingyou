@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<!-- Engagement Promotion attributes -->
+	<joined-subclass name="com.biperf.core.domain.promotion.EngagementPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_ENGAGEMENT">
+
+		<key column="PROMOTION_ID" not-null="true" />
+
+		<property name="scoreActive" type="boolean" column="IS_SCORE_ACTIVE" />
+		
+		<property name="displayTargetToPax" type="boolean" column="DISPLAY_TARGET" />
+
+		<property name="companyGoal" type="java.lang.Double" column="COMPANY_GOAL" />
+
+		<property name="scorePreference" type="java.lang.String" column="SCORE_PREFERENCE" />
+
+		<property name="selectedBenchmarks" type="java.lang.Long" column="SELECTED_BENCHMARKS" />
+		
+		<property name="prevProcessDate" type="java.util.Date" column="PREV_PROCESS_DATE" />
+		
+	    <set name="engagementPromotions" table="PROMO_ENGAGEMENT_PROMOTIONS" inverse="true" cascade="all-delete-orphan" lazy="false">
+   			<key column="PROMOTION_ID" />
+   			<one-to-many class="com.biperf.core.domain.promotion.EngagementPromotions" />
+   		</set>
+
+	    <set name="engagementPromotionRules" table="PROMO_ENGAGEMENT_RULES" inverse="true" cascade="all-delete-orphan" lazy="false">
+   			<key column="PROMOTION_ID" />
+   			<one-to-many class="com.biperf.core.domain.promotion.EngagementPromotionRules" />
+   		</set>
+
+	</joined-subclass>
+	
+	<query name="com.biperf.core.domain.promotion.LiveOrCompletedEngagementPromotion">
+		<![CDATA[
+			from com.biperf.core.domain.promotion.EngagementPromotion engagementPromotion
+		    where engagementPromotion.promotionStatus in ('live','completed') 
+		    and engagementPromotion.promotionType = 'engagement'
+		    and engagementPromotion.deleted = 0
+		]]>		
+	</query>	
+<sql-query name="com.biperf.core.domain.promotion.getLiveEngagementPromotionData">
+      <return-scalar column="promotion_id" type="long"/>
+      <return-scalar column="tile_display_start_date" type="date"/>
+		<![CDATA[
+			select promotion_id, 
+			       tile_display_start_date
+			from promotion 
+			where promotion_type = 'engagement' 
+			and promotion_status = 'live'
+		]]>		
+	</sql-query>
+
+</hibernate-mapping>

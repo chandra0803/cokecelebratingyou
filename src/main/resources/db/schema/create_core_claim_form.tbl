@@ -1,0 +1,32 @@
+CREATE TABLE claim_form
+   (claim_form_id  NUMBER(18) NOT NULL,
+    CM_ASSET_CODE       VARCHAR2(80) NOT NULL,
+    form_name      VARCHAR2(200) NOT NULL,
+    description    VARCHAR2(400),
+    module_code    VARCHAR2(30),
+    status_code    VARCHAR2(30),    
+    created_by number(18) NOT NULL,
+    date_created   DATE NOT NULL,
+    modified_by number(18),
+    date_modified  DATE,
+    version        NUMBER(18) NOT NULL)
+/
+ALTER TABLE claim_form
+ADD CONSTRAINT claim_form_id_pk PRIMARY KEY (claim_form_id)
+USING INDEX
+/
+ALTER TABLE claim_form
+ADD CONSTRAINT claimform_cmasset_uk unique (CM_ASSET_CODE)
+USING INDEX
+/
+COMMENT ON TABLE claim_form IS 'The CLAIM_FORM table defines a specific claim form.'
+/
+COMMENT ON COLUMN claim_form.claim_form_id IS 'System-generated key that identifies a specific claim.'
+/
+COMMENT ON COLUMN claim_form.CM_ASSET_CODE IS 'The asset name that the claim form will be using to reference content manager.'
+/
+CREATE SEQUENCE claim_form_pk_sq INCREMENT BY 1   START WITH 5000
+/
+CREATE UNIQUE INDEX claim_formname_udk ON claim_form
+(upper( form_name)       ASC  )
+/

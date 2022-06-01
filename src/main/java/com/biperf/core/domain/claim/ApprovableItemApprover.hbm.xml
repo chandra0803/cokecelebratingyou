@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.claim.ApprovableItemApprover" table="CLAIM_ITEM_APPROVER">
+
+    <id name="id" type="java.lang.Long" column="CLAIM_ITEM_APPROVER_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CLAIM_ITEM_APPROVER_PK_SQ</param>
+      </generator>
+    </id>
+
+    <discriminator type="java.lang.String" column="ITEM_APPROVER_DISCRIM"/>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <many-to-one name="approverUser" column="APPROVER_USER_ID" class="com.biperf.core.domain.user.User" not-null="false" lazy="false"/>
+    
+    <property name="approvalStatusType" column="APPROVAL_STATUS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ApprovalStatusType</param>
+      </type>
+    </property>
+
+    <property name="promotionApprovalOptionReasonType" column="APPROVAL_OPTION_REASON_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.PromotionApprovalOptionReasonType</param>
+      </type>
+    </property>
+    <property name="dateApproved" column="DATE_APPROVED" type="timestamp" not-null="true"/>
+
+    <property name="approvalRound" column="APPROVAL_ROUND" type="java.lang.Long" not-null="true"/>
+	<property name="notificationDate" type="java.util.Date" column="NOTIFICATION_DATE"/>
+	<property name="timePeriodId" column="TIME_PERIOD_ID" type="java.lang.Long"/>
+	<property name="approverComments" column="APPROVER_COMMENTS" type="java.lang.String"/>
+  </class>
+  
+</hibernate-mapping>

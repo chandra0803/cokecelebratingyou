@@ -1,0 +1,135 @@
+{
+	"nominationWinnersDetail":[
+		 {
+            "contextPath": "http://localhost:8888/g5noms/fe/core/base/",
+			"isMine": true,
+            "isWinner": true,
+			"winnerName": "Firstname Lastname",
+			"isTeam": true,
+			"teamId": 23,
+			"awardName": "2015 Fall Nominations",
+			"awardedDate": "02/15/2016",
+			"award": "500",
+			"currencyLabel": "",
+			"allowTranslate": true,
+			"teamList": [
+				{
+					"id": "223",
+					"name": "Name 1"
+				},
+				{
+					"id": "224",
+					"name": "Name 2"
+				},
+				{
+					"id": "225",
+					"name": "lastName, firstName"
+				}
+            ],
+			"nominatorInfo" : [
+				{
+					"id":45,
+		            "claimId" : 12345,
+					"firstName":"Ron",
+					"lastName":"Smith",
+					"avatarUrl":null,
+					"title":"Director",
+					"countryCode":"us",
+					"countryName":"United States",
+					"orgName": "12345 - Org",
+                    "departmentName": "Development",
+                    "ecardImg": "img/cards/congrats1_lg.jpg",
+					"videoImg": "img/nomination/video_poster.jpg",
+					"videoUrl": "//www.youtube.com/embed/q1dpQKntj_w?wmode=transparent",
+					"commentText":  "Thanks for the extra work. Culpa brooklyn cardigan, delectus quis eu nulla. Viral bespoke semiotics single-origin coffee nesciunt echo park.",
+					"badges":[
+							{
+								"id":               "23",
+								"behavior":         "Earned Badge",
+								"badgeUrl":         "img/badges/above_beyond_sm.png"
+							},
+							{
+								"id":               "24",
+								"behavior":         "Earned Badge",
+								"badgeUrl":         "img/badges/birthday_sm.png"
+							},
+							{
+								"id":              "25",
+								"behavior":        "Earned Badge",
+								"badgeUrl":        "img/badges/bronze_sm.png"
+							}
+					],
+					"dateSubmitted": "12/01/15",
+					"eCertUrl": "www.google.com",
+                    "fields": [
+                        {
+                            "sequenceNumber": 1,
+                            "type": "date",
+                            "fieldId": 123,
+                            "label": "CustomField1",
+                            "value": "03/10/16"
+                        },
+                        {
+                            "sequenceNumber": 1,
+                            "type": "text",
+                            "fieldId": 124,
+                            "label": "CustomField2",
+                            "value": "some text 123"
+                        }
+                    ]
+				},
+				{
+					"id":45,
+					"claimId" : 12346,
+					"firstName":"Don",
+					"lastName":"Smith",
+					"avatarUrl":"img/_samples/x-profile-pic2.jpg",
+					"title":"Director",
+					"countryCode":"us",
+					"countryName":"United States",
+					"orgName": "12345 - Org",
+                    "departmentName": "Development",
+                    "ecardImg": "img/cards/congrats1_lg.jpg",
+					"videoImg": "img/nomination/video_poster.jpg",
+					"videoUrl": "//www.youtube.com/embed/q1dpQKntj_w?wmode=transparent",
+					"commentText":  "<p>Thanks for the extra work. Culpa brooklyn cardigan, delectus quis eu nulla. Viral bespoke semiotics single-origin coffee nesciunt echo park.</p>",
+					"badges":[
+							{
+								"id":               "23",
+								"behavior":         "Earned Badge",
+								"badgeUrl":         "img/badges/above_beyond_sm.png"
+							},
+							{
+								"id":               "24",
+								"behavior":         "Earned Badge",
+								"badgeUrl":         "img/badges/birthday_sm.png"
+							},
+							{
+								"id":              "25",
+								"behavior":        "Earned Badge",
+								"badgeUrl":        "img/badges/bronze_sm.png"
+							}
+					],
+					"dateSubmitted": "12/15/15",
+					"eCertUrl": "www.google.com",
+                    "fields": [
+                        {
+                            "sequenceNumber": 1,
+                            "type": "date",
+                            "fieldId": 125,
+                            "label": "CustomField1",
+                            "value": "03/15/16"
+                        },
+                        {
+                            "sequenceNumber": 1,
+                            "type": "text",
+                            "fieldId": 126,
+                            "label": "CustomField2",
+                            "value": "some text 1234567"
+                        }
+                    ]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+  <joined-subclass name="com.biperf.core.domain.claim.ClaimRecipient" extends="com.biperf.core.domain.claim.ClaimItem" table="CLAIM_RECIPIENT">
+
+    <key column="CLAIM_ITEM_ID" not-null="true" />
+
+    <property name="awardQuantity" type="java.lang.Long" column="AWARD_QTY"/>
+    <property name="cashAwardQuantity" type="java.math.BigDecimal" column="CASH_AWARD_QTY"/>
+    <property name="productId" type="java.lang.String" column="PRODUCT_ID"/>
+    <property name="calculatorScore" type="java.lang.Long" column="CALCULATOR_SCORE"/>
+    <property name="notificationDate" type="java.util.Date" column="NOTIFICATION_DATE"/>
+    <property name="modalWindowViewed" type="boolean" column="WINNER_MODAL_VIEWED"/>
+      <!-- Client customizations for WIP #42701 starts -->
+    <property name="customCashAwardQuantity" type="java.lang.Long" column="ADIH_CASH_AWARD_QTY"/>
+    <property name="cashCurrencyCode" type="java.lang.String" column="ADIH_CASH_CURRENCY"/>
+    <property name="cashPaxDivisionNumber" type="java.lang.String" column="ADIH_CASH_DIVISION_NUM"/>
+    <property name="cashPaxClaimed" type="boolean" column="ADIH_CASH_PAX_CLAIM"/>
+    <!-- Client customizations for WIP #42701 ends -->
+    
+    <many-to-one name="recipient" column="PARTICIPANT_ID" class="com.biperf.core.domain.participant.Participant" lazy="false"/>
+    <many-to-one name="node" column="NODE_ID" class="com.biperf.core.domain.hierarchy.Node" lazy="false"/>
+    <many-to-one name="promoMerchProgramLevel" column="PROMO_MERCH_PROGRAM_LEVEL_ID" lazy="false" class="com.biperf.core.domain.promotion.PromoMerchProgramLevel"/>
+    <many-to-one name="promoMerchCountry" column="PROMO_MERCH_COUNTRY_ID" lazy="false" class="com.biperf.core.domain.promotion.PromoMerchCountry"/>
+
+  </joined-subclass>
+  
+   <sql-query name="com.biperf.core.domain.claim.getPublicRecognitionClaimsReceivedbyUserId">
+    <return-scalar column="count" type="integer"/>
+		<![CDATA[
+            select count(clitem.CLAIM_ID) as count  from claim  cl,claim_item   clitem , promotion p,claim_recipient clr
+			where (cl.PROMOTION_ID IN (:promoId) OR 'N' = :all)  and   clr.participant_id=:paxId
+			and  cl.SUBMISSION_DATE  between  :startDate and  :endDate
+			and  clitem.claim_id = cl.Claim_id 
+			and  clitem.claim_item_id = clr.claim_item_id
+			and  cl.promotion_id = p.promotion_id
+			and  p.promotion_type = :promoType
+			and clitem.approval_status_type = :approStatusType ]]>
+</sql-query>  
+
+  <query name="com.biperf.core.domain.claim.ClaimRecipient.findMostRecentForUser"> 
+    <![CDATA[
+      from com.biperf.core.domain.claim.ClaimRecipient cr
+      where
+      cr.claim.submitter.id = :submitterId
+      and cr.claim.promotion.promotionType = 'recognition'
+      and cr.dateApproved is not null
+      order by cr.claim.submissionDate desc
+    ]]>
+  </query>
+  
+</hibernate-mapping>

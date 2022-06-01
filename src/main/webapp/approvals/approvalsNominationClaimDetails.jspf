@@ -1,0 +1,88 @@
+<%--UI REFACTORED--%>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<%@ include file="/include/taglib.jspf"%>
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">    
+  <tr class="form-row-spacer">
+    <td class="content-field-label top-align" width="20" nowrap="nowrap">
+      <cms:contentText code="nomination.approval.details" key="NOMINEE"/>
+    </td>
+    <td class="content-field-review" nowrap="nowrap" width="99%">
+      <c:if test="${!approvable.promotion.team}">
+        <c:forEach items="${claim.claimRecipients}" var="claimRecipient">
+          <c:set var="nominee" value="${ claimRecipient.recipient}"/>
+          <c:out value="${nominee.nameLFMWithComma}-${nominee.positionType}-${nominee.departmentType}"/>
+          &nbsp;&nbsp;&nbsp;
+          (<c:out value="${claimRecipient.node.name}"/>)
+        </c:forEach>            
+      </c:if>
+      <c:if test="${approvable.promotion.team}">
+        <c:forEach items="${claim.teamMembers}" var="teamMember" varStatus="teamMemberStatus">
+          <c:set var="nominee" value="${ teamMember.participant}"/>
+          <c:if test="${!teamMemberStatus.first}">
+            <br/>
+          </c:if>
+          <c:out value="${nominee.nameLFMWithComma}-${nominee.positionType}-${nominee.departmentType}"/>
+          &nbsp;&nbsp;&nbsp;
+          (<c:out value="${teamMember.node.name}"/>)
+        </c:forEach>            
+      </c:if>
+    </td>
+  </tr>
+  <c:if test="${approvable.promotion.team}">
+    <tr class="form-row-spacer">
+      <td class="content-field-label nowrap">
+        <cms:contentText code="nomination.approval.list" key="TEAM_NAME"/>
+      </td>
+      <td class="content-field-review" nowrap="nowrap">
+        <c:out value="${claim.teamName }"/>
+      </td>
+    </tr>
+  </c:if>
+  <tr class="form-row-spacer">
+    <td class="content-field-label nowrap" width="20">
+      <cms:contentText code="nomination.approval.details" key="NOMINATOR"/>
+    </td>
+    <td class="content-field-review nowrap">
+      <c:out value="${claim.submitter.nameLFMWithComma}-${claim.submitter.positionType}-${claim.submitter.departmentType}"/>
+      &nbsp;&nbsp;&nbsp;
+      (<c:out value="${claim.node.name }"/>)
+    </td>
+  </tr>
+  <tr class="form-row-spacer">
+    
+    <td class="content-field-label nowrap">
+      <cms:contentText code="nomination.approval.details" key="COMMENTS"/>
+    </td>
+    
+    <td class="content-field-review">
+     <p align="justify">
+      <c:out value="${claim.submitterComments }" escapeXml="false" />
+    </td>
+  </tr>
+  <tr class="form-row-spacer">
+    
+    <c:if test="${! empty claim.behavior.name}">
+    <td class="content-field-label" nowrap="nowrap">
+      <cms:contentText code="nomination.approval.details" key="BEHAVIOR"/>
+    </td>
+    </c:if>
+    
+    <c:if test="${! empty claim.behavior.name}">
+    <td class="content-field-review">
+      <c:out value="${claim.behavior.name }" />
+    </td>
+    </c:if>
+  </tr>
+  <%@ include file="/claim/claimDetailsClaimElements.jspf"%>
+  <tr class="form-row-spacer">                
+    <td class="content-field-label" nowrap="nowrap">
+      <cms:contentText code="nomination.approval.details" key="DATE_SUBMITTED"/>
+    </td>
+    
+    <td class="content-field-review">
+      <fmt:formatDate pattern="${JstlDatePattern}" value="${claim.submissionDate}"/>
+    </td>
+  </tr>
+</table>

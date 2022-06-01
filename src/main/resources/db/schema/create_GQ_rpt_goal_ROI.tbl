@@ -1,0 +1,47 @@
+CREATE SEQUENCE RPT_GOAL_ROI_SQ
+  START WITH 1
+  CACHE 20
+/
+
+CREATE TABLE RPT_GOAL_ROI
+   (rpt_goal_roi_id				   NUMBER(18,0) NOT NULL,
+    promotion_id                   NUMBER(18,0) NOT NULL,
+    count_type             		   VARCHAR2(40) NOT NULL,
+    nbr_of_pax					   NUMBER(18,0),
+	pct_of_pax					   NUMBER(16,4),
+    tot_base_obj                   NUMBER(18,2),
+    tot_curr_value				   NUMBER(18,2),
+    pct_increase				   NUMBER(16,4),
+    unit_increase				   NUMBER(18,2),
+    created_by                     NUMBER(18,0) NOT NULL,
+    date_created                   DATE NOT NULL,
+    modified_by                    NUMBER(18,0),
+    date_modified                  DATE,
+    version                        NUMBER(18,0))
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.rpt_goal_roi_id IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.promotion_id IS 'from promotion'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.count_type IS 'from picklist constitutes a goal category by which the return of investment count is based on.'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.nbr_of_pax IS 'total number of participants for each goal category.'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.pct_of_pax IS 'total number of participants for that goal category / total number of participants in promotion audience.'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.tot_base_obj IS 'total amount of base objective for all participants in that category.'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.tot_curr_value IS 'total progress for all participants in that category. Aka Total Progress or Total Actual Production.'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.pct_increase IS '(Total Progress - Total Base) / Total Progress.'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.unit_increase IS 'Total Progress - Total Base.'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.created_by IS 'audit field'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.date_created IS 'audit field'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.modified_by IS 'audit field'
+/
+COMMENT ON COLUMN RPT_GOAL_ROI.date_modified IS 'audit field'
+/

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.country.Country" table="COUNTRY">
+	<cache usage="nonstrict-read-write"/>
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="COUNTRY_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">COUNTRY_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <property name="countryCode" type="java.lang.String" column="COUNTRY_CODE"/>
+    <property name="phoneCountryCode" type="java.lang.String" column="PHONE_COUNTRY_CODE"/>
+    <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE" />
+    <property name="nameCmKey" type="java.lang.String" column="NAME_CM_KEY" />
+    <property name="awardbanqAbbrev" type="java.lang.String" column="AWARDBANQ_COUNTRY_ABBREV" />
+    <property name="addressMethod" column="ADDRESS_METHOD">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.AddressMethodType</param>
+      </type>
+    </property>
+    <property name="campaignNbr" type="java.lang.String" column="CAMPAIGN_NBR" />
+    <property name="campaignCode" type="java.lang.String" column="CAMPAIGN_CODE" />
+    <property name="campaignPassword" type="java.lang.String" column="CAMPAIGN_PASSWORD" />
+    <property name="programId" type="java.lang.String" column="PROGRAM_ID" />
+    <property name="programPassword" type="java.lang.String" column="PROGRAM_PASSWORD" />
+    <property name="status" column="STATUS">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.CountryStatusType</param>
+      </type>
+    </property>
+    <property name="dateStatus" type="java.util.Date" column="DATE_STATUS" />
+    <property name="shoppingBannerUrl" type="java.lang.String" column="SHOPPING_BANNER_URL" />
+    <property name="allowSms" type="boolean" column="ALLOW_SMS" />
+    <property name="smsCapable" type="java.lang.Boolean" column="IS_SMS_CAPABLE" />
+    <property name="displayTravelAward" type="java.lang.Boolean" column="DISPLAY_TRAVEL_AWARD" />    
+    <property name="requirePostalCode" type="java.lang.Boolean" column="require_postalcode" />
+	<property name="supportEmailAddr" type="java.lang.String" column="SUPPORT_EMAIL_ADDR" />
+	<property name="budgetMediaValue" type="java.math.BigDecimal" column="BUDGET_MEDIA_VALUE" />
+    <property name="timeZoneId" column="TIMEZONE_ID" not-null="true">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.TimeZoneId</param>
+      </type>
+    </property>  
+    <property name="currencyCode" type="java.lang.String" column="CURRENCY_CODE" />
+    <property name="displayExperiences" type="java.lang.Boolean" column="DISPLAY_EXPERIENCES" />     
+	
+    <set name="countrySuppliers" table="COUNTRY_SUPPLIERS" cascade="all-delete-orphan" lazy="false">
+      <key column="COUNTRY_ID"/>
+      <composite-element class="com.biperf.core.domain.country.CountrySupplier">
+        <parent name="country"/>
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+        <property name="primary" type="java.lang.Boolean" column="IS_PRIMARY" />
+        <many-to-one name="supplier" column="SUPPLIER_ID" class="com.biperf.core.domain.supplier.Supplier" not-null="false" lazy="false"/>
+      </composite-element>
+    </set>
+
+  </class>
+
+  <query name="com.biperf.core.domain.country.CountryByCode">
+    <![CDATA[
+		from item in class com.biperf.core.domain.country.Country 
+		where upper(item.countryCode) = upper(:countryCode)
+		]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.country.CountryByAwardbanqAbbrev">
+    <![CDATA[
+		from item in class com.biperf.core.domain.country.Country 
+		where upper(item.awardbanqAbbrev) = upper(:awardbanqAbbrev)
+		]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.country.AllCountryList">
+    <![CDATA[
+		from com.biperf.core.domain.country.Country
+		]]>
+  </query>
+	
+  
+  <query name="com.biperf.core.domain.country.AllActiveCountryList">
+    <![CDATA[
+		from item in class com.biperf.core.domain.country.Country
+		where item.status = 'active'
+		]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.country.getActiveCountriesForAllowSmsChecked">
+    <![CDATA[
+		from item in class com.biperf.core.domain.country.Country
+		where item.status = 'active' and item.allowSms = 1
+		]]>
+  </query>
+
+  <sql-query name="com.biperf.core.domain.country.AllActiveCountriesForAllActivePax">
+    <return alias="country" class="com.biperf.core.domain.country.Country"/>
+    <![CDATA[
+        SELECT distinct {country.*}
+         FROM Country country,
+              Application_user a,
+              User_Address b
+         where country.country_id = b.country_id
+         and a.user_id = b.user_id
+         and country.status = 'active'
+         and a.is_active = 1
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.country.getActiveCountriesForPaxBasedAudience">
+    <return alias="country" class="com.biperf.core.domain.country.Country"/>
+    <![CDATA[
+        SELECT distinct {country.*}
+         FROM Country country,
+              Application_user a,
+              User_Address b,
+              Participant_Audience d
+         where country.country_id = b.country_id
+         and a.user_id = b.user_id
+         and d.user_id = a.user_id
+         and country.status = 'active'
+         and a.is_active = 1
+         and d.audience_id = :audienceId
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.country.getPrimaryAddressCountrForUser">
+    <return alias="country" class="com.biperf.core.domain.country.Country"/>
+    <![CDATA[
+        SELECT {country.*}
+         FROM Country country,
+              User_Address a
+         where country.country_id = a.country_id
+         and a.user_id = :userId
+         and a.is_primary = 1
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.country.processParameterValueChoices.allLiveCountries">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+    <![CDATA[
+        select country_id as id, fnc_cms_asset_code_val_extr(cm_asset_code, name_cm_key, :param) as value
+        	from Country
+        	where status = 'active'
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.country.allActiveCountriesCodesAbbrevs">
+	  <return-scalar column="code" type="string"/>
+	  <return-scalar column="name" type="string"/>
+	  <return-scalar column="abbrev" type="string"/>
+    <![CDATA[
+        select country_id as code, cm_asset_code as name, awardbanq_country_abbrev as abbrev
+        	from Country
+        	where status = 'active'
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

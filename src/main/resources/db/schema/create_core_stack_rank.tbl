@@ -1,0 +1,52 @@
+CREATE SEQUENCE stack_rank_pk_sq INCREMENT BY 1 START WITH 600
+/
+CREATE TABLE stack_rank
+  (
+    stack_rank_id       NUMBER(18) NOT NULL,
+    promotion_id        NUMBER(18) NOT NULL,
+    guid                VARCHAR2(80) NOT NULL,
+    state               VARCHAR2(80) NOT NULL,
+    start_date          DATE NOT NULL,
+    end_date            DATE NOT NULL,
+    calculate_payout    NUMBER(1) NOT NULL,
+    created_by          NUMBER(18) NOT NULL,
+    date_created        DATE NOT NULL,
+    modified_by         NUMBER(18),
+    date_modified       DATE,
+    version             NUMBER(18) NOT NULL
+  )
+/
+ALTER TABLE stack_rank
+  ADD CONSTRAINT stack_rank_pk PRIMARY KEY (stack_rank_id)
+  USING INDEX
+/
+ALTER TABLE stack_rank
+  ADD CONSTRAINT stack_rank_fk FOREIGN KEY (promotion_id)
+  REFERENCES promotion (promotion_id)
+/
+COMMENT ON TABLE stack_rank IS 'Ranks participants by stack rank factor.'
+/
+COMMENT ON COLUMN stack_rank.stack_rank_id IS 'Uniquely identifies this stack ranking.'
+/
+COMMENT ON COLUMN stack_rank.promotion_id IS 'The promotion whose sales activity is used to create this stack ranking.'
+/
+COMMENT ON COLUMN stack_rank.guid IS 'Uniquely identifies this stack ranking.  Acts as a surrogate business key.'
+/
+COMMENT ON COLUMN stack_rank.state IS 'Identifies the current state of this stack ranking.'
+/
+COMMENT ON COLUMN stack_rank.start_date IS 'The date of the first day of the stack rank period.'
+/
+COMMENT ON COLUMN stack_rank.end_date IS 'The date of the last day of the stack rank period.'
+/
+COMMENT ON COLUMN stack_rank.calculate_payout IS 'If true, calculate payout after calculating stack rank; if false, do not calculate payout.'
+/
+COMMENT ON COLUMN stack_rank.created_by IS 'The ID of the user who created this record.'
+/
+COMMENT ON COLUMN stack_rank.date_created IS 'The date and time at which this record was created.'
+/
+COMMENT ON COLUMN stack_rank.modified_by IS 'The ID of the user who last modified this record.'
+/
+COMMENT ON COLUMN stack_rank.date_modified IS 'The date and time at which this record was last modified.'
+/
+COMMENT ON COLUMN stack_rank.version IS 'The version of this record.'
+/

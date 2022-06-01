@@ -1,0 +1,275 @@
+<div class="extractHere">
+{{#each tabularData.results}}
+<div style="
+    position: relative;
+    display:  block;
+    width: 100%;">
+<style>
+.dl-horizontal {
+    position
+}
+.dl-horizontal dt {
+    float: left;
+    width: 170px;
+    clear: left;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+dt {
+    font-weight: bold;
+}
+dt, dd {
+    line-height: 20px;
+}
+.dl-horizontal dd {
+    margin-left: 190px;
+}
+.dl-horizontal {
+    position: relative;
+
+    margin-left: 40px;
+    margin-right: 40px;
+}
+.carousel-inner-cumulative.dt, .carousel-inner-cumulative.dd {
+    font-weight: normal;
+
+}
+.eCardVideoWrap img{
+    max-width: 200px;
+    height: auto;
+}
+.cumulative-data {
+    margin-left: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+</style>
+<dl class="item dl-horizontal" style=>
+<dt>Promotion:</dt>
+<dd>{{../promotion.name}}</dd>
+    <hr/>
+        {{#unless isTeam}}
+                <dt>Nominee: </dt>
+                <dd>{{nominee}}</dd>
+                <dd><img src="{{contextPath}}img/flags/{{countryCode}}.png" />
+                    {{#if orgName}}{{orgName}}{{/if}}
+                    {{#if departmentName}} - {{departmentName}}{{/if}}
+                    {{#if jobName}} - {{jobName}}{{/if}}</dd>
+
+
+
+            {{else}}
+                <dt>Team Name:</dt>
+                <dd>{{nominee}}</dd>
+                <dd>{{teamMemberCount}} Members</dd>
+                <dt>Team Members:</dt>
+                {{#each teamMembers}}
+                <dd>{{name}}</dd>
+                {{/each}}
+            {{/unless}}
+
+
+
+
+            {{#unless ../tabularData.isCumulativeNomination}}
+            <dt>Date Submitted:</dt>
+            <dd>{{dateSubmitted}}</dd>
+
+
+            <dt>Nominator:</dt> <dd>{{nominator}}</dd>
+            {{/unless}}
+
+
+
+
+
+                <dt> Status:</dt>
+                <dd>
+                    {{#or ../promotion.finalLevelApprover ../promotion.payoutAtEachLevel}}
+                    {{#eq status "winner"}}Winner{{/eq}}
+                    {{else}}
+                    {{#eq status "approv"}}Approved{{/eq}}
+                    {{/or}}
+                    {{#eq status "non_winner"}}Non Winner{{/eq}}
+                    {{#eq status "more_info"}}More Info{{/eq}}
+                    {{#eq status "pend"}}Pending{{/eq}}
+                    {{#if ../promotion.isAdmin}}
+                    {{#eq status "expired"}}Expired{{/eq}}
+                    {{/if}}
+                </dd>
+
+                <dt>Award:</dt>
+            {{#if isTeam}}
+                {{#eq ../tabularData.awardType "range"}}
+                {{else}}
+
+                <dd class="awardAmount">{{award}}</dd>
+                {{/eq}}
+
+                {{#ueq ../tabularData.awardType "fixed"}}
+                    <dd class="awardAmount">{{award}}</dd>
+                {{/ueq}}
+            {{else}}
+
+                {{#eq ../tabularData.awardType "calculated"}}
+                    {{#if award}}
+                        <dd>{{award}}</dt>
+                    {{else}}
+                    {{/if}}
+
+                {{/eq}}
+
+                {{#eq ../tabularData.awardType "range"}}
+                    <dd class="awardAmount">{{award}}</dd>
+                {{/eq}}
+
+                {{#eq ../tabularData.awardType "fixed"}}
+                <dd class="awardAmount">{{award}}</dd>
+                {{/eq}}
+
+            {{/if}}
+
+
+
+
+        {{#and ../promotion.finalLevelApprover ../promotion.timePeriodEnabled}}
+
+            <dt>Time Periods:</dt>
+                {{#each timePeriods}}
+                <dd>
+                    {{name}}
+                </dd>
+                {{/each}}
+
+
+        {{/and}}
+
+
+
+
+                    {{#if ../tabularData.isCumulativeNomination}}
+                    <div class="cycle carousel-inner-cumulative">
+                        <h4>Nomination Details:</h4>
+                        <hr>
+                        {{#each cumulativeInfo}}
+                        <div class="cumulative-data">
+                        <dt>Dates Submitted:</dt>
+                        <dd>{{dateSubmitted}}</dd>
+
+                        <dt>Nominator:</dt>
+                        <dd>{{nominator}}</dd>
+
+
+                                {{#if reason}}
+                                    <dt>Reason:</dt>
+                                    <dd>{{{reason}}}</dd>
+                                {{/if}}
+                                
+								{{#if moreInfo}}
+                                    <dt>More Info:</dt>
+                                    <dd>{{{moreInfo}}}</dd>
+                                {{/if}}                                
+
+                                {{#if customFields}}
+                                    {{#each customFields}}
+                                    <dt>{{name}}:</dt>
+                                    <dd>{{{description}}}</dd>
+                                    {{/each}}
+                                {{/if}}
+
+                                {{#if attachmentUrl}}
+                                    <dt>Attachment:</dt>
+                                    <dd>View attachment on the Approval Page</dd>
+                                    {{/if}}
+
+                                {{#if eCertUrl}}
+                                    <dt>eCert:</dt>
+                                    <dd>View eCertificate on the Approval Page</dd>
+                                {{/if}}
+                            </div>
+                        {{/each}}
+                    </div>
+                    {{else}}
+                    <div class="cycle carousel-inner">
+                        <h4>Nomination Details:</h4>
+                        <hr>
+                        <dl class="item dl-horizontal">
+                            {{#if reason}}
+                                <dt>Reason:</dt>
+                                <dd>{{{reason}}}</dd>
+                            {{/if}}
+                            
+							{{#if moreInfo}}
+                                <dt>More Info:</dt>
+                                <dd>{{{moreInfo}}}</dd>
+                            {{/if}}                            
+
+                            {{#if customFields}}
+                                {{#each customFields}}
+                                <dt>{{name}}:</dt>
+                                <dd>{{{description}}}</dd>
+                                {{/each}}
+                            {{/if}}
+
+                            {{#if attachmentUrl}}
+                                <dt>Attachment:</dt>
+                                <dd>View attachment on the Approval Page</dd>
+                                {{/if}}
+
+                            {{#if eCertUrl}}
+                                <dt>eCert:</dt>
+                                <dd>View eCertificate on the Approval Page</dd>
+                            {{/if}}
+                        </dl>
+                    </div>
+                    {{/if}}
+
+
+            {{#unless ../tabularData.isCumulativeNomination}}
+            <div class="dl-horizontal">
+                {{#if behaviors}}
+                    <dt class="behaviorLabel">Behaviors:</dt>
+
+
+                    {{#each behaviors}}
+                            {{#if img}}
+                            <dd>
+                            <img src="{{img}}" alt="" />
+                            <div>{{name}}</div>
+                            </dd>
+                            {{else}}
+                            <dd class="noImg">{{name}}</dt>
+                            {{/if}}
+
+                    {{/each}}
+
+                {{/if}}
+            </div>
+            <br>
+            <div class="eCardVideoWrap dl-horizontal">
+                {{#if eCardImg}}
+                <dt>eCard:</dt>
+
+                <dd><img src="{{eCardImg}}" alt="" /></dd>
+                {{/if}}
+
+                {{#if videoUrl}}
+                <dt>Video:</dt>
+                <dd>
+                    <a href="{{videoUrl}}" target="_blank">
+                        <img src="{{videoImg}}" alt="" />
+                    </a>
+                </dd>
+                {{/if}}
+            </div>
+            {{/unless}}
+
+<br/>
+</dl>
+</div>
+
+        <div style="page-break-after: always;"></div>
+
+{{/each}}
+</div>

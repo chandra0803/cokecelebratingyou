@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.hierarchy.NodeCharacteristic" table="NODE_CHARACTERISTIC">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="NODE_CHARACTERISTIC_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">NODE_CHARACTERISTIC_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		
+		<!--  the actual value of each characteristic -->
+		<property name="characteristicValue" type="java.lang.String" column="CHARACTERISTIC_VALUE" />
+	    
+	    <many-to-one name="node" column="NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="true" update="false" lazy="false"/>
+	    <many-to-one name="nodeTypeCharacteristicType" column="CHARACTERISTIC_ID" class="com.biperf.core.domain.characteristic.NodeTypeCharacteristicType" not-null="true" update="false" lazy="false"/>
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="rosterNodeCharId" type="uuid-char" column="ROSTER_NODE_CHAR_ID"/>
+	</class>	
+	
+</hibernate-mapping>

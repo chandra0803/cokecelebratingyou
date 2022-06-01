@@ -1,0 +1,49 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $purlContribute_detailsH2Color: ;
+// $purlContribute_detailsTextColor: ;
+// $purlContribute_detailsLinkColor: ;
+// $purlContribute_detailsLinkHoverColor: ;
+// $purlContribute_detailsLinkIconColor: ;
+// $purlContribute_detailsLinkIconHoverColor: ;
+// $purlContribute_detailsMutedTextColor: ;
+
+// these styles should sync up with the "purl item" styles in _publicRecognition.scss (unless otherwise noted by Creative)
+$purlContribute_detailsBgColor:  #414042;// this overlays the video
+// $purlContribute_bgAlpha: ;// sets opacity over video
+
+// $purlContribute_detailsBgImg: // this overlays the video - set to null to just have color bg
+// $purlContribute_detailsBgImgPath: ;
+// $purlContribute_detailsBgImgPosition: ;
+// $purlContribute_detailsBorderTopBottomWidth: ;
+// $purlContribute_detailsBorderTopBottomColor: ;
+// $purlContribute_detailsBoxShadow: ;
+
+// $purlContribute_VidPosterUrl: ';
+// $purlContribute_VideoUrl: ; // THIS SHOULD BE WRITTEN AS PATH and FILE NAME no extension myvideo with myvideo.ogg myvideo.webm and myvideo.mp4 existing on server
+
+
+// $purlContribute_avatarSize: ;
+
+// $purlContribute_contributeBgColor: ; // gets .page-topper background by default
+// $purlContribute_contributeCommentBgColor: ;
+// $purlContribute_contributeNameBorderColor: ;
+
+// $purlContribute_commentBgColorOdd: ;
+// $purlContribute_commentBgColorEven: ;
+
+// $purlContribute_commentBorderColorOdd: ;
+// $purlContribute_commentBorderColorEven: ;
+
+// $purlContribute_purlBalloonSize : ;
+// $purlContribute_purlBalloonSize_Contribute: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "purlContribute/scss/purlContribute";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

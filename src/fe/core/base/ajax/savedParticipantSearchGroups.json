@@ -1,0 +1,22 @@
+{
+    "groups": [
+        {
+            "id": 1234,
+            "name": "Group 1234",
+            "paxCount": 4,
+            "selected": false
+        },
+        {
+            "id": 12345,
+            "name": "Super Awesome Group",
+            "paxCount": 6,
+            "selected": false
+        },
+        {
+            "id": 123456,
+            "name": "Way *cooler* group name!#$@#",
+            "paxCount": 12,
+            "selected": false
+        }
+    ]
+}

@@ -1,0 +1,426 @@
+// Defining these things here (rather than the usual place) since dependencies.gradle
+// is loaded before the other scripts.
+ext { 
+  tomcatHome = { System.getenv('TOMCAT_HOME') ?: TOMCAT_HOME }
+  tomcatLibDir = project.tomcatHome() + "/lib" 
+}
+
+configurations {
+  antConfiguration
+  sqlConfiguration
+  cmWarLibConfiguration
+  cmDistributionWarConfiguration
+  jacocoConfiguration
+  checkstyleConfiguration
+  findBugsConfiguration
+}
+
+configurations.all {
+  // Make all transitive dependencies to false. This lets unnecessary dependency jars to go to build path.
+  // All the jar files needs to be manually added in dependencies below
+  transitive = false
+  resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+  
+  // Dependencies needed by Ant itself
+  antConfiguration "ant-contrib:ant-contrib:${antContribVersion}"
+  providedRuntime "ant-contrib:ant-contrib:${antContribVersion}"
+  
+  // Separate configuration for only dependencies needed for DB operations
+  sqlConfiguration "oracle:ojdbc6:${ojdbcVersion}"
+  
+  // Tomcat dependencies. Need to be providedCompile so these jars don't get packed into .war (Ctech requirement)
+  // Try local tomcat installation. If not there, fall back to latest versions
+  def tomcatLibFiles = fileTree(tomcatLibDir) {
+	  include "jsp-api.jar"
+	  include "servlet-api.jar"
+	  include "tomcat-dbcp.jar"
+	  include "tomcat-jdbc.jar"
+  }
+  if(tomcatLibFiles.isEmpty()) {
+	  providedCompile "org.apache.tomcat:tomcat-jdbc:8.+"
+	  providedCompile "org.apache.tomcat:tomcat-dbcp:8.+"
+	  providedCompile "org.apache.tomcat:tomcat-servlet-api:8.+"
+	  providedCompile "org.apache.tomcat:tomcat-jsp-api:8.+"
+  } else {
+	  providedCompile tomcatLibFiles
+  }
+  
+  providedCompile "oracle:ojdbc6:${ojdbcVersion}"
+  providedCompile "org.apache.geronimo.specs:geronimo-jta_1.0.1B_spec:${geronimoVersion}"
+  providedCompile "org.apache.geronimo.specs:geronimo-jms_1.1_spec:${geronimoVersion}"
+  providedCompile "org.slf4j:slf4j-api:${slf4jVersion}"
+  providedCompile "commons-pool:commons-pool:${commonsPoolVersion}"
+ 
+  // Jacoco Configuration
+  jacocoConfiguration "org.jacoco:org.jacoco.core:${jacocoVersion}"
+  jacocoConfiguration "org.jacoco:org.jacoco.report:${jacocoVersion}"
+  jacocoConfiguration "org.ow2.asm:asm-debug-all:5.2"
+  
+  // Checkstyle Configuration
+  checkstyleConfiguration "com.google.guava:guava:${guavaVersion}"
+  checkstyleConfiguration "commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"
+  checkstyleConfiguration "commons-collections:commons-collections:${commonsCollections3Version}"
+  checkstyleConfiguration "antlr:antlr:${antlrVersion}"
+  
+  // Find Bugs Configuration
+  findBugsConfiguration "com.google.code.findbugs:findbugs:${googleCodeFindBugsVersion}"
+  findBugsConfiguration "com.google.code.findbugs:bcel-findbugs:${googleCodeFindBugsBcelVersion}"
+  findBugsConfiguration "com.google.code.findbugs:jsr305:${googleCodeFindBugsJsr305Version}"
+  findBugsConfiguration "org.dom4j:dom4j:${orgDom4jVersion}"
+  findBugsConfiguration "jaxen:jaxen:${jaxenVersion}"
+  findBugsConfiguration "org.ow2.asm:asm:${ow2AsmVersion}"
+  findBugsConfiguration "org.ow2.asm:asm-tree:${ow2AsmVersion}"
+  findBugsConfiguration "com.google.code.findbugs:jFormatString:${googleCodeFindBugsJFormatVersion}"
+    
+  // ** Test Dependencies ** //
+  testCompile "junit:junit:${junitVersion}"
+  testCompile "org.easymock:easymock:${easyMockVersion}"
+  testCompile "org.easymock:easymockclassextension:${easyMockVersion}"
+  testCompile "org.mockito:mockito-all:${mockitoVersion}"
+  testCompile "jmock:jmock:${jMockVersion}"
+  testCompile "dbunit:dbunit:${dbUnitVersion}"
+  testCompile "org.springframework:spring-test:${springVersion}"
+  // ** Test Dependencies ** //
+  
+  // BI dependencies
+  compile "com.biw:banqsharedservices-dto:${banqsharedservicesDtoVersion}"
+  compile "com.biw:cache:${bicacheVersion}"
+  compile "com.biw:cms-client:${cmsClientVersion}"
+  compile "com.biw:omservices-client:${omservicesVersion}"
+  compile "com.biw:framework:${frameworkVersion}"
+  compile "com.biw:awardbanqservices-secure-client:${awardbanqServicesSecureClientVersion}"
+  compile "com.biw:awardslinq-dataretriever-client:${awardslinqVersion}"
+  compile "com.biw:fop:${biFopVersion}"
+  compile "com.biw:jakarta-slide-webdav:${jakartaSlideVersion}"
+  compile "com.biw:strongmailwebservice:${strongmailVersion}"
+  compile "com.biw:bot-detect:${botdetectVersion}"
+  compile "com.biw:rewardofferingclient:${rewardOfferingVersion}"
+  compile "com.biw:wellness-clientstate:${wellnessVersion}"
+  compile "com.biw:messenger-client:${messengerVersion}"
+  compile "com.biw:encrypt-utils:${encryptUtilsVersion}"
+  compile "com.biw:jenkov-prizetags:${prizetagsVersion}"
+  compile "com.biw:singlesignon:${singlesignonVersion}"
+  compile "com.biw:fusioncharts:${fusionchartsVersion}"  
+  compile "com.biw:catalog-services:${catalogServicesVersion}"
+  
+  // Honeycomb dependencies
+  compile "com.biw.hc:hc-contest-api-dto:${hcVersion}"
+    
+  // Spring dependencies
+  compile "org.springframework:spring-context:${springVersion}"
+  compile "org.springframework:spring-context-support:${springVersion}"
+  compile "org.springframework:spring-jms:${springVersion}"
+  compile "org.springframework:spring-core:${springVersion}"
+  compile "org.springframework:spring-beans:${springVersion}"
+  compile "org.springframework:spring-web:${springVersion}"
+  compile "org.springframework:spring-tx:${springVersion}"
+  compile "org.springframework:spring-expression:${springVersion}"
+  compile "org.springframework:spring-aop:${springVersion}"
+  compile "org.springframework:spring-aspects:${springVersion}"
+  compile "org.springframework:spring-jdbc:${springVersion}"
+  compile "org.springframework:spring-orm:${springVersion}"
+  compile "org.springframework:spring-webmvc:${springVersion}"
+  compile "org.springframework.security:spring-security-web:${springSecurityVersion}"
+  compile "org.springframework.security:spring-security-config:${springSecurityVersion}"
+  compile "org.springframework.security:spring-security-core:${springSecurityVersion}"
+  compile "org.springframework.security:spring-security-taglibs:${springSecurityVersion}"
+  compile "org.springframework.security.oauth:spring-security-oauth2:${springOauthVersion}"
+  
+  // Struts dependencies
+  compile "com.biw.struts:struts-core:${strutsCoreVersion}"
+  compile "org.apache.struts:struts-el:${strutsVersion}"
+  compile "org.apache.struts:struts-extras:${strutsVersion}"
+  compile "org.apache.struts:struts-taglib:${strutsVersion}"
+  compile "org.apache.struts:struts-tiles:${strutsVersion}"
+  compile "com.biw.struts:struts-workflow:${strutsWorkflowVersion}"
+  
+  // Hibernate dependencies
+  compile "org.hibernate:hibernate-core:${hibernateVersion}"
+  compile "org.hibernate:hibernate-envers:${hibernateVersion}"
+  compile "org.hibernate:hibernate-ehcache:${hibernateVersion}"
+  compile "org.hibernate:hibernate-commons-annotations:${hibernateCommonsAnnotationsVersion}"
+  compile "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${hibernateJpaVersion}"
+  
+  // Apache commons dependencies
+  compile "commons-logging:commons-logging:${commonsLoggingVersion}"
+  compile "commons-fileupload:commons-fileupload:${commonsFileuploadVersion}"
+  compile "commons-validator:commons-validator:${commonsValidatorVersion}"
+  compile "commons-lang:commons-lang:${commonsLang2Version}"
+  compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
+  compile "commons-collections:commons-collections:${commonsCollections3Version}"
+  compile "org.apache.commons:commons-collections4:${commonsCollections4Version}"
+  compile "commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"
+  compile "commons-betwixt:commons-betwixt:${commonsBetwixtVersion}"
+  compile "commons-chain:commons-chain:${commonsChainVersion}"
+  compile "commons-codec:commons-codec:${commonsCodecVersion}"
+  compile "commons-dbcp:commons-dbcp:${commonsDbcpVersion}"
+  compile "commons-digester:commons-digester:${commonsDigesterVersion}"
+  compile "commons-httpclient:commons-httpclient:${commonsHttpClientVersion}"
+  compile "commons-io:commons-io:${commonsIoVersion}"
+  compile "org.apache.logging.log4j:log4j-api:${apacheLog4jVersion}"
+  compile "org.apache.logging.log4j:log4j-core:${apacheLog4jVersion}"  
+    
+  // Apache POI dependencies
+  compile "org.apache.poi:poi:${poiVersion}"
+  compile "org.apache.poi:poi-ooxml:${poiVersion}"
+  compile "org.apache.poi:poi-ooxml-schemas:${poiVersion}"
+  
+  // Apache dependencies
+  compile "org.apache.cxf:cxf-bundle:${cxfVersion}"
+  compile "org.apache.cxf:cxf-rt-transports-http-hc:${cxfVersion}"
+  compile "org.apache.ws.security:wss4j:${wss4jVersion}"
+  compile "org.apache.httpcomponents:httpcore:${httpcoreVersion}"
+  compile "org.apache.httpcomponents:httpcore-nio:${httpcoreVersion}"
+  compile "org.apache.sanselan:sanselan:${sanselanVersion}"
+  compile "org.apache.velocity:velocity:${velocityVersion}"
+  compile "org.apache.jackrabbit:jackrabbit-webdav:${jackrabbitVersion}"
+  compile "org.apache.xmlbeans:xmlbeans:${xmlBeansVersion}"
+  compile "javax.servlet.jsp.jstl:jstl-api:${jstlApiVersion}"
+  compile "org.glassfish.web:jstl-impl:${jstlImplVersion}"
+  
+  // Xalan and Xmlsec dependencies
+  compile "xalan:xalan:${xalanVersion}"
+  compile "xalan:serializer:${xalanSerializerVersion}"
+  compile "xml-apis:xml-apis:${xmlApisVersion}"
+  compile "xerces:xercesImpl:${xercesImplVersion}"
+  
+  // Google dependencies
+  compile "com.google.guava:guava:${guavaVersion}"
+  compile "com.google.code.gson:gson:${gsonVersion}"
+  compile "com.googlecode.json-simple:json-simple:${jsonSimpleVersion}"
+  
+  // Logging dependencies
+  compile "log4j:log4j:${log4jVersion}"
+  
+  // Quartz dependencies
+  compile "org.quartz-scheduler:quartz:${quartzVersion}"
+  compile "org.quartz-scheduler:quartz-oracle:${quartzVersion}"
+  
+  // Twitter dependencies
+  compile "org.twitter4j:twitter4j-core:${twitterVersion}"
+  
+  // Mail dependencies
+  compile "javax.mail:mail:${mailVersion}"
+  
+  // AWS dependencies
+  compile "com.amazonaws:aws-java-sdk-core:${awsVersion}"
+  compile "com.amazonaws:aws-java-sdk-s3:${awsVersion}"
+  compile "com.amazonaws:aws-java-sdk-sts:${awsVersion}"
+  
+  // OpenSymphony dependencies
+  compile "opensymphony:propertyset:${openSymphonyVersion}"
+  compile "opensymphony:oscache:${oscacheVersion}"
+  
+  // EhCache dependencies
+  compile "net.sf.ehcache:ehcache-jmsreplication:${ehCacheJmsVersion}"
+  compile "net.sf.ehcache:ehcache-core:${ehcacheCoreVersion}"
+  
+  // Java PNS depdencies
+  compile "com.github.fernandospr:javapns-jdk16:${javapnsVersion}"
+  
+  // AOP Alliance dependencies
+  compile "aopalliance:aopalliance:${aopallianceVersion}"
+  
+  // Lowagie dependencies
+  compile "com.lowagie:itext:${itextVersion}"
+  
+  // Displaytag dependencies
+  compile "displaytag:displaytag:${displaytagVersion}"
+  compile "displaytag:displaytag-export-poi:${displaytagVersion}"
+  
+  // ElasticSearch dependencies
+  compile "org.elasticsearch:elasticsearch-core:${elasticSearchVersion}"
+  compile "org.elasticsearch:elasticsearch:${elasticSearchVersion}"
+  compile "org.apache.lucene:lucene-core:${luceneVersion}"
+  compile "org.apache.lucene:lucene-join:${luceneVersion}"
+  compile "org.apache.lucene:lucene-queries:${luceneVersion}"
+  compile "org.apache.lucene:lucene-analyzers-common:${luceneVersion}"
+  compile "org.apache.lucene:lucene-suggest:${luceneVersion}"
+  compile "io.searchbox:jest-common:${jestVersion}"
+  compile "io.searchbox:jest:${jestVersion}"
+  compile "com.carrotsearch:hppc:${carrotSearchVersion}"
+  compile "vc.inreach.aws:aws-signing-request-interceptor:${esAwsSigningInterceptorVersion}"
+  
+  // Jackson dependencies
+  compile "com.fasterxml.jackson.core:jackson-core:${jacksonVersion}"
+  compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+  compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+  compile "com.fasterxml.jackson.module:jackson-module-jsonSchema:${jacksonVersion}"
+  compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
+    
+  // Joda dependencies
+  compile "org.joda:joda-convert:${jodaConvertVersion}"
+  compile "joda-time:joda-time:${jodaTimeVersion}"
+  
+  // BouncyCastle dependencies
+  compile "org.bouncycastle:bcprov-jdk15on:${bouncyCastleVersion}"
+  
+  // Jersey dependencies
+  compile "com.sun.jersey:jersey-core:${jerseyVersion}"
+  compile "com.sun.jersey:jersey-client:${jerseyVersion}"
+  
+  // Javax dependencies
+  compile "javax.ws.rs:jsr311-api:${jsr311Version}"
+  
+  // Java Simplified Encyrption (jasypt?)
+  compile "org.jasypt:jasypt:${jasyptVersion}"
+  
+  // Ujac
+  compile "net.sf.ujac:ujac:${ujacVersion}"
+  
+  // Jdom
+  compile "jdom:jdom:${jdomVersion}"
+  
+  // Jcodec
+  compile "org.jcodec:jcodec:${jcodecVersion}"
+  compile "org.jcodec:jcodec-javase:${jcodecVersion}"
+  
+  // JAMon
+  compile "com.jamonapi:jamon:${jamonVersion}"
+  
+  // Javassist
+  compile "javassist:javassist:${javassistVersion}"
+  
+  // Batik
+  compile "org.apache.xmlgraphics:batik-transcoder:${batikVersion}"
+  compile "org.apache.xmlgraphics:batik-util:${batikVersion}"
+  
+  // Dom4j
+  compile "dom4j:dom4j:${dom4jVersion}"
+  
+  // Antlr
+  compile "antlr:antlr:${antlrVersion}"
+  
+  //Yaml
+  compile "org.yaml:snakeyaml:${snakeYamlVersion}" 
+  
+  //httpclient
+  compile "org.apache.httpcomponents:httpclient:${httpClientVersion}"
+  
+  // WSDL4J
+  compile "wsdl4j:wsdl4j:${wsdl4jVersion}"
+  
+  // Java-Jwt
+  compile "com.auth0:java-jwt:${javaJwtVersion}"
+  
+  // Roster
+  compile "com.biw.digs:roster-api:${rosterApiVersion}"
+
+  // Http Asynch Client
+  compile "org.apache.httpcomponents:httpasyncclient:${httpAsyncClientVersion}"  
+
+  // Kinesis event-streams
+  compile "com.biw:event-streams-consume:${biEventStream}"
+  
+  // Lombok
+  compileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+  // ** Runtime Dependencies ** //
+  runtime "cglib:cglib-nodep:${cglibVersion}"
+  runtime "asm:asm:${asmVersion}"
+  runtime "org.apache.jackrabbit:jackrabbit-jcr-commons:${jackrabbitJcrCommonsVersion}"
+  runtime "oro:oro:${oroVersion}"
+  runtime "org.glassfish.main.ejb:javax.ejb:${javaxEjbVersion}"
+  runtime "com.biw:jazzy-tinymce-spellcheck:${jazzyspellcheckVersion}"
+  runtime "com.biw:tinymce-spellcheck:${tinymceSpellcheckVersion}"
+  runtime "com.biw:jmyspell:${jmyspellVersion}"
+  runtime "com.sun.jersey:jersey-json:${jerseyVersion}"
+  runtime "com.sun.jersey:jersey-server:${jerseyVersion}"
+  runtime "com.sun.jersey:jersey-servlet:${jerseyVersion}"
+  runtime "com.sun.jersey.contribs:jersey-spring:${jerseySpringVersion}"
+  runtime "com.biw:properties:${propertiesVersion}"
+  runtime "taglibs:string:${taglibsStringVersion}"
+  runtime "xml-apis:xml-apis-ext:${xmlApisExtVersion}"
+  runtime "org.aspectj:aspectjtools:${aspectjtoolsVersion}"
+  runtime "org.apache.ws.xmlschema:xmlschema-core:${xmlSchemaCoreVersion}"
+  runtime "org.apache.neethi:neethi:${neethiVersion}"
+  runtime "org.codehaus.woodstox:wstx-asl:${wstxAslVersion}"
+  runtime "javax.ws.rs:javax.ws.rs-api:${rsApiVersion}"
+  runtime "com.biw:cms-client-config:${cmsClientVersion}"
+  runtime "org.apache.santuario:xmlsec:${xmlSecVersion}"
+  runtime "com.google.protobuf:protobuf-java:${googleProtobufVersion}"
+  runtime "org.slf4j:slf4j-simple:${slf4jVersion}"
+  runtime "com.amazonaws:aws-java-sdk-cloudwatch:${awsVersion}"
+  runtime "com.amazonaws:aws-java-sdk-dynamodb:${awsVersion}"
+  runtime "com.amazonaws:aws-java-sdk-kinesis:${awsVersion}"
+  runtime "com.amazonaws:aws-java-sdk-kms:${awsVersion}"
+  runtime "com.amazonaws:amazon-kinesis-producer:${kplVersion}"
+  runtime "com.amazonaws:amazon-kinesis-client:${kclVersion}"
+  runtime "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonVersion}"
+  runtime "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:${jacksonVersion}"
+  
+  // ** Runtime Dependencies ** //
+  
+  // ** CM Dependencies ** //
+  cmDistributionWarConfiguration "com.biw:cms:${cmsClientVersion}@war"
+  
+  cmWarLibConfiguration "com.biw:google-api-translate:${cm_googleApiTranslateVersion}"
+  cmWarLibConfiguration "com.biw:spring-modules-validation:${cm_springModulesValidationVersion}"
+  cmWarLibConfiguration "com.biw:site-mesh:${cm_sitemeshVersion}"
+  cmWarLibConfiguration "com.biw:ssce:${cm_ssceVersion}"
+  
+  cmWarLibConfiguration "org.springframework.security:spring-security-config:${springSecurityVersion}"
+  cmWarLibConfiguration "org.springframework.security:spring-security-core:${springSecurityVersion}"
+  cmWarLibConfiguration "org.springframework.security:spring-security-taglibs:${springSecurityVersion}"
+  cmWarLibConfiguration "org.springframework.security:spring-security-web:${springSecurityVersion}"
+  cmWarLibConfiguration "antlr:antlr:${antlrVersion}"
+  cmWarLibConfiguration "aopalliance:aopalliance:${aopallianceVersion}"
+  cmWarLibConfiguration "asm:asm:${asmVersion}"
+  cmWarLibConfiguration "com.biw:cache:${bicacheVersion}"
+  cmWarLibConfiguration "com.biw:jakarta-slide-webdav:${jakartaSlideVersion}"
+  cmWarLibConfiguration "cglib:cglib-nodep:${cglibVersion}"
+  cmWarLibConfiguration "com.biw:cms-client:${cmsClientVersion}"
+  cmWarLibConfiguration "commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"
+  cmWarLibConfiguration "commons-betwixt:commons-betwixt:${commonsBetwixtVersion}"
+  cmWarLibConfiguration "commons-codec:commons-codec:${commonsCodecVersion}"
+  cmWarLibConfiguration "commons-collections:commons-collections:${commonsCollections3Version}"
+  cmWarLibConfiguration "commons-dbcp:commons-dbcp:${commonsDbcpVersion}"
+  cmWarLibConfiguration "commons-digester:commons-digester:${commonsDigesterVersion}"
+  cmWarLibConfiguration "commons-fileupload:commons-fileupload:${commonsFileuploadVersion}"
+  cmWarLibConfiguration "commons-httpclient:commons-httpclient:${commonsHttpClientVersion}"
+  cmWarLibConfiguration "commons-io:commons-io:${commonsIoVersion}"
+  cmWarLibConfiguration "commons-lang:commons-lang:${commonsLang2Version}"
+  cmWarLibConfiguration "org.apache.commons:commons-lang3:${commonsLang3Version}"
+  cmWarLibConfiguration "commons-logging:commons-logging:${commonsLoggingVersion}"
+  cmWarLibConfiguration "commons-validator:commons-validator:${commonsValidatorVersion}"
+  cmWarLibConfiguration "displaytag:displaytag:${displaytagVersion}"
+  cmWarLibConfiguration "dom4j:dom4j:${dom4jVersion}"
+  cmWarLibConfiguration "net.sf.ehcache:ehcache-core:${ehcacheCoreVersion}"
+  cmWarLibConfiguration "net.sf.ehcache:ehcache-jmsreplication:${ehCacheJmsVersion}"
+  cmWarLibConfiguration "org.hibernate:hibernate-core:${hibernateVersion}"
+  cmWarLibConfiguration "org.hibernate:hibernate-envers:${hibernateVersion}"
+  cmWarLibConfiguration "org.hibernate:hibernate-ehcache:${hibernateVersion}"
+  cmWarLibConfiguration "org.hibernate:hibernate-commons-annotations:${hibernateCommonsAnnotationsVersion}"
+  cmWarLibConfiguration "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${hibernateJpaVersion}"
+  cmWarLibConfiguration "com.jamonapi:jamon:${jamonVersion}"
+  cmWarLibConfiguration "org.jasypt:jasypt:${jasyptVersion}"
+  cmWarLibConfiguration "javassist:javassist:${javassistVersion}"
+  cmWarLibConfiguration "javax.servlet.jsp.jstl:jstl-api:${jstlApiVersion}"
+  cmWarLibConfiguration "org.glassfish.web:jstl-impl:${jstlImplVersion}"
+  cmWarLibConfiguration "log4j:log4j:${log4jVersion}"
+  cmWarLibConfiguration "org.springframework:spring-aop:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-aspects:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-beans:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-context-support:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-context:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-core:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-expression:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-jdbc:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-jms:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-orm:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-test:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-tx:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-web:${springVersion}"
+  cmWarLibConfiguration "org.springframework:spring-webmvc:${springVersion}"
+  cmWarLibConfiguration "opensymphony:oscache:${oscacheVersion}"
+  cmWarLibConfiguration "org.quartz-scheduler:quartz:${quartzVersion}"
+  cmWarLibConfiguration "org.quartz-scheduler:quartz-oracle:${quartzVersion}"
+  cmWarLibConfiguration "org.apache.struts:struts-core:${strutsVersion}"
+  cmWarLibConfiguration "xalan:xalan:${xalanVersion}"
+  cmWarLibConfiguration "org.aspectj:aspectjtools:${aspectjtoolsVersion}"
+  // ** CM Dependencies ** //
+
+}

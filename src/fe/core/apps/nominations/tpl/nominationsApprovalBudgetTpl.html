@@ -1,0 +1,79 @@
+{{debug}}
+{{#tabularData}}
+{{#if budgetBalance}}
+<div class="approvalBudgetWrap">
+    <h4>{{budgetPeriod}} Budget Balance</h4>
+
+    <span class="currentBalance large-text">
+    {{#if budgetBalance}}
+        {{budgetBalance}}
+        {{#if ../promotion.currencyLabel}}
+            {{../promotion.currencyLabel}}
+        {{/if}}
+
+        {{#eq ../promotion.payoutType "points"}}
+            points
+        {{else}}
+
+        {{/eq}}
+    {{/if}}
+    </span>
+
+    {{#if potentialAwardExceeded}}
+    <a class="budgetIncreaseLink" data-popover-content="budgetIncrease">Request Budget Increase</a>
+    {{/if}}
+
+    {{#if showConversionLink}}
+    <a class="conversionLinkTrigger popoverTrigger" data-popover-content="conversionInfo"> | Conversion Information</a>
+    {{/if}}
+
+    {{#if lastBudgetRequestDate}}
+    <span class="budgetTimestamp">Last request on {{lastBudgetRequestDate}}</span>
+    {{/if}}
+
+</div>
+{{/if}}
+
+<div class="approverLevelsWrap">
+    {{#if previousApprovers}}
+    <div class="approverLevelPrevious approverLevel">
+        <h5>Previous {{#if previousLevelName}} {{previousLevelName}} {{else}} Level {{/if}}</h5>
+
+        {{#if pendingNominations}}
+            <p>
+                <span class="large-text">{{pendingNominations}}</span>
+                Pending Nomination
+            </p>
+        {{/if}}
+
+        <a class="viewApproverList">View {{previousApproverCount}} Approvers</a>
+
+        <div class="approverListTooltip" style="display: none">
+            <ul>
+                {{#each previousApprovers}}
+                <li>{{name}}</li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+    {{/if}}
+
+    {{#unless finalLevelApprover}}
+        {{#if nextApprovers}}
+        <div class="approverLevelNext {{#if previousApprovers}}approverLevel {{else}}approverLevel singleLevel{{/if}}">
+            <h5>Next {{#if nextLevelName}} {{nextLevelName}} {{else}} Level {{/if}}</h5>
+
+            <a class="viewApproverList">View {{nextApproverCount}} Approvers</a>
+
+            <div class="approverListTooltip" style="display: none">
+                <ul>
+                    {{#each nextApprovers}}
+                    <li>{{name}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        {{/if}}
+    {{/unless}}
+</div>
+{{/tabularData}}

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN" 
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+  <global>
+	<constant>
+	  <constant-name>phone</constant-name>
+	  <constant-value>
+		^\(?\d{3}\)?[-| ]?\d{3}[-| ]?\d{4}$
+	  </constant-value>
+	</constant>
+  </global>
+	<formset>	
+		<form name="/participantMaintainUpdatePersonalInfo">
+			<field property="paxStatus" depends="required">
+				<arg0 key="participant.participant.PARTICIPANT_STATUS" />
+			</field>
+			<field property="firstName" depends="required">
+				<arg0 key="participant.participant.FIRST_NAME" />
+			</field>
+			<field property="lastName" depends="required">
+				<arg0 key="participant.participant.LAST_NAME" />
+			</field>
+		</form>
+		<form name="/saveParticipantMaintainUpdatePreferences">
+		<!-- The form validation will catch when these fields are required 
+		     These validations are only verify that when there is text entered 
+		     that it is a valid email address -->
+			<field property="textMessageAddress" depends="email">
+		      	<arg0 key="participant.preference.edit.TEXT_MESSAGE_ADDRESS"/>
+		    </field>
+		    <field property="emailAddress" depends="email">
+		      	<arg0 key="participant.participant.EMAIL_ADDRESS"/>
+		    </field>
+		</form>
+		<form name="/participantMaintainCreate">
+			<field property="paxStatus" depends="required">
+				<arg0 key="participant.participant.PARTICIPANT_STATUS" />
+			</field>
+			<field property="firstName" depends="required">
+				<arg0 key="participant.participant.FIRST_NAME" />
+			</field>
+			<field property="lastName" depends="required">
+				<arg0 key="participant.participant.LAST_NAME" />
+			</field>
+			<field property="addressType" depends="required">
+				<arg0 key="participant.participant.PRIMARY_ADDRESS_TYPE" />
+			</field>
+			
+			<field property="emailType" depends="validwhen">
+		      	<arg0 key="participant.participant.PRIMARY_EMAIL_TYPE"/>
+		        <var>
+		          <var-name>test</var-name>
+		          <var-value>((emailAddress == null) or (*this* != null))</var-value>
+		        </var>
+		    </field>
+			<field property="emailAddress" depends="validwhen, email">
+		      	<arg0 key="participant.participant.EMAIL_ADDRESS"/>
+		        <var>
+		          <var-name>test</var-name>
+		          <var-value>((emailType == null) or (*this* != null))</var-value>
+		        </var>
+		    </field>
+			<field property="phoneNumber" depends="mask">
+		      	<arg0 key="participant.participant.PHONE_NUMBER"/>
+		        <var>
+		          <var-name>mask</var-name>
+		          <var-value>${phone}</var-value>
+		        </var>
+		    </field>
+	<!-- 	<field property="phoneNumber" depends="phone" >
+				<arg0 key="participant.participant.PHONE_NUMBER" />
+			</field> -->
+			<field property="userName" depends="required">
+				<arg0 key="participant.participant.LOGIN_ID" />
+			</field>
+	<!-- 	<field property="password" depends="required">
+				<arg0 key="participant.participant.PASSWORD" />
+			</field>
+			<field property="confirmPassword" depends="required" >
+				<arg0 key="participant.participant.CONFIRM_PASSWORD" />
+			</field>	 
+			<field property="secretQuestion" depends="required">
+				<arg0 key="participant.participant.SECRET_QUESTION" />
+			</field>
+			<field property="secretAnswer" depends="required">
+				<arg0 key="participant.participant.SECRET_ANSWER" />
+			</field>
+	-->
+			<field property="nameOfNode" depends="required">
+				<arg0 key="participant.participant.HIERARCHY_NODE" />
+			</field>
+			<field property="nodeRelationship" depends="required">
+				<arg0 key="participant.participant.NODE_RELATIONSHIP" />
+			</field>
+			
+			<field property="employerId" depends="long">
+				<arg0 key="participant.participant.EMPLOYER" />
+			</field>
+			<field property="position" depends="validwhen">
+				<arg0 key="participant.participant.JOB_POSITION" />
+				<var>
+		          <var-name>test</var-name>
+		          <var-value>((employerId == null) or (*this* != null))</var-value>
+		        </var>
+			</field>
+			<field property="department" depends="validwhen">
+				<arg0 key="participant.participant.DEPARTMENT" />
+				<var>
+		          <var-name>test</var-name>
+		          <var-value>((employerId == null) or (*this* != null))</var-value>
+		        </var>
+			</field>
+			<!-- Hire date can be left blank - it will be populated with the current date (see bug #8633)  -->
+			<!-- 
+			<field property="hireDate" depends="validwhen">
+				<arg0 key="participant.participant.HIRE_DATE" />
+				<var>
+		          <var-name>test</var-name>
+		          <var-value>((employerId == null) or (*this* != null))</var-value>
+		        </var>
+			</field>
+			-->
+		</form>
+		
+		<form name="userPhoneForm" >
+			<field property="phoneType" depends="required" >
+				<arg0 key="participant.phone.PHONE_TYPE" />
+			</field>
+			<field property="phoneNbr" depends="required,mask" >
+				<arg0 key="participant.phone.PHONE_NUMBER" />
+                <var>
+                  <var-name>mask</var-name>
+                  <var-value>${phone}</var-value>
+                </var>
+			</field>
+		</form>
+
+    <form name="participantEmploymentUpdateForm" >
+      <field property="hireDate" depends="required" >
+        <arg0 key="participant.participant.HIRE_DATE" />
+      </field>
+    </form>
+
+    <form name="participantEmploymentCreateForm" >
+      <field property="employerId" depends="required">
+        <arg0 key="participant.participant.EMPLOYER" />
+      </field>
+      <field property="position" depends="required">
+        <arg0 key="participant.participant.JOB_POSITION" />
+      </field>
+      <field property="department" depends="required">
+        <arg0 key="participant.participant.DEPARTMENT" />
+      </field>
+      <field property="hireDate" depends="required" >
+        <arg0 key="participant.participant.HIRE_DATE" />
+      </field>
+    </form>
+    
+    <form name="/userAclAdd" >
+      <field property="aclId" depends="required">
+        <arg0 key="admin.acl.ACL_CODE" />
+      </field>
+      <field property="aclTarget" depends="required">
+        <arg0 key="admin.user.acl.ACL_TARGET" />
+      </field>
+      <field property="aclPermission" depends="required">
+        <arg0 key="admin.user.acl.ACL_PERMISSION" />
+      </field>
+    </form>
+
+    <form name="participantGoalQuestProgressForm" >
+      <field property="newQuantity" depends="required,double" >
+        <arg0 key="participant.goalquest.promo.detail.NEW_QUANTITY"/>
+        <msg name="double"  key="participant.goalquest.promo.detail.NEW_QUANTITY_NUMERIC"/>
+      </field>
+      <field property="addReplaceType" depends="required" >
+        <arg0 key="participant.goalquest.promo.detail.ADD_REPLACE" />
+      </field>
+    </form>    
+	</formset>
+</form-validation>

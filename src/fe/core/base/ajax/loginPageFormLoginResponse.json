@@ -1,0 +1,14 @@
+<?php sleep(1); ?>
+<?php /* return a serverCommand:redirect for the login page to see a successful submit */ ?>
+{
+    "messages":[
+        {
+            "type":"error",
+            "code":"loginFailure",
+
+            "name":"Login Failed",
+            "text":"Your username or password were incorrect. Please try again."
+        }
+    ]
+
+}

@@ -1,0 +1,122 @@
+<!-- ======== COMMUNICATIONS MANAGE BANNERS PAGE ======== -->
+
+<div id="communicationsManageBannersView" class="page-content">
+
+    <div class="page-topper">
+        <div class="row-fluid">
+            <div class="span12 form-inline">
+                <fieldset>
+                    <div class="control-group">
+                        <div class="controls">
+                            <select id="bannersFilterSelect" name="bannersFilter" class="contentFilterSelect" title="Filter Banner Content">
+                                <!-- JAVA NOTE: adjust the list below as necessary (value will be sent to AJAX table request) -->
+                                <option value="active">Active Banner Content</option>
+                                <option value="archived">Archived Banner Content</option>
+                            </select>
+                        </div>
+                    </div><!-- /.control-group -->
+
+                    <div class="control-group addNew">
+                        <!-- JAVA NOTE: set the proper add banner content URL on the HREF attribute below -->
+                        <a href="layout.html?tplPath=apps/communications/tpl/&tpl=communicationsBannersEdit.html" class="addBanerBtn btn btn-primary">
+                        Post a New Banner <i class="icon-plus-circle"></i>
+                        </a>
+                    </div><!-- /.control-group -->
+                </fieldset>
+            </div>
+        </div>
+    </div><!-- /.page-topper -->
+
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>Manage Banners</h2>
+
+            <div class="pagination pagination-right paginationControls first"></div>
+
+            <div class="bannersTableWrapper contentTableWrapper" data-msg-empty="No banners found"></div>
+
+            <script id="communicationBannersTableTpl" type="text/x-handlebars-template">
+                <table id="bannerTable" class="table table-striped">
+                    {{#if tabularData.meta.columns}}
+                    <thead>
+                        <tr>
+                        {{#each tabularData.meta.columns}}
+                            <th>
+                                {{name}}
+                            </th>
+                        {{/each}}
+                        </tr>
+                    </thead>
+                    {{/if}}
+
+                    {{#if tabularData.results}}
+                    <tbody>
+                        {{#each tabularData.results}}
+                        <tr>
+                            <td class="nameColumn">
+                                {{name}}
+                            </td>
+                            <td class="startDateColumn">
+                                {{startDate}}
+                            </td>
+                            <td class="endDateColumn">
+                                {{endDate}}
+                            </td>
+                            <td class="editColumn">
+                                <a href="{{url}}">
+                                    <i class="icon-pencil2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                    {{/if}}
+                </table>
+            </script>
+
+            <div class="pagination pagination-right paginationControls first"></div>
+            <!--
+                NOTE: you can safely take the JSP conversion of core/base/tpl/paginationView.html and include it here. Then, remove the "XXX" above and the script will use this child template instead of the remote one
+            -->
+            <!--subTpl.paginationTpl=
+                <?php include("core/base/tpl/paginationView.html"); ?>
+            subTpl-->
+        </div>
+    </div>
+
+    <!-- JAVA NOTE: render the following HTML if the user has just saved a banner -->
+    <div class="modal hide fade autoModal bannersContentSavedModal manageComModal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+            <h3>Your banner content has been saved.</h3>
+        </div>
+        <div class="modal-footer">
+            <a href="layout.html?tplPath=apps/communications/tpl/&tpl=communicationsBannersEdit.html" class="btn btn-primary">Post Another Banner</a>
+            <a href="layout.html?tplPath=apps/communications/tpl/&tpl=communicationsPage.html" class="btn btn-primary">Manage Communications</a>
+        </div>
+    </div>
+</div>
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+$(document).ready(function() {
+
+    //attach the view to an existing DOM element
+    var cmbv = new CommunicationsManageView({
+        el:$('#communicationsManageBannersView'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url : 'layout.html'
+            },
+            home : {
+                text : 'Home',
+                url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+            }
+        },
+        mode: 'banners',
+        pageTitle : 'Manage Banner Content'
+    });
+
+});
+</script>

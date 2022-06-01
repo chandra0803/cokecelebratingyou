@@ -1,0 +1,76 @@
+// App-specific variables
+// =========================
+$celebrationBrowseAwards_bgColor: transparent !default;
+$celebrationBrowseAwards_arrowColor : $brand_color_primary !default;
+$celebrationBrowseAwards_headerFontColor: $brand_color_black !default;
+
+/* ----- MODULE STYLES ----- */
+.launchModule.celebrationBrowseAwards {
+    .module-liner {
+        padding-bottom:0;
+    }
+    .wide-view {
+        padding: 0;
+    }
+
+    .module-header {
+        color: $celebrationBrowseAwards_headerFontColor;
+        position: relative;
+        h2 {
+            margin-top: 0;
+        }
+    }
+
+    #awardsCarousel.carousel {
+        .slick-list {
+
+        }
+        .slick-arrow {
+            color:$celebrationBrowseAwards_arrowColor;
+            &.slick-prev {
+                left: -50px;
+            }
+            &.slick-next {
+                right: -50px;
+            }
+        }
+        .item {
+            width: 100%;
+            text-align:center;
+            margin: 10px;
+            height: 100%;
+            //height: (250px * 2 / 3) + (2 * 9px) + (3 * 16px);
+            .thumbnail {
+                border: 0 none;
+                @include border-radius(0);
+                @include box-shadow(none);
+                cursor:pointer;
+
+                .item-wrap {
+                    text-align: center;
+                    background-color: $celebrationBrowseAwards_bgColor;
+                    img {
+                        height: 250px * 2 / 3; // we are getting 250px x 250px from Scene7.
+                        width: 250px * 2 / 3; // we are getting 250px x 250px from Scene7.
+                    }
+                }
+
+                .carousel-caption  {
+                    h5 {
+                        font-size: $baseFontSize;
+                        line-height: $baseLineHeight;
+                        margin: 0;
+                        max-height: $baseLineHeight * 3; // up to three lines
+                        text-align: center;
+                        text-overflow: ellipsis; // no worky :(
+                        overflow: hidden;
+                        a {
+                            //font-weight: $fontWeightBold;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+} /* /.module.celebrationBrowseAwards  */

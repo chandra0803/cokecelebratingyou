@@ -1,0 +1,35 @@
+delete from message where CM_ASSET_CODE in ('message_data.message.1068033', 'message_data.message.1068017', 'message_data.message.1068021', 'message_data.message.1068004' )
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA Email Behaviour Inactive','message_data.message.1068033','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA Message Footer','message_data.message.1068034','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA Correctable Prefix','message_data.message.1068035','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA Not Correctable Prefix','message_data.message.1068036','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA Not Correctable Suffix','message_data.message.1068037','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA Email missing end tag','message_data.message.1068038','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA Correctable suffix','message_data.message.1068039','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA No Unique Users','message_data.message.1068040','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA No Recipient Included','message_data.message.1068042','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA Self Recognition Not Allowed','message_data.message.1068043','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/
+Insert into MESSAGE (MESSAGE_ID,MESSAGE_NAME,CM_ASSET_CODE,MODULE_CODE,MESSAGE_TYPE_CODE,STATUS_CODE,SMS_GROUP_TYPE,DATE_LAST_SENT,CREATED_BY,DATE_CREATED,MODIFIED_BY,DATE_MODIFIED,VERSION)
+values (message_pk_sq.nextval,'SEA System Down','message_data.message.1068044','SEA','general','act',null,null,5662,SYSDATE,null,null,0)
+/

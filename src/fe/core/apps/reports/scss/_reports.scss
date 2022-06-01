@@ -1,0 +1,1256 @@
+// App-specific variables
+// =========================
+// shared
+$reports_chartColors: $brand_chartColors !default;
+
+// module(s)
+$reports_modDash_bgColor: $brand_color_white !default;
+
+$reports_modDash_favRep_width: 0.75 !default;
+$reports_modDash_favRep_height: 280px !default;
+// calculating heights above mobile:            ((max screen width        - sidebar width (if appropo)         - 2 * outer padding)                    * percent width of favs col     - (space between two))                  / divided by 2
+// $reports_modDash_favRep_height_tablet:       (($breakpoint_tablet_max                                       - ($g6ModulePaddingX_tablet * 2))       * $reports_modDash_favRep_width - ($g6ModulePaddingX_tablet / 2))       / 2 !default;
+// $reports_modDash_favRep_height_desktop:      (($breakpoint_desktop_max - $global_sidebar_width_desktop      - ($g6ModulePaddingX_desktop * 2))      * $reports_modDash_favRep_width - ($g6ModulePaddingX_desktop / 2))      / 2 !default;
+// $reports_modDash_favRep_height_desktopLarge: (($breakpoint_desktop_max - $global_sidebar_width_desktopLarge - ($g6ModulePaddingX_desktopLarge * 2)) * $reports_modDash_favRep_width - ($g6ModulePaddingX_desktopLarge / 2)) / 2 !default;
+$reports_modDash_favRep_height_tablet:       300px !default;
+$reports_modDash_favRep_height_desktop:      320px !default;
+$reports_modDash_favRep_height_desktopLarge: 360px !default;
+
+$reports_modDash_favRep_bgColor: $brand_color_white !default;
+$reports_modDash_favRep_borderColor: $brand_color_border !default;
+$reports_modDash_favRep_borderWidth: 0 !default;
+$reports_modDash_favRep_iconsColor: $brand_color_black !default;
+$reports_modDash_favRep_iconsWidth: $headline5fontSize_mobile !default;
+$reports_modDash_favRep_parametersColor: $brand_color_mid !default;
+
+$reports_modDash_allRep_minWidth: 256px !default;
+$reports_modDash_allRep_minWidth_desktop: 320px !default;
+$reports_modDash_allRep_bgColor: $brand_color_stripe !default;
+
+$reports_manageFavoritesPopoverBorderColor: $g5ModPgBorderColor !default;
+$reports_changeFiltersPopoverBorderColor: $g5ModPgBorderColor !default;
+
+// page
+$reports_chart_border_width: 2px !default;
+$reports_chart_border_color: $brand_color_mid !default;
+$reports_chartThumb_border_width: 2px !default;
+$reports_chartThumb_border_color: $brand_color_dark !default;
+$reports_chartThumb_border_colorSelected: $brand_color_primary !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.reports {
+    .ui-tooltip.qtip {
+        // z-index: 9999 !important;
+    }
+} /* /.reports */
+
+
+/* ----- MODULE STYLES ----- */
+// .reports:first-of-type {
+//     width: 70%;
+// }
+.launchModule.reports {
+    $favWidth: $reports_modDash_favRep_width * 100%;
+    $allWidth: 100% - $favWidth;
+
+    &.reportsDashboard {
+        background: $reports_modDash_bgColor;
+        border-top: $pages_pageContentBorderWidth solid $pages_pageContentBorderColor;
+
+        .nav-tabs {
+        }
+
+        .tab-pane {
+        }
+        .tab-content {
+            overflow: visible;
+            @include clearfix();
+
+            .reportHeader {
+                display: none;
+                margin: 0 0 $baseLineHeight 0;
+                font-size: $baseFontSize;
+                line-height: $lineHeightSmall;
+                font-weight: $fontWeightSemiBold;
+                letter-spacing: 1px; // TODO: GLOBAL NEEDED
+                text-transform: uppercase; // TODO: GLOBAL NEEDED
+                color: $brand_color_primary;
+            }
+        }
+
+        .dashboard-favorites {
+        }
+
+        .favoritesContainer {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            min-height: $g5ModuleUnit;
+            @include clearfix();
+        }
+        .favorite {
+            @if $reports_chartColors {
+                &:before {
+                    content: "#{$reports_chartColors}";
+                    display: none;
+                }
+            }
+
+            position: relative;
+            margin: 0;
+            // padding: ($g6ModulePaddingY / 2) $g6ModulePaddingX;
+            width: 100%;
+            height: $reports_modDash_favRep_height;
+            background: $reports_modDash_favRep_bgColor;
+            border: $reports_modDash_favRep_borderWidth solid $reports_modDash_favRep_borderColor;
+            @include box-sizing(border-box);
+            overflow: hidden; // temp, hopefully
+
+            & ~ .favorite {
+                margin-top: nth($card_margin, 1);
+            }
+
+            &:first-child.ui-sortable-helper + .favorite {
+                margin-top: 0;
+            }
+
+            &.placeholder {
+                background: transparentize($reports_modDash_favRep_borderColor, 0.5);
+                border-radius: $card_borderRadius;
+            }
+
+            .reorder,
+            .visitAppBtn {
+                position: absolute;
+                z-index: 99;
+                top: $reports_modDash_favRep_iconsWidth / 3;
+                left: $reports_modDash_favRep_iconsWidth / 3;
+                width: $reports_modDash_favRep_iconsWidth;
+                height: $reports_modDash_favRep_iconsWidth;
+                font-size: $reports_modDash_favRep_iconsWidth;
+                line-height: $reports_modDash_favRep_iconsWidth;
+                // font-weight: ;
+                // color: ;
+                cursor: move;
+                @include ignoreGlobalLinkStyles(
+                    $color: $reports_modDash_favRep_iconsColor false,
+                    $fontWeight: $fontWeightBold false
+                );
+            }
+            .visitAppBtn {
+                left: auto;
+                right: $reports_modDash_favRep_iconsWidth / 3;
+                cursor: pointer;
+
+                i {
+                    width: 1em;
+                    font-weight: inherit;
+                }
+            }
+
+            .displayName {
+                margin: 0;
+                font-size: $fontSizeMid;
+                line-height: $lineHeightMid;
+                font-weight: $fontWeightBold;
+
+                a {
+                    display: inline-block;
+                    max-width: 100%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+            .parameters {
+                font-size: $fontSizeSmall;
+                line-height: $lineHeightSmall;
+                color: $reports_modDash_favRep_parametersColor;
+            }
+            .chartContainer {
+                position: absolute;
+                top: nth($card_padding, 1) + $lineHeightMid + ($lineHeightSmall * 2);
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+
+            .emptyTitle {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: 0;
+                line-height: $reports_modDash_favRep_height;
+                vertical-align: middle;
+                text-align: center;
+
+                a {
+                    display: inline-block;
+                    padding: 10px;
+                    line-height: $headlineLineHeight;
+                    color: $reports_modDash_favRep_parametersColor;
+                    vertical-align: middle;
+                }
+                .subtitle {
+                    display: block;
+                    font-size: 0.75em;
+                }
+            }
+        }
+        .no-sorting {
+            .reorder {
+                display: none;
+            }
+        }
+
+        .dashboard-all {
+            .allContainer {
+                position: relative;
+                min-height: $g5ModuleUnit;
+            }
+
+            .span11 {
+                float: none;
+                margin: 0;
+                width: 100%;
+                padding-bottom: $baseLineHeight;
+            }
+            h5 {
+                font-size: $headline5fontSize_mobile;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+            .switcher {
+                cursor: pointer;
+
+                i {
+                    float: right;
+                    font-weight: $fontWeightBold;
+                }
+            }
+            .reportslist {
+                list-style: none;
+                margin-bottom: 0;
+            }
+            .reportReport {
+                margin-top: $baseLineHeight / 2;
+
+                & + .reportReport {
+                    margin-top: $baseLineHeight;
+                }
+
+                a {
+                    font-size: $fontSizeMid;
+                    line-height: $lineHeightMid;
+                    //font-weight: $fontWeightBold;
+                }
+
+                .desc {
+                    font-size: $fontSizeSmall;
+                    line-height: $lineHeightSmall;
+                }
+            }
+        }
+
+        @mixin reportsFavorites($paddingY, $paddingX, $allMinWidth, $favHeight, $favTopMargin) {
+            .dashboard-favorites {
+                padding-right: ($paddingX / 2);
+                width: calc(#{$favWidth} - #{$paddingX / 2});
+                max-width: calc(100% - #{$allMinWidth - ($paddingX / 2)});
+            }
+            .favorite {
+                // padding: ($paddingY / 2) ($paddingX / 2);
+                height: $favHeight;
+
+                & ~ .favorite {
+                    margin-top: $favTopMargin;
+                }
+                &:first-child.ui-sortable-helper + .favorite {
+                    margin-top: 0;
+                }
+            }
+
+            .dashboard-all {
+                margin: (-1 * $paddingY) (-1 * $paddingX) (-1 * $paddingY) 0;
+                padding: $paddingY $paddingX $paddingY ($paddingX / 2);
+                width: calc(#{$allWidth} - #{$paddingX / 2});
+                min-width: $allMinWidth - ($paddingX * 3 / 2);
+            }
+        }
+        @mixin reportsTwoColumns($rightMargin) {
+            .favoritesContainer {
+                margin-right: -1 * $rightMargin;
+            }
+            .favorite {
+                width: calc(100% - #{$rightMargin});
+
+                & ~ .favorite {
+                    float: left;
+                    margin-right: $rightMargin;
+                    width: calc(50% - #{$rightMargin});
+                }
+                &:first-child.ui-sortable-helper + .favorite {
+                    width: calc(100% - #{$rightMargin});
+                }
+            }
+        }
+
+        // EXTRA breakpoint for shrinking the sortable items on touch devices
+        // @media (max-width: $breakpoint_tablet_max) {
+        .touch & {
+            .favoritesContainer.ui-sorting {
+                .favorite {
+                    // same as .chartContainer top above
+                    height: nth($card_padding, 1) + $lineHeightMid + ($lineHeightSmall * 2);
+
+                    .chartContainer {
+                        display: none;
+                    }
+
+                    .emptyTitle {
+                        line-height: nth($card_padding, 1) + $lineHeightMid + ($lineHeightSmall * 2);
+
+                        a {
+                            padding: 0;
+                        }
+                    }
+
+                    &.ui-sortable-helper {
+                        .chartContainer {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+        // }
+
+        // EXTRA breakpoint for two columns on mobile
+        @media (max-width: $breakpoint_mobile_max) and (min-width: ($reports_modDash_favRep_height * 2 + $g6ModulePaddingX * 3)) {
+            @include reportsTwoColumns(nth($card_margin, 2));
+        }
+
+        @media (min-width: $breakpoint_tablet_min) {
+            border-top-width: $pages_pageContentBorderWidth_tablet;
+
+            .nav-tabs {
+                display: none;
+            }
+            .tab-pane {
+                display: block;
+            }
+            .tab-content {
+                .reportHeader {
+                    display: block;
+                }
+            }
+
+            .dashboard-favorites {
+                float: left;
+            }
+            .favorite {
+                .reorder,
+                .visitAppBtn {
+                    top: $reports_modDash_favRep_iconsWidth / 2;
+                    left: $reports_modDash_favRep_iconsWidth / 2;
+                }
+                .visitAppBtn {
+                    left: auto;
+                    right: $reports_modDash_favRep_iconsWidth / 2;
+                }
+            }
+
+            .dashboard-all {
+                float: right;
+                background: $reports_modDash_allRep_bgColor;
+            }
+
+            @include reportsFavorites(
+                $g6ModulePaddingY_tablet,
+                $g6ModulePaddingX_tablet,
+                $reports_modDash_allRep_minWidth,
+                $reports_modDash_favRep_height_tablet,
+                nth($card_margin_tablet, 1)
+            );
+        } // /@media
+
+        // EXTRA breakpoint for two columns on tablet
+        @media (max-width: $breakpoint_tablet_max) and (min-width: ($reports_modDash_favRep_height_tablet * 2 + $g6ModulePaddingX_tablet * 2 + $reports_modDash_allRep_minWidth)) {
+            @include reportsTwoColumns(nth($card_margin_tablet, 2));
+        }
+
+        @media (min-width: $breakpoint_desktop_min) {
+            border-top-width: $pages_pageContentBorderWidth_desktop;
+
+            @include reportsFavorites(
+                $g6ModulePaddingY_desktop,
+                $g6ModulePaddingX_desktop,
+                $reports_modDash_allRep_minWidth_desktop,
+                $reports_modDash_favRep_height_desktop,
+                nth($card_margin_desktop, 1)
+            );
+        } // /@media
+
+        // EXTRA breakpoint for two columns on desktop
+        @media (max-width: $breakpoint_desktop_max) and (min-width: ($reports_modDash_favRep_height_desktop * 2 + $g6ModulePaddingX_desktop * 2 + $reports_modDash_allRep_minWidth_desktop + $global_sidebar_width_desktop)) {
+            @include reportsTwoColumns(nth($card_margin_desktop, 2));
+        }
+
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            border-top-width: $pages_pageContentBorderWidth_desktopLarge;
+
+            @include reportsFavorites(
+                $g6ModulePaddingY_desktopLarge,
+                $g6ModulePaddingX_desktopLarge,
+                $reports_modDash_allRep_minWidth_desktop,
+                $reports_modDash_favRep_height_desktopLarge,
+                nth($card_margin_desktopLarge, 1)
+            );
+        } // /@media
+
+        // EXTRA breakpoint for two columns on desktopLarge
+        @media (max-width: $breakpoint_desktopLarge_max) and (min-width: ($reports_modDash_favRep_height_desktopLarge * 2 + $g6ModulePaddingX_desktopLarge * 2 + $reports_modDash_allRep_minWidth_desktop + $global_sidebar_width_desktopLarge)) {
+            @include reportsTwoColumns(nth($card_margin_desktopLarge, 2));
+        }
+    }
+
+
+
+
+
+
+    /* END special All/Favorite modules */
+} /* /.launchModule.reports */
+
+/* ----- PAGE STYLES ----- */
+.page.reports {
+
+    // .offScreen {
+    //     position: absolute;
+    //     left: -9999px;
+    // }
+
+    // #reportsDetailSpinnerBox {
+    //     position: relative;
+    //     width: 150px;
+    //     height: 150px;
+    //     left: 50%;
+    //     margin-left: -75px;
+    //     margin-top: -32px;
+    //     margin-bottom: -47px;
+    // }
+
+    // .chartInFocusSpinnerBox {
+    //     position: relative;
+    //     width: 150px;
+    //     height: 150px;
+    //     left: 50%;
+    //     margin-left: -75px;
+    //     top: 50%;
+    //     margin-top: -75px;
+    // }
+
+    // #tabularResultsSpinnerBox {
+    //     position: relative;
+    //     width: 150px;
+    //     height: 150px;
+    //     left: 50%;
+    //     margin-left: -75px;
+    //     top: 177px;
+    //     margin-top: -150px;
+    //     z-index: 100000;
+    //     overflow: visible;
+    // }
+
+    #reportsPageAllView {
+
+        .reportCategory {
+            ul {
+                margin-left: 0;
+                li {
+                    list-style-type: none;
+                    margin-bottom: $baseLineHeight;
+                }
+            }
+        }
+        @media (max-width: 979px) {
+            .reportCategory {
+                .span1 {
+                    line-height: $baseLineHeight * 2 + ($baseLineHeight / 2) * 2; // h1, h2, h3 line-height + h* top/bottom-margin * 2
+                }
+            }
+        }
+        @media (max-width: 767px) {
+            .reportCategory {
+                .span1 {
+                    display: inline;
+                    float: left;
+                    margin: 0 12px 0 0;
+                    width: 36px;
+                }
+                .span11 h4 {
+                    margin-bottom: $baseLineHeight;
+                }
+            }
+        }
+
+
+    } /* /#reportsPageAllView */
+
+    #reportsPageDetailView {
+        // position: relative;
+        @if $reports_chartColors {
+            &:before {
+                content: "#{$reports_chartColors}";
+                display: none;
+            }
+        }
+
+        #reportDesc {
+            margin-top: -1 * ($baseLineHeight / 2);
+        }
+        #timeStamp {
+        }
+
+        #chartRowContainer {
+        }
+
+
+        #chartRow {
+            $chart_max_width_mobile: $breakpoint_mobileMini_max - ($g6PagePaddingX * 2);
+            $chart_gap_mobile: $g6PagePaddingY / 2;
+            $chartThumb_gap_mobile: $g6PagePaddingX / 2;
+            $chartThumb_max_width_mobile: ($chart_max_width_mobile - ($chartThumb_gap_mobile * 5)) / 6;
+            $chartCaption_min_width_mobile: false;
+
+            $chart_min_width_tablet: 384px;
+            $chart_max_width_tablet: $chart_max_width_mobile;
+            $chart_gap_tablet: $g6PagePaddingX_tablet / 2;
+            $chartThumb_gap_tablet: $g6PagePaddingX_tablet / 3;
+            $chartThumb_max_width_tablet: ($chart_max_width_tablet - ($chartThumb_gap_tablet * 5)) / 6;
+            $chartCaption_min_width_tablet: 256px;
+
+            $reports_breakpoint_tablet_supp: $g6PagePaddingX_tablet + $chartThumb_max_width_tablet + $chart_gap_tablet + $chart_min_width_tablet + $chart_gap_tablet + $chartCaption_min_width_tablet + $g6PagePaddingX_tablet;
+            $reports_breakpoint_desktop_supp1: $breakpoint_tablet_max + ($global_sidebar_width_desktop / 2);
+            $reports_breakpoint_desktop_supp2: $breakpoint_tablet_max + $global_sidebar_width_desktop;
+
+            $chart_max_width_desktop: $breakpoint_tablet_max - ($g6PagePaddingX_desktop * 2) - $global_sidebar_width_desktop;
+            $chart_gap_desktop: $g6PagePaddingX_desktop / 2;
+            $chartThumb_gap_desktop: $g6PagePaddingX_desktop / 4;
+            $chartThumb_max_width_desktop: ($chart_max_width_desktop - ($chartThumb_gap_desktop * 5)) / 6;
+            $chartCaption_min_width_desktop: 256px;
+
+            .span7 {
+                margin: 0 0 $baseLineHeight 0;
+                width: auto;
+                @include clearfix();
+                // background: orange;
+
+                @media (min-width: $breakpoint_tablet_min) {
+                    margin-right: $chart_gap_tablet;
+                    width: calc(100% - #{$chart_gap_tablet + $chartCaption_min_width_tablet});
+                    max-width: $chartThumb_max_width_tablet + $chart_gap_tablet + $chart_max_width_tablet;
+                }
+
+                // for a short period at desktop size, we push the caption down below again
+                @media (min-width: $breakpoint_desktop_min) and (max-width: $reports_breakpoint_desktop_supp1) {
+                    float: none;
+                    margin-right: 0;
+                    width: auto;
+                    max-width: none;
+                }
+                @media (min-width: $reports_breakpoint_desktop_supp1 + 1) and (max-width: $reports_breakpoint_desktop_supp2) {
+                    max-width: none;
+                }
+
+                // now flip back to the expected orientation
+                @media (min-width: $reports_breakpoint_desktop_supp2 + 1) {
+                    margin-right: $chart_gap_desktop;
+                    width: calc(100% - #{$chart_gap_desktop + $chartCaption_min_width_desktop});
+                    max-width: $chartThumb_max_width_desktop + $chart_gap_desktop + $chart_max_width_desktop;
+                }
+            }
+
+            #chartInFocus {
+                position: relative;
+                margin: 0 auto;
+                width: 100%;
+                height: $chart_max_width_mobile;
+                max-width: $chart_max_width_mobile;
+                background-color: $white;
+                border: $reports_chart_border_width solid $reports_chart_border_color;
+                overflow: hidden;
+                // background: blue;
+
+                .reportsChart-moveable-item {
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100% !important;
+                    height: 100% !important;
+                    display: block !important;
+                    @include transition-property(left);
+                    @include transition-duration($animation_duration);
+
+                    &.active {
+                        left: 0;
+
+                        & ~ .reportsChart-moveable-item {
+                            left: 100%;
+                        }
+                    }
+
+                    .individualChartBkgd {
+                        display: none;
+                        width: 100%;
+                        height: 100%;
+                        // @include opacity(.25);
+                    }
+                }
+
+                @media (min-width: $breakpoint_mobileMini_min) {
+                    width: calc(100% - #{$chartThumb_max_width_mobile + $chart_gap_mobile + ($reports_chart_border_width * 2)});
+                    max-width: none;
+                }
+
+                // for a short period at tablet size, we put the thumbs above the chart
+                @media (min-width: $breakpoint_tablet_min) and (max-width: $reports_breakpoint_tablet_supp) {
+                    width: calc(100% - #{($reports_chart_border_width * 2)});
+                    max-width: $chart_max_width_tablet - ($reports_chart_border_width * 2);
+                    height: $chart_max_width_tablet - $chartThumb_max_width_tablet - $chart_gap_tablet - ($reports_chart_border_width * 2);
+                }
+
+                // now flip back to the expected orientation
+                @media (min-width: $reports_breakpoint_tablet_supp + 1) {
+                    width: calc(100% - #{$chartThumb_max_width_tablet + $chart_gap_tablet + ($reports_chart_border_width * 2)});
+                }
+
+                // for a short period at desktop size, we push the caption down below again
+                @media (min-width: $breakpoint_desktop_min) and (max-width: $reports_breakpoint_desktop_supp2) {
+                    // width: calc(100% - #{$chartThumb_max_width_tablet + $chart_gap_tablet + ($reports_chart_border_width * 2)});
+                    max-width: none;
+                    height: $chart_max_width_tablet - ($reports_chart_border_width * 2);
+                }
+
+                // now flip back to the expected orientation
+                @media (min-width: $reports_breakpoint_desktop_supp2 + 1) {
+                    width: calc(100% - #{$chartThumb_max_width_desktop + $chart_gap_desktop + ($reports_chart_border_width * 2)});
+                    max-width: $chart_max_width_desktop - ($reports_chart_border_width * 2);
+                    height: $chart_max_width_desktop - ($reports_chart_border_width * 2);
+                }
+            }
+
+            .chartThumbs {
+                list-style: none;
+                margin: 0 auto $chart_gap_mobile auto;
+                @include clearfix();
+                // background: green;
+
+                li {
+                    display: inline;
+                    float: left;
+                    position: relative;
+                    width: calc((100% - #{$chartThumb_gap_mobile * 5}) / 6);
+                    max-width: $chartThumb_max_width_mobile;
+                    max-height: $chartThumb_max_width_mobile;
+                    background: lighten($grayLighter, 3%);
+                    // @include opacity(.25);
+
+                    & ~ li {
+                        margin-left: $chartThumb_gap_mobile;
+                    }
+
+                    a {
+                        display: block;
+                        cursor: pointer;
+                        @include ignoreGlobalLinkStyles();
+                    }
+
+                    img {
+                        border: $reports_chartThumb_border_width solid $reports_chartThumb_border_color;
+                        @include opacity(0.33);
+                        width: calc(100% - #{($reports_chartThumb_border_width * 2)});
+                        height: calc(100% - #{($reports_chartThumb_border_width * 2)});
+                        cursor: pointer;
+                    }
+
+                    i {
+                        display: none;
+                        position: absolute;
+                        right: 50%;
+                        bottom: -1 * $chart_gap_mobile / 2;
+                        margin: 0 (-1 * $chart_gap_mobile / 2) (-1 * $chart_gap_mobile / 2) 0;
+                        width: $chart_gap_mobile;
+                        height: $chart_gap_mobile;
+                        font-size: $chart_gap_mobile;
+                        line-height: $chart_gap_mobile;
+                        font-weight: $fontWeightBold;
+                        text-align: center;
+                        color: $reports_chartThumb_border_colorSelected;
+                        // background: purple;
+                    }
+
+                    &.activeSlide {
+                        // @include opacity(1);
+
+                        a {
+                            cursor: default;
+                        }
+
+                        img {
+                            border-color: $reports_chartThumb_border_colorSelected;
+                            @include opacity(1);
+                            cursor: default;
+                        }
+
+                        .icon-arrow-1-down {
+                            display: block;
+                        }
+                    }
+
+                    // a {
+                    //     .individualChartThumb {
+                    //         width: 100%;
+                    //         height: 100%;
+                    //     }
+                    // }
+                }
+
+                @media (min-width: $breakpoint_mobileMini_min) {
+                    display: inline;
+                    float: left;
+                    margin: 0 $chart_gap_mobile 0 0;
+                    width: $chartThumb_max_width_mobile;
+
+                    li {
+                        width: 100%;
+                        max-width: 100%;
+                        max-height: none;
+
+                        & ~ li {
+                            margin-top: $chartThumb_gap_mobile;
+                            margin-left: 0;
+                        }
+
+                        i {
+                            right: -1 * $chart_gap_mobile / 2;
+                            bottom: 50%;
+                        }
+
+                        &.activeSlide {
+                            .icon-arrow-1-down {
+                                display: none;
+                            }
+                            .icon-arrow-1-right {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+
+                // for a short period at tablet size, we put the thumbs above the chart
+                @media (min-width: $breakpoint_tablet_min) and (max-width: $reports_breakpoint_tablet_supp) {
+                    display: block;
+                    float: none;
+                    margin: 0 0 $chart_gap_tablet 0;
+                    width: auto;
+
+                    li {
+                        width: calc((100% - #{$chartThumb_gap_tablet * 5}) / 6);
+                        max-width: $chartThumb_max_width_tablet;
+                        max-height: $chartThumb_max_width_tablet;
+
+                        & ~ li {
+                            margin-left: $chartThumb_gap_tablet;
+                            margin-top: 0;
+                        }
+
+                        i {
+                            bottom: -1 * $chart_gap_tablet / 2;
+                            right: 50%;
+                        }
+
+                        &.activeSlide {
+                            .icon-arrow-1-down {
+                                display: block;
+                            }
+                            .icon-arrow-1-right {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+                // now flip back to the expected orientation
+                @media (min-width: $reports_breakpoint_tablet_supp + 1) {
+                    margin-right: $chart_gap_tablet;
+                    width: $chartThumb_max_width_tablet;
+
+                    li {
+                        i {
+                            right: -1 * $chart_gap_tablet / 2;
+                            margin: 0 (-1 * $chart_gap_tablet / 2) (-1 * $chart_gap_tablet / 2) 0;
+                            width: $chart_gap_tablet;
+                            height: $chart_gap_tablet;
+                            font-size: $chart_gap_tablet;
+                            line-height: $chart_gap_tablet;
+                        }
+
+                        & ~ li {
+                            margin-top: $chartThumb_gap_tablet;
+                        }
+                    }
+                }
+
+                @media (min-width: $breakpoint_desktop_min) {
+                }
+
+                // for a short period at desktop size, we push the caption down below again
+                @media (min-width: $breakpoint_desktop_min) and (max-width: $reports_breakpoint_desktop_supp2) {
+                    // margin-right: $chart_gap_desktop;
+                    // width: $chartThumb_max_width_tablet;
+                }
+
+                // now flip back to the expected orientation
+                @media (min-width: $reports_breakpoint_desktop_supp2 + 1) {
+                    margin-right: $chart_gap_desktop;
+                    width: $chartThumb_max_width_desktop;
+
+                    li {
+                        i {
+                            right: -1 * $chart_gap_desktop / 2;
+                            margin: 0 (-1 * $chart_gap_desktop / 2) (-1 * $chart_gap_desktop / 2) 0;
+                            width: $chart_gap_desktop;
+                            height: $chart_gap_desktop;
+                            font-size: $chart_gap_desktop;
+                            line-height: $chart_gap_desktop;
+                        }
+
+                        & ~ li {
+                            margin-top: $chartThumb_gap_desktop;
+                        }
+                    }
+                }
+            }
+
+            .span5 {
+                float: none;
+                margin: 0;
+                width: auto;
+                // background: yellow;
+
+                #exportChartPdf {
+                    // temporarily hiding the PDF icon until FusionCharts gets us a version of their library that isn't broken
+                    //Enable pdf link for temporary testing purpose in pentagqa
+                    //display: none;
+
+                    float: right;
+                }
+            }
+
+        }
+
+        #chartName {
+            // color: $gray;
+        }
+        .reportsChangeFiltersPopoverTrigger {
+            // margin-left: 4px;
+        }
+        #currentParametersSummary {
+            // margin-top: 13px;
+            // margin-bottom: 36px;
+
+            @media (min-width: 768px) and (max-width: 979px) {
+                strong {
+                    display: block;
+                }
+            }
+        }
+
+        .paginationControls {
+            position: relative;
+            // margin-top: -23px;
+        }
+
+        #tabularResultsContainer {
+            position: relative;
+
+            .columnDefinitions-popover {
+                display: inline-block;
+                cursor: pointer;
+                @include ignoreGlobalLinkStyles();
+            }
+
+            #resultsTableWrapper {
+                width: 100%;
+                overflow: visible;
+                font-size: $baseFontSize * .857; // converts 14px to 12px elegantly
+            }
+            .pagination ~ #resultsTableWrapper,
+            #resultsTableWrapper ~ .pagination {
+                margin-top: -1 * $baseLineHeight / 2;
+            }
+
+            thead th {
+                white-space : nowrap;
+            }
+
+            table {
+                .info.summaryRow {
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .columnDefinitionsPopover {
+            max-width: ($gridColumns / 2) * ($gridColumnWidth + $gridGutterWidth) - $gridGutterWidth;
+            width: auto  !important;
+            border-color: $grayLight;
+            @include box-shadow(2px 4px 24px rgba(0,0,0,.5));
+
+            .row {
+                margin: 0;
+            }
+
+            #columnDefinitions {
+                margin: 0;
+            }
+        }
+
+    } /* /#reportsPageDetailView */
+
+} /* /.page.reports */
+
+.parameters-popover-left {
+    float: left;
+    width: 125px;
+    margin: 0 0 0 30px;
+}
+
+.parameters-popover-right,
+.parameters-popover-right .nav-list {
+    float: left;
+    width: 125px;
+}
+
+#reportsPageView #reportsSelect {
+    position: relative;
+    width: auto;
+
+    @media (max-width: 538px) {
+        width: 100%;
+    }
+}
+
+.reports-table-width-fix {
+    width: 30px;
+}
+
+.reportsFavoritesPopover {
+    max-width: none;
+    min-width: 0;
+    left: 50% !important;
+    font-size: $baseFontSize;
+    line-height: $baseLineHeight;
+
+    z-index: 20000 !important; // greater than default qtip (and pretty much everything else) // lifted from _modals.scss
+    position: fixed !important; // lifted from bootstrap/_modals.scss
+    top: 10% !important; // lifted from bootstrap/_modals.scss
+    width: 560px !important; // lifted from bootstrap/_modals.scss
+    border: $modal_borderWidth solid $modal_borderColor; // lifted from _modals.scss
+    @include box-shadow(0 3px 7px rgba(0,0,0,0.3)); // lifted from bootstrap/_modals.scss
+
+    @media (max-width: 767px) {
+        top: 20px !important; // lifted from bootstrap/_modals.scss
+        left: 20px !important; // lifted from bootstrap/_modals.scss
+        right: 20px !important; // lifted from bootstrap/_modals.scss
+        width: auto !important; // lifted from bootstrap/_modals.scss
+    }
+
+    .ui-tooltip-content {
+        overflow: visible;
+        padding: 0;
+    }
+
+    #dragToChange {
+        font-style: italic;
+    }
+
+    .myFavoriteReports {
+        background: $brand_color_light;
+
+        .dragItem {
+            margin: 0;
+            background: $white;
+            cursor: move;
+
+            & ~ .dragItem {
+                margin-top: 1px;
+            }
+
+            &.ui-sortable-helper {
+                @include opacity(.8);
+            }
+        }
+    }
+
+    $dragHeight: 36px;
+
+    .dragItem {
+        padding: 4px 8px;
+        min-height: $dragHeight;
+        line-height: $dragHeight;
+        vertical-align: middle;
+
+        .move,
+        .remove {
+            display: inline;
+            float: left;
+            margin-top: 0;
+            margin-left: 0;
+            height: $dragHeight;
+            width: 30px;
+            font-size: 21px;
+            line-height: $dragHeight;
+            vertical-align: middle;
+        }
+        .remove {
+            float: right;
+            // margin-left: 0;
+            //color: $grayLight;
+            // margin-top: 5px;
+            // margin-left: 2px;
+            cursor: pointer;
+            text-align: center;
+        }
+    }
+
+    .onlyOneFavorite {
+        .move,
+        .remove {
+            display: none;
+        }
+    }
+
+    .reportFavoriteIcon {
+        display: inline;
+        float: left;
+        margin: 0 8px 0 0;
+        width: $dragHeight - 2px;
+        height: $dragHeight - 2px;
+        border: 1px solid $brand_color_border;
+
+        img {
+            display: block;
+        }
+    }
+    .reportFavoriteText {
+        p {
+            display: block;
+            margin: 0;
+            line-height: normal;
+            vertical-align: middle;
+        }
+    }
+
+    .sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+#reportParametersForm .control-label {
+    margin-right: 20px;
+}
+
+#reportParametersForm h3,
+#reportParametersForm h4 {
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 20px;
+    padding-bottom: 3px;
+}
+.modal-backdrop.fauxdrop {
+    z-index: 20000 !important;
+}
+.reportsChangeFiltersPopover {
+    width: auto !important;
+    max-width: none;
+    min-width: 0;
+
+    z-index: 20000 !important; // greater than default qtip (and pretty much everything else) // lifted from _modals.scss
+    border: $modal_borderWidth solid $modal_borderColor; // lifted from _modals.scss
+    @include box-shadow(0 3px 7px rgba(0,0,0,0.3)); // lifted from bootstrap/_modals.scss
+
+    font-size: $baseFontSize;
+    line-height: $baseLineHeight;
+
+    // left/right + media queries lifted from _stackModal.scss
+    left: $g6PagePaddingX / 2 !important;
+    right: $g6PagePaddingX / 2 !important;
+    @media (min-width: $breakpoint_tablet_min) {
+        left: $g6PagePaddingX_tablet / 2 !important;
+        right: $g6PagePaddingX_tablet / 2 !important;
+    } // /@media
+    @media (min-width: $breakpoint_desktop_min) {
+        left: $g6PagePaddingX_desktop / 2 !important;
+        right: $global_sidebar_width_desktop - ($g6PagePaddingX_desktop / 2) !important;
+    } // /@media
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        left: $g6PagePaddingX_desktopLarge / 2 !important;
+        right: $global_sidebar_width_desktopLarge  - ($g6PagePaddingX_desktopLarge / 2) !important;
+    } // /@media
+    @media (min-width: $breakpoint_siteMax_min) {
+        left: calc((100% - #{$breakpoint_desktopLarge_max}) / 2 + #{$g6PagePaddingX_desktopLarge / 2}) !important;
+        right: calc((100% - #{$breakpoint_desktopLarge_max}) / 2 + #{$global_sidebar_width_desktopLarge - $g6PagePaddingX_desktopLarge / 2}) !important;
+    } // /@media
+
+
+    .span12 {
+        max-width: 100%;
+    }
+    .spin {
+        display: block;
+        margin: ($spinner_widthHeight / 2) auto ($spinner_widthHeight) auto;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+
+        .spinner {
+            top: 50% !important;
+            left: 50% !important;
+        }
+    }
+
+    .container-fluid {
+        padding: 0;
+    }
+
+    #reportParametersForm {
+        margin-bottom: 0;
+    }
+
+    input,
+    button,
+    select,
+    textarea {
+        // font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
+    label,
+    input,
+    button,
+    select,
+    textarea {
+        // font-weight: normal;
+    }
+    .span6 select {
+        width: 100%;
+        min-width: 220px;
+    }
+    .span12 select {
+        width: auto;
+        min-width: 244px;
+        max-width: 688px;
+
+        .lt-ie9 & {
+            min-width: 232px;
+            max-width: 676px;
+        }
+
+        @media (min-width: 1200px) {
+            min-width: 342px;
+            max-width: 894px;
+        }
+        @media (max-width: 979px) {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        &.participantSearchSelect {
+            min-width: 220px;
+            width: auto;
+        }
+    }
+
+    // .close {
+    //     position: absolute;
+    //     top: 8px;
+    //     right: 8px;
+    //     line-height: 27px;
+    // }
+
+    .container-splitter
+    {
+        //@include gridCoreInnerFullSplit(($g5PageContentPaddingHoriz / 2), null, $g5PageContentLeftRightBorderWidth);
+        margin: 0;
+    }
+    .form-actions {
+        margin-bottom: 0;
+        // padding-bottom: 0;
+        // margin: 0;
+        // padding: 0;
+        // margin-top: $baseLineHeight;
+    }
+
+    .span12.defaultFilterCreationWrapper {
+        margin-left: 0;
+    }
+
+    .participantCollectionViewWrapper {
+        padding: $baseLineHeight;
+    }
+
+}
+
+
+
+
+#reportsPageView .page-topper .spin {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+#reportsPageView .childview {
+    position: relative;
+}
+#reportsPageView .childview .spin {
+    display: block;
+    margin: 0 auto;
+    width: $spinner_widthHeight;
+    height: $spinner_widthHeight;
+}
+#reportsPageView .childview .spincover,
+.reportsChangeFiltersPopover .spincover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    width: 100%;
+    height: 100%;
+    background: $white;
+    background: rgba(255, 255, 255, .5);
+
+    .spin {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+    }
+}
+.reportsChangeFiltersPopover .spincover {
+    .spin {
+        top: 45%;
+    }
+}
+#reportsPageView #chartInFocus .spin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+}

@@ -1,0 +1,34 @@
+<h3>I'm Nominating...</h3>
+
+<span class="nominationSaved" style="display:none">Saved &nbsp;<i class="icon icon-diskette-1"></i></span>
+
+<div class="control-group validateme"
+    data-validate-flags="nonempty"
+    data-validate-fail-msgs='{"nonempty" : "Please select an individual or team to nominate."}'>
+
+    <div class="controls">
+		<label class="radio {{#eq individualOrTeam "Individual"}} active {{/eq}}" for="individualOrTeam_ind">
+				<div class="individualOrTeam">
+					<i class="icon-user"></i><p>Individual</p>
+				</div>
+
+				<input type="radio" name="individualOrTeam" class="individualNominee" id="individualOrTeam_ind" value="Individual" data-nominating-type="individual" data-model-key="individualOrTeam" {{#eq individualOrTeam "Individual"}} selected checked {{/eq}}>
+		</label>
+
+        <span class="orSeparator">or</span>
+
+		<label class="radio {{#eq individualOrTeam "Team"}} active {{/eq}}" for="individualOrTeam_team">
+				<div class="individualOrTeam">
+					<i class="icon-team-1"></i><p>Team</p>
+				</div>
+
+				<input type="radio" name="individualOrTeam" class="teamNominee" id="individualOrTeam_team" value="Team" data-nominating-type="team" data-model-key="individualOrTeam" {{#eq individualOrTeam "Team"}} selected checked{{/eq}}>
+		 </label>
+    </div>
+</div>
+
+<div class="stepContentControls">
+    <button class="btn btn-primary nextBtn">
+        Next
+    </button>
+</div><!-- /.stepContentControls -->

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.workhappier.WorkHappier" table="WORKHAPPIER">
+
+    <id name="id" type="java.lang.Long" column="WORKHAPPIER_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">WORKHAPPIER_ID_PK_SQ</param>
+      </generator>
+    </id>
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    
+    <property name="imageName" type="java.lang.String" column="IMAGE_NAME"/>
+	<property name="minValue" type="java.lang.Long" column="MIN_VALUE" />
+	<property name="maxValue" type="java.lang.Long" column="MAX_VALUE" />
+	<property name="whAssetCode" type="java.lang.String" column="WH_CM_ASSET_CODE" />
+	
+	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+	<set name="workHappierScores" table="WORKHAPPIER_SCORE" lazy="false" inverse="true" cascade="all-delete-orphan">
+	   <key column="WORKHAPPIER_ID" not-null="true" />
+	   <one-to-many class="com.biperf.core.domain.workhappier.WorkHappierScore"/>
+	</set>   
+  </class>
+  
+  <query name="com.biperf.core.domain.workhappier.getAllWorkHappier">
+		from WorkHappier
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.workhappier.geWorkHappierByScore">
+	<return alias="workHappier" class="com.biperf.core.domain.workhappier.WorkHappier"/>
+	<![CDATA[
+	 SELECT * FROM workhappier WHERE :score BETWEEN min_value AND max_value
+    ]]>
+  </sql-query>
+  
+</hibernate-mapping>
+

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+  xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	   
+	   <context:component-scan base-package="com.biperf.core,com.biw.hc.core" />	
+	   
+ 
+
+  <bean id="g5_jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    <constructor-arg index="0" type="java.lang.String" value="vm://localhost?broker.persistent=false" />
+  </bean>
+  
+  <bean id="g5_jmsTopic" class="org.apache.activemq.command.ActiveMQTopic">
+    
+  </bean>
+  
+  <bean id="g5_jmsCacheFlushTopic" class="org.apache.activemq.command.ActiveMQTopic">
+    
+  </bean>  
+
+  <bean id="g5_jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="g5_jmsConnectionFactory" />
+  </bean>
+
+  <bean id="g5_jmsTopicContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="g5_jmsConnectionFactory" />
+    <property name="destination" ref="g5_jmsTopic" />
+    <property name="messageListener" ref="g5_jmsTopicMessageListener" />
+  </bean>
+
+  <bean id="g5_jmsTopicMessageListener" class="com.biperf.core.utils.jms.JmsTopicMessageListener">
+	<property name="jmsTemplate">
+		<ref bean="g5_jmsTemplate" />
+	</property>
+	<property name="topic">
+		<ref bean="g5_jmsTopic" />
+	</property>
+    <property name="applicationName">
+      <value>@PROJECT_NAME@</value>
+    </property>
+  </bean>
+
+  <bean id="javaMessageService" parent="serviceProxyFactoryParent">
+      <property name="proxyInterfaces">
+          <value>com.biperf.core.service.jms.GJavaMessageService</value>
+      </property>
+      <property name="target">
+          <bean class="com.biperf.core.service.jms.impl.GJavaMessageServiceImpl">
+			<property name="jmsTopicMessageListener">
+				<ref bean="g5_jmsTopicMessageListener" />
+			</property>
+          </bean>
+      </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+    "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+
+<tiles-definitions> <!-- Tiles Definitions for Admin Module -->
+  <!--
+* Base tiles definiitons (page parts).  Section contains main definitions for:
+*
+* 1.  title		    - title that appears in Browser header
+* 2.  header   	    - header that appears at top of page
+  * 3.  topNav        - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+* 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content       - main content tile
+  * 7.  footer        - page footer
+  -->
+	<definition name="filedownload.list" extends="beacon.default">
+		<put name="content" value="/reports/reportDownloadList.jsp" />
+	</definition>
+
+	<definition name="acl.update.widget"
+		path="/admin/acl/updateAcl.jsp" />
+
+	<definition name="acl.update" extends="beacon.default">
+		<put name='content' value='acl.update.widget' />
+		<put name='trackingTitle' value='ACL_Update' />
+	</definition>
+
+  	<definition name="acl.create.widget"
+		path="/admin/acl/createAcl.jsp" />
+
+	<definition name="acl.create" extends="beacon.default">
+		<put name='content' value='acl.create.widget' />
+		<put name='trackingTitle' value='ACL_Create' />
+	</definition>
+
+	<definition name="acl.list.display" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.acl.AclListController">
+		<put name='content' value="/admin/acl/displayAclList.jsp" />
+		<put name='trackingTitle' value='ACL_List' />
+	</definition>
+
+	<definition name="role.update.widget"
+          		path="/admin/role/updateRole.jsp"
+              controllerClass="com.biperf.core.ui.role.RoleController"/>
+	<definition name="role.update" extends="beacon.default">
+		<put name='content' value='role.update.widget' />
+	</definition>
+
+	<definition name="role.create.widget"
+              path="/admin/role/createRole.jsp"
+              controllerClass="com.biperf.core.ui.role.RoleController"/>
+	<definition name="role.create" extends="beacon.default">
+		<put name='content' value='role.create.widget' />
+	</definition>
+
+	<definition name="role.list.display" extends="beacon.default" controllerClass="com.biperf.core.ui.role.RoleListDisplayController">
+		<put name='content' value="/admin/role/displayRoleList.jsp" />
+		<put name='trackingTitle' value='Role_List' />
+	</definition>
+	
+  <definition name="inactive.budget.display" extends="beacon.default" controllerClass="com.biperf.core.ui.budget.InactiveBudgetsDisplayController">
+    <put name="content" value="/admin/budget/inactiveBudgets.jsp" />
+    <put name='trackingTitle' value='Inactive_Budgets' />
+  </definition>
+
+  <definition name="budget.create" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.budget.BudgetMaintainController">
+    <put name="content" value="/admin/budget/budgetAdd.jsp" />
+    <put name='trackingTitle' value='Budget_Create' />
+  </definition>
+
+  <definition name="budget.details" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.budget.BudgetMaintainController">
+    <put name="content" value="/admin/budget/budgetDisplay.jsp" />
+    <put name='trackingTitle' value='Budget_Details' />
+  </definition>
+
+  <definition name="budget.review" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.budget.BudgetMaintainController">
+    <put name="content" value="/admin/budget/budgetReview.jsp" />
+    <put name='trackingTitle' value='Budget_Review' />
+  </definition>
+
+  <definition name="budget.update" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.budget.BudgetMaintainController">
+    <put name="content" value="/admin/budget/budget.jsp" />
+    <put name='trackingTitle' value='Budget_Update' />
+  </definition>
+  
+  <definition name="country.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.country.CountryListController">
+    <put name='content' value='/admin/country/countryList.jsp' />
+    <put name='trackingTitle' value='Country_List' />
+  </definition>
+
+  <definition name="country.create" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.country.CountryController">
+    <put name='content' value='/admin/country/countryCreate.jsp' />
+    <put name='trackingTitle' value='Country_Create' />
+  </definition>
+
+  <definition name="country.edit" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.country.CountryController">
+    <put name='content' value='/admin/country/countryUpdate.jsp' />
+    <put name='trackingTitle' value='Country_Edit' />
+  </definition>
+
+  <definition name="employer.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.employer.EmployerListController">
+    <put name="content"	value="/admin/employer/employerList.jsp" />
+    <put name='trackingTitle' value='Employer_List' />
+  </definition>
+
+  <definition name="employer.create" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.employer.EmployerMaintainController">
+    <put name="content" value="/admin/employer/employerAdd.jsp" />
+    <put name='trackingTitle' value='Employer_Create' />
+  </definition>
+
+  <definition name="employer.update" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.employer.EmployerMaintainController">
+    <put name="content" value="/admin/employer/employer.jsp" />
+    <put name='trackingTitle' value='Employer_Update' />
+  </definition>
+
+  <definition name="importFile.confirm" extends="beacon.default">
+    <put name="content" value="/admin/fileload/importFileConfirm.jsp" />
+    <put name='trackingTitle' value='Import_File_Confirm' />
+  </definition>
+
+  <definition name="importFile.list" extends="beacon.default" controllerClass="com.biperf.core.ui.fileload.ImportFileListSearchController">
+    <put name="content" value="/admin/fileload/importFileList.jsp" />
+    <put name='trackingTitle' value='Import_File_List' />
+  </definition>
+
+  <definition name="importFile.detail" extends="beacon.default" controllerClass="com.biperf.core.ui.fileload.ImportFileDetailController">
+    <put name="content" value="/admin/fileload/importFileDetail.jsp" />
+    <put name='trackingTitle' value='Import_File_Detail' />
+  </definition>
+
+  <definition name="importRecord.list.bud_dist" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.bud_dist" />
+     <put name='trackingTitle' value='Import_Record_List_Budget' />
+  </definition>
+  
+  <definition name="importRecord.list.table.bud_dist" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/budgetdistribution.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_BudgetDistribution' />
+  </definition>
+  
+  <definition name="importRecord.list.budget" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.budget" />
+     <put name='trackingTitle' value='Import_Record_List_Budget' />
+  </definition>
+
+  <definition name="importRecord.list.table.budget" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/budget.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_Budget' />
+  </definition>
+
+  <definition name="importRecord.list.deposit" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.deposit" />
+    <put name='trackingTitle' value='Import_Record_List_Deposit_Printer_Friendly' />
+  </definition>
+
+  <definition name="importRecord.list.table.deposit" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/deposit.jsp" />
+	<put name='trackingTitle' value='Import_Record_List_Table_Deposit' />
+  </definition>
+
+  <definition name="importRecord.list.hierarchy" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.hierarchy" />
+    <put name='trackingTitle' value='Import_Record_List_Hierarchy' />
+  </definition>
+
+  <definition name="importRecord.list.table.hierarchy" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/hierarchy.jsp" />
+	<put name='trackingTitle' value='Import_Record_List_Table_Hierarchy' />
+  </definition>
+  
+    <definition name="importRecord.list.leaderBoard"
+                extends="beacon.printerFriendly">
+       <put name="content" value="importRecord.list.table.leaderboard"/> 
+       <put name="trackingTitle" value="Import_Record_List_LeaderBoard"/>               
+    </definition>
+    
+    <definition name="importRecord.list.table.leaderboard" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/leaderBoard.jsp" />
+	<put name='trackingTitle' value='Import_Record_List_Table_LeaderBoard' />
+  </definition>
+  
+    <definition name="importRecord.list.badge"
+                extends="beacon.printerFriendly">
+       <put name="content" value="importRecord.list.table.badge"/> 
+       <put name="trackingTitle" value="Import_Record_List_Badge"/>               
+    </definition>
+    
+    <definition name="importRecord.list.table.badge" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/badgeImport.jsp" />
+	<put name='trackingTitle' value='Import_Record_List_Table_Badge' />
+  </definition>
+
+  <definition name="importRecord.list.participant" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.participant" />
+     <put name='trackingTitle' value='Import_Record_List_Participant' />
+  </definition>
+
+  <definition name="importRecord.list.table.participant" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/participant.jsp" />
+	<put name='trackingTitle' value='Import_Record_List_Table_Participant' />
+  </definition>
+
+  <definition name="importRecord.list.product" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.product" />
+    <put name='trackingTitle' value='Import_Record_List_Product' />
+  </definition>
+
+  <definition name="importRecord.list.table.product" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/product.jsp" />
+	<put name='trackingTitle' value='Import_Record_List_Table_Product' />
+  </definition>
+
+  <definition name="importRecord.list.product_claim" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.product_claim" />
+    <put name='trackingTitle' value='Import_Record_List_Product_Claim' />
+  </definition>
+
+  <definition name="importRecord.list.table.product_claim" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/productClaim.jsp" />
+	<put name='trackingTitle' value='Import_Record_List_Table_Product_Claim' />
+  </definition>
+
+  <definition name="importRecord.list.quiz" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.quiz" />
+    <put name='trackingTitle' value='Import_Record_List_Quiz' />
+  </definition>
+
+  <definition name="importRecord.list.table.quiz" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/quiz.jsp" />
+	<put name='trackingTitle' value='Import_Record_List_Table_Quiz' />
+  </definition>
+
+  <definition name="importRecord.list.gq_base" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.gq_base" />
+    <put name='trackingTitle' value='Import_Record_List_GQ_Base_Printer' />
+  </definition>
+
+  <definition name="importRecord.list.table.gq_base" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/paxBase.jsp" />
+  </definition>
+
+  <definition name="importRecord.list.gq_progress" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.gq_progress" />
+    <put name='trackingTitle' value='Import_Record_List_GQ_Progress_Printer' />
+  </definition>
+
+  <definition name="importRecord.list.table.gq_progress" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/progress.jsp" />
+  </definition>
+
+  <definition name="importRecord.list.gq_goal" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.gq_goal" />
+    <put name='trackingTitle' value='Import_Record_List_GQ_Goal_Printer' />
+  </definition>
+
+  <definition name="importRecord.list.table.gq_goal" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/paxGoal.jsp" />	
+  </definition>
+
+  <definition name="importRecord.list.gq_vin" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.gq_vin" />
+    <put name='trackingTitle' value='Import_Record_List_Table_GQ_VIN_Printer' />
+  </definition>
+
+  <definition name="importRecord.list.table.gq_vin" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/autoVin.jsp" />	
+  </definition>
+
+  <definition name="importRecord.list.cp_base" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.cp_base" />
+    <put name='trackingTitle' value='Import_Record_List_CP_Base_Printer' />
+  </definition>
+
+  <definition name="importRecord.list.table.cp_base" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/cpPaxBase.jsp" />
+  </definition>
+
+  <definition name="importRecord.list.cp_progress" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.cp_progress" />
+    <put name='trackingTitle' value='Import_Record_List_CP_Progress_Printer' />
+  </definition>
+
+  <definition name="importRecord.list.table.cp_progress" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/cpProgress.jsp" />
+  </definition>
+
+  <definition name="importRecord.list.cp_level" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.cp_level" />
+    <put name='trackingTitle' value='Import_Record_List_CP_Level_Printer' />
+  </definition>
+
+  <definition name="importRecord.list.table.cp_level" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/cpPaxLevel.jsp" />
+  </definition>
+
+  <definition name="importRecord.list.award_level" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.award_level" />
+    <put name='trackingTitle' value='Import_Record_List_Award_Level_Printer' />
+  </definition>
+
+  <definition name="importRecord.list.table.award_level" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/awardsLevel.jsp" />	
+  </definition>
+  
+  <!--   nomapprover -->
+  <definition name="importRecord.list.nomapprover" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.nomapprover" />
+     <put name='trackingTitle' value='Import_Record_List_NominationApprover' />
+  </definition>
+  
+  <definition name="importRecord.list.table.nomapprover" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/nomapprover.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_NominationApprover' />
+  </definition>
+  
+  <!--   Ssi Objectives Contest -->
+  <definition name="importRecord.list.ssicontestobj" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.ssicontestobj" />
+     <put name='trackingTitle' value='Import_Record_List_NominationApprover' />
+  </definition>
+  
+  <definition name="importRecord.list.table.ssicontestobj" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/ssicontestobj.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_NominationApprover' />
+  </definition>
+  
+  <!--   Ssi DTGT Contest -->
+  <definition name="importRecord.list.ssicontestdtgt" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.ssicontestdtgt" />
+     <put name='trackingTitle' value='Import_Record_List_NominationApprover' />
+  </definition>
+  
+  <definition name="importRecord.list.table.ssicontestdtgt" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/ssicontestdtgt.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_NominationApprover' />
+  </definition>
+  
+  <!--   Ssi SIU Contest -->
+  <definition name="importRecord.list.ssicontestsiu" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.ssicontestsiu" />
+     <put name='trackingTitle' value='Import_Record_List_NominationApprover' />
+  </definition>
+  
+  <definition name="importRecord.list.table.ssicontestsiu" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/ssicontestsiu.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_NominationApprover' />
+  </definition>
+  
+  <!--   Ssi SR Contest -->
+  <definition name="importRecord.list.ssicontestsr" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.ssicontestsr" />
+     <put name='trackingTitle' value='Import_Record_List_NominationApprover' />
+  </definition>
+  
+  <definition name="importRecord.list.table.ssicontestsr" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/ssicontestsr.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_NominationApprover' />
+  </definition>
+  
+  <!--   Ssi ATN Contest -->
+  <definition name="importRecord.list.ssicontestatn" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.ssicontestatn" />
+     <put name='trackingTitle' value='Import_Record_List_NominationApprover' />
+  </definition>
+  
+  <definition name="importRecord.list.table.ssicontestatn" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/ssicontestatn.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_NominationApprover' />
+  </definition>
+  
+  <!-- //ThrowdownProgressLoad -->
+  <definition name="importRecord.list.td_progress" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.td_progress" />
+    <put name='trackingTitle' value='Import_Record_List_TD_Progress_Printer' />
+  </definition>
+  
+  <definition name="importRecord.list.table.td_progress" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/tdProgress.jsp" />
+  </definition>
+
+  <definition name="supplier.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.supplier.SupplierListController">
+    <put name='content' value='/admin/supplier/supplierList.jsp' />
+    <put name='trackingTitle' value='Supplier_List' />
+  </definition>
+
+  <definition name="supplier.create" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.supplier.SupplierController">
+    <put name='content' value='/admin/supplier/supplierCreate.jsp' />
+    <put name='trackingTitle' value='Supplier_Create' />
+  </definition>
+
+  <definition name="supplier.edit" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.supplier.SupplierController">
+    <put name='content' value='/admin/supplier/supplierUpdate.jsp' />
+    <put name='trackingTitle' value='Supplier_Edit' />
+  </definition>
+
+  <definition name="systemVariable.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.system.SystemVariableListController">
+    <put name='content' value='/admin/system/systemVariableList.jsp' />
+    <put name='trackingTitle' value='System_Variable_List' />
+  </definition>
+
+  <definition name="systemVariable.create" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.system.SystemVariableController">
+    <put name='content' value='/admin/system/systemVariableCreate.jsp' />
+    <put name='trackingTitle' value='System_Variable_Create' />
+  </definition>
+
+  <definition name="systemVariable.edit" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.system.SystemVariableController">
+    <put name='content' value='/admin/system/systemVariableEdit.jsp' />
+    <put name='trackingTitle' value='System_Variable_Edit' />
+  </definition>
+
+  <definition name="budget.master.list" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.budget.BudgetMasterListController">
+    <put name='content' value='/admin/budget/budgetMasterList.jsp' />
+    <put name='trackingTitle' value='Budget_Master_List' />
+  </definition>
+
+  <definition name="budget.master.add" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.budget.BudgetMasterController">
+    <put name='content' value='/admin/budget/budgetMasterMaintain.jsp' />
+    <put name='trackingTitle' value='Budget_Master_Add' />
+  </definition>
+
+  <definition name="budget.master.view" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.budget.BudgetMasterViewController">
+    <put name='content' value='/admin/budget/budgetMasterView.jsp' />
+    <put name='trackingTitle' value='Budget_Master_View' />
+  </definition>
+
+  <definition name="budget.extract.parameters" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.budget.BudgetExtractParametersController">
+    <put name='content' value='/admin/budget/budgetExtractParameters.jsp' />
+    <put name='trackingTitle' value='Budget_Extract_Parameters' />
+  </definition>
+
+  <definition name="budget.extract.preview" extends="beacon.default">
+    <put name='content' value='/admin/budget/budgetExtractPreview.jsp' />
+    <put name='trackingTitle' value='Budget_Extract_Preview' />
+  </definition>
+      
+  <definition name="send.message" extends="beacon.default" controllerClass="com.biperf.core.ui.message.SendMessageController">
+    	<put name="content" value="/admin/message/sendMessage.jsp"/>
+    	<put name='trackingTitle' value='Send_Message' />
+   </definition>
+  
+  <definition name="send.adhoc.message" extends="beacon.default" controllerClass="com.biperf.core.ui.message.SendMessageController">
+    	<put name="content" value="/admin/message/sendAdHocMessage.jsp"/>
+    	<put name='trackingTitle' value='Send_Adhoc_Message' />
+   </definition>   
+  
+  <definition name="message.confirmation" extends="beacon.default">
+    	<put name="content" value="/admin/message/messageConfirmation.jsp"/>
+    	<put name='trackingTitle' value='Message_Confirmation' />
+   </definition>
+  
+   <definition name="message.list" extends="beacon.default">
+    	<put name="content" value="/admin/message/messageList.jsp"/>
+    	<put name='trackingTitle' value='Message_List' />
+   </definition>
+   
+	<definition name="message.create" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.message.MessageController">
+    	<put name="content" value="/admin/message/messageDetails.jsp" />
+    	<put name='trackingTitle' value='Message_Create' />
+  	</definition>
+  	
+	<definition name="message.preview" extends="beacon.printerFriendly" controllerClass="com.biperf.core.ui.message.MessagePreviewController">
+		<put name="content" value="/admin/message/previewMessage.jsp" />
+		<put name='trackingTitle' value='Message_Preview_Printer_Friendly' />
+	</definition>
+	
+	<definition name="message.launch" extends="beacon.printerFriendly">
+		<put name="content" value="/admin/message/launchPopup.jsp" />
+		<put name='trackingTitle' value='Message_Launh_Printer_Friendly' />
+	</definition>
+  
+	<definition name="recognition.options.create" extends="beacon.printerFriendly" controllerClass="com.biperf.core.ui.fileload.RecognitionOptionsController">
+		<put name="content" value="recognition.options.card" />
+		<put name='trackingTitle' value='Recognition_Options_Create_Printer' />
+	</definition>
+  
+	<definition name="recognition.options.card" path="/admin/fileload/recognitionOptions.jsp">
+		<put name="cardInsert" value="/admin/fileload/recognitionSelectCard.jsp" />
+		<put name='trackingTitle' value='Recognition_Options_Card' />
+	</definition>
+	
+	<definition name="recognition.options.success" extends="beacon.default" >
+	    <put name="navigation" value='/empty.jsp' />
+	    <put name='header' value='/empty.jsp' />
+		<put name="content" value="/admin/fileload/recognitionOptionsSuccess.jsp" />
+		<put name='footer' value='/empty.jsp' />
+	</definition>
+	
+	<definition name="recognition.award.level" extends="beacon.printerFriendly" controllerClass="com.biperf.core.ui.fileload.RecognitionAwardsLevelController">
+		<put name="content" value="recognition.awards.card" />
+		<put name='trackingTitle' value='Recognition_Award_Level' />
+	</definition>
+  
+	<definition name="recognition.awards.card" path="/admin/fileload/recognitionAwardsLevel.jsp">
+		<put name="cardInsert" value="/admin/fileload/recognitionAwardsCard.jsp" />
+		<put name='trackingTitle' value='Recognition_Awards_Card' />
+	</definition>
+	
+	<definition name="recognition.award.level.success" extends="beacon.default" >
+	    <put name="navigation" value='/empty.jsp' />
+	    <put name='header' value='/empty.jsp' />
+		<put name="content" value="/admin/fileload/recognitionAwardsSuccess.jsp" />
+		<put name='footer' value='/empty.jsp' />
+	</definition>
+	 
+ 	<definition name="giftcode.lookup" extends="beacon.default">
+    	<put name="content" value="/admin/giftcode/giftCodeLookup.jsp" />
+    	<put name='trackingTitle' value='Gift_Code_Lookup' />
+	</definition>
+	
+  <definition name="giftcode.replace" extends="beacon.default">
+    <put name="content" value="/admin/giftcode/replaceGiftCode.jsp"/>
+    <put name='trackingTitle' value='Gift_Code_Replace' />
+  </definition>    
+
+  <definition name="giftcode.replace.confirmation" extends="beacon.default">
+    <put name="content" value="/admin/giftcode/replaceGiftCodeConfirmation.jsp"/>
+    <put name='trackingTitle' value='Gift_Code_Replace_Confirmation' />
+  </definition>  
+
+  <definition name="pax.ajax.participantsearch" path="/admin/budget/participantSearchAjax.jsp"/>
+  <definition name="pax.ajax.participantsearch.nodes" path="/participant/participantSearchAjaxNodes.jsp"/>
+  <definition name="pax.ajax.participantsearch.picklist.items" path="/participant/participantSearchAjaxPickListItems.jsp"/>
+  <definition name="pax.ajax.budgetsearch" path="/admin/budget/budgetSearchAjax.jsp"/>
+  
+   <definition name="welcomemessage.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.welcomemail.WelcomeMessageController">
+		<put name="content" value="/admin/welcomemail/welcomeMessageList.jsp" />
+		<put name='trackingTitle' value='Welcome_Message_List' />
+	</definition>
+  
+	<definition name="welcomemessage.create" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.welcomemail.CreateWelcomeMessageController">
+		<put name="content" value="/admin/welcomemail/createWelcomeMessage.jsp" />
+		<put name='trackingTitle' value='Welcome_Message_Create' />
+	</definition>
+	
+	<definition name="welcomemessage.update" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.message.MessageController">
+    	<put name="content" value="/admin/welcomemail/welcomeMessageDetail.jsp" />
+    	<put name='trackingTitle' value='Welcome_Message_Update' />
+  	</definition>
+	
+	<definition name="resend.welcome.email" extends="beacon.default" controllerClass="com.biperf.core.ui.welcomemail.ResendWelcomeEmailController">
+    	<put name="content" value="/admin/welcomemail/resendWelcomeEmail.jsp" />
+    	<put name='trackingTitle' value='Resend_Welcome_Email' />
+  	</definition>
+  	
+  	<definition name="global.file.upload" extends="beacon.default" controllerClass="com.biperf.core.ui.fileload.GlobalFileUploadController">
+    	<put name="content" value="/admin/fileload/globalFileUpload.jsp" />
+    	<put name='trackingTitle' value='Import_File_List' />
+    </definition>
+    
+    <definition name="global.file.upload.confirmation" extends="beacon.default">
+    	<put name="content" value="/admin/fileload/globalFileConfirmation.jsp" />
+    	<put name='trackingTitle' value='Import_File_List' />
+    </definition>
+	
+	<definition name="selfEnrollment.display" extends="beacon.default">
+		<put name="content" value="/admin/selfEnrollment/selfEnrollment.jsp" />
+    	<put name='trackingTitle' value='SELF_ENROLLMENT' />
+	</definition>
+	
+	<definition name="selfEnrollmentCodes.display" extends="beacon.default">
+		<put name="content" value="/admin/selfEnrollment/selfEnrollmentCodes.jsp" />
+    	<put name='trackingTitle' value='SELF_ENROLLMENT_CODES' />
+	</definition>
+	
+  <definition name="awardgenerator.list" extends="beacon.default" controllerClass="com.biperf.core.ui.awardgenerator.AwardGeneratorListController">
+    <put name="content" value="/awardgenerator/awardGeneratorList.jsp" />
+    <put name='trackingTitle' value='AwardGenerator_List' /> 
+  </definition>
+  
+   <definition name="awardgenerator.maintain" extends="beacon.default" >
+    <put name="content" value="awardgenerator.maintain.widget" />
+    <put name='trackingTitle' value='AwardGenerator_Maintain' />
+  </definition>  
+  
+  <definition name="awardgenerator.maintain.widget" path="/awardgenerator/awardGenerator.jsp"
+              controllerClass="com.biperf.core.ui.awardgenerator.AwardGeneratorController">
+  	<put name="awardGenPointAwardActive" value="/awardgenerator/awardGenPointAwardActive.jsp" />    
+  	<put name="awardGenPointAwardInactive" value="/awardgenerator/awardGenPointAwardInactive.jsp" />  
+  	<put name="awardGenPlateauAwardActive" value="/awardgenerator/awardGenPlateauAwardActive.jsp" />  
+  	<put name="awardGenPlateauAwardInactive" value="/awardgenerator/awardGenPlateauAwardInactive.jsp" />   
+    <put name="awardGenBatchGenerate" value="/awardgenerator/awardGenBatchGenerate.jsp" />
+    <put name="awardGenBatchUpdate" value="/awardgenerator/awardGenBatchUpdate.jsp" />    
+    <put name="awardGenBatchExtract" value="/awardgenerator/awardGenBatchExtract.jsp" />    
+    <put name='trackingTitle' value='AwardGenerator_Maintain_Widget' />
+  </definition> 
+
+  <definition name="diy.communication" extends="beacon.default" controllerClass="com.biperf.core.ui.diycommunication.DIYCommunicationsController">
+    	<put name="content" value="/admin/diycommunication/diyCommunicationSetup.jsp"/>
+    	<put name='trackingTitle' value='DIY_Communication' />
+   </definition>
+   
+   <definition name="currency.list" extends="beacon.default">
+    	<put name="content" value="/admin/currency/currencyList.jsp"/>
+    	<put name='trackingTitle' value='Currency_List' />
+   </definition>
+   
+   <definition name="currency.form" extends="beacon.default">
+    	<put name="content" value="/admin/currency/currencyForm.jsp"/>
+    	<put name='trackingTitle' value='Currency_Form' />
+   </definition>
+   
+   <!-- SSI PROGRESS LOAD -->
+  <definition name="importRecord.list.ssiprogress" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.ssiprogress" />
+     <put name='trackingTitle' value='Import_Record_List_SSIProgress' />
+  </definition>
+  
+   <definition name="importRecord.list.ssicontest" 
+              extends="beacon.printerFriendly">
+    <put name="content" value="importRecord.list.table.ssiprogress" />
+     <put name='trackingTitle' value='Import_Record_List_SSIProgress' />
+  </definition>
+  
+  <definition name="importRecord.list.table.ssiprogress" 
+              path="/admin/fileload/importRecordList.jsp"
+              controllerClass="com.biperf.core.ui.fileload.ImportRecordListController">
+	<put name="importRecordList" value="/admin/fileload/ssiprogress.jsp" />
+	 <put name='trackingTitle' value='Import_Record_List_Table_SSIProgress' />
+  </definition> 
+  
+  <definition name="elastic.index.admin" extends="beacon.default" >
+	<put name='content' value="/admin/indexing/elasticIndexAdmin.jsp" />
+	<put name='trackingTitle' value='Elastic index Admin' />
+  </definition>
+
+  <definition name="event.manage.admin" extends="beacon.default" >
+	<put name='content' value="/admin/event/eventManageAdmin.jsp" />
+	<put name='trackingTitle' value='Event Manage Admin' />
+  </definition>
+  
+  <!-- //End SSIPRogress Load-->
+  
+    <!-- Client customization for WIP#58122 START -->
+  <definition name="levelPayout.details" extends="beacon.default">
+    <put name="content" value="/admin/client/tcccLevelPayout.jsp" />
+    <put name='trackingTitle' value='tccc_level_payout' />
+  </definition>
+   <!-- Client customization for WIP#58122 START -->
+    
+   
+</tiles-definitions>

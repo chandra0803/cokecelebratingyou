@@ -1,0 +1,1299 @@
+// Partial-specific variables
+// =========================
+$globalSidebar_outerPadding: 30px !default;
+$globalSidebar_profileMinHeight: $global_nav_height_mobile !default;
+
+$globalSidebar_upperSidebarTextColor: $brand_color_white !default;
+$globalSidebar_upperSidebarBkg: $brand_color_primary !default;
+$globalSidebar_upperSidebarEditAvatarColor: $brand_color_dark !default;
+$globalSidebar_upperSidebarEditAvatarBkg: $brand_color_light !default;
+
+$globalSidebar_proxyOverlay: rgba(0,0,0, 0.75) !default;
+
+$globalSidebar_avatarWidthHeight: 120px !default;
+$globalSidebar_avatarWidthHeight_headerTablet: $global_header_logoHeight_tablet !default;
+$globalSidebar_avatarWidthHeight_headerMobile: $global_header_logoHeight_mobile !default;
+
+$globalSidebar_toggleSize: 36px !default;
+$globalSidebar_toggleOffset: 4px !default;
+
+$globalSidebar_vertMargin: 8px !default;
+
+$globalSidebar_tabIconColor: $brand_color_white !default;
+$globalSidebar_tabIconColorActive: $globalSidebar_tabIconColor !default;
+$globalSidebar_tabIconOpacity: 0.5 !default;
+$globalSidebar_tabIconOpacityActive: 1 !default;
+
+// could be global color
+$globalSidebar_avatar_textColor: $brand_color_avatarBkg !default;
+$globalSidebar_avatar_bkg: $brand_color_avatarTextColor !default;
+$globalSidebar_color_profileBG : $brand_color_black !default;
+$globalSidebar_color_profile : $brand_color_lighter !default;
+$globalSidebar_color_profile_link : $brand_color_white !default;
+
+$globalSidebar_color_primary : $brand_color_primary !default;
+$globalSidebar_color_white : $brand_color_white !default;
+$globalSidebar_color_black : $brand_color_black !default;
+$globalSidebar_color_dark : $brand_color_dark !default;
+
+$globalSidebar_selected_link_dotColor: $brand_color_primary !default;
+$globalSidebar_selected_link_bgColor: $brand_color_white !default;
+
+$globalSidebar_dashboard_spinnerFgColor: $brand_color_spinner_fg !default;
+$globalSidebar_dashboard_spinnerBkgColor: $brand_color_spinner_bg !default;
+$globalSidebar_dashboard_spinnerBkgBorderRadius: $spinner_bgBorderRadius !default;
+
+
+// Partial-specific code
+// ==================================================
+
+
+// ----- START output ----->
+@if $base_variablesOnly == false {
+
+
+.sidebar{
+    display: none;
+}
+
+#globalSidebarView {
+    // border-left: $global_sidebar_sidebarBorder;
+    color: $globalSidebar_color_black;
+    overflow: hidden;
+
+    /***
+     *                                                                  d8b      888          888
+     *                                                                  Y8P      888          888
+     *                                                                           888          888
+     *        888  888 88888b.  88888b.   .d88b.  888d888      .d8888b  888  .d88888  .d88b.  88888b.   8888b.  888d888
+     *        888  888 888 "88b 888 "88b d8P  Y8b 888P"        88K      888 d88" 888 d8P  Y8b 888 "88b     "88b 888P"
+     *        888  888 888  888 888  888 88888888 888   888888 "Y8888b. 888 888  888 88888888 888  888 .d888888 888
+     *    d8b Y88b 888 888 d88P 888 d88P Y8b.     888               X88 888 Y88b 888 Y8b.     888 d88P 888  888 888
+     *    Y8P  "Y88888 88888P"  88888P"   "Y8888  888           88888P' 888  "Y88888  "Y8888  88888P"  "Y888888 888
+     *             888      888
+     *             888      888
+     *             888      888
+     */
+    .upper-sidebar {
+        color: $globalSidebar_upperSidebarTextColor;
+        background-color: $globalSidebar_upperSidebarBkg;
+        position:relative;
+        .adminOverlay{
+            z-index: $global_sidebar_zindex + 2;
+            position:absolute;
+            top: 0;
+            left: 0;
+            right:0;
+            bottom:0;
+            background: rgba(0,0,0,0.5);
+            .adminOverlayInner{
+                padding:0 5%;
+                text-align:center;
+                 @include vertical-align();
+            }
+        }
+    }
+     &.isAdmin{
+        .upper-sidebar {
+            .adminOverlay{
+                display: block;
+            }
+         }
+     }
+
+    .toggle-sidebar,
+    .sidebar-logout {
+        position: absolute;
+        z-index: $global_sidebar_zindex + 2;
+        width: $globalSidebar_toggleSize;
+        height: $globalSidebar_toggleSize;
+        line-height: $globalSidebar_toggleSize;
+        text-align: center;
+        vertical-align: middle;
+
+        border-radius: 0;
+
+        top: $globalSidebar_toggleOffset;
+        left: $globalSidebar_toggleOffset;
+        margin-top: 0;
+        color: $globalSidebar_color_white;
+        opacity: 1;
+
+        transition-property: width, height, top, left, margin-top, color, background-color, border-radius, opacity;
+        transition-duration: $global_sidebar_transition_speed;
+
+        @include ignoreGlobalLinkStyles();
+
+        i {
+            font-weight: bold;
+            background-color: transparent;
+        }
+    }
+    .open-sidebar {
+        opacity: 0;
+    }
+    .close-sidebar {
+        opacity: 1;
+         z-index: $global_sidebar_zindex + 3;
+    }
+    .sidebar-logout {
+        z-index: $global_sidebar_zindex + 1;
+        left: auto;
+        right: $globalSidebar_toggleOffset;
+
+        i::before {
+            transform: rotate(180deg);
+        }
+    }
+    #participantProfileView {
+        // height of the .profile-container
+        // gets overridden in JS if the .profile-name is too long
+        //           .profile-avatar top padding + .profile-avatar height + .profile-meta top/bottom padding + .profile-meta line height
+        min-height: $globalSidebar_outerPadding + $globalSidebar_avatarWidthHeight + (10px * 2) + $lineHeightLarge;
+    }
+
+    .profile-container {
+        position: relative;
+        top: 0;
+        right: 0;
+        min-height: $globalSidebar_profileMinHeight;
+        transition-property: height;
+        transition-duration: $global_sidebar_transition_speed;
+    }
+    .profile-proxy-overlay {
+        position: absolute;
+        z-index: $global_sidebar_zindex + 2;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: $globalSidebar_outerPadding;
+        color: $globalSidebar_color_white;
+        background: $globalSidebar_proxyOverlay;
+
+        .profile-name {
+            padding-right: 0;
+            padding-left: 0;
+        }
+        .actions {
+        }
+        .action {
+            margin-bottom: 10px;
+        }
+    }
+
+    .profile-avatar {
+        position: relative;
+        padding: $globalSidebar_outerPadding;
+        padding-bottom: 0;
+        height: $globalSidebar_avatarWidthHeight;
+        width: $globalSidebar_avatarWidthHeight;
+        text-align: center;
+        transition-property: margin-left, padding, width, height;
+        transition-duration: $global_sidebar_transition_speed;
+
+        a {
+            @include ignoreGlobalLinkStyles();
+        }
+
+        .hasAlerts {
+            display: block;
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            margin-left: ($globalSidebar_avatarWidthHeight / 4) - 1px;
+            margin-bottom: ($globalSidebar_avatarWidthHeight / 4) - 1px;
+            width: ceil($globalSidebar_avatarWidthHeight_headerMobile / 5);
+            height: ceil($globalSidebar_avatarWidthHeight_headerMobile / 5);
+            background: $brand_color_alert;
+            border: 2px solid $global_header_bgColor;
+            border-radius: 50%;
+            opacity: 0;
+            transition-property: opacity, margin-left, margin-bottom;
+            transition-duration: $global_sidebar_transition_speed;
+        }
+
+        .spin {
+            position: absolute;
+            bottom: 0%;
+            left: 50%;
+            margin: 0 (-1 * $globalSidebar_avatarWidthHeight / 2);
+            padding: ($globalSidebar_avatarWidthHeight - $spinner_widthHeight) / 2;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+            color: invert($globalSidebar_avatar_bkg);
+            @include safeBkgs(transparentize($globalSidebar_avatar_bkg, 0.125));
+            @include borderRadiusSlim($globalSidebar_avatarWidthHeight);
+        }
+        .spinner {
+            top: 50% !important;
+            left: 50% !important;
+
+            .lt-ie8 & {
+                margin-top: -10px;
+                margin-left: -10px;
+            }
+        }
+    }
+    // holds the avatar itself
+    .profile-avatar-link {
+        a {
+            display: inline-block;
+            border-radius: $globalSidebar_avatarWidthHeight;
+        }
+    }
+    .avatar-image,
+    .avatar-placeholder {
+        height: 100%;
+        width: $globalSidebar_avatarWidthHeight;
+        border-radius: $globalSidebar_avatarWidthHeight;
+        background: $globalSidebar_avatar_bkg;
+        -webkit-font-smoothing: antialiased;
+        transition-property: width, height, font-size, line-height, background, color;
+        transition-duration: $global_sidebar_transition_speed;
+
+
+    }
+
+    .avatar-image {
+        margin-top: 0;
+        @supports (object-fit: cover){
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+    }
+    .avatar-placeholder {
+        display: inline-block;
+        text-align: center;
+        font-size: 40px;
+        line-height: $globalSidebar_avatarWidthHeight;
+        font-weight: normal;
+        color: $globalSidebar_avatar_textColor;
+    }
+    &.isAdmin{
+       #personalInformationUploadImageLink {
+            display: none !important;
+        }
+    }
+    #personalInformationUploadImageLink {
+        border-radius: 24px;
+    }
+    #edit-avatar-icon {
+        position: absolute;
+        z-index: 1;
+        left: 50%;
+        bottom: 18px;
+        margin: 0 0 -15px ($globalSidebar_avatarWidthHeight / 4 - 3px);
+        background-color: $globalSidebar_upperSidebarEditAvatarBkg;
+        border: 3px solid $globalSidebar_upperSidebarBkg;
+        background-clip: content-box;
+        padding: 0;
+        border-radius: 24px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        opacity: 1;
+        transition-property: opacity, left, right;
+        transition-duration: $global_sidebar_transition_speed;
+
+        i {
+            font-size: 12px;
+            font-weight: bold;
+            color: $globalSidebar_upperSidebarEditAvatarColor;
+        }
+    }
+
+    .profile-meta {
+    }
+    .profile-name {
+        margin: 0;
+        padding: 10px $globalSidebar_outerPadding;
+        font-size: $fontSizeLarge;
+        line-height: $lineHeightLarge;
+        font-weight: $fontWeightSemiBold;
+        text-align: center;
+
+        a {
+            @include ignoreGlobalLinkStyles(
+                $color: $globalSidebar_color_white,
+                $fontWeight: false,
+                $fontStyle: false,
+                $textDecoration: false,
+                $textTransform: false
+            );
+        }
+    }
+
+    #participantProfileViewAlert {
+        display: none;
+        position: relative;
+        margin: 0;
+        padding: $globalSidebar_outerPadding;
+        text-align: center;
+        color: $globalSidebar_color_profile;
+        background-color: $globalSidebar_color_profileBG;
+        // reset bootstrap .alert styles
+        border: 0;
+        text-shadow: none;
+        border-radius: 0;
+
+        .alert-icon-container {
+            margin-bottom: 10px;
+
+            i {
+                font-weight: bold;
+                font-size: 45px;
+                line-height: 50px;
+                color: $brand_color_alert
+            }
+        }
+        .alert-message-container {
+            text-align: left;
+        }
+        .alert-message-container ~ .alert-message-container {
+            margin-top: 10px;
+        }
+        .alert-link {
+            display: block;
+            white-space: nowrap;
+            cursor: pointer;
+
+            @include ignoreGlobalLinkStyles(
+                $color: $globalSidebar_color_profile_link,
+                $fontWeight: false,
+                $fontStyle: false,
+                $textDecoration: false,
+                $textTransform: false
+            );
+
+            .spin {
+                display: inline-block;
+                width: $baseLineHeight;
+                height: $baseLineHeight;
+                color: inherit;
+            }
+        }
+
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            padding-left: 100px;
+            text-align: left;
+
+            .alert-icon-container {
+                position: absolute;
+                top: 50%;
+                left: $globalSidebar_outerPadding;
+                width: 50px;
+                height: 50px;
+                margin: -25px 0 0 0;
+                text-align: center;
+            }
+            .alert-link {
+                // display: inline;
+            }
+        }
+		#alert-box-inner {
+			.alert-message-container a{
+				color:$brand_color_white;
+			}
+			.alert-message-container a:hover{
+				color:$brand_color_link_hover;
+			}
+		}
+    }
+
+
+    /***
+     *        888                                                       d8b      888          888
+     *        888                                                       Y8P      888          888
+     *        888                                                                888          888
+     *        888  .d88b.  888  888  888  .d88b.  888d888      .d8888b  888  .d88888  .d88b.  88888b.   8888b.  888d888
+     *        888 d88""88b 888  888  888 d8P  Y8b 888P"        88K      888 d88" 888 d8P  Y8b 888 "88b     "88b 888P"
+     *        888 888  888 888  888  888 88888888 888   888888 "Y8888b. 888 888  888 88888888 888  888 .d888888 888
+     *    d8b 888 Y88..88P Y88b 888 d88P Y8b.     888               X88 888 Y88b 888 Y8b.     888 d88P 888  888 888
+     *    Y8P 888  "Y88P"   "Y8888888P"   "Y8888  888           88888P' 888  "Y88888  "Y8888  88888P"  "Y888888 888
+     *
+     *
+     *
+     */
+    .lower-sidebar {
+
+    }
+
+    /***
+     *      dP            dP
+     *      88            88
+     *    d8888P .d8888b. 88d888b. .d8888b.
+     *      88   88'  `88 88'  `88 Y8ooooo.
+     *      88   88.  .88 88.  .88       88
+     *      dP   `88888P8 88Y8888' `88888P'
+     *
+     *
+     */
+    .sidebar-tabs {
+        margin: 0;
+        padding: 0;
+        background-color: $brand_color_primary;
+        border: none;
+    }
+    .sidebar-tab {
+        margin: 0;
+        padding: 0;
+        width: 50%;
+        text-align: center;
+
+        a {
+            padding: 8px;
+            line-height: 40px;
+            background: transparent;
+            border: 0;
+            opacity: $globalSidebar_tabIconOpacity;
+            vertical-align: middle;
+            @include ignoreGlobalLinkStyles(
+                $color: $globalSidebar_tabIconColor
+            );
+        }
+        i {
+            font-size: 24px;
+            font-weight: $fontWeightBold;
+            vertical-align: text-bottom;
+
+        }
+        span {
+            display: block;
+            margin-top: -4px;
+            margin-bottom: 4px;
+            font-size: $fontSizeMini;
+            line-height: $fontSizeMini; // yes, font-size on purpose
+        }
+        &.settings i {
+            transform: rotate(90deg);
+        }
+
+        &.active a {
+            color: $globalSidebar_tabIconColorActive;
+            opacity: $globalSidebar_tabIconOpacityActive;
+        }
+    }
+
+    /***
+     *                                        dP
+     *                                        88
+     *    88d888b. .d8888b. 88d888b. .d8888b. 88 .d8888b.
+     *    88'  `88 88'  `88 88'  `88 88ooood8 88 Y8ooooo.
+     *    88.  .88 88.  .88 88    88 88.  ... 88       88
+     *    88Y888P' `88888P8 dP    dP `88888P' dP `88888P'
+     *    88
+     *    dP
+     */
+     .sidebar-main-content
+     {
+         position: relative;
+         overflow: hidden;
+         border-left: $global_sidebar_sidebarBorder;
+     }
+
+    //  .upper-sidebar,
+    //  .sidebar-tabs
+    //  {
+    //      border-left: $global_sidebar_sidebarBorder;
+    //  }
+
+    .sidebar-panel {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        transition-property: left;
+        transition-duration: $global_sidebar_transition_speed;
+
+        &.active {
+            position: relative;
+            left: 0;
+
+            & ~ .sidebar-panel {
+                left: 100%;
+            }
+        }
+    }
+    /***
+     *                                 dP   oo
+     *                                 88
+     *    .d8888b. .d8888b. .d8888b. d8888P dP .d8888b. 88d888b. .d8888b.
+     *    Y8ooooo. 88ooood8 88'  `""   88   88 88'  `88 88'  `88 Y8ooooo.
+     *          88 88.  ... 88.  ...   88   88 88.  .88 88    88       88
+     *    `88888P' `88888P' `88888P'   dP   dP `88888P' dP    dP `88888P'
+     *
+     *
+     */
+    .sidebar-section {
+        margin: 0 $globalSidebar_outerPadding;
+        margin-left: $globalSidebar_outerPadding - $global_sidebar_sidebarBorder_width;
+        padding: $globalSidebar_outerPadding 0;
+
+        // font-size: $baseFontSize;
+        // line-height: $baseLineHeight;
+
+        & ~ .sidebar-section {
+            border-top: $global_sidebar_sidebarBorder;
+        }
+
+        .section-header {
+            margin: 0 0 ($globalSidebar_vertMargin * 2) 0;
+            font-size: $fontSizeSmall;
+            line-height: $lineHeightMini;
+            font-weight: $fontWeightSemiBold;
+            letter-spacing: 1px; // TODO: GLOBAL NEEDED
+            text-transform: uppercase; // TODO: GLOBAL NEEDED
+            color: $globalSidebar_color_black;
+        }
+        .subsection-header {
+            margin: $globalSidebar_vertMargin 0 0 0;
+            font-size: inherit;
+            font-weight: normal;
+            color: $brand_color_black;
+            .icon-container i{
+                padding-top: 1px;
+            }
+            a {
+                display: block;
+                @include ignoreGlobalLinkStyles();
+            }
+
+            & + div,
+            & + ol {
+                margin-top: $globalSidebar_vertMargin*2;
+            }
+        }
+        .drawer-trigger {
+            position: relative;
+
+            .icon-container {
+                float: right;
+                font-size: 20px;
+            }
+        }
+
+        .sidebar-list {
+
+            .item {
+                margin: $globalSidebar_vertMargin 0 ($globalSidebar_vertMargin*2) 0;
+            }
+
+            .sidebar-list {
+                padding-left: $globalSidebar_outerPadding * 2 / 3;
+            }
+            .deltoolTip{
+                cursor:pointer;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+
+                :last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+            .selected {
+                margin: (-1 * $globalSidebar_vertMargin / 2) (-1 * $globalSidebar_outerPadding * 2 / 3) ($globalSidebar_vertMargin * 2 - $globalSidebar_vertMargin / 2);
+                padding: ($globalSidebar_vertMargin / 2) ($globalSidebar_outerPadding * 2 / 3);
+                background: $globalSidebar_selected_link_bgColor;
+                @include border-radius($baseBorderRadius);
+
+                &:before {
+                    display: inline-block;
+                    width: $globalSidebar_vertMargin;
+                    height: $globalSidebar_vertMargin;
+                    margin-left: -1 * $globalSidebar_outerPadding / 3 - ($globalSidebar_vertMargin / 2);
+                    margin-right: $globalSidebar_outerPadding / 3 - ($globalSidebar_vertMargin / 2);
+                    background: $globalSidebar_selected_link_dotColor;
+                    content: "";
+                    @include border-radius($globalSidebar_vertMargin);
+                }
+
+                &:last-child {
+                    margin-bottom: (-1 * $globalSidebar_vertMargin / 2);
+                }
+            }
+        }
+
+        .drawer {
+            // transition: max-height 300ms ease-in;
+        }
+
+        .collapsed {
+            .collapse,
+            &.drawer {
+                display: none;
+            }
+        }
+        .expanded {
+            .expand {
+                display: none;
+            }
+        }
+
+        .copyright {
+            font-size: 11px;
+            line-height: 18px;
+
+            span {
+                display: inline-block;
+            }
+        }
+
+    }
+
+    /***
+     *          dP                   dP       dP                                        dP
+     *          88                   88       88                                        88
+     *    .d888b88 .d8888b. .d8888b. 88d888b. 88d888b. .d8888b. .d8888b. 88d888b. .d888b88
+     *    88'  `88 88'  `88 Y8ooooo. 88'  `88 88'  `88 88'  `88 88'  `88 88'  `88 88'  `88
+     *    88.  .88 88.  .88       88 88    88 88.  .88 88.  .88 88.  .88 88       88.  .88
+     *    `88888P8 `88888P8 `88888P' dP    dP 88Y8888' `88888P' `88888P8 dP       `88888P8
+     *
+     *
+     */
+
+    /*
+     *  Modules take this form, generally speaking:
+     *
+     *  <div class="sidebar-section [module-name]">
+     *      <h3 class="section-header">[Module Title]</h3>
+     *      <div class="module-liner">
+     *          ...
+     *      </div><!-- /.module-liner -->
+     *  </div><!-- /.sidebar-section -->
+     *
+     */
+
+    // SHARED
+    .sidebarModule {
+        position: relative;
+       // min-height: $global_sidebar_width_desktop / 2;
+
+        &.dataLoading {
+            .module-liner {
+                @include opacity(0);
+            }
+        }
+
+        .module-liner {
+            min-height: 0;
+        }
+
+        // START spin
+        .spincover {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            @include safeBkgs(rgba($global_sidebar_background, 0.75));
+        }
+        .spin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 11;
+            margin: (-1 * $spinner_widthHeight / 2 - 10 + $lineHeightMini) 0 0 (-1 * $spinner_widthHeight / 2 - 10);
+            padding: 10px;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+            color: $globalSidebar_dashboard_spinnerFgColor;
+            @include safeBkgs($globalSidebar_dashboard_spinnerBkgColor);
+            @include borderRadiusSlim($globalSidebar_dashboard_spinnerBkgBorderRadius);
+        }
+        .spinner {
+            top: 50% !important;
+            left: 50% !important;
+
+            .lt-ie8 & {
+                margin-top: -10px;
+                margin-left: -10px;
+            }
+        }
+        // END spin
+
+        .ui-tooltip {
+            z-index: 3 !important;
+        }
+    }
+
+    /* UPLOAD FORM styles */
+    .personalInfoUploadImageTip {
+        width: 80%;
+
+        form {
+            padding: 10px;
+            margin-bottom: 0;
+
+            p {
+                margin-bottom: 0;
+            }
+        }
+
+        .fileUpload {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1em;
+        }
+
+        .fileUpload input.upload {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            // margin: 0;
+            // padding: 0;
+            font-size: 10px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+    }
+}
+
+
+/***
+ *     .d8888888b.                              888 d8b                                                  d8b
+ *    d88P"   "Y88b                             888 Y8P                                                  Y8P
+ *    888  d8b  888                             888
+ *    888  888  888 88888b.d88b.   .d88b.   .d88888 888  8888b.        .d88888 888  888  .d88b.  888d888 888  .d88b.  .d8888b
+ *    888  888bd88P 888 "888 "88b d8P  Y8b d88" 888 888     "88b      d88" 888 888  888 d8P  Y8b 888P"   888 d8P  Y8b 88K
+ *    888  Y8888P"  888  888  888 88888888 888  888 888 .d888888      888  888 888  888 88888888 888     888 88888888 "Y8888b.
+ *    Y88b.     .d8 888  888  888 Y8b.     Y88b 888 888 888  888      Y88b 888 Y88b 888 Y8b.     888     888 Y8b.          X88
+ *     "Y88888888P" 888  888  888  "Y8888   "Y88888 888 "Y888888       "Y88888  "Y88888  "Y8888  888     888  "Y8888   88888P'
+ *                                                                         888
+ *                                                                         888
+ *                                                                         888
+ */
+
+/***
+ *                      dP dP                                           dP
+ *                      88 88                                           88
+ *    .d8888b. .d8888b. 88 88 .d8888b. 88d888b. .d8888b. .d8888b. .d888b88
+ *    88'  `"" 88'  `88 88 88 88'  `88 88'  `88 Y8ooooo. 88ooood8 88'  `88
+ *    88.  ... 88.  .88 88 88 88.  .88 88.  .88       88 88.  ... 88.  .88
+ *    `88888P' `88888P' dP dP `88888P8 88Y888P' `88888P' `88888P' `88888P8
+ *                                     88
+ *                                     dP
+ */
+.sidebar-collapsed {
+    #globalSidebarView {
+        .toggle-sidebar {
+            // top: $global_header_spacing_verti_mobile + ($globalSidebar_avatarWidthHeight_headerMobile / 2);
+            // left: -1 * $globalSidebar_toggleSize;
+            // margin-top: -1 * $globalSidebar_toggleSize / 2;
+            // margin-right: 100%;
+            // color: $globalSidebar_color_dark;
+        }
+        .open-sidebar {
+            opacity: 1;
+            // display: block;
+        }
+        .close-sidebar {
+            opacity: 0;
+            // display: none;
+        }
+        .avatar-placeholder {
+            background: $globalSidebar_avatar_textColor;
+            color: $globalSidebar_avatar_bkg;
+        }
+        .spin {
+            display: none;
+        }
+        #edit-avatar-icon {
+            opacity: 0;
+            left: 100%;
+            // display: none;
+        }
+        .hasAlerts {
+            opacity: 1;
+        }
+    }
+}
+.sidebar-hidden {
+    #globalSidebarView {
+        // background: orange;
+
+        .lower-sidebar {
+            display: none;
+        }
+    }
+}
+@media only screen and (max-width: $breakpoint_tablet_max) {
+    #globalSidebarView {
+        overflow: visible;
+
+        .open-sidebar {
+            // display: none;
+        }
+        .close-sidebar {
+            // display: block;
+        }
+    }
+} // /@media
+
+/***
+ *                        dP       oo dP
+ *                        88          88
+ *    88d8b.d8b. .d8888b. 88d888b. dP 88 .d8888b.
+ *    88'`88'`88 88'  `88 88'  `88 88 88 88ooood8
+ *    88  88  88 88.  .88 88.  .88 88 88 88.  ...
+ *    dP  dP  dP `88888P' 88Y8888' dP dP `88888P'
+ *
+ *
+ */
+@media only screen and (max-width: $breakpoint_mobile_max) {
+    .sidebar-collapsed {
+        #globalSidebarView {
+            .toggle-sidebar {
+                top: $global_header_height_mobile / 2;
+                width: $globalSidebar_avatarWidthHeight_headerMobile;
+                height: $globalSidebar_avatarWidthHeight_headerMobile;
+                left: -1 * ($globalSidebar_avatarWidthHeight_headerMobile + $global_header_spacing_horiz_mobile);
+                margin-top: -1 * $globalSidebar_avatarWidthHeight_headerMobile / 2;
+                margin-right: $global_sidebar_width_mobile;
+                border-radius: $globalSidebar_avatarWidthHeight_headerMobile;
+
+                // i {
+                //     background-color: rgba($white, 0.5);
+                //     border-radius: 30px;
+                // }
+            }
+
+            .profile-avatar {
+                margin-left: -1 * ($globalSidebar_avatarWidthHeight_headerMobile + $global_header_spacing_horiz_mobile * 2);
+                padding: $global_header_spacing_verti_mobile $global_header_spacing_horiz_mobile;
+                width: $globalSidebar_avatarWidthHeight_headerMobile;
+                height: $globalSidebar_avatarWidthHeight_headerMobile;
+
+                .avatar {
+                    width: $globalSidebar_avatarWidthHeight_headerMobile;
+                    font-size: $globalSidebar_avatarWidthHeight_headerMobile / $globalSidebar_avatarWidthHeight * 40px;
+                    line-height: $globalSidebar_avatarWidthHeight_headerMobile;
+                }
+
+                .hasAlerts {
+                    margin-left: ($globalSidebar_avatarWidthHeight_headerMobile / 4) - 1px;
+                    margin-bottom: ($globalSidebar_avatarWidthHeight_headerMobile / 4) - 1px;
+                }
+            }
+            #edit-avatar-icon {
+                left: auto;
+                right: -100%;
+            }
+        }
+    }
+
+    #globalSidebarView {
+        .profile-avatar {
+            width: $globalSidebar_avatarWidthHeight;
+            padding-left: 50%;
+            margin-left: -1 * $globalSidebar_avatarWidthHeight / 2;
+
+            .hasAlerts {
+                margin-left: ($globalSidebar_avatarWidthHeight) - 1px;
+                margin-bottom: ($globalSidebar_avatarWidthHeight / 4 + $globalSidebar_outerPadding / 2) - 1px;
+            }
+
+            .spin {
+                right: 0;
+                left: auto;
+                margin-right: $globalSidebar_avatarWidthHeight / 4;
+                margin-left: 0;
+            }
+        }
+        #edit-avatar-icon {
+            left: auto;
+            right: 0;
+            margin-right: 36px;
+            margin-left: 0;
+        }
+        .sidebar-main-content {
+            border-left: 0;
+        }
+        .sidebar-section {
+            margin-left: $globalSidebar_outerPadding;
+        }
+    }
+} // /@media
+
+
+/***
+ *      dP            dP       dP            dP
+ *      88            88       88            88
+ *    d8888P .d8888b. 88d888b. 88 .d8888b. d8888P
+ *      88   88'  `88 88'  `88 88 88ooood8   88
+ *      88   88.  .88 88.  .88 88 88.  ...   88
+ *      dP   `88888P8 88Y8888' dP `88888P'   dP
+ *
+ *
+ */
+@media only screen and (min-width: $breakpoint_tablet_min) and (max-width: $breakpoint_tablet_max) {
+    .sidebar-collapsed {
+        #globalSidebarView {
+            .toggle-sidebar {
+                top: $global_header_height_tablet / 2;
+                width: $globalSidebar_avatarWidthHeight_headerTablet;
+                height: $globalSidebar_avatarWidthHeight_headerTablet;
+                left: -1 * ($globalSidebar_avatarWidthHeight_headerTablet + $global_header_spacing_horiz_tablet);
+                margin-top: -1 * $globalSidebar_avatarWidthHeight_headerTablet / 2;
+                margin-right: $global_sidebar_width_tablet;
+                border-radius: $globalSidebar_avatarWidthHeight_headerTablet;
+
+                // top: $global_header_spacing_verti_tablet + ($globalSidebar_avatarWidthHeight_headerTablet / 2);
+                // margin-right: $global_sidebar_width_tablet;
+            }
+            .profile-avatar {
+                margin-left: -1 * ($globalSidebar_avatarWidthHeight_headerTablet + $global_header_spacing_horiz_tablet * 2);
+                padding: $global_header_spacing_verti_tablet $global_header_spacing_horiz_tablet;
+                width: $globalSidebar_avatarWidthHeight_headerTablet;
+                height: $globalSidebar_avatarWidthHeight_headerTablet;
+
+                .avatar {
+                    width: $globalSidebar_avatarWidthHeight_headerTablet;
+                    font-size: $globalSidebar_avatarWidthHeight_headerTablet / $globalSidebar_avatarWidthHeight * 40px;
+                    line-height: $globalSidebar_avatarWidthHeight_headerTablet;
+                }
+
+                .hasAlerts {
+                    margin-left: ($globalSidebar_avatarWidthHeight_headerTablet / 4) - 1px;
+                    margin-bottom: ($globalSidebar_avatarWidthHeight_headerTablet / 4) - 1px;
+                }
+            }
+        }
+    }
+
+    #globalSidebarView {
+        .profile-avatar {
+            .hasAlerts {
+                width: ceil($globalSidebar_avatarWidthHeight_headerTablet / 5);
+                height: ceil($globalSidebar_avatarWidthHeight_headerTablet / 5);
+            }
+        }
+    }
+} // /@media
+@media only screen and (min-width: $breakpoint_tablet_min) {
+    #globalSidebarView {
+        .profile-avatar {
+            width: $globalSidebar_avatarWidthHeight;
+            margin-left: ($global_sidebar_width_tablet - $globalSidebar_avatarWidthHeight - $globalSidebar_outerPadding * 2) / 2;
+        }
+    }
+} // /@media
+
+
+/***
+ *          dP                   dP         dP
+ *          88                   88         88
+ *    .d888b88 .d8888b. .d8888b. 88  .dP  d8888P .d8888b. 88d888b.
+ *    88'  `88 88ooood8 Y8ooooo. 88888"     88   88'  `88 88'  `88
+ *    88.  .88 88.  ...       88 88  `8b.   88   88.  .88 88.  .88
+ *    `88888P8 `88888P' `88888P' dP   `YP   dP   `88888P' 88Y888P'
+ *                                                        88
+ *                                                        dP
+ */
+@media only screen and (min-width: $breakpoint_desktop_min) {
+    #globalSidebarView {
+        .toggle-sidebar {
+            display: none;
+        }
+    }
+} // /@media
+@media only screen and (max-width: $breakpoint_desktop_max) {
+} // /@media
+
+
+/***
+ *          dP                   dP         dP                     dP
+ *          88                   88         88                     88
+ *    .d888b88 .d8888b. .d8888b. 88  .dP  d8888P .d8888b. 88d888b. 88        .d8888b. 88d888b. .d8888b. .d8888b.
+ *    88'  `88 88ooood8 Y8ooooo. 88888"     88   88'  `88 88'  `88 88        88'  `88 88'  `88 88'  `88 88ooood8
+ *    88.  .88 88.  ...       88 88  `8b.   88   88.  .88 88.  .88 88        88.  .88 88       88.  .88 88.  ...
+ *    `88888P8 `88888P' `88888P' dP   `YP   dP   `88888P' 88Y888P' 88888888P `88888P8 dP       `8888P88 `88888P'
+ *                                                        88                                        .88
+ *                                                        dP                                    d8888P
+ */
+@media only screen and (min-width: $breakpoint_desktopLarge_min) {
+    #globalSidebarView {
+        .profile-proxy-overlay {
+            padding-right: 25%;
+            padding-left: 25%;
+
+            .actions {
+                padding-right: $globalSidebar_outerPadding;
+                padding-left: $globalSidebar_outerPadding;
+            }
+        }
+
+        .profile-avatar {
+            width: $globalSidebar_avatarWidthHeight;
+            margin-left: ($global_sidebar_width_desktopLarge - $globalSidebar_avatarWidthHeight - $globalSidebar_outerPadding * 2) / 2;
+        }
+
+        .sidebar-tab {
+            a {
+                color: $globalSidebar_tabIconColorActive;
+                opacity: $globalSidebar_tabIconOpacityActive;
+                cursor: default;
+
+                span {
+                    display: inline-block;
+                    font-size: $baseFontSize;
+                    line-height: inherit;
+                    margin: 0;
+                }
+            }
+        }
+
+        .sidebar-main-content {
+            @include clearfix();
+        }
+        .sidebar-panel {
+            position: relative;
+            left: 0 !important;
+            float: left;
+            width: 50%;
+            border-right: $global_sidebar_sidebarBorder;
+            margin-right: -1 * $global_sidebar_sidebarBorder_width;
+
+            & ~ .sidebar-panel {
+                border-right: none;
+                border-left: $global_sidebar_sidebarBorder;
+                margin-right: -100%; // when zooming out, the second panel ends up below the first unless we do this sorcery
+            }
+        }
+    }
+} // /@media
+
+
+
+/***
+ *     .d8888888b.                                    888 888
+ *    d88P"   "Y88b                                   888 888
+ *    888  d8b  888                                   888 888
+ *    888  888  888 .d8888b   .d8888b 888d888 .d88b.  888 888
+ *    888  888bd88P 88K      d88P"    888P"  d88""88b 888 888
+ *    888  Y8888P"  "Y8888b. 888      888    888  888 888 888
+ *    Y88b.     .d8      X88 Y88b.    888    Y88..88P 888 888
+ *     "Y88888888P"  88888P'  "Y8888P 888     "Y88P"  888 888
+ *
+ *
+ *
+ */
+.abs-header {
+    #globalSidebarView {
+        #participantProfileView {
+            min-height: 0;
+        }
+        .profile-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 100%;
+        }
+        .profile-avatar {
+            position: absolute;
+            left: -1 * $global_sidebar_sidebarBorder_width;
+            bottom: 100%;
+            margin-bottom: -1 * ($globalSidebar_outerPadding + $globalSidebar_avatarWidthHeight);
+        }
+        .profile-meta {
+            position: absolute;
+            bottom: 0;
+            left: -1 * $global_sidebar_sidebarBorder_width;
+            right: 0;
+            transition-property: left;
+            transition-duration: $global_sidebar_transition_speed;
+        }
+    }
+}
+.fix-header {
+    #globalSidebarView {
+        $fixHeader_avatarWidthHeight: $globalSidebar_profileMinHeight - ($global_header_spacing_verti_mobile * 2);
+
+        #participantProfileView {
+        }
+        .profile-container {
+            position: fixed;
+            right: 0;
+            left: auto;
+            z-index: $global_sidebar_zindex + 1;
+            width: $global_sidebar_width_mobile;
+            min-height: $globalSidebar_profileMinHeight;
+            margin-bottom: -1 * $globalSidebar_profileMinHeight;
+            white-space: nowrap;
+            background: $brand_color_primary;
+            border-left: $global_sidebar_sidebarBorder;
+        }
+        .profile-proxy-overlay {
+            z-index: $global_sidebar_zindex + 3;
+            padding: 0;
+            display: block;
+            line-height: $globalSidebar_profileMinHeight;
+            vertical-align: middle;
+
+            .profile-name {
+                padding-left: $global_header_spacing_horiz_mobile * 1.5;
+            }
+            .actions {
+                display: none;
+            }
+        }
+        .profile-avatar {
+            bottom: 0%;
+            margin-left: $fixHeader_avatarWidthHeight/2;
+            margin-bottom: 0;
+            padding: $global_header_spacing_verti_mobile $global_header_spacing_horiz_mobile;
+            padding-right: $global_header_spacing_horiz_mobile / 2;
+            width: $fixHeader_avatarWidthHeight;
+            height: $fixHeader_avatarWidthHeight;
+
+            .avatar {
+                width: $fixHeader_avatarWidthHeight;
+                height: $fixHeader_avatarWidthHeight;
+                font-size: $fixHeader_avatarWidthHeight / $globalSidebar_avatarWidthHeight * 40px;
+                line-height: $fixHeader_avatarWidthHeight;
+            }
+            #edit-avatar-icon {
+                // opacity: 0;
+                display: none;
+            }
+        }
+        .profile-meta {
+            left: ($global_header_spacing_horiz_mobile + $global_header_spacing_horiz_mobile / 2) + ($fixHeader_avatarWidthHeight * 1.5 );
+            line-height: $globalSidebar_profileMinHeight;
+        }
+        .profile-name {
+            display: inline-block;
+            padding: $global_header_spacing_verti_mobile ($globalSidebar_toggleSize + $globalSidebar_toggleOffset * 2);
+            padding-left: 0;
+
+            .lastName {
+                display: none;
+            }
+        }
+
+        .toggle-sidebar {
+            position: fixed;
+            top: $fixHeader_avatarWidthHeight/2;
+            left: auto;
+            right: $global_sidebar_width_mobile;
+            margin-right: -1 * $globalSidebar_toggleSize * 2 / 3;
+            width: $globalSidebar_toggleSize * 2 / 3;
+            height: $globalSidebar_toggleSize * 2 / 3;
+            line-height: $globalSidebar_toggleSize * 2 / 3;
+            font-size: $fontSizeSmall;
+            z-index: $global_sidebar_zindex + 2;
+        }
+        .sidebar-logout {
+            position: fixed;
+            top: $globalSidebar_profileMinHeight / 2;
+            z-index: $global_sidebar_zindex + 2;
+            margin-top: -1 * $globalSidebar_toggleSize / 2;
+        }
+    }
+
+    @media (min-width: $breakpoint_tablet_min) {
+        #globalSidebarView {
+            .profile-container {
+                width: $global_sidebar_width_tablet - 1;
+            }
+            .toggle-sidebar {
+                right: $global_sidebar_width_tablet;
+            }
+        }
+    }
+    @media (min-width: $breakpoint_desktop_min) {
+        #globalSidebarView {
+            .profile-container {
+                width: $global_sidebar_width_desktop - 1;
+            }
+            .profile-proxy-overlay {
+                .profile-name {
+                    padding-left: $global_header_spacing_horiz_mobile;
+                }
+            }
+            .toggle-sidebar {
+                right: $global_sidebar_width_desktop;
+            }
+        }
+    }
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        #globalSidebarView {
+            .profile-container {
+                width: $global_sidebar_width_desktopLarge - 1;
+            }
+            .toggle-sidebar {
+                right: $global_sidebar_width_desktopLarge;
+            }
+            .profile-name {
+                .lastName {
+                    display: inline;
+                }
+            }
+        }
+    }
+    @media (min-width: $breakpoint_siteMax_min) {
+        #globalSidebarView {
+            .profile-container,
+            .sidebar-logout {
+                right: calc((100% - #{$breakpoint_siteMax_min}) / 2);
+            }
+        }
+    }
+
+    // resetting for collapsed
+    // &.sidebar-collapsed {
+    //     #globalSidebarView {
+    //         .profile-container {
+    //             position: static;
+    //         }
+    //         .toggle-sidebar {
+    //             position: absolute;
+    //         }
+    //         .sidebar-logout {
+    //             position: absolute;
+    //         }
+    //     }
+    // }
+}
+
+/***
+ *     .d8888888b.                                888                   888      888                                    888
+ *    d88P"   "Y88b                               888                   888      888                                    888
+ *    888  d8b  888                               888                   888      888                                    888
+ *    888  888  888 88888b.   .d88b.          .d88888  8888b.  .d8888b  88888b.  88888b.   .d88b.   8888b.  888d888 .d88888
+ *    888  888bd88P 888 "88b d88""88b        d88" 888     "88b 88K      888 "88b 888 "88b d88""88b     "88b 888P"  d88" 888
+ *    888  Y8888P"  888  888 888  888 888888 888  888 .d888888 "Y8888b. 888  888 888  888 888  888 .d888888 888    888  888
+ *    Y88b.     .d8 888  888 Y88..88P        Y88b 888 888  888      X88 888  888 888 d88P Y88..88P 888  888 888    Y88b 888
+ *     "Y88888888P" 888  888  "Y88P"          "Y88888 "Y888888  88888P' 888  888 88888P"   "Y88P"  "Y888888 888     "Y88888
+ *
+ *
+ *
+ */
+.dashboard-hidden {
+    #globalSidebarView {
+        .dashboard {
+            display: none;
+        }
+        .sidebar-panel {
+            border-left: none;
+        }
+        .sidebar-tab,
+        .sidebar-panel {
+            width: 100%;
+            float: none;
+        }
+    }
+}
+
+
+
+// <----- END output -----
+} // end @if $base_variablesOnly == false

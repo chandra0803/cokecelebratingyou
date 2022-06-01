@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+    "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+  	   
+    <!-- Career Moments Module -->
+    <definition name="career.moments.module" path="/client/careerMomentsModule.jsp" />
+    
+    <definition name="bunchball.module" path="/client/bunchBallModule.jsp" />
+    
+    <definition name="bunchball.sidebar.module" path="/client/bunchBallSideBarModule.jsp" />
+    
+    <definition name="client.bunchball.widget" path="/client/bunchWidget.jsp" controllerClass="com.biperf.core.ui.client.BunchBallWidgetController"/>
+    
+    <definition name="photo.upload.ajax.json.response" path="/purl/ajax/json/purlContributeCommentPhotoUpload.jsp"/>
+    
+    <definition name="comment.post.ajax.json.response" path="/purl/ajax/json/purlContributeCommentPost.jsp"/>
+    
+    <definition name="career.moments.page" extends="g5.default" controllerClass="com.biperf.core.ui.client.CokeCareerMomentsPageController">
+		<put name="content" value="/client/careerMomentsPage.jsp" />
+ 	</definition>
+ 	
+ 	<definition name="career.moments.page.table" path="/client/careerMomentsSet.jsp" />
+ 	
+ 	<definition name="personal.info.comments" path="/client/profilePagePersonalInfoComments.jsp" />
+ 	
+ 	
+        
+</tiles-definitions>

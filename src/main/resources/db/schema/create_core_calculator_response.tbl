@@ -1,0 +1,55 @@
+create sequence CALCULATOR_RESPONSE_PK_SQ start with 5000
+/
+CREATE TABLE calculator_response
+(calculator_response_id 					 NUMBER(18) NOT NULL,
+ claim_id                          NUMBER(18) NOT NULL,
+ calculator_criterion_id           NUMBER(18) NOT NULL,
+ selected_rating_id                NUMBER(18) NOT NULL,
+ rating_value								       NUMBER(10) NOT NULL,
+ criterion_weight									 NUMBER(10),
+ sequence_num	                     NUMBER(10) NOT NULL,
+ date_created                      DATE       NOT NULL,
+ created_by                        NUMBER(18) NOT NULL,
+ date_modified                     DATE,
+ modified_by                       NUMBER(18),
+ version		                       NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE calculator_response
+ADD CONSTRAINT calculator_response_pk PRIMARY KEY (calculator_response_id)
+USING INDEX
+/
+ALTER TABLE calculator_response ADD CONSTRAINT calculator_response_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES CLAIM (claim_id) 
+/
+ALTER TABLE calculator_response ADD CONSTRAINT calculator_response_crit_fk
+  FOREIGN KEY (calculator_criterion_id) REFERENCES CALCULATOR_CRITERION (calculator_criterion_id) 
+/
+ALTER TABLE calculator_response ADD CONSTRAINT calculator_response_rating_fk
+  FOREIGN KEY (selected_rating_id) REFERENCES CALCULATOR_CRITERION_RATING (calculator_criterion_rating_id) 
+/
+CREATE INDEX CALC_RESP_CLAIM_FK_idx ON CALCULATOR_RESPONSE
+  (CLAIM_ID)
+/
+CREATE INDEX CALC_RESP_CALC_CRIT_FK_idx ON CALCULATOR_RESPONSE
+  (CALCULATOR_CRITERION_ID)
+/
+CREATE INDEX CALC_RESP_RATING_FK_idx ON CALCULATOR_RESPONSE
+  (SELECTED_RATING_ID)
+/
+COMMENT ON TABLE calculator_response IS 'Holds the responses to the criterion in a calculator'
+/
+COMMENT ON COLUMN calculator_response.calculator_response_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN calculator_response.claim_id IS 'FK to Claim.'
+/
+COMMENT ON COLUMN calculator_response.calculator_criterion_id IS 'Represents the Criterion FK to calculator_criterion.'
+/
+COMMENT ON COLUMN calculator_response.selected_rating_id IS 'The selected rating. FK to calculator_criterion_rating'
+/
+COMMENT ON COLUMN calculator_response.rating_value IS 'the rating value at the time the criterion was rated'
+/
+COMMENT ON COLUMN calculator_response.criterion_weight IS 'the criterion weight value at the time the criterion was rated'
+/
+COMMENT ON COLUMN calculator_response.sequence_num IS 'The order of criterion asked in the calculator'
+/

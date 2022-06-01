@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidation" table="PROMO_CFSE_VALIDATION">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="PROMO_CFSE_VALIDATION_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PROMO_CFSE_VALIDATION_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      		<column name="DATE_MODIFIED"/>
+	 	    <column name="MODIFIED_BY"/>
+    	</property>
+
+        <property name="validationType" column="VALIDATION_TYPE">
+        	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+                <param name="lookupClass">com.biperf.core.domain.enums.PromotionClaimFormStepElementValidationType</param>
+            </type>
+        </property>
+        <property name="minValue" type="integer" column="MIN_VALUE"/>
+        <property name="maxValue" type="integer" column="MAX_VALUE"/>
+        <property name="maxLength" type="integer" column="MAX_LENGTH"/>
+        <property name="startDate" type="java.util.Date" column="START_DATE"/>
+        <property name="endDate" type="java.util.Date" column="END_DATE"/>
+        <property name="startsWith" type="java.lang.String" column="STARTS_WITH"/>
+        <property name="notStartWith" type="java.lang.String" column="NOT_START_WITH"/>
+        <property name="endsWith" type="java.lang.String" column="ENDS_WITH"/>
+        <property name="notEndWith" type="java.lang.String" column="NOT_END_WITH"/>
+        <property name="contains" type="java.lang.String" column="CONTAINS"/>
+        <property name="notContain" type="java.lang.String" column="NOT_CONTAIN"/>
+
+		<many-to-one name="promotion" class="com.biperf.core.domain.promotion.Promotion" lazy="false" insert="true" update="false" not-null="true" column="PROMOTION_ID"/>
+		<many-to-one name="claimFormStepElement" class="com.biperf.core.domain.claim.ClaimFormStepElement" lazy="false" column="CLAIM_FORM_STEP_ELEMENT_ID"/>
+
+	</class>
+
+	<query name="com.biperf.core.domain.promotion.AllPromotionClaimFormStepElementValidations">
+		<![CDATA[
+			from com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidation promotionCFSEValidation
+		]]>
+	</query>
+
+	<sql-query name="com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidationsByPromotion">
+		<return alias="pcfsev" class="com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidation"/>
+		<![CDATA[
+			SELECT {pcfsev.*} 
+			FROM PROMO_CFSE_VALIDATION pcfsev
+			WHERE pcfsev.PROMOTION_ID = :promotionId
+		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidationsByStepIdPromoId">
+		<return alias="pcfsev" class="com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidation"/>
+		<!-- <return alias="cfse" class="com.biperf.core.domain.claim.ClaimFormStepElement"/> -->
+		<![CDATA[
+			SELECT {pcfsev.*} 
+			FROM PROMO_CFSE_VALIDATION pcfsev, CLAIM_FORM_STEP_ELEMENT cfse
+			WHERE pcfsev.PROMOTION_ID = :promoId
+			AND cfse.CLAIM_FORM_STEP_ID = :claimFormStepId
+			AND cfse.CLAIM_FORM_STEP_ELEMENT_ID = pcfsev.CLAIM_FORM_STEP_ELEMENT_ID
+		]]>
+	</sql-query>
+
+  <sql-query name="com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidationsByPromotionAndClaimFormStepElement">
+    <return alias="pcfsev" class="com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidation"/>
+    <![CDATA[
+      SELECT {pcfsev.*}
+      FROM PROMO_CFSE_VALIDATION pcfsev
+      WHERE pcfsev.PROMOTION_ID = :promotionId
+      AND pcfsev.CLAIM_FORM_STEP_ELEMENT_ID = :claimFormStepElementId
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

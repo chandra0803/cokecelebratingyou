@@ -1,0 +1,523 @@
+// Partial-specific variables
+// =========================
+// OVERIDE BOOTSTRAP BUTTON STYLES
+
+//
+// Buttons
+// --------------------------------------------------
+$btnFontFamily: $titleFont !default;
+$btnFontSize: $baseFontSize !default;
+$btnFontWeight: $fontWeightBold !default;
+$btnIconFontWeight:$btnFontWeight !default;
+$btnTextShadow: none !default;
+$btnDisabledOpacity: 0.65 !default; // apply to text AND background
+
+// $btnBorderWidthLarge: 2px !default;
+// $btnBorderWidthMini: 2px !default;
+$btnBorderRadius: 6px !default;
+$btnBorderRadiusSmall: 5px !default;
+$btnBorderRadiusMini: 4px !default;
+$btnBoxShadow: none !default;
+
+$btnSpacingX: 8px !default;
+$btnSpacingY: 6px !default;
+
+
+
+
+// Partial-specific code
+// ==================================================
+
+// Base styles
+// --------------------------------------------------
+
+// Core
+.btn {
+    @include ignoreGlobalLinkStyles();
+    font-family: $btnFontFamily;
+    font-size: $btnFontSize;
+    line-height: $btnLineHeight;
+    font-weight: $btnFontWeight;
+    text-shadow: $btnTextShadow;
+
+    padding: (nth($btnPadding, 1) + $btnBorderWidth) (nth($btnPadding, 2) + $btnBorderWidth);
+
+    color: $btnTxtColor;
+    background: $btnBackground;
+    border-color: $btnBorder;
+    border-width: 0;
+    @include border-radius($btnBorderRadius);
+    @include box-shadow($btnBoxShadow);
+
+    // Hover/focus state
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        text-decoration: none;
+        background-position: 0;
+        box-shadow: none;
+    }
+
+    // Focus state for keyboard and accessibility
+    &:focus {
+        @include tab-focus();
+    }
+
+    // Active state
+    &.active,
+    &:active {
+    }
+
+    // Disabled state
+    &.disabled,
+    &[disabled] {
+        cursor: not-allowed;
+        @include opacity($btnDisabledOpacity);
+    }
+
+    // icon sizing
+    &.btn-icon {
+      display: inline-block;
+      padding-right: 0;
+      padding-left: 0;
+      min-width: $btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2);
+
+      i {
+        font-weight: $fontWeightBold;
+      }
+    }
+    i {
+      font-weight: $btnIconFontWeight;
+    }
+
+    @include g6buttonStates($btnTxtColor, $btnBackground, $btnBackgroundHighlight);
+
+    .spin {
+      position: relative;
+      width: $btnLineHeight * 2;
+      height: $btnLineHeight * 2;
+      margin-top: -1 * (($btnLineHeight / 4) + (nth($btnPadding, 1) / 2) + ($btnBorderWidth));
+      margin-bottom: -1 * (($btnLineHeight / 4) + (nth($btnPadding, 1) / 2));
+      margin-left: 4px;
+    }
+}
+
+// Button Sizes
+// --------------------------------------------------
+
+// Large
+.btn-large {
+    // font-size: $fontSizeLarge;
+    padding: (nth($btnPaddingLarge, 1) + $btnBorderWidth) (nth($btnPaddingLarge, 2) + $btnBorderWidth);
+    // border-width: $btnBorderWidthLarge;
+
+    // icon sizing
+    &.btn-icon {
+      padding-right: 0;
+      padding-left: 0;
+      min-width: $btnLineHeight + ((nth($btnPaddingLarge, 1) + $btnBorderWidth) * 2);
+    }
+}
+// .btn-large [class^="icon-"],
+// .btn-large [class*=" icon-"] {
+//   margin-top: 4px;
+// }
+
+// Small
+.btn-small {
+    font-size: $fontSizeSmall;
+    padding: (nth($btnPaddingSmall, 1) + $btnBorderWidth) (nth($btnPaddingSmall, 2) + $btnBorderWidth);
+    @include border-radius($btnBorderRadiusSmall);
+
+    // icon sizing
+    &.btn-icon {
+      padding-right: 0;
+      padding-left: 0;
+      min-width: $btnLineHeight + ((nth($btnPaddingSmall, 1) + $btnBorderWidth) * 2);
+    }
+
+    .spin {
+      width: $fontSizeSmall * 2;
+      height: $fontSizeSmall * 2;
+      margin-top: -1 * (($fontSizeSmall / 4) + (nth($btnPaddingSmall, 1) / 2) + ($btnBorderWidth));
+      margin-bottom: -1 * (($fontSizeSmall / 4) + (nth($btnPaddingSmall, 1) / 2));
+    }
+}
+// .btn-small [class^="icon-"],
+// .btn-small [class*=" icon-"] {
+//   margin-top: 0;
+// }
+
+// Mini
+.btn-mini {
+    font-size: $fontSizeMini;
+    line-height: $lineHeightMini;
+    padding: (nth($btnPaddingMini, 1) + $btnBorderWidth) (nth($btnPaddingMini, 2) + $btnBorderWidth);
+    // border-width: $btnBorderWidthMini;
+    @include border-radius($btnBorderRadiusMini);
+
+    // icon sizing
+    &.btn-icon {
+      padding-right: 0;
+      padding-left: 0;
+      min-width: $lineHeightMini + ((nth($btnPaddingMini, 1) + $btnBorderWidth) * 2);
+    }
+
+    .spin {
+      width: $fontSizeMini * 2;
+      height: $fontSizeMini * 2;
+      margin-top: -1 * (($fontSizeMini / 4) + (nth($btnPaddingMini, 1) / 2) + ($btnBorderWidth));
+      margin-bottom: -1 * (($fontSizeMini / 4) + (nth($btnPaddingMini, 1) / 2));
+    }
+}
+
+// 100% mobile width
+@media only screen and (max-width: $breakpoint_mobileMini_max) {
+  .btn-fullmobile{
+    width: 100%;
+    &.btn + &.btn {
+      margin-left: 0;
+      margin-top: $btnSpacingY;
+    }
+  }
+  .recognition-block{
+	.btn-fullmobile{
+		width: 80%;
+	}
+  }
+}
+
+// .btn-mini [class^="icon-"],
+// .btn-mini [class*=" icon-"] {
+//   margin-top: -1px;
+// }
+
+
+// Compact Padding
+// --------------------------------------------------
+// takes the top+bottom padding and puts it on the left+right
+.btn-compact {
+  padding-left: (nth($btnPadding, 1) + $btnBorderWidth);
+  padding-right: (nth($btnPadding, 1) + $btnBorderWidth);
+
+  &.btn-large {
+    padding-left: (nth($btnPaddingLarge, 1) + $btnBorderWidth);
+    padding-right: (nth($btnPaddingLarge, 1) + $btnBorderWidth);
+  }
+  &.btn-small {
+    padding-left: (nth($btnPaddingSmall, 1) + $btnBorderWidth);
+    padding-right: (nth($btnPaddingSmall, 1) + $btnBorderWidth);
+  }
+  &.btn-mini {
+    padding-left: (nth($btnPaddingMini, 1) + $btnBorderWidth);
+    padding-right: (nth($btnPaddingMini, 1) + $btnBorderWidth);
+  }
+}
+
+
+// Alternate buttons
+// --------------------------------------------------
+
+// Primary
+.btn-primary {
+  color: $btnPrimaryTxtColor;
+  background: $btnPrimaryBackground;
+  border-color: $btnPrimaryBackground;
+
+  @include g6buttonStates($btnPrimaryTxtColor, $btnPrimaryBackground, $btnPrimaryBackgroundHighlight);
+}
+
+// Info
+.btn-info {
+  color: $btnInfoTxtColor;
+  background: $btnInfoBackground;
+  border-color: $btnInfoBackground;
+
+  @include g6buttonStates($btnInfoTxtColor, $btnInfoBackground, $btnInfoBackgroundHighlight);
+}
+
+// Success
+.btn-success {
+  color: $btnSuccessTxtColor;
+  background: $btnSuccessBackground;
+  border-color: $btnSuccessBackground;
+
+  @include g6buttonStates($btnSuccessTxtColor, $btnSuccessBackground, $btnSuccessBackgroundHighlight);
+}
+
+// Warning
+.btn-warning {
+  color: $btnWarningTxtColor;
+  background: $btnWarningBackground;
+  border-color: $btnWarningBackground;
+
+  @include g6buttonStates($btnWarningTxtColor, $btnWarningBackground, $btnWarningBackgroundHighlight);
+}
+
+// Danger
+.btn-danger {
+  color: $btnDangerTxtColor;
+  background: $btnDangerBackground;
+  border-color: $btnDangerBackground;
+
+  @include g6buttonStates($btnDangerTxtColor, $btnDangerBackground, $btnDangerBackgroundHighlight);
+}
+
+// Invert
+.invert-btn {
+  color: $invertBtnTxtColor;
+  background: $invertBtnBackground;
+  border-color: $invertBtnBackground;
+
+  @include g6buttonStates($invertBtnTxtColor, $invertBtnBackground, $invertBtnBackgroundHighlight);
+}
+
+// Inverse
+.btn-inverse {
+  color: $btnBackgroundHighlight;
+  padding: $btnPadding;
+  border-width: $btnBorderWidth;
+  background: transparent;
+
+  @include g6buttonStates($btnTxtColor, transparent, transparent, $btnBackgroundHighlight, $btnBackgroundHighlight);
+
+  // icon sizing
+  &.btn-icon {
+    padding-right: 0;
+    padding-left: 0;
+    // min-width: $btnLineHeight + (nth($btnPadding, 1) * 2);
+  }
+
+  // compact sizing
+  &.btn-compact {
+    padding-left: nth($btnPadding, 1);
+    padding-right: nth($btnPadding, 1);
+  }
+
+  &.btn-large {
+    padding: $btnPaddingLarge;
+
+    // icon sizing
+    &.btn-icon {
+      padding-right: 0;
+      padding-left: 0;
+      // min-width: $btnLineHeight + (nth($btnPaddingLarge, 1) * 2);
+    }
+    // compact sizing
+    &.btn-compact {
+      padding-left: nth($btnPaddingLarge, 1);
+      padding-right: nth($btnPaddingLarge, 1);
+    }
+  }
+  &.btn-small {
+    padding: $btnPaddingSmall;
+
+    // icon sizing
+    &.btn-icon {
+      padding-right: 0;
+      padding-left: 0;
+      // min-width: $btnLineHeight + (nth($btnPaddingSmall, 1) * 2);
+    }
+    // compact sizing
+    &.btn-compact {
+      padding-left: nth($btnPaddingSmall, 1);
+      padding-right: nth($btnPaddingSmall, 1);
+    }
+  }
+  &.btn-mini {
+    padding: $btnPaddingMini;
+
+    // icon sizing
+    &.btn-icon {
+      padding-right: 0;
+      padding-left: 0;
+      // min-width: $btnLineHeight + (nth($btnPaddingMini, 1) * 2);
+    }
+    // compact sizing
+    &.btn-compact {
+      padding-left: nth($btnPaddingMini, 1);
+      padding-right: nth($btnPaddingMini, 1);
+    }
+  }
+
+  // & Primary
+  &.btn-primary {
+    color: $btnPrimaryBackground;
+
+    @include g6buttonStates($btnPrimaryBackgroundHighlight, transparent, transparent, $btnPrimaryBackgroundHighlight, $btnPrimaryBackgroundHighlight);
+  }
+
+  // & Info
+  &.btn-info {
+    color: $btnInfoBackground;
+
+    @include g6buttonStates($btnInfoBackgroundHighlight, transparent, transparent, $btnInfoBackgroundHighlight, $btnInfoBackgroundHighlight);
+  }
+
+  // & Success
+  &.btn-success {
+    color: $btnSuccessBackground;
+
+    @include g6buttonStates($btnSuccessBackgroundHighlight, transparent, transparent, $btnSuccessBackgroundHighlight, $btnSuccessBackgroundHighlight);
+  }
+
+  // & Warning
+  &.btn-warning {
+    color: $btnWarningBackground;
+
+    @include g6buttonStates($btnWarningBackgroundHighlight, transparent, transparent, $btnWarningBackgroundHighlight, $btnWarningBackgroundHighlight);
+  }
+
+  // & Danger
+  &.btn-danger {
+    color: $btnDangerBackground;
+
+    @include g6buttonStates($btnDangerBackgroundHighlight, transparent, transparent, $btnDangerBackgroundHighlight, $btnDangerBackgroundHighlight);
+  }
+
+  // & Invert
+  &.invert-btn {
+    color: $invertBtnBackground;
+
+    @include g6buttonStates($invertBtnBackgroundHighlight, transparent, transparent, $invertBtnBackgroundHighlight, $invertBtnBackgroundHighlight);
+  }
+}
+
+// Cross-browser Jank
+// --------------------------------------------------
+
+
+// Link buttons
+// --------------------------------------------------
+
+// Make a button look and behave like a link
+
+.btn-link {
+    @include applyGlobalLinkStyles();
+    @if $btnFontFamily != $bodyFont {
+        font-family: $bodyFont;
+    }
+    background: $linkBgColor; // reapplying here because the mixin above checks for "transparent" and won't override
+    border-color: $linkBgColor; // given the size/shape of buttons, a border-bottom applied by the mixin won't look right so we don't allow it
+
+    @include g6buttonStates($buttonLinkColorHover, $linkBgColor, $linkBgColorHover);
+}
+
+// Special export buttons
+// --------------------------------------------------
+.btn-export-csv,
+.btn-export-csv:hover {
+  color: $brand_color_export_csv;
+}
+.btn-export-doc,
+.btn-export-doc:hover {
+  color: $brand_color_export_doc;
+}
+.btn-export-pdf,
+.btn-export-pdf:hover {
+  color: $brand_color_export_pdf;
+}
+.btn-export-xls,
+.btn-export-xls:hover {
+  color: $brand_color_export_xls;
+}
+
+
+// Button relationships to one another
+// --------------------------------------------------
+//TODO: update gutter width---and hardcoded vars, just moving button styles into buttns scss
+.btn + .btn {
+    // margin-top: $btnSpacingY / 3; // this feels so dangerous
+    margin-left: $btnSpacingX;
+}
+.btn.fr + .btn.fr {
+    margin-right: $btnSpacingX;
+    margin-left: 0;
+}
+
+.btn-block + .btn-block {
+  margin-top: $btnSpacingY;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+// Filter buttons
+// --------------------------------------------------
+
+.filterTokens i.removeToken,
+.dropdown .addNewFilter i {
+    cursor: pointer;
+    font-size: $fontSizeMid;
+    font-weight: $fontWeightBold;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.dropdown-menu {
+    color: $textColor;
+    text-align: left;
+
+    &::before {
+        display: inline-block;
+        content: '';
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        margin-left: -12px;
+        border-right: 12px solid transparent;
+        border-bottom: 12px solid $brand_color_lighter;
+        border-left: 12px solid transparent;
+        border-bottom-color: $dropdownBorder;
+    }
+
+    &::after {
+        display: inline-block;
+        content: '';
+        position: absolute;
+        top: -11px;
+        left: 50%;
+        margin-left: -11px;
+        border-right: 11px solid transparent;
+        border-bottom: 11px solid $brand_color_white;
+        border-left: 11px solid transparent;
+    }
+
+    li {
+        a {
+            @include ignoreGlobalLinkStyles();
+            color: inherit;
+            font-weight: $fontWeightNormal;
+
+            &:hover,
+            &.active {
+                cursor: pointer;
+                color: $brand_color_white;
+                background: $brand_color_primary;
+            }
+        }
+    }
+
+    .active a,
+    .active a:hover,
+    .active a:focus {
+        color: $brand_color_white;
+        background: $brand_color_primary;
+    }
+}
+
+//Close Btns
+.close {
+  color: $brand_color_black;
+}
+
+.alert .close {
+  color: $brand_color_white;
+  font-size: 28px;
+  font-weight: normal;
+  opacity: 0.5;
+}
+
+
+// dropdowns (bootstrap has them in )

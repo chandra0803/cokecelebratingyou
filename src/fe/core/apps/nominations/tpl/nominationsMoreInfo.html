@@ -1,0 +1,365 @@
+<!-- ======== NOMINATIONS MORE INFO PAGE ======== -->
+<div id="nominationsMoreInfoPageView" class="page-content nominationsMoreInfoPageView">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="dataWrap"></div>
+			<script id="nominationsMoreInfoDocUploadTpl" type="text/x-handlebars-template">
+                <span class="nominationDisplayLink">
+                    <div data-validate-fail-msgs='{"nonempty":"You must enter minimum of {{minDocsAllowed}} attachment or URL."}' data-validate-flags='nonempty' class="{{#lt updatedDocCount minDocsAllowed}}validateme{{else}}{{/lt}}">
+                        <input type="text" id="nominationLink" name="nominationLink" data-model-key="nominationLink" value="{{#lt updatedDocCount minDocsAllowed}}{{else}}{{updatedDocCount}}{{/lt}}" />
+
+                    </div>                    
+                        {{#each nominationLinks}}                        
+                        	<input type="hidden" id="nominationDocs" name="nominationLinks[{{@index}}].nominationUrl" value="{{#if this.nominationLink}}{{this.nominationLink}}{{else}}{{this.nominationUrl}}{{/if}}">  
+                        	<input type="hidden" id="nominationLinkId" name="nominationLinks[{{@index}}].linkid" value="{{this.linkid}}">  
+                        	<input type="hidden" id="nominationFileName" name="nominationLinks[{{@index}}].fileName" value="{{#if this.nominationLink}}{{this.fileName}}{{else}}{{/if}}">  
+                            <p>
+                            {{#if this.nominationLink}}
+                                {{this.fileName}}
+                            {{else}}
+                                {{#if this.nominationUrl}}
+                                    {{this.nominationUrl}}
+                                {{/if}}
+                            {{/if}}                      
+                            <button data-linkid="{{this.linkid}}" class="removeLink btn btn-mini btn-icon btn-danger {{#if this.nominationUrl}} {{/if}} {{#if this.nominationLink}}{{/if}}"><i class="icon-trash"></i></button>
+                            </p>                            
+                        {{/each}}                    
+                    </span>
+                    {{#eq updatedDocCount maxDocsAllowed}}<p>You Reached Limit</p>{{/eq}}            
+            </script>	
+			<script id="nominationsMoreInfoTpl" type="text/x-handlebars-template">
+				<div class="row-fluid">
+					<div class="span12">
+						<form id="nominationsMoreInfoForm" class="form-horizontal nominationsMoreInfoForm" method="POST" action="">
+							<input type="hidden" name="claimId" value="{{claimId}}" />
+							<input type="hidden" name="promoId" value="{{promotionId}}" />
+							<div class="nomination-name" >{{nominationName}}</div>
+
+							<div class="control-group">
+								<label class="control-label" for="approverMessage">Approver's Message </label>
+								<div class="controls">
+									<p class="approversMessage">{{approversMessage}}</p>
+								</div>
+							</div>
+
+							<div class="control-group validateme"
+								data-validate-fail-msgs='{"nonempty":"Please enter more information."}'
+								data-validate-flags='nonempty'>
+
+								<label class="control-label" for="moreInformation">Provide More Information </label>
+								<div class="controls">
+									<textarea class="moreInformation" name="moreInformation" rows="6" maxlength="1000"  placeholder="add more information"></textarea>
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div class="span10 offset2">
+									<div class="control-group">
+										<label class="checkbox" for="addAttachment">
+											<input type="checkbox" name="addAttachment" id="addAttachment" />
+											Add additional attachment
+										</label>
+									</div>
+
+									<div class="attachmentDrawer" style="display: none">
+										<div class="control-group nominationAddLink"
+										data-validate-fail-msgs='{"nonempty":"You must enter an attachment."}'
+										data-validate-flags='nonempty'>
+											<p class="attachmentHelpText">You can upload / insert maximum of {{maxDocsAllowed}} documents and a URLs. </p>
+											<div>
+											<!-- //Custom Added for Tooltip Doc -->
+											<!-- //Custom Added for Tooltip for URL -->											 	
+
+											{{#or attachmentName nominationLink}} 
+												<a href="#" class="addDoc" style="display:none;"><i class="icon-file"></i>Document</a>
+												<a href="#" class="addDocNew"><i class="icon-file"></i>Document</a>
+												<a href="#" class="addUrl" style="display:none;"><i class="icon-link"></i>URL</a>
+												<a href="#" class="addUrlNew"><i class="icon-link"></i>URL</a>
+											{{else}}
+												<a href="#" class="addDoc"><i class="icon-file"></i>Document</a>
+												<a href="#" class="addDocNew" style="display:none;"><i class="icon-file"></i>Document</a>
+												<a href="#" class="addUrl"><i class="icon-link"></i>URL</a>
+												<a href="#" class="addUrlNew" style="display:none;"><i class="icon-link"></i>URL</a>
+											{{/or}}
+
+											</div>
+
+											<div class="nominationDisplayAttached">
+												<span class="nominationDisplayLink">
+												{{#if attachmentName}}
+													{{attachmentName}}
+												{{else}}
+													{{#if nominationLink}}
+														{{nominationLink}}
+													{{/if}}
+												{{/if}}
+												</span>
+												<input type="text" id="nominationLink" name="nominationLink" />
+												<input type="text" id="nominationLinkUrl" name="nominationLinkUrl" />
+												{{#or attachmentName nominationLink}}
+													<a class="removeLink btn btn-mini btn-danger hide"><i class="icon-trash"></i></a>
+												{{/or}}
+											</div>
+											
+											<div class="removeAttachmentPopover" style="display:none">
+                                                <p><b>Are you sure?</b></p>
+                                                <p>Selecting 'Yes' will remove the current attachment?</p>
+                                                <p class="tc">
+                                                    <button id="removeAttachmentConfirmBtn" class="btn btn-primary">Yes</button>
+                                                    <button id="removeAttachmentCancelBtn" class="btn">No</button>
+                                                </p>
+                                            </div><!-- /.removeAttachmentPopover --> 
+											
+										</div>
+									</div><!--/.attachmentDrawer-->
+
+									<!-- URL Popover -->
+									<div class="addUrlPopover" style="display: none">
+									    <div class="control-group">
+									        <label class="control-label" for="nominationUrl">Enter URL of your video or image</label>
+									        <div class="controls">
+									            <input type="text" class="nominationUrlAdd" name="nominationUrl" id="nominationUrl" />
+									            <button type="button" class="attachUrl btn btn-primary">Attach</button>
+									            <p class="muted">Example: "http://www.youtube.com/watch?v=2Vk9Jd3ilh4"</p>
+									        </div>
+									    </div>
+									</div>
+
+								</div>
+							</div><!--/.row-fluid-->
+
+							<div class="row-fluid">
+								<div class="span10 offset2">
+									<div class="formSection">
+										<button class="nominationsMoreInfoSubmit btn btn-primary" type="submit">
+											Submit
+										</button>
+										<!-- JAVA NOTE: Set the data url to the page the user will return to-->
+										<button href="#" class="btn cancelBtn" data-url="layout.html"> Cancel</button>
+									</div>
+									<div class="cancelNominationPopover" style="display:none">
+										<p>
+											<b>Cancel Submit?</b>
+										</p>
+										<p>
+											Selecting 'Yes' will delete this Submit. Are you sure you wish to cancel?
+										</p>
+										<p class="tc">
+											<button id="nominationCancelConfirmBtn" class="btn btn-primary">Yes</button>
+											<button id="nominationDoNotCancelBtn" class="btn">No</button>
+										</p>
+									</div><!-- /.cancelNominationPopover -->
+								</div>
+							</div><!--/.row-fluid-->
+						</form>
+					</div>
+				</div><!--/.row-fluid-->
+
+				<div class="row-fluid">
+					<div class="span12">
+							<p class="submissionTitle">Original Submission</p>
+					</div>
+				</div><!--/.row-fluid-->
+
+				{{#nominationsMoreInfo}}
+				<div class="row-fluid">
+					<div class="span6">
+						<div class="row-fluid">
+							{{#nominatorInfo}}
+							{{#if firstName}}
+
+							<div class="span4 detailsData">
+								<p><strong>Nominee</strong></p>
+							</div>
+
+							<div class="span8">
+                                <div class="nominatorInfoWrap">
+                                    <div class="nominatorInfoWrap participant-item">
+                                        <p class="">
+                                            <a class="participant-popover" href="#" data-participant-ids="[{{id}}]">
+                                                {{name}}
+
+                                                {{#if countryCode}}<img src="img/flags/{{countryCode}}.png" alt="{{countryCode}}" class="countryFlag" title="{{countryName}}" />{{/if}}
+                                            </a>
+                                            <span class="orgAndDept" style="display: block;">{{orgName}} {{#if departmentName}}{{#if orgName}}&bull;{{/if}} {{departmentName}}{{/if}} {{#if jobName}}{{#if departmentName}}&bull;{{else}}{{#if orgName}}&bull;{{/if}}{{/if}} {{jobName}}{{/if}}</span>
+                                        </p>
+                                    </div>
+ 								</div><!--/.nominatorInfoWrap-->
+							</div>
+                            {{else}}
+							<div class="span4 detailsData">
+								<p><strong>Nominees</strong></p>
+							</div>
+
+							<div class="span8">
+                            <span class="teamNomineeName">{{nominationName}}</span>
+                            <a class="teamMemberTrigger">{{teamMemberCount}} Members</a>
+                                <div class="teamMembersTooltip" style="display: none">
+                                    <ul>
+                                        {{#teamMembers}}
+
+                                        <li>{{firstName}} {{lastName}}</li>
+
+                                        {{/teamMembers}}
+                                    </ul>
+                                </div>
+							</div>
+                            {{/if}}
+							{{/nominatorInfo}}
+						</div><!--/.row-fluid-->
+
+						{{#originalSubmission}}
+						<div class="row-fluid">
+							<div class="span4 detailsData">
+								<p><strong>Date Submitted</strong></p>
+							</div>
+
+							<div class="span8">
+								<p class="dateSubmitted">{{dateSubmitted}}</p>
+							</div>
+						</div><!--/.row-fluid-->
+
+                        {{#if badges}}
+						<div class="row-fluid">
+							<div class="span4 detailsData">
+								<p><strong>Behavior</strong></p>
+							</div>
+
+							<div class="span8">
+                                {{#badges}}
+    							<span class="badges" data-toggle="tooltip"  data-original-title="{{behavior}}" data-placement="top" >
+                                    {{#if badgeUrl}}
+    								    <img class="behaviorBadge" src="{{badgeUrl}}" alt="{{behavior}}"/>
+                                    {{else}}
+                                        <span class="badgeName noImg">{{behavior}}</span>
+                                    {{/if}}
+    							</span>
+    							{{/badges}}
+							</div>
+						</div><!--/.row-fluid-->
+                        {{/if}}
+
+						<div class="row-fluid">
+							{{#each customFields}}
+							<div class="span4 detailsData">
+								<p><strong>{{label}}</strong></p>
+							</div>
+							<div class="span8">
+								<p class="recipientWrap translate customField" data-type="{{type}}" data-fieldId="{{fieldId}}">{{value}}</p>
+							</div>
+							{{/each}}
+						</div><!--/.row-fluid-->
+
+						<div class="row-fluid">
+							<div class="span4 detailsData">
+								<p><strong>Reason</strong></p>
+							</div>
+
+							<div class="span8">
+								<p class="reason-data" >{{{reason}}}</p>
+                                {{#if allowTranslate}}
+                                    <p class="translateTextLink"><a href="#" >Translate</a></p>
+                                {{/if}}
+							</div>
+						</div><!--/.row-fluid-->
+
+                        {{#if certificates}}
+						<div class="row-fluid">
+							<div class="span8 offset4">
+								<p><strong><a href={{certificates.0.imgLg}}>view eCertificate</a></strong></p>
+							</div>
+						</div><!--/.row-fluid-->
+                        {{/if}}
+					</div><!--/.span6-->
+
+					<div class="span6">
+						{{#if ecardImg}}
+							<div class="ecard">
+								<p class="ecardImg">
+									<img src="{{ecardImg}}" title="ecard" />
+								</p>
+							</div>
+						{{else}}
+                            {{#if videoUrl}}
+								<div class="mediaContainer">
+									<a href="{{videoUrl}}" target="_blank"><img src="{{videoImg}}"/></a>
+								</div>
+	                         {{/if}}
+                        {{/if}}
+					</div><!--/.span6-->
+				</div><!--/.row-fluid-->
+				{{/originalSubmission}}
+				{{/nominationsMoreInfo}}
+
+				
+			<!--- Custom Added for Tooltip Doc -->
+			<!-- Max Upload Popover -->
+			<div class="maxUploadReached" style="display: none">    
+			    <div class="control-group" id="attachDocSection">
+			        <p><strong>You Reached Maximum Limit of Uploads</strong></p>  
+			        <p class="tc">            
+			            <button class="btn btn-mini cancelTip">OK</button>
+			        </p>      
+			    </div>
+			</div>
+
+			<div class="attachingNewDoc" style="display:none">					
+				<p>
+				Attaching a New Document will Replace the Existing Document
+				</p>
+				<p class="tc">
+					<button id="nominationNewDocConfirmBtn" class="btn btn-primary">Attach</button>
+					<button id="nominationNewDocDoNotCancelBtn" class="btn">Cancel</button>
+				</p>
+			</div>
+			<!--- //Custom Added for Tooltip Doc -->
+			
+			<!--- Custom Added for Tooltip for addUrlNew -->
+				<div class="attachingNewUrl" style="display:none">						
+					<p>
+					Attaching a New URL will Replace the Existing URL
+					</p>
+					<p class="tc">
+						<button id="nominationNewUrlConfirmBtn" class="btn btn-primary">Attach</button>
+						<button id="nominationNewUrlDoNotCancelBtn" class="btn">Cancel</button>
+					</p>
+				</div>
+			<!--- //Custom Added for Tooltip for addUrlNew -->
+			
+				<!-- Doc Popover -->
+				<div class="addDocPopover" style="display: none">
+					<div class="control-group">
+						<label class="control-label">Upload document</label>
+						<div class="controls">
+							<form id="nominationDocUpload" enctype="multipart/form-data">
+									<input type="file" name="nominationDoc" id="nominationDoc" />
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</script>
+		</div>
+    </div>
+</div><!--/.nominationsMoreInfoPageView-->
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+$(document).ready(function() {
+    //attach the view to an existing DOM element
+    var nlpv = new NominationsMoreInfoPageView({
+        el:$('#nominationsMoreInfoPageView'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url  : 'layout.html'
+            },
+            home : {
+                text : 'Home',
+                url  : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+            }
+        },
+        pageTitle : 'Returned Nomination'
+    });
+});
+</script>

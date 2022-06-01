@@ -1,0 +1,194 @@
+<div class="contributorsView">
+
+    <h2>Select Contributors</h2>
+
+    <!-- **************************************************************
+        WizardTabsView
+     ***************************************************************** -->
+    <ul class="wizardTabsView" data-content=".wizardTabsContent">
+        <!-- generated using json+tpl by WizardTabsView -->
+    </ul><!-- /.wizardTabsView -->
+
+
+
+    <!-- **************************************************************
+        WIZARD TABS CONTENT
+     ***************************************************************** -->
+    <div class="wizardTabsContent">
+
+        <!-- **************************************************************
+            COWORKERS
+         ***************************************************************** -->
+        <div class="stepCoworkersContent stepContent" style="display:none">
+
+            <p>
+                The recipient's team members have been pre-selected to receive invitations
+                to contribute to the PURL. To select multiple teams, first add the
+                contributors from one team and then select the next team.
+            </p>
+
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="filter-search active"><a href="#filterSearch">Search by Recipient's Team</a></li>
+                <li class="name-search"><a href="#nameSearch"> Search by Individual</a></li>
+            </ul>
+
+            <div class="tab-content" style="overflow: visible;">
+                <div class="tab-pane active" id="filterSearch"><div class='paxSearchFilterStartView' ></div></div>
+                <div class="tab-pane" id="nameSearch"><div class='paxSearchStartView' ></div></div>
+            </div>
+
+            <script>
+                $('#myTab a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+            </script>
+
+            <!--
+                Participant search view Element
+                - data-search-types: defines the dropdowns and autocompletes
+                - data-search-params: defines extra static parameters to send with autocomp and participant requests
+                - data-autocomp-delay: how long to wait after key entry to query server
+                - data-autocomp-min-chars: min num chars before querying server
+                - data-search-url: override search json provider (usually needed)
+                - data-select-mode: 'single' OR 'multiple' select behavior
+                - data-msg-select-txt: link to select (optional)
+                - data-msg-selected-txt: text to show something is selected (optional)
+            -->
+           <!--<div class="" id="contributorSearchView"
+                data-default-filter-creation-btn-label="Search by Individual"
+                data-search-types='[{"id":"lastName","name":"Last Name"},{"id":"firstName","name":"First Name"},{"id":"location","name":"Location"},{"id":"jobTitle","name":"Job Title"},{"id":"department","name":"Department"}]'
+                data-search-params='{}'
+                data-autocomp-delay="500"
+                data-autocomp-min-chars="2"
+                data-autocomp-url="ajax/participantSearch_autocomp_firstName.json"
+                data-search-url="ajax/participantSearchResults_contributors.json"
+                data-select-mode="multiple"
+                data-msg-select-txt="add"
+                data-msg-selected-txt="<i class='icon icon-ok'></i>"
+                data-visibility-controls="hideOnly">
+            </div>-->
+
+            <!-- /#contributorSearchView -->
+
+        </div><!-- /.stepCoworkersContent -->
+
+        <!-- **************************************************************
+            OTHERS
+         ***************************************************************** -->
+        <div class="stepOthersContent stepContent" style="display:none">
+
+            <p>
+                To invite the recipient's friends and family to contribute,
+                enter their email addresses and click the Add button.
+                <span class="help-inline">Separate multiple email addresses with a semi-colon.</span>
+            </p>
+
+            <div class="row-fluid">
+                <div class="span9">
+
+                    <textarea class="contribEmailsInput"
+                        placeholder="example: emailaddress@company.com; Lastname, Firstname <emailaddress@company.com>; Firstname Lastname <emailaddress@company.com>"
+                        spellcheck="false"
+                    ></textarea>
+
+                    <div class="alert contribEmailsFeedback" style="display:none">
+                        <div class="msg errorEmailsFound">
+                            <b>Error(s) with the following email(s):</b><br>
+                            <div class="errorEmailsList">
+                                <!-- dyn -->
+                            </div>
+                        </div>
+                        <div class="msg noEmailsFound">
+                            No email addresses found.
+                        </div>
+                        <div class="msg emailsFound">
+                            added
+                            <span class="count"><!-- dyn --></span>
+                            email(s)
+                        </div>
+                    </div>
+
+                </div><!-- /.span -->
+                <div class="span3">
+                    <p>
+                        <button class="btn btn-primary btn-large addEmailsBtn">
+                             Add <i class="icon-plus"></i>
+                        </button>
+                    </p>
+                </div><!-- /.span -->
+            </div><!-- /.row-fluid -->
+
+        </div><!-- /.stepOthersContent -->
+
+        <!-- **************************************************************
+            PREVIEW
+         ***************************************************************** -->
+        <div class="stepPreviewContent stepContent" style="display:none">
+
+            <h5>Send invitations to the following people:</h5>
+
+        </div><!-- /.stepPreviewContent -->
+
+    </div><!-- /.wizardTabsContent -->
+
+
+    <!-- all contributors -->
+    <!-- 'well' class left on here intentionally
+        (test the page and see what happens on the preview step) -->
+    <div class="well container-splitter with-splitter-styles participantCollectionViewWrapper">
+        <h4>Selected Contributors</h4>
+        <table class="table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th class="participant sortable" data-sort-selector=".name">Contributor</th>
+                    <th class="type sortable" data-sort-selector=".sourceType">Type</th>
+                    <th class="invitationSent sortable" data-sort-selector=".sortOnMe">Invitation Sent</th>
+                    <th class="remove">Remove</th>
+                </tr>
+            </thead>
+
+            <tbody id="allContributorsView"
+                class="participantCollectionView"
+                data-msg-empty="No Contributors"
+                data-msg-all-invited="No invitations to send"
+                data-hide-on-empty="false">
+            </tbody>
+        </table>
+    </div><!-- /.participantCollectionViewWrapper -->
+
+
+</div><!-- /.contributorsView -->
+
+<!--tplVariable.tabsJson=[
+    {
+        "id" : 1,
+        "name" : "stepCoworkers",
+        "isActive" : false,
+        "state" : "unlocked",
+        "contentSel" : ".wizardTabsContent .stepCoworkersContent",
+        "wtNumber" : "",
+        "wtName" : "Add Coworkers",
+        "hideDeedle" : false
+    },
+    {
+        "id" : 2,
+        "name" : "stepOthers",
+        "isActive" : false,
+        "state" : "locked",
+        "contentSel" : ".wizardTabsContent .stepOthersContent",
+        "wtNumber" : "",
+        "wtName" : "Add Friends &amp; Family",
+        "hideDeedle" : false
+    },
+    {
+        "id" : 3,
+        "name" : "stepPreview",
+        "isActive" : false,
+        "state" : "locked",
+        "contentSel" : ".wizardTabsContent .stepPreviewContent",
+        "wtNumber" : "",
+        "wtName" : "Preview Pending Invitations",
+        "hideDeedle" : false
+    }
+] tplVariable-->

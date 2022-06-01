@@ -1,0 +1,24 @@
+CREATE TABLE stage_td_progress_data_import(
+IMPORT_RECORD_ID      NUMBER (18),    
+IMPORT_FILE_ID        NUMBER (18),
+LOGIN_ID              VARCHAR2 (100 Char),
+USER_ID               NUMBER (10),
+FIRST_NAME            VARCHAR2 (100 Char),
+LAST_NAME             VARCHAR2 (100 Char),
+EMAIL_ADDRESS         VARCHAR2 (250 Char),  
+TOTAL_PERFORMANCE     NUMBER (18,4),
+CREATED_BY            NUMBER (10) NOT NULL,
+DATE_CREATED          DATE        NOT NULL)
+/
+COMMENT ON TABLE stage_td_progress_data_import IS 'Table Has Staged Progress Data for ThrowDown'
+/
+COMMENT ON COLUMN stage_td_progress_data_import.LOGIN_ID IS 'Unique identifier used for login to system or Employee Id#, Used to match and load data into system'
+/
+COMMENT ON COLUMN stage_td_progress_data_import.FIRST_NAME IS 'Participants First Name'
+/
+COMMENT ON COLUMN stage_td_progress_data_import.LAST_NAME IS 'Participants Last Name'
+/
+COMMENT ON COLUMN stage_td_progress_data_import.Email_Address IS 'Email Address of the participant'
+/
+COMMENT ON COLUMN stage_td_progress_data_import.TOTAL_PERFORMANCE IS 'Performance to date'
+/

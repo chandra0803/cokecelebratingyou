@@ -1,0 +1,33 @@
+create sequence claim_cfse_pk_sq start with 250
+/
+create table claim_cfse
+(claim_cfse_id               NUMBER(12) NOT NULL,
+ claim_form_step_element_id  NUMBER(12) NOT NULL,
+ claim_id                    NUMBER(12) NOT NULL,
+ value                       VARCHAR2(4000),
+ sequence_num                NUMBER(10),
+ created_by number(18) NOT NULL,
+ date_created                DATE NOT NULL,
+ modified_by                 number(18),
+ date_modified               DATE,
+ version                     NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE claim_cfse
+ADD CONSTRAINT claim_cfse_pk PRIMARY KEY (claim_cfse_id)
+USING INDEX
+/
+ALTER TABLE claim_cfse ADD CONSTRAINT claim_cfse_fk1
+  FOREIGN KEY (claim_form_step_element_id) REFERENCES claim_form_step_element (claim_form_step_element_id) 
+/
+ALTER TABLE claim_cfse ADD CONSTRAINT claim_cfse_fk2
+  FOREIGN KEY (claim_id) REFERENCES claim (claim_id) 
+/
+
+CREATE INDEX CLM_CFSE_CLM_FRM_STP_EL_FK_idx ON CLAIM_CFSE
+  (CLAIM_FORM_STEP_ELEMENT_ID)
+/
+CREATE INDEX CLAIM_CFSE_CLAIM_FK_idx ON CLAIM_CFSE
+  (CLAIM_ID)
+/
+COMMENT ON TABLE claim_cfse IS 'Table to store the data entered for every field on the claim_form_step_element for a particular claim.'
+/

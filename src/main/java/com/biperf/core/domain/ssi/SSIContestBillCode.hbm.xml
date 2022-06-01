@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.ssi.SSIContestBillCode" table="ssi_contest_bill_code">
+
+		<id name="id" type="java.lang.Long" column="ssi_contest_bill_code_id">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">ssi_contest_bill_code_pk_sq</param>
+			</generator>
+		</id>
+
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+		
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		
+		<many-to-one name="ssiContest" column="ssi_contest_id" class="com.biperf.core.domain.ssi.SSIContest" lazy="false" not-null="true" />
+		<property name="trackBillCodeBy" type="java.lang.String" column="TRACK_BILLS_BY" />
+		<property name="billCode" type="java.lang.String" column="BILL_CODE" />
+		<property name="customValue" type="java.lang.String" column="CUSTOM_VALUE" />
+		<property name="sortOrder" type="java.lang.Long" column="SORT_ORDER" />
+	</class>
+</hibernate-mapping>
+

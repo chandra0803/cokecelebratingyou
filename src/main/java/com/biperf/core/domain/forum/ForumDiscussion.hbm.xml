@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.forum.ForumDiscussion" table="FORUM_DISCUSSION" discriminator-value="false">
+
+		<id name="id" type="java.lang.Long" column="DISCUSSION_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">FORUM_DISCUSSION_PK_SQ</param>
+			</generator>
+		</id>
+		
+		<discriminator column="IS_REPLY" type="boolean" />
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<many-to-one name="forumTopic" class="com.biperf.core.domain.forum.ForumTopic" lazy="false" not-null="true" column="FORUM_TOPIC_ID" />
+		<property name="discussionTitle" type="java.lang.String" column="DISCUSSION_TITLE" />
+		<property name="discussionBody" type="java.lang.String" column="DISCUSSION_BODY" />
+		<property name="status" type="java.lang.String" column="STATUS" />
+
+		<set name="discussionLike" table="FORUM_DISCUSSION_LIKE" lazy="false" cascade="all-delete-orphan">
+			<key>
+				<column name="DISCUSSION_ID" not-null="true" />
+			</key>
+			<one-to-many class="com.biperf.core.domain.forum.ForumDiscussionLike" />
+		</set>
+		
+		<set name="discussionReply" table="FORUM_DISCUSSION" inverse="true" lazy="false" cascade="all-delete-orphan">
+			<key>
+				<column name="PARENT_DISCUSSION_ID" not-null="true" />
+			</key>
+			<one-to-many class="com.biperf.core.domain.forum.ForumDiscussionReply" />
+		</set>
+
+	    <many-to-one name="user" class="com.biperf.core.domain.user.User" lazy="false" not-null="true" column="USER_ID" />
+	    
+	    <subclass name="com.biperf.core.domain.forum.ForumDiscussionReply" discriminator-value="true">
+	    <property name="parentDiscussionId" type="java.lang.Long" column="PARENT_DISCUSSION_ID" />
+        </subclass>
+
+	</class>
+
+    <query name="com.biperf.core.domain.forum.AllForumDiscussions">
+		from ForumDiscussion
+	</query>
+	
+	<sql-query name="com.biperf.core.domain.forum.getDiscussionLikeCount">
+	<return-scalar column="numberOfLikes" type="long"/>
+  	<![CDATA[
+  	select count(1) as numberOfLikes from forum_discussion_like where discussion_id = :discussionId
+  	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.forum.getCommentLikeCountForDiscussion">
+	<return-scalar column="numberOfLikes" type="long"/>
+  	<![CDATA[
+  	SELECT COUNT(1) as numberOfLikes
+    FROM forum_discussion_like
+    WHERE discussion_id IN
+    (SELECT discussion_id
+    FROM forum_discussion
+    WHERE discussion_id     =:commentId
+    AND parent_discussion_id =:discussionId
+    AND status = 'A'
+    ) 
+  	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.forum.getDiscussionLikedUsersList">
+	<return-scalar column="userId" type="long"/>
+	<![CDATA[
+	 select fdl.user_id as userId from forum_discussion fd, forum_discussion_like fdl 
+     where fd.discussion_id = fdl.discussion_id
+     and fd.discussion_id = :discussionId
+     and fd.status  = 'A'
+     ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.forum.getCommentsLikedUsersList">
+	<return-scalar column="userId" type="long"/>
+	<![CDATA[
+	 select fdl.user_id as userId from forum_discussion fd, forum_discussion_like fdl 
+     where fd.discussion_id = fdl.discussion_id
+     and fd.discussion_id = :commentId
+     and fd.status  = 'A'
+     ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.forum.getDiscussionRepliesCount">
+	<return-scalar column="totalRepliesCnt" type="int"/>
+	<![CDATA[
+	 SELECT COUNT(*) AS totalRepliesCnt
+     FROM forum_discussion fd,
+     application_user au,
+     participant p
+     WHERE fd.user_id            = au.user_id
+     AND au.user_id              = p.user_id
+     AND fd.parent_discussion_id = :discussionId
+     AND fd.status  = 'A'
+     ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.forum.getDiscussionCountByName">
+	<return-scalar column="discussionCnt" type="int"/>
+	<![CDATA[
+	 SELECT COUNT(*) AS discussionCnt
+     FROM forum_discussion
+     WHERE LOWER(discussion_title)    = LOWER(:discussionName)
+     AND forum_topic_id = :topicId
+     AND parent_discussion_id IS NULL
+     AND status = 'A'
+     ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.forum.getRepliesByParentDiscussionId">
+		<return alias="forumDiscussionReply" class="com.biperf.core.domain.forum.ForumDiscussionReply"/>
+		<![CDATA[
+	 SELECT *
+     FROM forum_discussion
+     WHERE parent_discussion_id = :discussionId
+     AND status                 = 'A'
+    ]]>
+	</sql-query>
+
+</hibernate-mapping>

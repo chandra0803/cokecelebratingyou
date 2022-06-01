@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.fileload.HierarchyImportRecord" table="STAGE_HIERARCHY_IMPORT_RECORD">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="IMPORT_RECORD_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">IMPORT_RECORD_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID"/>
+    <property name="actionType" type="java.lang.String" column="ACTION_TYPE"/>
+    <property name="name" type="java.lang.String" column="NAME"/>
+    <property name="oldNodeName" type="java.lang.String" column="OLD_NAME"/>
+    <property name="moveToNodeName" type="java.lang.String" column="MOVE_TO_NODE_NAME"/>
+    <property name="description" type="java.lang.String" column="DESCRIPTION"/>
+    <property name="nodeTypeId" type="java.lang.Long" column="NODE_TYPE_ID"/>
+    <property name="nodeTypeName" type="java.lang.String" column="NODE_TYPE_NAME"/>
+    <property name="parentNodeName" type="java.lang.String" column="PARENT_NODE_NAME"/>
+    <property name="oldParentNodeName" type="java.lang.String" column="OLD_PARENT_NODE_NAME"/>
+    <property name="characteristicId1" type="java.lang.Long" column="CHARACTERISTIC_ID1"/>
+    <property name="characteristicId2" type="java.lang.Long" column="CHARACTERISTIC_ID2"/>
+    <property name="characteristicId3" type="java.lang.Long" column="CHARACTERISTIC_ID3"/>
+    <property name="characteristicId4" type="java.lang.Long" column="CHARACTERISTIC_ID4"/>
+    <property name="characteristicId5" type="java.lang.Long" column="CHARACTERISTIC_ID5"/>
+    <property name="characteristicId6" type="java.lang.Long" column="CHARACTERISTIC_ID6"/>
+    <property name="characteristicId7" type="java.lang.Long" column="CHARACTERISTIC_ID7"/>
+    <property name="characteristicId8" type="java.lang.Long" column="CHARACTERISTIC_ID8"/>
+    <property name="characteristicId9" type="java.lang.Long" column="CHARACTERISTIC_ID9"/>
+    <property name="characteristicId10" type="java.lang.Long" column="CHARACTERISTIC_ID10"/>
+    <property name="characteristicName1" type="java.lang.String" column="CHARACTERISTIC_NAME1"/>
+    <property name="characteristicName2" type="java.lang.String" column="CHARACTERISTIC_NAME2"/>
+    <property name="characteristicName3" type="java.lang.String" column="CHARACTERISTIC_NAME3"/>
+    <property name="characteristicName4" type="java.lang.String" column="CHARACTERISTIC_NAME4"/>
+    <property name="characteristicName5" type="java.lang.String" column="CHARACTERISTIC_NAME5"/>
+    <property name="characteristicName6" type="java.lang.String" column="CHARACTERISTIC_NAME6"/>
+    <property name="characteristicName7" type="java.lang.String" column="CHARACTERISTIC_NAME7"/>
+    <property name="characteristicName8" type="java.lang.String" column="CHARACTERISTIC_NAME8"/>
+    <property name="characteristicName9" type="java.lang.String" column="CHARACTERISTIC_NAME9"/>
+    <property name="characteristicName10" type="java.lang.String" column="CHARACTERISTIC_NAME10"/>
+    <property name="characteristicValue1" type="java.lang.String" column="CHARACTERISTIC_VALUE1"/>
+    <property name="characteristicValue2" type="java.lang.String" column="CHARACTERISTIC_VALUE2"/>
+    <property name="characteristicValue3" type="java.lang.String" column="CHARACTERISTIC_VALUE3"/>
+    <property name="characteristicValue4" type="java.lang.String" column="CHARACTERISTIC_VALUE4"/>
+    <property name="characteristicValue5" type="java.lang.String" column="CHARACTERISTIC_VALUE5"/>
+    <property name="characteristicValue6" type="java.lang.String" column="CHARACTERISTIC_VALUE6"/>
+    <property name="characteristicValue7" type="java.lang.String" column="CHARACTERISTIC_VALUE7"/>
+    <property name="characteristicValue8" type="java.lang.String" column="CHARACTERISTIC_VALUE8"/>
+    <property name="characteristicValue9" type="java.lang.String" column="CHARACTERISTIC_VALUE9"/>
+    <property name="characteristicValue10" type="java.lang.String" column="CHARACTERISTIC_VALUE10"/>
+
+    <set name="importRecordErrors" table="IMPORT_RECORD_ERROR" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_RECORD_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ImportRecordError"/>
+    </set>
+
+  </class>
+
+  <query name="com.biperf.core.domain.import.file.AllHierarchyRecords">
+    <![CDATA[
+		from com.biperf.core.domain.fileload.HierarchyImportRecord hierarchyRecord
+	   where hierarchyRecord.importFileId = :importFileId 
+    ]]>
+  </query>
+  
+	<sql-query name="com.biperf.core.domain.import.file.HierarchyRecordsByPageWithoutError">
+	<return alias="h" class="com.biperf.core.domain.fileload.HierarchyImportRecord"/>
+	    <![CDATA[
+	      select {h.*}  from STAGE_HIERARCHY_IMPORT_RECORD h
+	      where h.import_file_id = :importFileId 
+	      and NOT EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = h.import_record_id
+                      AND ire.import_file_id = h.import_file_id)
+	      order by h.action_Type asc, h.name asc
+	    ]]>
+	 </sql-query>
+	    
+	<sql-query name="com.biperf.core.domain.import.file.HierarchyRecordsByPageWithError">
+	<return alias="h" class="com.biperf.core.domain.fileload.HierarchyImportRecord"/>
+	    <![CDATA[
+		  SELECT DISTINCT {h.*}
+  FROM 
+(SELECT NVL(h.import_record_id, ir.import_record_id) import_record_id,
+       NVL(h.import_file_id, ir.import_file_id) import_file_id, 
+        h.action_type,           
+        h.name,                  
+        h.old_name,              
+        h.move_to_node_name,     
+        h.description,           
+        h.node_type_id,          
+        h.node_type_name,        
+        h.parent_node_name,      
+        h.old_parent_node_name,  
+        h.characteristic_id1,    
+        h.characteristic_id2,    
+        h.characteristic_id3,    
+        h.characteristic_id4,    
+        h.characteristic_id5,    
+        h.characteristic_id6,    
+        h.characteristic_id7,    
+        h.characteristic_id8,    
+        h.characteristic_id9,    
+        h.characteristic_id10,       
+        h.characteristic_name1,    
+        h.characteristic_name2,    
+        h.characteristic_name3,    
+        h.characteristic_name4,    
+        h.characteristic_name5,    
+        h.characteristic_name6,    
+        h.characteristic_name7,    
+        h.characteristic_name8,    
+        h.characteristic_name9,    
+        h.characteristic_name10,   
+        h.characteristic_value1,   
+        h.characteristic_value2,   
+        h.characteristic_value3,   
+        h.characteristic_value4,   
+        h.characteristic_value5,   
+        h.characteristic_value6,   
+        h.characteristic_value7,   
+        h.characteristic_value8,   
+        h.characteristic_value9,   
+        h.characteristic_value10,
+        h.created_by,              
+        h.date_created 
+  FROM stage_hierarchy_import_record h,
+       import_record_error ir
+WHERE ir.import_file_id = :importFileId 
+   AND ir.import_record_id = h.import_record_id (+)) h
+ORDER BY h.action_type asc,           
+         h.name asc		  
+	    ]]>
+	  </sql-query>
+  
+</hibernate-mapping>

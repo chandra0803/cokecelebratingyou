@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.engagement.EngagementBehaviorSummary" table="ENGAGEMENT_BEHAVIOR_SUMMARY">
+        <id name="id" column="BEHAVIOR_SUMMARY_ID" type="java.lang.Long">
+          <generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">ENGAGEMENT_BEH_SUM_ID_SEQ</param>
+		  </generator>
+        </id>
+        <property name="receivedCount" type="java.lang.Long" column="RECEIVED_COUNT" />
+        <property name="sentCount" type="java.lang.Long" column="SENT_COUNT" />
+		<property name="behavior" type="string" column="BEHAVIOR" />
+		
+		<many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.promotion.Promotion" not-null="false" lazy="false"/>
+		
+	    <many-to-one name="engagementScoreSummary" column="SUMMARY_ID" class="com.biperf.core.domain.engagement.EngagementScoreSummary" lazy="false"/>
+	    
+    </class>
+</hibernate-mapping>

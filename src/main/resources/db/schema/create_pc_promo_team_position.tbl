@@ -1,0 +1,30 @@
+CREATE SEQUENCE promo_team_position_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE promo_team_position
+(promo_team_position_id   NUMBER(18,0) NOT NULL,
+ promotion_id             NUMBER(18,0) NOT NULL,
+ team_position_type       VARCHAR2 (30) NOT NULL,
+ is_required              NUMBER(1,0) NOT NULL,
+ created_by number(18) NOT NULL,
+ date_created             DATE NOT NULL,
+ version                  NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE promo_team_position
+ADD CONSTRAINT promo_team_position_pk PRIMARY KEY (promo_team_position_id)
+USING INDEX
+/
+ALTER TABLE promo_team_position ADD CONSTRAINT promo_team_position_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promo_product_claim (promotion_id)
+/
+CREATE INDEX PROMO_TEAM_POS_PROMO_FK_idx ON PROMO_TEAM_POSITION
+
+  (PROMOTION_ID)
+/
+COMMENT ON COLUMN PROMO_TEAM_POSITION.PROMO_TEAM_POSITION_ID IS 'system generated PK.'
+/
+COMMENT ON COLUMN PROMO_TEAM_POSITION.PROMOTION_ID IS 'FK to promotion.'
+/
+COMMENT ON COLUMN PROMO_TEAM_POSITION.TEAM_POSITION_TYPE IS 'code from the team position picklist'
+/
+COMMENT ON COLUMN PROMO_TEAM_POSITION.IS_REQUIRED IS 'Is team position required?'
+/

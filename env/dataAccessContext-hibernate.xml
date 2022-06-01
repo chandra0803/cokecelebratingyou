@@ -1,0 +1,2583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+  <!-- ================================================= -->
+  <!--   Property Configurator                           -->
+  <!-- ================================================= -->
+
+  <bean id="propertyConfigurer"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+    <property name="location">
+      <value>classpath:modules.properties</value>
+    </property>
+    <property name="ignoreUnresolvablePlaceholders">
+      <value>true</value>
+    </property>
+  </bean>
+
+  <!-- ================================================= -->
+  <!--   DAO Bean Definitions                            -->
+  <!-- ================================================= -->
+
+    <!-- Import File DAO -->
+    <bean id="importFileDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.fileload.ImportFileDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.fileload.hibernate.ImportFileDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- Import Record DAO -->
+    <bean id="importRecordDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.fileload.ImportRecordDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.fileload.hibernate.ImportRecordDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- minimumQualifierStatusDAO -->
+    <bean id="minimumQualifierStatusDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.claim.MinimumQualifierStatusDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.claim.hibernate.MinimumQualifierStatusDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- calculatorDAO -->
+    <bean id="calculatorDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.calculator.CalculatorDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.calculator.hibernate.CalculatorDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- claimDAO -->
+    <bean id="claimDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.claim.ClaimDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.claim.hibernate.ClaimDAOImpl" />
+        </property>
+    </bean>
+    
+    <bean id="nominationClaimDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.claim.NominationClaimDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.claim.hibernate.NominationClaimDAOImpl" >
+            <property name="dataSource">
+        			<ref bean="dataSource"/>
+        	</property>
+        	</bean>
+        </property>
+    </bean>
+    
+    <!-- SSIContestParticipantDAO -->
+	<bean id="ssiContestParticipantDAO" parent="daoProxyFactoryParent">
+		<property name="proxyInterfaces">
+			<value>com.biperf.core.dao.ssi.SSIContestParticipantDAO</value>
+		</property>
+		<property name="target">
+			<bean class="com.biperf.core.dao.ssi.hibernate.SSIContestParticipantDAOImpl">
+				<property name="dataSource">
+        			<ref bean="dataSource"/>
+        		</property>
+			</bean>
+		</property>
+	</bean>
+    
+    <!-- ssiContestDAO -->
+    <bean id="ssiContestDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.ssi.SSIContestDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.ssi.hibernate.SSIContestDAOImpl">
+            	<property name="dataSource">
+					<ref bean="dataSource" />
+				</property>
+			</bean>
+        </property>
+    </bean>
+ 
+     <!-- ssiContestDAO -->
+    <bean id="ssiContestPaxClaimDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.ssi.SSIContestPaxClaimDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.ssi.hibernate.SSIContestPaxClaimDAOImpl">
+            	<property name="dataSource">
+					<ref bean="dataSource" />
+				</property>
+			</bean>
+        </property>
+    </bean>
+    
+    <!-- ssiContestAwardThemNowDAO -->
+    <bean id="ssiContestAwardThemNowDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.ssi.SSIContestAwardThemNowDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.ssi.hibernate.SSIContestAwardThemNowDAOImpl">
+            	<property name="dataSource">
+					<ref bean="dataSource" />
+				</property>
+			</bean>
+        </property>
+    </bean>
+    
+    <!-- ssiPromotionDAO -->
+    <bean id="ssiPromotionDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.ssi.SSIPromotionDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.ssi.hibernate.SSIPromotionDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- engagementDAO -->
+    <bean id="engagementDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.engagement.EngagementDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.engagement.hibernate.EngagementDAOImpl">
+            	<property name="dataSource">
+					<ref bean="dataSource" />
+				</property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- claimGroupDAO -->
+    <bean id="claimGroupDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.claim.ClaimGroupDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.claim.hibernate.ClaimGroupDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- rptGoalDetailDAO -->
+    <bean id="rptGoalDetailDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.goalquest.RptGoalDetailDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.goalquest.hibernate.RptGoalDetailDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- PublicRecognition DAO -->
+      <bean id="publicRecognitionDAOTarget"
+        class="com.biperf.core.dao.promotion.hibernate.PublicRecognitionDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="publicRecognitionDAO" parent="daoProxyFactoryParent">
+       <property name="proxyInterfaces">
+         <value>com.biperf.core.dao.promotion.PublicRecognitionDAO</value>
+       </property>
+       <property name="target">
+         <!-- <bean class="com.biperf.core.dao.promotion.hibernate.PublicRecognitionDAOImpl"/> -->
+          <ref local="publicRecognitionDAOTarget" />
+       </property>
+      </bean>      
+      
+      <!-- publicRecognitionWallDAO -->      
+       <bean id="publicRecognitionWallDAOTarget"
+        class="com.biperf.core.dao.publicrecognitionwall.hibernate.PublicRecognitionWallDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+	 <bean id="publicRecognitionWallDAO" parent="daoProxyFactoryParent">
+	    <property name="proxyInterfaces">
+	      <value>com.biperf.core.dao.publicrecognitionwall.PublicRecognitionWallDAO</value>
+	    </property>
+	    <property name="target">
+	      <ref local="publicRecognitionWallDAOTarget" />
+	    </property>
+  	</bean>      
+      
+    <!-- rptGoalPartnerDetailDAO -->
+    <bean id="rptGoalPartnerDetailDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.goalquest.RptGoalPartnerDetailDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.goalquest.hibernate.RptGoalPartnerDetailDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- rptGoalROIDAO -->
+    <bean id="rptGoalROIDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.goalquest.RptGoalROIDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.goalquest.hibernate.RptGoalROIDAOImpl" />
+        </property>
+    </bean>
+    <!-- rptCpDetailDAO -->
+    <bean id="rptCpDetailDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.challengepoint.RptCpDetailDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.challengepoint.hibernate.RptCpDetailDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- aclDAO -->
+    <bean id="aclDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.security.AclDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.security.hibernate.AclDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- BudgetMasterDAO -->
+    <bean id="budgetMasterDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.budget.BudgetMasterDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.budget.hibernate.BudgetMasterDAOImpl" >
+            <property name="dataSource">
+				<ref bean="dataSource" />
+		    </property>
+            </bean>
+        </property>
+    </bean>
+    
+    <!-- BudgetHistoryDAO -->
+    <bean id="budgetHistoryDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.budget.BudgetHistoryDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.budget.hibernate.BudgetHistoryDAOImpl">
+            	<property name="dataSource">
+					<ref bean="dataSource" />
+				</property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- ListBuilderDAO -->
+    <bean id="listBuilderDAOTarget"
+        class="com.biperf.core.dao.participant.hibernate.ListBuilderDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="listBuilderDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.ListBuilderDAO</value>
+        </property>
+        <property name="target">
+            <ref local="listBuilderDAOTarget" />
+        </property>
+    </bean>
+
+    <!-- ProductCategoryDAO -->
+    <bean id="productCategoryDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.product.ProductCategoryDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.product.hibernate.ProductCategoryDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- productCharacteristicDAO -->
+    <bean id="productCharacteristicDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.product.ProductCharacteristicDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.product.hibernate.ProductCharacteristicDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- nodeTypeCharacteristicDAO -->
+    <bean id="nodeTypeCharacteristicDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.hierarchy.NodeTypeCharacteristicDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.hierarchy.hibernate.NodeTypeCharacteristicDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- userCharacteristicDAO -->
+    <bean id="userCharacteristicDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserCharacteristicDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserCharacteristicDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- ClaimFormDAO -->
+    <bean id="claimFormDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.claim.ClaimFormDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.claim.hibernate.ClaimFormDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- countryDAO -->
+    <bean id="countryDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.country.CountryDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.country.hibernate.CountryDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- EmployerDAO -->
+    <bean id="employerDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.employer.EmployerDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.employer.hibernate.EmployerDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- HierarchyDAO -->
+    <bean id="hierarchyDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.hierarchy.HierarchyDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.hierarchy.hibernate.HierarchyDAOImpl">
+			      	<property name="dataSource">
+			        	<ref bean="dataSource"/>
+			        </property>
+			      </bean>
+        </property>
+    </bean>
+
+
+    <!-- MessageDAO -->
+    <bean id="messageDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.message.MessageDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.message.hibernate.MessageDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- MockAccountTransactionDAO -->
+    <bean id="mockAccountTransactionDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.integration.MockAccountTransactionDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.integration.hibernate.MockAccountTransactionDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- NodeDAO -->
+    <bean id="nodeDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.hierarchy.NodeDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.hierarchy.hibernate.NodeDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- NodeTypeDAO -->
+    <bean id="nodeTypeDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.hierarchy.NodeTypeDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.hierarchy.hibernate.NodeTypeDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- ProductDAO -->
+    <bean id="productDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.product.ProductDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.product.hibernate.ProductDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- ParticipantDAO -->
+    <bean id="participantDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.ParticipantDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.ParticipantDAOImpl">
+			      	<property name="dataSource">
+			        	<ref bean="dataSource"/>
+			        </property>
+			      </bean>
+        </property>
+    </bean>
+
+    <!-- AudienceDAO -->
+    <bean id="audienceDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.AudienceDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.AudienceDAOImpl">
+			      	<property name="dataSource">
+			        	<ref bean="dataSource"/>
+			        </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- roleDAO -->
+    <bean id="roleDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.security.RoleDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.security.hibernate.RoleDAOImpl" />
+        </property>
+    </bean>
+
+	<!-- participantIdentifierDAO -->
+    <bean id="participantIdentifierDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.ParticipantIdentifierDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.ParticipantIdentifierDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- SupplierDAO -->
+    <bean id="supplierDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.integration.SupplierDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.integration.hibernate.SupplierDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- systemVariable DAO -->
+    <bean id="systemVariableDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.system.SystemVariableDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.system.hibernate.SystemVariableDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- userTokenDAO -->
+    <bean id="userTokenDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserTokenDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserTokenDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- userDAO -->
+    <bean id="userDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserDAOImpl">
+                <property name="dataSource">
+        			<ref bean="dataSource"/>
+        		</property>
+            </bean>
+        </property>
+    </bean>    
+
+    <!-- userNodeHistoryDAO -->
+    <bean id="userNodeHistoryDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserNodeHistoryDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserNodeHistoryDAOImpl" />
+        </property>
+    </bean>
+    
+    	<!-- userPasswordHistoryDAO -->
+    <bean id="userPasswordHistoryDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserPasswordHistoryDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserPasswordHistoryDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- quizDAO -->
+    <bean id="quizDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.quiz.QuizDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.quiz.hibernate.QuizDAOImpl" />
+        </property>
+    </bean>
+    
+    
+        <bean id="surveyDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.survey.SurveyDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.survey.hibernate.SurveyDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- instantPollDAO -->
+    <bean id="instantPollDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.instantpoll.InstantPollDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.instantpoll.hibernate.InstantPollDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- diyQuizDAO -->
+    <bean id="diyQuizDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.diyquiz.DIYQuizDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.diyquiz.hibernate.DIYQuizDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- activityDAO -->
+    <bean id="activityDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.activity.ActivityDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.activity.hibernate.ActivityDAOImpl" />
+        </property>
+    </bean>
+    
+    <bean id="eCardDAO" parent="daoProxyFactoryParent">
+	    <property name="proxyInterfaces">
+	      <value>com.biperf.core.dao.ecard.ECardDAO</value>
+	    </property>
+	    <property name="target">
+	      <bean class="com.biperf.core.dao.ecard.hibernate.ECardDAOImpl" >
+ 			<property name="dataSource">
+				<ref bean="dataSource"/>
+			</property>
+	      </bean>
+	    </property>
+  	</bean>
+
+    <!-- journalDAO -->
+    <bean id="journalDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.journal.JournalDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.journal.hibernate.JournalDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- userCountryChangesDAO -->
+    <bean id="userCountryChangesDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserCountryChangesDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserCountryChangesDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- PromotionPayoutDAO -->
+    <bean id="promotionPayoutDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.promotion.PromotionPayoutDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.promotion.hibernate.PromotionPayoutDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- PromotionDAO -->
+    <bean id="promotionDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.promotion.PromotionDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.promotion.hibernate.PromotionDAOImpl">
+            	<property name="promotionQueryCacheName">
+					<ref bean="promotionQueryCacheName"/>
+      			</property>
+      			<property name="dataSource">
+			        <ref bean="dataSource"/>
+			    </property>
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="workHappierDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.workhappier.WorkHappierDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.workhappier.hibernate.WorkHappierDAOImpl"/>
+        </property>
+    </bean>
+    
+    <!-- PaxGoalDAO -->
+    <bean id="paxGoalDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.goalquest.PaxGoalDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.goalquest.hibernate.PaxGoalDAOImpl" />
+        </property>
+    </bean>
+
+
+    <!-- GoalLevelDAO -->
+    <bean id="goalLevelDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.goalquest.GoalLevelDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.goalquest.hibernate.GoalLevelDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- PromotionParticipantDAO -->
+    <bean id="promotionParticipantDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.promotion.PromotionParticipantDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.promotion.hibernate.PromotionParticipantDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- PromotionSweepstakeDAO -->
+    <bean id="promotionSweepstakeDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.promotion.PromotionSweepstakeDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.promotion.hibernate.PromotionSweepstakeDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- PromotionNotificationDAO -->
+    <bean id="promotionNotificationDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.promotion.PromotionNotificationDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.promotion.hibernate.PromotionNotificationDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- ProxyDAO -->
+    <bean id="proxyDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.proxy.ProxyDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.proxy.hibernate.ProxyDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- PayoutCalculationAuditDAO -->
+    <bean id="payoutCalculationAuditDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.audit.PayoutCalculationAuditDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.audit.hibernate.PayoutCalculationAuditDAOImpl" />
+        </property>
+    </bean>
+
+    <!-- QuickSearchDAO -->
+    <bean id="quickSearchDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.quicksearch.QuickSearchDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.quicksearch.hibernate.QuickSearchDAOImpl">
+			  <property name="countryDAO">
+	        	<ref bean="countryDAO"/>
+			  </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- MailingDAO -->
+    <bean id="mailingDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.mailing.MailingDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.mailing.hibernate.MailingDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- MailingBatchDAO -->
+    <bean id="mailingBatchDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.mailing.MailingBatchDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.mailing.hibernate.MailingBatchDAOImpl" />
+        </property>
+    </bean>    
+
+    <!-- MultimediaDAO -->
+    <bean id="multimediaDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.multimedia.MultimediaDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.multimedia.hibernate.MultimediaDAOImpl" />
+        </property>
+    </bean>
+
+  <!-- reportsDAO -->
+  <bean id="reportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.ReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.ReportsDAOImpl" />
+    </property>
+  </bean>
+  
+  <!-- login activity summary reportDAOs -->
+  <bean id="loginReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.LoginReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.LoginReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <!-- Engagement Reports DAOs -->
+  <bean id="engagementReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.EngagementReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.EngagementReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <!-- Claim Report DAOs -->
+  <bean id="claimReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.ClaimReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.ClaimReportsDAOImpl">
+      <property name="dataSource">
+        <ref bean="dataSource"/>
+      </property>
+      </bean> 
+    </property>
+  </bean>
+  
+  <!-- Goal Quest Report DAOs -->
+  <bean id="goalQuestReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.GoalQuestReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.GoalQuestReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <!-- ChallengePoint Report DAOs -->
+  <bean id="challengePointReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.ChallengePointReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.ChallengePointReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <!-- Budget Report DAOs -->
+  <bean id="budgetReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.BudgetReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.BudgetReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="enrollmentReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.EnrollmentReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.EnrollmentReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <!-- Badge Report DAOs -->
+  <bean id="badgeReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.BadgeReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.BadgeReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="individualReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.IndividualReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.IndividualReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="recognitionReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.RecognitionReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.RecognitionReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="nominationReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.NominationReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.NominationReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="throwdownActivityReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.ThrowdownActivityReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.ThrowdownActivityReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+    
+  <bean id="recognitionPurlActivityReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.RecognitionPurlActivityReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.RecognitionPurlActivityReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="dashboardReportDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.DashboardReportDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.DashboardReportDAOImpl"/>
+    </property>
+  </bean>
+  
+ <bean id="awardsReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.AwardsReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.AwardsReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+ <bean id="plateauAwardReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.PlateauAwardReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.PlateauAwardReportsDAOImpl">
+        <property name="dataSource">
+          <ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>  
+  
+  <bean id="participantAwardActivityExportReportDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.ParticipantAwardActivityExportReportDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.ParticipantAwardActivityExportReportDAOImpl">
+      <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+        </bean>
+    </property>
+  </bean>  
+  
+  <bean id="quizReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.QuizReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.QuizReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="surveyReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.SurveyReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.SurveyReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="workHappierReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.WorkHappierReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.WorkHappierReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="hierarchyExportReportDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.HierarchyExportReportDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.HierarchyExportReportDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="participantExportReportDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.ParticipantExportReportDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.ParticipantExportReportDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="behaviorReportsDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reports.BehaviorReportsDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reports.hibernate.BehaviorReportsDAOImpl">
+         <property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <!-- processDAO -->
+  <bean id="processDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.process.ProcessDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.process.hibernate.ProcessDAOImpl" >
+	      <property name="dataSource">
+	          <ref bean="dataSource" />
+	      </property>
+      </bean>
+    </property>
+  </bean>
+
+  <!-- processInvocationDAO -->
+  <bean id="processInvocationDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.process.ProcessInvocationDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.process.hibernate.ProcessInvocationDAOImpl" />
+    </property>
+  </bean>
+
+  <!-- commLogDAO -->
+  <bean id="commLogDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.commlog.CommLogDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.commlog.hibernate.CommLogDAOImpl" >
+	      <property name="dataSource">
+	            <ref bean="dataSource" />
+	      </property>
+	  </bean>        
+    </property>
+  </bean>
+
+  <!-- claimApproverSnapshotDAO -->
+  <bean id="claimApproverSnapshotDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.claim.ClaimApproverSnapshotDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.claim.hibernate.ClaimApproverSnapshotDAOImpl">
+        <property name="dataSource">
+    		<ref bean="dataSource"/>
+    	</property>
+      </bean>
+    </property>
+  </bean>
+
+	<!-- ReportTableRefreshDAO -->
+  <bean id="reportTableRefreshDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.reporttablerefresh.ReportTableRefreshDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.reporttablerefresh.hibernate.ReportTableRefreshDAOImpl">
+      	<property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <!-- Non redemption reminder DAO -->
+  <bean id="nonRedemptionExtractDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.nonredemptionreminder.NonRedemptionExtractDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.nonredemptionreminder.hibernate.NonRedemptionExtractDAOImpl">
+      	<property name="dataSource">
+        	<ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  
+  <!-- oracleSequenceDAO -->
+  <bean id="oracleSequenceDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.oracle.OracleSequenceDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.oracle.impl.OracleSequenceDAOImpl" />
+    </property>
+  </bean>
+
+  <!-- StackRankDAO -->
+  <bean id="stackRankDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.promotion.StackRankDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.promotion.hibernate.StackRankDAOImpl">
+        <property name="dataSource">
+          <ref bean="dataSource"/>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <!-- StackRankNodeDAO -->
+  <bean id="stackRankNodeDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.promotion.StackRankNodeDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.promotion.hibernate.StackRankNodeDAOImpl" />
+    </property>
+  </bean>
+
+  <!-- StackRankParticipantDAO -->
+  <bean id="stackRankParticipantDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.promotion.StackRankParticipantDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.promotion.hibernate.StackRankParticipantDAOImpl" />
+    </property>
+  </bean>
+
+  <!-- GoalQuestPaxActivityDAO -->
+  <bean id="goalQuestPaxActivityDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.goalquest.GoalQuestPaxActivityDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.goalquest.hibernate.GoalQuestPaxActivityDAOImpl" />
+    </property>
+  </bean>
+
+	<!-- MerchOrderDAO -->
+   <bean id="merchOrderDAOTarget"
+        class="com.biperf.core.dao.merchandise.hibernate.MerchOrderDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="merchOrderDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.merchandise.MerchOrderDAO</value>
+        </property>
+        <property name="target">
+            <ref local="merchOrderDAOTarget" />
+        </property>
+    </bean>
+
+  <!-- PromoMerchCountryProgramDAO -->
+  <bean id="promoMerchCountryDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+        <value>com.biperf.core.dao.promotion.PromoMerchCountryDAO</value>
+    </property>
+    <property name="target">
+        <bean class="com.biperf.core.dao.promotion.hibernate.PromoMerchCountryDAOImpl"/>
+    </property>
+  </bean>
+
+  <!-- PromoMerchProgramLevelDAO -->
+  <bean id="promoMerchProgramLevelDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+        <value>com.biperf.core.dao.merchandise.PromoMerchProgramLevelDAO</value>
+    </property>
+    <property name="target">
+        <bean class="com.biperf.core.dao.merchandise.hibernate.PromoMerchProgramLevelDAOImpl"/>
+    </property>
+  </bean>
+
+    <!-- AwardFileDAO -->
+    <bean id="awardGeneratorDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.awardgenerator.AwardGeneratorDAO</value>
+        </property>
+	    <property name="target">
+       		<bean class="com.biperf.core.dao.awardgenerator.hibernate.AwardGeneratorDAOImpl"/>
+   	    </property>
+    </bean>
+    
+    <bean id="awardGenBatchDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.awardgenerator.AwardGenBatchDAO</value>
+        </property>
+	    <property name="target">
+       		<bean class="com.biperf.core.dao.awardgenerator.hibernate.AwardGenBatchDAOImpl">
+       		<property name="dataSource">
+	        	  <ref bean="dataSource"/>
+	        </property>
+       		</bean>
+   	    </property>
+    </bean>
+    
+    <!-- Hibernate Interceptor - used on the Hibernate Session Factory   -->
+    <bean id="hibernateAuditInterceptor"
+        class="com.biperf.core.utils.hibernate.HibernateAuditInterceptor" />
+  	<bean id="hibernateSaveInterceptor" 
+  		class="com.biperf.core.utils.hibernate.HibernateSaveInterceptor" />        
+
+    <bean id="hibernateChainedInterceptor"
+        class="com.biperf.core.utils.hibernate.HibernateChainedInterceptor">
+        <property name="interceptors">
+            <list>
+                <ref bean="hibernateAuditInterceptor" />
+                <ref bean="hibernateSaveInterceptor" />
+            </list>
+        </property>
+    </bean>
+    <!--  SKG -->
+    <bean id="participantPartnerDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.ParticipantPartnerDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.ParticipantPartnerDAOImpl" />
+        </property>
+    </bean>    
+
+    <bean id="challengepointProgressDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.challengepoint.ChallengepointProgressDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.challengepoint.hibernate.ChallengepointProgressDAOImpl" />
+        </property>
+    </bean>
+   <bean id="challengepointAwardDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.challengepoint.ChallengepointAwardDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.challengepoint.hibernate.ChallengepointAwardDAOImpl" />
+        </property>
+    </bean>
+   <bean id="rptCpProductionDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.challengepoint.RptCpProductionDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.challengepoint.hibernate.RptCpProductionDAOImpl" />
+        </property>
+    </bean>
+    
+    <bean id="goalQuestDataRepositoryDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.goalquest.GoalQuestDataRepositoryDAO</value>
+        </property>
+         <property name="target">
+              <bean class="com.biperf.core.dao.goalquest.hibernate.GoalQuestDataRepositoryDAOImpl" >
+                 <property name="dataSource">
+        	       <ref bean="dataSource"/>
+                 </property>
+              </bean>
+        </property>         
+    </bean>
+    <!-- Welcome MessageDAO -->
+
+   <bean id="welcomeMessageDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.welcomemail.WelcomeMessageDAO</value>
+        </property>
+         <property name="target">
+              <bean class="com.biperf.core.dao.welcomemail.hibernate.WelcomeMessageDAOImpl" >
+	              <property name="dataSource">
+	        	       <ref bean="dataSource"/>
+	              </property>
+              </bean>
+        </property>
+         
+    </bean>
+	
+     <bean id="moduleAppDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.homepage.ModuleAppDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.homepage.hibernate.ModuleAppDAOImpl" />
+        </property>
+    </bean>	
+    <bean id="filterAppSetupDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.homepage.FilterAppSetupDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.homepage.hibernate.FilterAppSetupDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- leaderBoardDAO -->
+    <bean id="leaderBoardDAO" parent="daoProxyFactoryParent">
+       <property name="proxyInterfaces">
+           <value>com.biperf.core.dao.leaderboard.LeaderBoardDAO</value>
+       </property>
+       <property name="target">
+           <bean class="com.biperf.core.dao.leaderboard.hibernate.LeaderBoardDAOImpl"/>
+       </property>
+    </bean>
+    
+     <!-- gamificationDAO -->
+    <bean id="gamificationDAO" parent="daoProxyFactoryParent">
+       <property name="proxyInterfaces">
+           <value>com.biperf.core.dao.gamification.GamificationDAO</value>
+       </property>
+       <property name="target">
+           <ref local="gamificationDAOTarget" />
+       </property>
+    </bean>
+    
+    <bean id="gamificationDAOTarget"
+        class="com.biperf.core.dao.gamification.hibernate.GamificationDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+         
+
+   <!-- purlRecipientDAO -->
+   <bean id="purlRecipientDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.purl.PurlRecipientDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.purl.hibernate.PurlRecipientDAOImpl">
+               <property name="dataSource">
+            		<ref bean="dataSource" />
+        		</property>
+        </bean>
+        </property>
+   </bean>
+   
+   <bean id="purlContributorDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.purl.PurlContributorDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.purl.hibernate.PurlContributorDAOImpl" >
+            <property name="dataSource">
+            		<ref bean="dataSource" />
+        	</property>
+        	</bean>
+        </property>
+   </bean>
+   
+   <bean id="purlContributorMediaDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.purl.PurlContributorMediaDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.purl.hibernate.PurlContributorMediaDAOImpl" />
+        </property>
+   </bean>
+   
+   <bean id="purlContributorCommentDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.purl.PurlContributorCommentDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.purl.hibernate.PurlContributorCommentDAOImpl" >
+              <property name="dataSource">
+            		<ref bean="dataSource" />
+        	  </property>
+        	</bean>	
+        </property>
+   </bean>
+
+   <bean id="userTwitterDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserTwitterDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserTwitterDAOImpl" />
+        </property>
+   </bean>
+   
+   <bean id="userFacebookDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserFacebookDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserFacebookDAOImpl" />
+        </property>
+   </bean>
+   
+   <bean id="userDeviceDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.mobileapp.recognition.dao.UserDeviceDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.mobileapp.recognition.dao.UserDeviceDAOImpl" />
+        </property>
+   </bean>
+	<!-- Scheduled Recognition DAO -->
+	<bean id="scheduledRecognitionDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.promotion.ScheduledRecognitionDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.promotion.hibernate.ScheduledRecognitionDAOImpl" />
+        </property>
+    </bean> 
+    <!-- Post Process Jobs DAO -->
+    <bean id="postProcessJobsDAOTarget"
+        class="com.biperf.core.dao.promotion.hibernate.PostProcessJobsDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="postProcessJobsDAO" parent="daoProxyFactoryParent">
+       <property name="proxyInterfaces">
+         <value>com.biperf.core.dao.promotion.PostProcessJobsDAO</value>
+       </property>
+       <property name="target">
+          <ref local="postProcessJobsDAOTarget" />
+       </property>
+    </bean>
+    
+    <bean id="aboutMeDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.AboutMeDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.AboutMeDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- AlertMessageDAO -->
+    <bean id="alertMessageDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.managertoolkit.AlertMessageDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.managertoolkit.hibernate.AlertMessageDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- ParticipantAlertDAO -->
+    <bean id="participantAlertDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.managertoolkit.ParticipantAlertDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.managertoolkit.hibernate.ParticipantAlertDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- FileStoreDAO -->
+    <bean id="fileStoreDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.filestore.FileStoreDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.filestore.hibernate.FileStoreDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- ForumTopicDAO -->
+    <bean id="forumTopicDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.forum.ForumTopicDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.forum.hibernate.ForumTopicDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- ForumDiscussionDAO -->
+    <bean id="forumDiscussionDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.forum.ForumDiscussionDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.forum.hibernate.ForumDiscussionDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- SmackTalk DAO -->
+    <bean id="smackTalkDAOTarget"
+        class="com.biperf.core.dao.throwdown.hibernate.SmackTalkDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="smackTalkDAO" parent="daoProxyFactoryParent">
+       <property name="proxyInterfaces">
+         <value>com.biperf.core.dao.throwdown.SmackTalkDAO</value>
+       </property>
+       <property name="target">
+          <ref local="smackTalkDAOTarget" />
+       </property>
+    </bean>
+    
+    <!-- MatchDAO -->
+    <bean id="matchDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.throwdown.MatchDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.throwdown.hibernate.MatchDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- Team DAO -->
+    <bean id="teamDAOTarget"
+        class="com.biperf.core.dao.throwdown.hibernate.TeamDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="teamDAO" parent="daoProxyFactoryParent">
+       <property name="proxyInterfaces">
+         <value>com.biperf.core.dao.throwdown.TeamDAO</value>
+       </property>
+       <property name="target">
+          <ref local="teamDAOTarget" />
+       </property>
+    </bean>
+    
+    <!-- Division DAO -->
+    <bean id="divisionDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.throwdown.DivisionDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.throwdown.hibernate.DivisionDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- Round DAO -->
+    <bean id="roundDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.throwdown.RoundDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.throwdown.hibernate.RoundDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- StackRankDAO -->
+    <bean id="stackStandingDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.throwdown.StackStandingDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.throwdown.hibernate.StackStandingDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- StackRankNodeDAO -->
+    <bean id="stackStandingNodeDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.throwdown.StackStandingNodeDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.throwdown.hibernate.StackStandingNodeDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- StackRankParticipantDAO -->    
+    <bean id="stackStandingParticipantDAOTarget"
+        class="com.biperf.core.dao.throwdown.hibernate.StackStandingParticipantDAOImpl">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="stackStandingParticipantDAO" parent="daoProxyFactoryParent">
+       <property name="proxyInterfaces">
+         <value>com.biperf.core.dao.throwdown.StackStandingParticipantDAO</value>
+       </property>
+       <property name="target">
+          <ref local="stackStandingParticipantDAOTarget" />
+       </property>
+    </bean>    
+
+   <!-- ========================================= -->
+  <!-- ==== customization WIP 20160  start      ==== -->
+  <!-- ========================================= -->
+  
+  <bean id="tccAdminLoginInfoDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.client.TccAdminLoginInfoDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.client.hibernate.TccAdminLoginInfoDAOImpl" />
+    </property>
+  </bean>
+
+ <!-- ========================================= -->
+  <!-- ====  customization WIP 20160 end      ==== -->
+  <!-- ========================================= -->
+ <!-- Client customization for WIP#42701 starts -->
+    <bean id="cokeClientDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.client.CokeClientDAO</value>
+        </property>
+         <property name="target">
+              <bean class="com.biperf.core.dao.client.hibernate.CokeClientDAOImpl" >
+              <property name="dataSource">
+        		<ref bean="dataSource"/>
+        	  </property>
+              </bean>
+        </property>
+    </bean>
+  <!-- Client customization for WIP#42701 ends -->
+  
+  <!-- Client customization starts -->
+    <bean id="cokeCareerMomentsDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.client.CokeCareerMomentsDAO</value>
+        </property>
+         <property name="target">
+              <bean class="com.biperf.core.dao.client.hibernate.CokeCareerMomentsDAOImpl" >
+              <property name="dataSource">
+        		<ref bean="dataSource"/>
+        	  </property>
+              </bean>
+        </property>
+    </bean>
+  <!-- Client customization ends -->
+     <bean id="matchTeamProgressDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.throwdown.MatchTeamProgressDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.throwdown.hibernate.MatchTeamProgressDAOImpl" />
+        </property>
+    </bean>   
+    
+    <bean id="matchTeamOutcomeDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.throwdown.MatchTeamOutcomeDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.throwdown.hibernate.MatchTeamOutcomeDAOImpl" />
+        </property>
+    </bean> 
+    
+    <!-- ParticipantSurveyDAO -->
+     <bean id="participantSurveyDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.ParticipantSurveyDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.ParticipantSurveyDAOImpl" />
+        </property>
+    </bean> 
+    
+    <!-- ParticipantDIYCommunicationsDAO -->
+     <bean id="participantDIYCommunicationsDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.diycommunications.ParticipantDIYCommunicationsDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.diycommunications.hibernate.ParticipantDIYCommunicationsDAOImpl" />
+        </property>
+    </bean> 
+    
+	<!-- Celebration Manager Message DAO -->
+	<bean id="celebrationManagerMessageDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.promotion.CelebrationManagerMessageDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.promotion.hibernate.CelebrationManagerMessageDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- Currency DAO -->
+	<bean id="currencyDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.currency.CurrencyDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.currency.hibernate.CurrencyDAOImpl" />
+        </property>
+    </bean>
+    
+    <!-- Cash Currency DAO -->
+	<bean id="cashCurrencyDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.cashcurrency.CashCurrencyDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.cashcurrency.hibernate.CashCurrencyDAOImpl" />
+        </property>
+    </bean>       
+
+    <!-- Certificate DAO -->
+	<bean id="certificateDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.certificates.CertificateDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.certificates.impl.CertificateDAOImpl" >
+            	<property name="dataSource">
+            		<ref bean="dataSource" />
+        		</property>
+            </bean>
+        </property>
+    </bean>       
+    
+  <!-- EncryptionDAO -->
+  <bean id="encryptionDAO" parent="daoProxyFactoryParent">
+      <property name="proxyInterfaces">
+          <value>com.biperf.core.dao.security.EncryptionDAO</value>
+      </property>
+      <property name="target">
+          <bean class="com.biperf.core.dao.security.hibernate.EncryptionDAOImpl" />
+      </property>
+  </bean>
+     
+	<bean id="participantGroupDAO" parent="daoProxyFactoryParent">
+		<property name="proxyInterfaces">
+			<value>com.biperf.core.dao.participant.ParticipantGroupDAO</value>
+		</property>
+		<property name="target">
+			<bean class="com.biperf.core.dao.participant.hibernate.ParticipantGroupDAOImpl">				
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<!-- Nomination  DAO  -->
+	<bean id="nominationDAO" parent="daoProxyFactoryParent">
+		<property name="proxyInterfaces">
+			<value>com.biperf.core.dao.nomination.NominationDAO</value>
+		</property>
+		<property name="target">
+			<bean class="com.biperf.core.dao.nomination.hibernate.NominationDAOImpl">	
+			<property name="dataSource">
+            <ref bean="dataSource" />
+        </property>			
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- MerchOrderBillCodeDAO  WIP# 25128 -->
+   	<bean id="merchOrderBillCodeDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.merchandise.MerchOrderBillCodeDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.merchandise.hibernate.MerchOrderBillCodeDAOImpl" >
+            </bean>
+        </property>
+    </bean> 
+    
+    <!-- OTSDAO -->
+    <bean id="otsProgramDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.ots.OTSProgramDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.ots.hibernate.OTSProgramDAOImpl">
+            	<property name="userDAO">
+	        		<ref bean="userDAO"/>
+			  </property>
+            </bean>
+        </property>
+    </bean>
+    
+    
+    <!-- MTC DAO -->
+    <bean id="mtcVideoDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.mtc.MTCVideoDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.mtc.hibernate.MTCVideoDAOImpl">
+            	
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="userCookiesAcceptanceDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserCookiesAcceptanceDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserCookiesAcceptanceDAOImpl">
+            	
+            </bean>
+        </property>
+    </bean>
+    
+     <!-- ==== Hp Customization wip#54638 ==== -->
+    <bean id="budgetTransferDAO" parent="daoProxyFactoryParent">
+		<property name="proxyInterfaces">
+			<value>com.biperf.core.dao.budget.BudgetTransferDAO</value>
+		</property>
+		<property name="target">
+			<bean
+				class="com.biperf.core.dao.budget.hibernate.BudgetTransferDAOImpl">
+				<property name="dataSource">
+					<ref bean="dataSource" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+    <bean id="engageProgramDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.engageprogram.EngageProgramDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.engageprogram.hibernate.EngageProgramDAOImpl">
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="serviceAnniversaryDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.serviceanniversary.ServiceAnniversaryDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.serviceanniversary.hibernate.ServiceAnniversaryDAOImpl">
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="eventReferenceDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.eventreference.EventReferenceDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.eventreference.hibernate.EventReferenceDAOImpl">
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="companyDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.company.CompanyDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.company.hibernate.CompanyDAOImpl">
+            </bean>
+        </property>
+    </bean>
+    
+  <!-- ==== HIBERNATE SESSION FACTORY ==== -->
+  <!-- All hbm files should be referenced in the mapping resources -->
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" lazy-init="true">
+    <property name="dataSource">
+      <ref bean="dataSource"/>
+    </property>
+
+    <property name="entityInterceptor">
+      <ref local="hibernateChainedInterceptor"/>
+    </property>
+
+    <property name="mappingResources">
+      <ref bean="mappingResourceBean"/>
+    </property>
+
+    <property name="hibernateProperties">
+      <ref bean="hibernatePropertyList"/>
+    </property>      
+
+    <property name="eventListeners">
+      <map>
+      	<entry key="post-insert">
+          <ref bean="genericPostInsertEventListener"/>
+        </entry>
+        <entry key="post-update">
+          <ref bean="genericPostUpdateEventListener"/>
+        </entry>
+        <entry key="post-delete">
+          <ref bean="genericPostDeleteEventListener"/>
+        </entry>
+        <entry key="pre-collection-update">
+          <ref bean="genericPersistentCollectionListener"/>
+        </entry>
+        <entry key="pre-collection-remove">
+          <ref bean="genericPersistentCollectionListener"/>
+        </entry>
+        <entry key="post-collection-recreate">
+          <ref bean="genericPersistentCollectionListener"/>
+        </entry>    
+      </map>
+    </property>
+
+  </bean>
+  <!-- Recognition Advisor start -->
+    <bean id="recognitionAdvisorDao" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.recognitionadvisor.RecognitionAdvisorDao</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.recognitionadvisor.hibernate.RecognitionAdvisorDaoImpl">
+            
+			      	<property name="dataSource">
+			        	<ref bean="dataSource"/>
+			        </property>
+			        <property name="userDAO">
+	        			<ref bean="userDAO"/>
+			 		 </property>
+			      </bean>
+        </property>
+    </bean>
+
+	<!-- Recognition Advisor end -->
+
+    <!-- Import Record Error DAO -->
+    <bean id="importRecordErrorDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.fileload.ImportRecordErrorDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.fileload.hibernate.ImportRecordErrorDAOImpl" />
+        </property>
+    </bean>
+	  <!-- ParticipantAddressBookDAO -->
+  <bean id="participantAddressBookDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+        <value>com.biperf.core.dao.participant.ParticipantAddressBookDAO</value>
+    </property>
+    <property name="target">
+        <bean class="com.biperf.core.dao.participant.hibernate.ParticipantAddressBookDAOImpl"/>
+    </property>
+  </bean>
+
+  
+   <!-- ========================================= -->
+  <!-- ==== customization WIP 20163  start      ==== -->
+  <!-- ========================================= -->
+
+  <bean id="tccTempPwdExpiredDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.client.TccTempPwdExpiredDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.client.hibernate.TccTempPwdExpiredDaoImpl">
+      <property name="dataSource">
+	      <ref bean="dataSource"/>
+	 </property>  
+      </bean>
+    </property>
+  </bean>
+  
+ <!-- ========================================= -->
+  <!-- ====  customization WIP 20163 end      ==== -->
+  <!-- ========================================= -->
+   
+    <bean id="rosterDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.roster.RosterDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.roster.hibernate.RosterDAOImpl">
+                <property name="dataSource">
+        			<ref bean="dataSource"/>
+        		</property>              	
+            </bean>
+        </property>
+    </bean> 
+  <!-- Client customization for WIP#25783 START --> 
+   <bean id="tcccQcardBatchDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.client.TcccQcardBatchDAO</value>
+        </property>
+         <property name="target">
+              <bean class="com.biperf.core.dao.client.hibernate.TcccQcardBatchDAOImpl" >
+	              <!-- <property name="dataSource">
+	        	       <ref bean="dataSource"/>
+	              </property> -->
+              </bean>
+        </property>
+        <!-- Client customization for WIP#25783 END --> 
+    </bean>
+    <bean id="tcccConvertCertDAO" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.biperf.core.dao.client.TcccConvertCertDAO</value>
+    </property>
+    <property name="target">
+      <bean class="com.biperf.core.dao.client.hibernate.TcccConvertCertDAOImpl">
+      	<property name="dataSource">
+   			<ref bean="dataSource" />
+   		</property>
+   	  </bean>
+    </property>
+  </bean>
+   <bean id="cokeProcessDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.client.CokeProcessDAO</value>
+        </property>
+         <property name="target">
+              <bean class="com.biperf.core.dao.client.hibernate.CokeProcessDAOImpl" >
+              <property name="dataSource">
+        		<ref bean="dataSource"/>
+        	  </property>
+              </bean>
+        </property>
+    </bean>
+ 
+	<!-- Client customization for WIP #25836 starts  -->
+	 <bean id="generateBudgetFileProcessDAO" parent="daoProxyFactoryParent">
+	    <property name="proxyInterfaces">
+	      <value>com.biperf.core.dao.client.GenerateBudgetFileProcessDAO</value>
+	    </property>
+	    <property name="target">
+	      <bean class="com.biperf.core.dao.client.hibernate.GenerateBudgetFileProcessDAOImpl">
+	        <property name="dataSource">
+	   			<ref bean="dataSource" />
+	   		</property>
+	   	  </bean>
+	    </property>
+	  </bean>
+	<!-- Client customization for WIP #25836 ends  -->   
+
+
+  <!-- Query Cache Name -->
+  <bean id="promotionQueryCacheName" class="java.lang.String">
+   	<constructor-arg type="java.lang.String" value="com.biperf.core.dao.promotion.hibernate.PromotionDAO.queryCache"/>
+  </bean>
+
+  <!-- Start  Listeners -->
+  <bean id="abstractHibernateListener" class="com.biperf.core.utils.hibernate.AbstractEventListener" abstract="true">
+	  <property name="cacheManagementService">
+	  	<ref bean="cacheManagementService" />
+	  </property>
+	  <property name="promotionQueryCacheName">
+		<ref bean="promotionQueryCacheName"/>
+      </property>
+  </bean>
+  <bean id="genericPostInsertEventListener" class="com.biperf.core.utils.hibernate.GenericPostInsertEventListener" parent="abstractHibernateListener">
+  	<property name="budgetMasterService">
+  		<ref bean="budgetMasterService"/>
+  	</property>
+  </bean>
+  <bean id="genericPostUpdateEventListener" class="com.biperf.core.utils.hibernate.GenericPostUpdateEventListener" parent="abstractHibernateListener" />
+  <bean id="genericPostDeleteEventListener" class="com.biperf.core.utils.hibernate.GenericPostDeleteEventListener" parent="abstractHibernateListener" />
+  <bean id="genericPersistentCollectionListener" class="com.biperf.core.utils.hibernate.GenericPersistentCollectionListener"  />
+  <bean id="genericPostCollectionUpdateEventListener" class="com.biperf.core.utils.hibernate.GenericPostCollectionUpdateEventListener"  />
+  <!-- END  Listeners -->
+
+  <!-- Helper bean defn. to get the list of domain hbm XMLs -->
+  <bean id="mappingResourceBean" factory-bean="mappingResourceFactoryBean" factory-method="getDomainMappingResources"/>
+
+  <!-- Domain Mapping Resources Factory - used to select the list of hbm XMLs for core system and only the installed modules -->
+  <bean id="mappingResourceFactoryBean"
+        class="com.biperf.core.utils.hibernate.DomainMappingResourcesFactory">
+
+    <!-- specify all the modules installed as true|false -->
+    <property name="modulesInstalled">
+      <props>
+        <!-- configure these based on the settings for installed modules -->
+        <prop key="core">true</prop> <!-- NOTE: this ("core") should always be true -->
+        <prop key="pc">${modules.productclaim.installed}</prop>
+        <prop key="quiz">${modules.quiz.installed}</prop>
+        <prop key="rec">${modules.recognition.installed}</prop>
+        <prop key="eng">${modules.engagement.installed}</prop>
+        <prop key="nom">${modules.nomination.installed}</prop>
+        <prop key="svy">${modules.survey.installed}</prop>
+        <prop key="gq">${modules.goalquest.installed}</prop>
+        <prop key="cp">${modules.challengepoint.installed}</prop>
+        <prop key="td">${modules.throwdown.installed}</prop>
+        <prop key="well">${modules.wellness.installed}</prop>
+        <prop key="lb">${modules.leaderboard.installed}</prop> 
+        <prop key="ssi">true</prop>
+        <prop key="ots">true</prop>
+        <prop key="mtc">true</prop>
+      </props>
+    </property>
+
+    <!-- list all the OR domain mappings 'comma delimited' per module - valid keys: "core", "pc", "quiz", "rec", "eng", "svy", "gq" "well"-->
+    <property name="moduleDomainMappings">
+      <props>
+        <!-- Core domain objects -->
+        <prop key="core">          
+          com/biperf/core/domain/budget/Budget.hbm.xml,
+          com/biperf/core/domain/budget/BudgetSegment.hbm.xml,
+          com/biperf/core/domain/budget/BudgetHistory.hbm.xml,
+          com/biperf/core/domain/budget/PromotionBudgetSweep.hbm.xml,
+          com/biperf/core/domain/budget/BudgetReallocationHistory.hbm.xml,          
+          com/biperf/core/domain/budget/BudgetMaster.hbm.xml,
+          com/biperf/core/domain/calculator/Calculator.hbm.xml,
+          com/biperf/core/domain/calculator/CalculatorCriterion.hbm.xml,
+          com/biperf/core/domain/calculator/CalculatorCriterionRating.hbm.xml,
+          com/biperf/core/domain/calculator/CalculatorPayout.hbm.xml,
+          com/biperf/core/domain/characteristic/Characteristic.hbm.xml,
+          com/biperf/core/domain/commlog/CommLog.hbm.xml,
+          com/biperf/core/domain/commlog/CommLogComment.hbm.xml,
+          com/biperf/core/domain/claim/Claim.hbm.xml,
+          com/biperf/core/domain/claim/ClaimApproverSnapshot.hbm.xml,
+          com/biperf/core/domain/claim/ClaimItem.hbm.xml,
+          com/biperf/core/domain/claim/CalculatorResponse.hbm.xml,
+          com/biperf/core/domain/claim/ApprovableItemApprover.hbm.xml,
+          com/biperf/core/domain/claim/ClaimItemApprover.hbm.xml,
+          com/biperf/core/domain/claim/ClaimForm.hbm.xml,
+          com/biperf/core/domain/claim/ClaimFormStep.hbm.xml,
+          com/biperf/core/domain/claim/ClaimFormStepElement.hbm.xml,
+          com/biperf/core/domain/claim/ClaimFormStepEmailNotification.hbm.xml,
+          com/biperf/core/domain/country/Country.hbm.xml,
+          com/biperf/core/domain/employer/Employer.hbm.xml,
+          com/biperf/core/domain/hierarchy/Hierarchy.hbm.xml,
+          com/biperf/core/domain/hierarchy/Node.hbm.xml,
+          com/biperf/core/domain/hierarchy/NodeType.hbm.xml,
+          com/biperf/core/domain/hierarchy/NodeCharacteristic.hbm.xml,
+          com/biperf/core/domain/mailing/Mailing.hbm.xml,
+          com/biperf/core/domain/mailing/MailingRecipient.hbm.xml,
+          com/biperf/core/domain/mailing/MailingRecipientData.hbm.xml,
+          com/biperf/core/domain/mailing/MailingMessageLocale.hbm.xml,
+          com/biperf/core/domain/mailing/MailingAttachmentInfo.hbm.xml,
+          com/biperf/core/domain/mailing/MailingBatch.hbm.xml,
+          com/biperf/core/domain/message/Message.hbm.xml,
+          com/biperf/core/domain/multimedia/VideoUploadDetail.hbm.xml,
+          com/biperf/core/domain/participant/Audience.hbm.xml,
+          com/biperf/core/domain/participant/AudienceCriteria.hbm.xml,
+          com/biperf/core/domain/participant/AudienceCriteriaCharacteristic.hbm.xml,          
+          com/biperf/core/domain/participant/MockAccountTransaction.hbm.xml,
+          com/biperf/core/domain/promotion/Promotion.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionAudience.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionApprovalOption.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionApprovalOptionReason.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionApprovalParticipant.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionClaimFormStepElementValidation.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionNotification.hbm.xml,
+          com/biperf/core/domain/promotion/NominationPromotionTimePeriod.hbm.xml,
+          com/biperf/core/domain/promotion/NominationPromotionLevel.hbm.xml,
+	      com/biperf/core/domain/promotion/PromotionWizard.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionSweepstake.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionSweepstakeWinner.hbm.xml,
+          com/biperf/core/domain/promotion/PromoMerchCountry.hbm.xml,
+          com/biperf/core/domain/promotion/PromoMerchProgramLevel.hbm.xml,
+          com/biperf/core/domain/promotion/BillCode.hbm.xml,       
+          com/biperf/core/domain/audit/PayoutCalculationAudit.hbm.xml,
+          com/biperf/core/domain/supplier/Supplier.hbm.xml,
+          com/biperf/core/domain/currency/Currency.hbm.xml,
+          com/biperf/core/domain/system/PropertySetItem.hbm.xml,
+          com/biperf/core/domain/user/Acl.hbm.xml,
+          com/biperf/core/domain/user/Role.hbm.xml,
+          com/biperf/core/domain/user/UserToken.hbm.xml,
+          com/biperf/core/domain/user/UserNode.hbm.xml,
+          com/biperf/core/domain/user/UserFacebook.hbm.xml,
+          com/biperf/core/mobileapp/recognition/domain/UserDevice.hbm.xml,
+          com/biperf/core/domain/user/UserTwitter.hbm.xml,
+          com/biperf/core/domain/user/UserNodeHistory.hbm.xml,
+          com/biperf/core/domain/user/UserAddress.hbm.xml,
+          com/biperf/core/domain/user/UserCharacteristic.hbm.xml,
+          com/biperf/core/domain/user/UserPhone.hbm.xml,
+          com/biperf/core/domain/user/UserEmailAddress.hbm.xml,
+          com/biperf/core/domain/user/UserCountryChanges.hbm.xml,
+          com/biperf/core/domain/user/UserPasswordHistory.hbm.xml,
+          com/biperf/core/domain/user/UserTNCHistory.hbm.xml,
+          com/biperf/core/domain/user/User.hbm.xml,          
+          com/biperf/core/domain/user/PlateauRedemptionTracking.hbm.xml,          
+          com/biperf/core/domain/claim/ClaimElement.hbm.xml,
+          com/biperf/core/domain/activity/Activity.hbm.xml,
+          com/biperf/core/domain/activity/SweepstakesActivity.hbm.xml,
+          com/biperf/core/domain/activity/SweepstakesAwardAmountActivity.hbm.xml,
+          com/biperf/core/domain/journal/Journal.hbm.xml,
+          com/biperf/core/domain/journal/JournalBillCode.hbm.xml,
+          com/biperf/core/domain/fileload/ImportFile.hbm.xml,
+          com/biperf/core/domain/fileload/AwardLevelImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/BudgetImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/DepositImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/HierarchyImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/ParticipantImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/ProductImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/QuizImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/ImportRecordError.hbm.xml,
+          com/biperf/core/domain/fileload/PaxByNodeResult.hbm.xml,
+          com/biperf/core/domain/fileload/GoalQuestProgressImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/PaxBaseImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/PaxGoalImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/AutoVinImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/ChallengepointProgressImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/PaxCPBaseImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/PaxCPLevelImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/LeaderBoardImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/NominationApproverImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/SSIProgressImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/SSIObjContestImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/SSIDtgtContestImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/SSISiuContestImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/SSIAtnContestImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/SSISrContestImportRecord.hbm.xml, 
+          com/biperf/core/domain/proxy/Proxy.hbm.xml,
+          com/biperf/core/domain/proxy/ProxyModule.hbm.xml,
+          com/biperf/core/domain/proxy/ProxyModulePromotion.hbm.xml,
+          com/biperf/core/domain/participant/ParticipantCommunicationPreference.hbm.xml,
+          com/biperf/core/domain/process/Process.hbm.xml,
+          com/biperf/core/domain/process/ProcessInvocation.hbm.xml,
+          com/biperf/core/domain/process/ProcessInvocationComment.hbm.xml,
+          com/biperf/core/domain/process/ProcessInvocationParameter.hbm.xml,
+          com/biperf/core/domain/process/ProcessInvocationParameterValue.hbm.xml,
+          com/biperf/core/domain/process/ProcessRole.hbm.xml,
+          com/biperf/core/domain/promotion/PostProcessJobs.hbm.xml,
+          com/biperf/core/domain/promotion/PostProcessPayoutCalculation.hbm.xml,
+          com/biperf/core/domain/fileload/ProductClaimImportRecord.hbm.xml,
+          com/biperf/core/domain/fileload/ProductClaimImportFieldRecord.hbm.xml,
+          com/biperf/core/domain/fileload/ProductClaimImportProductRecord.hbm.xml,
+          com/biperf/core/domain/claim/ClaimGroup.hbm.xml,
+          com/biperf/core/domain/claim/ClaimGroupApprover.hbm.xml,
+          com/biperf/core/domain/claim/ProductClaimParticipant.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionTeamPosition.hbm.xml,
+          com/biperf/core/domain/participant/ParticipantAddressBook.hbm.xml,
+          com/biperf/core/domain/welcomemail/WelcomeMessage.hbm.xml,
+          com/biperf/core/domain/user/UserLoginInfo.hbm.xml,
+          com/biperf/core/domain/homepage/ModuleApp.hbm.xml,
+          com/biperf/core/domain/homepage/FilterAppSetup.hbm.xml,
+		  com/biperf/core/domain/gamification/Badge.hbm.xml,
+          com/biperf/core/domain/gamification/BadgePromotion.hbm.xml,
+          com/biperf/core/domain/gamification/BadgeRule.hbm.xml,
+          com/biperf/core/domain/fileload/BadgeImportRecord.hbm.xml,
+          com/biperf/core/domain/gamification/ParticipantBadge.hbm.xml,
+          com/biperf/core/domain/report/Report.hbm.xml,
+          com/biperf/core/domain/report/ReportChart.hbm.xml,
+          com/biperf/core/domain/report/ReportParameter.hbm.xml,
+          com/biperf/core/domain/report/ReportDashboard.hbm.xml,
+          com/biperf/core/domain/report/ReportDashboardItem.hbm.xml,
+          com/biperf/core/domain/report/ReportDashboardItemParam.hbm.xml,
+          com/biperf/core/domain/promotion/PublicRecognitionLike.hbm.xml, 
+          com/biperf/core/domain/promotion/ParticipantFollowers.hbm.xml,
+          com/biperf/core/domain/promotion/PublicRecognitionComment.hbm.xml,
+          com/biperf/core/domain/promotion/PublicRecognitionUserConnections.hbm.xml,
+          com/biperf/core/domain/participant/AboutMe.hbm.xml,
+          com/biperf/core/domain/managertoolkit/AlertMessage.hbm.xml,
+          com/biperf/core/domain/managertoolkit/ParticipantAlert.hbm.xml,
+          com/biperf/core/domain/filestore/FileStore.hbm.xml,
+          com/biperf/core/domain/forum/ForumTopic.hbm.xml,
+          com/biperf/core/domain/forum/ForumTopicAudience.hbm.xml,
+          com/biperf/core/domain/forum/ForumDiscussion.hbm.xml,
+          com/biperf/core/domain/forum/ForumDiscussionLike.hbm.xml,
+          com/biperf/core/domain/awardgenerator/AwardGenerator.hbm.xml,
+          com/biperf/core/domain/awardgenerator/AwardGenAward.hbm.xml,
+          com/biperf/core/domain/awardgenerator/AwardGenBatch.hbm.xml,
+          com/biperf/core/domain/awardgenerator/AwardGenParticipant.hbm.xml,
+     	  com/biperf/core/domain/awardgenerator/AwardGenManager.hbm.xml,   
+          com/biperf/core/domain/fileload/ThrowdownProgressImportRecord.hbm.xml,
+          com/biperf/core/domain/promotion/Survey.hbm.xml,
+          com/biperf/core/domain/promotion/SurveyQuestion.hbm.xml,
+          com/biperf/core/domain/promotion/SurveyQuestionResponse.hbm.xml,
+          com/biperf/core/domain/promotion/InstantPoll.hbm.xml,
+          com/biperf/core/domain/promotion/InstantPollAudience.hbm.xml,
+          com/biperf/core/domain/goalquest/PromotionGoalQuestSurvey.hbm.xml,
+          com/biperf/core/domain/survey/ParticipantSurvey.hbm.xml, 
+          com/biperf/core/domain/survey/ParticipantSurveyResponse.hbm.xml,
+          com/biperf/core/domain/promotion/SurveyPromotion.hbm.xml,
+          com/biperf/core/domain/participant/AudienceRole.hbm.xml,
+          com/biperf/core/domain/diycommunications/DIYCommunications.hbm.xml,   
+          com/biperf/core/domain/client/TccAdminLoginInfo.hbm.xml, 
+          com/biperf/core/domain/fileload/BudgetDistributionImportRecord.hbm.xml,
+          com/biperf/core/domain/workhappier/WorkHappier.hbm.xml,          
+          com/biperf/core/domain/workhappier/WorkHappierScore.hbm.xml,
+          com/biperf/core/domain/workhappier/WorkHappierFeedback.hbm.xml,
+           <!-- Client customization for WIP #42701 starts -->
+      	  com/biperf/core/domain/client/TcccApproverMatrix.hbm.xml,
+          com/biperf/core/domain/client/TccNomLevelPayout.hbm.xml,
+          com/biperf/core/domain/client/TcccApproverList.hbm.xml,
+          com/biperf/core/domain/client/TcccCurrencyExchange.hbm.xml,          
+            <!-- Client customization for WIP #42701 ends -->
+          com/biperf/core/domain/client/TcccCountryRule.hbm.xml,
+          com/biperf/core/domain/participant/ParticipantGroup.hbm.xml,
+          com/biperf/core/domain/participant/ParticipantGroupDetails.hbm.xml,
+          com/biperf/core/domain/cashcurrency/CashCurrencyCurrent.hbm.xml,
+          com/biperf/core/domain/cashcurrency/CashCurrencyHistory.hbm.xml,
+          com/biperf/core/domain/participant/ParticipantIdentifier.hbm.xml,
+          com/biperf/core/domain/user/StrongMailUser.hbm.xml,
+          com/biperf/core/domain/system/OsPropertySetHistory.hbm.xml,
+          com/biperf/core/domain/promotion/PromoGqMerchOrder.hbm.xml,
+          com/biperf/core/domain/user/UserCookiesAcceptance.hbm.xml,
+          com/biperf/core/domain/roster/Roster.hbm.xml,
+           <!-- Client customization for WIP #39189 -->
+          com/biperf/core/domain/client/TcccClaimFile.hbm.xml,
+          <!-- Client customization start -->
+          com/biperf/core/domain/client/ClientCareerMoments.hbm.xml,
+          com/biperf/core/domain/client/ClientProfileComment.hbm.xml,
+          com/biperf/core/domain/client/ClientProfileLike.hbm.xml
+        </prop>
+        <!-- Product Claim domain objects -->
+        <prop key="pc">
+          com/biperf/core/domain/claim/ProductClaim.hbm.xml,
+          com/biperf/core/domain/claim/ClaimProduct.hbm.xml,
+          com/biperf/core/domain/claim/ClaimProductCharacteristic.hbm.xml,
+          com/biperf/core/domain/claim/MinimumQualifierStatus.hbm.xml,
+          com/biperf/core/domain/product/Product.hbm.xml,
+          com/biperf/core/domain/product/ProductCategory.hbm.xml,
+          com/biperf/core/domain/product/ProductCharacteristicType.hbm.xml,
+          com/biperf/core/domain/product/ProductCharacteristic.hbm.xml,
+          com/biperf/core/domain/promotion/ProductClaimPromotion.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionPayout.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionPayoutGroup.hbm.xml,
+          com/biperf/core/domain/promotion/StackRankPayout.hbm.xml,
+          com/biperf/core/domain/promotion/StackRankPayoutGroup.hbm.xml,
+          com/biperf/core/domain/promotion/StackRank.hbm.xml,
+          com/biperf/core/domain/promotion/StackRankNode.hbm.xml,
+          com/biperf/core/domain/promotion/StackRankParticipant.hbm.xml,
+          com/biperf/core/domain/activity/StackRankActivity.hbm.xml,
+          com/biperf/core/domain/activity/SalesActivity.hbm.xml,
+          com/biperf/core/domain/activity/ManagerOverrideActivity.hbm.xml,
+          com/biperf/core/domain/audit/SalesPayoutCalculationAudit.hbm.xml
+        </prop>
+
+        <!-- Quiz domain objects -->
+        <prop key="quiz">
+          com/biperf/core/domain/claim/QuizClaim.hbm.xml,
+          com/biperf/core/domain/quiz/Quiz.hbm.xml,
+          com/biperf/core/domain/quiz/QuizQuestion.hbm.xml,
+          com/biperf/core/domain/quiz/QuizQuestionAnswer.hbm.xml,
+          com/biperf/core/domain/quiz/QuizLearningObject.hbm.xml,
+          com/biperf/core/domain/claim/QuizResponse.hbm.xml,
+          com/biperf/core/domain/promotion/QuizPromotion.hbm.xml,
+          com/biperf/core/domain/activity/QuizActivity.hbm.xml,
+          com/biperf/core/domain/claim/QuizClaimItem.hbm.xml,
+          com/biperf/core/domain/diyquiz/DIYQuiz.hbm.xml,
+          com/biperf/core/domain/diyquiz/DIYQuizParticipant.hbm.xml,
+        </prop>
+
+		<prop key="well">
+		  com/biperf/core/domain/promotion/WellnessPromotion.hbm.xml
+		</prop>
+
+        <!-- Recognition domain objects -->
+        <prop key="rec">
+          com/biperf/core/domain/multimedia/Card.hbm.xml,
+          com/biperf/core/domain/multimedia/EcardLocale.hbm.xml,
+          com/biperf/core/domain/multimedia/OddCastCategory.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionCard.hbm.xml,
+          com/biperf/core/domain/activity/RecognitionActivity.hbm.xml,
+          com/biperf/core/domain/claim/RecognitionClaim.hbm.xml,
+          com/biperf/core/domain/claim/ClaimRecipient.hbm.xml,
+          com/biperf/core/domain/promotion/RecognitionPromotion.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionCertificate.hbm.xml,
+          com/biperf/core/domain/promotion/HomePageItem.hbm.xml,
+          com/biperf/core/domain/merchandise/MerchOrder.hbm.xml,
+          com/biperf/core/domain/merchandise/MerchOrderBillCode.hbm.xml <!-- WIP# 25130 -->
+          com/biperf/core/domain/activity/MerchOrderActivity.hbm.xml,
+          com/biperf/core/domain/activity/SweepstakesMerchLevelActivity.hbm.xml,
+          com/biperf/core/domain/purl/PurlRecipient.hbm.xml,
+          com/biperf/core/domain/purl/PurlRecipientCustomElement.hbm.xml,
+          com/biperf/core/domain/purl/PurlContributor.hbm.xml,
+          com/biperf/core/domain/purl/PurlContributorMedia.hbm.xml,
+          com/biperf/core/domain/purl/PurlContributorComment.hbm.xml,
+          com/biperf/core/domain/purl/client/ExternalUnsubscribe.hbm.xml,
+          com/biperf/core/domain/promotion/ScheduledRecognition.hbm.xml,
+          com/biperf/core/domain/promotion/CelebrationManagerMessage.hbm.xml,
+          com/biperf/core/domain/engageprogram/EngageProgram.hbm.xml,
+          com/biperf/core/domain/serviceanniversary/SACelebrationInfo.hbm.xml,
+          com/biperf/core/domain/serviceanniversary/SAInviteAndContributeInfo.hbm.xml,
+          com/biperf/core/domain/eventreference/EventReference.hbm.xml,
+          com/biperf/core/domain/company/Company.hbm.xml,
+          com/biperf/core/domain/engageprogram/ProgramAwardLevel.hbm.xml
+        </prop>
+        
+        <!-- Engagement domain objects -->
+        <prop key="eng">
+          com/biperf/core/domain/promotion/EngagementPromotions.hbm.xml,
+          com/biperf/core/domain/promotion/EngagementPromotion.hbm.xml,
+          com/biperf/core/domain/promotion/EngagementPromotionRules.hbm.xml,
+          com/biperf/core/domain/promotion/EngagementPromotionRulesAudience.hbm.xml,
+          com/biperf/core/domain/engagement/EngagementLog.hbm.xml,
+          com/biperf/core/domain/engagement/EngagementScoreSummary.hbm.xml,
+          com/biperf/core/domain/engagement/EngagementScoreDetail.hbm.xml,
+          com/biperf/core/domain/engagement/EngagementBehaviorSummary.hbm.xml
+          com/biperf/core/domain/engagement/EngagementEligManager.hbm.xml
+          com/biperf/core/domain/engagement/EngagementEligUser.hbm.xml
+        </prop>
+
+		<!-- Nomination domain objects -->
+        <prop key="nom">
+          com/biperf/core/domain/multimedia/Card.hbm.xml,          
+          com/biperf/core/domain/multimedia/EcardLocale.hbm.xml,
+          com/biperf/core/domain/multimedia/OddCastCategory.hbm.xml,
+          com/biperf/core/domain/claim/NominationClaim.hbm.xml,
+          com/biperf/core/domain/claim/NominationClaimBehaviors.hbm.xml,
+          com/biperf/core/domain/activity/NominationActivity.hbm.xml,
+          com/biperf/core/domain/claim/ClaimRecipient.hbm.xml,
+          com/biperf/core/domain/promotion/NominationPromotion.hbm.xml,
+          com/biperf/core/domain/promotion/PromotionCard.hbm.xml,
+          com/biperf/core/domain/promotion/ApproverOption.hbm.xml,
+          com/biperf/core/domain/promotion/ApproverCriteria.hbm.xml,
+          com/biperf/core/domain/promotion/Approver.hbm.xml
+        </prop>
+
+      	<!-- Goalquest domain objects -->
+        <prop key="gq">
+	      com/biperf/core/domain/promotion/GoalLevel.hbm.xml,
+          com/biperf/core/domain/promotion/GoalQuestPromotion.hbm.xml,
+          com/biperf/core/domain/goalquest/GoalQuestParticipantActivity.hbm.xml,
+          com/biperf/core/domain/activity/GoalQuestPayoutActivity.hbm.xml,
+          com/biperf/core/domain/goalquest/PaxGoal.hbm.xml,
+          com/biperf/core/domain/goalquest/RptGoalDetail.hbm.xml,
+          com/biperf/core/domain/goalquest/RptGoalROI.hbm.xml,
+          com/biperf/core/domain/goalquest/RptGoalPartnerDetail.hbm.xml,
+          com/biperf/core/domain/participant/ParticipantPartner.hbm.xml
+        </prop>
+        
+        <!-- LeaderBoard domain objects -->
+        <prop key="lb">
+        com/biperf/core/domain/leaderboard/LeaderBoard.hbm.xml,
+        com/biperf/core/domain/leaderboard/LeaderBoardParticipant.hbm.xml,
+        com/biperf/core/domain/leaderboard/LeaderBoardPaxActivity.hbm.xml 
+        </prop>
+
+        <!-- ChallengePoint domain objects -->
+        <prop key="cp">
+          com/biperf/core/domain/promotion/ChallengePointPromotion.hbm.xml,
+          com/biperf/core/domain/challengepoint/ChallengepointAward.hbm.xml,
+          com/biperf/core/domain/challengepoint/ChallengepointProgress.hbm.xml,
+          com/biperf/core/domain/activity/ChallengepointPayoutActivity.hbm.xml,
+          com/biperf/core/domain/challengepoint/RptCpDetail.hbm.xml,
+          com/biperf/core/domain/challengepoint/RptChallengepointProduction.hbm.xml
+        </prop>
+        
+        <!-- Throwdown domain objects -->
+        <prop key="td">
+          com/biperf/core/domain/promotion/ThrowdownPromotion.hbm.xml,
+          com/biperf/core/domain/promotion/Division.hbm.xml,
+          com/biperf/core/domain/promotion/DivisionPayout.hbm.xml,
+          com/biperf/core/domain/promotion/ThrowdownDivisionAudience.hbm.xml,
+          com/biperf/core/domain/promotion/Round.hbm.xml,
+          com/biperf/core/domain/promotion/Match.hbm.xml,
+          com/biperf/core/domain/promotion/MatchTeamOutcome.hbm.xml,
+          com/biperf/core/domain/promotion/MatchTeamProgress.hbm.xml,
+          com/biperf/core/domain/promotion/Team.hbm.xml,
+          com/biperf/core/domain/promotion/SmackTalkComment.hbm.xml,
+          com/biperf/core/domain/promotion/SmackTalkLike.hbm.xml,
+          com/biperf/core/domain/promotion/StackStanding.hbm.xml,
+          com/biperf/core/domain/promotion/StackStandingNode.hbm.xml,
+          com/biperf/core/domain/promotion/StackStandingParticipant.hbm.xml,
+          com/biperf/core/domain/promotion/StackStandingPayoutGroup.hbm.xml,
+          com/biperf/core/domain/promotion/StackStandingPayout.hbm.xml,          
+          com/biperf/core/domain/activity/ThrowdownHeadToHeadActivity.hbm.xml,
+          com/biperf/core/domain/activity/StackStandingActivity.hbm.xml
+        </prop>
+        
+        <prop key="ssi">
+          com/biperf/core/domain/ssi/SSIPromotion.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContest.hbm.xml,
+          com/biperf/core/domain/ssi/SSIAdminContestActions.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestAwardThemNow.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestDocument.hbm.xml,          
+          com/biperf/core/domain/ssi/SSIContestApprover.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestParticipant.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestParticipantProgress.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestManager.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestSuperViewer.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestActivity.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestLevel.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestParticipantStackRank.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestStackRankPayout.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestClaimField.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestPaxClaim.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestPaxClaimField.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestPaxPayout.hbm.xml,
+          com/biperf/core/domain/ssi/SSIContestBillCode.hbm.xml
+        </prop>
+        
+        <prop key="ots">
+        	com/biperf/core/domain/ots/OtsProgram.hbm.xml,
+        	com/biperf/core/domain/ots/ProgramAudience.hbm.xml,
+        	com/biperf/core/domain/ots/OtsBatch.hbm.xml
+        </prop>
+        
+        <prop key="mtc">
+        	com/biperf/core/domain/mtc/MTCVideo.hbm.xml
+        </prop>
+      </props>
+    </property>
+  </bean>
+
+  <!-- Cache -->
+    <bean id="cacheAdministrator" class="com.biperf.cache.oscache.ManageableCacheAdministrator"
+        destroy-method="destroy">
+        <constructor-arg index="0">
+            <props>
+            	<prop key="cache.memory">true</prop>
+                <prop key="cache.capacity">200</prop>
+                <prop key="cache.blocking">false</prop>
+                <prop key="cache.event.listeners">com.biperf.core.cache.G3SpringJmsBroadcastListener</prop>
+                <prop key="cache.cluster.jgroups.stack">jgroups/Stack-cluster${bi.appGrpNum}</prop>
+                <prop key="cache.cluster.jgroups.channel">jgroups/g3-cluster${bi.appGrpNum}</prop>
+                <prop key="cache.cluster.jms.topic.factory">java:comp/env/jms/ConnectionFactory</prop>
+                <prop key="cache.cluster.jms.topic.name">java:comp/env/jms/cluster${bi.appGrpNum}g5CacheFlushTopic</prop>
+                <prop key="cache.cluster.jms.node.name">${com.sun.aas.instanceName}_@PROJECT_NAME@</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+
+    <bean id="cacheFactory" class="com.biperf.cache.oscache.OSCacheFactoryImpl">
+        <property name="cacheAdministrator">
+            <ref bean="cacheAdministrator" />
+        </property>
+    </bean>
+
+</beans>

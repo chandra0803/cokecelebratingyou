@@ -1,0 +1,318 @@
+<!-- ======== APPROVALS: APPROVALS PENDING NOMINATIONS PAGE ======== -->
+
+<div id="approvalsPagePendingNominations" class="page-content">
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>Nomination Approvals</h2>
+        </div>
+    </div>
+    <div id="pendingNominationsWrapper" class="approvalSearchWrapper">
+        <div class="row-fluid">
+            <div class="span6">
+                <h3>Search for Nominations</h3>
+            </div>
+            <div class="span6">
+                <ul class="export-tools fr">
+                    <li><a href="#" class="pageView_print btn btn-small">Print <i class="icon-printer"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span12">
+                <form id="approvalsSearchForm" class="form-horizontal">
+                    <!-- Custom for coco cola wip#58122 starts -->
+                    <input type="hidden" class="levelInputs" name="level[0].totalpoints" value="100">
+                    <input type="hidden" class="levelInputs" name="level[1].totalpoints" value="50">
+                    <input type="hidden" class="levelInputs" name="level[2].totalpoints" value="300">
+                    <input type="hidden" class="capPerPax" name="capPerPax" value="25">
+                    <!-- Custom for coco cola wip#58122 ends -->
+                    <div class="control-group">
+
+                        <label class="control-label">
+                            Submittited Between
+                        </label>
+                        <div class="controls">
+                            <div class="input-append  input-append-inside datepickerTrigger showTodayBtn"
+                                data-date-format="mm/dd/yyyy"
+                                data-date-language="en_US"
+                                data-date-startdate="11/14/2012"
+                                data-date-todaydate="11/14/2012"
+                                data-date-autoclose="true">
+                                <input type="text" id="dateStart" name="dateStart" readonly="readonly" class="input-medium">
+                                <button class="btn awardDateIcon">
+                                    <i class="icon-calendar"></i>
+                                </button>
+                            </div>
+
+                            and
+
+                            <div class="input-append  input-append-inside datepickerTrigger showTodayBtn"
+                                data-date-format="mm/dd/yyyy"
+                                data-date-language="en_US"
+                                data-date-startdate="11/14/2012"
+                                data-date-todaydate="11/14/2012"
+                                data-date-autoclose="true">
+                                <input type="text" id="dateEnd" name="dateEnd" readonly="readonly" class="input-medium">
+                                <button class="btn awardDateIcon">
+                                    <i class="icon-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group statusGroup">
+                        <label class="control-label">
+                            Status
+                        </label>
+                        <div class="controls">
+                            <select name="nominationStatus">
+                                <option value="Pending">Pending</option>
+                                <option value="Open">Open</option>
+                                <option value="Winner">Winner</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group promotionGroup">
+                        <label class="control-label">
+                            For Promotion
+                        </label>
+
+                        <div class="controls">
+                            <select name="promotionSelected" id="promotionSelected">
+                                <option value="123456">Signature Service Nomination*</option>
+                                <option value="123457">Team Nomination</option>
+                                <option value="123458">RecogitionApprovalsName</option>
+                                <option value="123459">All Promotions</option>
+                            </select>
+                            <span>* = has pending</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">&nbsp;</label>
+                        <div class="controls">
+                            <input type="submit" name="showNominations" value="Show Activity" class="btn btn-primary showActivityBtn"/>
+                            <input type="hidden" id="currentPage" name="currentPage" value="1">
+                            <input type="hidden" id="requestedPage" name="requestedPage" value="">
+                        </div>
+                    </div>
+                </form>
+
+                <div class="pull-left">
+                    <h3>UET_Nomination_Appr</h3>
+                    <p><strong>Award Range</strong> <span>100 - 500</span></p>
+                    <p><strong>Process Time</strong> <span>not scheduled</span></p>
+                </div>
+
+                <div class="row-fluid">
+                    <ul class="export-tools approvalsExportIconsWrapper pushDown">
+                        <li class="export csv">
+                            <a href="#">
+                                <span class="btn btn-inverse btn-compact btn-export-csv">
+                                    CSV <i class="icon-download-2"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row-fluid">
+                    <div id="paginationControls" class="pagination pagination-right">
+                        <ul>
+                            <li class="first disabled" data-page="1">
+                                <a href="#"><i class="icon-double-arrows-1-left"></i></a>
+                            </li>
+                            <li class="prev disabled" data-page="0">
+                                <a href="#"><i class="icon-arrow-1-left"></i> Prev</a>
+                            </li>
+
+                            <li class="active" data-page="1">
+                                <a href="#">1</a>
+                            </li>
+
+                            <li data-page="2">
+                                <a href="#">2</a>
+                            </li>
+
+                            <li data-page="3">
+                                <a href="#">3</a>
+                            </li>
+
+                            <li data-page="4">
+                                <a href="#">4</a>
+                            </li>
+
+                            <li data-page="5">
+                                <a href="#">5</a>
+                            </li>
+
+                            <li class="disabled gap" data-page="">
+                                <a href="#">…</a>
+                            </li>
+
+                            <li data-page="67">
+                                <a href="#">67</a>
+                            </li>
+
+                            <li class="next" data-page="2">
+                                <a href="#">Next <i class="icon-arrow-1-right"></i></a>
+                            </li>
+                            <li class="last" data-page="67">
+                                <a href="#"><i class="icon-double-arrows-1-right"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <table id="nominationApprovalTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nominee</th>
+                            <th>Node Name</th>
+                            <th>Nominator</th>
+                            <th>Date Submitted</th>
+                            <th>Pending <br /><a class="approvalsSelectAllPendingLink" id="selectAllPending">select all</a></th>
+                            <th>Winner <br /><a class="approvalsSelectAllWinnerLink" id="selectAllWinner">select all</a></th>
+                            <th>Non-Winner <br /><a class="approvalsSelectAllNonWinnerLink" id="selectAllNon-Winner">select all</a></th>
+                            <th>Level</th> <!-- Custom for coco cola wip#58122 -->
+                            <th>Award (per person) Range: 1-100</th>
+                            <th class="nowrap">Notification Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a>View Details</a></td>
+                            <td data-team-size="2" class="teamSizeValue">
+                                <a>LastName, FirstName</a>
+                            </td>
+                            <td>NodeName</td>
+                            <td>LastName, FirstName</td>
+                            <td>05/10/2012</td>
+                            <td class="crud-content">
+                                <input type="hidden" name="nominationApprovalFormByApprovableUid(91518246102).version" value="0">
+                                <input type="radio" name="nominationApprovalFormByApprovableUid(91518246102).approvalStatusType" value="pend" checked="checked" class="pendingRadio rdochk">
+                            </td>
+                            <td class="crud-content">
+                                <input type="radio" name="nominationApprovalFormByApprovableUid(91518246102).approvalStatusType" value="winner" id="radio-winner-91518246102" class="pendingWinner rdochk">
+                            </td>
+                            <td class="crud-content">
+                                <input type="radio" name="nominationApprovalFormByApprovableUid(91518246102).approvalStatusType" value="non_winner" id="radio-non_winner-91518246102" class="pendingNonWinner rdochk">
+                            </td>
+                            <!-- Custom for coco cola wip#58122 starts -->
+                            <td>
+                                <div class="controls">
+                                    <select name="nominationApprovalFormByApprovableUid(91518246102).level" class="levelSelect">
+                                        <option value="">Select one</option>
+                                        <option value="level1">1 Moderate</option>
+                                        <option value="level2">2 Significant</option>
+                                        <option value="level3">3 Breakthrough</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <!-- Custom for coco cola wip#58122 Ends -->
+                            <td class="crud-content nowrap">
+                                <input type="text" name="nominationApprovalFormByApprovableUid(91518246102).awardQuantity" class="span1" value="200"  id="awardQuantity-91518246102">
+                            </td>
+                            <td class="crud-content nowrap notificationDate">
+                                <div class="input-append datepickerTrigger"
+                                    data-date-format="mm/dd/yyyy"
+                                    data-date-language="en_US"
+                                    data-date-startdate="11/14/2012"
+                                    data-date-todaydate="11/14/2012"
+                                    data-date-autoclose="true">
+                                    <input type="text" id="" name="notificationDate[0]" readonly="readonly" class="date span1">
+                                    <button class="btn awardDateIcon">
+                                        <i class="icon-calendar"></i>
+                                    </button>
+                                </div>
+                                <input type="hidden" id="conversionRate" style="display: none" value="0.5" />
+                                <button class="btn btn-icon clearDate">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a>View Details</a></td>
+                            <td data-team-size="3" class="teamSizeValue">LastName, FirstName</td>
+                            <td>NodeName</td>
+                            <td>LastName, FirstName</td>
+                            <td>05/10/2012</td>
+                            <td class="crud-content">
+                                <input type="hidden" name="nominationApprovalFormByApprovableUid(91518246112).version" value="0">
+                                <input type="radio" name="nominationApprovalFormByApprovableUid(91518246112).approvalStatusType" value="pend" checked="checked" class="pendingRadio rdochk">
+                            </td>
+                            <td class="crud-content">
+                                <input type="radio" name="nominationApprovalFormByApprovableUid(91518246112).approvalStatusType" value="winner" id="radio-winner-91518246112" class="pendingWinner rdochk">
+                            </td>
+                            <td class="crud-content">
+                                <input type="radio" name="nominationApprovalFormByApprovableUid(91518246112).approvalStatusType" value="non_winner" id="radio-non_winner-91518246112" class="pendingNonWinner rdochk">
+                            </td>
+                            <!-- Custom for coco cola wip#58122 starts -->
+                            <td>
+                                <div class="controls">
+                                    <select name="nominationApprovalFormByApprovableUid(91518246112).level" class="levelSelect">
+                                        <option value="">Select one</option>
+                                        <option value="level1">1 Moderate</option>
+                                        <option value="level2">2 Significant</option>
+                                        <option value="level3">3 Breakthrough</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <!-- Custom for coco cola wip#58122 Ends -->
+                            <td class="crud-content nowrap">
+                                <input type="text" name="nominationApprovalFormByApprovableUid(91518246112).awardQuantity" size="7" value="200"  id="awardQuantity-91518246112" class="span1">
+                            </td>
+                            <input type="hidden" id="conversionRate" style="display: none" value="0.15" />
+                            <td class="crud-content nowrap notificationDate">
+                                <div class="input-append datepickerTrigger"
+                                    data-date-format="mm/dd/yyyy"
+                                    data-date-language="en_US"
+                                    data-date-startdate="11/14/2012"
+                                    data-date-todaydate="11/14/2012"
+                                    data-date-autoclose="true">
+                                    <input type="text" id="" name="notificationDate[0]" readonly="readonly" class="date span1">
+                                    <button class="btn awardDateIcon">
+                                        <i class="icon-calendar"></i>
+                                    </button>
+                                </div>
+                                <input type="hidden" id="conversionRate" style="display: none" value="0.5" />
+                                <button class="btn btn-icon clearDate">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Note: Nomination will be sent immediately if Notification Date is not changed</p>
+                <button class="btn btn-primary btn-fullmobile">Save</button>
+                <button class="btn btn-fullmobile">Cancel</button>
+            </div><!-- /.span12 -->
+        </div><!-- /.row-fluid -->
+    </div><!-- /#pendingNominationsWrapper.approvalSearchWrapper" -->
+</div><!-- /#approvalsPagePendingNominations.page-content -->
+
+<script>
+
+$(document).ready(function() {
+    // Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to
+
+    //attach the view to an existing DOM element
+    var asmlp = new ApprovalsSearchModelView({
+        el:$('#approvalsPagePendingNominations'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url : 'layout.html?tpl=approvalsPageIndex&tplPath=apps/approvals/tpl/'
+            },
+            home : {
+                text : 'Home',
+                url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+            }
+        },
+        pageTitle : 'Approvals'
+    });
+
+});
+
+</script>

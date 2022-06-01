@@ -1,0 +1,145 @@
+<div id="LaunchPageView">
+
+    <div class="moduleContainerViewElement">
+        <div class="modules-woke"></div>
+        <div class="modules-slept"></div>
+        <!-- dynamic content -->
+    </div> <!-- /.moduleContainerViewElement -->
+
+    <div class="container shareIcons">
+        <div class="social-icons-container">
+            <ul class="share-print">
+                <li>
+                    <a target="_blank" class="social-icon chatter icon-size-16" href="http://www.salesforce.com/chatter"></a>
+                </li>
+                <li>
+                    <a target="_blank" class="social-icon facebook icon-size-16" href="http://www.facebook.com"></a>
+                </li>
+                <li>
+                    <a target="_blank" class="social-icon linkedin icon-size-16" href="http://www.linkedin.com"></a>
+                </li>
+                <li>
+                    <a target="_blank" class="social-icon twitter icon-size-16" href="http://www.twitter.com"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div><!-- /#LaunchPageView -->
+
+<!-- MODULES SETUP -->
+<script>
+
+    //Main Home Application Setup Function
+    $( document ).ready( function () {
+        var allModules;
+
+        //instantiate HomeApp
+        window.hapv = new CelebrationPageView ( {
+            el: $( '#LaunchPageView' ),
+            pageNav: {
+                back: {
+                    text: 'Back',
+                     url: 'javascript:history.back();'
+                },
+                home: {
+                    text: 'Home',
+                    url: 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+                }
+            },
+            pageTitle: 'Celebration',
+            isFooterSheets: false
+        } );
+
+        // Every Module in the World
+        // Listed in order by appName
+        allModules = [
+            /*
+             * Celebration modules
+             */
+
+            {
+                name: 'celebrationCongratsModule',        // REQUIRED If not, blankModule and/or other BAD
+                appName: 'celebration',           // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                //templateName: 'testTplName',  // .../tpl/[templateName].html or if not .../tpl/[name].html
+                //viewName: 'testModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters: {
+                    'recognition': { order: 1 }
+                }
+            },
+
+            {
+                name: 'celebrationChooseAwardModule',        // REQUIRED If not, blankModule and/or other BAD
+                appName: 'celebration',           // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                //templateName: 'testTplName',  // .../tpl/[templateName].html or if not .../tpl/[name].html
+                //viewName: 'testModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters: {
+                    'recognition': { order: 2 }
+                }
+            },
+            {
+                name: 'celebrationBrowseAwardsModule',        // REQUIRED If not, blankModule and/or other BAD
+                appName: 'celebration',           // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                //templateName: 'testTplName',  // .../tpl/[templateName].html or if not .../tpl/[name].html
+                //viewName: 'testModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters: {
+                    'recognition': { order: 3 }
+                }
+            },
+
+
+            {
+                name: 'celebrationManagerMessageModule',        // REQUIRED If not, blankModule and/or other BAD
+                appName: 'celebration',           // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                //templateName: 'testTplName',  // .../tpl/[templateName].html or if not .../tpl/[name].html
+                //viewName: 'testModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters: {
+                    'recognition': { order: 4 }
+                }
+            },
+
+            {
+                name: 'celebrationRecognitionPurlModule',        // REQUIRED If not, blankModule and/or other BAD
+                appName: 'celebration',           // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                //templateName: 'testTplName',  // .../tpl/[templateName].html or if not .../tpl/[name].html
+                //viewName: 'testModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters: {
+                    'recognition': { order: 5 }
+                }
+            },
+
+            {
+                name: 'celebrationAnniversaryFactsModule',        // REQUIRED If not, blankModule and/or other BAD
+                appName: 'celebration',           // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                //templateName: 'testTplName',  // .../tpl/[templateName].html or if not .../tpl/[name].html
+                //viewName: 'testModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters: {
+                    'recognition': { order: 6 }
+                }
+            },
+
+            {
+                name: 'celebrationCompanyTimelineModule',        // REQUIRED If not, blankModule and/or other BAD
+                appName: 'celebration',           // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                //templateName: 'testTplName',  // .../tpl/[templateName].html or if not .../tpl/[name].html
+                //viewName: 'testModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters: {
+                    'recognition': { order: 7 }
+                }
+            },
+
+            {
+                name: 'celebrationCorporateVideoModule',        // REQUIRED If not, blankModule and/or other BAD
+                appName: 'celebration',           // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                //templateName: 'testTplName',  // .../tpl/[templateName].html or if not .../tpl/[name].html
+                //viewName: 'testModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters: {
+                    'recognition': { order: 8 }
+                }
+            },
+
+        ]; // allModules
+
+        hapv.launchApp.moduleCollection.reset( allModules );
+    } );
+</script>

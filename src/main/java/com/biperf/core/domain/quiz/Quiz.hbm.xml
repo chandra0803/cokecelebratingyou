@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.quiz.Quiz" table="QUIZ">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="QUIZ_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">QUIZ_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <property name="name" type="java.lang.String" column="NAME"/>
+    <property name="description" type="java.lang.String" column="DESCRIPTION"/>
+    <property name="passingScore" type="int" column="PASSING_SCORE"/>
+    <property name="numberOfQuestionsAsked" type="int" column="NUMBER_ASKED"/>
+
+    <property name="quizType" column="QUIZ_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.QuizType</param>
+      </type>
+    </property>
+
+    <property name="claimFormStatusType" column="STATUS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ClaimFormStatusType</param>
+      </type>
+    </property>
+
+    <set name="promotions" table="PROMO_QUIZ" inverse="true">
+      <key column="QUIZ_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.QuizPromotion"/>
+    </set>
+    
+    <set name="learningObjects" table="QUIZ_LEARNING_OBJECT" inverse="true" lazy="false" cascade="all-delete-orphan" order-by="slide_number">
+      <key column="QUIZ_ID"/>
+      <one-to-many class="com.biperf.core.domain.quiz.QuizLearningObject"/>
+    </set>
+
+    <list name="quizQuestions" table="QUIZ_QUESTION" inverse="false" cascade="all-delete-orphan">
+      <key column="QUIZ_ID" not-null="true"/>
+      <list-index column="sequence_num"/>      
+      <one-to-many class="com.biperf.core.domain.quiz.QuizQuestion"/>
+    </list>
+    
+    <set name="quizClaims" table="QUIZ_CLAIM" inverse="true" lazy="false" cascade="all-delete-orphan">
+      <key column="QUIZ_ID"/>
+      <one-to-many class="com.biperf.core.domain.claim.QuizClaim"/>
+    </set>
+
+  </class>
+
+  <query name="com.biperf.core.domain.quiz.QuizByName">
+    <![CDATA[
+		from quiz in class com.biperf.core.domain.quiz.Quiz
+		where upper(quiz.name) = :name
+	]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.quiz.AllQuizList">
+    <![CDATA[
+		from com.biperf.core.domain.quiz.Quiz quiz
+		where quiz.id not in (select diyQuiz.id from com.biperf.core.domain.diyquiz.DIYQuiz diyQuiz)
+	]]>
+  </query>
+
+  <query name="com.biperf.core.domain.quiz.QuizQuestionsByQuizId">
+  	<![CDATA[
+  		from com.biperf.core.domain.quiz.QuizQuestion quizQuestion
+  		where quiz_id = :quizId
+  	]]>
+  </query>
+
+  <query name="com.biperf.core.domain.quiz.AllQuizzesByStatusType">
+  	<![CDATA[
+		from com.biperf.core.domain.quiz.Quiz quiz
+		where status_type = :statusType
+  	]]>
+  </query>
+
+  <query name="com.biperf.core.domain.quiz.QuizQuestionAnswerByQuizQuestionId">
+  	<![CDATA[
+  		from com.biperf.core.domain.quiz.QuizQuestionAnswer quizQuestionAnswer
+  		where quiz_question_id = :quizQuestionId
+  	]]>
+  </query>
+
+  <query name="com.biperf.core.domain.quiz.AllCompletedAndAssignedQuizzes">
+    <![CDATA[
+		from com.biperf.core.domain.quiz.Quiz quiz
+		where quiz.claimFormStatusType in ('assgn', 'compl') 
+		and quiz.id not in (select diyQuiz.id from com.biperf.core.domain.diyquiz.DIYQuiz diyQuiz)  ORDER BY upper(quiz.name)
+	]]>
+  </query>  	  
+
+</hibernate-mapping>

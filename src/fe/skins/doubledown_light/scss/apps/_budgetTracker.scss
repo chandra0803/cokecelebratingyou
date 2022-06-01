@@ -1,0 +1,22 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $budgetTracker_progressBackColor: ; // progress bar background color. pass false to use defaults in _progress-bars.scss
+// $budgetTracker_progressBackMeta: ;  // progress bar background gradient meta. pass false for a solid background. to work, requires a value for the Color above or Stops below
+// $budgetTracker_progressBackStops: ; // progress bar background gradient stops. pass false to use default gradient shading
+// $budgetTracker_progressBarColor: ;  // progress bar foreground color. pass false to use defaults in _progress-bars.scss
+// $budgetTracker_progressBarMeta: ;   // progress bar foreground gradient meta. pass false for a solid background. to work, requires a value for the Color above or Stops below
+// $budgetTracker_progressBarStops: ;  // progress bar foreground gradient stops. pass false to use default gradient shading
+// $budgetTracker_progressBarToolTipBgColor: ;
+// $budgetTracker_progressBarToolTipBorderColor: ;
+// $budgetTracker_progressBarToolTipBoxShadow: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "budgetTracker/scss/budgetTracker";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================
+

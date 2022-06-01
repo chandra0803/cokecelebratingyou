@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.claim.ClaimForm" table="CLAIM_FORM">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="CLAIM_FORM_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CLAIM_FORM_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <property name="name" type="java.lang.String" column="FORM_NAME"/>
+    <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE"/>
+    <property name="description" type="java.lang.String" column="DESCRIPTION"/>
+
+    <property name="claimFormModuleType" column="MODULE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ClaimFormModuleType</param>
+      </type>
+    </property>
+
+    <property name="claimFormStatusType" column="STATUS_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ClaimFormStatusType</param>
+      </type>
+    </property>
+
+    <list name="claimFormSteps" table="CLAIM_FORM_STEP" inverse="false" cascade="all-delete-orphan">
+      <key column="CLAIM_FORM_ID" not-null="true"/>
+      <list-index column="sequence_num"/>      
+      <one-to-many class="com.biperf.core.domain.claim.ClaimFormStep"/>
+    </list>
+
+    <set name="promotions" table="PROMOTION" inverse="true">
+      <key column="CLAIM_FORM_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.Promotion"/>
+    </set>
+
+
+  </class>
+
+  <query name="com.biperf.core.domain.claim.ClaimFormByName">
+    <![CDATA[
+		from item in class com.biperf.core.domain.claim.ClaimForm 
+		where upper(item.name) = :formName
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.claim.AllClaimFormList">
+    <![CDATA[
+		from com.biperf.core.domain.claim.ClaimForm
+		]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.claim.ClaimFormsNotUnderConstruction">
+    <![CDATA[
+		from item in class com.biperf.core.domain.claim.ClaimForm 
+		where item.claimFormStatusType not in ('undrconstr', 'tmpl' )
+		]]>
+  </query>
+ 
+  <query name="com.biperf.core.domain.claim.ClaimFormsNotUnderConstructionByModuleType">
+    <![CDATA[
+		from item in class com.biperf.core.domain.claim.ClaimForm 
+		where item.claimFormStatusType not in ('undrconstr', 'tmpl')
+		and item.claimFormModuleType = :moduleType  ORDER BY upper(item.name)
+		]]>
+  </query> 
+
+</hibernate-mapping>

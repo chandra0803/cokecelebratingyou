@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" logicalFilePath="changelog-6.3.xml"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+	<changeSet author="kancherla" id="tagDatabase">
+		<tagDatabase tag="6.2" />
+	</changeSet>
+
+	<include file="db/convert/6.3.RELEASE/delete_suppliers.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_os_propertyset.sql" />
+	<include file="db/convert/6.3.RELEASE/create_user_token.sql" />
+	<include file="db/convert/6.3.RELEASE/insert_report.sql" />
+	<include file="db/convert/6.3.RELEASE/insert_message.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_country.sql" />
+	<include file="db/convert/6.3.RELEASE/create_participant_identifier.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_mailing_recipient.sql" />
+	<include file="db/convert/6.3.RELEASE/insert_currency_code.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_participant.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_rpt_claim_detail.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_cp_progress.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_characteristic.sql" />
+	
+	<!-- Insert Honeycomb client code. Written as Liquibase changeSet to use dynamic property -->
+	<changeSet id="8" author="cornelius">
+		<comment>Insert Honeycomb client code system variable</comment>
+		<insert tableName="os_propertyset">
+			<column name="ENTITY_ID" valueComputed="ENTITY_ID_PK_SQ.nextval"/>
+			<column name="ENTITY_NAME" value="honeycomb.client.code"/>
+			<column name="ENTITY_KEY" value="Honeycomb Client Code"/>
+			<column name="GROUP_NAME" value="Honeycomb"/>
+			<column name="KEY_TYPE" valueNumeric="5"/>
+			<column name="BOOLEAN_VAL" valueNumeric="0"/>
+			<column name="DOUBLE_VAL" valueNumeric="0"/>
+			<column name="STRING_VAL" value="${honeycombClientCode}"/>
+			<column name="LONG_VAL" valueNumeric="0"/>
+			<column name="INT_VAL" valueNumeric="0"/>
+			<column name="DATE_VAL" />
+			<column name="IS_EDITABLE" valueNumeric="1"/>
+			<column name="IS_VIEWABLE" valueNumeric="1"/>
+		</insert>
+		<rollback>
+			DELETE FROM os_propertyset WHERE entity_name='honeycomb.client.code'
+		</rollback>
+	</changeSet>
+	
+	<include file="db/convert/6.3.RELEASE/alter_promo_recognition.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_message.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_rpt_cp_selection_detail.sql" />
+	<include file="db/convert/6.3.RELEASE/create_core_plateau_redemption_tracking.sql" />	
+	<include file="db/convert/6.3.RELEASE/insert_role.sql" />
+	<include file="db/convert/6.3.RELEASE/update_user_role.sql" />
+	<include file="db/convert/6.3.RELEASE/insert_user_type_role.sql" />	
+	<include file="db/convert/6.3.RELEASE/alter_application_user.sql" />
+	<include file="db/convert/6.3.RELEASE/create_security_pwd_request.sql" />
+	<include file="db/convert/6.3.RELEASE/create_indexes_pax.sql" />	
+	<include file="db/convert/6.3.RELEASE/alter_strongmail_user.sql" />	
+	<include file="db/convert/6.3.RELEASE/update_suppliers.sql" />
+	<include file="db/convert/6.3.RELEASE/removing_client_user.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_role.sql" />
+	<include file="db/convert/6.3.RELEASE/alter_rpt_budget_usage_detail.sql" />
+	<include file="db/convert/6.3.RELEASE/add_verification_status.sql" />
+	
+
+
+</databaseChangeLog>

@@ -1,0 +1,83 @@
+
+// App-specific variables defined in core (uncomment to use)
+// =========================
+
+//RA Branding color
+//$ra_primary1: #ffb000 !default; // yellow
+///$ra_primary2: #1c496d !default; // navy
+
+//RA Branding color
+//$ra_IconColor: #ffaa01 !default; // orange
+//$ra_modelBgColor: #ffefbf !default; // light orange;
+
+//$ra_neutral1: #343334 !default; // dark gray
+//$ra_neutral2: #666666 !default; // gray
+//$ra_neutral3: #cccccc !default; // medium gray
+//$ra_neutral4: #f6f6f6 !default; // light gray
+
+//RA Branding - Gradient Color
+//$ra_primary1: #ffb000 !default; // yellow
+//$ra_accent1: #fed500 !default; // light yellow
+//$ra_accent2: #ff9700 !default; // orange
+//$ra_accent3: #fe8500 !default; // dark orange
+
+//RA Branding Info Color
+//$ra_indicatorRed: #e76a6e !default; // red
+//$ra_indicatorGray: #bebebe !default; // Gray
+
+//$ra_indicatorGreen: #27c3d2 !default; // green;
+//$ra_indicatorLightGreen: #68c186 !default; // light green;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "recognitionAdvisor/scss/recognitionAdvisor";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================
+#rec-advisor {
+	.recognitionAdvisorStatus, .card span.icon-clock.removeCircle {
+		color: #ffffff;
+		background-color: $brand_color_link;
+	}
+	span.icon-clock, span.icon-star, span.icon-more-circles-horizontal {
+		border: 1px solid $brand_color_link;
+	    background-color: $brand_color_link;
+	    color: #ffffff;
+	}
+	.recAdvisor-col {
+		.arrow {
+			color: $brand_color_primary;
+		}
+		.leaderName	 {
+			color: $brand_color_black;
+		}
+	}
+
+	.raDetailPage {
+		span.avatar-initials {
+			background: $brand_color_primary;
+		}
+		
+		.myteamTable {
+			.avatarContainer {
+				background: $brand_color_primary;	
+			}
+			span.icon-clock, span.icon-star {			
+			    color: $brand_color_black;
+			}
+		}
+		.raInsights {
+			.raBrandingOuter {
+				fill: $brand_color_black;
+			}
+			.raBrandingInner {
+				fill : $brand_color_link;
+			}
+		}
+
+	}
+}
+

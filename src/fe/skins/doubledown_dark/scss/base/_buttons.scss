@@ -1,0 +1,27 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+
+// $btnFontFamily: ;
+// $btnFontSize: ;
+// $btnFontWeight: ;
+// $btnIconFontWeight: ;
+// $btnTextShadow: ;
+// $btnDisabledOpacity: ; // apply to text AND background
+//
+// $btnBorderRadius: ;
+// $btnBorderRadiusSmall: ;
+// $btnBorderRadiusMini: ;
+// $btnBoxShadow: ;
+//
+// $btnSpacingX: ;
+// $btnSpacingY:;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/buttons";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

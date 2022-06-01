@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.merchandise.MerchOrder" table="MERCH_ORDER">
+
+    <id name="id" type="java.lang.Long" column="MERCH_ORDER_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">MERCH_ORDER_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <property name="giftCode" column="GIFT_CODE" access="field" type="string"/>
+    <property name="giftCodeDecrypted" formula="FNC_JAVA_DECRYPT(GIFT_CODE)" type="java.lang.String" access="field" />    
+    <property name="giftCodeKey" column="GIFT_CODE_KEY" access="field" type="string"/>
+    <property name="giftCodeKeyDecrypted" formula="FNC_JAVA_DECRYPT(GIFT_CODE_KEY)" type="java.lang.String" access="field" />        
+
+    <many-to-one name="claim" column="CLAIM_ID" class="com.biperf.core.domain.claim.Claim" not-null="false" lazy="false"/>
+    <many-to-one name="participant" column="PARTICIPANT_ID" class="com.biperf.core.domain.participant.Participant" not-null="false" lazy="false"/>    
+    <property name="orderNumber" column="order_number" type="java.lang.String"/>
+    <property name="orderStatus" column="ORDER_STATUS" type="java.lang.String"/>  
+    <property name="redeemed" type="java.lang.Boolean" column="IS_REDEEMED" not-null="true"/>
+    <property name="points" type="int" column="POINTS" not-null="false"/>
+    <property name="referenceNumber" column="REFERENCE_NUMBER" type="java.lang.String"/>
+    <property name="expirationDate" column="EXPIRATION_DATE" type="java.util.Date"/>
+    <property name="dateLastReminded" column="DATE_LAST_REMINDED" type="java.util.Date"/>
+    <property name="batchId" column="BATCH_ID" type="java.lang.Long"/>
+    
+    <property name="merchGiftCodeType" column="MERCH_GIFT_CODE_TYPE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+            <param name="lookupClass">com.biperf.core.domain.enums.MerchGiftCodeType</param>
+        </type>
+    </property>
+    
+    <property name="productId" column="PRODUCT_ID" type="java.lang.String" />
+    <property name="productDescription" column="PRODUCT_DESCRIPTION" type="java.lang.String" />
+        
+    <many-to-one name="promoMerchProgramLevel" class="com.biperf.core.domain.promotion.PromoMerchProgramLevel" column="PROMO_MERCH_PROGRAM_LEVEL_ID" lazy="false" not-null="false"/>
+    
+    <set name="activityMerchOrders" table="ACTIVITY_MERCH_ORDER" cascade="all-delete-orphan" lazy="true">
+      <key column="MERCH_ORDER_ID"/>
+      <composite-element class="com.biperf.core.domain.merchandise.ActivityMerchOrder">
+        <parent name="merchOrder"/>
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+        <many-to-one name="activity" lazy="false" class="com.biperf.core.domain.activity.Activity" column="ACTIVITY_ID"/>
+      </composite-element>
+    </set>
+    <!-- WIP# 25130 Start -->
+    <set name="billCodes" table="MERCH_ORDER_BILL_CODE" lazy="false" inverse="false" cascade="all-delete-orphan">
+      <key column="MERCH_ORDER_ID" not-null="true" />
+	   <one-to-many class="com.biperf.core.domain.merchandise.MerchOrderBillCode"/>
+	</set>
+	<!-- WIP# 25130 End -->
+	
+    <!-- Custom Insert and Update - giftcode Encrypt -->
+    <sql-insert>
+        <![CDATA[
+        insert into MERCH_ORDER 
+        	MERCH_ORDER
+        (VERSION, DATE_CREATED, CREATED_BY, DATE_MODIFIED, MODIFIED_BY, GIFT_CODE, GIFT_CODE_KEY, CLAIM_ID, PARTICIPANT_ID, ORDER_NUMBER,
+        ORDER_STATUS, IS_REDEEMED ,POINTS, REFERENCE_NUMBER,EXPIRATION_DATE, DATE_LAST_REMINDED, BATCH_ID, MERCH_GIFT_CODE_TYPE, PRODUCT_ID, PRODUCT_DESCRIPTION, PROMO_MERCH_PROGRAM_LEVEL_ID, MERCH_ORDER_ID) 
+        values 
+        (?,?,?,?,?,FNC_JAVA_ENCRYPT(?),FNC_JAVA_ENCRYPT(?),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ]]>
+    </sql-insert>
+
+    <sql-update>
+        <![CDATA[
+        update MERCH_ORDER 
+        	set VERSION =?, 
+        	DATE_CREATED =?, 
+        	CREATED_BY =?, 
+        	DATE_MODIFIED =?, 
+        	MODIFIED_BY =?, 
+        	GIFT_CODE =FNC_JAVA_ENCRYPT(?), 
+        	GIFT_CODE_KEY =FNC_JAVA_ENCRYPT(?), 
+        	CLAIM_ID =?, 
+        	PARTICIPANT_ID =?, 
+        	ORDER_NUMBER = ?, 
+        	ORDER_STATUS=?,        	        
+        	IS_REDEEMED =?, 
+        	POINTS =?,
+        	REFERENCE_NUMBER=?,
+        	EXPIRATION_DATE=?,
+          DATE_LAST_REMINDED = ?,
+          BATCH_ID = ?,
+        	MERCH_GIFT_CODE_TYPE =?, 
+        	PRODUCT_ID =?, 
+        	PRODUCT_DESCRIPTION = ?,
+        	PROMO_MERCH_PROGRAM_LEVEL_ID =?
+        	
+        	where MERCH_ORDER_ID=? and VERSION=?
+        ]]>
+    </sql-update> 
+
+  </class>
+   <sql-query name="com.biperf.core.domain.merchandise.getNextBatchId">
+     	<return-scalar column="batchId" type="long"/>
+		<![CDATA[
+   			SELECT batch_id_sq.NEXTVAL AS batchId
+   			FROM DUAL
+   		]]>
+	</sql-query>
+	
+  <sql-query name="com.biperf.core.domain.merchandise.getGiftCodeFailures">
+      <return-scalar column="merch_order_id" type="long"/>
+      <![CDATA[
+			SELECT distinct m.merch_order_id 
+			FROM merch_order m, claim c 
+			WHERE ((m.claim_id = c.claim_id
+			AND c.promotion_id = :promotionId) or (m.merch_order_id in (select distinct merch_order_id from activity_merch_order where activity_id in (select distinct activity_id from activity where promotion_id=:promotionId))))
+			AND replace(m.gift_code,'{AES}') is null
+			AND m.is_redeemed = 0
+      ]]>
+  </sql-query>
+    
+   <sql-query name="com.biperf.core.domain.merchandise.getPromotionIdByMerchOrderId">
+   		<return-scalar column="promotion_id" type="long"/>
+   		<![CDATA[
+   				
+				SELECT distinct  p.promotion_id 
+				    FROM Promotion           p,
+				         Merch_Order         m,
+				         activity_merch_order am,
+				         activity            a        
+				   WHERE p.promotion_id = a.promotion_id
+				     AND m.merch_order_id = am.merch_order_id
+				     AND am.activity_id = a.activity_id
+				     AND a.claim_id IS NULL
+				     AND m.is_redeemed = 0
+				     AND m.gift_code = '{AES}'
+				     and m.MERCH_ORDER_ID=:mid
+   		]]>
+   </sql-query>
+   
+  <sql-query name="com.biperf.core.domain.merchandise.getMerchOrderIds">
+      <return-scalar column="merch_order_id" type="long"/>
+      <![CDATA[
+			SELECT m.merch_order_id 
+			FROM merch_order m
+			WHERE 
+			m.is_redeemed = 0
+      ]]>
+  </sql-query>   
+  	
+  <!-- Client customizations for wip #23129 starts -->
+  <!--  the where clause in this query must be the same as com.biperf.core.domain.process.clientGiftCodeSweepBean  -->
+  <sql-query name="com.biperf.core.domain.merchandise.MerchOrder.getAllUnredeemedOrdersByPromotion">
+  <return-scalar column="result" type="string"/>
+    <![CDATA[
+       select merchOrder.merch_order_id as result
+       from Merch_Order merchOrder,
+       Promo_Merch_Program_Level promoMerchProgramLevel,
+       Promo_Merch_Country promoMerchCountry
+       where merchOrder.promo_merch_program_level_id = promoMerchProgramLevel.promo_merch_program_level_id
+       and promoMerchProgramLevel.promo_merch_country_id = promoMerchCountry.promo_merch_country_id
+       and promoMerchCountry.promotion_id = :promoId
+       and merchOrder.is_redeemed = 0
+       and trunc(merchOrder.date_created) < (select trunc(sysdate) - int_val from os_propertyset where entity_name = 'coke.gift.code.sweep.minimum.days') 
+       and to_char(merchOrder.date_created,'mmyyyy') = :mmyyyy
+       and merchOrder.participant_id not in (select user_id 
+                                     from user_characteristic
+                                     where characteristic_id  IN ( select long_val from os_propertyset where entity_name='coke.opt.out.char.id' )
+                                     and characteristic_value = 'true')
+    ]]>
+  </sql-query>
+  <!-- Client customizations for wip #2312 ends --> 
+</hibernate-mapping>

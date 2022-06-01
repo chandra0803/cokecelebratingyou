@@ -1,0 +1,646 @@
+// App-specific variables
+// =========================
+// Cheers Cusstomization - Celebrating you wip-62128 Completely added new styles in core for the customization
+$publicProfile_avatarSize: 60px !default;
+$publicProfile_profileImgSize: 48px !default;
+
+$publicProfile_contributeCommentBgColor: $brand_color_white !default;
+$publicProfile_contributeBgColor: false !default; // gets .page-topper background by default
+$publicProfile_contributeCommentBgColor: $brand_color_white !default;
+$publicProfile_contributeNameBorderColor: scale-color($publicProfile_contributeBgColor or $brand_color_white, $lightness: -12.5%) !default;
+
+$publicProfile_commentBgColorOdd: $brand_color_lighter !default;
+$publicProfile_commentBgColorEven: false !default;
+
+$publicProfile_commentBorderColorOdd: scale-color($publicProfile_commentBgColorOdd or $brand_color_white, $lightness: -12.5%) !default;
+$publicProfile_commentBorderColorEven: scale-color($publicProfile_commentBgColorEven or $brand_color_white, $lightness: -12.5%) !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- PAGE STYLES ----- */
+.page.publicProfile {
+    .page-topper {
+        // profile image
+       /*  img {
+            display: inline;
+
+        } */
+        .avatarwrap{
+            display: inline;
+            float: left;
+            margin-right: 8px;
+        }
+         @include avatarSizing(48px);
+
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: $baseLineHeight / 2;
+            line-height: 48px;
+        }
+
+        .btn {
+            color: $white;
+        }
+    }
+} /* /.page.publicProfile */
+
+#publicProfileWrapper {
+    .tab-content {
+        overflow: visible;
+        #profilePagePersonalInfoTab{
+            @include avatarSizing(160px);
+        }
+        #profilePagePersonalInfoTab dd {
+            margin-left: 115px;
+            line-height: $baseLineHeight;
+            margin-top: 7px;
+            min-height: $baseLineHeight;
+
+            p {
+                margin-bottom: 0;
+            }
+
+        }
+
+        #profileQuestionsWrapper {
+            margin-top: 20px;
+            #iAmWrapper {                
+                .likeAndCommentsWrapper {
+                    position:relative;
+
+                    a {
+                        display: inline;
+                    }
+                    span {
+                        display: inline;
+                    }                    
+                    .mask {
+                        position: absolute;
+                        z-index: 100;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: $publicProfile_contributeCommentBgColor;
+                        @include opacity(.5);
+                        .spin {
+                            display: block;
+                            margin: 0 auto;
+                            width: 50px !important;
+                            height: 50px !important;
+                            left: 20px;
+                            right: unset;
+                            top: 50%;
+                        }
+                    }
+                    .iamCommentsLike {                        
+                        i {
+                            margin-right:5px;
+                            color: $brand_color_black;
+                            &:hover {
+                                color: $brand_color_primary;
+                            }
+                        }
+                        &.liked {
+                            i {                            
+                                color: $brand_color_primary;
+                                &:hover {
+                                    color: $brand_color_primary;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .spin {
+            display: block;
+            margin: 0 auto;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+        }
+        //
+
+        #Recognition {
+            margin: (-1 * $g6PagePaddingY / 2) (-1 * $g6PagePaddingX) (-1 * $g6PagePaddingY);
+
+            @media (min-width: $breakpoint_tablet_min) {
+                margin: (-1 * $g6PagePaddingY_tablet / 2) (-1 * $g6PagePaddingX_tablet) (-1 * $g6PagePaddingY_tablet);
+            }
+            @media (min-width: $breakpoint_desktop_min) {
+                margin: (-1 * $g6PagePaddingY_desktop / 2) (-1 * $g6PagePaddingX_desktop) (-1 * $g6PagePaddingY_desktop);
+            }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                margin: (-1 * $g6PagePaddingY_desktopLarge / 2) (-1 * $g6PagePaddingX_desktopLarge) (-1 * $g6PagePaddingY_desktopLarge);
+            }
+        }
+        #PersonalInfo{
+		#profilePagePersonalInfoTab {
+			.span3 {
+				margin-left: 0px;
+			}
+		}
+		#profileMainInfoWrapper {
+			dt {
+		   	 text-align: left;
+			}
+		}
+	}
+
+    }
+
+    .small48{
+        float: left;
+        margin-right: 10px;
+        @include avatarSizingNoWrap(48px);
+    }
+
+
+    .page-topper {
+        padding-bottom: 0;
+    }
+
+    .nav-tabs {
+        @media (max-width: $breakpoint_mobile_max) {
+            margin-top: 10px;
+        }
+    }
+
+    .nav-tabs>li, .nav-pills>li {
+        @media (max-width: $breakpoint_mobile_max) {
+            float: none;
+        }
+    }
+	
+	a.btn.btn-primary{
+		&.fl.miniProfFollowLink{
+			&.follow{
+				float: right;
+				margin-right: 10px;
+			}
+		}
+	}
+	i.icon-team-1{
+		float:left;
+		margin-right :5px;
+	}
+	
+	.avatarwrap{
+		 margin-left: 0px;
+	}
+	.dl-horizontal {
+		dt{
+			width:100px;
+		}
+	}
+    .commentsItemWrapper {
+        // padding-bottom: $baseLineHeight / 2;
+        // padding-top: $baseLineHeight;
+        zoom: 1;
+
+        .innerCommentWrapper {            
+            // margin: (-1 * $baseLineHeight / 2) (-1 * $baseLineHeight / 2) 0;
+            padding: $baseLineHeight;
+            zoom: 1;
+            @if $publicProfile_commentBgColorEven {
+                background: $publicProfile_commentBgColorEven;
+            }
+
+            &.flashBg {
+                background: $linkColor !important;
+            }
+            .avatarwrap {
+                width: $publicProfile_avatarSize !important;
+                height: $publicProfile_avatarSize !important;
+            }
+            .likeAndCommentsWrapper {
+                position:relative;
+                a {
+                    font-weight: normal;
+                    span {
+                        color: $brand_color_black;
+                        &.avatar-initials {
+                            color: $brand_color_white;
+                        }
+                    }
+                }
+                .mask {
+                    position: absolute;
+                    z-index: 100;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: $publicProfile_contributeCommentBgColor;
+                    @include opacity(.2);
+                    .spin {
+                        display: block;
+                        margin: 0 auto;
+                        width: 50px !important;
+                        height: 50px !important;
+                        left: 20px;
+                        right: unset;
+                        top: -10px;
+                    }
+                }
+                .commentsLike, .levelOneCommentsLike {
+                    margin-left: 5px;
+                    i {
+                        margin-right:5px;
+                        color: $brand_color_black;
+                        &:hover {
+                            color: $brand_color_primary;
+                        }
+                    }
+                    &.liked {
+                        i {                            
+                            color: $brand_color_primary;
+                            &:hover {
+                                color: $brand_color_primary;
+                            }
+                        }
+                    }
+                }
+                .userComment {
+                    margin-left: 5px;
+                    i {
+                        margin-right:5px;
+                        color: $brand_color_black;
+                        &:hover {
+                            color: $brand_color_primary;
+                        }
+                    }
+                }
+                .commentInputWrapper {
+                    border-top: 1px solid #ccc;
+                    padding: 25px 0 0 0;
+                    position: relative;
+                    margin: 15px 0 0px 0px;
+                    z-index: 9;
+
+                    .spinner {
+                        width: 100px;
+                        height: 100px;
+                    }
+
+                    @media (max-width: 679px) {
+                        padding: 20px 0 0;
+                    }
+
+                    textarea {
+                       height: auto;
+                       padding: 10px;
+                       resize: none;     
+                       width: calc( 100% - 20px);
+                    }
+                    .publicProfileSubComments {
+                        padding: 10px 10px 0px 10px;
+                        .app-col {
+                            float:left;
+                        }
+                        .comment {
+                            float:none;
+                            padding:0px 0px 0px 0px;
+                            margin-left: $publicProfile_profileImgSize + 30px;
+                            word-wrap: break-word;
+                            p {
+                                margin:0px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        @include avatarSizing($publicProfile_avatarSize);
+        .avatarImg {
+            float: left;
+        }
+
+        .userInfo {
+            font-weight: bold;
+        }
+
+        .indent {
+            margin-left: $publicProfile_avatarSize * 1.25;
+            padding-left: $publicProfile_avatarSize * 0.25;
+            min-height: $publicProfile_avatarSize;
+            border-left: 1px solid $publicProfile_commentBorderColorEven;
+        }
+
+        .media {
+            margin-bottom:5px;
+            img {
+               // max-width: 100%;
+               // max-width: $purlMediaWidth;d
+               // width: 100%;
+            }
+            // set responsive default width for videos
+            .videoWrapper {
+                //width: $purlMediaWidth;
+
+                & + .videoWrapper,
+                & + img {
+                    margin-top: $baseLineHeight;
+                }
+            }
+        }
+
+        @media (max-width: $breakpoint_mobileMini_max) {
+            @include avatarSizing($publicProfile_avatarSize / 2);
+
+            .avatar {
+                margin-right: $publicProfile_avatarSize / 2 * 0.25;
+                margin-bottom: 0px;
+                width: $publicProfile_avatarSize / 2;
+                height: $publicProfile_avatarSize / 2;
+            }
+
+            .indent {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: 0;
+            }
+
+            .userInfo {
+                margin-left: $publicProfile_avatarSize / 2 * 1.25;
+                line-height: $publicProfile_avatarSize / 2;
+                border-bottom: 1px solid $publicProfile_commentBorderColorEven;
+            }
+
+            .author {
+                display: block;
+                float: none;
+            }
+
+            .text {
+                clear: both;
+                // margin-top: 10px;
+                padding-top: 10px;
+            }
+        }
+    }// .commentItemWrapper
+
+    .commentsItemWrapper:nth-of-type(2n+1) {
+        @if $publicProfile_commentBgColorOdd {
+            .innerCommentWrapper {
+                background: $publicProfile_commentBgColorOdd;
+            }
+
+            .indent,
+            .userInfo {
+                border-color: $publicProfile_commentBorderColorOdd;
+            }
+        }
+    }
+    .contribCommentWrapper {
+        position: relative;
+        margin-bottom: -233px;
+        margin-top: 40px;
+        // margin-right: -1 * ($baseLineHeight / 2);
+        // margin-left: -1 * ($baseLineHeight / 2);
+        padding: 0px;
+        background: $publicProfile_contributeCommentBgColor;
+        color:$brand_color_black;
+        @include clearfix();
+
+        .mask {
+            position: absolute;
+            z-index: 100;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: $publicProfile_contributeCommentBgColor;
+            @include opacity(.5);
+        }
+
+        .spin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+        }
+
+        .indent {            
+            border-left: 1px solid transparent;
+            @include clearfix();
+        }
+
+        @include avatarSizing($publicProfile_avatarSize);
+
+        .contribAvatar {
+            display: block;
+            float: left;
+        }
+
+        .commentWrapper {
+            // width: 75%;
+            // float: left;
+        }
+
+        .contribName {
+            display: inline;
+            float: left;
+            font-weight: $fontWeightBold;
+            min-height: $baseLineHeight;
+            margin-bottom: 4px;
+            h3 {
+                padding:0px;
+                margin:0px;
+            }
+        }
+
+        .commentTools {
+            float: right;
+            margin-bottom: ($baseLineHeight / 4);
+            text-align: right;
+            font-size: $fontSizeSmall;
+
+            .remChars {
+                font-weight: $fontWeightBold;
+            }
+        }
+
+        .commentFauxInput {
+            clear: both;
+            margin: ($baseLineHeight / 4) 0 ($baseLineHeight / 2) 0;
+            padding: 0;
+            background: $inputBackground;
+            border: $formFieldBorderWidth solid $inputBorder;
+            @include border-radius($inputBorderRadius);
+            @include clearfix();
+
+            &:focus {
+                // styles borred from bootstrap/_forms.scss
+                border-color: rgba(82,168,236,.8);
+                outline: 0;
+                outline: thin dotted \9; /* IE6-9 */
+                @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6));
+            }
+
+            &.disabled {
+                background: $brand_color_lighter;
+            }
+        }
+
+        .contribCommentInp {
+            margin-bottom: 0;
+            width: 100%;
+            border-width: 0;
+            border-bottom: 1px dashed $brand_color_border;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: 0;
+                @include box-shadow(none);
+            }
+        }
+
+        .contribCommentBadWords {
+            .badwordsWrapper {
+                top: 0;
+            }
+            .badwordsContent:not(:empty) {
+                padding: $formFieldPadding;
+            }
+        }
+
+        .uploadWrapper {
+            float: left;
+            position: relative;
+            padding: $formFieldPadding;
+
+            .uploadInput {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                top: 0;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
+                z-index: 3;
+            }
+
+            .uploadBtn {
+                padding: nth($formFieldPadding, 1) (nth($formFieldPadding, 2) * 2);
+                font-size: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+
+                i {
+                    font-weight: inherit;
+
+                    & + i {
+                        margin-left: nth($formFieldPadding, 2);
+                    }
+                }
+            }
+
+            .upSpin {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                z-index: 1;
+            }
+        }
+
+
+        .attachedMediaDisplayWrapper {
+            position: relative;
+            z-index: 4;
+            //width: $purlMediaWidth;
+            .cmtImgWrap {
+                position: relative;
+                //max-width: 200px;
+
+
+                img,
+                video {
+                    width: 100%;
+                }
+            }
+        }
+
+        // set responsive default width for videos
+        .videoWrapper {
+            //width: $purlMediaWidth;
+        }
+
+
+        // rmBtn (button for removing attached video/image)
+        .rmBtn {
+            cursor: pointer;
+        }
+
+        .videoWrapper,
+        .cmtImgWrap {
+            // special style for remove btn in these elements
+            .rmBtn {
+                z-index: 10;
+                position: absolute;
+                right: 4px;
+                bottom: 4px;
+            }
+        }
+
+        @media (max-width: $breakpoint_mobileMini_max) {
+            .contribAvatar {
+                position: absolute;
+                width: $publicProfile_avatarSize / 2;
+                height: $publicProfile_avatarSize / 2;
+            }
+
+            .indent {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: 0;
+            }
+
+            .contribName {
+                display: block;
+                float: none;
+                margin-left: $publicProfile_avatarSize / 2 * 1.25;
+                margin-bottom: 0;
+                line-height: $publicProfile_avatarSize / 2;
+                border-bottom: 1px solid $publicProfile_contributeNameBorderColor;
+            }
+
+            .commentTools {
+                clear: both;
+                line-height: $publicProfile_avatarSize / 2;
+            }
+        }
+    }// .contribCommentWrapper
+    .careerMomentsCommentsSection {
+        margin-top: 40px;
+        float:left;
+        width: 100%;
+		clear:both;
+        .commentsListWrapper {
+            margin-top: 40px;
+            zoom: 1;
+            .spin {
+                display: block;
+                margin: 0 auto;
+                width: $spinner_widthHeight;
+                height: $spinner_widthHeight;
+            }
+        }
+    } 
+}
+
+.lt-ie8 {
+    #publicProfileTabs {
+        margin-top: 15px;
+    }
+}
+
+

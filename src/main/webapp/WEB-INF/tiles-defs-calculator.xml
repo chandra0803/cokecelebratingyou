@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Calculator Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+
+  <definition name="calculator.library" extends="beacon.default" controllerClass="com.biperf.core.ui.calculator.CalculatorLibraryListController">
+    <put name="content" value="/calculator/calculatorLibraryList.jsp" />
+    <put name='trackingTitle' value='Calculator_Library' />
+  </definition>
+  
+  <definition name="calculator.details" extends="beacon.default" controllerClass="com.biperf.core.ui.calculator.CalculatorController">
+    <put name="content" value="/calculator/calculator.jsp" />
+    <put name='trackingTitle' value='Calculator_Details' />
+  </definition>
+  
+  <definition name="calculator.criterion.details" extends="beacon.default" controllerClass="com.biperf.core.ui.calculator.CalculatorCriterionController">
+    <put name="content" value="/calculator/calculatorCriterion.jsp" />
+    <put name='trackingTitle' value='Calculator_Criterion_Details' />
+  </definition>
+  
+  <definition name="calculator.criterion.view" extends="beacon.default" controllerClass="com.biperf.core.ui.calculator.CalculatorCriterionController">
+    <put name="content" value="/calculator/viewCalculatorCriterion.jsp" />
+    <put name='trackingTitle' value='Calculator_Criterion_View' />
+  </definition>
+
+  <definition name="calculator.payout.details" extends="beacon.default">
+    <put name="content" value="/calculator/calculatorPayout.jsp" />
+    <put name='trackingTitle' value='Calculator_Payout_Details' />
+  </definition>
+
+  <definition name="calculator.payout.grid" extends="beacon.printerFriendly" controllerClass="com.biperf.core.ui.calculator.CalculatorPayoutGridController">
+    <put name="content" value="/calculator/calculatorPayoutGrid.jsp" />
+    <put name='trackingTitle' value='Calculator_Payout_Grid' />
+  </definition>
+
+  <definition name="calculator.view" extends="beacon.default">
+    <put name="content" value="/calculator/viewCalculator.jsp" />
+    <put name='trackingTitle' value='Calculator_View' />
+  </definition>
+
+  <definition name="calculator.copy" extends="beacon.default">
+    <put name="content" value="/calculator/copyCalculator.jsp" />
+    <put name='trackingTitle' value='Calculator_Copy' />
+  </definition>
+  
+  <definition name="calculator.criterion.rating.details" extends="beacon.default">
+    <put name="content" value="/calculator/calculatorCriterionRating.jsp" />
+    <put name='trackingTitle' value='Calculator_Criterion_Rating_Details' />
+  </definition>
+  
+  <definition name="calculator.question.answer.details" extends="beacon.default">
+    <put name="content" value="/calculator/calculatorQuestionAnswer.jsp" />
+    <put name='trackingTitle' value='Calculator_Question_Answer_Details' />
+  </definition>
+
+  <definition name="calculator.promotions" extends="beacon.default" controllerClass="com.biperf.core.ui.calculator.CalculatorPromotionListController">
+    <put name="content" value="/calculator/viewPromotions.jsp" />
+    <put name='trackingTitle' value='Calculator_Promotions' />
+  </definition>
+   
+</tiles-definitions>

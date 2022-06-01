@@ -1,0 +1,118 @@
+/* CONTRIBUTORS VIEW */
+
+.purlRecipientInfo {
+    // h4 {
+    //     margin: 0;
+    // }
+    // h5 {
+    //     margin: 0;
+    // }
+    // p {
+    //     margin: 0;
+    // }
+}
+
+.contributorsView {
+    .wizardTabsContent {
+        margin-bottom: 12px;
+    }
+
+    .sortHeader {
+        cursor: pointer;
+    }
+
+    // this should be addressed in the mixin
+    .contribEmailsInput {
+        @include box-sizing(border-box);
+        width: 100%;
+    }
+
+    .contribEmailsFeedback {
+        clear: both;
+        .msg { display: none; }
+    }
+
+    .participantCollectionViewWrapper {
+
+        // step classes for the pax collection
+        &.stepClass_stepCoworkers {
+            // h4 { color: red; } // example
+        }
+        &.stepClass_stepOthers {
+            // h4 { color: green; } // example
+        }
+        &.stepClass_stepPreview {
+            // h4 { color: blue; } // example
+            h4 {
+                display: none;
+            }
+            tbody {
+                tr:hover td {
+                    background: none;
+                }
+            }
+            .participant {
+                .countryFlag {
+                    margin-right: 4px;
+                }
+                .org,
+                .email {
+                    display: inline;
+                }
+                .name ~ .email {
+                    margin-left: 4px;
+                }
+            }
+            .alreadyInvited,
+            .invitationSent,
+            .remove {
+                display: none;
+            }
+            td.remove {
+                a {
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .invitationSent {
+            text-align: center;
+        }
+    }
+
+
+}//.contributorsView
+
+// contributors invited confirmation
+.autoModalInviteContributors {
+    .invitees {
+        .countryFlag {
+            margin-right: 4px;
+        }
+        .org,
+        .email {
+            display: inline;
+        }
+        .name ~ .email {
+            margin-left: 4px;
+        }
+        .org,
+        .name ~ .email {
+            font-size: 71.4%;
+        }
+    }
+
+    hr {
+        margin: ($baseLineHeight / 2) 0;
+    }
+
+    .modal-body {
+        max-height: 400px;
+    }
+
+    .goodRes { color: $brand_color_success; }
+    .neutralRes { color: $brand_color_light; }
+    .badRes { color: $brand_color_alert; }
+}
+

@@ -1,0 +1,34 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $card_background_color: ;
+
+// $card_avatar_initials: ;
+// $card_avatar_background_color: ;
+
+// $card_selected_icon_color: ;
+// $card_selected_overlay_icon_color: ;
+
+// $card_celebrationInfo_color: ;
+// $card_celebrationInfo_bgColor: ;
+// $card_celebrationInfo_promo_color: ;
+
+// $cardfollowColorHighlight: ;
+// $cardfollowColor: ;
+//
+// $cardfollowIconColor: ;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/cards";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================
+button.btn-primary {
+	.icon-cheers:before {
+	  content: "\e900";
+	  color: $brand_color_white;  
+	}	
+}

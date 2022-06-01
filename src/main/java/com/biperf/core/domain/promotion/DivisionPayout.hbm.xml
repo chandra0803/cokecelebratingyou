@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.DivisionPayout" table="THROWDOWN_DIVISION_PAYOUT">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="DIVISION_PAYOUT_ID">
+			<generator class="seqhilo">
+				<param name="sequence">td_div_payout_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED" />
+	      <column name="MODIFIED_BY" />
+	    </property>
+
+		<one-to-one name="division" class="com.biperf.core.domain.promotion.Division" />
+		
+		<property name="outcome" column="OUTCOME_TYPE">
+		    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+		      <param name="lookupClass">com.biperf.core.domain.enums.MatchTeamOutcomeType</param>
+		    </type>
+		</property>
+		
+		<property name="points" type="int" column="POINTS"/>
+		<property name="pickPoints" type="int" column="PICK_POINTS"/>
+		
+	</class>
+</hibernate-mapping>

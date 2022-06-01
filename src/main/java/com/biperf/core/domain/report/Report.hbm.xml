@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.report.Report" table="REPORT">
+
+        <id name="id" type="java.lang.Long" column="REPORT_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">REPORT_PK_SQ</param>
+            </generator>
+        </id>
+             
+        <!-- Using version number optimistic locking -->
+        <version name="version" column="VERSION" type="java.lang.Long"/>
+        
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+          <column name="DATE_MODIFIED"/>
+          <column name="MODIFIED_BY"/>
+        </property>
+        <property name="reportCode" type="java.lang.String" column="REPORT_CODE"/>
+        <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE"/>
+        <property name="name" type="java.lang.String" column="REPORT_NAME_CM_KEY"/>
+       
+        <property name="categoryType" column="REPORT_CATEGORY_TYPE">
+    		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+      			<param name="lookupClass">com.biperf.core.domain.enums.ReportCategoryType</param>
+    		</type>
+  		</property>
+        
+        <property name="description" type="java.lang.String" column="REPORT_DESCRIPTION_CM_KEY"/> 
+        <property name="url" type="java.lang.String" column="REPORT_URL"/>
+        <property name="active" type="boolean" column="IS_ACTIVE" />
+        <property name="module" type="java.lang.String" column="MODULE" />
+        <property name="forceParameters" type="boolean" column="FORCE_PARAMETERS" />
+        <property name="exportOnly" type="boolean" column="EXPORT_ONLY" />
+        
+     	<property name="includedInPlateau" type="boolean" column="INCLUDED_IN_PLATEAU"/>     
+        
+        <list name="charts" lazy="false" table="REPORT_CHART" inverse="false" cascade="all-delete-orphan">
+          <key column="REPORT_ID" not-null="true"/>
+          <list-index column="sequence_num"/>      
+          <one-to-many class="com.biperf.core.domain.report.ReportChart"/>
+        </list>
+        
+        <list name="reportParameters" lazy="false" table="REPORT_PARAMETER" inverse="false" cascade="all-delete-orphan">
+          <key column="REPORT_ID" not-null="true"/>
+          <list-index column="sequence_num"/>      
+          <one-to-many class="com.biperf.core.domain.report.ReportParameter"/>
+        </list>
+        
+    </class>
+    
+    <query name="com.biperf.core.domain.report.getByReportCode">
+     from Report report where report.reportCode = :reportCode
+    </query>
+    
+    <sql-query name="com.biperf.core.domain.report.getReport">
+     <return alias="report" class="com.biperf.core.domain.report.Report"/>
+	<![CDATA[
+	    select r.*
+          from report r, 
+               os_propertyset os
+         where r.is_active = 1
+           and r.module = os.entity_name
+           and os.boolean_val = 1 
+         UNION
+         select r.*
+           from report r
+          where r.is_active = 1
+            and module = 'core'
+	]]> 
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.report.getAllReport">
+     <return alias="report" class="com.biperf.core.domain.report.Report"/>
+	<![CDATA[
+	    SELECT * FROM report
+	]]> 
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.report.getRefreshDate">
+     <return-scalar column="refreshDate" type="timestamp"/>
+      <![CDATA[
+        select distinct refresh_date refreshDate
+          from rpt_refresh_date
+         where report_category_type = NVL((select report_category_type from rpt_refresh_date where report_category_type = :categoryType),'Core')
+      ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.report.getRecognitionBehaviorsByPromo">
+     <return-scalar column="behaviorValue" type="string"/>
+      <![CDATA[
+        SELECT fnc_cms_picklist_value ( 'picklist.promo.recognition.behavior.items', pb.behavior_type, :locale) behaviorValue
+			FROM promo_behavior pb
+			WHERE promotion_id IS NULL
+                  OR :promoId IN ( SELECT * 
+                                   FROM TABLE (get_array_varchar(promotion_id)))
+      ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.report.getNominationBehaviorsByPromo">
+     <return-scalar column="behaviorValue" type="string"/>
+      <![CDATA[
+        SELECT fnc_cms_picklist_value ( 'picklist.promo.nomination.behavior.items', pb.behavior_type, :locale) behaviorValue
+			FROM promo_behavior pb
+			WHERE promotion_id IS NULL
+                  OR :promoId IN ( SELECT * 
+                                   FROM TABLE (get_array_varchar(promotion_id)))
+      ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.report.getBehaviorsByPromo">
+     <return-scalar column="behaviorValue" type="string"/>
+      <![CDATA[
+        SELECT DISTINCT nvl(recType, nomType) behaviorValue
+        FROM (
+          SELECT fnc_cms_picklist_value ( 'picklist.promo.recognition.behavior.items', pb.behavior_type, :locale) as recType,
+                 fnc_cms_picklist_value ( 'picklist.promo.nomination.behavior.items', pb.behavior_type, :locale) as nomType
+          FROM promo_behavior pb
+          WHERE :promoId IS NULL
+            OR pb.promotion_id IN ( SELECT * FROM TABLE (get_array_varchar(:promoId))))
+      ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.report.getLocaleDatePattern">
+     <return-scalar column="pattern" type="string"/>
+      <![CDATA[
+        SELECT NVL(pattern, 'MM/DD/YYYY') pattern FROM locale_date_pattern WHERE locale=:languageCode
+      ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.report.reportParameterValueChoices.listOfMonths">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+	  	 SELECT TO_CHAR(TRUNC(ADD_MONTHS(SYSDATE, - LEVEL+1),'MM'),'YYYYMMDD') id,
+			TO_CHAR( TRUNC(ADD_MONTHS(SYSDATE, - LEVEL-1),'MM'), 'Month YYYY' )||' - '||TO_CHAR( TRUNC(ADD_MONTHS(SYSDATE, - LEVEL+1),'MM'), 'Month YYYY' ) VALUE
+			FROM DUAL CONNECT BY LEVEL <= 12 order by id desc
+	]]>
+  </sql-query>
+  
+   <sql-query name="com.biperf.core.domain.report.enableRecognitionOnlyReportsSetup">
+    <![CDATA[
+			UPDATE report
+		    set IS_ACTIVE = 0
+		    WHERE CM_ASSET_CODE in ('report.cash.budget.balance','report.recognition.purlactivity','report.awarditemselection.byorg','report.awardlevelactivity.byorg')
+     ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.report.disableRecognitionOnlyReportsSetup">
+    <![CDATA[
+			UPDATE report
+		    set IS_ACTIVE = 1
+		    WHERE CM_ASSET_CODE in ('report.cash.budget.balance','report.recognition.purlactivity','report.awarditemselection.byorg','report.awardlevelactivity.byorg')
+     ]]>
+  </sql-query>
+  
+     <sql-query name="com.biperf.core.domain.report.enableSalesMakerReportsSetup">
+    <![CDATA[
+			UPDATE report
+		    set IS_ACTIVE = 0
+		    WHERE REPORT_CODE not in ('cpSelection','cpManager','cpAchievement','cpProgress','cpSummary','awardsByPax','awardsByOrg','badgeActivityByOrg','enrollment','hierarchyExport','participantExport','individualActivity','loginActivityPax','loginActivityOrg','gcSelection','gcManager','gcAchievement','gcProgress','gcSummary','quizActivity','quizAnalysis','throwdownActivityByPax')
+     ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.report.disableSalesMakerReportsSetup">
+    <![CDATA[
+			UPDATE report
+		    set IS_ACTIVE = 1
+     ]]>
+  </sql-query>
+  
+<sql-query name="com.biperf.core.domain.report.getAwardtype">
+		<return-scalar column="result" type="string"/> 
+	  	<![CDATA[
+		select initcap(value) as result from REPORT_DASHBOARD_ITEM_PARAM 
+		where REPORT_DASHBOARD_ITEM_ID in :dashboardItemId
+		and report_parameter_id=(select report_parameter_id 	
+ 								from report_parameter where report_id = :reportId 
+ 								AND UPPER(PARAMETER_NAME)='AWARDTYPE')
+		]]>
+</sql-query>
+</hibernate-mapping>

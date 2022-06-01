@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+  <bean id="cmsConfiguration" class="com.objectpartners.cms.util.CmsConfiguration">
+    <property name="cmsProperties">
+      <props>
+        <prop key="defaultLocale">en_US</prop>
+        <prop key="defaultApplicationCode">beacon</prop>
+        <prop key="cmApplicationCode">cm</prop>
+        <prop key="cmApplicationVersion">5.4.1</prop>
+        <prop key="consumerApplicationVersion">5.4.1</prop>
+        <prop key="goldCopyInstall">false</prop>        
+        <prop key="loginPageURI">/@PROJECT_NAME@/login.do</prop>
+        <prop key="errorFooterKey">system.errors.FOOTER</prop>
+        <prop key="errorHeaderKey">system.errors.HEADER</prop>
+        <prop key="errorPrefixKey">system.errors.PREFIX</prop>
+        <prop key="errorSuffixKey">system.errors.SUFFIX</prop>  
+        <prop key="hibernateSqlLogLevel">WARN</prop>
+        <prop key="hibernateLogLevel">WARN</prop>
+        <prop key="hibernateTypeLogLevel">WARN</prop>
+        <prop key="sso.salt">c@t2014seeMss0gefiv</prop>        
+      </props>
+      </property>
+      <property name="defaultAudienceNames">
+        <list>
+          <value>Default Audience</value>
+        </list>
+      </property>
+  </bean>
+  
+  <bean id="cmsCacheAdministrator" class="com.biperf.cache.oscache.ManageableCacheAdministrator" destroy-method="destroy">
+    <constructor-arg index="0">
+      <ref bean="cmsCacheProperties" />
+    </constructor-arg>
+  </bean>
+
+  <bean id="cmsCacheProperties" class="java.util.Properties">
+    <constructor-arg index="0">
+      <props>
+        <prop key="cache.memory">true</prop>
+        <prop key="cache.capacity">50000</prop> <!-- Increase it to 50000 if there are more languages involved. 10000 is for english only -->
+        <prop key="cache.blocking">false</prop>
+        <prop key="cache.event.listeners">com.biperf.core.cache.G3SpringJmsBroadcastListener</prop>
+        <prop key="cache.cluster.jms.topic.factory">java:comp/env/jms/ConnectionFactory</prop>
+        <prop key="cache.cluster.jms.topic.name">java:comp/env/jms/cluster${bi.appGrpNum}g5CacheFlushTopic</prop>
+        <prop key="cache.cluster.jms.node.name">${com.sun.aas.instanceName}_@PROJECT_NAME@</prop><!-- ${com.sun.aas.instanceName}_@PROJECT_NAME@ -->
+      </props>
+    </constructor-arg>
+  </bean>  
+  
+  <bean id="hibernateLogChangeInterceptor" class="com.objectpartners.cms.aop.HibernateLogChangeInterceptor">
+    <property name="cmsConfiguration">
+      <ref bean="cmsConfiguration" />
+    </property>
+  </bean>
+  
+  <!-- Hibernate Interceptor -->
+
+  <bean id="cmsHibernateAuditInterceptor" class="com.objectpartners.cms.aop.HibernateAuditInterceptor" />  
+  
+  <!-- Use a content reader factory that uses the CM application context -->
+  <bean id="cmsContentReaderFactory" class="com.biperf.core.utils.CmsContentReaderFactory">
+    <property name="cmsConfiguration">
+      <ref bean="cmsConfiguration"/>
+    </property>
+  </bean>
+  
+  <bean id="cmsServiceProxyFactoryParent" class="org.springframework.aop.framework.ProxyFactoryBean"
+        abstract="true">
+        <property name="interceptorNames">
+            <list>
+                <!-- This list is ordered by importance of interception -->
+                <value>hibernateSessionInterceptor</value>
+                <value>loggingInterceptor</value>
+                <value>performanceMonitorInterceptor</value>
+            </list>
+        </property>
+  </bean>  
+  
+  <bean id="cmsSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="dataSource">
+      <ref bean="dataSource" />
+    </property>
+    <property name="mappingResources">
+      <list>
+        <value>com/objectpartners/cms/domain/Application.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/Section.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/Audience.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/Content.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/ContentKey.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/Asset.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/AssetType.hbm.xml</value>
+        <value>com/objectpartners/cms/domain/AssetTypeItem.hbm.xml</value>
+      </list>
+    </property>
+    
+     <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.show_sql">true</prop>      
+        <prop key="hibernate.dialect">com.biperf.core.utils.CustomOracleDialect</prop>
+        <prop key="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</prop>
+        <prop key="hibernate.transaction.flush_before_completion">true</prop>
+        <prop key="hibernate.jdbc.use_streams_for_binary">false</prop>
+        <prop key="hibernate.jdbc.batch_size">0</prop>
+      </props>
+    </property>
+    
+    <property name="entityInterceptor">
+      <ref bean="cmsHibernateAuditInterceptor" />
+    </property>    
+  </bean>
+  
+  <bean id="contentService" parent="cmsServiceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.ContentService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.ContentServiceImpl">
+        <property name="contentDao">
+          <ref bean="contentDao" />
+        </property>
+        <property name="contentKeyDao">
+          <ref bean="contentKeyDao" />
+        </property>
+        <property name="assetDao">
+          <ref bean="assetDao" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="assetService" parent="cmsServiceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.AssetService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.AssetServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="sectionDao">
+          <ref bean="sectionDao" />
+        </property>
+        <property name="assetDao">
+          <ref bean="assetDao" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="cmsAudienceService" parent="cmsServiceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.AudienceService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.AudienceServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="audienceDao">
+          <ref bean="audienceDao" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="metaDataService" parent="cmsServiceProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.service.MetaDataService</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.service.impl.MetaDataServiceImpl">
+        <property name="applicationDao">
+          <ref bean="applicationDao" />
+        </property>
+        <property name="assetTypeDao">
+          <ref bean="assetTypeDao" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="contentDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ContentDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.ContentDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="cmsSessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="contentKeyDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ContentKeyDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.ContentKeyDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="cmsSessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="assetDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.AssetDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.AssetDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="cmsSessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="assetTypeDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.AssetTypeDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.AssetTypeDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="cmsSessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>  
+
+  <bean id="audienceDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.AudienceDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.AudienceDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="cmsSessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="sectionDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.SectionDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.SectionDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="cmsSessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="applicationDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ApplicationDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.hibernate.ApplicationDaoImpl">
+        <property name="sessionFactory">
+          <ref bean="cmsSessionFactory" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+  
+ 
+ </beans>

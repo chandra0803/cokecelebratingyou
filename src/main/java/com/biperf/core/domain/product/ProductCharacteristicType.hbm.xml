@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <subclass name="com.biperf.core.domain.product.ProductCharacteristicType"
+            extends="com.biperf.core.domain.characteristic.Characteristic"
+            discriminator-value="PRODUCT" >
+    <property name="isUnique" type="boolean" column="IS_UNIQUE"/>
+  </subclass>
+
+  <query name="com.biperf.core.domain.characteristic.AllProductCharacteristicTypeList">
+  <![CDATA[
+  from com.biperf.core.domain.product.ProductCharacteristicType
+  where is_active = 1
+  ]]>
+</query>
+
+</hibernate-mapping>

@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div>
+  <div
+    className="card card-large highlightedUser"
+  >
+    <div
+      className="card-front"
+    >
+      <div
+        className="recognitionAdvisorStatus"
+      >
+        <span
+          className="icon-clock removeCircle"
+        />
+        225
+         
+        days overdue!
+      </div>
+      <div
+        className="card-top"
+      >
+        <span
+          className="avatar"
+        >
+          <span
+            className="avatarContainer"
+          >
+            <span
+              className="avatar-initials"
+            >
+              E
+               
+              J
+            </span>
+          </span>
+        </span>
+      </div>
+      <div
+        className="card-details"
+      >
+        <div
+          className="card-details-inner-wrap"
+        >
+          <div
+            className="participant-name"
+          >
+            <a
+              className="itemName"
+              data-participant-ids="[ 92085 ]"
+              data-title-page-view="Public Profile"
+            >
+              Erica
+               
+              Jalecia Edwards
+            </a>
+          </div>
+          <div
+            className="participant-info"
+          >
+            <span
+              className="pi-title"
+            >
+              Director
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="card-action"
+      >
+        <button
+          className="btnRecognize btn btn-primary btn-block flipButton"
+          data-id={92085}
+          onClick={[Function]}
+          type="button"
+        >
+          Recognize
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

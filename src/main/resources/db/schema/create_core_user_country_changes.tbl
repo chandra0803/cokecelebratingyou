@@ -1,0 +1,26 @@
+CREATE SEQUENCE user_country_changes_pk_sq
+/
+CREATE TABLE user_country_changes
+( user_country_changes_id   NUMBER(18),
+  import_file_id            NUMBER(18),
+  user_id                   NUMBER(18),
+  old_country_id            NUMBER(18),
+  old_campaign_nbr          VARCHAR2(30 CHAR),  
+  old_awardbanq_nbr         VARCHAR2(100 CHAR),    
+  old_centrax_id            VARCHAR2(100 CHAR), 
+  new_country_id            NUMBER(18),
+  new_campaign_nbr          VARCHAR2(30 CHAR),    
+  new_awardbanq_nbr         VARCHAR2(100 CHAR),    
+  new_centrax_id            VARCHAR2(100 CHAR),
+  balance_to_move           NUMBER(18),    
+  is_processed              NUMBER(1),
+  message                   VARCHAR2(50 CHAR),
+  acct_xfer_date            DATE,
+  acct_xfer_code            NUMBER(18),
+  date_created              DATE,
+  created_by                NUMBER(18),
+  modified_by               NUMBER(18),
+  date_modified             DATE,
+  version                   NUMBER(18)
+)
+/

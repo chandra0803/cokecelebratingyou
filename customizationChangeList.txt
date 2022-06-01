@@ -1,0 +1,41 @@
+Customization list
+Please add to this file in the below format
+===============================================================================================================
+WIP #X...X or GIT #X...X <Issue_Url>
+
+    Date                : DD/MM/YYYY
+    Author              : Firstname, Lastname <Email ID>
+    Old WIP References  : WIP numbers (If its an upgrade and adding customization from old product version, please add all WIP numbers)
+
+    Files Modified :
+        1. File 1
+        .
+        .
+        N. File N
+
+===============================================================================================================
+
+WIP #61261
+
+    Date                : 22/1/2020
+    Author              : Syed, Ansar <syed.ansar@biworldwide.com>
+    Old WIP References  : 25589, 26532, 27408
+
+    Files Modified :
+        1. profilePagePreferencesTab.html
+        2. ProgramSelectPageView.js
+        3. programSelectPageView.html
+        4. PurlPageView.js
+        5. purlPage.html
+        6. AwardeeCollectionView.js
+        7. ContributorsView.js
+        8. contributorsView.html
+        9. recognitionPageSend.html
+        10. budgetTracker.json
+        11. participantSearchResults_sendRecognition.json
+        12. sendRecognitionPromoNodeCheck.json
+        13. G5.util.js
+        14. budgetItem.html
+        15. _budgetTracker.scss
+
+===============================================================================================================

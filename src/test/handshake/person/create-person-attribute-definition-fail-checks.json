@@ -1,0 +1,208 @@
+{
+  "description": "Create a Person Attribute Definition",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "attributeDefinitionName": "attributeName-${faker:random.number}",
+    "attributeDefinitionDataFormat": "string",
+    "attributeDefinitionDataType": "string"
+  },
+  "steps": [
+    {
+      "id": "createPersonAttributeDefinition",
+      "description": "POST /persons/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "${ref:params.attributeDefinitionName}",
+  			"dataType": "${ref:params.attributeDefinitionDataType}",
+  			"dataFormat": "${ref:params.attributeDefinitionDataFormat}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttributeDefinition.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonAttributeDefinition.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonAttributeDefinition.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.attributeDefinitionName}"
+        },
+        {
+          "a": "${ref:createPersonAttributeDefinition.res.body.dataFormat}",
+          "compare": "to.equal",
+          "b": "${ref:params.attributeDefinitionDataFormat}"
+        }
+        ,
+        {
+          "a": "${ref:createPersonAttributeDefinition.res.body.dataType}",
+          "compare": "to.equal",
+          "b": "${ref:params.attributeDefinitionDataType}"
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttributeDefinitionAlreadyExists",
+      "description": "POST /persons/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "${ref:params.attributeDefinitionName}",
+  			"dataType": "${ref:params.attributeDefinitionDataType}",
+  			"dataFormat": "${ref:params.attributeDefinitionDataFormat}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttributeDefinitionAlreadyExists.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttributeDefinitionMissingName",
+      "description": "POST /persons/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "",
+  			"dataType": "${ref:params.attributeDefinitionDataType}",
+  			"dataFormat": "${ref:params.attributeDefinitionDataFormat}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttributeDefinitionMissingName.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttributeDefinitionMissingDataType",
+      "description": "POST /persons/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "lksdfjlskdjflskdhjf",
+  			"dataType": "",
+  			"dataFormat": "${ref:params.attributeDefinitionDataFormat}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttributeDefinitionMissingDataType.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttributeDefinitionMissingDataFormat",
+      "description": "POST /persons/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "lksdfjlskdjflskdhjf",
+  			"dataType": "${ref:params.attributeDefinitionDataType}",
+  			"dataFormat": ""
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttributeDefinitionMissingDataFormat.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttributeDefinitionInvalidDataFormat",
+      "description": "POST /persons/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "lksdfjlskdjflskdhjf",
+  			"dataType": "${ref:params.attributeDefinitionDataType}",
+  			"dataFormat": "invalid"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttributeDefinitionInvalidDataFormat.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttributeDefinitionInvalidDataType",
+      "description": "POST /persons/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "lksdfjlskdjflskdhjf",
+  			"dataType": "INVALID",
+  			"dataFormat": "${ref:params.attributeDefinitionDataFormat}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttributeDefinitionInvalidDataType.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        }
+      ]
+    }
+  ]
+}

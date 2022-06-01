@@ -1,0 +1,44 @@
+CREATE SEQUENCE stack_rank_node_pk_sq INCREMENT BY 1 START WITH 600
+/
+CREATE TABLE stack_rank_node
+  (
+    stack_rank_node_id  NUMBER(18) NOT NULL,
+    stack_rank_id       NUMBER(18) NOT NULL,
+    node_id             NUMBER(18) NOT NULL,
+    created_by          NUMBER(18) NOT NULL,
+    date_created        DATE NOT NULL,
+    modified_by         NUMBER(18),
+    date_modified       DATE,
+    version             NUMBER(18) NOT NULL
+  )
+/
+ALTER TABLE stack_rank_node
+  ADD CONSTRAINT stack_rank_node_pk PRIMARY KEY (stack_rank_node_id)
+  USING INDEX
+/
+ALTER TABLE stack_rank_node
+  ADD CONSTRAINT stack_rank_node_stack_rank_fk FOREIGN KEY (stack_rank_id)
+  REFERENCES stack_rank (stack_rank_id)
+/
+ALTER TABLE stack_rank_node
+  ADD CONSTRAINT stack_rank_node_node_fk FOREIGN KEY (node_id)
+  REFERENCES node (node_id)
+/
+COMMENT ON TABLE stack_rank_node IS 'Represents a stack rank list, which ranks participants by stack rank factor for a particular node.'
+/
+COMMENT ON COLUMN stack_rank_node.stack_rank_node_id IS 'Uniquely identifies this stack rank list.'
+/
+COMMENT ON COLUMN stack_rank_node.stack_rank_id IS 'The stack ranking that contains this stack rank list.'
+/
+COMMENT ON COLUMN stack_rank_node.node_id IS 'All participants on this stack rank list are associated with this node.'
+/
+COMMENT ON COLUMN stack_rank_node.created_by IS 'The ID of the user who created this record.'
+/
+COMMENT ON COLUMN stack_rank_node.date_created IS 'The date and time at which this record was created.'
+/
+COMMENT ON COLUMN stack_rank_node.modified_by IS 'The ID of the user who last modified this record.'
+/
+COMMENT ON COLUMN stack_rank_node.date_modified IS 'The date and time at which this record was last modified.'
+/
+COMMENT ON COLUMN stack_rank_node.version IS 'The version of this record.'
+/

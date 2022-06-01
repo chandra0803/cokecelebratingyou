@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+  <formset>
+
+    <!-- PromotionType -->
+      <form name="promotionTypeForm" >
+        <field property="promotionType" depends="required">
+          <arg0 key="promotion.promotiontype.list.PROMOTION_TYPE" />
+        </field>
+      </form>
+
+    <!-- PromotionBasics -->
+      <form name="promotionBasicsForm" >
+        <field property="promotionName" depends="required">
+          <arg0 key="promotion.basics.PROMOTION_NAME" />
+        </field>
+      <!-- Moved startDate validation to form.validate() -->
+      <!--
+        <field property="startDate" depends="validwhen, date">
+          <arg0 key="promotion.basics.START" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((liveOrExpired == "false") and (*this* != null))</var-value>
+          </var>
+        </field>
+         -->
+      <!-- Moved endDate validation to form.validate() -->
+      <!--
+        <field property="endDate" depends="date">
+          <arg0 key="promotion.basics.END"/>
+      </field>
+      -->
+
+      <!-- Moved activityForm 'validwhen' test to form.validate() -->
+      <!-- (NOTE: Struts only allows one 'or' or 'and' when using 'validwhen') -->
+      <!--
+        <field property="activityForm" depends="validwhen">
+            <arg0 key="promotion.basics.ACTIVITY_FORM"/>
+            <var>
+              <var-name>test</var-name>
+              <var-value>((expired == "true") or (live == "true") or (*this* != null))</var-value>
+            </var>
+        </field>
+       -->
+      </form>
+
+    <!-- PromotionWebRules -->
+      <form name="promotionWebRulesForm" >
+        <field property="active" depends="required">
+          <arg0 key="promotion.webrules.RULES_STATUS" />
+        </field>
+      <field property="webRulesText" depends="validwhen">
+          <arg0 key="promotion.webrules.RULES_TEXT"/>
+          <var>
+            <var-name>test</var-name>
+            <var-value>((active == "false") or (*this* != null))</var-value>
+          </var>
+      </field>
+      <field property="audience" depends="validwhen">
+          <arg0 key="promotion.webrules.AUDIENCE" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((active == "false") or (*this* != null))</var-value>
+          </var>
+        </field>
+        <!--  see form for date validation -->
+      </form>
+
+      <!-- PromotionApproval -->
+      <form name="promotionApprovalForm" >
+      <!-- Moved approvalStartDate validation to form.validate() -->
+      <!-- (NOTE: Struts only allows one 'or' or 'and' when using 'validwhen') -->
+    <!--
+        <field property="approvalStartDate" depends="validwhen, date">
+          <arg0 key="promotion.basics.START" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>(((approvalType == "auto_approve") or (approvalType == "auto_delayed")) or (*this* != null))</var-value>
+          </var>
+        </field>
+      -->
+        <field property="approvalAutoDelayDays" depends="validwhen,integer">
+          <arg0 key="promotion.approvals.APPROVAL_NUMBER_OF_DAYS" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((approvalType != "auto_delayed") or (*this* != null))</var-value>
+          </var>
+        </field>
+        <field property="approvalConditionalClaimCount" depends="validwhen,integer">
+          <arg0 key="promotion.approvals.APPROVAL_REVIEW_EVERY" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((approvalType != "cond_nth") or (*this* != null))</var-value>
+          </var>
+        </field>
+        <field property="approvalConditionalClaimFormStepElementId" depends="validwhen">
+          <arg0 key="promotion.approvals.APPROVAL_AMOUNT_FIELD" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((approvalType != "cond_amt") or (*this* != null))</var-value>
+          </var>
+        </field>
+        <field property="approvalConditionalAmount" depends="validwhen,double">
+          <arg0 key="promotion.approvals.APPROVAL_AMOUNT" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((approvalType != "cond_amt") or (*this* != null))</var-value>
+          </var>
+        </field>
+        <field property="approverNodeId" depends="validwhen">
+          <arg0 key="promotion.approvals.APPROVAL_APPROVERS" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((approverType != "node_owner") or (*this* != null))</var-value>
+          </var>
+        </field>
+        <field property="approvalNodeLevels" depends="validwhen,integer">
+          <arg0 key="promotion.approvals.APPROVAL_NODE_LEVELS" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((approverType != "node_owner") or (*this* != null))</var-value>
+          </var>
+        </field>
+      </form>
+
+      <!-- PromotionPayout -->
+      <form name="promotionPayoutForm" >
+          <field property="managerOverridePercent" depends="validwhen,integer">
+          <arg0 key="promotion.payout.PERCENT_PAID" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((managerOverride == "false") or (*this* != null))</var-value>
+          </var>
+        </field>
+        <field property="payoutType" depends="required">
+          <arg0 key="promotion.payout.PAYOUT_TYPE" />
+        </field>
+      </form>
+      
+      <!-- PromotionPayout -->
+      <form name="promotionGoalPayoutForm" >
+          <field property="payoutStructure" depends="validwhen">
+          <arg0 key="promotion.payout.goalquest.PAYOUT_STRUCTURE" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((awardType != "Points") or (*this* != null))</var-value>
+          </var>
+        </field>
+        <field property="achievementRuleTypeCode" depends="required">
+          <arg0 key="promotion.payout.goalquest.ACHIEVEMENT_RULE" />
+        </field>
+        <field property="roundingMethod" depends="required">
+          <arg0 key="promotion.payout.goalquest.ROUNDING_METHOD" />
+        </field>
+     <!-- BugFix 17935 -->
+      <field property="baseUnitPosition" depends="validwhen">
+      <arg0 key="promotion.payout.goalquest.BASE_UNIT_POSITION"/>
+        <var>
+          <var-name>test</var-name>
+          <var-value>((baseUnit == null) or (*this* != null))</var-value>
+        </var>
+      </field>
+      </form>
+      
+      <!-- PromotionThrowdownPayout -->
+      <form name="promotionThrowdownPayoutForm" >
+        <field property="roundingMethod" depends="required">
+          <arg0 key="promotion.payout.throwdown.ROUNDING_METHOD" />
+        </field>
+        </form>
+      <!-- PromotionAudience -->
+<!--
+      <form name="promotionAudienceForm" >
+        <field property="teamMaxCount" depends="validwhen,integer">
+          <arg0 key="promotion.audience.MAX_VALUE" />
+          <var>
+            <var-name>test</var-name>
+            <var-value>((teamHasMax == "true") or (*this* != null))</var-value>
+          </var>
+        </field>
+      </form>
+-->
+
+      <!-- PromotionAwards -->
+<!--      <form name="promotionAwardsForm" >
+          <field property="active" depends="required">
+          <arg0 key="promotion.awards.ACTIVE" />
+        </field>
+      </form>
+      -->
+
+      <!-- Promotion Sweepstakes -->
+      <form name="promotionSweepstakesForm" >
+        <field property="active" depends="required">
+          <arg0 key="promotion.sweepstakes.SWEEPSTAKES_ACTIVE" />
+        </field>
+        <field property="eligibleWinners" depends="required">
+          <arg0 key="promotion.sweepstakes.ELIGIBLE_WINNERS" />
+        </field>
+      </form>
+
+    <!-- Promotion eCards -->
+    <form name="promotionECardForm">
+        <field property="cardClientEmailAddress" depends="validwhen, email">
+        <arg0 key="promotion.ecards.errors.CLIENT_EMAIL_ADDRESS"/>
+          <var>
+            <var-name>test</var-name>
+            <var-value>((sendECardSelector != "true") or (*this* != null))</var-value>
+          </var>
+        </field>
+    </form>
+
+    <!-- Discretionary -->
+      <form name="discretionaryAwardForm" >
+        <field property="promotion" depends="required">
+          <arg0 key="promotion.discretionary.award.PROMOTION" />
+        </field>
+        <field property="amount" depends="required,long">
+          <arg0 key="promotion.discretionary.award.AWARD_AMOUNT" />
+        </field>
+        <field property="comments" depends="required">
+          <arg0 key="promotion.discretionary.award.COMMENTS" />
+        </field>
+      </form>
+
+      <!-- Create Stank Rank -->
+      <form name="createStackRankForm">
+        <field property="promotionId" depends="required,long">
+          <arg0 key="promotion.stackrank.errors.PROMOTION_ID" />
+        </field>
+        <field property="startDate" depends="required">
+          <arg0 key="promotion.stackrank.errors.START_DATE" />
+        </field>
+        <field property="endDate" depends="required">
+          <arg0 key="promotion.stackrank.errors.END_DATE" />
+        </field>
+        <field property="calculatePayout" depends="required">
+          <arg0 key="promotion.stackrank.errors.CALCULATE_PAYOUT" />
+        </field>
+      </form>
+
+      <!-- Stack Rank Node -->
+      <form name="stackRankNodeForm">
+        <field property="stackRankId" depends="required,long">
+          <arg0 key="promotion.stackranknode.STACK_RANK_ID" />
+        </field>
+        <field property="nameOfNode" depends="required">
+          <arg0 key="promotion.stackranknode.NODE_NAME" />
+        </field>
+      </form>
+  </formset>
+</form-validation>

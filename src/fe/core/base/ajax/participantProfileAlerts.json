@@ -1,0 +1,46 @@
+{
+	"messages":[
+        {
+            "type":"dataUpdate",
+            "name":"participantProfile",
+            "data":{
+            	"numMessages":5,
+            	"alerts":[
+                        {
+            	                "displayAlert": true,
+            					"alertTitle": "alert 1.",
+            					"alertLink": "layout.html?tpl=profilePage&tplPath=apps/profile/tpl/#tab/AlertsAndMessages",
+            					"alertLinkText": "View Alerts",
+                                "openNewWindow": true
+
+                        },
+                         {
+                                "displayAlert": true,
+                                "alertTitle": "You have 2 outstanding alerts to view.",
+                                "alertLink": "layout.html?tpl=profilePage&tplPath=apps/profile/tpl/#tab/AlertsAndMessages",
+                                "alertLinkText": "View Alerts",
+                                "openNewWindow": true
+
+                        },
+                         {
+                                "displayAlert": true,
+                                "alertTitle": "You have 3outstanding alerts to view.",
+                                "alertLink": "layout.html?tpl=profilePage&tplPath=apps/profile/tpl/#tab/AlertsAndMessages",
+                                "alertLinkText": "View Alerts",
+                                "openNewWindow": true
+
+                        },
+                        {
+                                "alertLinkText": "Instant Poll",
+                                "alertTitle": "Check out the latest Poll",
+                                "displayAlert": true,
+                                "instantPoll": true,
+                                "instantPollId": "1234",
+                                "openNewWindow": false
+                        }
+
+                ]
+            }
+        }
+    ]
+}

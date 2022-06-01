@@ -1,0 +1,49 @@
+<?php usleep(50000); ?>
+{
+    "messages":[],
+    "contestJson": {
+        "nextUrl": "ajax/ssiContestParticipantATN.json",
+        "ssiContestClientState": "state0",
+        "id": 123,
+        "measureType": "currency",
+        "currencyTypes": [
+            { "id": "usd", "symbol": "$", "name": "US Dollar (USD)" },
+            { "id": "eur", "symbol": "€", "name": "Euro (EUR)" },
+            { "id": "cny", "symbol": "¥", "name": "Chinese Yuan (CNY)"}
+        ],
+        "currencyTypeId": "eur",
+        "optionShowPayoutTypeOther": true,
+        "optionShowPayoutTypePoints": true,
+        "payoutType": "points",
+        "otherPayoutTypeId": "eur",
+        "participantCount": 5,
+        "billCodeRequired": true,
+        "billCodes": [
+            {
+                "billCode":"creator-department",
+                "billCodeName": "Dept-Participant",
+                "index" : 1
+            },
+            {
+                "billCode": "pax-department",
+                "billCodeName": "Dept - Creator" ,
+                "index" : 4
+            },
+            {
+                "billCode": "pax-5024",
+                "billCodeName": "Age - Creator" ,
+                "index" : 3
+            },
+            {
+                "billCode": "creator-123",
+                "billCodeName": "123 - Pax" ,
+                "index" : 2
+            },
+            {
+                "billCode": "creator-234",
+                "billCodeName": "234 - Pax" ,
+                "index" : 0
+            }
+        ]
+    }
+}

@@ -1,0 +1,351 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+/* * * * *
+* Global Styles
+* * * * */
+$ssi_objectives_bgColor: $g5ModuleBgColor !default;
+$ssi_DTGT_bgColor: $g5ModuleBgColor !default;
+$ssi_SIU_bgColor: $g5ModuleBgColor !default;
+$ssi_stackRank_bgColor: $g5ModuleBgColor !default;
+$ssi_ATN_bgColor: $g5ModuleBgColor !default;
+
+$ssi_primaryFontFamily: $titleFont !default;
+$ssi_secondaryFontFamily: $bodyFont !default;
+$ssi_primaryTextColor: $brand_color_black !default;
+
+$ssi_giftIcon_circleBgColor: $brand_color_black !default;
+$ssi_giftIcon_circleTextColor: $brand_color_white !default;
+// $ssi_giftIcon_circleBgGradType: $g5ModuleGradType !default;
+// $ssi_giftIcon_circleBgGradMeta: $g5ModuleGradMeta !default;
+// $ssi_giftIcon_circleBgGradStops: $brand_color_black $brand_color_black !default;
+
+$ssi_giftIconComplete_circleBgColor: $brand_color_success !default;
+$ssi_giftIconComplete_circleTextColor: $brand_color_white !default;
+// $ssi_giftIconComplete_circleBgGradStops: $brand_color_mid $brand_color_mid !default;
+$ssi_giftIconCompleteColor: $brand_color_black !default;
+
+$ssi_createContestModalBgColor: $brand_color_black !default;
+$ssi_createContestModalTextColor: $brand_color_white !default;
+
+$ssi_textInputErrorBorderColor: $brand_color_alert !default;
+$ssi_staleColor: $brand_color_mid !default;
+
+
+/* * * * *
+* Chart Styles
+* * * * */
+$ssi_SIU_barChart_moduleBarColor: $brand_color_primary !default;
+$ssi_SIU_barChart_barValueColor: $brand_color_primary !default;
+$ssi_SIU_barChart_axisBgColor: transparent !default;
+$ssi_SIU_barChart_axisBorderColor: $brand_color_black !default;
+$ssi_SIU_barChart_axisTextColor: $brand_color_black !default;
+
+$ssi_SIU_barChart_chartHeight: 320px !default;
+$ssi_SIU_barChart_chartAxisHeight: 40px !default;
+$ssi_SIU_barChart_chartBarWidth: 20px !default;
+
+$ssi_objectives_circleChart_bgArcColor: $brand_color_mid !default;
+$ssi_objectives_circleChart_fgArcColor: $brand_color_primary !default;
+$ssi_objectives_circleChart_ovArcColor: $brand_color_mid !default;
+
+$ssi_SIU_circleChart_bgArcColor: $brand_color_mid !default;
+$ssi_SIU_circleChart_fgArcColor: $brand_color_primary !default;
+$ssi_SIU_circleChart_ovArcColor: $brand_color_mid !default;
+$ssi_SIU_circleChart_completedBgColor: $brand_color_primary !default;
+$ssi_SIU_circleChart_incompleteBgColor: $brand_color_mid !default;
+$ssi_SIU_circleChart_completedIconColor: $brand_color_white !default;
+
+$ssi_chartPercentCompleteColor: $brand_color_primary !default;
+
+$ssiDetails_chartGoalTextColor: $brand_color_black !default;
+$ssiDetails_chartProgressTextColor: $brand_color_primary !default;
+$ssiDetails_chartLevelTextColor: $brand_color_black !default;
+$ssiDetails_chartMiscBorderColor: $brand_color_border !default;
+
+$ssiModule_objectives_percentColor: $ssi_chartPercentCompleteColor !default;
+
+
+/* * * * *
+* Module Styles
+* * * * */
+$ssiModule_contest_headerBgColor: false !default;
+$ssiModule_contest_headerTextColor: false !default;
+$ssiModule_contest_headerTypeIconSize: 36px !default;
+$ssiModule_contest_headerBorderColor: $brand_color_border !default;
+$ssiModule_contest_footerBorderColor: $brand_color_border !default;
+
+$ssiModule_asOf_daysRemaining_textColor: $brand_color_dark !default;
+$ssiModule_defaultBorder: 1px solid $brand_color_border !default;
+$ssiModule_accentColor: $brand_color_primary !default;
+
+$ssiModule_objectives_chartHeight_small: 120px !default;
+$ssiModule_objectives_chartHeight_large: 160px !default;
+
+$ssiModule_siu_circleChart_arcWidth: 8px !default;
+// $ssiModule_siu_circleChart_chartStepHeight_small: 40px !default;
+$ssiModule_siu_circleChart_chartStepHeight_large: 60px !default;
+// $ssiModule_siu_circleChart_chartHeight_small: 120px !default;
+$ssiModule_siu_circleChart_chartHeight_large: 160px !default;
+
+$ssiModule_siu_barChart_axisBorderColor: $brand_color_border !default;
+
+$ssiModule_siu_barChart_chartHeight: 180px !default;
+$ssiModule_siu_barChart_chartAxisHeight: 30px !default;
+$ssiModule_siu_barChart_chartBarWidth: 12px !default;
+
+$ssiModule_siu_progressTextColor: $brand_color_white !default;
+$ssiModule_siu_goalTextColor: $brand_color_black !default;
+$ssiModule_siu_dataCompleteColor: $brand_color_black !default;
+
+$ssiModule_stackRank_avatarHeight: 24px !default;
+$ssiModule_stackRank_leaderBgYou: $brand_color_primary !default;
+$ssiModule_stackRank_leaderTxtYou: $brand_color_white !default;
+$ssiModule_stackRank_activityProgressCompleteColor: $ssiModule_accentColor !default;
+
+$ssiModule_contestComplete_footerBgColor: false !default;
+$ssiModule_contestComplete_footerTextColor: false !default;
+
+$ssiModule_contestList_topperBgColor: false !default;
+$ssiModule_contestList_topperTextColor: false !default;
+$ssiModule_contestList_asOfColor: $brand_color_dark !default;
+
+$ssiModule_contestList_listItemBgOdd: darken($pages_splitterBgColor, 5%) !default;
+$ssiModule_contestList_listItemBgEven: transparent !default; // lighten($pages_splitterBgColor, 5%) !default;
+
+
+/* * * * *
+* Detail Page Styles
+* * * * */
+// $ssiDetails_statusBannerBgColor: $brand_color_black !default;
+// $ssiDetails_statusBannerTextColor: $brand_color_white !default;
+$ssiDetails_badgeHeightWidth: 60px !default;
+
+$ssiDetails_payoutGraphBarHeight: 30px !default;
+$ssiDetails_payoutGraphBarBgColor: $brand_color_mid !default;
+$ssiDetails_payoutGraphBarBarColor: $brand_color_primary !default;
+$ssiDetails_payoutGraphBarMarkerBgColor: $ssiDetails_payoutGraphBarBarColor !default;
+$ssiDetails_payoutGraphBarMarkerTextColor: $brand_color_white !default;
+
+$ssiDetails_objectives_chartHeight_large: 320px !default;
+$ssiDetails_objectives_chartHeight_small: $ssiDetails_objectives_chartHeight_large * 2 / 3 !default;
+$ssiDetails_objectives_chartStroke_large: 20px !default;
+$ssiDetails_objectives_chartStroke_small: $ssiDetails_objectives_chartStroke_large * 2 / 3 !default;
+
+$ssiDetails_siu_levelChart_rowHighlight: darken($pages_splitterBgColor, 5%) !default;
+$ssiDetails_siu_levelChart_rowHighlightIntersect: darken($pages_splitterBgColor, 10%) !default;
+
+$ssiDetails_siu_circleChart_arcWidth: $ssiModule_siu_circleChart_arcWidth !default;
+// $ssiDetails_siu_circleChart_chartStepHeight_small: $ssiModule_siu_circleChart_chartStepHeight_small !default;
+$ssiDetails_siu_circleChart_chartStepHeight_large: $ssiModule_siu_circleChart_chartStepHeight_large !default;
+// $ssiDetails_siu_circleChart_chartHeight_small: $ssiModule_siu_circleChart_chartHeight_small !default;
+$ssiDetails_siu_circleChart_chartHeight_large: $ssiModule_siu_circleChart_chartHeight_large !default;
+
+$ssiDetails_stackRank_leaderColMinWidth: 256px !default;
+$ssiDetails_stackRank_leaderAvatarHeight: 30px !default;
+
+$ssiDetails_stackRank_leaderBgOdd: $ssiModule_contestList_listItemBgOdd !default;
+$ssiDetails_stackRank_leaderBgEven: $ssiModule_contestList_listItemBgEven !default;
+$ssiDetails_stackRank_leaderBgYou: $ssiModule_stackRank_leaderBgYou !default;
+$ssiDetails_stackRank_leaderTxtYou: $ssiModule_stackRank_leaderTxtYou !default;
+
+
+/* * * * *
+* Page Edit Styles
+* * * * */
+$ssiContest_pageEdit_translations_bgColor: $pages_splitterBgColor !default;
+$ssiContest_pageEdit_translations_textColor: $pages_splitterTextColor !default;
+
+// $ssiContest_pageEdit_paxSelectWrapBorderWidth: 0 !default;
+// $ssiContest_pageEdit_paxSelectWrapBorderColor: false !default;
+
+$ssiContest_pageEdit_objectiveBonusDividerBorderColor: $brand_color_mid !default; // should match $participantCollectionView_thBorderBottomColor in _participantCollectionView.scss
+
+$ssiContest_pageEdit_activityHeaderFontColor: false !default;
+$ssiContest_pageEdit_activityHeaderBgColor: false !default;
+
+$ssiContest_pageEdit_activityItem_textColor: $pages_splitterTextColor !default;
+$ssiContest_pageEdit_activityItem_bgColor: transparent !default;
+$ssiContest_pageEdit_activityItem_borderBottom: 1px solid $brand_color_light !default;
+$ssiContest_pageEdit_activityItem_backgroundFlash: scale-color($brand_color_primary, $lightness: 67%) !default; // same as backgroundFlash in _participantItem.scss
+$ssiContest_pageEdit_activityItem_editRemoveIconColor: $brand_color_mid !default; // same as editRemoveIconColor in _participantItem.scss
+
+// $ssiContest_pageEdit_activityItemSortHelper_textColor: false !default;
+$ssiContest_pageEdit_activityItemSortHelper_bgColor: transparentize($brand_color_light, 0.33) !default;
+// $ssiContest_pageEdit_activityItemSortHolder_textColor: false !default;
+// $ssiContest_pageEdit_activityItemSortHolder_bgColor: $brand_color_light !default;
+
+$ssiContest_pageEdit_noActivitiesFontColor: false !default;
+
+$ssiContest_pageEdit_activityItemHover_textColor: false !default;
+$ssiContest_pageEdit_activityItemHover_bgColor: $brand_color_mid !default; // same as rowHoverBgColor in _participantItem.scss
+
+$ssiContest_pageEdit_activityItemActive_textColor: false !default;
+$ssiContest_pageEdit_activityItemActive_iconColor: $ssiContest_pageEdit_activityItemActive_textColor !default;
+$ssiContest_pageEdit_activityItemActive_bgColor: $brand_color_white !default;
+
+$ssiContest_pageEdit_estimator_bgColor: $brand_color_light !default;
+$ssiContest_pageEdit_estimator_borderRadius: 0 !default;
+$ssiContest_pageEdit_estimatorSliderDisabled_progressColor: $brand_color_light !default;
+$ssiContest_pageEdit_estimatorSliderDisabled_tipBgColor: $brand_color_mid !default;
+$ssiContest_pageEdit_estimatorSliderDisabled_tipTextColor: false !default;
+
+
+/* * * * *
+* Approve Contest Styles
+* * * * */
+$ssiApproveContestDetails_linkFontSize: $baseFontSize !default;
+$ssiApproveContestDetails_paxManagerTableBg: $brand_color_white !default;
+
+// App-specific code
+// =========================
+
+/* ----- GLOBAL APP STYLES ----- */
+/***
+ *     .d8888b.  888      .d88888b.  888888b.         d8888 888
+ *    d88P  Y88b 888     d88P" "Y88b 888  "88b       d88888 888
+ *    888    888 888     888     888 888  .88P      d88P888 888
+ *    888        888     888     888 8888888K.     d88P 888 888
+ *    888  88888 888     888     888 888  "Y88b   d88P  888 888
+ *    888    888 888     888     888 888    888  d88P   888 888
+ *    Y88b  d88P 888     Y88b. .d88P 888   d88P d8888888888 888
+ *     "Y8888P88 88888888 "Y88888P"  8888888P" d88P     888 88888888
+ *
+ *
+ *
+ */
+
+ .ssi {
+
+    // re-empower generic "tr" class for bootstrap tables
+    .table td.tr {
+        text-align: right;
+    }
+
+    .badgeBtnCaret {
+        vertical-align: middle;
+    }
+
+    // do this get that payout type "other" icon
+    .payoutGift {
+        position: relative;
+
+        .giftCount {
+            // @include module_moduleLinerBackground(
+            //     $bgColor: $ssi_giftIcon_circleBgColor,
+            //     $gradType: $ssi_giftIcon_circleBgGradType,
+            //     $gradMeta: $ssi_giftIcon_circleBgGradMeta,
+            //     $gradStops: $ssi_giftIcon_circleBgGradStops
+            // );
+            display: inline-block;
+            position: relative;
+            top: -20px;
+            left: -13px;
+            margin-right: -32px;
+            margin-bottom: -26px;
+            padding: 3px;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            font-size: $fontSizeSmall;
+            color: $ssi_giftIcon_circleTextColor;
+            background: $ssi_giftIcon_circleBgColor;
+            border-radius: 50%;
+            // text-shadow: 0px 1px rgba(0,0,0,.5);
+            // box-shadow: 0px 1px 2px 0 rgba(0,0,0,0.4), inset 0px 2px 2px lighten($ssi_giftIcon_circleBgColor, 20%);
+            // font-family: $ssi_secondaryFontFamily;
+        }
+    } // \.payoutGift
+
+    .complete {
+        .payoutGift {
+            .icon-gift {
+                color: $ssi_giftIconCompleteColor;
+            }
+            .giftCount {
+                color: $ssi_giftIconComplete_circleTextColor;
+                background: $ssi_giftIconComplete_circleBgColor;
+                // box-shadow: 0px 1px 2px 0 rgba(0,0,0,0.4), inset 0px 2px 2px $brand_color_mid;
+            }
+        }
+    }
+ }
+
+.ssiContestCreateModal {
+    color: $ssi_createContestModalTextColor;
+    background: $ssi_createContestModalBgColor;
+
+    .nav-tabs {
+        text-align: center;
+
+        li {
+            display: inline-block;
+            float: none;
+            margin-right: -2px; // gets rid of the space between inline-block elements
+            margin-left: -2px; // gets rid of the space between inline-block elements
+            vertical-align: bottom;
+            text-align: center;
+            width: 20%;
+
+            a {
+                padding-right: 9px; // $tabs_paddingX / 2;
+                padding-left: 9px; // $tabs_paddingX / 2;
+            }
+
+            i {
+                width: $ssiModule_contest_headerTypeIconSize;
+                height: $ssiModule_contest_headerTypeIconSize;
+                font-size: $ssiModule_contest_headerTypeIconSize * 0.6;
+                line-height: $ssiModule_contest_headerTypeIconSize;
+                color: $brand_color_avatarTextColor;
+                font-weight: $fontWeightBold;
+                background: $brand_color_avatarBkg;
+                @include border-radius(50%);
+                &.icon-g5-ssi-stepItUp:before{
+                        -webkit-transform: scale(-1, 1);
+                        transform: scale(-1, 1);
+
+                }
+            }
+
+            span {
+                display: block;
+                margin-top: 4px;
+                font-size: $fontSizeMini;
+                line-height: $lineHeightMini;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        &.tabCount1 {
+            li {
+                width: 100%;
+            }
+        }
+        &.tabCount2 {
+            li {
+                width: 50%;
+            }
+        }
+        &.tabCount3 {
+            li {
+                width: 33.3%;
+            }
+        }
+        &.tabCount4 {
+            li {
+                width: 25%;
+            }
+        }
+    }
+} // .ssiContestCreateModal
+
+/* ----- IMPORTS ----- */
+@import "ssiModule";
+@import "ssiCharts";
+@import "ssiCreateEditContest";
+@import "ssiContestDetails";
+@import "ssiUpdateContest";
+@import "ssiApproveContest";
+@import "ssiClaims";

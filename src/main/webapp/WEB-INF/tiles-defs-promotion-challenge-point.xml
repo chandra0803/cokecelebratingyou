@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Promotion Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+  <!--  Promotion Header Definition -->
+  <definition name="promo.header"
+	      	  path="/promotion/challengepoint/promotionHeader.jsp">
+  </definition>
+  
+  <!--  Promotion Footer Definition -->
+  <definition name="promo.footer"
+	      	  path="/promotion/promotionFooter.jsp">
+  </definition>
+
+  <!--  Promotion Basics Definition -->
+  <definition name="promo.basics.widget"
+	      	  path="/promotion/promotionBasics.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+ 
+  <definition name="promotion.basics" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionBasicsController">
+    <put name='content' value="promo.basics.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Basics' />
+  </definition>
+  
+  <!--  Promotion Form Rules Definition 
+  <definition name="promo.form.rules.widget"
+	      	  path="/promotion/promotionFormRules.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.form.rules" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionFormRulesController">
+    <put name='content' value="promo.form.rules.widget" />
+    <put name='trackingTitle' value='Promotion Web Rules' />
+  </definition>
+  -->
+
+  <!--  Promotion Audience Definition -->
+  <definition name="promo.audience.widget"
+	      	  path="/promotion/promotionAudienceShell.jsp"
+              controllerClass="com.biperf.core.ui.promotion.PromotionAudienceController">
+	<put name="promotion.header" value="promo.header" />
+	<put name="audiencePageTop" value="/promotion/goalquest/promotionAudienceTop.jsp" />
+	<put name="audiencePageBottom" value="/promotion/goalquest/promotionAudienceBottom.jsp" />
+	<put name="partneraudiencePage" value="/promotion/goalquest/promotionPartnerAudience.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.audience" extends="beacon.default">
+    <put name="content" value="promo.audience.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Audience' />
+  </definition>
+
+  <definition name="promotion.audience.paxlist" extends="beacon.printerFriendly">
+    <put name="content" value="/promotion/promotionAudiencePaxList.jsp" />
+    <put name='trackingTitle' value='CP_Promotion_Audience_PaxList' />
+  </definition>
+
+  <!--  Promotion Payout Definition -->
+  <definition name="promo.payout.widget"
+	      	  path="/promotion/goalquest/promotionGoalPayout.jsp"
+	      	  controllerClass="com.biperf.core.ui.promotion.ChallengePointPayoutController">
+	<put name="promotion.header" value="promo.header" />
+    <put name="payoutTable" value="" /> 
+    <put name="challengePointFields" value="/promotion/challengepoint/challengePointPayoutFields.jsp" /> 
+<!--    <put name="parentPayoutTable" value="" />
+        <put name="payoutStackRankBottomTable" value="" />
+        <put name="parentPayoutStackRankBottomTable" value="" /> -->
+	<put name="promotion.footer" value="promo.footer" />	
+  </definition>
+  
+  <definition name="promotion.payout" extends="beacon.default">
+    <put name='content' value="promo.payout.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Payout' />
+  </definition>
+
+  <!--  Manager Override Definition -->
+  <definition name="promo.manageroverride.widget"
+	      	  path="/promotion/goalquest/promotionManagerOverride.jsp"
+	      	  controllerClass="com.biperf.core.ui.promotion.PromotionCPManagerOverrideController">
+	<put name="promotion.header" value="promo.header" />
+    <put name="overrideTable" value="" />
+	<put name="promotion.footer" value="promo.footer" />	
+  </definition>
+  
+  <definition name="promotion.manageroverride" extends="beacon.default">
+    <put name='content' value="promo.manageroverride.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Manager_Override' />
+  </definition>
+  
+  <!--  Promotion Sweepstakes Definition -->
+  <definition name="promo.sweepstakes.widget"
+	      	  path="/promotion/promotionSweepstakes.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotionSweepstakesMiddle" value="/promotion/promotionSweepstakesMiddle.jsp" />
+	<put name="promotionSweepstakesJS" value="/promotion/productclaim/promotionSweepstakesJS.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.sweepstakes" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionSweepstakesController">
+    <put name="content" value="promo.sweepstakes.widget" />
+    <put name='trackingTitle' value='CP_Promotion_SweepStakes' />
+  </definition>
+  
+  <!--  Promotion Approvals Definition -->
+  <definition name="promo.approval.widget"
+	      	  path="/promotion/promotionApproval.jsp"
+            controllerClass="com.biperf.core.ui.promotion.PromotionApprovalController">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.approval" extends="beacon.default">
+    <put name='content' value="promo.approval.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Approval' />
+  </definition>
+  
+  <!--  Promotion Notifications Definition -->
+  <definition name="promo.notification.widget"
+	      	  path="/promotion/challengepoint/promotionNotification.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.notification" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionNotificationController">
+    <put name='content' value="promo.notification.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Notification' />
+  </definition>
+  
+  <!--  Promotion Web Rules Definition -->
+  <definition name="promo.webrules.widget"
+	      	  path="/promotion/promotionWebRules.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="mgrAndPrtnrAudience" value="/promotion/goalquest/promotionGoalQuestWebRules.jsp" />
+	<put name="promotion.footer" value="promo.footer" />	 
+  </definition>
+  
+  <definition name="promotion.webrules" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionWebRulesController">
+    <put name='content' value="promo.webrules.widget" />
+    <put name='trackingTitle' value='CP_Promotion_WebRules' />
+  </definition>
+  
+  <!--  Promotion partner Payout Definition -->
+  <definition name="promo.partnerpayout.widget" extends="beacon.default" 
+	      	  path="/promotion/goalquest/promotionGoalPartnerPayout.jsp"
+	      	  controllerClass="com.biperf.core.ui.promotion.PromotionGoalPartnerPayoutController">
+	<put name="promotion.header" value="promo.header" />
+  	<put name="promotion.footer" value="promo.footer" />
+   <put name='trackingTitle' value='CP_Partner_Payout_Widget' />	
+ 
+  </definition>
+  
+  <definition name="promotion.partnerpayout" extends="beacon.default">
+    <put name='content' value="promo.partnerpayout.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Partner_Payout' />
+  </definition>
+  
+  <definition name="promotion.translations" extends="beacon.default"
+  			controllerClass="com.biperf.core.ui.promotion.PromotionTranslationsController">
+    <put name='content' value="promo.translations.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Translations' />
+  </definition>
+  
+   <definition name="promo.translations.widget"
+            path="/promotion/promotionTranslations.jsp">
+  	<put name="promotion.header" value="promo.header" />
+  	<put name="promotion.footer" value="promo.footer" />  
+  </definition>
+  
+  <definition name="promotion.bill.code" extends="beacon.default"
+  			controllerClass="com.biperf.core.ui.promotion.PromotionBillCodesController">
+    <put name='content' value="promotion.bill.code.widget" />
+    <put name='trackingTitle' value='Recognition_Bill_Codes' />
+  </definition>
+  <definition name="promotion.bill.code.widget"
+            path="/promotion/promotionBillCodes.jsp">
+  	<put name="promotion.header" value="promo.header" />
+  	<put name="promotionBillCodeJS" value="/promotion/promotionBillCodeJS.jsp" />
+  	<put name="promotion.footer" value="promo.footer" />  
+  </definition>  
+</tiles-definitions>

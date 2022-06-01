@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.claim.ClaimItem" table="CLAIM_ITEM" abstract="true">
+
+    <id name="id" type="java.lang.Long" column="CLAIM_ITEM_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CLAIM_ITEM_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <property name="serialId" type="string" column="SERIAL_ID" />
+
+    <property name="approvalStatusType" column="APPROVAL_STATUS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ApprovalStatusType</param>
+      </type>
+    </property>
+
+    <property name="promotionApprovalOptionReasonType" column="APPROVAL_OPTION_REASON_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.PromotionApprovalOptionReasonType</param>
+      </type>
+    </property>
+
+    <property name="dateApproved" column="DATE_APPROVED" type="timestamp" />
+        
+    <property name="levelSelect" type="string" column="ADIH_LEVEL_SELECT" /><!-- Client customization for WIP #56492 -->
+    
+    <set name="approvableItemApprovers" table="CLAIM_ITEM_APPROVER"  inverse="true" cascade="all-delete-orphan,merge" >
+      <key column="CLAIM_ITEM_ID" not-null="true" />
+      <one-to-many class="com.biperf.core.domain.claim.ClaimItemApprover"/>
+    </set>
+        
+<!--    <many-to-one name="approver" column="APPROVER_USER_ID" class="com.biperf.core.domain.user.User" />-->
+    <many-to-one name="claim" column="CLAIM_ID" class="com.biperf.core.domain.claim.Claim" not-null="true" lazy="false" />
+
+  </class>
+</hibernate-mapping>

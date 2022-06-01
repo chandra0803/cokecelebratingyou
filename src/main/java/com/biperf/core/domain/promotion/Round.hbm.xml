@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.Round" table="THROWDOWN_ROUND">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="ROUND_ID">
+			<generator class="seqhilo">
+				<param name="sequence">td_round_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED" />
+	      <column name="MODIFIED_BY" />
+	    </property>
+
+		<property name="startDate" type="java.util.Date" column="START_DATE"/>
+		<property name="endDate" type="java.util.Date" column="END_DATE"/>
+		<property name="roundNumber" type="int" column="ROUND_NUMBER"/>
+		<property name="payoutsIssued" type="boolean" column="PAYOUTS_ISSUED"/>
+
+    	<many-to-one name="division" column="DIVISION_ID" not-null="true" lazy="proxy" insert="false" update="false"/>
+		
+		<set name="matches" table="THROWDOWN_MATCH" lazy="true" inverse="true" cascade="all-delete-orphan">
+		   <key column="ROUND_ID" not-null="true" />
+		   <one-to-many class="com.biperf.core.domain.promotion.Match"/>
+		</set>  
+    
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.round.getCurrentRound">
+	<return alias="tdRound" class="com.biperf.core.domain.promotion.Round" />
+	<![CDATA[
+	      SELECT distinct {tdRound.*}
+	      from throwdown_round tdRound, throwdown_division tdDivision, promo_throwdown tdPromo 
+	      where tdRound.division_id = tdDivision.division_id 
+	      and tdDivision.promotion_id = tdPromo.promotion_id
+	      and tdDivision.division_id = :divisionId
+	      and tdPromo.promotion_id = :promotionId
+		  and TRUNC(:currentDate) between TRUNC(tdRound.start_date) and TRUNC(tdRound.end_date)	      
+  		 ]]>
+	</sql-query>	
+	
+	<sql-query name="com.biperf.core.domain.round.isRoundPaidForDivisionPayouts">
+		<return-scalar column="count" type="long"/>
+		<![CDATA[
+		  select count(*) as count from throwdown_round tdRound, throwdown_division tdDivision, promotion promo 
+		  where tdRound.payouts_issued = 0
+		  and tdRound.round_number = :roundNumber  
+		  and promo.promotion_id = :promotionId  
+		  and tdRound.division_id = tdDivision.division_id
+		  and tdDivision.promotion_id = promo.promotion_id
+    ]]>
+	</sql-query>		
+	
+	<sql-query name="com.biperf.core.domain.round.isRoundCompleted">
+		<return-scalar column="count" type="long"/>
+		<![CDATA[
+		  select count(*) as count from throwdown_round tdRound, throwdown_division tdDivision, promotion promo 
+		  where tdRound.round_number = :roundNumber  
+		  and TRUNC(:currentDate) > TRUNC(tdRound.end_date)
+		  and promo.promotion_id = :promotionId  
+		  and tdRound.division_id = tdDivision.division_id
+		  and tdDivision.promotion_id = promo.promotion_id
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.round.isRoundStarted">
+		<return-scalar column="count" type="long"/>
+		<![CDATA[
+		  select count(*) as count from throwdown_round tdRound, throwdown_division tdDivision, promotion promo 
+		  where tdRound.round_number = :roundNumber  
+		  and TRUNC(:currentDate) >= TRUNC(tdRound.start_date)
+		  and promo.promotion_id = :promotionId  
+		  and tdRound.division_id = tdDivision.division_id
+		  and tdDivision.promotion_id = promo.promotion_id
+    ]]>
+	</sql-query>	
+	
+</hibernate-mapping>

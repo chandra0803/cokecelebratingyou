@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.workhappier.WorkHappierScore" table="WORKHAPPIER_SCORE">
+
+    <id name="id" type="java.lang.Long" column="WORKHAPPIER_SCORE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">WORKHAPPIER_SCORE_ID_PK_SQ</param>
+      </generator>
+    </id>
+    
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    <many-to-one name="workHappier" column="WORKHAPPIER_ID" class="com.biperf.core.domain.workhappier.WorkHappier" lazy="false" not-null="true"/>
+	<property name="userId" type="java.lang.Long" column="USER_ID" />
+	<property name="nodeId" type="java.lang.Long" column="NODE_ID" />
+	<property name="score" type="java.lang.Long" column="SCORE" />
+	
+	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.workhappier.getWHScore">
+	<return alias="workHappierScore" class="com.biperf.core.domain.workhappier.WorkHappierScore"/>
+	<![CDATA[
+	 SELECT *
+     FROM
+     (SELECT *
+     FROM workhappier_score
+     WHERE user_id = :userId
+     ORDER BY date_created DESC
+     )
+     WHERE ROWNUM <= :numberOfScores  
+    ]]>
+  </sql-query>
+  
+</hibernate-mapping>
+

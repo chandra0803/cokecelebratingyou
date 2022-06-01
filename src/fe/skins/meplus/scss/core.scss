@@ -1,0 +1,75 @@
+// Core application variables and measurements
+// -------------------------
+// CORE APPLICATION VARIABLES AND MEASUREMENTS
+@import "base/colors";
+@import "base/variables";
+@import "base/mixins";
+
+// this variable makes it possible to import these files without outputting all the css
+// in this file, we obviously want the output
+$base_variablesOnly: false;
+
+// @font-face fonts
+@import "fonts";
+
+// 3rd party goodies
+@import "compass/css3";
+@import "partials/bootstrap/bootstrap";
+@import "partials/bootstrap/responsive";
+
+// shared things
+@import "base/typography";
+@import "base/buttons";
+@import "base/button-groups";
+@import "base/animations";
+@import "base/styleGuide";
+
+// library-type things
+@import "base/font-awesome";
+@import "base/font-awesome-extended";
+@import "base/simple-icons";
+@import "base/jHtmlArea.patchedG5";
+@import "base/spellchecker";
+@import "base/responsiveTables";
+@import "base/video-js.min";
+
+// overall platform parts
+@import "base/global";
+@import "base/globalHeader";
+@import "base/globalSidebar";
+@import "base/pageNav";
+@import "base/globalFooter";
+
+// pages
+@import "base/pages";
+@import "base/pagesWithoutViews";
+@import "apps/contactForm";
+
+// widgets etc...
+@import "base/autoModals";
+@import "base/cards";
+@import "base/datepicker";
+@import "apps/drawTool";
+@import "base/generic";
+@import "base/forms";
+@import "base/icons";
+@import "base/modals";
+@import "base/navs";
+@import "base/pagination";
+@import "base/participantPopover";
+@import "base/paxSearchView";
+// @import "base/participantSearch"; // I think this is unneeded
+@import "base/participantCollectionView";
+@import "base/participantItem";
+@import "base/popovers";
+@import "base/progress-bars";
+@import "base/qtip";
+@import "base/qtip-extended";
+@import "base/sharePopover";
+@import "base/slider.patchedG5";
+@import "base/stackModal";
+@import "base/tables";
+@import "base/underarmour";
+@import "base/wizardTabsView";
+
+// @import "apps/paxSearchReact";

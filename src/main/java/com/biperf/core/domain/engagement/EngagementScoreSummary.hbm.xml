@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.engagement.EngagementScoreSummary" table="ENGAGEMENT_SCORE_SUMMARY">
+        <id name="id" column="ENGAGEMENT_SUMMARY_ID" type="java.lang.Long">
+          <generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">ENGAGEMENT_SCORE_SUM_ID_SEQ</param>
+		  </generator>
+        </id>
+        
+        <!-- Using version number optimistic locking -->
+	    <version name="version" column="VERSION" type="java.lang.Long" />
+	
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+        <property name="recordType" type="string" column="RECORD_TYPE" />
+        <property name="transMonth" type="java.lang.Integer" column="TRANS_MONTH" />
+        <property name="transYear" type="java.lang.Integer" column="TRANS_YEAR" />
+        <property name="score" type="java.lang.Long" column="SCORE" />
+        <property name="totalParticipantCount" type="java.lang.Long" column="TOTAL_PARTICIPANT_COUNT" />
+        <property name="receivedCount" type="java.lang.Long" column="RECEIVED_COUNT" />
+        <property name="sentCount" type="java.lang.Long" column="SENT_COUNT" />
+        <property name="connectedToCount" type="java.lang.Long" column="CONNECTED_TO_COUNT" />
+        <property name="connectedFromCount" type="java.lang.Long" column="CONNECTED_FROM_COUNT" />
+        <property name="loginActivityCount" type="java.lang.Long" column="LOGIN_ACTIVITY_COUNT" />
+        
+        <set name="engagementBehaviorSummaries" table="ENGAGEMENT_BEHAVIOR_SUMMARY" inverse="true" cascade="all-delete-orphan" lazy="false">
+   			<key column="SUMMARY_ID" />
+   			<one-to-many class="com.biperf.core.domain.engagement.EngagementBehaviorSummary" />
+   		</set>
+	
+        <many-to-one name="node" column="NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" lazy="false"/>
+
+        <many-to-one name="parentNode" column="PARENT_NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" lazy="false"/>
+
+    </class>
+</hibernate-mapping>

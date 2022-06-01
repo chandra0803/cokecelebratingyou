@@ -1,0 +1,32 @@
+CREATE TABLE country_suppliers
+(country_id             NUMBER (12)     NOT NULL,
+  supplier_id            NUMBER (18)     NOT NULL,
+  is_primary             NUMBER(1),
+  created_by             NUMBER (18)     NOT NULL,
+  date_created           DATE            NOT NULL,
+  modified_by            NUMBER(18),
+  date_modified          DATE  
+ )
+/
+ALTER TABLE country_suppliers ADD (
+CONSTRAINT country_suppliers_country_fk 
+    FOREIGN KEY (country_id) 
+ REFERENCES country (country_id))
+/
+ALTER TABLE country_suppliers ADD (
+CONSTRAINT country_suppliers_supplier_fk 
+    FOREIGN KEY (supplier_id) 
+ REFERENCES supplier (supplier_id))
+/
+CREATE INDEX country_supplrs_country_fk_idx ON country_suppliers
+  (country_ID)
+/
+CREATE INDEX country_supplrs_supplr_fk_idx ON country_suppliers
+  (SUPPLIER_ID)
+/
+COMMENT ON TABLE country_suppliers IS 'The country_supplier table lists avaliable suppliers for a country.'
+/
+COMMENT ON COLUMN country_suppliers.supplier_id IS 'Id that identifies a specific supplier.'
+/
+COMMENT ON COLUMN country_suppliers.country_id IS 'Id that identifies a specific country.'
+/

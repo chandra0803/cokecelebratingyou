@@ -1,0 +1,156 @@
+{{#if invalid}}
+    <!-- nothing -->
+{{else}}
+<tr class="participant-item"
+        data-participant-cid="{{cid}}"
+        data-participant-id="{{id}}">
+
+    <td class="participant">
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].userId" value="{{id}}" />
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].firstName" value="{{firstName}}" />
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].lastName" value="{{lastName}}" />
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].countryCode" value="{{countryCode}}" />
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].countryRatio" value="{{countryRatio}}" />
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].countryName" value="{{countryName}}" />
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].jobName" value="{{jobName}}" />
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].departmentName" value="{{departmentName}}" />
+        <!--Custom for Coca-cola based on wip#42701 added currency-->
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].currency" value="{{#if currency}}{{currency}}{{else}}USD{{/if}}" />    
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].nodeId" value="{{_selNode.id}}" class="recipNodeIdInp" id="recipNodeIdInp{{id}}" />
+        <input type="hidden" name="{{_paxName}}[{{autoIndex}}].nodes" value="{{_nodesJsonString}}" />
+
+        <a class="participant-popover" href="#" data-participant-ids="[{{id}}]">
+            {{lastName}}, {{firstName}}
+            {{#if countryCode}}<img src="img/flags/{{countryCode}}.png" alt="{{countryCode}}" class="countryFlag" title="{{countryName}}" />{{/if}}
+        </a>
+
+        {{#unless orgName}}
+        {{#if nodes}}
+        {{#isSingle nodes}}
+            {{! single node }}
+            <span class="orgnamestyle">{{../_selNode.name}}</span>
+
+        {{else}}
+            {{! multiple nodes, first node is default node}}
+            <a class="showRecipNodes" id="recipNodeNameDisp{{id}}" href="#">
+                <span class="limitedWidth">{{_selNode.name}}</span>
+            </a>
+
+            <div class="changeRecipNodeTip" style="display:none">
+                <ul class="unstyled">
+                    {{#nodes}}
+                        <li><span data-node-id="{{id}}"
+                            data-input-id="recipNodeIdInp{{../id}}"
+                            data-disp-id="recipNodeNameDisp{{../id}}"
+                            data-recipient-id="{{../id}}">{{name}}</span></li>
+                    {{/nodes}}
+                </ul>
+            </div>
+        {{/isSingle}}
+        {{/if}}
+        {{/unless}}
+        {{#if orgName}}<span class="orgnamestyle">{{orgName}}</span>{{/if}}
+<div class="org">{{#if departmentName}}{{departmentName}}{{/if}} {{#if jobName}}{{#if departmentName}}&bull;{{/if}} {{jobName}}{{/if}}<div>
+
+    </td>
+
+    {{#if _isAwardRange}}
+
+    <td class="award">
+        <input type="number"
+            class="input-small awardPointsInp{{#if optOutAwards}} optOut{{/if}}"{{#if optOutAwards}} disabled="disabled" data-msg="user opted out of awards"{{/if}}
+            name="{{_paxName}}[{{autoIndex}}].awardQuantity"
+            value="{{#if optOutAwards}}0{{else}}{{#if awardQuantity}}{{awardQuantity}}{{else}}0{{/if}}{{/if}}"
+            data-msg-err-out-of-range="out of range"
+			data-fill-award="fill award amount"
+            autocomplete="off" />
+    </td>
+    {{/if}}
+
+    <!--Custom for Coca-cola based on wip#42701 starts-->
+     {{#if _isAwardCash}}
+        <td class="awardCash">
+          <input type="text" 
+            class="input-small awardPointsInp" 
+            name="{{_paxName}}[{{autoIndex}}].awardQuantity" 
+            value="{{#if awardQuantity}}{{awardQuantity}}{{else}}0{{/if}}" 
+            data-msg-err-out-of-range="out of range"
+            autocomplete="off" />
+        </td>
+        {{#if currency}}
+            <td class="currency"><input type="hidden" name="{{_paxName}}[{{autoIndex}}].currency" value="{{currency}}" />{{currency}}</td>
+            {{else}}
+            <td class="currency"><input type="hidden" name="{{_paxName}}[{{autoIndex}}].currency" value="USD" />USD</td>
+        {{/if}}
+    {{/if}}    
+    <!--Custom for Coca-cola based on wip#42701 Ends-->
+
+    {{#if _isAwardFixed}}
+    <td class="award{{#if optOutAwards}} optOut{{/if}}" {{#if optOutAwards}}data-msg="user opted out of awards"{{/if}}>
+        {{#if optOutAwards}} 0 {{else}}{{#if awardQuantity}}{{awardQuantity}}{{else}}{{_awardFixed}}{{/if}}{{/if}}
+    </td>
+    {{/if}}
+
+    {{#if _isAwardLevels}}
+    <td class="award">
+        <select name="{{_paxName}}[{{autoIndex}}].awardLevel" class="awardLevelSel{{#if optOutAwards}} optOut{{/if}}"{{#if optOutAwards}} disabled="disabled" data-msg="user opted out of awards"{{/if}}>
+            {{#_awardLevels}}
+                <option value="{{this.id}}">
+                    {{this.name}}
+                    {{#if ../_hasBudget}}
+                        {{#if this.points}} (value {{this.points}}){{/if}}
+                    {{/if}}
+                </option>
+            {{/_awardLevels}}
+        </select>
+        <a class="viewAwardLevels" title="View Awards" href="#">
+            <i class="icon-magnifier-1"></i>
+        </a>
+    </td>
+    {{/if}}
+
+    {{#if _isAwardCalc}}
+    <td class="award">
+        <input type="hidden"
+            name="{{_paxName}}[{{autoIndex}}].awardQuantity"
+            value="{{#if awardQuantity}}{{awardQuantity}}{{else}}0{{/if}}" />
+
+        <a class="calcLink btn btn-primary{{#if optOutAwards}} optOut{{/if}}" title="Calculate Award" href="#"{{#if optOutAwards}} disabled="disabled" data-msg="user opted out of awards"{{/if}}>
+            {{#if optOutAwards}}
+             0
+             {{else}}
+                {{#if awardQuantity}}
+                    {{awardQuantity}}
+                {{else}}
+                    Calculate Award
+                {{/if}}
+            {{/if}}
+        </a>
+        {{#if _isAwardCalcLevels}}
+            <a class="viewAwardLevels" title="View Awards" href="#">
+                <i class="icon-magnifier-1"></i>
+            </a>
+        {{/if}}
+    </td>
+    {{/if}}
+
+     {{#if _isAwardOther}}
+         <td class="award">
+            {{#if optOutAwards}}User has opted out{{else}}{{#if awardQuantity}}{{awardQuantity}}{{else}}{{_awardOther}}{{/if}}{{/if}}
+        </td>
+    {{/if}}
+
+    {{#if _isShowCalcCol}}
+        <td class="calcDeduction">
+            ? <!-- dynamic -->
+        </td>
+    {{/if}}
+
+    {{#if _isShowRemCol}}
+    <td class="remove">
+        <a class="remParticipantControl" title="remove this participant"><i class="icon-trash"></i></a>
+    </td>
+    {{/if}}
+
+</tr><!-- /.participant-item participantrowaward -->
+{{/if}}

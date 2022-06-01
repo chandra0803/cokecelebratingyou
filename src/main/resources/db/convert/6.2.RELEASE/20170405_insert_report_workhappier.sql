@@ -1,0 +1,5 @@
+Insert into REPORT (REPORT_ID,REPORT_CODE, CM_ASSET_CODE, REPORT_NAME_CM_KEY, REPORT_CATEGORY_TYPE, MODULE, REPORT_DESCRIPTION_CM_KEY, REPORT_URL, IS_ACTIVE, CREATED_BY, DATE_CREATED, VERSION, FORCE_PARAMETERS, EXPORT_ONLY, INCLUDED_IN_PLATEAU)
+   values (REPORT_PK_SQ.NEXTVAL,'happinessPulse','report.workhappier.happinesspulse','REPORT_NAME', 'workhappier','work.happier', 'REPORT_DESCRIPTION', '/reports/displayHappinessPulse.do?method=displaySummaryReport', 1, 1, sysdate, 0, 0, 0, 1)    
+/
+Insert into REPORT_PARAMETER (REPORT_PARAMETER_ID, REPORT_ID, PARAMETER_NAME, PARAMETER_CM_KEY, DATABASE_COLUMN, PARAMETER_TYPE, LIST_DEFINITION, PARAMETER_GROUP, SEQUENCE_NUM, CREATED_BY, DATE_CREATED, MODIFIED_BY, DATE_MODIFIED, VERSION, COLLECTION_NAME, DEFAULT_VALUE) 
+   values (report_parameter_pk_sq.NEXTVAL,(SELECT Report_Id FROM Report  WHERE Report_Code = 'happinessPulse'),'selectMonth','SELECT_MONTH','monthTypeList','selectQuery','com.biperf.core.domain.report.reportParameterValueChoices.listOfMonths','TIME_FRAME',0,5661,to_date('20-AUG-12','DD-MON-RR'),5661,to_date('20-AUG-12','DD-MON-RR'),0,'monthTypeList','happy')

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+   <class name="com.biperf.core.domain.fileload.LeaderBoardImportRecord" table="STAGE_LEADERBOARD_LOAD">
+   
+      <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+      <id name="id" type="java.lang.Long" column="IMPORT_RECORD_ID">
+        <generator class="seqhilo">
+           <param name="max_lo">0</param> <param name="sequence">IMPORT_RECORD_PK_SQ</param>
+        </generator>
+      </id>
+      
+     <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID"/>
+    <property name="userName" type="java.lang.String" column="USER_NAME"/>
+    <property name="score" type="java.lang.Long" column="SCORE"/>
+    <property name="version" type="java.lang.Long" column="VERSION"/>
+    <property name="userId" type="java.lang.String" column="USER_ID"/>
+    
+    <set name="importRecordErrors" table="IMPORT_RECORD_ERROR" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_RECORD_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ImportRecordError"/>
+    </set>
+   
+   </class>
+   
+   <query name="com.biperf.core.domain.import.file.LeaderBoardImportRecordsByPage">
+    <![CDATA[
+		from com.biperf.core.domain.fileload.LeaderBoardImportRecord leaderBoardImportRecord
+	   where leaderBoardImportRecord.importFileId = :importFileId 
+    ]]>
+  </query>
+  
+  	<sql-query name="com.biperf.core.domain.import.file.LeaderBoardImportRecordsByPageWithoutError">
+	<return alias="lb" class="com.biperf.core.domain.fileload.LeaderBoardImportRecord"/>
+	    <![CDATA[
+	      select {lb.*}  from stage_leaderboard_load lb
+	      where lb.import_file_id = :importFileId 
+	      and NOT EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = lb.import_record_id
+                      AND ire.import_file_id = lb.import_file_id)
+	      order by lb.USER_ID asc
+	    ]]>
+	 </sql-query>
+  
+	<sql-query name="com.biperf.core.domain.import.file.LeaderBoardImportRecordsByPageWithError">
+	<return alias="lb" class="com.biperf.core.domain.fileload.LeaderBoardImportRecord"/>
+	    <![CDATA[
+	     select {lb.*} from stage_leaderboard_load lb
+          where lb.import_file_id = :importFileId 
+          and EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                     WHERE ire.import_record_id = lb.import_record_id
+                     AND ire.import_file_id = lb.import_file_id)
+	      order by lb.USER_ID asc
+	    ]]>
+	  </sql-query>  
+  
+       
+</hibernate-mapping>

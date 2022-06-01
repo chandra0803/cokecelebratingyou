@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<subclass name="com.biperf.core.domain.activity.MerchOrderActivity" extends="com.biperf.core.domain.activity.RecognitionActivity" discriminator-value="merchorder">
+  <many-to-one name="merchOrder" column="MERCH_ORDER_ID" not-null="false" lazy="proxy" />
+</subclass>
+
+  <query name="com.biperf.core.domain.activity.activityByMerchOrderId">
+    <![CDATA[
+		from com.biperf.core.domain.activity.Activity activity
+		where activity.merchOrder.id = :merchOrderId 
+	]]>
+   </query>
+   
+</hibernate-mapping>

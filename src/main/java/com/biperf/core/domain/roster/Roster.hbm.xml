@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="false">
+
+ 	<sql-query name="com.biperf.core.domain.roster.getAudienceIdByAudienceUUId">
+		<return-scalar column="audience_id" type="long"/>
+		<![CDATA[
+     	 	select audience_id from audience where audience_uuid=:rosterAudienceUUId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getUserIdByRosterPersonUUId">
+		<return-scalar column="user_id" type="long"/>
+		<![CDATA[
+     	 	select user_id from application_user where rosterpersonid=:rosterPersonUUId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getNodeIdByRosterNodeUUId">
+		<return-scalar column="node_id" type="long"/>
+		<![CDATA[
+     	 	select node_id from node where node_uuid=:rosterNodeUUId
+    	]]>
+	</sql-query>	
+	
+	<sql-query name="com.biperf.core.domain.roster.getHierarchyIdByHierarchyUUId">
+		<return-scalar column="hierarchy_id" type="long"/>
+		<![CDATA[
+     	 	select hierarchy_id from hierarchy where hierarchy_uuid=:rosterHierarchyUUId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getAudienceUUIdByAudienceId">
+		<return-scalar column="audience_uuid" type="string"/>
+		<![CDATA[
+     	 	select audience_uuid from audience where audience_id=:audienceId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getRosterPersonUUIdByUserId">
+		<return-scalar column="rosterpersonid" type="string"/>
+		<![CDATA[
+     	 	select rosterpersonid from application_user where user_id=:userId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getHierarchyUUIdByHierarchyId">
+		<return-scalar column="hierarchy_uuid" type="string"/>
+		<![CDATA[
+     	 	select hierarchy_uuid from hierarchy where hierarchy_id=:hierarchyId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getNodeUUIdByNodeId">
+		<return-scalar column="node_uuid" type="string"/>
+		<![CDATA[
+     	 	select node_uuid from node where node_id=:nodeId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getAudienceUUIDsByAudienceIds">
+		<return-scalar column="audience_uuid" type="string"/> 
+		<![CDATA[
+			select audience_uuid from audience where audience_id in ( :audienceIds )
+		]]>
+	</sql-query>
+	
+		<sql-query name="com.biperf.core.domain.roster.getNodeUUIDsByNodeIds">
+		<return-scalar column="node_uuid" type="string"/> 
+		<![CDATA[
+			select node_uuid from node where node_id in ( :allNodeIds )
+		]]>
+	</sql-query>	
+	
+	<sql-query name="com.biperf.core.domain.roster.getAudiencesDetailsByUserId">
+	<return-scalar column="companyId" type="string"/> 
+	<return-scalar column="audienceUUID" type="string"/> 
+	<return-scalar column="audienceName" type="string"/> 
+	<return-scalar column="type" type="string"/>
+	<return-scalar column="isPublic" type="boolean"/> 
+	<![CDATA[SELECT (select company_id from company) companyId, a.audience_uuid audienceUUID, a.name audienceName, a.list_type type, a.is_audience_public isPublic FROM audience a, participant_audience pa, application_user au WHERE a.audience_id = pa.audience_id(+) AND pa.user_id = au.user_id(+) AND au.user_id = :userId]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getHierarchyDetailsByHierarchyId">
+	<return-scalar column="companyId" type="string"/> 
+	<return-scalar column="nodeUUID" type="string"/> 
+	<return-scalar column="role" type="string"/> 
+	<return-scalar column="name" type="string"/>
+	<return-scalar column="hierarchyUUID" type="string"/> 
+	<return-scalar column="parentNodeUUID" type="string"/> 
+	<![CDATA[SELECT (select company_id from company) companyId, n.node_uuid nodeUUID, un.role role, n.name name, (select hierarchy_uuid  from hierarchy where is_active = 1 and hierarchy_id = n.hierarchy_id) hierarchyUUID, p.node_uuid parentNodeUUID FROM node n, user_node un, node p WHERE n.node_id = un.node_id AND n.parent_node_id = p.node_id AND un.user_id = :userId]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getEmailAddressesByUserId">
+	<return-scalar column="userId" type="long"/> 
+	<return-scalar column="address" type="string"/> 
+	<return-scalar column="label" type="string"/> 
+	<![CDATA[select USER_ID userId, EMAIL_ADDR address, EMAIL_TYPE label from USER_EMAIL_ADDRESS where USER_ID = :userId]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getPhonesDetailsByUserId">
+	<return-scalar column="userId" type="long"/> 
+	<return-scalar column="phoneNumber" type="string"/> 
+	<return-scalar column="phoneExtn" type="string"/>
+	<return-scalar column="type" type="string"/>
+	<return-scalar column="code" type="string"/> 
+	<![CDATA[select USER_ID userId, PHONE_NBR phoneNumber, PHONE_EXT phoneExtn, PHONE_TYPE type, COUNTRY_PHONE_CODE code from USER_PHONE where USER_ID = :userId]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.roster.getAddressesDetailsByUserId">
+	<return-scalar column="userAddressId" type="long"/>
+	<return-scalar column="addressType" type="string"/> 
+	<![CDATA[SELECT USER_ADDRESS_ID userAddressId, ADDRESS_TYPE addressType FROM USER_ADDRESS WHERE USER_ID = :userId AND ADDRESS_TYPE IS NOT NULL]]>
+	</sql-query>
+	
+</hibernate-mapping>

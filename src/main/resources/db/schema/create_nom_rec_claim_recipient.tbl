@@ -1,0 +1,46 @@
+CREATE TABLE claim_recipient (
+ claim_item_id    NUMBER(18) NOT NULL,
+ participant_id   NUMBER(18),
+ node_id          NUMBER(18),
+ award_qty        NUMBER(18,4),
+ cash_award_qty   NUMBER(18,4),
+ PROMO_MERCH_COUNTRY_ID NUMBER(18), 
+ PROMO_MERCH_PROGRAM_LEVEL_ID NUMBER(18),
+ PRODUCT_ID varchar2(40),
+ calculator_score NUMBER(10),
+ NOTIFICATION_DATE        DATE,
+ WINNER_MODAL_VIEWED NUMBER(1) DEFAULT 0
+ ) 
+/
+ALTER TABLE claim_recipient
+ADD CONSTRAINT claim_recipient_pk PRIMARY KEY (claim_item_id)
+USING INDEX
+/
+ALTER TABLE claim_recipient ADD CONSTRAINT claim_recipient_participant_fk
+  FOREIGN KEY (participant_id) REFERENCES PARTICIPANT (user_id) 
+/
+ALTER TABLE CLAIM_RECIPIENT
+	ADD CONSTRAINT claim_rec_prog_level_fk
+  FOREIGN KEY (PROMO_MERCH_PROGRAM_LEVEL_ID ) REFERENCES PROMO_MERCH_PROGRAM_LEVEL(PROMO_MERCH_PROGRAM_LEVEL_ID )
+/
+CREATE INDEX CLAIM_REC_RECIP_FK_idx ON CLAIM_RECIPIENT
+  (participant_id)
+/
+COMMENT ON TABLE claim_recipient IS 'Association table'
+/
+COMMENT ON COLUMN claim_recipient.claim_item_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN claim_recipient.participant_id IS 'Represents the recipient. FK to Participant.'
+/
+COMMENT ON COLUMN claim_recipient.node_id IS 'The node associated with this claim and recipient.'
+/
+COMMENT ON COLUMN claim_recipient.award_qty IS 'Qty of award for this claim'
+/
+COMMENT ON COLUMN claim_recipient.PROMO_MERCH_COUNTRY_ID IS 'The promotion merchandise country'
+/
+COMMENT ON COLUMN claim_recipient.PROMO_MERCH_PROGRAM_LEVEL_ID IS 'The program merchandise level awarded'
+/
+COMMENT ON COLUMN claim_recipient.PRODUCT_ID IS 'the specific product set id (product) awarded'
+/
+COMMENT ON COLUMN claim_recipient.WINNER_MODAL_VIEWED IS 'Indicates if the Nomination Winner viewed the Modal window after logging in'
+/

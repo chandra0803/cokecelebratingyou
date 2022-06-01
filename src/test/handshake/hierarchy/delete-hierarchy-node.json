@@ -1,0 +1,93 @@
+{
+  "description": "Deleete a hierarchy node",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+	"name":"Bonfire Uber Corp"
+  },
+  "steps": [
+    {
+      "id": "createHierarchy",
+      "description": "First create a hierarchy",
+      "call": {
+        "path": "./create-hierarchy.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createHierarchy.export.newHierarchyId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createHierarchyNode",
+      "description": "POST /hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"name":"${ref:params.nodeName}",
+  			"hierarchyNodeAttributes": [
+    			{
+      			"name": "division",
+      			"value": "tester"
+    			}
+  			]
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createHierarchyNode.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createHierarchyNode.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createHierarchyNode.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.nodeName}"
+        },
+        {
+          "a": "${ref:createHierarchyNode.res.body.id}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "deleteHierarchyNode",
+      "description": "DELETE /hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes/${ref:createHierarchyNode.res.body.id}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies/${ref:createHierarchy.export.newHierarchyId}/nodes/${ref:createHierarchyNode.res.body.id}",
+        "options": {
+          "method": "delete",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:deleteHierarchyNode.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:deleteHierarchyNode.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    }
+  ]
+}

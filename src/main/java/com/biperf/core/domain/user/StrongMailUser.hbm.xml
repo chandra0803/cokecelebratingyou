@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.user.StrongMailUser" table="STRONGMAIL_USER">
+
+		<id name="id" type="java.lang.Long" column="STRONGMAIL_USER_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">STRONGMAIL_USER_PK_SQ</param>
+			</generator>
+		</id>
+
+
+	
+
+		<property name="firstName" type="java.lang.String" column="FIRST_NAME" />
+
+		<property name="lastName" type="java.lang.String" column="LAST_NAME" />
+		<property name="userName" type="java.lang.String" column="USER_NAME" />
+		<property name="password" column="PASSWORD">
+			<!-- START MD5 to SHA256 conversion code: TO BE UPDATED LATER -->
+			<!-- type name="com.biperf.core.utils.crypto.MD5UserType" / -->
+			<type name="com.biperf.core.utils.crypto.SHA256UserType" />
+			<!-- END MD5 to SHA256 conversion code: TO BE UPDATED LATER -->
+		</property>
+
+		<property name="emailAddr" type="java.lang.String" column="EMAIL_ADDR" />
+		<property name="emailStatus" type="java.lang.String" column="EMAIL_STATUS" />
+		<property name="company" type="java.lang.String" column="COMPANY" />
+		<property name="websiteUrl" type="java.lang.String" column="WEBSITE_URL" />
+		<property name="contactUrl" type="java.lang.String" column="CONTACT_URL" />
+		<property name="languageId" type="java.lang.String" column="LANGUAGE_ID" />
+		<property name="userTokenUrl" type="java.lang.String" column="USER_TOKEN_URL" />
+
+	</class>
+</hibernate-mapping>

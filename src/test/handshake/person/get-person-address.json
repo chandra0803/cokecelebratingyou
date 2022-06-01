@@ -1,0 +1,101 @@
+{
+  "description": "Create a Person Address",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "label": "bus",
+    "city": "edina"
+  },
+  "steps": [
+  	{
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createPersonAddress",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"city": "${ref:params.city}",
+  			"label": "${ref:params.label}",
+  			"country": "USA",
+  			"postalCode": "55443",
+  			"line1":"123 Main Street"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.city}",
+          "compare": "to.equal",
+          "b": "${ref:params.city}"
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.label}",
+          "compare": "to.equal",
+          "b": "Business"
+        }
+      ]
+    },
+    {
+      "id": "getPersonAddress",
+      "description": "GET /persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {}
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getPersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getPersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:getPersonAddress.res.body.addresses}",
+          "compare": "to.not.be.empty"
+        },
+        {
+          "a": "${ref:getPersonAddress.res.body.addresses}",
+          "compare": "to.containSubset",
+          "b": [ { "label": "Business", "city":"${ref:params.city}" } ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+CREATE TABLE promo_goalquest
+(promotion_id                   	NUMBER(18,0) NOT NULL,
+ GOAL_OBJECTIVE                     VARCHAR2(1000) NOT NULL,
+ GOAL_OBJECTIVE_ASSET_CODE          VARCHAR2(1000) NOT NULL,
+ goal_selection_start_date			DATE,
+ goal_selection_end_date			DATE,
+ final_process_date					DATE,
+ self_enroll_program_id				VARCHAR2(30),
+ achievement_rule					VARCHAR2(9),
+ payout_structure					VARCHAR2(9),
+ rounding_method					VARCHAR2(9),
+ apq_conversion                 NUMBER(1) DEFAULT 0 NOT NULL,
+ partner_earnings         VARCHAR2(9),
+ partner_payout_structure VARCHAR2(9),
+ AUTO_COMPLETE_PARTNERS				NUMBER(1) DEFAULT 0 NOT NULL,
+ achievement_precision				VARCHAR2(9),
+ override_structure					VARCHAR2(9),
+ LEVEL1_MGR_AWARD                   NUMBER(18,2),
+ LEVEL2_MGR_AWARD					NUMBER(18,2),
+ program_id							VARCHAR2(30),
+ goal_planning_worksheet			VARCHAR2(500), 
+ progress_load_type					VARCHAR2(9),
+ issue_awards_run					NUMBER(1) DEFAULT 0 NOT NULL,
+ ISSUE_AWARDS_RUN_DATE				DATE,
+ MANAGER_ASSET_CODE					VARCHAR2(80),
+ MANAGER_RULES_CM_KEY				VARCHAR2(80),
+ PARTNER_ASSET_CODE					VARCHAR2(80),
+ PARTNER_RULES_CM_KEY				VARCHAR2(80),
+ MANAGER_RULES_AUDIENCE_TYPE		VARCHAR2(60),
+ PARTNER_RULES_AUDIENCE_TYPE		VARCHAR2(60),
+ MERCH_CODE_TYPE					VARCHAR2(60),
+ baseunit            VARCHAR2(255),
+ baseunit_position    VARCHAR2(10),
+ PARTNER_CHARACTERISTIC				VARCHAR2(20),
+ PARTNER_COUNT						NUMBER(4)
+ )
+/
+ALTER TABLE promo_goalquest
+ADD CONSTRAINT promo_goalquest_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promo_goalquest ADD CONSTRAINT promo_goalquest_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/
+COMMENT ON TABLE promo_goalquest IS 'The promo_goalquest table is a promotion of type goalquest.'
+/
+COMMENT ON COLUMN promo_goalquest.promotion_id IS 'System-generated key that identifies a specific promotion.'
+/
+COMMENT ON COLUMN promo_goalquest.goal_selection_start_date IS 'Start date for goal selection.'
+/
+COMMENT ON COLUMN promo_goalquest.goal_selection_end_date IS 'End date for goal selection.'
+/
+COMMENT ON COLUMN promo_goalquest.final_process_date IS 'Date after which final processing can run.'
+/
+COMMENT ON COLUMN promo_goalquest.achievement_rule IS 'achievement rule - percent, fixed, or both'
+/
+COMMENT ON COLUMN promo_goalquest.payout_structure IS 'payout structure - fixed, rate, or both.'
+/
+COMMENT ON COLUMN promo_goalquest.rounding_method IS 'rounding method - actual, standard, up, or down.'
+/
+COMMENT ON COLUMN promo_goalquest.achievement_precision IS 'achievment precision - number of decimals.'
+/
+COMMENT ON COLUMN promo_goalquest.override_structure IS 'override structure'
+/
+COMMENT ON COLUMN promo_goalquest.program_id IS 'program id for merch or travel award types.'
+/
+COMMENT ON COLUMN promo_goalquest.goal_planning_worksheet IS 'the url for a goal planning worksheet'
+/
+COMMENT ON COLUMN promo_goalquest.progress_load_type IS 'the type of loads the promotion will be doing'
+/
+COMMENT ON COLUMN promo_goalquest.issue_awards_run IS 'boolean indicating if issue awards already run.'
+/
+COMMENT ON COLUMN promo_goalquest.issue_awards_run_date IS 'Date issue awards was run.'
+/
+COMMENT ON COLUMN promo_goalquest.baseunit IS 'unit value for base amount.'
+/
+COMMENT ON COLUMN promo_goalquest.baseunit_position IS 'unit value for base appending position.'
+/
+

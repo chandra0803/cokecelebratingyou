@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+ <joined-subclass name="com.biperf.core.domain.diyquiz.DIYQuiz" extends="com.biperf.core.domain.quiz.Quiz" table="DIY_QUIZ" >
+  	<key column="QUIZ_ID" not-null="true" />
+    <many-to-one name="owner" class="com.biperf.core.domain.user.User" column="OWNER_ID" lazy="false" not-null="true"/>
+    <many-to-one name="promotion" class="com.biperf.core.domain.promotion.Promotion" column="PROMOTION_ID" not-null="true" lazy="false"/>
+    <many-to-one name="badgeRule" class="com.biperf.core.domain.gamification.BadgeRule" column="BADGE_RULE_ID" not-null="false" lazy="false"/>
+    <many-to-one name="certificate" class="com.biperf.core.domain.promotion.PromotionCert" column="CERTIFICATE_ID" not-null="false" lazy="false"/>
+    <property name="startDate" type="java.util.Date" column="START_DATE" not-null="true" />
+	<property name="endDate" type="java.util.Date" column="END_DATE" not-null="true" />
+	<property name="allowUnlimitedAttempts" type="boolean" column="ALLOW_UNLIMITED_ATTEMPTS" not-null="false" />
+    <property name="maximumAttempts" type="integer" column="MAXIMUM_ATTEMPTS" not-null="false" />
+    <property name="notificationText" type="java.lang.String" column="NOTIFICATION_TEXT" not-null="false" />
+    <property name="introductionText" type="java.lang.String" column="INTRODUCTION_TEXT" not-null="false" />
+    <set name="participants" inverse="true" table="DIY_QUIZ_PARTICIPANT" cascade="all" lazy="true" > 
+		<key column="QUIZ_ID" />
+		<one-to-many class="com.biperf.core.domain.diyquiz.DIYQuizParticipant" />
+	</set>
+ </joined-subclass>
+ 
+ <query name="com.biperf.core.domain.diyquiz.getAllIncompleteDIYQuizzes">
+  	<![CDATA[
+  		from com.biperf.core.domain.diyquiz.DIYQuiz diyQuiz
+  		where status_type = :status and promotion_id = :promotionId
+  		order by upper(name)
+  	]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.diyquiz.getAllActiveDIYQuizzes">
+  	<![CDATA[
+  		from com.biperf.core.domain.diyquiz.DIYQuiz diyQuiz
+  		where status_type = :status and promotion_id = :promotionId
+  		  and start_date <= :referenceDate and end_date >= :referenceDate
+  		order by upper(name)
+  	]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.diyquiz.getAllPendingDIYQuizzes">
+  	<![CDATA[
+  		from com.biperf.core.domain.diyquiz.DIYQuiz diyQuiz
+  		where status_type = :status and promotion_id = :promotionId
+  		  and start_date > :referenceDate
+  		order by upper(name)
+  	]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.diyquiz.getAllExpiredDIYQuizzes">
+  	<![CDATA[
+  		from com.biperf.core.domain.diyquiz.DIYQuiz diyQuiz
+  		where status_type = :status and promotion_id = :promotionId
+  		  and end_date < :referenceDate
+  		order by upper(name)
+  	]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.diyquiz.getActiveQuizzesForParticipantByPromotion">
+	<return-scalar column="QUIZ_ID" type="long"/>
+	<![CDATA[
+	    SELECT distinct dq.quiz_id quiz_id
+		FROM diy_quiz dq,
+		  diy_quiz_participant dqp,
+		  quiz q
+		WHERE q.status_type    = 'compl'
+		AND q.quiz_id          = dq.quiz_id
+		AND dqp.quiz_id        = dq.quiz_id
+		AND dq.promotion_id    = :promotionId
+		AND dqp.participant_id = :participantId
+		AND dq.start_date     <= :referenceDate
+		AND dq.end_date       >= :referenceDate
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.diyquiz.getActiveQuizListForParticipantByPromotion">
+	<return-scalar column="id" type="long"/>
+	<return-scalar column="name" type="string"/>
+	<return-scalar column="allowUnlimitedAttempts" type="boolean"/>
+	<return-scalar column="maximumAttempts" type="integer"/>
+	<return-scalar column="startDate" type="date"/>
+	<return-scalar column="endDate" type="date"/>
+	<![CDATA[
+  		SELECT dq.quiz_id             AS id,
+		  q.name                      AS name,
+		  dq.maximum_attempts         AS maximumAttempts,
+		  dq.allow_unlimited_attempts AS allowUnlimitedAttempts,
+		  dq.start_date               AS startDate,
+		  dq.end_date                 AS endDate
+		FROM diy_quiz dq,
+		  diy_quiz_participant dqp,
+		  quiz q
+		WHERE q.status_type    = 'compl'
+		AND q.quiz_id          = dq.quiz_id
+		AND dqp.quiz_id        = dq.quiz_id
+		AND dq.promotion_id    = :promotionId
+		AND dqp.participant_id = :participantId
+		AND dq.start_date     <= :referenceDate
+		AND dq.end_date       >= :referenceDate
+  	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.diyquiz.getEligibleQuizzesForParticipantByPromotion">
+	<return-scalar column="id" type="long"/>
+	<return-scalar column="name" type="string"/>
+	<return-scalar column="allowUnlimitedAttempts" type="boolean"/>
+	<return-scalar column="maximumAttempts" type="integer"/>
+	<return-scalar column="startDate" type="date"/>
+	<return-scalar column="endDate" type="date"/>
+	<![CDATA[
+  		SELECT dq.quiz_id             AS id,
+		  q.name                      AS name,
+		  dq.maximum_attempts         AS maximumAttempts,
+		  dq.allow_unlimited_attempts AS allowUnlimitedAttempts,
+		  dq.start_date               AS startDate,
+		  dq.end_date                 AS endDate
+		FROM diy_quiz dq,
+		  diy_quiz_participant dqp,
+		  quiz q
+		WHERE q.status_type    = 'compl'
+		AND q.quiz_id          = dq.quiz_id
+		AND dqp.quiz_id        = dq.quiz_id
+		AND dq.promotion_id    = :promotionId
+		AND dqp.participant_id = :participantId
+  	]]>
+  </sql-query>
+  
+</hibernate-mapping>

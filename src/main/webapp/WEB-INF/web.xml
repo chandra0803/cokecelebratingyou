@@ -1,0 +1,792 @@
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<distributable />
+ 
+<listener>
+   <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+   </listener-class>
+</listener>
+  
+	<context-param>
+		<param-name>
+			javax.servlet.jsp.jstl.fmt.locale
+		</param-name>
+		<param-value>
+			en
+		</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>
+			javax.servlet.jsp.jstl.fmt.fallbackLocale
+		</param-name>
+		<param-value>
+			en
+		</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>
+			javax.servlet.jsp.jstl.fmt.localizationContext
+		</param-name>
+		<param-value>
+			com.biperf.core.ui.utils.CMResourceBundle
+		</param-value>
+	</context-param>
+
+	<!-- spring application context descriptors -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:cmsConfigBeaconApplicationContext.xml,classpath*:applicationContext-processes.xml,classpath*:datasourceContext-server.xml,classpath*:dataAccessContext-hibernate.xml,classpath*:dataAccessContext-hibernate-properties.xml,classpath*:applicationContext-fileload-template.xml,classpath*:applicationContext.xml,classpath*:webservicesContext.xml,classpath*:applicationContext-jms.xml,classpath:spring-security.xml
+		</param-value>
+	</context-param>
+
+	<!--spring security config -->
+	<context-param>
+		<param-name>springContextConfigLocation</param-name>
+		<param-value>
+			classpath:spring-security.xml
+		</param-value>
+	</context-param>
+	<context-param>
+		<param-name>LBD_helpLinkMode</param-name>
+		<param-value>image</param-value>
+	</context-param>
+
+	<context-param>
+		<description>Spring Expression Language Support</description>
+		<param-name>springJspExpressionSupport</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+
+	<!-- PLEASE NOTE: ORDER OF FILTERS IS IMPORTANT HERE. -->
+	<filter>
+       <filter-name>HttpAllowMethodsFilter</filter-name>
+       <filter-class>com.biperf.core.ui.servlet.HttpAllowMethodsFilter</filter-class>
+    </filter>
+    
+	<filter>
+       <filter-name>RosterResponseFilter</filter-name>
+       <filter-class>com.biperf.core.ui.servlet.RosterResponseFilter</filter-class>
+    </filter>    
+    
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>SitedownFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.SitedownFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>ParameterFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.ParameterFilter
+		</filter-class>
+	</filter>
+
+ 	<filter>
+		<filter-name>mobileAuthenticatedFilter</filter-name>
+		<filter-class>com.biperf.core.ui.mobilerecogapp.AuthenticatedFilter
+		</filter-class>
+	</filter>
+ 
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+		<init-param>
+			<param-name>targetClass</param-name>
+			<param-value>org.springframework.security.web.FilterChainProxy
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>init</param-name>
+			<param-value>lazy</param-value>
+		</init-param>
+	</filter>
+
+	<!-- The security filter must be the first filter that accesses the session 
+		in the FilterChain since it does a getSession(false) -->
+
+	<!-- filter that examines incoming requests and sets app/language values 
+		for use by CM tags -->
+
+	<filter>
+		<filter-name>switchProfileFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.SwitchProfileFilter
+		</filter-class>
+	</filter>
+	
+	<filter>
+		<filter-name>cmsContentReaderFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.CmsContentReaderFilter
+		</filter-class>
+	</filter>
+	
+	<filter>
+	   <filter-name>JwtAuthenticationTokenFilter</filter-name>
+	   <filter-class>com.biperf.core.ui.servlet.JwtAuthenticationTokenFilter</filter-class>
+	</filter>	
+
+	<filter>
+		<filter-name>IPAccessFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.IPAccessFilter</filter-class>
+	</filter>
+
+
+	<filter>
+		<filter-name>SSOTestFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.SSOTestFilter</filter-class>
+	</filter>
+	
+	<filter>
+    	<filter-name>ssoLogoutRedirectFilter</filter-name>
+    	<filter-class>com.biperf.core.ui.filter.SSOLogoutRedirectFilter</filter-class>
+  	</filter>
+  <!-- 
+	<filter>
+		<filter-name>moduleAccessFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.ModuleAccessFilter
+		</filter-class>
+	</filter>
+ -->
+	<filter>
+		<filter-name>clientStateFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.clientstate.ClientStateFilter
+		</filter-class>
+	</filter>
+
+	<filter>
+    	<filter-name>notAuthTimeoutRedirectFilter</filter-name>
+	    <filter-class>com.biperf.core.ui.filter.NotAuthTimeoutRedirectFilter</filter-class>
+  	</filter>
+
+	<filter>
+		<filter-name>ExportResponseOverrideFilter</filter-name>
+		<filter-class>org.displaytag.filter.ResponseOverrideFilter
+		</filter-class>
+	</filter>
+
+	<!-- trims spaces off of request parameters -->
+	<filter>
+		<filter-name>trimmingFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.TrimmingFilter</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>purlRecipientFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.PurlRecipientAccessFilter
+		</filter-class>
+		<init-param>
+			<param-name>PURL_RECIPIENT_URL</param-name>
+			<param-value>/purl/purlRecipient.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>PURL_EXCLUSION_URLS</param-name>
+			<param-value>purlRecipientLoadActivity.do,purlRecipient.do,login.do,contactUs.do,contactUsSave.do,participantProfileView.do,pageNavView.do,globalHeaderView.do,globalFooterView.do,purlRecipientSubmit.do,serverCommandRedirect.do,translate.do,privacy.do
+			</param-value>
+		</init-param>
+	</filter>
+
+	<filter>
+		<filter-name>WebSecurityFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.WebSecurityFilter
+		</filter-class>
+		<init-param>
+			<param-name>TNC_EXCLUSION_URLS</param-name>
+			<param-value>loginPageFirstTime.do,loginPageFirstTimeSaveInfo.do,resetPasswordByEmail.action,loginPageFirstTimeUploadAvatar.do,login.do,loginPageHelp.do,contactUs.do,contactUsSave.do,participantProfileView.do,pageNavView.do,globalHeaderView.do,globalFooterView.do,privacy.do,termsAndConditionsView.do,rules.do,faq.do,forgotPwd.do,forgotPwdAuth.do,forgotPwdCancel.do,forgotPwdNameValidate.do,forgotPwdAnswer.do,forgotPwdAnswerValidate.do,getSecurityQuestion.do,getChangePassword.do,changePasswordViewNew.do,saveNewPassword.do,seamlessLogon.do,seamlessLogonTest.do,multipleSuppliers.do,shopping.do,logout.do,externalSupplier.do,changeLanguage.do,ssoLogonFailure.do,ssoGatewayLogonFailure.do,lock.action,registerRecoveryMethods.action,countryPhones.action,passwordValidationRules.action,validateRegistrationCode.action,lockAccountConfirm.action,redirectLock.action,resourceCenterAction.do
+			</param-value>
+		</init-param>
+	</filter>
+	
+	<filter>
+		<filter-name>RecoveryMethodsCheckFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.RecoveryMethodsCheckFilter
+		</filter-class>
+		<init-param>
+			<param-name>REC_EXCLUSION_URLS</param-name>
+			<param-value>login.do,logout.do,logoutStatic.do,userByContactInformation.action,contactAutocomplete.action,sendForgotUserIdNotification.action,resetPasswordByEmail.action,userToken.action,resetPasswordByToken.action,resetPassword.action,activated.action,validateActivation.action,contactsActivation.action,activationLink.action,countryPhones.action,contactsActivation.action,registerRecoveryMethods.action,passwordValidationRules.action,lock.action,redirectLock.action,privacy.do,seamlessLogon.do,seamlessLogonTest.do,loadStageData.do,submitRewardOffering.do,merchLevelShopping.do,secureShopping.do,/mobileapp/,celebrationShopping.do,externalSupplier.do,contactUs.do,contactUsSave.do,privacy.do,notauthtimeoutredirect.do,notauthtimeout.do,validateRegistrationCode.action,lockAccountConfirm.action</param-value>
+		</init-param>
+	</filter>
+	
+	<filter>
+		<filter-name>captchaFilter</filter-name>
+		<filter-class>
+			com.biperf.core.ui.servlet.CaptchaFilter
+		</filter-class>
+	</filter>
+
+	<filter>
+		<filter-name>AppSecurityFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.AppSecurityFilter
+		</filter-class>
+	</filter>
+	
+	<filter>
+		<filter-name>SecureJWTValidateFilter</filter-name>
+		<filter-class>com.biperf.core.ui.servlet.SecureJWTValidateFilter
+		</filter-class>
+		<init-param>
+			<param-name>CSRF_EXCLUSION_URLS</param-name>
+			<param-value>login.do,logoutStatic.do,logout.do,j_acegi_security_check.do,homePage.do,seamlessLogon.do,clientSeamlessLogon.do,submitRewardOffering.do,raLogin.do</param-value>
+		</init-param>		
+	</filter>	
+	
+	<filter-mapping>
+       <filter-name>HttpAllowMethodsFilter</filter-name>
+       <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+    
+	<filter-mapping>
+       <filter-name>RosterResponseFilter</filter-name>
+       <url-pattern>/nkl-api/*</url-pattern>
+    </filter-mapping>    
+    
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>trimmingFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>SitedownFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>switchProfileFilter</filter-name>
+		<url-pattern>/*</url-pattern>		
+	</filter-mapping>	
+
+	<filter-mapping>
+		<filter-name>cmsContentReaderFilter</filter-name>
+		<url-pattern>/*</url-pattern>		
+	</filter-mapping>
+	
+	<filter-mapping>
+       <filter-name>JwtAuthenticationTokenFilter</filter-name>
+       <url-pattern>/nkl-api/*</url-pattern>
+    </filter-mapping>	
+
+	<filter-mapping>
+		<filter-name>ParameterFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+ 	<filter-mapping>
+		<filter-name>mobileAuthenticatedFilter</filter-name>
+		<url-pattern>/mobileapp/*</url-pattern>
+	</filter-mapping>
+ 
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>IPAccessFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>SSOTestFilter</filter-name>
+		<url-pattern>/seamlessLogonTest.do</url-pattern>		
+		<url-pattern>/clientSeamlessLogonTest.do</url-pattern>	
+	</filter-mapping>
+	
+<!-- 
+	<filter-mapping>
+		<filter-name>moduleAccessFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+ -->
+	<filter-mapping>
+		<filter-name>clientStateFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+    	<filter-name>ssoLogoutRedirectFilter</filter-name>
+    	<url-pattern>/ssoLogoutRedirect.do</url-pattern>
+  	</filter-mapping>
+  
+  	<filter-mapping>
+    	<filter-name>notAuthTimeoutRedirectFilter</filter-name>
+    	<url-pattern>/notAuthTimeoutRedirect.do</url-pattern>
+  	</filter-mapping> 
+  
+	<filter-mapping>
+		<filter-name>ExportResponseOverrideFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>purlRecipientFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>WebSecurityFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>RecoveryMethodsCheckFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>captchaFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>AppSecurityFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.action</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>SecureJWTValidateFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>	
+
+	<listener>
+		<listener-class>com.biperf.core.ui.servlet.clientstate.ClientStateListener
+		</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.biperf.core.ui.servlet.ContextListener
+		</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.biperf.core.logging.LoggingApplicationListener
+		</listener-class>
+	</listener>
+
+	<!-- <listener> <listener-class>com.biperf.core.ui.cache.PromotionCacheBuilderListener</listener-class> 
+		</listener> -->
+	<!-- Standard Action Servlet Configuration (with debugging) -->
+	
+	
+  <servlet>
+	<servlet-name>spring-servlet</servlet-name>
+	<servlet-class>
+		org.springframework.web.servlet.DispatcherServlet
+	</servlet-class>
+	<init-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/springWeb-servlet.xml</param-value>
+	</init-param>
+	<load-on-startup>1</load-on-startup>
+  </servlet>
+
+
+	<!-- Beacon initilization servlet -->
+	<servlet>
+		<servlet-name>initialization</servlet-name>
+		<servlet-class>com.biperf.core.ui.servlet.InitializationServlet
+		</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+  
+
+		<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml,/WEB-INF/struts-config-client.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/admin</param-name>
+			<param-value>/WEB-INF/struts-config-admin.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/hierarchy</param-name>
+			<param-value>/WEB-INF/struts-config-hierarchy.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/participant</param-name>
+			<param-value>/WEB-INF/struts-config-participant.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/claim</param-name>
+			<param-value>/WEB-INF/struts-config-claim.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/promotion</param-name>
+			<param-value>/WEB-INF/struts-config-promotion.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/process</param-name>
+			<param-value>/WEB-INF/struts-config-process.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/proxy</param-name>
+			<param-value>/WEB-INF/struts-config-proxy.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/reports</param-name>
+			<param-value>/WEB-INF/struts-config-reports.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/forum</param-name>
+			<param-value>/WEB-INF/struts-config-forum.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/sysadmin</param-name>
+			<param-value>/WEB-INF/struts-config-sysadmin.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/calculator</param-name>
+			<param-value>/WEB-INF/struts-config-calculator.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/mobileapp</param-name>
+			<param-value>/WEB-INF/struts-config-mobileapp.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/ots</param-name>
+			<param-value>/WEB-INF/struts-config-ots.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>chainConfig</param-name>
+			<param-value>org/apache/struts/tiles/chain-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>convertHack</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>10</param-value>
+		</init-param>
+		<!-- Custom implementation that allows us to dynamically set the tempDir for controllers -->
+		<init-param>
+			<param-name>configFactory</param-name>
+			<param-value>com.biperf.core.ui.utils.BIModuleConfigFactory</param-value>
+		</init-param>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+
+
+	<!-- Botdetect Servlet -->
+	<servlet>
+		<servlet-name>captcha</servlet-name>
+		<servlet-class>botdetect.web.http.CaptchaServlet</servlet-class>
+	</servlet>
+	
+	<!-- Fusion Charts Export Servlet -->
+	<servlet>
+    	<display-name>FCExporter</display-name>
+    	<servlet-name>FCExporter</servlet-name>
+    	<servlet-class>com.fusioncharts.exporter.servlet.FCExporter</servlet-class>
+    	<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- PURL AppDataDir Image renderer Servlet -->
+	<servlet>
+		<servlet-name>PurlImageRenderServlet</servlet-name>
+		<servlet-class>com.biperf.core.ui.servlet.PurlImageRenderServlet
+		</servlet-class>
+	</servlet>
+
+	<!--JMySpell SpellChecker -->
+	<servlet>
+		<description>A spell checking servlet that accepts JSON requests and
+			processes them using JMySpell
+		</description>
+		<servlet-name>jmyspell-spellchecker</servlet-name>
+		<servlet-class>org.tinymce.spellchecker.JMySpellCheckerServlet
+		</servlet-class>
+	</servlet>
+
+
+	<servlet>
+		<description>BaseServlet to initialize Content Reader</description>
+		<servlet-name>CMSAwareBaseServlet</servlet-name>
+		<servlet-class>com.biperf.core.ui.servlet.CMSAwareBaseServlet
+		</servlet-class>
+		<!-- NOTE: this Servlet needs to be run last to ensure all dependent resources 
+			are loaded first -->
+		<load-on-startup>100</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<description>Promotion Cache Hydration Initializer</description>
+		<servlet-name>PromotionCacheInitializationServlet</servlet-name>
+		<servlet-class>com.biperf.core.ui.servlet.PromotionCacheInitializationServlet
+		</servlet-class>
+		<!-- NOTE: this Servlet needs to be run last to ensure all dependent resources 
+			are loaded first -->
+		<load-on-startup>110</load-on-startup>
+	</servlet>
+	 
+	<servlet>
+		<description>ElasticSearch</description>
+		<servlet-name>ElasticSearchInitializationServlet</servlet-name>
+		<servlet-class>com.biperf.core.ui.servlet.ElasticSearchInitializationServlet
+		</servlet-class>
+		<!-- NOTE: this Servlet needs to be run last to ensure all dependent resources are loaded first 
+		otherwise we get issues with hibernate/connection/session issues and things error out.
+		-->
+		<load-on-startup>130</load-on-startup>
+	</servlet>
+	
+	<!--  Initialize the Company Information from Company Setup-->
+	<servlet>
+		<description>CompanyInitializationServlet</description>
+		<servlet-name>CompanyInitializationServlet</servlet-name>
+		<servlet-class>com.biperf.core.ui.servlet.CompanyInitializationServlet</servlet-class>
+		<load-on-startup>145</load-on-startup>
+	</servlet>
+	
+	<!--  Initialize the AWS Kinesis event processor-->
+	<servlet>
+		<description>KinesisEventStreamInitialize</description>
+		<servlet-name>KinesisEventStreamInitializationServlet</servlet-name>
+		<servlet-class>com.biperf.core.ui.servlet.KinesisEventStreamInitializationServlet</servlet-class>
+		<load-on-startup>150</load-on-startup>
+	</servlet>
+ 
+	<!--Public Recognition Wall API Service -->
+	<servlet>
+		<description>Public Recognition Wall API Service Initializer
+		</description>
+		<servlet-name>PublicRecognitionWallInitializationServlet
+		</servlet-name>
+		<servlet-class>com.biperf.core.ui.servlet.PublicRecognitionWallInitializationServlet
+		</servlet-class>
+		<load-on-startup>102</load-on-startup>
+	</servlet>
+
+
+	<servlet>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
+		</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>com.biperf.core.ui.ws.rest</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>Honeycomb Salt Initializer</servlet-name>
+		<description>Assures that honeycomb salt password is stored</description>
+		<servlet-class>com.biperf.core.ui.servlet.HoneycombInitializationServlet</servlet-class>
+		<load-on-startup>140</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<url-pattern>/ws/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>jmyspell-spellchecker</servlet-name>
+		<url-pattern>/spellchecker/jazzySpellCheck.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- Insert dynamically generated mapping for JSP here : DO NOT REMOVE: 
+		Require for precompile JSP -->
+	<!-- jspMappings -->
+	<!-- Insert dynamically generated mapping for JSP end -->
+
+  
+   <servlet-mapping>
+      <servlet-name>spring-servlet</servlet-name>
+      <url-pattern>*.action</url-pattern>
+      <url-pattern>/nkl-api/*</url-pattern>        
+   </servlet-mapping>
+ 
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>initialization</servlet-name>
+		<url-pattern>/admin/initialize.start</url-pattern>
+	</servlet-mapping>
+
+	<!-- Botdetect Mapping -->
+	<servlet-mapping>
+		<servlet-name>captcha</servlet-name>
+		<url-pattern>/captcha.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- Fusion Chart Export Mapping -->
+	<servlet-mapping>
+    	<servlet-name>FCExporter</servlet-name>
+    	<url-pattern>/reports/exportToPDF.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- PURL AppDataDir Image renderer Mapping -->
+	<servlet-mapping>
+		<servlet-name>PurlImageRenderServlet</servlet-name>
+		<url-pattern>/purl/purlTempImage.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>PurlImageRenderServlet</servlet-name>
+		<url-pattern>/profileTempImage.do</url-pattern>
+	</servlet-mapping>
+
+
+	<mime-mapping>
+		<extension>xml</extension>
+		<mime-type>text/xml</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>json</extension>
+		<mime-type>text/plain</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+		<extension>pdf</extension>
+		<mime-type>application/pdf</mime-type>
+	</mime-mapping>
+
+	<welcome-file-list>
+		<welcome-file>homePage.do</welcome-file>
+	</welcome-file-list>
+	
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/errors/errorRecovery.jsp</location>
+	</error-page>
+
+	<!-- tag library descriptors -->
+	<jsp-config>
+
+		<taglib>
+			<taglib-uri>struts/html-el</taglib-uri>
+			<taglib-location>/WEB-INF/tld/struts-html-el.tld</taglib-location>
+		</taglib>
+
+		<!-- Only used on specific pages -->
+		<taglib>
+			<taglib-uri>struts/logic-el</taglib-uri>
+			<taglib-location>/WEB-INF/tld/struts-logic-el.tld</taglib-location>
+		</taglib>
+
+		<!-- Only used on specific pages -->
+		<taglib>
+			<taglib-uri>struts/nested</taglib-uri>
+			<taglib-location>/WEB-INF/tld/struts-nested.tld</taglib-location>
+		</taglib>
+
+		<taglib>
+			<taglib-uri>struts/tiles</taglib-uri>
+			<taglib-location>/WEB-INF/tld/struts-tiles.tld</taglib-location>
+		</taglib>
+
+		<taglib>
+			<taglib-uri>displaytag-12</taglib-uri>
+			<taglib-location>/WEB-INF/tld/displaytag-12.tld</taglib-location>
+		</taglib>
+
+		<taglib>
+			<taglib-uri>taglibs-string</taglib-uri>
+			<taglib-location>/WEB-INF/tld/taglibs-string.tld</taglib-location>
+		</taglib>
+
+		<taglib>
+			<taglib-uri>treetag.tld</taglib-uri>
+			<taglib-location>/WEB-INF/tld/treetag.tld</taglib-location>
+		</taglib>
+
+		<taglib>
+			<taglib-uri>objectpartners/cms</taglib-uri>
+			<taglib-location>/WEB-INF/tld/cms.tld</taglib-location>
+		</taglib>
+
+		<taglib>
+			<taglib-uri>bi/beacon</taglib-uri>
+			<taglib-location>/WEB-INF/tld/beacon.tld</taglib-location>
+		</taglib>
+ 
+      	<!-- <jsp-property-group>
+        	<url-pattern>*.jsp</url-pattern>
+        	<trim-directive-whitespaces>true</trim-directive-whitespaces>
+      	</jsp-property-group> -->
+    
+	</jsp-config>
+	
+	<!-- 
+	New feature of Java EE 6 which simplifies security configuration of applications. You can now whitelist versus blacklist allowed HTTP methods in your web.xml
+	<security-constraint>
+	    <web-resource-collection>
+	        <web-resource-name>Disable unneeded HTTP methods by 403 Forbidden them</web-resource-name>
+	        <url-pattern>/*</url-pattern>
+	        <http-method-omission>GET</http-method-omission>
+	        <http-method-omission>HEAD</http-method-omission
+	        <http-method-omission>POST</http-method-omission>
+	    </web-resource-collection>
+	    <auth-constraint />
+	</security-constraint>
+	-->
+	<!-- Disabling the HEAD method to address a MEDIUM security threat from the security scans -->
+	<security-constraint>
+ 		<web-resource-collection>
+			<web-resource-name><strong>Restricted Methods</strong></web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>HEAD</http-method>
+ 		</web-resource-collection>
+ 		<auth-constraint />
+ 	</security-constraint>
+	
+	<!-- Uncomment below to uses SSL in localhost:get port 80 to forward to 
+		443 (default SSL): <security-constraint> <web-resource-collection> <web-resource-name>beacon</web-resource-name> 
+		<url-pattern>*.do</url-pattern> </web-resource-collection> <user-data-constraint> 
+		<transport-guarantee>CONFIDENTIAL</transport-guarantee> </user-data-constraint> 
+		</security-constraint> -->
+	<!-- in minutes -->
+	<session-config>
+		<session-timeout>20</session-timeout>
+		<tracking-mode>COOKIE</tracking-mode>
+		<cookie-config>
+			<name>JSESSIONID</name>
+			<!-- <path>/@PROJECT_NAME@</path> -->
+		</cookie-config>
+	</session-config>
+
+</web-app>

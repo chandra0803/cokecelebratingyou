@@ -1,0 +1,23 @@
+CREATE TABLE promo_challengepoint
+(promotion_id                 		NUMBER(18,0) NOT NULL,
+ challenge_point_award_type			VARCHAR2(9),
+ manager_can_select					NUMBER(1),
+ award_threshold_type				VARCHAR2(9),
+ award_threshold_value				NUMBER(10),
+ award_increment_type				VARCHAR2(9),
+ award_increment_value				NUMBER(10),
+ award_per_increment				NUMBER(10),
+ total_team_production_measure      VARCHAR2(50),
+ total_team_production			    NUMBER(10),
+ manager_award						NUMBER(10)
+)
+/
+ALTER TABLE promo_challengepoint
+ADD CONSTRAINT promo_cp_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promo_challengepoint ADD CONSTRAINT promo_cp_fk
+  FOREIGN KEY (promotion_id) REFERENCES promo_goalquest (promotion_id)
+/
+COMMENT ON TABLE promo_challengepoint IS 'The table is a promotion of type challengepoint.'
+/

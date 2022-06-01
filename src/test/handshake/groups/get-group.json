@@ -1,0 +1,42 @@
+{
+  "description": "Get a group",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "groupId": "00000000-0000-0000-0000-000000000065"
+  },
+  "steps": [
+    {
+      "id": "getGroup",
+      "description": "GET /groups/{groupId}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/groups/${ref:params.groupId}",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getGroup.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getGroup.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:getGroup.res.body.id}",
+          "compare": "to.equal",
+          "b": "${ref:params.groupId}"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+	<class name="com.biperf.core.domain.client.TcccCurrencyExchange" table="ADIH_CURRENCY_EXCHANGE">
+		<id name="id" type="java.lang.Long" column="CURRENCY_EXCHANGE_ID">
+      		<generator class="seqhilo">
+        		<param name="max_lo">0</param> <param name="sequence">ADIH_CURRENCY_EXCHANGE_ID_SQ</param>
+      		</generator>
+    	</id>
+    
+    	<!-- Using version number optimistic locking -->
+    	<version name="version" column="VERSION" type="java.lang.Long" />
+
+    	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      		<column name="DATE_CREATED" />
+      		<column name="CREATED_BY" />
+    	</property>
+
+    	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      		<column name="DATE_MODIFIED" />
+      		<column name="MODIFIED_BY" />
+    	</property>
+    
+    	<property name="currency" type="java.lang.String" column="CURRENCY" />
+    	<property name="currencyName" type="java.lang.String" column="CURRENCY_NAME" />
+    	<property name="exchangeRate" type="java.lang.Double" column="EXCHANGE_RATE" />
+    	<property name="processing" type="boolean" column="IS_PROCESSING" />
+    	<property name="dateEnd" type="java.util.Date" column="DATE_END" />
+	</class>
+   
+</hibernate-mapping>

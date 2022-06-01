@@ -1,0 +1,19 @@
+{
+
+  "groupId": 2,
+  "groupName": "groupname",
+  "groupCreatedBy": "created by",
+  "dateCreated": "3/3/2017",
+  "groupMemebers":[{
+            "lastName": "Adminatkinson",
+            "firstName": "Firstnameson",
+            "organization": "India Office",
+            "departmentName": "Service Department Number 003",
+            "jobName": "Employee of the Year",
+            "participantUrl": "https://g6bb8qa.performnet.com/g6bb8/publicProfileView.do?method=display&clientState=3%2F3h3eonj4uu8TFxmIHvIaUk60Db0O421NwpNr3ZXFnYke3tggDaI2XrdVK77HRowNYbCc9bfdqK%0AziD9CU7tKqj9qlVnAJ7Ewhe0%2BLT6wN5qn%2BagXM2Mq0zYsqtRRBIgyG8TdPxdKggWIBdoW1%2BnPAXf%0AV5DNlUPANhuhra%2FwZ6v0fcMRwqctQpvLgtfTXlvbJKaMY7zjdBH7NFYdl5yzZfYBYbPcZ687cKx7%0A2RAqqdI0CQlmRHw%2BKSALcdxY1iOS2duQ0TaixRu4z6Ag3UcJOhrJ1zTqPNe4Kvivtw%3D%3D&cryptoPass=1",
+            "follow": false,
+            "primaryNodeId": 6001,
+            "allNodeIds": [6001],
+            "id": 6018        }]
+
+}

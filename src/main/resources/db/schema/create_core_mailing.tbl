@@ -1,0 +1,31 @@
+CREATE SEQUENCE mailing_pk_sq start with 250 increment by 1
+/
+CREATE TABLE mailing
+    (mailing_id        				NUMBER(18) NOT NULL,
+     batch_id						NUMBER(18),     
+     sender							VARCHAR2(75) NOT NULL,
+     delivery_date					DATE NOT NULL,
+     message_id       				NUMBER(18),
+     is_send_sms_only	NUMBER(1),
+	   guid                     		VARCHAR2(80) NOT NULL,
+	 	 mailing_type							VARCHAR2(30),
+     created_by number(18) NOT NULL,
+     date_created     				DATE NOT NULL,
+     modified_by number(18),
+     date_modified    				DATE,
+     version          				NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE mailing
+ADD CONSTRAINT mailing_pk PRIMARY KEY (mailing_id)
+USING INDEX
+/
+ALTER TABLE mailing ADD CONSTRAINT mailing_batch_fk
+  FOREIGN KEY (batch_id) REFERENCES mailing_batch(batch_id) 
+/
+ALTER TABLE mailing
+ADD CONSTRAINT mailing_uk UNIQUE (guid)
+/
+COMMENT ON TABLE mailing IS 'The mailing table defines the queue for all outgoing email for the system.'
+/
+COMMENT ON COLUMN mailing.mailing_id IS 'System generated PK.'
+/

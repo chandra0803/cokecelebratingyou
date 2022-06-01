@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.PromoMerchCountry" table="PROMO_MERCH_COUNTRY">
+
+    <id name="id" type="java.lang.Long" column="PROMO_MERCH_COUNTRY_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PROMO_MERCH_COUNTRY_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.promotion.Promotion" lazy="false" not-null="true" />   
+    <many-to-one name="country" column="COUNTRY_ID" class="com.biperf.core.domain.country.Country" lazy="false" not-null="true" />
+
+    <property name="programId" type="java.lang.String" column="PROGRAM_ID" />
+    <set name="levels" 
+         table="PROMO_MERCH_PROGRAM_LEVEL" 
+         inverse="false" lazy="true" cascade="all" sort="com.biperf.core.domain.promotion.PromoMerchProgramLevelComparator">
+            <key column="PROMO_MERCH_COUNTRY_ID" not-null="true" />
+            <one-to-many class="com.biperf.core.domain.promotion.PromoMerchProgramLevel" />
+    </set>
+
+  </class>
+
+    <query name="com.biperf.core.domain.promotion.PromoMerchCountriesByPromotionId">
+        <![CDATA[
+      from item in class com.biperf.core.domain.promotion.PromoMerchCountry
+      where item.promotion.id = :promotionId
+    ]]>
+    </query>
+
+</hibernate-mapping>
+

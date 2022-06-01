@@ -1,0 +1,90 @@
+{
+    "tabularData": {
+	    "meta":
+            {
+            "columns": [
+                {
+                    "id": "1",
+                    "name": "nominationShortName",
+                    "displayName": "Nomination Short Name",
+                    "sortable": true
+                },
+                {
+                    "id": "2",
+                    "name": "level",
+                    "displayName": "Level",
+                    "sortable": true
+                },
+				{
+                    "id": "3",
+                    "name": "status",
+                    "displayName": "Status",
+                    "sortable": true
+                },
+                {
+                    "id": "4",
+                    "name": "tasks",
+                    "displayName": "Tasks",
+                    "sortable": true
+                }
+            ]
+        },
+		"results": [
+            {
+                "id" : "100",
+                "index": 0,
+				"nominationPromotionName": "Nomination Short Name",
+                "levelName": "Bronze",
+                "levelNumber": 1,
+				"tasks": "Select Winners",
+				"status": "Request More info",
+                "url": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsSubmitPage.html"
+            },
+            {
+                "id" : "101",
+				"index": 1,
+				"nominationPromotionName": "Nomination Short Name",
+                "tasks": "Select Winners",
+				"status": "Winner",
+                "url": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsSubmitPage.html",
+                "levelName": "Silver",
+                "levelNumber": 2
+            },
+            {
+                "id" : "102",
+				"index": 2,
+				"nominationPromotionName": "Nomination Short Name",
+				"tasks": "Select Winners",
+				"status": "Winner",
+                "url": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsSubmitPage.html",
+                "levelName": "Gold",
+                "levelNumber": 3
+            },
+            {
+                "id" : "103",
+				"index": 3,
+				"nominationPromotionName": "Nomination Short Name",
+                "tasks": "Review Approvals",
+				"status": "Pending",
+                "url": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsSubmitPage.html",
+                "levelName": null,
+                "levelNumber": null
+            },
+            {
+                "id" : "104",
+				"index": 4,
+				"nominationPromotionName": "Nomination Short Name",
+                "tasks": "Review Approvals",
+				"status": "Pending",
+                "url": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsSubmitPage.html",
+                "levelName": null,
+                "levelNumber": null
+            }
+        ]
+	},
+    "sortedOn": "level",
+    "sortedBy": "asc",
+	"total": 20,
+    "nominationPerPage": 10,
+    "currentPage": 1
+}

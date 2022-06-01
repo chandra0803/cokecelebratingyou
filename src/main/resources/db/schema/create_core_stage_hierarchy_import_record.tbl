@@ -1,0 +1,113 @@
+CREATE TABLE stage_hierarchy_import_record
+  (
+    import_record_id              NUMBER(18) NOT NULL,
+    import_file_id                NUMBER(18) NOT NULL INITIALLY DEFERRED,
+    action_type                   VARCHAR2(10),
+
+    name                          VARCHAR2(255),
+    old_name                      VARCHAR2(255),
+    move_to_node_name             VARCHAR2(255),
+    description                   VARCHAR2(4000),
+    node_type_id                  NUMBER(18),
+    node_type_name                VARCHAR2(80),
+    parent_node_name              VARCHAR2(255),
+    old_parent_node_name          VARCHAR2(255),
+
+    characteristic_id1            NUMBER(18),
+    characteristic_id2            NUMBER(18),
+    characteristic_id3            NUMBER(18),
+    characteristic_id4            NUMBER(18),
+    characteristic_id5            NUMBER(18),
+	characteristic_id6    		  NUMBER(18),
+	characteristic_id7    		  NUMBER(18),
+	characteristic_id8    		  NUMBER(18),
+	characteristic_id9    		  NUMBER(18),
+	characteristic_id10    		  NUMBER(18),    
+
+    characteristic_name1          VARCHAR2(250),
+    characteristic_name2          VARCHAR2(250),
+    characteristic_name3          VARCHAR2(250),
+    characteristic_name4          VARCHAR2(250),
+    characteristic_name5          VARCHAR2(250),
+	characteristic_name6   		  VARCHAR2(250),
+	characteristic_name7    	  VARCHAR2(250),
+	characteristic_name8    	  VARCHAR2(250),
+	characteristic_name9    	  VARCHAR2(250),
+	characteristic_name10    	  VARCHAR2(250),
+
+    characteristic_value1         VARCHAR2(100),
+    characteristic_value2         VARCHAR2(100),
+    characteristic_value3         VARCHAR2(100),
+    characteristic_value4         VARCHAR2(100),
+    characteristic_value5         VARCHAR2(100),
+    characteristic_value6 	      VARCHAR2(100),
+	characteristic_value7    	  VARCHAR2(100),
+	characteristic_value8    	  VARCHAR2(100),
+	characteristic_value9    	  VARCHAR2(100),
+	characteristic_value10    	  VARCHAR2(100),
+
+    created_by 					  number(18) NOT NULL,
+    date_created                  DATE NOT NULL
+  )
+/
+ALTER TABLE stage_hierarchy_import_record
+ADD CONSTRAINT stage_hier_import_record_pk PRIMARY KEY (import_record_id)
+USING INDEX
+/
+ALTER TABLE stage_hierarchy_import_record
+ADD CONSTRAINT stage_hier_import_record_fk FOREIGN KEY (import_file_id)
+REFERENCES import_file (import_file_id)
+/
+CREATE INDEX STG_HRCHY_MPT_RC_MPT_FL_FK_idx ON STAGE_HIERARCHY_IMPORT_RECORD
+  (IMPORT_FILE_ID)
+/
+COMMENT ON TABLE stage_hierarchy_import_record IS 'Information about an hierarchy import record.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.import_record_id IS 'Uniquely identifies this import record.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.import_file_id IS 'Identifies the import file that contains this import record.  Foreign key to the IMPORT_FILE table.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.action_type IS 'Indicates how to process this import record.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.name IS 'The name of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.description IS 'A description of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.node_type_id IS 'Identifies this node''s type.  A foreign key into the NODE_TYPE table.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.parent_node_name IS 'Identifies this node''s parent node.  Null if this is the root node.  A foreign key into the STAGE_HIERARCHY_IMPORT_RECORD table.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_id1 IS 'Identifies this node''s the first characteristic.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_id2 IS 'Identifies this node''s the second characteristic.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_id3 IS 'Identifies this node''s the third characteristic.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_id4 IS 'Identifies this node''s the fourth characteristic.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_id5 IS 'Identifies this node''s the fifth characteristic.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_name1 IS 'The name of the first characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_name2 IS 'The name of the second characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_name3 IS 'The name of the third characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_name4 IS 'The name of the fourth characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_name5 IS 'The name of the fifth characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_value1 IS 'The value of the first characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_value2 IS 'The value of the second characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_value3 IS 'The value of the third characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_value4 IS 'The value of the fourth characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.characteristic_value5 IS 'The value of the fifth characteristic of this node.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.created_by IS 'The username of the user who created this record.'
+/
+COMMENT ON COLUMN stage_hierarchy_import_record.date_created IS 'The date and time at which this record was created.'
+/

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name = "com.biperf.core.domain.promotion.PublicRecognitionComment" table = "PUBLIC_RECOGNITION_COMMENT">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PUBLIC_RECOGNITION_COMMENT_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PUBLIC_RECOGNITION_COMMENT_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+        <version name="version" column="VERSION" type="java.lang.Long" />
+        
+        <property name="teamId" column="TEAM_ID" type="java.lang.Long" />
+
+      <property name="comments" column="COMMENTS" type="string" />
+      <property name="commentsLanguageType" column="COMMENTS_LANG_ID">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.LanguageType</param>
+        </type>
+      </property>
+        
+          
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		  
+	    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.participant.Participant"  not-null = "true" lazy="false"/>
+		<many-to-one name="claim" column="CLAIM_ID" class="com.biperf.core.domain.claim.Claim" not-null = "true"  lazy="false"/> 
+		
+	</class>
+	
+  <sql-query name="com.biperf.core.domain.promotion.PublicRecognitionComment.userCommentsPerTeam">
+	<return alias="prc" class="com.biperf.core.domain.promotion.PublicRecognitionComment" />
+    <![CDATA[
+       	SELECT {prc.*} 
+		FROM public_recognition_comment prc
+		WHERE prc.team_id = :teamId 
+		ORDER BY prc.date_created
+    ]]>
+  </sql-query>
+  
+    <query name="com.biperf.core.domain.promotion.PublicRecognitionComment.getById">
+    <![CDATA[
+      from com.biperf.core.domain.promotion.PublicRecognitionComment prc
+      where prc.id = :id 
+    ]]>
+  	</query>
+  	
+  	<sql-query name="com.biperf.core.domain.promotion.PublicRecognitionComment.getUserCommentsByTeamId">
+	<return alias="prc" class="com.biperf.core.domain.promotion.PublicRecognitionComment" />
+    <![CDATA[
+       	select * from (
+		SELECT  max(claim_id) claim_id, comments,user_id,team_id
+		FROM public_recognition_comment prc
+		WHERE prc.team_id = :teamId 
+	    group by comments,user_id,team_id ) prcs, public_recognition_comment pc
+	    where pc.claim_id = prcs.claim_id  
+	    and pc.user_id = prcs.user_id
+      	and pc.team_id = prcs.team_id
+      	and pc.comments = prcs.comments
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

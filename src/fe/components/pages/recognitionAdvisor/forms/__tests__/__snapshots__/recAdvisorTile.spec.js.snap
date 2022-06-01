@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div>
+  <div>
+    <h3
+      className="module-title"
+    />
+    <div
+      className="ra-wrapper"
+    >
+      <div
+        className="clearfix list-container col-count-2"
+      />
+    </div>
+    <div
+      className="module-actions"
+    >
+      <a
+        href="undefined/raDetails.do"
+      />
+    </div>
+  </div>
+</div>
+`;

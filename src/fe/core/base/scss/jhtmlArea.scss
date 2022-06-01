@@ -1,0 +1,80 @@
+/*styles set here will override default styles of jhtml iframes*/
+@import "partials/colors";
+@import "partials/variables";
+@import "partials/mixins";
+$base_variablesOnly: true;
+html {
+    height: 100%;
+    overflow: hidden;
+    border: 0;
+}
+
+body {
+    height: 100%;
+    overflow: auto;
+    word-wrap: break-word;
+    margin: 0;
+    font-family: $bodyFont;
+    font-size: 14px;
+    line-height: 20px;
+    -webkit-font-smoothing: $webkitFontSmoothing;
+    background: $brand_color_white;
+    color: $brand_color_black;
+
+	div {
+	    margin: 0px;
+		display: block;
+		width: 100%;
+		line-height: 20px;
+		min-height: 20px;
+		margin-bottom: 5px; 
+		clear:both;
+	}
+}
+/* Mobile Safari (and other mobile browsers???) zooms in on input fields when the font-size is less than 16px */
+@media (max-width: 240px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+
+p.placeholder,
+p span i span {
+    color: $brand_color_dark;
+    font-style: normal;
+}
+
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+	p{
+        line-height:20px;
+		display:block;
+	  }
+}
+
+_:-ms-fullscreen, :root p{
+    	line-height:20px;
+		display:block;
+	}
+
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+	p {
+    margin: 0px;
+    display: block;
+    line-height: 20px;
+    min-height: 20px;
+	margin-bottom: 5px;   
+	}
+}
+
+@-moz-document url-prefix() { 
+  p {
+    margin: 0px;
+    display: block;
+    line-height: 20px;
+    min-height: 20px;
+	margin-bottom: 5px;   
+	}
+}

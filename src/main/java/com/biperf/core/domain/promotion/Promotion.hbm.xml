@@ -1,0 +1,1452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.promotion.Promotion" table="PROMOTION">
+		<cache usage="nonstrict-read-write"/>
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PROMOTION_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PROMOTION_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<property name="promotionName" type="java.lang.String" column="PROMOTION_NAME" />		
+		
+		<property name="promoNameAssetCode" type="java.lang.String" column="PROMO_NAME_ASSET_CODE" />		
+				
+		<!-- Since Hibernate's Order class will not understand something like 
+			Order.asc("upper(property_name)") and there is no flag in the API to pass to 
+			indicate case insensitive sorting. So, using formula for the uppercase property -->
+		<property name="upperCaseName" type="java.lang.String" insert="false" lazy="true" update="false">
+			<formula>( upper(PROMOTION_NAME) )</formula>
+		</property>
+
+		<property name="promotionType" column="PROMOTION_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.PromotionType</param>
+			</type>
+		</property>
+
+		<property name="promotionStatus" column="PROMOTION_STATUS">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.PromotionStatusType</param>
+			</type>
+		</property>
+
+    	<property name="certificate" type="java.lang.String" column="CERTIFICATE" />
+	
+		<property name="primaryAudienceType" column="PRIMARY_AUDIENCE_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.PrimaryAudienceType</param>
+			</type>
+		</property>
+
+		<property name="secondaryAudienceType" column="SECONDARY_AUDIENCE_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SecondaryAudienceType</param>
+			</type>
+		</property>
+		
+		<property name="partnerAudienceType" column="PARTNER_AUDIENCE_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.PartnerAudienceType</param>
+			</type>
+		</property>
+
+		<property name="webRulesAudienceType" column="WEB_RULES_AUDIENCE_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.WebRulesAudienceType</param>
+			</type>
+		</property>
+
+		<property name="submissionStartDate" type="java.util.Date" column="PROMOTION_START_DATE" />
+		<property name="submissionEndDate" type="java.util.Date" column="PROMOTION_END_DATE" />
+
+		<many-to-one name="claimForm" column="CLAIM_FORM_ID" class="com.biperf.core.domain.claim.ClaimForm" not-null="false" cascade="save-update" lazy="false" />
+
+		<property name="webRulesStartDate" type="java.util.Date" column="WEB_RULES_START_DATE" />
+		<property name="webRulesEndDate" type="java.util.Date" column="WEB_RULES_END_DATE" />
+		<property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE" />
+		<property name="webRulesCmKey" type="java.lang.String" column="WEB_RULES_CM_KEY" />
+		<property name="webRulesActive" type="boolean" column="HAS_WEB_RULES" not-null="true" />
+		<property name="taxable" type="boolean" column="IS_TAXABLE" not-null="true" />
+		<property name="approvalStartDate" type="java.util.Date" column="APPROVAL_START_DATE" />
+		<property name="approvalEndDate" type="java.util.Date" column="APPROVAL_END_DATE" />
+		<property name="onlineEntry" type="boolean" column="IS_ONLINE_ENTRY" />
+		<property name="fileLoadEntry" type="boolean" column="IS_FILELOAD_ENTRY" />
+		<property name="tileDisplayStartDate" type="java.util.Date" column="TILE_DISPLAY_START_DATE" />
+		<property name="tileDisplayEndDate" type="java.util.Date" column="TILE_DISPLAY_END_DATE" />
+
+		<property name="approvalType" column="APPROVAL_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.ApprovalType</param>
+			</type>
+		</property>
+
+		<property name="approverType" column="APPROVER_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.ApproverType</param>
+			</type>
+		</property>
+
+		<property name="awardType" column="AWARD_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.PromotionAwardsType</param>
+			</type>
+		</property>
+
+       <property name="overview" type="java.lang.String" column="OVERVIEW"/>
+
+		<property name="approvalAutoDelayDays" type="integer" column="APPROVAL_AUTO_DELAY_DAYS" />
+		<property name="approvalConditionalClaimCount" type="integer" column="APPROVAL_COND_CLAIM_CNT" />
+
+		<list name="promotionParticipantApprovers" table="PROMO_APPROVAL_PARTICIPANT" inverse="false" lazy="extra" cascade="all-delete-orphan" where="PROMO_PARTICIPANT_TYPE='APPROVER'">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" not-null="true" />
+			<list-index column="sequence_num" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionParticipantApprover" />
+		</list>
+
+		<list name="promotionParticipantSubmitters" table="PROMO_APPROVAL_PARTICIPANT" inverse="false" lazy="extra" cascade="all-delete-orphan" where="PROMO_PARTICIPANT_TYPE='SUBMITTER'">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" not-null="true" />
+			<list-index column="sequence_num" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionParticipantSubmitter" />
+		</list>
+		
+		<!--  list name="promotionNotifications" table="PROMO_NOTIFICATION" lazy="false" inverse="false" cascade="all-delete-orphan" -->
+		<list name="promotionNotifications" table="PROMO_NOTIFICATION" lazy="extra" inverse="false" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write" include="all" />
+			<key column="PROMOTION_ID" not-null="true" />
+			<list-index column="sequence_num" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionNotification" />
+		</list>
+
+		<list name="promotionBillCodes" table="PROMO_BILL_CODE" lazy="false" inverse="true" cascade="all-delete-orphan" where="SWEEPS_BILLCODE='0'">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" not-null="true" />
+			<list-index column="sort_order" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionBillCode" />
+		</list>
+		
+		<list name="sweepstakesBillCodes" table="PROMO_BILL_CODE" lazy="false" inverse="true" cascade="all-delete-orphan" where="SWEEPS_BILLCODE='1'">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" not-null="true" />
+			<list-index column="sort_order" />
+			<one-to-many class="com.biperf.core.domain.promotion.SweepstakesBillCode" />
+		</list>
+		
+		<set name="journals" table="JOURNAL" lazy="true" inverse="true" cascade="all-delete-orphan">
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.journal.Journal" />
+		</set>
+
+		<set name="promotionApprovalOptions" table="PROMO_APPROVAL_OPTIONS" inverse="true" lazy="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionApprovalOption" />
+		</set>
+
+		<set name="promotionWebRulesAudiences" table="PROMO_AUDIENCE" inverse="true" lazy="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='RULES_TEXT'">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionWebRulesAudience" />
+		</set>
+
+		<set name="promotionClaimFormStepElementValidations" table="PROMO_CFSE_VALIDATION" lazy="true" inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionClaimFormStepElementValidation" />
+		</set>
+
+		<many-to-one name="approvalConditionalAmountField" column="APPROVAL_COND_AMT_FIELD_ID" class="com.biperf.core.domain.claim.ClaimFormStepElement" not-null="false" update="true" insert="true" lazy="false" />
+
+		<property name="approvalConditionalAmountOperator" column="APPROVAL_COND_AMT_OPERATOR">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.ApprovalConditionalAmmountOperatorType</param>
+			</type>
+		</property>
+
+		<property name="approvalConditionalAmount" type="java.lang.Double" column="APPROVAL_COND_AMT" />
+
+		<many-to-one name="approverNode" column="APPROVER_NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" update="true" insert="true" lazy="false" />
+		<many-to-one name="approvalHierarchy" column="APPROVAL_HIERARCHY_ID" class="com.biperf.core.domain.hierarchy.Hierarchy" lazy="false" />
+		<many-to-one name="approvalNodeType" column="APPROVAL_NODE_TYPE_ID" class="com.biperf.core.domain.hierarchy.NodeType" lazy="false" />
+		<property name="approvalNodeLevels" type="integer" column="APPROVAL_NODE_LEVELS" />
+
+		<!-- Budget master can be null -->
+		<many-to-one name="budgetMaster" class="com.biperf.core.domain.budget.BudgetMaster" cascade="none" not-null="false" lazy="false">
+			<column name="AWARD_BUDGET_MASTER_ID" />
+		</many-to-one>
+		
+		<!-- Cash budget master can be null -->
+		<many-to-one name="cashBudgetMaster" class="com.biperf.core.domain.budget.BudgetMaster" cascade="none" not-null="false" lazy="false">
+			<column name="CASH_BUDGET_MASTER_ID" />
+		</many-to-one>
+		
+		<!-- Badge can be null -->
+		<many-to-one name="badge" class="com.biperf.core.domain.gamification.Badge" cascade="save-update" not-null="false" lazy="false" >
+            <column name="BADGE_SETUP_ID" />
+        </many-to-one>
+
+		<property name="deleted" type="boolean" column="IS_DELETED" />
+
+		<set name="promotionPrimaryAudiences" table="PROMO_AUDIENCE" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='PRIMARY'">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionPrimaryAudience" />
+		</set>
+
+		<set name="promotionSecondaryAudiences" table="PROMO_AUDIENCE" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='SECONDARY'">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionSecondaryAudience" />
+		</set>
+		
+		<!--  This is used for goalquest. TODO: add cache -->
+		<set name="promotionPartnerAudiences" table="PROMO_AUDIENCE" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='PARTNER'">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionPartnerAudience" />
+		</set>
+
+		<set name="promotionSweepstakes" table="PROMO_SWEEPSTAKE_DRAWINGS" lazy="true" inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionSweepstake" />
+		</set>
+
+		<set name="proxyModulePromotions" table="PROXY_MODULE_PROMOTION" lazy="true" inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.proxy.ProxyModulePromotion" />
+		</set>
+		
+		<set name="promotionWizardOrder" table="PROMO_NOMINATION_WIZARD" lazy="true" inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromotionWizard" />
+		</set>
+		
+		<property name="sweepstakesActive" type="boolean" column="SWEEPS_ACTIVE" not-null="true" />
+
+		<property name="sweepstakesClaimEligibilityType" column="SWEEPS_CLAIM_ELIGIBILITY_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SweepstakesClaimEligibilityType</param>
+			</type>
+		</property>
+
+		<property name="sweepstakesWinnerEligibilityType" column="SWEEPS_WINNER_ELIGIBILITY_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SweepstakesWinnerEligibilityType</param>
+			</type>
+		</property>
+
+		<property name="sweepstakesMultipleAwardType" column="SWEEPS_MULTIPLE_AWARD_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SweepstakesMultipleAwardsType</param>
+			</type>
+		</property>
+
+		<property name="sweepstakesPrimaryBasisType" column="SWEEPS_PRIMARY_BASIS_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SweepstakesWinnersType</param>
+			</type>
+		</property>
+		
+		<property name="sweepstakesPrimaryWinners" type="java.lang.Integer" column="SWEEPS_PRIMARY_WINNERS" />
+		<property name="sweepstakesPrimaryAwardAmount" type="java.lang.Long" column="SWEEPS_PRIMARY_AWARD_AMOUNT" />
+		<property name="sweepstakesPrimaryAwardLevel" type="java.lang.Long" not-null="false" column="SWEEPS_PRIMARY_AWARD_LEVEL" />
+
+		<property name="sweepstakesSecondaryBasisType" column="SWEEPS_SECONDARY_BASIS_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SweepstakesWinnersType</param>
+			</type>
+		</property>
+		
+		<property name="sweepstakesSecondaryWinners" type="java.lang.Integer" column="SWEEPS_SECONDARY_WINNERS" />
+		<property name="sweepstakesSecondaryAwardAmount" type="java.lang.Long" column="SWEEPS_SECONDARY_AWARD_AMOUNT" />
+		<property name="sweepstakesSecondaryAwardLevel" type="java.lang.Long" not-null="false" column="SWEEPS_SECONDARY_AWARD_LEVEL" />
+		<property name="purpose" type="java.lang.String" column="PURPOSE" />
+		
+		<property name="scoreBy" column="SCORE_BY">
+      		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+        		<param name="lookupClass">com.biperf.core.domain.enums.ScoreBy</param>
+      		</type>
+    	</property>  
+    	
+    	<many-to-one name="calculator" column="CALCULATOR_ID" class="com.biperf.core.domain.calculator.Calculator" not-null="false" cascade="none" lazy="false" />
+		
+		<property name="allowSelfEnroll" type="boolean" column="ALLOW_SELF_ENROLL" not-null="true"/>
+		<property name="enrollProgramCode" type="java.lang.String" column="ENROLL_PROGRAM_CODE" />		
+		
+		<property name="billCodesActive" type="boolean" column="BILLS_ACTIVE" not-null="true"/>
+		
+		<property name="swpBillCodesActive" type="boolean" column="SWP_BILLS_ACTIVE" not-null="true"/>
+		
+		<set name="promoMerchCountries" lazy="false" inverse="true" table="PROMO_MERCH_COUNTRY" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" not-null="true" />
+			<one-to-many class="com.biperf.core.domain.promotion.PromoMerchCountry" />
+		</set>
+		
+		<!-- Client customization start WIP#25589-->
+		<property name="utilizeParentBudgets" type="boolean" column="ADIH_PARENT_BUDGETS"/>		
+		<!-- Client customization end WIP#25589-->	
+		
+	<!--	Client customization start WIP#42198 -->
+	  <property name="adihCashOption" type="boolean" column="ADIH_CASH_OPTION" />	
+	<property name="adihCashMaxAward" type="java.lang.Long" column="ADIH_CASH_MAX_AWARD" /> 	
+	<!--	Client customization end WIP#42198 -->
+    </class>
+
+	<query name="com.biperf.core.domain.promotion.AllPromotions">
+		<![CDATA[
+      from com.biperf.core.domain.promotion.Promotion promotion
+    ]]>
+	</query>
+
+	<query name="com.biperf.core.domain.promotion.AllLivePromotions">
+		<![CDATA[
+      from com.biperf.core.domain.promotion.Promotion promotion
+     where promotion.promotionStatus = 'active' and promotion.deleted = 0
+    ]]>
+	</query>
+
+	<query name="com.biperf.core.domain.promotion.AllNonExpiredPromotions">
+		<![CDATA[
+      from com.biperf.core.domain.promotion.Promotion promotion
+     where promotion.promotionStatus != 'expired' and promotion.deleted = 0
+    ]]>
+	</query>
+
+	<query name="com.biperf.core.domain.promotion.AllExpiredPromotions">
+		<![CDATA[
+      from com.biperf.core.domain.promotion.Promotion promotion
+     where promotion.promotionStatus = 'expired'
+       and promotion.deleted = 0
+    ]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.promotion.PromotionByEnrollProgramCode">
+		<![CDATA[
+		from com.biperf.core.domain.promotion.Promotion promotion
+	    where promotion.promotionStatus != 'expired' 
+	    and promotion.deleted = 0
+	    and lower(promotion.enrollProgramCode) = :enrollProgramCode
+	]]>		
+	</query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PromotionByNameCount">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+    SELECT count(1) as result
+      FROM promotion
+     WHERE lower(promotion_name) = :promotionName
+       AND promotion_id != :promotionId
+       AND is_deleted = 0
+    ]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.promotion.getAssignedPromotionsByTypeAndUserId">
+		<return alias="promotion" class="com.biperf.core.domain.promotion.Promotion" />
+		<![CDATA[
+      SELECT {promotion.*}
+      FROM promotion,
+           participant_audience,
+           promo_audience
+      WHERE promotion.promotion_id = promo_audience.promotion_id
+        AND promo_audience.audience_id = participant_audience.audience_id
+        AND participant_audience.user_id = :userId
+        AND promotion.promotion_type = 'product_claim'
+    ]]>
+	</sql-query>
+
+	<!--
+		<query name="com.biperf.core.domain.promotion.getAssignedPromotionsByTypeAndUserId">
+		<![CDATA[
+		SELECT promo
+		from com.biperf.core.domain.promotion.Promotion promo,
+		com.biperf.core.domain.audience.Audience audience,
+		com.biperf.core.domain.promotion.PromotionAudience promoAudience
+		WHERE promotion.id = promoAudience.promotion.id
+		AND promoAudience.audience.id = audience.participant.id
+		AND participant_audience.user_id = :userId
+		AND promotion.promotion_type = 'product_claim'
+		]]>
+		</query> -->
+
+	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.depositApprovedJournalsPromotions">
+		<![CDATA[
+      select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from Promotion promotion
+          where promotion
+            in
+            (select journal.promotion from Journal journal where journal.journalStatusType ='approve')
+    ]]>
+	</query>
+
+	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.allLivePromotions">
+		<![CDATA[
+      select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from Promotion promotion
+          where promotion.promotionStatus= 'live' and promotion.deleted = 0          
+    ]]>
+	</query>
+
+	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.allLiveGoalQuestPromotions">
+		<![CDATA[
+      select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from Promotion promotion
+          where promotion.promotionStatus= 'live' and promotion.deleted = 0 
+          and promotion.promotionType = 'goalquest'
+    ]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.allLiveChallengePointPromotions">
+		<![CDATA[
+      select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from Promotion promotion
+          where promotion.promotionStatus= 'live' and promotion.deleted = 0 
+          and promotion.promotionType = 'challengepoint'
+    ]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.allLiveGoalQuestAndChallengePointPromotions">
+		<![CDATA[
+      select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from Promotion promotion
+          where promotion.promotionStatus IN('complete','live') and promotion.deleted = 0 
+          and promotion.promotionType IN('challengepoint','goalquest')
+    ]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.allLiveThrowdownPromotions">
+		<![CDATA[
+      select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from Promotion promotion
+          where promotion.promotionStatus= 'live' and promotion.deleted = 0 
+          and promotion.promotionType = 'throwdown'
+    ]]>
+	</query>	
+	
+	<!-- Bug # 34020 start -->
+	<query name="com.biperf.core.domain.promotion.getAllPromotionsWithSweepstakes">
+		<![CDATA[
+      from com.biperf.core.domain.promotion.Promotion promotion
+     where promotion.sweepstakesActive = java.lang.Boolean.TRUE
+    ]]>
+	</query>
+	<!-- Bug # 34020 end -->
+	
+	<sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ('live', 'expired') and is_deleted = 0 
+        UNION
+        select -1 as id,'OnTheSpot' as value from dual where (select boolean_val from OS_PROPERTYSET where ENTITY_NAME like 'awardbanq.convertcert.used') = 1
+    ]]>
+  </sql-query>
+  
+  	<sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePromotionsWithAwards">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+(SELECT p.promotion_id AS id, p.promotion_name AS VALUE
+  FROM promotion p,
+       (SELECT promotion_id
+          FROM promo_nomination
+         WHERE AWARD_ACTIVE = 1
+        UNION ALL
+        SELECT promotion_id
+          FROM promo_quiz
+         WHERE AWARD_ACTIVE = 1
+        UNION ALL
+        SELECT promotion_id
+          FROM promo_recognition
+         WHERE AWARD_ACTIVE = 1) a
+WHERE     P.PROMOTION_ID = a.promotion_id
+       AND p.promotion_status IN ('live', 'expired')
+       AND p.is_deleted = 0)
+UNION ALL
+SELECT -1 AS id, 'OnTheSpot' AS VALUE
+  FROM DUAL
+WHERE (SELECT boolean_val
+          FROM OS_PROPERTYSET
+         WHERE ENTITY_NAME LIKE 'awardbanq.convertcert.used') = 1
+UNION ALL
+SELECT promotion_id AS id, promotion_name AS VALUE
+  FROM promotion
+WHERE     promotion_type IN ('goalquest',
+                              'badge',
+                              'throwdown',
+                              'challengepoint',
+                              'product_claim',
+                              'self_serv_incentives')
+       AND promotion_status IN ('live', 'expired')
+       AND is_deleted = 0    
+       ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePromotionsWithBudget">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ('live', 'expired') and is_deleted = 0 and AWARD_BUDGET_MASTER_ID is not null
+        UNION 
+		select p.promotion_id as id, 
+			   p.promotion_name as value
+             from Promotion p,
+        		  promo_recognition pr
+          where p.promotion_id = pr.promotion_id and p.promotion_status in ('live', 'expired') and p.is_deleted = 0 and pr.public_rec_budget_master_id is not null
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePromotionsWithCashBudget">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ('live', 'expired') and is_deleted = 0 and CASH_BUDGET_MASTER_ID is not null
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveProductClaimPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ( 'live', 'expired' ) and is_deleted = 0 and promotion_type='product_claim'
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveRecognitionPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ( 'live', 'expired' ) and is_deleted = 0 and promotion_type='recognition'
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePurlRecognitionPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select p.promotion_id as id, p.promotion_name as value
+		from Promotion p, promo_recognition pr  
+          where p.promotion_id = pr.promotion_id and p.promotion_status in ( 'live', 'expired' ) and p.is_deleted = 0 and p.promotion_type='recognition' and pr.is_include_purl = 1
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveRecognitionBehaviorPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		SELECT p.promotion_id AS id,
+		  p.promotion_name    AS value
+		FROM promotion p,
+		  promo_recognition pr
+		WHERE p.promotion_id    =pr.promotion_id
+		AND p.promotion_type    ='recognition'
+		AND p.promotion_status IN ( 'live', 'expired' )
+		AND pr.behavior_active  =1
+		AND is_deleted          = 0
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveNominationBehaviorPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		SELECT p.promotion_id AS id,
+		  p.promotion_name    AS value
+		FROM promotion p,
+		  promo_nomination pn
+		WHERE p.promotion_id    =pn.promotion_id
+		AND p.promotion_type    ='nomination'
+		AND p.promotion_status IN ( 'live', 'expired' )
+		AND pn.behavior_active  =1
+		AND is_deleted          = 0
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveBehaviorPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		SELECT p.promotion_id AS id,
+		  p.promotion_name    AS value
+		FROM promotion p,
+		  promo_recognition pr
+		WHERE p.promotion_id    =pr.promotion_id
+		AND p.promotion_type    ='recognition'
+		AND p.promotion_status IN ( 'live', 'expired' )
+		AND pr.behavior_active  =1
+		AND is_deleted          = 0
+		UNION ALL
+		SELECT p.promotion_id AS id,
+		  p.promotion_name    AS value
+		FROM promotion p,
+		  promo_nomination pn
+		WHERE p.promotion_id    =pn.promotion_id
+		AND p.promotion_type    ='nomination'
+		AND p.promotion_status IN ( 'live', 'expired' )
+		AND pn.behavior_active  =1
+		AND is_deleted          = 0
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveThrowdownPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ( 'live', 'expired' ) and is_deleted = 0 and promotion_type='throwdown'
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveQuizPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ( 'live', 'expired' ) and is_deleted = 0 and promotion_type in ('quiz','diy_quiz')
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveQuizAndDIYQuizPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		SELECT -1*q.quiz_id AS ID,
+		  'DIY Promotion '
+		  ||q.name AS value
+		FROM quiz q,
+		  promotion p,
+		  diy_quiz dq
+		WHERE promotion_status IN ( 'live', 'expired' )
+		AND is_deleted          = 0
+		AND q.quiz_id           =dq.quiz_id
+		AND dq.promotion_id     = p.promotion_id
+		AND p.promotion_type    ='diy_quiz'
+		UNION ALL
+		SELECT promotion_id AS id,
+		  promotion_name    AS value
+		FROM Promotion
+		WHERE promotion_status IN ( 'live', 'expired' )
+		AND is_deleted          = 0
+		AND promotion_type      ='quiz'
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveNominationPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ( 'live', 'expired' ) and is_deleted = 0 and promotion_type='nomination'
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveSurveyPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+	  	with un2 as
+         (select count(1) cnt from user_node where user_id=:param and role in ('mgr','own'))
+         select p.promotion_id as id, P.promotion_name as value 
+           from promotion p,         
+                promo_survey ps, un2         
+         WHERE p.promotion_id = ps.promotion_id  
+           AND ps.is_corp_and_mngr = 1
+           AND un2.cnt >= 1
+         UNION    
+          select p.promotion_id as id, P.promotion_name as value 
+           from promotion p,         
+                promo_survey ps, un2         
+         WHERE p.promotion_id = ps.promotion_id  
+           AND un2.cnt = 0
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveGoalQuestPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+        select promotion_id as id, promotion_name ||' '|| to_char(promotion_start_date, 'MM/DD/YYYY') || ' - ' || to_char(promotion_end_date, 'MM/DD/YYYY') as value
+        from Promotion 
+          where promotion_status in ('live','expired') and is_deleted = 0 and promotion_type='goalquest'
+          order by promotion_start_date desc, promotion_name
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveChallengePointPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name ||' '|| to_char(promotion_start_date, 'MM/DD/YYYY') || ' - ' || to_char(promotion_end_date, 'MM/DD/YYYY') as value
+        from Promotion 
+          where promotion_status in ('live','expired') and is_deleted = 0 and promotion_type='challengepoint'
+          order by promotion_start_date desc, promotion_name
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveWellnessPointPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		select promotion_id as id, promotion_name as value
+		from Promotion 
+          where promotion_status in ( 'live', 'expired' ) and is_deleted = 0 and promotion_type='wellness'
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.promotion.getPublicRecognitionPromotionsWithClaims">
+	<return-scalar column="promotionId" type="long"/>
+	<![CDATA[
+		SELECT c.promotion_id AS promotionId
+		FROM promo_recognition pr,
+		  promotion p,
+		  claim c,
+		  recognition_claim rc
+		WHERE p.promotion_id            = pr.promotion_id
+		AND p.promotion_status          = 'live'
+		AND pr.promotion_id             = c.promotion_id
+		AND pr.allow_public_recognition = 1
+		AND rc.claim_id                 = c.claim_id
+		AND rc.hide_public_recognition  = 0
+		UNION
+		SELECT c.promotion_id AS promotionId
+		FROM promo_nomination pn,
+		  promotion p,
+		  claim c,
+		  nomination_claim nc
+		WHERE p.promotion_id            = pn.promotion_id
+		AND p.promotion_status          = 'live'
+		AND pn.promotion_id             = c.promotion_id
+		AND pn.allow_public_recognition = 1
+		AND nc.claim_id                 = c.claim_id
+		AND nc.hide_public_recognition  = 0
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.promotion.getPurlRecognitionPromotionsListOnPurlTile">
+	<return-scalar column="purlRecipientId" type="long"/>
+	<![CDATA[
+		SELECT pr.purl_recipient_id AS purlRecipientId
+		FROM purl_recipient pr
+		WHERE pr.state in ( 'invitation', 'contribution', 'recognition', 'complete' )
+	]]>
+  </sql-query>
+  
+	<sql-query name="com.biperf.core.domain.promotion.getMerchandisePromotionIds">
+    <return-scalar column="PROMOTION_ID" type="long"/>
+		<![CDATA[
+    	SELECT promotion_id
+		  FROM promotion 
+		 where award_type = 'merchandise'
+		union
+		SELECT promotion_id
+		   FROM promo_challengepoint
+		  WHERE CHALLENGE_POINT_AWARD_TYPE = 'merchTra'
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePlateauPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+		SELECT promotion_id AS id, promotion_name AS value
+		FROM Promotion 
+        WHERE promotion_status in ( 'live', 'expired' ) 
+          AND is_deleted = 0 
+          AND award_type = 'merchandise'
+    ]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.node.reportParameterValueChoices.allEngagementRecognitionPromotions">
+	<![CDATA[
+     select new com.biperf.core.value.FormattedValueBean(pep.eligiblePromotion.id, pep.eligiblePromotion.promotionName)
+        from Promotion p, EngagementPromotions pep
+          where p.promotionStatus = 'live' and p.deleted = 0
+          and p.id = pep.promotion.id and p.promotionType = 'engagement'
+    ]]>
+  </query>
+  
+  	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.allLiveRecognitionBudgetNotifications">
+	<![CDATA[
+     select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from Promotion promotion, PromotionNotification promotionNotification
+          where promotion.promotionStatus= 'live' and promotion.deleted = 0
+          and  promotion.id =  promotionNotification.promotion.id
+          and promotionNotification.promotionEmailNotificationType = 'budget_reminder' order by promotion.promotionName         
+    ]]>
+  	</query>
+  	
+  	<sql-query name="com.biperf.core.domain.promotion.getEligibleBadges">
+		<return alias="promotion" class="com.biperf.core.domain.promotion.Promotion" />
+		<![CDATA[
+			select distinct {promotion.*} 
+			      FROM promotion,
+			      badge_rule
+    			where promotion.promotion_status = 'live'
+      			  and promotion.promotion_type = 'badge'
+      			  and promotion.promotion_id = badge_rule.promotion_id
+      			  and badge_rule.eligible_for_sweepstake = 1
+	]]>		
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getEligiblePromotionsFromPromoBadgeId">
+		<return-scalar column="id" type="long"/>
+		<![CDATA[
+			SELECT p.promotion_id AS id 
+			    FROM promotion p,
+			         badge_promotion bp
+			  WHERE bp.promotion_id = :promoBadgeId
+			    AND p.promotion_id = bp.eligible_promotion_id
+			    AND p.promotion_status = 'live'
+	]]>		
+	</sql-query>
+	
+	<query name="com.biperf.core.domain.promotion.engagement.allEngagementEligiblePromotions">
+		<![CDATA[
+	      	select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+	        	from Promotion promotion, RecognitionPromotion recognitionPromotion
+	        where promotion.promotionStatus IN('complete','live') and promotion.deleted = 0 
+	          and promotion.promotionType = 'recognition'
+	          and promotion.id = recognitionPromotion.id
+	          and recognitionPromotion.includePurl = 0
+    	]]>
+	</query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getAllSortedApproverPromotions">
+		<return-scalar column="id" type="long"/>
+		<return-scalar column="name" type="string"/>
+		<return-scalar column="approvalEndDate" type="string"/>
+		<![CDATA[
+			SELECT
+       p.PROMOTION_ID AS id,
+       (UPPER (p.PROMOTION_NAME)) AS name,
+       p.approval_end_date AS approvalEndDate
+  FROM claim c, promotion p
+WHERE     c.promotion_id = p.promotion_id
+       AND TRUNC (SYSDATE) >=
+              TRUNC (NVL (p.approval_start_date, TRUNC (SYSDATE)))       
+       AND (   c.claim_id IN (SELECT cas.claim_id
+                                FROM claim_approver_snapshot cas, claim c
+                               WHERE     cas.claim_id = c.claim_id
+                                     AND c.claim_group_id IS NULL
+                                     AND approver_user_id = :userId)
+            OR c.promotion_id IN (SELECT promotion_id
+                                    FROM promo_approval_participant
+                                   WHERE     user_id = :userId
+                                         AND PROMO_PARTICIPANT_TYPE =
+                                                'APPROVER'))
+       AND p.PROMOTION_TYPE = :promotionType
+UNION
+SELECT this_.promotion_id AS id,
+       (UPPER (p.promotion_name)) AS name,
+       p.approval_end_date AS approvalEndDate
+  FROM claim_group this_, promotion p
+WHERE     this_.promotion_id = p.promotion_id
+                AND TRUNC (SYSDATE) <= TRUNC (NVL (p.approval_end_date,SYSDATE))            
+               AND this_.claim_group_id IN (SELECT claim_group_id
+                                      FROM claim_item_approver
+                                     WHERE approver_user_id = :userId
+                                     UNION ALL
+                                     SELECT claim_group_id
+                                      FROM claim_approver_snapshot
+                                     WHERE approver_user_id = :userId
+                                     )
+       AND 'nomination' = :promotionType
+ORDER BY approvalEndDate ASC	
+	]]>		
+	</sql-query>
+	
+		<sql-query name="com.biperf.core.domain.promotion.getMerchOrdersToGenerateGiftCodeByPromotionIdAndUserId">
+	    <return alias="mo" class="com.biperf.core.domain.merchandise.MerchOrder" />
+		<![CDATA[
+	      	select {mo.*} 
+			    from merch_order mo,
+			         activity_merch_order amo,
+			         activity a
+			   where a.promotion_id = :promotionId
+			     and mo.merch_order_id = amo.merch_order_id
+			     and a.activity_id = amo.activity_id
+			     and nvl(a.user_id,0) = nvl(:userId,nvl(a.user_id,0))
+			     and REPLACE(mo.gift_code,'{AES}','') is null
+    	]]>
+	</sql-query>
+	<sql-query name="com.biperf.core.domain.promotion.getMerchOrderByPromotionIdAndUserId">
+	    <return-scalar column="result" type="integer" />
+		<![CDATA[
+	      	select count(*) as result 
+	      		  from ( select mo.*
+						    from merch_order mo,
+						         activity_merch_order amo,
+						         activity a
+						   where a.promotion_id = :promotionId
+						     and mo.merch_order_id = amo.merch_order_id
+						     and a.activity_id = amo.activity_id
+						     and a.user_id = :userId )
+    	]]>
+	</sql-query>
+		
+  	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.allNonExpiredPointsPromotions">
+	<![CDATA[
+     select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from Promotion promotion
+          where promotion.promotionStatus != 'expired'
+          and promotion.awardType = com.biperf.core.domain.enums.PromotionAwardsType.POINTS
+          order by promotion.promotionName
+    ]]>
+  	</query>
+		
+	<sql-query name="com.biperf.core.domain.promotion.getNominationECards">
+		<return-scalar column="card_id" type="long" />
+		<return-scalar column="card_name" type="string" />
+		<return-scalar column="small_image_name" type="string" />
+		<return-scalar column="large_image_name" type="string" />
+		<return-scalar column="draw_your_own_card" type="boolean" />
+		<return-scalar column="card_type" type="string" />
+		<return-scalar column="is_translatable" type="boolean" />
+		<return-scalar column="locale" type="string" />
+		<![CDATA[
+			SELECT c.card_id, 
+				c.card_name, 
+				c.small_image_name, 
+				c.large_image_name, 
+				pn.draw_your_own_card, 
+				'card' AS card_type,
+				ec.is_translatable,
+				ecl.locale
+			FROM promo_nomination pn, 
+				promo_card pc, 
+				card c,
+				ecard ec,
+				ecard_locale ecl
+			WHERE pn.promotion_id = :promotionId 
+				AND pc.promotion_id = pn.promotion_id 
+				AND pc.card_id = c.card_id
+				AND ec.card_id = c.card_id
+				AND UPPER(:userLocale) = UPPER(ecl.locale(+))
+				AND c.card_id = ecl.card_id(+)
+				AND c.is_active = 1
+			ORDER BY pc.order_number
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getBehaviorTypes">
+		<return-scalar column="behavior_type" type="string" />
+		<![CDATA[
+			SELECT pb.behavior_type 
+			FROM promo_behavior pb 
+			WHERE pb.promotion_id = :promotionId 
+			ORDER BY pb.behavior_order
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getPromotionIdsForBehavior">
+		<return-scalar column="promotion_id" type="long" />
+		<![CDATA[
+			SELECT DISTINCT pb.promotion_id 
+			FROM promo_behavior pb 
+			WHERE pb.behavior_type = :behaviorType 
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getApprovalOptionsByApproverId">
+		<return alias="approverOption" class="com.biperf.core.domain.promotion.ApproverOption" />
+		<![CDATA[
+			SELECT * 
+			FROM approver_option approverOption 
+			WHERE PROMO_APPROVAL_PARTICIPANT_ID = :approverId 
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getApprovalOptionsByPromotionId">
+		<return alias="approverOption" class="com.biperf.core.domain.promotion.ApproverOption" />
+		<![CDATA[
+			SELECT * 
+			FROM approver_option approverOption 
+			WHERE approval_round = :approvalLevel
+			AND promotion_id = :promotionId 
+		]]>
+	</sql-query>
+	
+  <sql-query name="com.biperf.core.domain.promotion.getApproverList">
+		<return-scalar column="user_name" type="string" />
+		<return-scalar column="last_name" type="string" />
+		<return-scalar column="first_name" type="string" />
+		<return-scalar column="approver_type" type="string" />
+		<return-scalar column="approver_value" type="string" />		
+		<![CDATA[
+						SELECT au.user_name,
+                         au.last_name,
+                         au.first_name,
+                         CASE
+                            WHEN ao.approver_type = 'characteristic'
+                            THEN
+                               'Characteristic' || ' - ' || c.description
+                            WHEN ao.approver_type = 'behavior'
+                            THEN
+                               'Behavior'
+                            WHEN ao.approver_type = 'award'
+                            THEN
+                               'Award'                                      
+                            ELSE
+                               ao.approver_type
+                         END
+                            approver_type,
+                         CASE
+                            WHEN ao.approver_type = 'award' AND ac.max_val IS
+NOT NULL
+                            THEN ac.min_val || ' - ' || ac.max_val
+                            WHEN ao.approver_type = 'award' AND ac.max_val IS
+NULL
+                            THEN
+                               TO_CHAR(ac.min_val)
+                            WHEN ao.approver_type = 'behavior'
+                            THEN
+                               fnc_cms_picklist_value
+('picklist.promo.nomination.behavior.items', ac.approver_value, 'en_US') 
+                            WHEN ao.approver_type = 'characteristic' AND
+c.pl_name IS NOT NULL
+                            THEN
+                               fnc_cms_picklist_value (c.pl_name,
+ac.approver_value, 'en_US')
+                            ELSE
+                               ac.approver_value
+                         END
+                           approver_value
+                    FROM approver_option ao,
+                         approver_criteria ac,
+                         approver a,
+                         application_user au,
+                         characteristic c
+                  WHERE     ao.promotion_id=:promotionId
+                         AND ao.approval_round=:levelId
+                         AND ao.approver_option_id = ac.approver_option_id
+                         AND ac.approver_criteria_id = a.approver_criteria_id
+                         AND a.user_id = au.user_id
+                         AND ao.characteristic_id = c.characteristic_id(+)
+
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allBadgePromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+	  	 SELECT promotion_id as id, promotion_name as value
+	  	 FROM promotion
+	  	 WHERE promotion_type = 'badge'
+	  	 AND promotion_status in ( 'live', 'expired' )
+	  	 ORDER BY promotion_name
+	  ]]>
+    </sql-query>
+
+
+	<sql-query name="com.biperf.core.domain.promotion.getNominationPromotionListForApproverFileLoad">
+		<return-scalar column="id" type="long" />
+		<return-scalar column="name" type="string" />				
+		<![CDATA[
+	select distinct  p.promotion_id as id , p.promotion_name  as name  from promotion  p , approver_option  ao
+        where 
+        p.promotion_id =  ao.promotion_id  and    
+        ao.approver_type  in('behavior' , 'characteristic' ,  'award' )  and
+        p.promotion_status not in('expired')  order by 2
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getNominationApprovalClaimPromotions">
+		<return-scalar column="id" type="long" />
+		<return-scalar column="name" type="string" />
+		<return-scalar column="liveDate" type="date" />									
+		<![CDATA[
+	select distinct p.promotion_id as id , p.promotion_name as name, p.promotion_start_date as liveDate from promotion p, claim c, claim_item ci 
+		where promotion_type = 'nomination' and P.PROMOTION_ID = c.promotion_id and P.PROMOTION_STATUS = 'live' and c.claim_id = ci.claim_id 
+  		and ci.approval_status_type in ('pend', 'approv', 'non_winner', 'more_info', 'expired') order by 2
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getTotalUnapprovedAwardQuantity">
+    <return-scalar column="totalAwardQty" type="java.math.BigDecimal"/>
+      <![CDATA[
+      
+      SELECT NVL(SUM(award_qty),0) as totalAwardQty
+      FROM claim c,claim_item ci,claim_recipient cr, promotion p
+      WHERE c.claim_id = ci.claim_id
+      AND ci.claim_item_id = cr.claim_item_id
+      AND c.is_open = 1
+      AND c.promotion_id = p.promotion_id
+      
+      ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.claim.getTotalUnapprovedAwardQuantityPurl">
+    <return-scalar column="totalAwardQty" type="java.math.BigDecimal"/>
+      <![CDATA[
+      
+      SELECT NVL(SUM(award_amount),0) as totalAwardQty
+      FROM purl_recipient pr, promotion p
+      WHERE pr.state IN ( 'invitation', 'contribution' )
+      AND pr.award_date > sysdate
+      AND pr.promotion_id = p.promotion_id
+           
+      ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.claim.getClaimAwardQty">
+    <return-scalar column="claimAward" type="long"/>
+      <![CDATA[
+      
+      SELECT cr.award_qty as claimAward
+      FROM claim c,claim_item ci,claim_recipient cr
+      WHERE c.claim_id = :claimId
+      AND c.claim_id = ci.claim_id
+      AND ci.claim_item_id = cr.claim_item_id
+      ]]>
+  </sql-query>
+  
+ <sql-query name="com.biperf.core.domain.claim.getTotalImportPaxAwardQuantity">
+    <return-scalar column="importFileTotalAwardQty" type="long"/>
+      <![CDATA[
+      
+      SELECT NVL(SUM(award_amount),0) as importFileTotalAwardQty
+      FROM stage_deposit_import_record s
+      WHERE s.import_file_id = :importFileId
+      ]]>
+  </sql-query>  
+	
+    <sql-query name="com.biperf.core.domain.promotion.checkIfAnyPointsContestsByPaxId">
+       <return-scalar column="id" type="long"/>
+       <![CDATA[
+               select SSI_CONTEST_ID as id from SSI_CONTEST where SSI_CONTEST_ID in (
+                     select SSI_CONTEST_ID from SSI_CONTEST_PARTICIPANT where 
+                     USER_ID=:userId) and PAYOUT_TYPE='points' and STATUS!='closed'
+         ]]>
+     </sql-query>
+
+	<sql-query name="com.biperf.core.domain.promotion.getUAGoalQuestPromotionStartDate">
+	<return-scalar column="startDate" type="date" />									
+  		<![CDATA[
+  	    Select p1.promotion_start_date as startDate from (SELECT p.promotion_start_date
+		 FROM PROMOTION p,promo_goalquest g
+ 		 WHERE p.promotion_id=g.promotion_id
+ 			AND ALLOW_UNDER_ARMOUR = 1
+ 			AND PROMOTION_TYPE = 'goalquest'
+ 			AND PROMOTION_STATUS = 'live'
+ 			AND (PRIMARY_AUDIENCE_TYPE = 'allactivepaxaudience'
+ 			OR  (PRIMARY_AUDIENCE_TYPE = 'specifyaudience' AND EXISTS
+                             (SELECT PROMOTION_ID
+                              FROM PROMO_AUDIENCE c,PARTICIPANT_AUDIENCE d
+                              WHERE c.AUDIENCE_ID = d.AUDIENCE_ID AND c.PROMOTION_ID = p.PROMOTION_ID AND d.USER_ID = :userId ) 
+    		))order by p.promotion_start_date asc) p1 where rownum=1
+  		]]>
+   </sql-query>
+   
+   <!--  Alerts Performance Tuning -->
+  <sql-query name="com.biperf.core.domain.promotion.getExpiredPromotionBeans">
+		<return-scalar column="promotion_id" type="long" />
+		<return-scalar column="promotion_type" type="string" />
+		<![CDATA[
+			select promotion_id,promotion_type from promotion 
+     		where promotion_status = 'expired'
+		]]>
+	</sql-query>
+	
+	<query name="com.biperf.core.domain.promotion.processParameterValueChoices.merchOrderNullGiftCodePromotions">
+		<![CDATA[
+	     
+
+			select DISTINCT new com.biperf.core.value.FormattedValueBean(p.id, p.promotionName) 
+				        from com.biperf.core.domain.promotion.Promotion p, com.biperf.core.domain.claim.Claim c, com.biperf.core.domain.merchandise.MerchOrder m
+				       where p.id = c.promotion.id
+				         and c.id = m.claim.id
+				         and m.redeemed = 0
+				         and m.giftCodeDecrypted IS NULL
+			or  p.id in (SELECT  pg.id
+					       
+					  FROM 
+					       com.biperf.core.domain.promotion.PromoGqMerchOrder pg
+					)
+			         
+			order by p.promotionName 
+        ]]>
+	</query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getRAEligiblePromotions">
+		<![CDATA[
+			WITH promo as (
+    SELECT p.*
+      FROM promotion p,
+           promo_recognition pr
+     WHERE p.promotion_id = pr.promotion_id
+       AND pr.is_include_purl = 0
+       AND pr.include_celebrations = 0
+       AND promotion_type = 'recognition'
+       AND award_type != 'merchandise'
+       AND promotion_status IN ('live','expired')
+       AND is_fileload_entry = 0)
+    -- Get the list of promotion assocaited to pax
+    SELECT p.promotion_id,p.promotion_name
+      FROM participant_audience pax_aud,
+           promo_audience promo_aud,
+           promo p
+     WHERE pax_aud.audience_id = promo_aud.audience_id 
+       AND promo_audience_type = 'PRIMARY' 
+       AND promo_aud.promotion_id = p.promotion_id
+       AND pax_aud.user_id = :p_in_user_id
+    UNION
+    -- Get the list of promotion assocaited to pax(all active pax - pax is part of allactive)
+    SELECT p.promotion_id,p.promotion_name
+      FROM promo p 
+     WHERE p.primary_audience_type = 'allactivepaxaudience'
+     UNION
+     -- Get the list of all promotion for the giver as submitter
+     SELECT p.promotion_id,p.promotion_name
+       FROM claim c,
+	        claim_item ci,
+            promo p
+      WHERE c.promotion_id = p.promotion_id
+	    AND c.claim_id =  ci.claim_id
+		AND ci.approval_status_type = 'approv'
+        AND submitter_id = :p_in_user_id		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePromotions.dmsa">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[		
+        SELECT promotion_id as id, promotion_name as value
+          FROM Promotion p 
+         WHERE promotion_status in ('live', 'expired') and is_deleted = 0 
+           AND NOT EXISTS (SELECT r.promotion_id 
+                             FROM promo_recognition r,
+                                  promotion pp   
+                            WHERE r.promotion_id = pp.promotion_id 
+                              AND r.promotion_id = p.promotion_id 
+                              AND (r.is_include_purl = 1 OR r.include_celebrations = 1))
+        UNION
+        select -1 as id,'OnTheSpot' as value from dual where (select boolean_val from OS_PROPERTYSET where ENTITY_NAME like 'awardbanq.convertcert.used') = 1
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePromotionsWithAwards.dmsa">
+  	  <return-scalar column="id" type="long"/>
+  	  <return-scalar column="value" type="string"/>
+  	  <![CDATA[
+  (SELECT p.promotion_id AS id, p.promotion_name AS VALUE
+    FROM promotion p,
+         (SELECT promotion_id
+            FROM promo_nomination
+           WHERE AWARD_ACTIVE = 1
+          UNION ALL
+          SELECT promotion_id
+            FROM promo_quiz
+           WHERE AWARD_ACTIVE = 1
+          UNION ALL
+          SELECT promotion_id
+            FROM promo_recognition
+           WHERE AWARD_ACTIVE = 1) a
+  WHERE     P.PROMOTION_ID = a.promotion_id
+         AND p.promotion_status IN ('live', 'expired')
+         AND p.is_deleted = 0
+         AND NOT EXISTS (SELECT r.promotion_id 
+                           FROM promo_recognition r,
+                                promotion pp   
+                          WHERE r.promotion_id = pp.promotion_id 
+                            AND r.promotion_id = p.promotion_id 
+                            AND (r.is_include_purl = 1 OR r.include_celebrations = 1)))     
+  UNION ALL
+  SELECT -1 AS id, 'OnTheSpot' AS VALUE
+    FROM DUAL
+  WHERE (SELECT boolean_val
+            FROM OS_PROPERTYSET
+           WHERE ENTITY_NAME LIKE 'awardbanq.convertcert.used') = 1
+  UNION ALL
+  SELECT promotion_id AS id, promotion_name AS VALUE
+    FROM promotion
+  WHERE     promotion_type IN ('goalquest',
+                                'badge',
+                                'throwdown',
+                                'challengepoint',
+                                'product_claim',
+                                'self_serv_incentives')
+         AND promotion_status IN ('live', 'expired')
+         AND is_deleted = 0    
+         ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePromotionsWithBudget.dmsa">
+  	  <return-scalar column="id" type="long"/>
+  	  <return-scalar column="value" type="string"/>
+  	  <![CDATA[  	   
+  		select promotion_id as id, promotion_name as value
+  		  from Promotion 
+         where promotion_status in ('live', 'expired') and is_deleted = 0 and AWARD_BUDGET_MASTER_ID is not null
+          UNION 
+  		select p.promotion_id as id, 
+  			   p.promotion_name as value
+          from Promotion p,
+          	   promo_recognition pr
+           where p.promotion_id = pr.promotion_id and p.promotion_status in ('live', 'expired') and p.is_deleted = 0 and pr.public_rec_budget_master_id is not null
+      ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePromotionsWithCashBudget.dmsa">
+  	  <return-scalar column="id" type="long"/>
+  	  <return-scalar column="value" type="string"/>
+  	  <![CDATA[
+  		select promotion_id as id, promotion_name as value
+  		from Promotion p
+       where promotion_status in ('live', 'expired') and is_deleted = 0 and CASH_BUDGET_MASTER_ID is not null
+         AND NOT EXISTS (SELECT r.promotion_id 
+                           FROM promo_recognition r,
+                                promotion pp   
+                          WHERE r.promotion_id = pp.promotion_id 
+                            AND r.promotion_id = p.promotion_id 
+                            AND (r.is_include_purl = 1 OR r.include_celebrations = 1))         
+      ]]>
+  </sql-query>
+  
+   <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveRecognitionPromotions.dmsa">
+  	  <return-scalar column="id" type="long"/>
+  	  <return-scalar column="value" type="string"/>
+  	  <![CDATA[
+  		 select promotion_id as id, promotion_name as value
+  		from Promotion p
+       where promotion_status in ( 'live', 'expired' ) and is_deleted = 0 and promotion_type='recognition'
+            AND NOT EXISTS (SELECT r.promotion_id 
+                           FROM promo_recognition r,
+                                promotion pp   
+                          WHERE r.promotion_id = pp.promotion_id 
+                            AND r.promotion_id = p.promotion_id 
+                            AND (r.is_include_purl = 1 OR r.include_celebrations = 1))
+      ]]>
+  </sql-query>
+  
+  <!-- Dummy Sql -->
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePurlRecognitionPromotions.dmsa">
+  	  <return-scalar column="id" type="long"/>
+  	  <return-scalar column="value" type="string"/>
+  	  <![CDATA[ 
+  	  SELECT program_id as id,program_name as value FROM program where program_id = -1
+  	  ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveRecognitionBehaviorPromotions.dmsa">
+  	  <return-scalar column="id" type="long"/>
+  	  <return-scalar column="value" type="string"/>
+  	  <![CDATA[
+  		SELECT p.promotion_id AS id,
+  		  p.promotion_name    AS value
+  		FROM promotion p,
+  		  promo_recognition pr
+  		WHERE p.promotion_id    =pr.promotion_id
+  		AND p.promotion_type    ='recognition'
+  		AND p.promotion_status IN ( 'live', 'expired' )
+  		AND pr.behavior_active  =1
+  		AND is_deleted          = 0
+  		AND NOT EXISTS (SELECT r.promotion_id 
+                           FROM promo_recognition r,
+                                promotion pp   
+                          WHERE r.promotion_id = pp.promotion_id 
+                            AND r.promotion_id = p.promotion_id   
+                            AND (r.is_include_purl = 1 OR r.include_celebrations = 1))
+      ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLiveBehaviorPromotions.dmsa">
+  	  <return-scalar column="id" type="long"/>
+  	  <return-scalar column="value" type="string"/>
+  	  <![CDATA[
+  		(SELECT p.promotion_id AS id,
+  		  p.promotion_name    AS value
+  		FROM promotion p,
+  		  promo_recognition pr
+  		WHERE p.promotion_id    =pr.promotion_id
+  		AND p.promotion_type    ='recognition'
+  		AND p.promotion_status IN ( 'live', 'expired' )
+  		AND pr.behavior_active  =1
+  		AND is_deleted          = 0
+  		AND NOT EXISTS (SELECT r.promotion_id 
+                           FROM promo_recognition r,
+                                promotion pp   
+                          WHERE r.promotion_id = pp.promotion_id 
+                            AND r.promotion_id = p.promotion_id 
+                            AND (r.is_include_purl = 1 OR r.include_celebrations = 1)))
+  UNION ALL  
+  		SELECT p.promotion_id AS id,
+  		  p.promotion_name    AS value
+  		FROM promotion p,
+  		  promo_nomination pn
+  		WHERE p.promotion_id    =pn.promotion_id
+  		AND p.promotion_type    ='nomination'
+  		AND p.promotion_status IN ( 'live', 'expired' )
+  		AND pn.behavior_active  =1
+  		AND is_deleted          = 0
+      ]]>
+    </sql-query>
+    
+   <sql-query name="com.biperf.core.domain.promotion.getNonPurlAndCelebPromotionsName">
+  	  <return-scalar column="NAME" type="string"/>
+  	  <![CDATA[ 
+		SELECT PROMOTION_NAME AS NAME FROM PROMOTION WHERE PROMOTION_ID IN (Select PROMOTION_ID from PROMO_RECOGNITION where is_include_purl != 1 AND include_celebrations != 1)
+		]]>
+  </sql-query> 
+  
+  <sql-query name="com.biperf.core.domain.node.reportParameterValueChoices.allLivePlateauPromotions.dmsa">
+  	  <return-scalar column="id" type="long"/>
+  	  <return-scalar column="value" type="string"/>
+  	  <![CDATA[
+  		SELECT promotion_id AS id, promotion_name AS value
+  		FROM Promotion 
+          WHERE promotion_status in ( 'live', 'expired' ) 
+            AND is_deleted = 0 
+            AND award_type = 'merchandise'
+            AND promotion_id in (Select PROMOTION_ID from PROMO_RECOGNITION where is_include_purl != 1 AND include_celebrations != 1)
+      ]]>
+  </sql-query>
+  
+  <!-- Client customization -->
+  <sql-query name="com.biperf.core.domain.promotion.isCashPromo">
+	  <return-scalar column="adih_cash_option" type="boolean"/>
+	  <![CDATA[
+		select adih_cash_option from promotion where promotion_id=:promotionId
+	  ]]>
+  </sql-query>
+	
+</hibernate-mapping>

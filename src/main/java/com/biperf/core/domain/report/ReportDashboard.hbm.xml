@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.report.ReportDashboard" table="REPORT_DASHBOARD">
+
+        <id name="id" type="java.lang.Long" column="REPORT_DASHBOARD_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">REPORT_DASHBOARD_PK_SQ</param>
+            </generator>
+        </id>
+        
+        <version name="version" column="VERSION" type="java.lang.Long" />
+
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED"/>
+            <column name="CREATED_BY"/>
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+            <column name="DATE_MODIFIED"/>
+            <column name="MODIFIED_BY"/>
+        </property>
+
+        <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="false"/>
+        <list name="reportDashboardItems" table="REPORT_DASHBOARD_ITEM" inverse="false" cascade="all-delete-orphan" lazy="false">
+          <key column="REPORT_DASHBOARD_ID" not-null="true"/>
+          <list-index column="sequence_num" />      
+          <one-to-many class="com.biperf.core.domain.report.ReportDashboardItem"/>
+        </list>
+        <property name="highlights" type="java.lang.String" column="HIGHLIGHTS"/>
+
+    </class>
+    <query name="com.biperf.core.domain.report.getUserDashboard">
+     from ReportDashboard dashboard  where dashboard.user.id = :paxId
+    </query>
+    
+    <sql-query name="com.biperf.core.domain.report.getUserDashboardExists">
+    	<return-scalar column="reportExists" type="integer"/>
+    <![CDATA[
+	    select count(1) as reportExists
+          from report_dashboard 
+         where user_id = :paxId
+	]]> 
+    </sql-query>
+    
+</hibernate-mapping>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- Recognition Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.ssi.SSIPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_SSI" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+  
+	<property name="selectedContests" type="java.lang.Long" column="SELECTED_CONTESTS" />
+	<property name="allowAwardPoints" type="boolean" column="ALLOW_AWARD_POINTS" not-null="true"/>
+	<property name="allowAwardOther" type="boolean" column="ALLOW_AWARD_OTHER" not-null="true"/>
+	<property name="allowActivityUpload" type="java.lang.Boolean" column="ALLOW_ACTIVITY_UPLOAD"/>
+	<property name="requireContestApproval" type="java.lang.Boolean" column="REQUIRE_CONTEST_APPROVAL"/>
+	<property name="contestApprovalLevels" type="integer" column="CONTEST_APPROVAL_LEVELS" />
+	<property name="allowClaimSubmission" type="java.lang.Boolean" column="ALLOW_CLAIM_SUBMISSION" />
+ 	<property name="maxContestsToDisplay" type="java.lang.Integer" column="MAX_CONTEST_TO_DISPLAY" /> 
+ 	<property name="daysToArchive" type="java.lang.Integer" column="DAYS_TO_ARCHIVE" />
+ 	<property name="daysToApproveOnSubmission" type="integer" column="DAYS_TO_APPROVE_ON_SUBMISSION" />
+ 	<property name="daysToApproveClaim" type="java.lang.Integer" column="DAYS_TO_APPROVE_CLAIM" />  
+ 	<property name="contestGuideUrl" type="java.lang.String" column="CONTEST_GUIDE_URL" />
+	
+	<property name="contestApprovalLevel1AudienceType" column="CONTEST_APPROVAL_LVL1_AUD_TYPE">
+		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+			<param name="lookupClass">com.biperf.core.domain.enums.SSIContestApprovalAudienceType</param>
+		</type>
+	</property>
+	
+	<property name="contestApprovalLevel2AudienceType" column="CONTEST_APPROVAL_LVL2_AUD_TYPE">
+		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+			<param name="lookupClass">com.biperf.core.domain.enums.SSIContestApprovalAudienceType</param>
+		</type>
+	</property>
+	
+	<set name="contestApprovalLevel1Audiences" table="PROMO_AUDIENCE" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='SSI_CONTEST_APPROVAL_LEVEL1'">
+		<cache usage="nonstrict-read-write"/>
+		<key column="PROMOTION_ID" />
+		<one-to-many class="com.biperf.core.domain.ssi.SSIPromotionContestApprovalLevel1Audience" />
+	</set>
+	
+	<set name="contestApprovalLevel2Audiences" table="PROMO_AUDIENCE" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='SSI_CONTEST_APPROVAL_LEVEL2'">
+		<cache usage="nonstrict-read-write"/>
+		<key column="PROMOTION_ID" />
+		<one-to-many class="com.biperf.core.domain.ssi.SSIPromotionContestApprovalLevel2Audience" />
+	</set>
+	  
+</joined-subclass>
+
+</hibernate-mapping>  

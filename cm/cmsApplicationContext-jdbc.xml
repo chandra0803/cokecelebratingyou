@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+  This config file is only used for JUnit testing to override beans defined in the main cmsApplicationContext.xml file.
+-->
+<beans>
+
+  <!-- ================================================= -->
+  <!--   Resources                                       -->
+  <!-- ================================================= -->
+
+
+  <bean id="cmsContentReaderFactory" class="com.biperf.core.utils.CmsContentReaderFactory">
+    <property name="cmsConfiguration">
+      <ref bean="cmsConfiguration" />
+    </property>
+  </bean>
+
+  <!-- ================================================= -->
+  <!--   Data Access Objects                             -->
+  <!-- ================================================= -->
+
+  <bean id="contentDao" parent="daoProxyFactoryParent">
+    <property name="proxyInterfaces">
+      <value>com.objectpartners.cms.dao.ContentDao</value>
+    </property>
+    <property name="target">
+      <bean class="com.objectpartners.cms.dao.jdbc.ContentDaoJdbcImpl">
+        <property name="dataSource">
+          <ref bean="dataSource" />
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+</beans>

@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div>
+  <div>
+    <a
+      className="arrow icon-arrow-1-circle-right"
+      data-id={92085}
+      onClick={[Function]}
+    />
+    <div
+      className="avatarwrap"
+    >
+      <span
+        className="avatar-initials"
+      >
+        <span>
+          E
+           
+          J
+        </span>
+      </span>
+    </div>
+    <a
+      className="itemName leaderName profile-popover"
+      data-participant-ids="[ 92085 ]"
+    >
+      Erica
+       
+      Jalecia Edwards
+    </a>
+    <span
+      className="desgination"
+    >
+      Director
+    </span>
+  </div>
+</div>
+`;

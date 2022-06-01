@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.survey.ParticipantSurveyResponse" table="participant_survey_response">
+
+	<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+	<id name="id" type="java.lang.Long" column="participant_survey_response_id">
+		<generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">pax_survey_res_pk_sq</param>
+		</generator>
+	</id>
+
+	<!-- Using version number optimistic locking -->
+	<version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+      type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+    
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+       
+    <property name="sequenceNum" type="int" column="SEQUENCE_NUM"/>
+    <property name="sliderResponse" type="java.lang.Double" column="SLIDER_RESPONSE" />
+    <property name="openEndedResponse" type="java.lang.String" column="OPEN_END_RESPONSE" />
+    <many-to-one name="surveyQuestionResponse" class="com.biperf.core.domain.promotion.SurveyQuestionResponse" lazy="false" column="SURVEY_QUESTION_RESPONSE_ID"/>
+    <many-to-one name="surveyQuestion" class="com.biperf.core.domain.promotion.SurveyQuestion" lazy="false" not-null="false" column="SURVEY_QUESTION_ID"/>
+    <many-to-one name="participantSurvey" class="com.biperf.core.domain.survey.ParticipantSurvey" lazy="false" not-null="false" column="participant_survey_id"/>
+  </class>
+
+</hibernate-mapping>

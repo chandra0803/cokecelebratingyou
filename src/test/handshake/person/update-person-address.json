@@ -1,0 +1,112 @@
+{
+  "description": "Update a Person Address",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "newPersonName": "Updated ${faker:hacker.adjective} Person Phone",
+    "label": "oth",
+    "city": "edina",
+    "postalCode":"11111",
+    "line1":"222 Main",
+    "country":"USA"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+   {
+      "id": "createPersonAddress",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"country": "${ref:params.country}",
+  			"label": "${ref:params.label}",
+  			"line1":"${ref:params.line1}",
+  			"city":"${ref:params.city}",
+  			"postalCode":"${ref:params.postalCode"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.label}",
+          "compare": "to.equal",
+          "b": "Other"
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.line1}",
+          "compare": "to.equal",
+          "b": "${ref:params.line1}"
+        }
+      ]
+    },
+    {
+      "id": "updatePersonAddress",
+      "description": "PUT /persons/${ref:createPerson.export.newPersonId}/postal-addresses/${ref:createPersonAddress.res.body.id}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses/${ref:createPersonAddress.res.body.id}",
+        "options": {
+          "method": "put",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "country": "${ref:params.country}",
+  			"label": "bus",
+  			"line1":"${ref:params.line1}_1",
+  			"city":"${ref:params.city}_1",
+  			"postalCode":"${ref:params.postalCode"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:updatePersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:updatePersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:updatePersonAddress.res.body.label}",
+          "compare": "to.equal",
+          "b": "Business"
+        },
+        {
+          "a": "${ref:updatePersonAddress.res.body.line1}",
+          "compare": "to.equal",
+          "b": "${ref:params.line1}_1"
+        }
+      ]
+    }
+  ]
+}

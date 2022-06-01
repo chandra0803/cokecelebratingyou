@@ -1,0 +1,379 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.hierarchy.Node" table="NODE">
+
+    <id name="id" type="java.lang.Long" column="NODE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">NODE_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+    <property name="name" type="java.lang.String" column="NAME"/>
+    <property name="path" type="java.lang.String" column="PATH"/>
+    <property name="selfEnrollmentCode" type="java.lang.String" column="SELF_ENROLLMENT_CODE"/>
+
+    <!-- Parent can be null for root nodes -->
+    <many-to-one name="parentNode" lazy="false" class="com.biperf.core.domain.hierarchy.Node" cascade="none" outer-join="false">
+      <column name="PARENT_NODE_ID" not-null="false"/>
+    </many-to-one>
+
+    <property name="description" type="java.lang.String" column="DESCRIPTION"/>
+
+    <property name="deleted" type="boolean" column="IS_DELETED"/>
+
+    <many-to-one name="nodeType" lazy="false" column="NODE_TYPE_ID" class="com.biperf.core.domain.hierarchy.NodeType" cascade="save-update" not-null="true"/>
+    <many-to-one name="hierarchy" lazy="false" column="HIERARCHY_ID" class="com.biperf.core.domain.hierarchy.Hierarchy" cascade="save-update" not-null="true"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+    
+    <property name="rosterNodeId" type="uuid-char" column="ROSTER_NODE_ID"/>    
+
+    <set name="nodeCharacteristics" table="NODE_CHARACTERISTIC" inverse="true" cascade="all-delete-orphan">
+      <key column="NODE_ID"/>
+      <one-to-many class="com.biperf.core.domain.hierarchy.NodeCharacteristic"/>
+    </set>
+
+    <set name="userNodes" lazy="true" inverse="true" table="USER_NODE" cascade="all-delete-orphan">
+      <key column="NODE_ID" not-null="true" />
+      <one-to-many class="com.biperf.core.domain.user.UserNode" />
+    </set>
+
+  </class>
+
+  <query name="com.biperf.core.domain.node.ActiveNodeById">
+    <![CDATA[
+			from com.biperf.core.domain.hierarchy.Node node
+			where node.deleted = 0
+      ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.node.HierarchyRootNode">
+    <![CDATA[
+		from com.biperf.core.domain.hierarchy.Node node
+	   where node.hierarchy = :hierarchy
+         and node.parentNode.id is null
+         and is_deleted = 0
+  ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.node.GetNodeByNameAndHierarchy">
+    <![CDATA[
+		from com.biperf.core.domain.hierarchy.Node node
+	   where upper(node.name) = upper(:name)
+	   and node.hierarchy = :hierarchy
+  ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.node.GetNodeByNodeType">
+    <![CDATA[
+		from com.biperf.core.domain.hierarchy.Node node
+	   where node.nodeType = :nodeType
+	   and is_deleted = 0
+  ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.node.GetNodeByNodeTypeAndHierarchy">
+    <![CDATA[
+		from com.biperf.core.domain.hierarchy.Node node
+	   where node.nodeType = :nodeType
+	   and node.hierarchy.id = :hierarchyId
+	   and is_deleted = 0
+  ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.node.GetAllDeletedNodes">
+    <![CDATA[
+		from com.biperf.core.domain.hierarchy.Node node
+	   where is_deleted = 1
+  ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.node.AllNodeList">
+    <![CDATA[
+		from com.biperf.core.domain.hierarchy.Node
+		where is_deleted = 0
+     ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.node.NodesByHierarchy">
+    <![CDATA[
+		from com.biperf.core.domain.hierarchy.Node node
+	   where node.hierarchy = :hierarchy
+	   and is_deleted = 0
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.node.ChildNodesByParent">
+    <![CDATA[
+		from com.biperf.core.domain.hierarchy.Node node
+	   where node.parentNode.id = :parentNodeId
+	   and is_deleted = 0
+    ]]>
+  </query>
+
+
+  <query name="com.biperf.core.domain.node.NodeTypeApproverPromotionApprovalNodeswithNoOwner">
+    <![CDATA[
+      select node from Node node, Promotion promotion  
+        where  
+        promotion.promotionStatus = 'live' 
+        and 
+        promotion.deleted = 0
+        and
+        node.hierarchy = promotion.approvalHierarchy 
+        and
+        node.nodeType = promotion.approvalNodeType 
+        and 
+        node NOT IN (SELECT un.node FROM UserNode un WHERE node = un.node AND un.hierarchyRoleType='own')
+    ]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.node.NodesAsHierarchy">
+    <return alias="node" class="com.biperf.core.domain.hierarchy.Node"/>
+    <![CDATA[
+        SELECT {node.*}
+         FROM Node node
+         where is_deleted = 0
+         start with node.node_id in (select node_id from node where parent_node_id is null and hierarchy_id = :hierarchyId )
+         connect by  prior node.node_id = node.PARENT_node_id
+    ]]>
+  </sql-query>
+  
+<sql-query name="com.biperf.core.domain.node.ChildNodesUnderParentNodes">
+    <return alias="node" class="com.biperf.core.domain.hierarchy.Node"/>
+    <![CDATA[
+        SELECT {node.*}
+         FROM Node node
+         where is_deleted = 0
+         start with node.node_id = (:nodeId)
+         connect by  prior node.node_id = node.PARENT_node_id
+    ]]>
+ </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.NodeCountByParentNodeId">
+    <return-scalar column="COUNT" type="long"/>
+    <![CDATA[
+        select count(1) COUNT from node where parent_node_id = :nodeId
+    ]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.user.GetAllNodesHavingUserInRole">
+    <![CDATA[
+     select node
+     from com.biperf.core.domain.hierarchy.Node node, com.biperf.core.domain.user.UserNode userNode
+    where userNode.user.id = :userId
+    and userNode.node.id = node.id
+    and userNode.hierarchyRoleType = :hierarchyRoleTypeCode
+    ]]>
+  </query>  
+  
+  <query name="com.biperf.core.domain.node.NodeByLocationCode">
+  	<![CDATA[
+  		select node from Node node, NodeCharacteristic nodeCharacteristic
+  		where
+  		nodeCharacteristic.characteristicValue = :locCode
+  		and nodeCharacteristic.node.id = node.id
+  		and node.deleted = 0  	
+  	]]>
+  </query>
+
+  <sql-query name="com.biperf.core.domain.user.GetNumberOfUserNodesById">
+    <return-scalar column="NODE_ID" type="long"/>
+    <![CDATA[
+        SELECT count(*) NODE_ID
+         FROM USER_NODE 
+         WHERE  
+         user_node.node_id = :nodeId
+    ]]>
+  </sql-query>
+
+  <query name="com.biperf.core.domain.node.getOwnerForNode">
+    <![CDATA[
+	    select user
+	    from com.biperf.core.domain.user.User user
+	    join user.userNodes userNode
+	    where user.active = java.lang.Boolean.TRUE
+	      and userNode.active = java.lang.Boolean.TRUE
+	      and userNode.hierarchyRoleType = com.biperf.core.domain.enums.HierarchyRoleType.OWNER
+	      and userNode.node.id = :nodeId
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.node.getNodeUsersByRole">
+    <![CDATA[
+	    select user
+	    from com.biperf.core.domain.user.User user
+	    join user.userNodes userNode
+	    where user.active = java.lang.Boolean.TRUE
+	      and userNode.active = java.lang.Boolean.TRUE
+	      and userNode.hierarchyRoleType = :hierarchyRoleType
+	      and userNode.node.id = :nodeId
+    ]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.node.OwnerNodesForUser">
+    <return-scalar column="NODE_ID" type="long"/>
+    <![CDATA[
+    	SELECT node.NODE_ID
+		  FROM USER_NODE userNode, NODE node
+		 WHERE node.NODE_ID = userNode.NODE_ID
+		   AND node.IS_DELETED = 0
+		   AND userNode.STATUS = 1
+		   AND userNode.ROLE = 'own'
+		   AND userNode.USER_ID = :userId
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.node.NextLevelChildNodesForNode">
+    <return-scalar column="NODE_ID" type="long"/>
+    <![CDATA[
+    	SELECT node.NODE_ID
+		  FROM NODE node
+		 WHERE node.IS_DELETED = 0
+		   AND node.PARENT_NODE_ID = :nodeId
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.node.NodeHasOwner">
+    <return-scalar column="result" type="boolean"/>
+    <![CDATA[
+    	SELECT 1 AS result
+		  FROM USER_NODE userNode
+		 WHERE userNode.STATUS = 1
+		   AND userNode.ROLE = 'own'
+		   AND userNode.NODE_ID = :nodeId
+    ]]>
+  </sql-query>
+  
+ <!--  <sql-query name="com.biperf.core.domain.node.processParameterValueChoices.NodesAsHierarchyByUser">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+	 	WITH un2 AS
+         (SELECT count(1) cnt FROM user_node WHERE user_id = :param AND role IN ('mgr','own') 
+         		AND 1 = NVL(( SELECT distinct 0 
+                              FROM user_role ur, 
+                                   role r 
+                              WHERE r.role_id = ur.role_id 
+                                  AND r.code IN( 'VIEW_REPORTS' ) 
+                                  AND user_id = :param),1))
+         SELECT n.node_id AS id, n.node_name AS value FROM        
+         rpt_hierarchy n,
+         un2         
+         WHERE
+         n.is_deleted = 0
+         CONNECT BY PRIOR n.node_id = n.parent_node_id
+         START WITH n.node_id = (DECODE(un2.cnt,0,( SELECT node_id
+                                                    FROM user_acl u, node n
+                                                    WHERE u.target = n.name
+                                                       AND u.user_id = :param
+                                                       AND ROWNUM = 1
+                                                    UNION
+                                                    SELECT node_id 
+                                                    FROM node n, hierarchy h
+                                                    WHERE h.hierarchy_id = n.hierarchy_id 
+                                                       AND h.is_primary = 1 
+                                                       AND h.is_deleted = 0 
+                                                       AND n.is_deleted = 0 
+                                                       AND parent_node_id IS NULL
+                                                       AND NOT EXISTS( SELECT nd.node_id
+                                                                       FROM user_acl u, node nd
+                                                                       WHERE u.target = nd.name
+                                                                   		AND u.user_id = :param
+                                                                   		AND ROWNUM = 1)), 1,( SELECT un.node_id FROM user_node un WHERE user_id = :param AND role IN ('mgr','own')))) 
+         UNION    
+         SELECT DISTINCT n.node_id AS id, n.node_name AS value FROM        
+         rpt_hierarchy n,
+         un2             
+         WHERE        
+         un2.cnt > 1 AND
+         n.is_deleted = 0
+         CONNECT BY PRIOR n.node_id = n.parent_node_id
+         START WITH n.node_id in (SELECT un.node_id FROM user_node un WHERE user_id = :param AND role IN ('mgr','own'))
+    ]]>
+ </sql-query> -->
+ 
+ 	<sql-query name="com.biperf.core.domain.node.processParameterValueChoices.NodesAsHierarchyByUser">
+	<return-scalar column="id" type="long"/>
+	 <return-scalar column="value" type="string"/>
+	  SELECT n.node_id AS id, n.node_name AS value FROM        
+	         rpt_hierarchy n
+	         WHERE
+	         n.is_deleted = 0
+	         connect by prior n.node_id = n.parent_node_id
+	         START WITH n.node_id IN ( SELECT node_id
+	                                                    FROM user_acl u, node n
+	                                                    where u.target = n.name
+	                                                       and u.user_id =:param
+	                                                    UNION
+	                                                    SELECT node_id 
+	                                                    FROM node n, hierarchy h
+	                                                    WHERE h.hierarchy_id = n.hierarchy_id 
+	                                                       AND h.is_primary = 1 
+	                                                       AND h.is_deleted = 0 
+	                                                       AND parent_node_id IS NULL
+	                                                       AND NOT EXISTS( SELECT nd.node_id
+	                                                                       FROM user_acl u, node nd
+	                                                                       where u.target = nd.name
+	                                                                   and u.user_id =:param
+	                                                                   ))
+ 	     </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.PaxCountParentOnly">
+    <return-scalar column="paxCount" type="int"/>
+    <![CDATA[
+    	Select count(*) paxCount From  User_Node Where Node_Id=:nodeId
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.node.PaxCountParentAndChild">
+    <return-scalar column="paxCount" type="int"/>
+    <![CDATA[
+    	select count(*) paxCount from User_Node where Node_Id in (                                                
+						Select Node_Id From Node Start With Node_Id=:nodeId
+						connect by prior node_id=parent_node_id)
+    ]]>
+  </sql-query>
+  <sql-query name="com.biperf.core.domain.node.checkUserInNodeorBelow">
+		<return-scalar column="result" type="integer" />
+ 	 <![CDATA[ SELECT COUNT (*) as result FROM user_node WHERE user_id = :searchUserId AND node_id in (SELECT node_id FROM node START WITH node_id in ( SELECT node_id FROM user_node un WHERE user_id = :loggedInUserid AND status = 1) CONNECT BY PRIOR node_id = parent_node_id ) AND status = 1]]>
+  </sql-query>
+
+	<sql-query name="com.biperf.core.domain.node.getNodeIdByRosterNodeId">
+		<return-scalar column="node_id" type="long"/>
+		<![CDATA[
+     	 	select node_id from node where roster_node_id=:rosterNodeId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.node.getRosterNodeIdByNodeId">
+		<return-scalar column="roster_node_id" type="uuid-char"/>
+		<![CDATA[
+     	 	select roster_node_id from node where node_id=:nodeId
+    	]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.node.getRosterNodeIdsByNodeIds">
+		<return-scalar column="roster_node_id" type="string"/> 
+		<![CDATA[
+			select roster_node_id from node where node_id in ( :nodeIds )
+		]]>
+	</sql-query> 
+
+</hibernate-mapping>

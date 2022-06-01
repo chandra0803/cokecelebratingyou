@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Quiz Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+  
+  <definition name="promotion.goalquest.list" extends="beacon.default"
+    		  controllerClass="com.biperf.core.ui.goalquest.GoalQuestListController">
+    <put name="content" value="/goalquest/goalQuestList.jsp"/>
+    <put name='trackingTitle' value='GoalQuest_List' /> 
+  </definition>
+  
+  <definition name="promotion.goalquest.summary" extends="beacon.default"
+    		  controllerClass="com.biperf.core.ui.goalquest.PendingGQAwardSummaryController">
+    <put name="content" value="/goalquest/pendingGQAwardSummary.jsp"/>
+    <put name='trackingTitle' value='Promotion_Goalquest_Summary' /> 
+  </definition>  
+  
+  <definition name="promotion.goalquest.confirmation" extends="beacon.default"
+    		  controllerClass="com.biperf.core.ui.goalquest.GoalQuestProcessConfirmationController">
+    <put name="content" value="/goalquest/goalQuestProcessConfirmation.jsp"/>
+    <put name='trackingTitle' value='Goalquest_Process_Confirmation' /> 
+  </definition>
+  
+  <definition name="promotion.goalquest.extract.details" extends="beacon.default"
+    		  controllerClass="com.biperf.core.ui.goalquest.GoalQuestDetailExtractController">
+    <put name="content" value="/goalquest/goalQuestDetailExtractConfirmation.jsp"/>
+    <put name='trackingTitle' value='Goalquest_Extract_Details' /> 
+  </definition>  
+
+  <definition name="promotion.goalquest.progress" extends="beacon.default"
+    		  controllerClass="com.biperf.core.ui.goalquest.ReviewGoalQuestProgressController">
+    <put name="content" value="/goalquest/reviewGoalQuestProgress.jsp"/>
+    <put name='trackingTitle' value='Goalquest_Progress' /> 
+  </definition>  
+  
+    <!--  Select Award Definition -->
+  <definition name="goalquest.awardspage"
+	      	  path="/activities/plateauAwardsPageInclude.jsp">
+  </definition>
+  
+  <definition name="promotion.goalquest.select.goal.success" extends="g5.default">
+   <put name="content"  value="/goalquest/autoModalGoalquest.jsp"/>
+    <put name='trackingTitle' value='Select_Goal' /> 
+  </definition>
+
+  <definition name="admin.promotion.goalquest.select.goal" extends="g5.default">
+   <put name="content"  value="/goalquest/goalquestPageEdit.jsp"/>
+    <put name='trackingTitle' value='Select_Goal' /> 
+  </definition> 
+
+  <definition name="promotion.goalquest.select.goal" extends="g5.default">
+   <put name="content"  value="/goalquest/goalquestPageEdit.jsp"/>
+    <put name='trackingTitle' value='Select_Goal' /> 
+  </definition> 
+  
+  <definition name="promotion.goalquest.detail" extends="g5.default">
+   	<put name="content"  value="/goalquest/goalquestPageDetail.jsp"/>
+    <put name='trackingTitle' value='Detail' /> 
+  </definition>    
+      
+  <definition name="goalquest.promotion.list"  extends="g5.default">
+  	<put name="content" value="/goalquest/goalquestPageList.jsp"/>
+  </definition>
+  
+  <!-- PROMOTION Goal Quest - Survey -->
+  <definition name="participant.survey.question.answer" extends="g5.default">
+    <put name="content" value="/goalquest/goalquestPageSurvey.jsp" />
+    <put name='trackingTitle' value='Survey_Question_Response_Details'/>
+  </definition>
+  
+  <definition name="goalquest.promotion.rules.list" extends="g5.default">
+		<put name="content" value="/goalquest/goalquestPageManagerList.jsp" />
+  </definition>
+    
+  <definition name="goalquest.promotion.rules.detail" path="/goalquest/goalquestPageRules.jsp" />
+    
+</tiles-definitions>

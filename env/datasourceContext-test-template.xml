@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- ==== DATASOURCE ==== -->	
+
+	<!-- Non JNDI lookup of out-of-container datasource -->	 
+	<bean id="basicDataSource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>@LOCAL_DB_JDBC_URL@</value>
+		</property>
+		<property name="username">
+			<value>@LOCAL_DB_USERNAME@</value>
+		</property>
+		<property name="password">
+			<value>@LOCAL_DB_PASSWORD@</value>
+		</property>
+    <property name="suppressClose">
+      <value>true</value>
+    </property>
+	</bean>
+	<!-- ==== Services / DAOs needed for tests ==== -->
+
+    <bean id="serviceProxyFactoryParent" class="org.springframework.aop.framework.ProxyFactoryBean"
+        abstract="true">
+        <property name="interceptorNames">
+            <list>
+                <value>loggingInterceptor</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="systemVariableServiceTarget"
+        class="com.biperf.core.service.system.impl.SystemVariableServiceImpl">
+        <property name="systemVariableDAO">
+            <ref bean="systemVariableDAO" />
+        </property>
+    </bean>
+
+    <bean id="systemVariableService" parent="serviceProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.service.system.SystemVariableService</value>
+        </property>
+        <property name="target">
+            <ref local="systemVariableServiceTarget" />
+        </property>
+    </bean>
+    
+    <bean id="userServiceTarget"
+        class="com.biperf.core.service.participant.impl.UserServiceImpl">
+        		<property name="userDAO">
+                    <ref bean="userDAO" />
+                </property>
+    </bean>
+
+    <bean id="userService" parent="serviceProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.service.participant.UserService</value>
+        </property>
+        <property name="target">
+            <ref local="userServiceTarget" />
+        </property>
+    </bean>
+
+    <!-- budgetMasetService stuff necessary for the "genericPostInsertEventListener"
+      bean in dataAccessContext-hibernate.xml
+    -->
+	<bean id="budgetMasterServiceTarget"
+        class="com.biperf.core.service.budget.impl.BudgetMasterServiceImpl">
+          <property name="budgetMasterDAO">
+              <ref bean="budgetMasterDAO" />
+          </property>
+          <property name="budgetHistoryDAO">
+              <ref bean="budgetHistoryDAO" />
+          </property>
+          <property name="userDAO">
+              <ref bean="userDAO" />
+          </property>
+          <property name="nodeDAO">
+              <ref bean="nodeDAO" />
+          </property>
+    </bean>
+
+    <bean id="budgetMasterService" parent="serviceProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.service.budget.BudgetMasterService</value>
+        </property>
+        <property name="target">
+            <ref local="budgetMasterServiceTarget" />
+        </property>
+    </bean>
+
+    <bean id="daoProxyFactoryParent" class="org.springframework.aop.framework.ProxyFactoryBean" abstract="true">
+		<property name="interceptorNames">
+			<list>
+				<value>loggingInterceptor</value>
+			</list>
+		</property>		
+	</bean>
+
+    <bean id="systemVariableDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.system.SystemVariableDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.system.hibernate.SystemVariableDAOImpl" />
+        </property>
+    </bean>
+    
+   <bean id="userDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.participant.UserDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.participant.hibernate.UserDAOImpl" />
+        </property>
+    </bean>
+
+   <bean id="budgetMasterDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.budget.BudgetMasterDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.budget.hibernate.BudgetMasterDAOImpl" />
+        </property>
+    </bean>
+    
+   <bean id="budgetHistoryDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.budget.BudgetHistoryDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.budget.hibernate.BudgetHistoryDAOImpl" />
+        </property>
+    </bean>
+    
+    <bean id="nodeDAO" parent="daoProxyFactoryParent">
+        <property name="proxyInterfaces">
+            <value>com.biperf.core.dao.hierarchy.NodeDAO</value>
+        </property>
+        <property name="target">
+            <bean class="com.biperf.core.dao.hierarchy.hibernate.NodeDAOImpl" />
+        </property>
+    </bean>
+    
+  <!-- logging interceptor -->
+  <bean id="loggingInterceptor" class="com.biperf.core.aop.LoggingInterceptor"/>
+
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource">
+      <ref bean="basicDataSource"/>
+    </property>
+  </bean>
+
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+    <property name="targetDataSource">
+      <ref bean="basicDataSource"/>
+    </property>
+  </bean>
+
+  <bean id="cmsConfiguration" class="com.objectpartners.cms.util.CmsConfiguration">
+    <property name="cmsProperties">
+      <props>
+        <prop key="defaultLocale">en</prop>
+        <prop key="defaultApplicationCode">beacon</prop>
+        <prop key="rootApplicationCode">beacon</prop>
+        <prop key="hibernateSqlLogLevel">WARN</prop>
+        <prop key="hibernateLogLevel">WARN</prop>
+        <prop key="hibernateTypeLogLevel">WARN</prop>
+      </props>
+    </property>
+    <property name="defaultAudienceNames">
+      <list>
+        <value>Default Audience</value>
+      </list>
+    </property>
+  </bean>
+  
+
+</beans>

@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div>
+  <div
+    className="myteamTable"
+  >
+    <table
+      className="table table-striped"
+    >
+      <thead>
+        <tr>
+          <th
+            className="active"
+            onClick={[Function]}
+          >
+            <a
+              data-sort="is_new_hire"
+              data-sortBy="desc"
+              href="#"
+              onClick={[Function]}
+            >
+              status
+               
+            </a>
+             
+            <i
+              className="icon-arrow-1-down"
+            />
+          </th>
+          <th
+            className="null"
+            onClick={[Function]}
+          >
+            <a
+              data-sort="first_name"
+              data-sortBy="asc"
+              href="#"
+              onClick={[Function]}
+            />
+             
+            <i
+              className="icon-arrow-1-up"
+            />
+          </th>
+          <th
+            className="null"
+            onClick={[Function]}
+          >
+            <a
+              data-sort="by_me_date_sent"
+              data-sortBy="asc"
+              href="#"
+              onClick={[Function]}
+            />
+             
+            <i
+              className="icon-arrow-1-up"
+            />
+          </th>
+          <th
+            className="null"
+            onClick={[Function]}
+          >
+            <a
+              data-sort="by_oth_date_sent"
+              data-sortBy="asc"
+              href="#"
+              onClick={[Function]}
+            />
+             
+            <i
+              className="icon-arrow-1-up"
+            />
+          </th>
+          <th />
+        </tr>
+      </thead>
+      <tbody />
+    </table>
+  </div>
+</div>
+`;

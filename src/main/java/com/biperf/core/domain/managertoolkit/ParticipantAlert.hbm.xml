@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.managertoolkit.ParticipantAlert" table="PARTICIPANT_ALERT">
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id column="ID" name="id" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">participant_alert_id_pk_seq</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version column="VERSION" name="version" type="long"/>
+
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+		<column name="DATE_CREATED" />
+		<column name="CREATED_BY" />
+	</property>
+
+	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+		<column name="DATE_MODIFIED" />
+		<column name="MODIFIED_BY" />
+	</property>	
+	
+	<property column="IS_READ" name="read" type="boolean"/>
+
+	<many-to-one class="com.biperf.core.domain.user.User" column="USER_ID" lazy="false" name="user" not-null="true" unique="true"/>
+    <many-to-one class="com.biperf.core.domain.managertoolkit.AlertMessage" column="ALERT_MESSAGE_ID" lazy="false" name="alertMessage" not-null="true" cascade="all" update="false"/>
+    <many-to-one class="com.biperf.core.domain.hierarchy.Node" column="NODE_ID" lazy="false" name="node"/>
+  </class>  
+  
+  <query name="com.biperf.core.domain.managertoolkit.GetAlertMessageByUserId">
+    <![CDATA[
+    select paxAlert
+    from com.biperf.core.domain.managertoolkit.ParticipantAlert paxAlert    
+    where paxAlert.user.id = :userId       
+    ]]>
+  </query>
+  
+</hibernate-mapping>

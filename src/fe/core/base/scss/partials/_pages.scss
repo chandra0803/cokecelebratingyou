@@ -1,0 +1,899 @@
+// Partial-specific variables
+// =========================
+$pages_pageContentBgColor: $brand_color_white !default;
+    $pages_pageContentBorderWidth1200: $g5PageContentLeftRightBorderWidth1200; // removed !default so it can't be overwritten (exclude from skin)
+    $pages_pageContentBorderWidth768: $g5PageContentLeftRightBorderWidth768; // removed !default so it can't be overwritten (exclude from skin)
+$pages_pageContentBorderWidth:              $g6HeadNavBorderWidth !default;
+$pages_pageContentBorderWidth_tablet:       $g6HeadNavBorderWidth_tablet !default;
+$pages_pageContentBorderWidth_desktop:      $g6HeadNavBorderWidth_desktop !default;
+$pages_pageContentBorderWidth_desktopLarge: $g6HeadNavBorderWidth_desktopLarge !default;
+$pages_pageContentBorderColor: $g6HeadNavBorderColor !default;
+
+/**
+ * pageTopper supports dark backgrounds just fine!
+ * sample variable values supplied below
+ */
+$pages_pageTopperBgColor: $brand_color_light !default; // dark version: $brand_color_dark
+$pages_pageTopperGradType: false !default; // A false value will cancel the gradient altogether
+$pages_pageTopperGradMeta: to bottom !default;
+$pages_pageTopperGradStops: ($pages_pageTopperBgColor, darken($pages_pageTopperBgColor, 15%)) !default;
+
+$pages_pageTopperTextColor: false !default; // dark version: $brand_color_white
+$pages_pageTopperLinkColor: false !default;
+$pages_pageTopperLinkHoverColor: false !default;
+
+// nav tabs in topper
+$pages_pageTopper_navTabs_borderColor: false !default; // dark version: $pages_pageTopperBgColor
+$pages_pageTopper_navTabs_borderWidth: false !default;
+$pages_pageTopper_navTabs_textColor:   false !default; // dark version: $brand_color_black
+
+$pages_pageTopper_navTabs_hoverTextColor: false !default; // dark version: $brand_color_white
+$pages_pageTopper_navTabs_hoverBkgColor:  false !default;
+
+$pages_pageTopper_navTabs_activeTextColor:   false !default; // dark version: $brand_color_white
+$pages_pageTopper_navTabs_activeBorderColor: false !default; // dark version: $pages_pageContentBgColor
+$pages_pageTopper_navTabs_activeBorderWidth: false !default;
+
+// container-splitter
+$pages_splitterH2Color: false !default;
+$pages_splitterTextColor: false !default;
+$pages_splitterLinkColor: false !default;
+$pages_splitterLinkHoverColor: false !default;
+$pages_splitterLinkIconColor: false !default;
+$pages_splitterLinkIconHoverColor: false !default;
+$pages_splitterBgColor: $brand_color_lighter !default;
+$pages_splitterBgGradType: false !default; // A false value will cancel the gradient altogether
+$pages_splitterBgGradMeta: to bottom !default;
+$pages_splitterBgGradStops: (darken($pages_splitterBgColor, 5%), $pages_splitterBgColor) !default;
+$pages_splitterBorderTopBottomWidth: 0 !default;
+$pages_splitterBorderTopBottomColor: $pages_pageContentBorderColor !default;
+$pages_splitterBoxShadow: none !default; // default .well box-shadow of inset 0 1px 1px rgba(0,0,0,.05) applies if this is false
+
+
+// Partial-specific code
+// ==================================================
+
+    // full width neg margin class to offset page-level padding
+    // mixin to reuse...
+    @mixin pages_fullWidthNegMargin($padding) {
+        .full-width-neg-margin {
+            margin: 0 (-1 * $padding);
+
+            // optional additional class to bring the padding back
+            &.with-padding {
+                padding: 0 $padding;
+            }
+        }
+    }
+
+    // Pull the header up on pages where the h2 is the first content in the page. The line height on headers
+    // makes the h2 in this case look like it is pushed down about 8 or 9 pixels too far.
+
+    // Sorry, VQA: this breaks on mobile and it seems silly to write a media query just to satisfy this very unique spacing situation
+    // .row:first-child .span12:first-child h2:first-child {
+    //     margin-top: -($g5PageContentSpacingVertical / 4);
+    // }
+
+    @mixin pages_pullBottomUpEtc($padding: $g6PagePaddingY) {
+        .pullBottomUp,
+        .row:last-child *:last-child > *:last-child > .container-splitter:last-child,
+        .row:last-child > *:last-child *:last-child > *:last-child > .container-splitter:last-child,
+        &.page .formSection:last-child.pullBottomUp {
+            margin-bottom: -1 * ($padding);
+            padding-bottom: $padding;
+        }
+        .pullBottomUp.container-splitter {
+            margin-bottom: -1 * ($padding);
+            padding-bottom: $padding;
+        }
+        .pushTopDown {
+            margin-top: $padding + $padding / 2;
+        }
+        /*
+        .pullTopUp {
+            margin-top: -1 * ($padding);
+
+            & ~ .pullTopUp {
+                margin-top: 0;
+            }
+        }
+        .pullTopUp.container-splitter {
+            margin-top: -1 * ($padding);
+
+            & ~ .pullTopUp {
+                margin-top: 0;
+            }
+        }
+        */
+    } // /@mixin pages_pullBottomUpEtc
+    
+// ----- START output ----->
+@if $base_variablesOnly == false {
+
+
+/***
+ *                                                                             888                     888
+ *                                                                             888                     888
+ *                                                                             888                     888
+ *        88888b.   8888b.   .d88b.   .d88b.          .d8888b .d88b.  88888b.  888888 .d88b.  88888b.  888888
+ *        888 "88b     "88b d88P"88b d8P  Y8b        d88P"   d88""88b 888 "88b 888   d8P  Y8b 888 "88b 888
+ *        888  888 .d888888 888  888 88888888 888888 888     888  888 888  888 888   88888888 888  888 888
+ *    d8b 888 d88P 888  888 Y88b 888 Y8b.            Y88b.   Y88..88P 888  888 Y88b. Y8b.     888  888 Y88b.
+ *    Y8P 88888P"  "Y888888  "Y88888  "Y8888          "Y8888P "Y88P"  888  888  "Y888 "Y8888  888  888  "Y888
+ *        888                    888
+ *        888               Y8b d88P
+ *        888                "Y88P"
+ */
+.page-content {
+
+    /***
+     *             oo                d88b                                           .8888b dP
+     *                               8`'8                                           88   " 88
+     *    dP   .dP dP d888888b       d8b        .d8888b. dP   .dP .d8888b. 88d888b. 88aaa  88 .d8888b. dP  dP  dP
+     *    88   d8' 88    .d8P'     d8P`8b       88'  `88 88   d8' 88ooood8 88'  `88 88     88 88'  `88 88  88  88
+     *    88 .88'  88  .Y8P        d8' `8bP     88.  .88 88 .88'  88.  ... 88       88     88 88.  .88 88.88b.88'
+     *    8888P'   dP d888888P     `888P'`YP    `88888P' 8888P'   `88888P' dP       dP     dP `88888P' 8888P Y8P
+     *
+     *
+     */
+    // we hide the .page-content initially so there aren't strange flashes of content
+    visibility: hidden;
+
+    // IE8 wasn't agreeing with the visibility approach. FontAwesome icons weren't rendering
+    .lt-ie9 & {
+        visibility: visible;
+        height: 0;
+        overflow: hidden;
+        @include opacity(0);
+    }
+
+    // when a pageView is initialized it adds the class of .page to .page-content, allowing us to then show the element
+    &.page {
+        visibility: visible;
+
+        // IE8 wasn't agreeing with the visibility approach. FontAwesome icons weren't rendering
+        .lt-ie9 & {
+            height: auto;
+            overflow: visible;
+            @include opacity(1);
+        }
+    }
+
+
+    /***
+     *                            dP       dP oo                         d88b       dP                               dP
+     *                            88       88                            8`'8       88                               88
+     *    88d888b. .d8888b. .d888b88 .d888b88 dP 88d888b. .d8888b.       d8b        88d888b. .d8888b. 88d888b. .d888b88 .d8888b. 88d888b. .d8888b.
+     *    88'  `88 88'  `88 88'  `88 88'  `88 88 88'  `88 88'  `88     d8P`8b       88'  `88 88'  `88 88'  `88 88'  `88 88ooood8 88'  `88 Y8ooooo.
+     *    88.  .88 88.  .88 88.  .88 88.  .88 88 88    88 88.  .88     d8' `8bP     88.  .88 88.  .88 88       88.  .88 88.  ... 88             88
+     *    88Y888P' `88888P8 `88888P8 `88888P8 dP dP    dP `8888P88     `888P'`YP    88Y8888' `88888P' dP       `88888P8 `88888P' dP       `88888P'
+     *    88                                                   .88
+     *    dP                                               d8888P
+     */
+    padding: $g6PagePaddingY $g6PagePaddingX;
+    border-top: $pages_pageContentBorderWidth solid $pages_pageContentBorderColor;
+
+    @include pages_fullWidthNegMargin($g6PagePaddingX);
+
+    @media (min-width: $breakpoint_tablet_min) {
+        @if $g6PagePaddingY_tablet != $g6PagePaddingY or $g6PagePaddingX_tablet != $g6PagePaddingX {
+            padding: $g6PagePaddingY_tablet $g6PagePaddingX_tablet;
+            @include pages_fullWidthNegMargin($g6PagePaddingX_tablet);
+        }
+        @if $pages_pageContentBorderWidth_tablet != $pages_pageContentBorderWidth {
+            border-top-width: $pages_pageContentBorderWidth_tablet;
+        }
+    }
+    @media (min-width: $breakpoint_desktop_min) {
+        @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet or $g6PagePaddingX_desktop != $g6PagePaddingX_tablet {
+            padding: $g6PagePaddingY_desktop $g6PagePaddingX_desktop;
+            @include pages_fullWidthNegMargin($g6PagePaddingX_desktop);
+        }
+        @if $pages_pageContentBorderWidth_desktop != $pages_pageContentBorderWidth_tablet {
+            border-top-width: $pages_pageContentBorderWidth_desktop;
+        }
+    }
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop or $g6PagePaddingX_desktopLarge != $g6PagePaddingX_desktop {
+            padding: $g6PagePaddingY_desktopLarge $g6PagePaddingX_desktopLarge;
+            @include pages_fullWidthNegMargin($g6PagePaddingX_desktopLarge);
+        }
+        @if $pages_pageContentBorderWidth_desktopLarge != $pages_pageContentBorderWidth_desktop {
+            border-top-width: $pages_pageContentBorderWidth_desktopLarge;
+        }
+    }
+
+    .lt-ie8 & {
+        margin: 0;
+    }
+
+
+    /***
+     *                                                 oo
+     *
+     *    .d8888b. .d8888b. 88d888b. .d8888b. 88d888b. dP .d8888b.
+     *    88'  `88 88ooood8 88'  `88 88ooood8 88'  `88 88 88'  `""
+     *    88.  .88 88.  ... 88    88 88.  ... 88       88 88.  ...
+     *    `8888P88 `88888P' dP    dP `88888P' dP       dP `88888P'
+     *         .88
+     *     d8888P
+     */
+    background: $pages_pageContentBgColor;
+
+
+    /***
+     *                                 dP                  dP             dP                                         dP
+     *                                 88                  88             88                                         88
+     *    88d888b. .d8888b. .d8888b. d8888P .d8888b. .d888b88    .d8888b. 88 .d8888b. 88d8b.d8b. .d8888b. 88d888b. d8888P .d8888b.
+     *    88'  `88 88ooood8 Y8ooooo.   88   88ooood8 88'  `88    88ooood8 88 88ooood8 88'`88'`88 88ooood8 88'  `88   88   Y8ooooo.
+     *    88    88 88.  ...       88   88   88.  ... 88.  .88    88.  ... 88 88.  ... 88  88  88 88.  ... 88    88   88         88
+     *    dP    dP `88888P' `88888P'   dP   `88888P' `88888P8    `88888P' dP `88888P' dP  dP  dP `88888P' dP    dP   dP   `88888P'
+     *
+     *
+     */
+    // TODO: figure out why this is here and get rid of it! (or move to a more logical file)
+    a.disabled {
+        color: #999;
+        @include opacity(.5);
+        cursor: default;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    @include pages_pullBottomUpEtc();
+
+
+    @media (min-width: $breakpoint_tablet_min) {
+        @if $g6PagePaddingY_tablet != $g6PagePaddingY {
+            @include pages_pullBottomUpEtc($padding: $g6PagePaddingY_tablet);
+        } // /@if
+    } // /@media
+
+    @media (min-width: $breakpoint_desktop_min) {
+        @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet {
+            @include pages_pullBottomUpEtc($padding: $g6PagePaddingY_desktop);
+        } // /@if
+    } // /@media
+
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop {
+            @include pages_pullBottomUpEtc($padding: $g6PagePaddingY_desktopLarge);
+        } // /@if
+    } // /@media
+
+    // IE8 ?
+    .lt-ie9 & .form-actions.pullBottomUp {
+        margin-bottom: -1 * ($g6PagePaddingY_desktop);
+    }
+    // IE7
+    &.page .formSection.pullBottomUp {
+        *margin-bottom: -1 * ($g6PagePaddingY_desktop);
+    }
+} // /.page-content
+
+
+/***
+ *                                                   888
+ *                                                   888
+ *                                                   888
+ *        88888b.   8888b.   .d88b.   .d88b.         888888 .d88b.  88888b.  88888b.   .d88b.  888d888
+ *        888 "88b     "88b d88P"88b d8P  Y8b        888   d88""88b 888 "88b 888 "88b d8P  Y8b 888P"
+ *        888  888 .d888888 888  888 88888888 888888 888   888  888 888  888 888  888 88888888 888
+ *    d8b 888 d88P 888  888 Y88b 888 Y8b.            Y88b. Y88..88P 888 d88P 888 d88P Y8b.     888
+ *    Y8P 88888P"  "Y888888  "Y88888  "Y8888          "Y888 "Y88P"  88888P"  88888P"   "Y8888  888
+ *        888                    888                                888      888
+ *        888               Y8b d88P                                888      888
+ *        888                "Y88P"                                 888      888
+ */
+.page-topper {
+
+    /***
+     *                            dP       dP oo
+     *                            88       88
+     *    88d888b. .d8888b. .d888b88 .d888b88 dP 88d888b. .d8888b.
+     *    88'  `88 88'  `88 88'  `88 88'  `88 88 88'  `88 88'  `88
+     *    88.  .88 88.  .88 88.  .88 88.  .88 88 88    88 88.  .88
+     *    88Y888P' `88888P8 `88888P8 `88888P8 dP dP    dP `8888P88
+     *    88                                                   .88
+     *    dP                                               d8888P
+     */
+    margin: (-1 * $g6PagePaddingY) (-1 * $g6PagePaddingX) ($g6PagePaddingY / 2);
+    padding: ($g6PagePaddingY / 2) $g6PagePaddingX;
+
+    @media (min-width: $breakpoint_tablet_min) {
+        @if $g6PagePaddingY_tablet != $g6PagePaddingY or $g6PagePaddingX_tablet != $g6PagePaddingX {
+            margin: (-1 * $g6PagePaddingY_tablet) (-1 * $g6PagePaddingX_tablet) ($g6PagePaddingY_tablet / 2);
+            padding: ($g6PagePaddingY_tablet / 2) $g6PagePaddingX_tablet;
+        }
+    }
+    @media (min-width: $breakpoint_desktop_min) {
+        @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet or $g6PagePaddingX_desktop != $g6PagePaddingX_tablet {
+            margin: (-1 * $g6PagePaddingY_desktop) (-1 * $g6PagePaddingX_desktop) ($g6PagePaddingY_desktop / 2);
+            padding: ($g6PagePaddingY_desktop / 2) $g6PagePaddingX_desktop;
+        }
+    }
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop or $g6PagePaddingX_desktopLarge != $g6PagePaddingX_desktop {
+            margin: (-1 * $g6PagePaddingY_desktopLarge) (-1 * $g6PagePaddingX_desktopLarge) ($g6PagePaddingY_desktopLarge / 2);
+            padding: ($g6PagePaddingY_desktopLarge / 2) $g6PagePaddingX_desktopLarge;
+        }
+    }
+
+
+    /***
+     *                                                 oo
+     *
+     *    .d8888b. .d8888b. 88d888b. .d8888b. 88d888b. dP .d8888b.
+     *    88'  `88 88ooood8 88'  `88 88ooood8 88'  `88 88 88'  `""
+     *    88.  .88 88.  ... 88    88 88.  ... 88       88 88.  ...
+     *    `8888P88 `88888P' dP    dP `88888P' dP       dP `88888P'
+     *         .88
+     *     d8888P
+     */
+    color: $pages_pageTopperTextColor;
+    background: $pages_pageTopperBgColor;
+
+    @if $pages_pageTopperGradType {
+        @include module_moduleLinerBackground(
+            $bgColor: $pages_pageTopperBgColor,
+            $gradType: $pages_pageTopperGradType,
+            $gradMeta: $pages_pageTopperGradMeta,
+            $gradStops: $pages_pageTopperGradStops,
+            $force: true
+        );
+    }
+
+    @include fontSmoothing($pages_pageTopperTextColor, $pages_pageTopperBgColor);
+
+
+    /***
+     *                                 dP                  dP             dP                                         dP
+     *                                 88                  88             88                                         88
+     *    88d888b. .d8888b. .d8888b. d8888P .d8888b. .d888b88    .d8888b. 88 .d8888b. 88d8b.d8b. .d8888b. 88d888b. d8888P .d8888b.
+     *    88'  `88 88ooood8 Y8ooooo.   88   88ooood8 88'  `88    88ooood8 88 88ooood8 88'`88'`88 88ooood8 88'  `88   88   Y8ooooo.
+     *    88    88 88.  ...       88   88   88.  ... 88.  .88    88.  ... 88 88.  ... 88  88  88 88.  ... 88    88   88         88
+     *    dP    dP `88888P' `88888P'   dP   `88888P' `88888P8    `88888P' dP `88888P' dP  dP  dP `88888P' dP    dP   dP   `88888P'
+     *
+     *
+     */
+    @if $pages_pageTopperLinkColor {
+        a {
+            color: $pages_pageTopperLinkColor;
+        }
+    }
+    @if $pages_pageTopperLinkHoverColor {
+        a:hover {
+            color: $pages_pageTopperLinkHoverColor;
+        }
+    }
+
+    form,
+    .control-group,
+    .controls {
+        margin-bottom: 0;
+    }
+    .control-group .control-label {
+        padding-right: 4px;
+    }
+    .control-group {
+        .controls {
+            margin-bottom: 10px;
+
+            @media (min-width: $breakpoint_desktop_min) {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+
+    /***
+     *                                             dP            dP
+     *                                             88            88
+     *       88d888b. .d8888b. dP   .dP          d8888P .d8888b. 88d888b. .d8888b.
+     *       88'  `88 88'  `88 88   d8' 88888888   88   88'  `88 88'  `88 Y8ooooo.
+     *    dP 88    88 88.  .88 88 .88'             88   88.  .88 88.  .88       88
+     *    88 dP    dP `88888P8 8888P'              dP   `88888P8 88Y8888' `88888P'
+     *
+     *
+     */
+    .nav-tabs {
+        position: relative;
+        bottom: 0;
+        margin-bottom: 0;
+
+        @if $pages_pageTopper_navTabs_borderColor {
+            border-bottom-color: $pages_pageTopper_navTabs_borderColor;
+        }
+        @if $pages_pageTopper_navTabs_borderWidth {
+            border-bottom-width: $pages_pageTopper_navTabs_borderWidth;
+        }
+    }
+
+    // Make the list-items overlay the bottom border
+    .nav-tabs > li {
+        @if $pages_pageTopper_navTabs_borderWidth {
+            margin-bottom: -1 * $pages_pageTopper_navTabs_borderWidth;
+        }
+    }
+
+    // Actual tabs (as links)
+    .nav-tabs > li > a {
+        @if $pages_pageTopper_navTabs_textColor {
+            color: $pages_pageTopper_navTabs_textColor;
+        }
+        @if $pages_pageTopper_navTabs_borderColor {
+            border-bottom-color: $pages_pageTopper_navTabs_borderColor;
+        }
+        @if $pages_pageTopper_navTabs_borderWidth {
+            border-bottom-width: $pages_pageTopper_navTabs_borderWidth;
+        }
+
+        &:hover,
+        &:focus {
+            @if $pages_pageTopper_navTabs_hoverTextColor {
+                color: $pages_pageTopper_navTabs_hoverTextColor;
+            }
+            @if $pages_pageTopper_navTabs_hoverBkgColor {
+                background: $pages_pageTopper_navTabs_hoverBkgColor;
+            }
+            @if $pages_pageTopper_navTabs_borderColor {
+                border-bottom-color: $pages_pageTopper_navTabs_borderColor;
+            }
+            @if $pages_pageTopper_navTabs_borderWidth {
+                border-bottom-width: $pages_pageTopper_navTabs_borderWidth;
+            }
+        }
+    }
+
+    // Active state, and it's :hover/:focus to override normal :hover/:focus
+    .nav-tabs > .active > a,
+    .nav-tabs > .active > a:hover,
+    .nav-tabs > .active > a:focus {
+        @if $pages_pageTopper_navTabs_activeTextColor {
+            color: $pages_pageTopper_navTabs_activeTextColor;
+        }
+        @if $pages_pageTopper_navTabs_activeBorderColor {
+            border-bottom-color: $pages_pageTopper_navTabs_activeBorderColor;
+        }
+        @if $pages_pageTopper_navTabs_activeBorderWidth {
+            border-bottom-width: $pages_pageTopper_navTabs_activeBorderWidth;
+        }
+    }
+} // /.page-topper
+
+
+/***
+ *                                  888             d8b                                                  888 d8b 888    888
+ *                                  888             Y8P                                                  888 Y8P 888    888
+ *                                  888                                                                  888     888    888
+ *         .d8888b .d88b.  88888b.  888888  8888b.  888 88888b.   .d88b.  888d888      .d8888b  88888b.  888 888 888888 888888 .d88b.  888d888
+ *        d88P"   d88""88b 888 "88b 888        "88b 888 888 "88b d8P  Y8b 888P"        88K      888 "88b 888 888 888    888   d8P  Y8b 888P"
+ *        888     888  888 888  888 888    .d888888 888 888  888 88888888 888   888888 "Y8888b. 888  888 888 888 888    888   88888888 888
+ *    d8b Y88b.   Y88..88P 888  888 Y88b.  888  888 888 888  888 Y8b.     888               X88 888 d88P 888 888 Y88b.  Y88b. Y8b.     888
+ *    Y8P  "Y8888P "Y88P"  888  888  "Y888 "Y888888 888 888  888  "Y8888  888           88888P' 88888P"  888 888  "Y888  "Y888 "Y8888  888
+ *                                                                                              888
+ *                                                                                              888
+ *                                                                                              888
+ */
+.container-splitter {
+
+    /***
+     *                            dP       dP oo
+     *                            88       88
+     *    88d888b. .d8888b. .d888b88 .d888b88 dP 88d888b. .d8888b.
+     *    88'  `88 88'  `88 88'  `88 88'  `88 88 88'  `88 88'  `88
+     *    88.  .88 88.  .88 88.  .88 88.  .88 88 88    88 88.  .88
+     *    88Y888P' `88888P8 `88888P8 `88888P8 dP dP    dP `8888P88
+     *    88                                                   .88
+     *    dP                                               d8888P
+     */
+    margin:  ($g6PagePaddingY / 2) (-1 * $g6PagePaddingX);
+    padding: ($g6PagePaddingY / 2) $g6PagePaddingX;
+
+    @media (min-width: $breakpoint_tablet_min) {
+        @if $g6PagePaddingY_tablet != $g6PagePaddingY or $g6PagePaddingX_tablet != $g6PagePaddingX {
+            margin:  ($g6PagePaddingY_tablet / 2) (-1 * $g6PagePaddingX_tablet);
+            padding: ($g6PagePaddingY_tablet / 2) $g6PagePaddingX_tablet;
+        }
+    }
+    @media (min-width: $breakpoint_desktop_min) {
+        @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet or $g6PagePaddingX_desktop != $g6PagePaddingX_tablet {
+            margin:  ($g6PagePaddingY_desktop / 2) (-1 * $g6PagePaddingX_desktop);
+            padding: ($g6PagePaddingY_desktop / 2) $g6PagePaddingX_desktop;
+        }
+    }
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop or $g6PagePaddingX_desktopLarge != $g6PagePaddingX_desktop {
+            margin:  ($g6PagePaddingY_desktopLarge / 2) (-1 * $g6PagePaddingX_desktopLarge);
+            padding: ($g6PagePaddingY_desktopLarge / 2) $g6PagePaddingX_desktopLarge;
+        }
+    }
+
+    .spin {
+        display: block;
+        margin: 0 auto;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+    }
+
+    // /*
+    //  * these have been commented out for G6
+    //  * don't combine these elements
+    //  * styles left around just in case, though.
+    //  */
+    //
+    // // just in case a .container-splitter also has .page-topper (happens on the PURL contribute page)
+    // &.page-topper {
+    //     // for some reason, the top rule isn't needed when both classes are on the element
+    //     .lt-ie8 & {
+    //         top: 0;
+    //     }
+    // }
+
+
+    /***
+     *               dP            dP oo
+     *               88            88
+     *    .d8888b. d8888P dP    dP 88 dP 88d888b. .d8888b.
+     *    Y8ooooo.   88   88    88 88 88 88'  `88 88'  `88
+     *          88   88   88.  .88 88 88 88    88 88.  .88
+     *    `88888P'   dP   `8888P88 dP dP dP    dP `8888P88
+     *                         .88                     .88
+     *                     d8888P                  d8888P
+     */
+    &.with-splitter-styles {
+        @include page_containerSplitterDisplay(
+            $h2Color :              $pages_splitterH2Color,
+            $textColor :            $pages_splitterTextColor,
+            $linkColor :            $pages_splitterLinkColor,
+            $linkHoverColor :       $pages_splitterLinkHoverColor,
+            $linkIconColor :        $pages_splitterLinkIconColor,
+            $linkIconHoverColor :   $pages_splitterLinkIconHoverColor,
+            $bgColor :              $pages_splitterBgColor,
+            $bgGradType :           $pages_splitterBgGradType,
+            $bgGradMeta :           $pages_splitterBgGradMeta,
+            $bgGradStops :          $pages_splitterBgGradStops,
+            $borderTopBottomWidth : $pages_splitterBorderTopBottomWidth,
+            $borderTopBottomColor : $pages_splitterBorderTopBottomColor,
+            $boxShadow :            $pages_splitterBoxShadow
+        );
+
+        // /*
+        //  * these have been commented out for G6
+        //  * don't combine these elements
+        //  * styles left around just in case, though.
+        //  */
+        //
+        // // just in case a .container-splitter also has .page-topper (happens on the PURL contribute page)
+        // &.page-topper {
+        //     // we need to remove any top border
+        //     border-top: 0;
+        //     // we need to override the .page-topper text color just in case $pages_splitterTextColor is set to false
+        //     @if $pages_splitterTextColor == false {
+        //         color: inherit;
+        //         *color: $textColor;
+        //     }
+        //
+        //     // we need to evaluate whether or not there is a filter
+        //     @if $pages_splitterBgGradType == false {
+        //         .lt-ie9 & {
+        //             filter: none;
+        //         }
+        //     }
+        // }
+
+        // just in case a container-splitter has a responsive table within
+        .rT-pinLeft-wrap {
+            background: $pages_splitterBgColor;
+        }
+    } // /.with-splitter-styles
+} // /.container-splitter
+
+
+
+
+/***
+ *                  d8b                           888 888
+ *                  Y8P                           888 888
+ *                                                888 888
+ *    88888b.d88b.  888 .d8888b   .d8888b .d88b.  888 888  8888b.  88888b.   .d88b.   .d88b.  888  888 .d8888b
+ *    888 "888 "88b 888 88K      d88P"   d8P  Y8b 888 888     "88b 888 "88b d8P  Y8b d88""88b 888  888 88K
+ *    888  888  888 888 "Y8888b. 888     88888888 888 888 .d888888 888  888 88888888 888  888 888  888 "Y8888b.
+ *    888  888  888 888      X88 Y88b.   Y8b.     888 888 888  888 888  888 Y8b.     Y88..88P Y88b 888      X88
+ *    888  888  888 888  88888P'  "Y8888P "Y8888  888 888 "Y888888 888  888  "Y8888   "Y88P"   "Y88888  88888P'
+ *
+ *
+ *
+ */
+// this is a global style pageView help icons
+.pageView_help {
+    cursor: pointer;
+
+    &:hover {
+        cursor: pointer;
+        color: #666;
+    }
+}
+
+
+// file links
+.fileLink {
+    // display: inline-block;
+    // @include ie7-inline-block();
+    // padding-left: 18px;
+    // background-position: 0 50%;
+    // background-repeat: no-repeat;
+    // @include safeImgUrls(
+    //     'fileIcons/pdf16px.png',
+    //     $pages_fileLinkIconUrlPath,
+    //     $property: 'background-image'
+    // );
+
+    .icon-file-doc,
+    .icon-file-pdf,
+    .icon-file-xls {
+        font-size: $baseLineHeight;
+        font-weight: $fontWeightNormal;
+        vertical-align: middle;
+        @include ignoreGlobalLinkStyles(
+            $color: false,
+            $fontWeight: false,
+            $fontStyle: normal
+        );
+    }
+}
+
+
+// export tools -- used in reports, statement, activity hist. etc.
+.export-tools {
+    white-space: nowrap;
+    margin: 0;
+
+    .export {
+        display: inline-block;
+        @include ie7-inline-block();
+        margin-left: 8px;
+    }
+
+    .export a {
+        display: inline-block;
+        font-size: $fontSizeSmall;
+        color: $textColor;
+        @include ignoreGlobalLinkStyles();
+    }
+    // .csv .btn {
+    //     color: $brand_color_export_csv;
+    // }
+    // .doc .btn {
+    //     color: $brand_color_export_doc;
+    // }
+    // .pdf .btn {
+    //     color: $brand_color_export_pdf;
+    // }
+    // .xls .btn {
+    //     color: $brand_color_export_xls;
+    // }
+}
+
+// styles for the view that manipulates disp. table output
+.displayTableAjaxView {
+    position: relative;
+    min-height: 200px;
+
+    .export-tools {
+        padding-bottom: 8px;
+        *padding-bottom: 0; //ie7
+    }
+
+    // for DisplayTableAjaxView output (uses bg images)
+    // .bgBtn {
+    //     text-decoration:none;
+    //     margin-left: 4px;
+    // }
+    // .bgBtnCsv,
+    // .bgBtnXls,
+    // .bgBtnPdf {
+    //     background-position: 50% 50%;
+    //     background-repeat: no-repeat;
+    // }
+    // .bgBtnCsv {
+    //     @include safeImgUrls(
+    //         'reports/reports_exportCsv.png',
+    //         $pages_displayTableIconUrlPath,
+    //         $property: 'background-image'
+    //     );
+    // }
+    // .bgBtnXls {
+    //     @include safeImgUrls(
+    //         'reports/reports_exportXls.png',
+    //         $pages_displayTableIconUrlPath,
+    //         $property: 'background-image'
+    //     );
+    // }
+    // .bgBtnPdf {
+    //     @include safeImgUrls(
+    //         'reports/reports_exportPdf.png',
+    //         $pages_displayTableIconUrlPath,
+    //         $property: 'background-image'
+    //     );
+    // }
+
+    .paginationControls {
+
+        &.full, &.first, &.last, &.onepage {
+            clear: both;
+        }
+
+        // if nested then style for DisplayTableAjaxView.js
+        .paginationControls.paginationDesc {
+            float:left;
+            margin:0;
+            line-height: $lineHeightSmall + 4px + 4px; // height of the pagination buttons/widget
+        }
+    }
+
+    // waiting spinner
+    // * yanked from profile
+    .spincover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10000;
+        width: 100%;
+        height: 100%;
+        background: $white;
+        background: rgba(255, 255, 255, .5);
+
+        .spin {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            // width: 60px;
+            // height: 60px;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+        }
+    }
+    .spin {
+        display: block;
+        margin: 0 auto;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+    }
+}
+
+
+
+ul.export-tools,
+ul.recordset-paging,
+ul.select-all,
+ul.comment-attachements,
+ul.breadcrumbs {
+    list-style-type: none;
+    list-style-position: inside;
+    margin-left: 0;
+}
+
+ul.export-tools li,
+ul.recordset-paging li,
+ul.select-all li,
+ul.comment-attachements li,
+ul.breadcrumbs li {
+    display: inline;
+    margin: 0 0 0 10px;
+}
+
+ul.export-tools li,
+ul.recordset-paging li,
+ul.select-all li,
+ul.breadcrumbs li {
+    margin-left: 0;
+}
+
+// ul.recordset-paging li.first-item:before {
+//     content: "\003c \003c";
+// }
+
+// ul.recordset-paging li.last-item:after {
+//     content: "\003e \003e";
+// }
+
+.pagination ul .first i,
+.pagination ul .last i {
+    // margin-left: -6px;
+
+    & ~ i {
+        // margin-left: -4px;
+        // margin-right: -6px;
+    }
+}
+.pagination ul .prev i {
+    margin-left: -6px;
+}
+.pagination ul .next i {
+    margin-right: -6px;
+}
+
+ul.comment-attachements li {
+    margin: 0 7px 0 0;
+}
+
+ul.breadcrumbs li:after {
+    content: " \00BB \0020";
+}
+
+ul.breadcrumbs li.active:after {
+    content: " ";
+}
+
+// .dl-h1 dt {
+//     width: 146px;
+//     text-align: left;
+//     text-overflow: inherit;
+// }
+
+// .dl-h1 dd {
+//     margin-left: 156px;
+// }
+
+// .dl-h2 dt {
+//     width: 100px;
+//     text-align: left;
+//     text-overflow: inherit;
+// }
+
+// .dl-h2 dd {
+//     margin-left: 110px;
+// }
+
+// .dl-h3 dt {
+//     width: 78px;
+// }
+
+// .dl-h3 dd {
+//     margin-left: 88px;
+// }
+
+// .dl-h4 dt {
+//     width: 20px;
+// }
+
+// .dl-h4 dd {
+//     margin-left: 30px;
+// }
+
+// .dl-mf {
+//     margin-top: -9px;
+// }
+
+// .form-horizontal .form-actions {
+//     padding-left: 20px;
+// }
+
+table .date,
+table .number {
+    text-align: right;
+}
+
+.lt-ie8 .export-tools{
+    // width: 35px;
+    // margin-right: 80px;
+
+    li {
+        margin-left: 5px;
+    }
+}
+
+// back to top things
+.backToTop {
+    font-size: 85.714%;
+}
+p span.backToTop {
+    padding-left: 8px;
+    white-space: nowrap;
+}
+
+
+// <----- END output -----
+} // end @if $base_variablesOnly == false

@@ -1,0 +1,47 @@
+CREATE SEQUENCE promo_payout_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE promo_payout
+(promo_payout_id       NUMBER(18,0) NOT NULL,
+ promo_payout_group_id NUMBER(18,0) NOT NULL,
+ sequence_num				   NUMBER(18) NOT NULL,
+ product_category_id   NUMBER(18,0),
+ product_id            NUMBER(18,0),
+ quantity              NUMBER(16,4) NOT NULL,
+ product_or_category_start_date       DATE NOT NULL,
+ product_or_category_end_date            	  DATE,
+ created_by number(18) NOT NULL,
+ date_created          DATE NOT NULL,
+ modified_by number(18),
+ date_modified         DATE,
+ version               NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE promo_payout
+ADD CONSTRAINT promo_payout_pk PRIMARY KEY (promo_payout_id)
+USING INDEX
+/
+ALTER TABLE promo_payout ADD CONSTRAINT promo_payout_group_fk
+  FOREIGN KEY (promo_payout_group_id) REFERENCES promo_payout_group (promo_payout_group_id)
+/
+ALTER TABLE promo_payout ADD CONSTRAINT promo_payout_product_fk
+  FOREIGN KEY (product_id) REFERENCES product (product_id) 
+/
+ALTER TABLE promo_payout ADD CONSTRAINT promo_payout_prod_cat_fk
+  FOREIGN KEY (product_category_id) REFERENCES product_category (product_category_id) 
+/
+CREATE INDEX PROMO_PAY_PROMO_PAY_GRP_FK_idx ON PROMO_PAYOUT
+  (PROMO_PAYOUT_GROUP_ID)
+/
+CREATE INDEX PROMO_PAYOUT_PRODUCT_FK_idx ON PROMO_PAYOUT
+  (PRODUCT_ID)
+/
+CREATE INDEX PROMO_PAYOUT_PROD_CAT_FK_idx ON PROMO_PAYOUT
+  (PRODUCT_CATEGORY_ID)
+/
+COMMENT ON COLUMN PROMO_PAYOUT.PROMO_PAYOUT_ID IS 'system generated PK .'
+/
+COMMENT ON COLUMN PROMO_PAYOUT.PRODUCT_CATEGORY_ID IS 'Fk to product_category.'
+/
+COMMENT ON COLUMN PROMO_PAYOUT.SEQUENCE_NUM IS 'Order in which this payout will be stored.'
+/
+COMMENT ON COLUMN PROMO_PAYOUT.PRODUCT_ID IS 'FK to product.'
+/

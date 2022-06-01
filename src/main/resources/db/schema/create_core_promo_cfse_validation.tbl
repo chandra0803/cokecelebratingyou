@@ -1,0 +1,53 @@
+CREATE SEQUENCE promo_cfse_validation_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE promo_cfse_validation
+   (promo_cfse_validation_id       NUMBER(18,0) NOT NULL,
+    promotion_id                   NUMBER(18,0) NOT NULL,
+    claim_form_step_element_id     NUMBER(18,0) NOT NULL,
+    validation_type                VARCHAR2(80) NOT NULL,
+    min_value											 NUMBER(23,4),
+    max_value											 NUMBER(23,4),
+    max_length										 NUMBER(18,0),
+    start_date										 DATE,
+    end_date											 DATE,
+    starts_with										 VARCHAR2(100),
+    not_start_with  							 VARCHAR2(100),
+    ends_with 										 VARCHAR2(100),
+    not_end_with									 VARCHAR2(100),
+    contains	  									 VARCHAR2(100),
+    not_contain										 VARCHAR2(100),
+    created_by number(18) NOT NULL,
+    date_created                   DATE NOT NULL,
+    modified_by number(18),
+    date_modified									 DATE,
+    version                        NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE promo_cfse_validation
+ADD CONSTRAINT promo_cfse_validation_pk PRIMARY KEY (promo_cfse_validation_id)
+USING INDEX
+/
+ALTER TABLE promo_cfse_validation ADD CONSTRAINT promo_cfse_validation_uk
+  UNIQUE (promotion_id,claim_form_step_element_id)
+/
+ALTER TABLE promo_cfse_validation ADD CONSTRAINT promo_cfse_validation_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id) 
+/
+ALTER TABLE promo_cfse_validation ADD CONSTRAINT promo_cfse_validation_fk2
+  FOREIGN KEY (claim_form_step_element_id) REFERENCES claim_form_step_element (claim_form_step_element_id) 
+/
+CREATE INDEX PROMO_CFSE_VALIDAT_CFSE_FK_idx ON PROMO_CFSE_VALIDATION
+  (CLAIM_FORM_STEP_ELEMENT_ID)
+/
+CREATE INDEX PROMO_CFSE_VALID_PROMO_FK_idx ON PROMO_CFSE_VALIDATION
+  (PROMOTION_ID)
+/
+COMMENT ON TABLE promo_cfse_validation  IS 'This is to cpture the validations to be done on the claim form elements that are to be done at the data entry level.'
+/
+COMMENT ON COLUMN PROMO_CFSE_VALIDATION.PROMO_CFSE_VALIDATION_ID IS 'System generated PK'
+/
+COMMENT ON COLUMN PROMO_CFSE_VALIDATION.PROMOTION_ID IS 'FK to promotion table'
+/
+COMMENT ON COLUMN PROMO_CFSE_VALIDATION.CLAIM_FORM_STEP_ELEMENT_ID IS 'Fk to claim_form_step_element'
+/
+COMMENT ON COLUMN PROMO_CFSE_VALIDATION.VALIDATION_TYPE IS 'Picklist.'
+/

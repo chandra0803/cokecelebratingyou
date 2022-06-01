@@ -1,0 +1,221 @@
+// Partial-specific variables
+// =========================
+
+
+// Partial-specific code
+// ==================================================
+
+.participantPopoverQtip {
+    max-width: 350px !important; // make the qtip allow wider than default 280px
+    min-width: 0px;
+    border-radius: 4px;
+
+    .spinnerBox {
+        width: 60px;
+        height: 60px;
+        padding: 20px;
+    }
+
+    &.elevate {
+        z-index: 999999999 !important;
+    }
+}
+
+
+.participantPopover {
+    margin: 7px 3px;
+    max-height: 300px;
+    // min-width:300px;
+    min-width: 300px;
+    margin-right: 30px;
+    overflow-y: auto;
+
+    &.long-list {
+        // min-width:262px;
+        // margin-right: 20px;
+        .naked-name-link {
+            // font-size: 12px;
+        }
+
+        .multiProfile {
+            padding: 2px 0;
+            line-height: 18px;
+
+            .avatar {
+                float: left;
+                margin-right: 4px;
+                width: 18px;
+                height: 18px;
+                font-weight: $fontWeightNormal;
+                font-size: 10px;
+                line-height: 18px;
+            }
+
+        }
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    .profileList {
+        margin: 0;
+    }
+
+    .multiProfile {
+        margin: 0;
+        line-height: 32px;
+        vertical-align: middle;
+        @include clearfix();
+
+        .avatar {
+            display: block;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            font-weight: $fontWeightBold;
+            color: $brand_color_avatarTextColor;
+            background: $brand_color_avatarBkg;
+            border-radius: 50%;
+        }
+
+        .profile-popover-left {
+            padding: 0 8px 0 0;
+            width: 32px;
+
+            a {
+                @include ignoreGlobalLinkStyles();
+            }
+        }
+        .profile-popover-right {
+            display: inline-block;
+            font-size: $fontSizeSmall;
+            line-height: $lineHeightMini;
+
+            img {
+                padding-right: 4px;
+            }
+        }
+    }
+
+    .closePopoverBtn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        opacity: 0.6;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    .popover-badge {
+        float:left;
+        margin-right:4px;
+        img{
+            margin-top: 2px;
+            width:24px;
+        }
+    }
+
+    .profile-popover-info {
+        p {
+            margin: 0 0 6px 0;
+            span + span:before {
+                content: '|';
+                padding-right: 3px;
+                color: $brand_color_mid;
+            }
+            // IE7 bullet separators
+            span {
+                //*background-image: expression(this.runtimeStyle.backgroundImage="none",this.innerHTML = 'x'+this.innerHTML);
+                // IE7... OUCH
+                *zoom: expression( this.runtimeStyle.zoom="1", this.insertBefore( document.createElement("i"), this.firstChild ).innerHTML="&bull; " );
+            }
+            span:first-child i {
+                // IE7... BOO!
+                display:none;
+            }
+            span.country {
+                overflow: hidden;
+                border-radius: 13px;
+                width: 13px;
+                height: 13px;
+                display: inline-block;
+                position: relative;
+                top: 2px;
+                img {
+                    width: 20px;
+                    height: 14px;
+                    margin-left: 0;
+                }
+            }
+            a.publicProfileLink {
+                padding-bottom: 4px;
+                display: block;
+                font-size: $baseFontSize;
+            }
+        }
+    }
+
+    .profile-popover-links {
+        span + span:before {
+            content: '|';
+            padding-right: 3px;
+            color: $brand_color_mid;
+        }
+        // IE7 bullet separators
+        span {
+            //*background-image: expression(this.runtimeStyle.backgroundImage="none",this.innerHTML = 'x'+this.innerHTML);
+            // IE7... OUCH
+            *zoom: expression( this.runtimeStyle.zoom="1", this.insertBefore( document.createElement("i"), this.firstChild ).innerHTML="&bull; " );
+        }
+        span:first-child i {
+            // IE7... BOO!
+            display:none;
+        }
+
+    }
+
+    .moreParticipantsBtn {
+        margin-top: 12px;
+    }
+
+    /* ----- PROFILE POPOVER IMAGES ----- */
+    .profile-popover-left {
+        float: left;
+        padding: 0 12px 0 0;
+        width: 48px;
+        // margin: 0 0 0 10px;
+    }
+
+    .profile-popover-right,
+    .profile-popover-right .nav-list {
+        float: left;
+        // max-width: 290px; // max-width was increased to allow the recognize, follow, etc links to fit on one line for throwdown since 'player stats' was added as a link
+        max-width: 250px; // max-width can't be more than 250px or the layout of this popover breaks. The overall popover can't be widened because mobile is only 320px wide.
+        margin-bottom: 1px; // this fixes bug #3143. Don't know why Chrome/Win shows a scrollbar whereas Chrome/Mac doesn't
+        padding-bottom: 1px;
+    }
+
+    .profile-popover-right .nav-list li {
+        float: left;
+        margin: 0 20px 0 0;
+    }
+
+    .profile-popover-left-sm {
+        float: left;
+        width: 35px;
+        margin: 0 0 0 30px;
+    }
+
+    .profile-popover-right-sm {
+        float: left;
+        width: 180px;
+    }
+
+    .profile-slider-sm {
+        height: 150px;
+        overflow-y: auto;
+    }
+}

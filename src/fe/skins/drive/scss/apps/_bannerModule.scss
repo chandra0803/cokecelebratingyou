@@ -1,0 +1,22 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $banner_cycleDotWidth_mobile: ;
+// $banner_cycleDotBkg_mobile: ;
+// $banner_cycleDotBorderRadius_mobile: ;
+
+// $banner_cycleThumbScale: ;
+// $banner_cycleThumbSpacing: ;
+
+// $banner_pagerTextColor: ;
+// $banner_pagerTextColorHover: ;
+// $banner_pagerBgColor: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "bannerModule/scss/bannerModule";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

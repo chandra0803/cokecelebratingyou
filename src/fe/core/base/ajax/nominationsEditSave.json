@@ -1,0 +1,17 @@
+<?php sleep(2); ?>
+{
+
+    "messages":[
+        {
+            "__COMMENT__":" remove leading _ on below keys to uncomment ",
+            "type":"_error",
+            "code":"validationError",
+            "name":"Name of error",
+            "text":"Details of error"
+        }
+    ],
+
+    "__COMMENT__":" on 'saveDraft' return at least the id of the saved nomination ",
+    "claimId": 5789
+
+}

@@ -1,0 +1,26 @@
+CREATE SEQUENCE stack_rank_payout_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE stack_rank_payout
+(stack_rank_payout_id       NUMBER(18,0) NOT NULL,
+ stack_rank_payout_group_id 	NUMBER(18,0) NOT NULL, 
+ start_rank	   			NUMBER(18,0),
+ end_rank            	NUMBER(18,0),
+ payout              	NUMBER(18,0) NOT NULL,
+ created_by 			NUMBER(18) NOT NULL,
+ date_created           DATE NOT NULL,
+ modified_by 		 	NUMBER(18),
+ date_modified          DATE,
+ version                NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE stack_rank_payout
+ADD CONSTRAINT stack_rank_payout_pk PRIMARY KEY (stack_rank_payout_id)
+USING INDEX
+/
+ALTER TABLE stack_rank_payout ADD CONSTRAINT stack_rank_payout_fk
+  FOREIGN KEY (stack_rank_payout_group_id) REFERENCES stack_rank_payout_group (stack_rank_payout_group_id)
+/
+CREATE INDEX STACK_RANK_PAY_FK_idx ON STACK_RANK_PAYOUT
+  (STACK_RANK_PAYOUT_GROUP_ID)
+/
+COMMENT ON COLUMN STACK_RANK_PAYOUT.STACK_RANK_PAYOUT_ID IS 'system generated PK .'
+/

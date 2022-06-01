@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN"
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+  <formset>
+
+    <form name="characteristicForm">
+      <field property="characteristicName" depends="required">
+        <arg0 key="admin.characteristic.edit.CHAR_NAME"/>
+      </field>
+    </form>
+
+    <form name="productForm">
+      <field property="name" depends="required">
+        <arg0 key="product.maintainproducts.PRODUCT_NAME_LABEL"/>
+      </field>
+      <field property="code" depends="required">
+        <arg0 key="product.maintainproducts.ITEM_NUMBER_LABEL"/>
+      </field>
+      <field property="productCategoryId" depends="required">
+        <arg0 key="product.maintainproducts.CATEGORY_LABEL"/>
+      </field>
+    </form>
+
+  </formset>
+</form-validation>

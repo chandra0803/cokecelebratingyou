@@ -1,0 +1,42 @@
+CREATE SEQUENCE LEADERBOARD_PARTICIPANT_PK_SQ start with 500 increment by 1
+/
+
+CREATE TABLE leaderboard_participant
+   (leaderboard_participant_id   NUMBER(18)   NOT NULL,
+    leaderboard_id               NUMBER(18)   NOT NULL,
+    user_id                      NUMBER(18)   NOT NULL,
+    is_active                    NUMBER(1),
+    score                        NUMBER(18),
+    as_of_date                   DATE,
+    rank                         NUMBER(8)    DEFAULT 0 NOT NULL,
+    created_by                   NUMBER(18)    NOT NULL,
+    date_created                 DATE          NOT NULL,
+    modified_by                  NUMBER(18),
+    date_modified                DATE,
+    version                      NUMBER(18)    NOT NULL)
+/
+
+ALTER TABLE leaderboard_participant
+ADD CONSTRAINT leaderboard_participant_pk PRIMARY KEY (leaderboard_participant_id)
+USING INDEX
+/
+
+ALTER TABLE leaderboard_participant ADD (CONSTRAINT leaderboard_id_fk 
+    FOREIGN KEY (leaderboard_id) REFERENCES leaderboard (leaderboard_id))
+/
+
+ALTER TABLE leaderboard_participant ADD (CONSTRAINT leaderboard_pax_user_fk 
+    FOREIGN KEY (user_id) REFERENCES participant (user_id))
+/
+
+COMMENT ON TABLE leaderboard_participant IS 'The LEADERBOARD_PARTICIPANT table stores the various leaderboard participants.'
+/
+
+COMMENT ON COLUMN leaderboard_participant.is_active IS 'Describes participant as active or inactive.'
+/
+
+COMMENT ON COLUMN leaderboard_participant.score IS'Score identifier.'
+/
+
+COMMENT ON COLUMN leaderboard_participant.as_of_date IS'Display the score as of date.'
+/

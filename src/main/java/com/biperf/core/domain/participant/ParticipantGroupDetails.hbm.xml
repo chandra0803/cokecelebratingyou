@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.participant.ParticipantGroupDetails"
+		table="participant_group_dtls">
+		
+		<id name="id" type="java.lang.Long" column="group_detail_id">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">Participant_GROUP_dtl_ID_PK_SQ</param>
+			</generator>
+		</id>
+		
+		<many-to-one name="group" class="com.biperf.core.domain.participant.ParticipantGroup" >
+            <column name="GROUP_ID" not-null="true" />
+        </many-to-one>
+		
+		<many-to-one name="participant" class="com.biperf.core.domain.participant.Participant" >
+            <column name="PAX_id" not-null="true" />
+        </many-to-one>		
+	</class>
+</hibernate-mapping>

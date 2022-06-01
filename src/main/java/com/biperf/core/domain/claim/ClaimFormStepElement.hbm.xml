@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+        <!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+        <hibernate-mapping>
+
+  <class name="com.biperf.core.domain.claim.ClaimFormStepElement" table="CLAIM_FORM_STEP_ELEMENT">
+
+    <id name="id" type="java.lang.Long" column="CLAIM_FORM_STEP_ELEMENT_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CLAIM_FORM_STEP_ELEMENT_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+    
+    <many-to-one name="claimFormStep" class="com.biperf.core.domain.claim.ClaimFormStep"  insert="false" update="false" column="CLAIM_FORM_STEP_ID" not-null="true" lazy="false"/>
+    
+    <property name="cmKeyFragment" type="java.lang.String" column="CM_KEY_FRAGMENT"/>
+    <property name="description" type="java.lang.String" column="DESCRIPTION"/>
+    <property name="required" type="boolean" column="IS_REQUIRED"/>
+    <property name="claimFormElementType" column="CLAIM_FORM_ELEMENT_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ClaimFormElementType</param>
+      </type>
+    </property>
+    <property name="numberOfDecimals" type="java.lang.Integer" column="NUMBER_OF_DECIMALS"/>
+    <property name="numberFieldInputFormat" column="NBR_INPUT_FORMAT_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.NumberFieldInputFormatType</param>
+      </type>
+    </property>
+    <property name="maskedOnEntry" type="boolean" column="MASKED_ON_ENTRY"/>
+	  <property name="customerInformationBlockId" type="java.lang.Long" column="CUSTOMER_INFORMATION_BLOCK_ID"/>
+	  <property name="uniquenessCode" type="java.lang.String" column="UNIQUENESS"/>
+
+    <property name="shouldEncrypt" type="boolean" column="SHOULD_ENCRYPT"/>
+    <property name="maxSize" type="java.lang.Integer" column="MAX_SIZE_TEXT_FIELD"/>
+    <property name="textFieldInputFormat" column="TEXT_INPUT_FORMAT_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.TextFieldInputFormatType</param>
+      </type>
+    </property>
+    <property name="linkURL" type="java.lang.String" column="LINK_URL"/>
+    <property name="selectionPickListName" type="java.lang.String" column="SELECTION_PICK_LIST_NAME"/>
+    
+    <!-- SSI Phase-2 Changes -->
+    <property name="fileType" type="java.lang.String" column="FILE_TYPE"/>
+    <property name="fileSize" type="java.lang.Integer" column="FILE_MAX_SIZE"/>
+    
+    <property name="whyField" type="boolean" column="WHY_FIELD"/>
+    
+    
+    <property name="sequenceNumber" type="java.lang.Integer" column="SEQUENCE_NUM" insert="false" update="false"/>
+    
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+
+	<sql-query name="com.biperf.core.domain.claim.ClaimFormStepElementsByClaimFormId">
+    <return alias="cfse" class="com.biperf.core.domain.claim.ClaimFormStepElement"/>
+		<![CDATA[
+			SELECT {cfse.*}
+      FROM CLAIM_FORM_STEP_ELEMENT cfse, CLAIM_FORM_STEP cfs, CLAIM_FORM cf
+			WHERE cfse.CLAIM_FORM_STEP_ID = cfs.CLAIM_FORM_STEP_ID
+        AND cfs.CLAIM_FORM_ID = cf.CLAIM_FORM_ID
+        AND cf.CLAIM_FORM_ID = :claimFormId
+		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.claim.ClaimFormStepElementsByClaimFormIdElementType">
+    <return alias="cfse" class="com.biperf.core.domain.claim.ClaimFormStepElement"/>
+		<![CDATA[
+			SELECT {cfse.*}
+      FROM CLAIM_FORM_STEP_ELEMENT cfse, CLAIM_FORM_STEP cfs, CLAIM_FORM cf
+			WHERE cfse.CLAIM_FORM_STEP_ID = cfs.CLAIM_FORM_STEP_ID
+        AND cfs.CLAIM_FORM_ID = cf.CLAIM_FORM_ID
+        AND cf.CLAIM_FORM_ID = :claimFormId
+        AND cfse.CLAIM_FORM_ELEMENT_TYPE_CODE = :elementTypeCode
+		]]>
+	</sql-query>
+
+</hibernate-mapping>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+	<class name="com.biperf.core.domain.client.TcccQcardBatch" table="ADIH_QCARD_BATCH">
+	
+	<id name="id" type="java.lang.Long" column="QCARD_BATCH_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">QCARD_BATCH_ID_SQ</param>
+      </generator>
+    </id>
+    
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+    <property name="batchNumber" type="java.lang.String" column="BATCH_NBR" />
+    <property name="divisionKey" type="java.lang.String" column="DIVISION_KEY" />
+    <property name="workCountry"  type="java.lang.String" column="WORK_COUNTRY"/>
+   
+    
+    
+	</class>
+	 <sql-query name="com.biperf.core.domain.client.TccQcardBatch.getQCardBatchByBatchNbr">
+    <return alias="b" class="com.biperf.core.domain.client.TcccQcardBatch"/>
+  	<![CDATA[
+	  SELECT {b.*}
+		FROM ADIH_QCARD_BATCH b
+	   WHERE BATCH_NBR = :batchNbr
+		]]>
+  </sql-query>
+	
+	 <sql-query name="com.biperf.core.domain.client.TccQcardBatch.TccQcardBatchList">
+    <return alias="b" class="com.biperf.core.domain.client.TcccQcardBatch"/>
+  	<![CDATA[
+	  SELECT {b.*}
+		FROM ADIH_QCARD_BATCH b
+	  ORDER BY b.BATCH_NBR
+		]]>
+  </sql-query>
+</hibernate-mapping>

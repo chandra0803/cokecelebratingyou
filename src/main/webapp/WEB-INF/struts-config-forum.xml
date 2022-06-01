@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+"http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+	<!-- ===================================== -->
+	<!-- FORM BEANS -->
+	<!-- ===================================== -->
+
+	<form-beans>
+		<form-bean name="forumTopicListForm" type="com.biperf.core.ui.forum.ForumTopicListForm" />
+		<form-bean name="forumTopicForm" type="com.biperf.core.ui.forum.ForumTopicForm" />
+		<form-bean name="forumDiscussionReplyListForm" type="com.biperf.core.ui.forum.ForumDiscussionReplyListForm" />
+		<form-bean name="forumStartDiscussionForm" type="com.biperf.core.ui.forum.ForumStartDiscussionForm" />
+		<form-bean name="forumDiscussionEditForm" type="com.biperf.core.ui.forum.ForumDiscussionEditForm" />
+	</form-beans>
+
+	<!-- ===================================== -->
+	<!-- ACTION MAPPING FOR ADMIN SIDE -->
+	<!-- ===================================== -->
+
+	<action-mappings>
+
+		<action path="/forumTopicList" name="forumTopicListForm"
+			parameter="forumtopic.list" type="org.apache.struts.actions.ForwardAction"
+			validate="false" scope="request" />
+
+		<action path="/forumTopicListMaintain" name="forumTopicListForm"
+			parameter="method" type="com.biperf.core.ui.forum.ForumTopicListAction"
+			scope="request" validate="true" input="forumtopic.list">
+			<forward name="success" path="forumtopic.list" redirect="false" />
+			<forward name="cancel" path="forumtopic.list" redirect="false" />
+			<forward name="failure" path="forumtopic.list" redirect="false" />
+		</action>
+
+		<action path="/forumTopicMaintainDisplay" name="forumTopicForm"
+			parameter="method" type="com.biperf.core.ui.forum.ForumTopicMaintainAction"
+			scope="request" validate="false" input="forum.topic.add">
+			<forward name="create" path="forum.topic.add" redirect="false" />
+			<forward name="update" path="forum.topic.add" redirect="false" />
+		</action>
+
+		<action path="/forumTopicMaintain" name="forumTopicForm"
+			parameter="method" type="com.biperf.core.ui.forum.ForumTopicMaintainAction"
+			scope="request" validate="true" input="forum.topic.add">
+			<forward name="success_create" path="/forumTopicList.do" redirect="true" />
+			<forward name="success_update" path="/forumTopicList.do" redirect="true" />
+			<forward name="failure_create" path="forum.topic.add" redirect="false" />
+			<forward name="failure_update" path="forum.topic.add" redirect="false" />
+		</action>
+		
+        <action path="/forumAudience" name="forumTopicForm"
+	    parameter="method" type="com.biperf.core.ui.forum.ForumTopicMaintainAction"
+	    scope="request" validate="false">
+	    <forward name="success" path="forum.topic.add" redirect="false" />
+	    <forward name="submitterAudienceLookup" path="/addSubmitterAudience.do" redirect="false"/>
+        <forward name="listbuilder" module="/participant" path="/listBuilderAddAudienceDisplay.do" redirect="true"/>
+	    <forward name="paxListPopup" module="/participant" path="audience.paxlist" redirect="false"/>
+	    <forward name="failure" path="forum.topic.add" redirect="false" />
+        </action>
+        
+        <action path="/addSubmitterAudience"
+            parameter="/forumAudience.do?method=returnSubmitterAudienceLookup"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+            
+        <action path="/forumTopicListDisplay" name="forumTopicForm"
+			parameter="method" type="com.biperf.core.ui.forum.ForumTopicDisplayListAction"
+			scope="request" validate="true" input="forum.display.list">
+			<forward name="display_topics" path="forum.display.list" redirect="false" />
+		</action>
+            
+        <action path="/forumDiscussionListMaintainDisplay" name="forumDiscussionEditForm"  
+        parameter="method"  type="com.biperf.core.ui.forum.ForumDiscussionListMaintainAction" 
+			    scope="request"  validate="false">
+			<forward name="update" path="forum.discussion.list" redirect="false" />
+			<forward name="success" path="forumDiscussionDetailMaintainDisplay.do?method=fetchDiscussionDetailItems" redirect="true" />
+		</action>
+		
+		<!-- ===================================== -->
+	    <!-- ACTION MAPPING FOR PAX SIDE -->
+	    <!-- ===================================== -->
+		
+		<action path="/forumPageTopics" type="org.apache.struts.actions.ForwardAction" 
+		parameter="forum.page.topics" />
+
+		<action path="/forumTopicsDisplayTableAjaxResponse" type="org.apache.struts.actions.ForwardAction" 
+			parameter="forum.page.topics.response" validate="false" scope="request" />
+		
+		<action path="/forumCommentItem" type="org.apache.struts.actions.ForwardAction" 
+			parameter="forum.comment.item" validate="false" scope="request"/>
+		
+		<action path="/forumPageDiscussions" parameter="forum.page.discussions" type="org.apache.struts.actions.ForwardAction" 
+			  scope="request" validate="false"/>
+			  
+	    <action path="/forumPageDiscussionsFromTile" parameter="forum.page.discussions.from.tile" type="org.apache.struts.actions.ForwardAction" 
+			  scope="request" validate="false"/>
+		
+		<action path="/forumDiscussionsDisplayTableAjaxResponse" type="org.apache.struts.actions.ForwardAction" 
+			parameter="forum.page.discussions.response" validate="false" scope="request"/>
+			
+	    <action path="/forumDiscussionDetailMaintainDisplay" name="forumDiscussionReplyListForm" parameter="method"   
+	    type="com.biperf.core.ui.forum.ForumDiscussionDetailMaintainAction" scope="request" validate="false">
+			<forward name="display_detail_discussion" path="forum.page.discussion.detail" redirect="false" />
+			<forward name="success" path="/forumDiscussionDetailMaintainDisplay.do?method=displayDetailDiscussion" redirect="true"/>
+            <forward name="failure" path="/forumDiscussionDetailMaintainDisplay.do?method=displayDetailDiscussion" redirect="true"/>
+		</action>
+		
+		<action path="/submitReply" name="forumDiscussionReplyListForm"   
+	    type="com.biperf.core.ui.forum.ForumCommentReplyMaintainAction" scope="request" validate="false" cancellable="true">
+			<forward name="display_detail_discussion" path="forum.page.discussion.detail" redirect="false" />
+			<forward name="success" path="/forumDiscussionDetailMaintainDisplay.do?method=displayDetailDiscussion" redirect="true"/>
+            <forward name="failure" path="/forumDiscussionDetailMaintainDisplay.do?method=displayDetailDiscussion" redirect="true"/>
+		</action>
+		
+		<action path="/forumDiscussionStart" name="forumStartDiscussionForm" parameter="method" 
+	         type="com.biperf.core.ui.forum.ForumStartDiscussionAction" validate="false" scope="request">
+			<forward name="display_start_discussion" path="forum.discussion.start" redirect="false" />
+			<forward name="cancel" module="" path="/homePage.do" redirect="true"/>
+			<forward name="success" path="/forumPageDiscussions.do" redirect="true"/>
+            <forward name="failure" path="/forumDiscussionStart.do?method=createDiscussion" redirect="true"/>
+	    </action>
+	    
+	    <action path="/forumDiscussionPreview" name="forumStartDiscussionForm" type="org.apache.struts.actions.ForwardAction" 
+			parameter="forum.discussion.preview" validate="false" scope="request"/>
+			
+	    <action path="/forumPage" type="org.apache.struts.actions.ForwardAction" 
+			parameter="forum.page" validate="false" scope="request"/>
+			
+	    <action path="/participantPublicProfile"
+		type="com.biperf.core.ui.profile.PublicProfileAction"
+		parameter="method" scope="request" />
+	         
+	     <action path="/paginationView" type="org.apache.struts.actions.ForwardAction" 
+			parameter="forum.pagination.view" validate="false" scope="request"/>
+	    
+	    <!-- ========================================= -->
+	    <!-- ACTION MAPPING FOR FORUM TILE ON PAX SIDE -->
+	    <!-- ========================================= -->
+	         
+	    <action path="/forumResult"
+            parameter="method" type="com.biperf.core.ui.forum.ForumTopicDisplayListAction"
+			scope="request"/>    
+
+	</action-mappings>
+
+	<!-- ===================================== -->
+	<!-- CONTROLLERS -->
+	<!-- ===================================== -->
+
+	<controller nocache="true"
+		processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+		multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+	<!-- ===================================== -->
+	<!-- RESOURCE BUNDLE -->
+	<!-- ===================================== -->
+	<message-resources null="true" parameter="BeaconResources_en"
+		factory="com.objectpartners.cms.util.CmsMessageResourcesFactory" />
+
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+		<set-property property="stopOnFirstError" value="false" />
+	</plug-in>
+
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config"
+			value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-forum.xml" />
+		<set-property property="definitions-debug" value="10" />
+		<set-property property="definitions-parser-details"
+			value="2" />
+		<set-property property="definitions-parser-validate"
+			value="true" />
+	</plug-in>
+
+</struts-config>

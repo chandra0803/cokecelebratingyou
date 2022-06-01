@@ -1,0 +1,11 @@
+{
+	"participants": [{
+		"id": "456777",
+		"eligibleForPromotion": false,
+		"countryRatio": 1
+	}, {
+		"id": "123777",
+		"eligibleForPromotion": true,
+		"countryRatio": 1.3
+	}]
+}

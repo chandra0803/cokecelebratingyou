@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="false">
+  <class name="com.biperf.core.domain.serviceanniversary.SACelebrationInfo" table="SA_CELEBRATION_INFO">
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">SA_CELEBRATION_INFO_PK_SQ</param>
+      </generator>
+    </id> 
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+    
+    <property name="programId" type="java.lang.Long" column="PROGRAM_ID" not-null="true" />
+    
+    <property name="celebrationId" type="uuid-char" column="CELEBRATION_ID" not-null="true" />
+    
+    <property name="recipientId" type="java.lang.Long" column="RECIPIENT_ID" not-null="true" />
+    
+    <property name="companyId" type="uuid-char" column="COMPANY_ID" not-null="true" />
+    
+    <property name="awardLevel" type="java.lang.String" column="AWARD_LEVEL" />
+    
+    <property name="country" type="java.lang.String" column="COUNTRY" />
+    
+    <property name="awardDate" type="java.util.Date" column="AWARD_DATE" />
+    
+	<property name="teamId" column="TEAM_ID" type="long" not-null="false"/>
+	
+	<property name="awardStatus" type="java.lang.String" column="AWARD_STATUS" />
+	
+	<property name="giftCodeStatus" type="java.lang.String" column="GIFTCODE_STATUS" />
+	
+	<property name="awardPoints" type="java.lang.Double" column="AWARD_POINTS" />
+	
+	<property name="taxable" type="boolean" column="IS_TAXABLE" not-null="true" />
+	
+	<property name="pointsStatus" type="java.lang.String" column="POINTS_STATUS" />
+	
+	<property name="giftCode" type="boolean" column="IS_GIFTCODE" not-null="true" />
+	
+	<property name="points" type="boolean" column="IS_POINTS" not-null="true" />
+	
+	<property name="celebrationSite" type="boolean" column="IS_CELEBRATION_SITE" not-null="true" />
+	
+	<property name="claimId" column="CLAIM_ID" type="long" />
+	
+	<property name="daymaker" type="boolean" column="IS_DAYMAKER" not-null="true" />
+	
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SACelebrationInfo.getSACelebrationId">
+	  <return-scalar column="celebrationId" type="string" />
+	  <![CDATA[
+		select sc.CELEBRATION_ID as celebrationId
+		from  SA_CELEBRATION_INFO sc , SA_INVITEANDCONTRIBUTE_INFO si 
+		where si.CELEBRATION_ID = sc.CELEBRATION_ID 
+		and si.CONTRIBUTION_STATE  = :contributionStates
+    	and si.PURL_CONTRIBUTOR_ID = :purlContributorId
+		and sc.AWARD_STATUS = :awardStatus 
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SACelebrationInfo.getSACelebrationIdByClaim">
+	  <return-scalar column="celebrationId" type="string" />
+	  <![CDATA[
+		 select sc.CELEBRATION_ID as celebrationId 
+		from  SA_CELEBRATION_INFO sc , application_user au 
+		where sc.RECIPIENT_ID = au.USER_ID
+		and au.IS_ACTIVE = 1
+		and sc.AWARD_DATE + :celebrationDisplayPeriod >= trunc(sysdate)
+    	and sc.RECIPIENT_ID = :recipientPersonId
+   		and sc.AWARD_STATUS = :awardStatus
+    	and sc.CLAIM_ID = :claimId
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SACelebrationInfo.getUpcomingCelebrationCount">
+	  <return-scalar column="cnt" type="int" />
+	  <![CDATA[
+		  SELECT COUNT( * ) as cnt
+        FROM SA_CELEBRATION_INFO sc, Program pg
+        WHERE sc.AWARD_STATUS = :awardStatus
+        AND sc.AWARD_DATE > sysdate
+        AND sc.RECIPIENT_ID <> :userId  
+        AND pg.ALLOW_CONTRIBUTION = 1
+        AND pg.PROGRAM_ID = sc.PROGRAM_ID
+        AND pg.PROGRAM_TYPE = 'recognition' 
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.serviceanniversary.SACelebrationInfo.getFNameLNameByRecipiantId">
+	<return-scalar column="name" type="string"/>
+	<![CDATA[
+		select au.first_name ||' '|| au.last_name as name from application_user au where au.user_id in (select ci.recipient_id from sa_celebration_info ci where ci.celebration_id=:celebrationId)
+	]]>
+  </sql-query>
+   
+</hibernate-mapping>

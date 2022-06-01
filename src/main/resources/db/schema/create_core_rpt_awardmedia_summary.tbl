@@ -1,0 +1,156 @@
+CREATE SEQUENCE rpt_awardmedia_summary_pk_sq
+  INCREMENT BY 1
+  START WITH 721
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE TABLE RPT_AWARDMEDIA_SUMMARY
+( rpt_awardmedia_summary_id   NUMBER(18,0)   NOT NULL,
+  -- alternate key fields
+  DETAIL_NODE_ID              NUMBER         NOT NULL,
+  RECORD_TYPE                 VARCHAR2(49)   NOT NULL,
+  PROMOTION_ID                NUMBER,
+  PAX_STATUS                  VARCHAR2(30),
+  JOB_POSITION                VARCHAR2(100),
+  DEPARTMENT                  VARCHAR2(100),
+  COUNTRY_ID                  NUMBER(18),
+  MEDIA_DATE                  DATE,
+  -- reference fields
+  MEDIA_TYPE                  VARCHAR2(30),
+  HEADER_NODE_ID              NUMBER(18,0),
+  HIER_LEVEL                  NUMBER,
+  IS_LEAF                     NUMBER(1,0),
+  -- count fields
+  TOTAL_MEDIA_AMOUNT          NUMBER(20,4),
+  -- audit fields
+  CREATED_BY                  NUMBER(18)      NOT NULL,
+  DATE_CREATED                DATE            NOT NULL,
+  MODIFIED_BY                 NUMBER(18),
+  DATE_MODIFIED               DATE,  
+  SWEEPSTAKES_WON             NUMBER,
+  BADGES_EARNED               NUMBER,
+  PLATEAU_EARNED              NUMBER
+)
+/
+-- table comments
+COMMENT ON TABLE  RPT_AWARDMEDIA_SUMMARY IS 'Summarizes the promotion journal transaction amount by node, promotion and recipiant details.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.RPT_AWARDMEDIA_SUMMARY_ID   IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.DETAIL_NODE_ID              IS 'Alternate Key field 1, user node ID taken from the detail record.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.RECORD_TYPE                 IS 'Alternate Key field 2, team/node summary with hierarchy level prepended.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.PROMOTION_ID                IS 'Alternate Key field 3, promotion associated with claim.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.PAX_STATUS                  IS 'Alternate Key field 4, application_user.status (0/1) converted to active/inactive.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.JOB_POSITION                IS 'Alternate Key field 5, participant_employer.position_type of award recipiant.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.DEPARTMENT                  IS 'Alternate Key field 6, participant_employer.department_type of award recipiant.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.MEDIA_DATE                  IS 'Alternate Key field 7, the journal.transaction_date.'
+/
+-- reference fields
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.MEDIA_TYPE                  IS 'Award type from the Promotion table.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.HEADER_NODE_ID              IS 'Parent node of detail node ID.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.HIER_LEVEL                  IS 'Pseudo column to indicate the depth of hierarchy.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.IS_LEAF                     IS 'Indicates whether record node is a leaf node (0/1) Note: teamsum record always a leaf node.'
+/
+-- count fields
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.TOTAL_MEDIA_AMOUNT          IS 'Sum of journal.transaction_amt across the record alternate key fields.'
+/
+-- audit fields
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.CREATED_BY                  IS 'User who initially created record.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.DATE_CREATED                IS 'Record creation date.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.MODIFIED_BY                 IS 'User who last modified record.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.DATE_MODIFIED               IS 'Date record last modified.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.SWEEPSTAKES_WON             IS 'Number of attempts earned.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.BADGES_EARNED               IS 'Number of badges earned.'
+/
+COMMENT ON COLUMN RPT_AWARDMEDIA_SUMMARY.PLATEAU_EARNED              IS 'Number of plateaus earned.'
+/
+-- table trigger
+CREATE OR REPLACE TRIGGER rpt_awardmedia_summary_bi
+ BEFORE
+  INSERT
+ ON rpt_awardmedia_summary
+REFERENCING NEW AS NEW OLD AS OLD
+ FOR EACH ROW
+BEGIN
+  IF :new.rpt_awardmedia_summary_id IS NULL THEN
+      SELECT rpt_awardmedia_summary_pk_sq.NEXTVAL
+      INTO :new.rpt_awardmedia_summary_id
+      FROM dual ;
+  END IF ;
+END;
+/
+-- add indexes with schema appropriate tablespace
+DECLARE
+   v_index_tablespace   VARCHAR2(30);
+   v_stage              execution_log.text_line%TYPE;
+
+   CURSOR cur_index_tablespace IS
+   SELECT ut.tablespace_name
+     FROM user_tablespaces ut
+    WHERE ut.tablespace_name LIKE '%INDEX%';
+
+   ----------
+   -- In-line processes
+   ----------
+   -- Executes the input statement
+   PROCEDURE p_exec_stmt
+   ( i_tablespace IN VARCHAR2,
+     i_sql_stmt   IN VARCHAR2
+   ) IS
+      v_sql_stmt  VARCHAR2(1000) := i_sql_stmt;
+   BEGIN
+      IF (i_tablespace IS NOT NULL) THEN
+         v_sql_stmt := v_sql_stmt || ' TABLESPACE ' || i_tablespace;
+      END IF;
+
+      v_stage := 'Execute: ' || v_sql_stmt;
+      dbms_output.put_line(v_stage);
+      EXECUTE IMMEDIATE v_sql_stmt;
+   END p_exec_stmt;
+
+  BEGIN
+   -- initialize variables
+   v_stage := 'OPEN cur_index_tablespace';
+   OPEN cur_index_tablespace;
+   v_stage := 'FETCH cur_index_tablespace';
+   FETCH cur_index_tablespace INTO v_index_tablespace;
+   CLOSE cur_index_tablespace;
+
+   v_stage := 'v_index_tablespace >' || v_index_tablespace || '<';
+   dbms_output.put_line('v_stage: ' || v_stage);
+
+   -- create index
+   p_exec_stmt(v_index_tablespace, 'CREATE UNIQUE INDEX RPT_AWARDMEDIA_SUMMARY_ID_PK ON rpt_awardmedia_summary (rpt_awardmedia_summary_id)');
+   p_exec_stmt(v_index_tablespace, 'CREATE INDEX RPT_AWARDMEDIA_SUM_IDX2      ON rpt_awardmedia_summary (detail_node_id, record_type, media_type,'
+                                                                                                            || 'promotion_id, pax_status, job_position, department)');
+   p_exec_stmt(v_index_tablespace, 'CREATE        INDEX RPT_AWARDMEDIA_SUM_IDX3      ON rpt_awardmedia_summary (header_node_id, record_type, media_date, detail_node_id)');
+   p_exec_stmt(v_index_tablespace, 'CREATE        INDEX RPT_AWARDMEDIA_SUM_IDX4      ON rpt_awardmedia_summary (SUBSTR(record_type, -7), media_date, detail_node_id)');
+   p_exec_stmt(v_index_tablespace, 'CREATE        INDEX RPT_AWARDMEDIA_SUM_IDX5      ON rpt_awardmedia_summary (media_date)');
+
+END;
+/
+-- Table PK constraint
+ALTER TABLE rpt_awardmedia_summary ADD
+(  CONSTRAINT RPT_AWARDMEDIA_SUMMARY_ID_PK
+      PRIMARY KEY
+      (rpt_awardmedia_summary_id)
+      USING INDEX RPT_AWARDMEDIA_SUMMARY_ID_PK
+)
+/

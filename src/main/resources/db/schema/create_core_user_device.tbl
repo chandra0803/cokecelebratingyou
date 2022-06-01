@@ -1,0 +1,38 @@
+CREATE TABLE user_device
+(
+  user_device_id        NUMBER(18) NOT NULL, 
+  user_id               NUMBER(18) NOT NULL, 
+  device_type           VARCHAR2(200 char) NOT NULL, 
+  registration_id       VARCHAR2(400 char) NOT NULL,
+  notification_count    NUMBER(10) DEFAULT 0,
+  debug                 NUMBER(1) NOT NULL,
+  created_by	        NUMBER (18) NOT NULL, 
+  date_created	        DATE NOT NULL, 
+  modified_by	        NUMBER (18), 
+  date_modified	        DATE, 
+  version               NUMBER (18) NOT NULL
+)
+/
+ALTER TABLE user_device
+ADD CONSTRAINT user_device_pk PRIMARY KEY (user_device_id)
+USING INDEX
+/
+ALTER TABLE user_device ADD CONSTRAINT user_device_user_fk
+FOREIGN KEY (user_id) REFERENCES application_user (user_id) 
+/
+CREATE SEQUENCE user_device_pk_sq
+START WITH 5000
+CACHE 20
+/
+COMMENT ON TABLE user_device IS 'Stores mobile device information for a user'
+/
+COMMENT ON COLUMN user_device.user_device_id IS 'Table primary key'
+/
+COMMENT ON COLUMN user_device.user_id IS 'The application user id'
+/
+COMMENT ON COLUMN user_device.device_type IS 'The type of device, such as Android or iOS'
+/
+COMMENT ON COLUMN user_device.registration_id IS 'The unique registration ID of the device'
+/
+COMMENT ON COLUMN user_device.debug IS 'Indicator for debug devices'
+/

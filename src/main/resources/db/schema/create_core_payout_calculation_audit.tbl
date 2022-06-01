@@ -1,0 +1,91 @@
+CREATE SEQUENCE payout_calc_audit_pk_sq start with 250 increment by 1
+/
+CREATE TABLE payout_calculation_audit
+(
+  payout_calculation_audit_id     NUMBER(12) NOT NULL,
+  discriminator                   VARCHAR2(30) NOT NULL,
+  reason_type                     VARCHAR2(30) NOT NULL,
+  reason_text                     VARCHAR2(2000) NOT NULL,
+  journal_id                      NUMBER(12),
+  participant_id                  NUMBER(12),
+  claim_id                        NUMBER(12),
+  CLAIM_GROUP_ID                  NUMBER(18),
+  promo_payout_group_id           NUMBER(12),
+  created_by number(18) NOT NULL,
+  date_created                    DATE NOT NULL,
+  modified_by number(18),
+  date_modified                   DATE,
+  version                         NUMBER(18) NOT NULL
+)
+/
+ALTER TABLE payout_calculation_audit
+  ADD CONSTRAINT payout_calc_audit_pk PRIMARY KEY (payout_calculation_audit_id)
+  USING INDEX
+/
+ALTER TABLE payout_calculation_audit
+  ADD CONSTRAINT payout_calculation_audit_fk_1
+  FOREIGN KEY (journal_id) REFERENCES journal(journal_id)
+/
+ALTER TABLE payout_calculation_audit
+  ADD CONSTRAINT payout_calculation_audit_fk_2
+  FOREIGN KEY (participant_id) REFERENCES participant(user_id)
+/
+ALTER TABLE payout_calculation_audit
+  ADD CONSTRAINT payout_calculation_audit_fk_3
+  FOREIGN KEY (claim_id) REFERENCES claim(claim_id)
+/
+CREATE INDEX PAYOUT_CALC_AUD_JOURNAL_FK_idx ON PAYOUT_CALCULATION_AUDIT
+  (JOURNAL_ID)
+/
+CREATE INDEX PAYOUT_CALC_AUDIT_PAX_FK_idx ON PAYOUT_CALCULATION_AUDIT
+  (PARTICIPANT_ID)
+/
+CREATE INDEX PAYOUT_CALC_AUDIT_CLAIM_FK_idx ON PAYOUT_CALCULATION_AUDIT
+  (CLAIM_ID)
+/
+CREATE INDEX PY_CLC_AUD_PROMO_PY_GRP_FK_idx ON PAYOUT_CALCULATION_AUDIT
+  (PROMO_PAYOUT_GROUP_ID)
+/
+COMMENT ON TABLE payout_calculation_audit IS
+'The PAYOUT_CALCULATION_audit table stores information about a promotion payout calculation.'
+/
+COMMENT ON COLUMN payout_calculation_audit.payout_calculation_audit_id IS
+'System generated primary key.'
+/
+COMMENT ON COLUMN payout_calculation_audit.discriminator IS
+'Used to map a payout_calculation_audit record to a Java class.'
+/
+COMMENT ON COLUMN payout_calculation_audit.reason_type IS
+'Indicates the result of a payout calculation.'
+/
+COMMENT ON COLUMN payout_calculation_audit.reason_text IS
+'Describes the result of the payout calculation; for example, "Claim 120 payed out 10 points to
+participant John Doe on August 1, 2005."'
+/
+COMMENT ON COLUMN payout_calculation_audit.journal_id IS
+'If the payout calculation succeeds, this column references the resulting journal entry.'
+/
+COMMENT ON COLUMN payout_calculation_audit.participant_id IS
+'Identifies the participant who will receive the payout.'
+/
+COMMENT ON COLUMN payout_calculation_audit.claim_id IS
+'Identifies the claim that resulted in the payout.'
+/
+COMMENT ON COLUMN payout_calculation_audit.promo_payout_group_id IS
+'Identifies the promotion payout group that defines the payout.'
+/
+COMMENT ON COLUMN payout_calculation_audit.created_by IS
+'Username of user who created this record.'
+/
+COMMENT ON COLUMN payout_calculation_audit.date_created IS
+'Date and time at which this record was created.'
+/
+COMMENT ON COLUMN payout_calculation_audit.modified_by IS
+'Username of user who last modified this record.'
+/
+COMMENT ON COLUMN payout_calculation_audit.date_modified IS
+'Date and time at which this record was last modified.'
+/
+COMMENT ON COLUMN payout_calculation_audit.version IS
+'Identifies the current version of this record.'
+/

@@ -1,0 +1,119 @@
+{
+  "description": "Update a Person Attribute",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "newPersonName": "Updated ${faker:hacker.adjective} Person Attribute",
+    "attributeName":"age"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttribute",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "${ref:params.attributeName}",
+  			"value": "44"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.attributeName}"
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.value}",
+          "compare": "to.equal",
+          "b": "44"
+        }
+      ]
+    },
+    {
+      "id": "updatePersonAttribute",
+      "description": "PUT /persons/${ref:createPerson.export.newPersonId}/attributes/${ref:params.attributeName}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes/${ref:params.attributeName}",
+        "options": {
+          "method": "put",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "value": "40"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:updatePersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:updatePersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    },
+    {
+      "id": "updatePersonAttribute",
+      "description": "PUT /persons/${ref:createPerson.export.newPersonId}/attributes/${ref:params.attributeName}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes/${ref:params.attributeName}",
+        "options": {
+          "method": "put",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name":"meh"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:updatePersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:updatePersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    }
+  ]
+}

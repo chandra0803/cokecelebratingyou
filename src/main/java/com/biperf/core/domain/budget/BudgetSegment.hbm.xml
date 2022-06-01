@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.budget.BudgetSegment" table="BUDGET_SEGMENT">
+
+        <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="BUDGET_SEGMENT_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">BUDGET_SEGMENT_PK_SQ</param>
+	        </generator>
+	    </id>
+
+        <!-- Using version number optimistic locking -->
+       <version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+	    
+	    <property name="name" type="java.lang.String" column="NAME" />
+	    <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE" />      
+        <property name="status" type="java.lang.Boolean" column="STATUS" />
+        <property name="startDate" type="java.util.Date" column="START_DATE"/>
+        <property name="endDate" type="java.util.Date" column="END_DATE"/>
+    
+       	<property name="allowBudgetReallocation" type="boolean" column="IS_ALLOW_BUDGET_REALLOCATION" not-null="true"/>
+
+	  	<property name="budgetReallocationEligType" column="BUDGET_REALLOCATION_ELIG_TYPE">
+	     	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+	      	 <param name="lookupClass">com.biperf.core.domain.enums.BudgetReallocationEligType</param>
+	     	</type>
+	  	</property>
+	  	
+        <many-to-one name="budgetMaster" column="BUDGET_MASTER_ID" class="com.biperf.core.domain.budget.BudgetMaster" not-null="true" lazy="false"/>
+        
+        <set name="budgets" table="BUDGET" inverse="true" cascade="all-delete-orphan">
+      		<key column="BUDGET_SEGMENT_ID"/>
+      		<one-to-many class="com.biperf.core.domain.budget.Budget"/>
+    	</set>
+    	
+		<set name="promotionBudgetSweeps" table="PROMO_BUDGET_SWEEP" lazy="false" cascade="all-delete-orphan">
+		   <key column="BUDGET_SEGMENT_ID" not-null="true" />
+		   <one-to-many class="com.biperf.core.domain.budget.PromotionBudgetSweep"/>
+		</set>    	
+    </class>
+   
+    <query name="com.biperf.core.domain.budget.getBudgetSegmentById">
+    	<![CDATA[
+			from item in class com.biperf.core.domain.budget.BudgetSegment
+			where item.id = :budgetSegmentId
+		]]>
+  	</query>
+  	
+    <query name="com.biperf.core.domain.budget.getBudgetSegmentsByBudgetMasterId">
+    	<![CDATA[
+			from item in class com.biperf.core.domain.budget.BudgetSegment
+			where item.budgetMaster.id = :budgetMasterId
+			and item.status = '1'
+		]]>
+  	</query>
+  	
+  	<query name="com.biperf.core.domain.budget.getPromotionBudgetSweepsByPromotionId">
+    	<![CDATA[
+			from item in class com.biperf.core.domain.budget.PromotionBudgetSweep
+			where item.recognitionPromotion.id = :promotionId
+			and item.status = '1'
+		]]>
+  	</query>   
+  	
+  	<query name="com.biperf.core.domain.budget.getBudgetSegmentsToTransferByBudgetMasterId">
+    	<![CDATA[
+			from item in class com.biperf.core.domain.budget.BudgetSegment
+			where item.budgetMaster.id = :budgetMasterId
+			and item.status = '1'
+			and item.allowBudgetReallocation = '1'
+		    and (trunc(start_date) >= trunc(sysdate)
+ 			or trunc(end_date) >= trunc(sysdate)
+            or (trunc(start_date) <= trunc(sysdate))
+            and (trunc(end_date) is null))
+  			order by item.startDate asc
+		]]>
+  	</query>  
+  	
+  	<query name="com.biperf.core.domain.budget.getBudgetSegmentsForDistribution">
+       <![CDATA[
+                     from item in class com.biperf.core.domain.budget.BudgetSegment
+                     where item.budgetMaster.id = :budgetMasterId
+                     and item.status = '1'
+                  and (trunc(start_date) <= trunc(sysdate)
+            and ( trunc(end_date) >= trunc(sysdate)) or trunc(end_date) is null )
+                     order by item.startDate asc
+              ]]>
+       </query>
+  	  	
+  	<sql-query name="com.biperf.core.domain.budget.BudgetSegmentByNameCount">
+	<return-scalar column="result" type="integer" />
+		<![CDATA[
+   		 SELECT count(1) as result
+      	 FROM budget_segment
+     	 WHERE budget_master_id = :budgetMasterId
+     	 AND lower(name) = :segmentName
+       	 AND budget_segment_id != :segmentId
+       	 AND status = 1
+    	]]>
+	</sql-query>
+	
+  	<sql-query name="com.biperf.core.domain.budget.AllowBudgetReallocationActiveCount">
+	<return-scalar column="result" type="integer" />
+		<![CDATA[
+		SELECT count(1) as result
+		FROM budget_segment
+		WHERE budget_master_id = :budgetMasterId
+		AND status = 1
+		AND is_allow_budget_reallocation = 1
+    	]]>
+	</sql-query>
+  	
+</hibernate-mapping>

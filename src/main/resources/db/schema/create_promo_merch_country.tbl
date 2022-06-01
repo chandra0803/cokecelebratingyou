@@ -1,0 +1,41 @@
+CREATE SEQUENCE promo_merch_country_pk_sq START WITH 250 INCREMENT BY 1
+/
+
+CREATE TABLE promo_merch_country (
+	promo_merch_country_id			NUMBER(18) NOT NULL,
+    promotion_id                   	NUMBER(18) NOT NULL,
+  	country_id					   	NUMBER(12) NOT NULL,
+  	program_id						VARCHAR2(40),
+  	created_by 						number(18) NOT NULL,
+	DATE_CREATED  					DATE NOT NULL,
+ 	modified_by 					number(18),
+ 	date_modified 					DATE,
+ 	version       					NUMBER(18,0) NOT NULL
+  )
+/
+ALTER TABLE promo_merch_country
+ADD CONSTRAINT promo_merch_country_pk PRIMARY KEY (promo_merch_country_id)
+USING INDEX
+/
+ALTER TABLE promo_merch_country
+ADD CONSTRAINT promo_merch_country_udk UNIQUE (promotion_id, country_id)
+USING INDEX
+/
+ALTER TABLE promo_merch_country
+ADD CONSTRAINT promo_merch_country_promo_fk FOREIGN KEY (promotion_id)
+REFERENCES promotion (promotion_id)
+/
+ALTER TABLE promo_merch_country
+ADD CONSTRAINT promo_merch_country_fk FOREIGN KEY (country_id)
+REFERENCES country (country_id)
+/
+COMMENT ON TABLE PROMO_MERCH_COUNTRY IS 'This table stores the program id for a given recognition promotion and country'
+/
+COMMENT ON COLUMN PROMO_MERCH_COUNTRY.promo_merch_country_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN PROMO_MERCH_COUNTRY.promotion_id IS 'Promotion Number reference to the promotion table'
+/
+COMMENT ON COLUMN PROMO_MERCH_COUNTRY.country_id IS 'Country Number reference to the country table'
+/
+COMMENT ON COLUMN PROMO_MERCH_COUNTRY.program_id IS 'Program Number defined in OM Services for a Merchandise program'
+/

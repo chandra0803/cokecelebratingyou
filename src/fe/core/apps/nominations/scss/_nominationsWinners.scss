@@ -1,0 +1,1082 @@
+/* ----- NOMINATION WINNERS LIST PAGE STYLES ----- */
+$celebration_bgColor: $brand_color_white !default;
+$slick-dot-color: transparent !default;
+$slick-dot-color-border: $brand_color_primary !default;
+$slick-dot-color-active: $brand_color_primary !default;
+$slick-prev-character: "\2190" !default;
+$slick-next-character: "\2192" !default;
+$slick-dot-character: "\2022" !default;
+$slick-dot-size: 8px !default;
+$slick-opacity-default: 1 !default;
+$slick-opacity-on-hover: 1 !default;
+$slick-opacity-not-active: 1 !default;
+$slick_pagerTextColor: $brand_color_white !default;
+$slick_pagerTextColorHover: $brand_color_primary !default;
+$slick_pagerBgColor: black !default;
+.page.nominationWinnersPage {
+    .page-topper {
+        background: $nominations_pageTopBgColor;
+        color: $nominations_pageTopFontColor;
+    }
+
+    .spincover {
+        background: rgba(255, 255, 255, .5);
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 10000;
+    }
+
+    .spin {
+        display: block;
+        height: $spinner_widthHeight;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        width: $spinner_widthHeight;
+    }
+
+    .nominationChangeWrapper {
+        margin-left: 0;
+
+        .nominationName {
+            // font: $baseFontSize * 2.5 $nominations_secondaryFontFamily;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        #buttonChangeNomination {
+            display: inline-block;
+            // margin-top: -18px;
+        }
+    }
+
+    .dateRange {
+        padding-bottom: 10px;
+
+        .control-group {
+            margin-right: 5px;
+        }
+
+        #nominationsWinnersSubmit {
+            margin-top: 15px;
+        }
+    }
+
+    .nominations-winners-list {
+        border-bottom: 1px solid #e2e2e2;
+        margin-bottom: 26px;
+        position: relative;
+    }
+
+    .app-col {
+        margin-left: 0px;
+        padding-bottom: 15px;
+    }
+
+    .comment-block {
+        float: right;
+        // margin-right: 40px;
+
+        .commentTitle {
+            font-size: $baseFontSize * 1.714286;
+            line-height: $baseLineHeight * 1.3;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 300px;
+        }
+
+        .commenterName {
+            display: block;
+            margin-left: 180px;
+
+            .commenterOrgName {
+                display: inline-block;
+                margin-left: 5px;
+            }
+        }
+
+        .commenterPosition {
+            display: block;
+            margin-left: 180px;
+        }
+    }
+
+    .winnersProfile {
+        // margin-right: 60px;
+        //
+        .avatarwrap{
+            display: inline-block;
+        }
+        @include avatarSizing(48px);
+        .orgName {
+            display: block;
+            margin-left: 60px;
+            margin-top: 5px;
+            top: -50px;
+            position: relative;
+        }
+
+        .winnersPeriod {
+            font-size: $baseFontSize * 1.78571;
+            font-weight: bold;
+            margin-bottom: 24px;
+            margin-top: 3px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 250px;
+        }
+
+        .winnersName {
+            display: block;
+            font-size: round($baseFontSize * 1.142);
+            font-weight: bold;
+            margin-left: 60px;
+            top: -50px;
+            position: relative;
+            line-height: 1;
+            word-wrap: break-word;
+        }
+
+        .winnerPosition {
+            display: block;
+            margin-left: 79px;
+            margin-top: 0;
+        }
+    }
+
+    .chevron {
+        float: none;
+        font-size: 32px;
+        height: 48px;
+        line-height: $baseLineHeight * 2.4;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        top: 28%;
+        width: 48px;
+
+        a {
+            @include ignoreGlobalLinkStyles(
+                $color: false,
+                $fontWeight: false,
+                $fontStyle: false,
+                $textDecoration: false,
+                $textTransform: false
+            );
+        }
+    }
+
+    .nominatorInfo {
+        .nominatorName {
+            display: block;
+
+            .nominatorOrg {
+                display: inline-block;
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .nominationWinnersSearch {
+        //  .archivedWinnersTitle {
+        //     font: bold $baseFontSize * 1.78571 $nominations_primaryFontFamily;
+        //     margin-bottom: 25px;
+        // }
+        //
+        .dropdown {
+            margin-top: 0;
+        }
+
+        .searchWrap {
+            input {
+                @include border-radius(4px);
+            }
+
+            .btn {
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                height: 27px;
+                padding: 0 9px;
+                position: absolute;
+                right: 1px;
+                top: 1px;
+                z-index: 3;
+            }
+        }
+
+        .searchBtn {
+            margin-bottom: 10px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            border-bottom-color: #ccc;
+        }
+
+        .icon-magnifier-1 {
+            color: #666666;
+            font-size: 18px;
+            line-height: 19px;
+            text-shadow: none;
+        }
+
+        .spinnerWrap {
+            @include border-radius(4px);
+            background-color: transparent;
+            display: none;
+            height: 28px;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            right: 1px;
+            top: 1px;
+            vertical-align: top;
+            width: 28px;
+            z-index: 4;
+        }
+
+        .dropdown-menu-info {
+            font-size: 80%;
+            padding: 5px 8px;
+        }
+    }
+
+    .teamNominationWinners {
+        .teamList {
+            list-style-type: none;
+            margin: 0 0 10px 12px;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .winnersProfile {
+            margin-right: 0px;
+
+            .winnersPeriod {
+                font-size: $baseFontSize * 1.57143;
+                width: 190px;
+            }
+
+            .winnersName {
+                font-size: $baseFontSize * 1.428571;
+            }
+        }
+
+        .comment-block .commentTitle {
+            font-size: $baseFontSize * 1.571429;
+        }
+
+    }
+
+    @media (max-width: 767px) {
+        .nominations-winners-list {
+            width: 100%;
+        }
+
+        .comment-block {
+            width: 90%;
+        }
+
+        .chevron {
+            top: 50%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .nominationChangeWrapper {
+            .nominationName {
+                font-size: $baseFontSize * 2.142857;
+            }
+
+            #buttonChangeNomination {
+                margin-top: 10px;
+            }
+        }
+
+        .nominations-winners-list {
+            float: left;
+        }
+
+        .chevron {
+            font-size: 25px;
+        }
+
+        .comment-block {
+            width: 85%;
+
+            .commentTitle {
+                font-size: $baseFontSize * 1.28571;
+                width: 250px;
+            }
+        }
+
+        .nominationWinnersSearch {
+            .searchWrap .btn {
+                padding: 0 6px;
+                width: auto;
+            }
+        }
+
+        .dateRange {
+            #nominationsWinnersSubmit {
+                margin-left: 0px;
+            }
+        }
+    }
+}
+
+/* ----- NOMINATION WINNERS DETAIL PAGE STYLES ----- */
+.page.nominationWinnersDetailPage {
+    // padding: 62px 0;
+
+    .nominationsTableWrap {
+        // font-family: $nominations_secondaryFontFamily;
+
+        .subTitle {
+            font-size: $baseFontSize * 1.428571;
+        }
+    }
+	.teamNominationWinners {
+		.teamList {
+			list-style-type:none;
+		}
+	}
+
+    .awardContent {
+        .title {
+            // color: $nominationsWinner_titleTextColor;
+            // font-size: $baseFontSize * 4.28571;
+            // line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        // .icon-printer {
+        //      font-size: 30px;
+        // }
+
+        .awardWrap {
+            // font-size: $baseFontSize * 2.5;
+            // margin-bottom: 10px;
+
+            .awardName {
+                color: $nominationsWinner_awardNameTextColor;
+            }
+        }
+
+        .awardedDate {
+            color: $nominationsWinner_awardDateTextColor;
+            font-size: $baseFontSize * 1.428571;
+            // margin-bottom: 60px;
+            // margin-top: 20px;
+        }
+    }
+
+    .awardMain {
+        background-color: $nominationsWinner_bgColor;
+        @if $nominationsWinner_bgImg {
+            @include safeImgUrls($nominationsWinner_bgImg, $nominationsWinner_bgImgUrlPath, $property: 'background-image');
+            background-position: $nominationsWinner_bgImgPosition;
+            background-repeat: $nominationsWinner_bgImgRepeat;
+            background-size: $nominationsWinner_bgImgSize;
+            background-attachment: $nominationsWinner_bgImgAttachment;
+        }
+    }
+    .carousel{
+        width: 100%;
+        margin: 0 auto;
+        position:relative;
+        //overflow: hidden;
+        .slick-list {
+            margin: 0;
+            overflow: hidden;
+        }
+        .slick-dotted.slick-slider {
+            margin-bottom: 30px;
+        }
+
+        .slick-dots {
+            position: absolute;
+            bottom: -25px;
+            list-style: none;
+            display: block;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            li {
+                position: relative;
+                display: inline-block;
+                height: $slick-dot-size * 2 ;
+                width: $slick-dot-size * 2;
+                margin: 0 5px;
+                padding: 0;
+                cursor: pointer;
+                button {
+                    border: 0;
+                    background: transparent;
+                    display: block;
+                    height: $slick-dot-size * 2;
+                    width: $slick-dot-size * 2;
+                    outline: none;
+                    line-height: 0px;
+                    font-size: 0px;
+                    color: transparent;
+                    padding: 5px;
+                    cursor: pointer;
+                    &:hover, &:focus {
+                        outline: none;
+                        &:before {
+                            opacity: $slick-opacity-on-hover;
+                        }
+                    }
+                    &:before {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        content: $slick-dot-character;
+                        width: $slick-dot-size;
+                        height: $slick-dot-size;
+                        display: block;
+                        border-radius:50%;
+                        border: 1px solid $slick-dot-color-border;
+                        background: $slick-dot-color;
+                        opacity: $slick-opacity-not-active;
+                        -webkit-font-smoothing: antialiased;
+                        -moz-osx-font-smoothing: grayscale;
+                    }
+                }
+                &.slick-active button:before {
+                    background: $slick-dot-color-active;
+                    opacity: $slick-opacity-default;
+                }
+            }
+        }
+
+        .slick-arrow {
+            position: absolute;
+            top: 0;
+            font-size: 36px;
+            z-index: 200;
+            color: $brand_color_white;
+            @include vertical-align(absolute);
+
+            &.slick-prev {
+                left: 0;
+            }
+
+            &.slick-next {
+                right: 0;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &.slick-disabled {
+                visibility: hidden;
+            }
+        }
+        .slick-arrow.withbg {
+            //margin-top: -1em;
+            padding: 0.5em;
+            font-size: 25px;
+            border-radius: 50%;
+            text-shadow: 0px 1px 6px transparentize($slick_pagerBgColor, 0.67);
+            @include ignoreGlobalLinkStyles(
+                $color: $slick_pagerTextColor $slick_pagerTextColorHover,
+                $fontWeight: $fontWeightBold
+            );
+            background: transparentize($slick_pagerBgColor, 0.85);
+            @media (max-width: $breakpoint_mobile_max) {
+                display: none !important;
+            }
+             &.slick-prev {
+                left: 2%;
+            }
+
+            &.slick-next {
+                right: 2%;
+            }
+        }
+        .item {
+            display: inline-block;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            outline: none;
+        }
+    }
+    .awardContainer {
+        margin: 30px auto;
+        width: auto;
+        height: 320px;
+        overflow: visible !important; // so the box-shadows on the slide imagery show up
+
+        .slide {
+            width: 100%;
+            text-align: center;
+        }
+
+        .awardCircle {
+            @include border-radius(100%);
+            background: $nominationsPastWinner_awardCircleBgColor;
+            color: $nominationsPastWinner_awardCircleTextColor;
+            height: 320px;
+            //line-height: 300px;
+            margin: 0 auto;
+            text-align: center;
+            width: 320px;
+            //box-shadow: 0px 10px 30px rgba(0,0,0,0.125);
+
+            .pointCircle {
+                width: 320px;
+                @include vertical-align(absolute);
+            }
+
+            .awardTitle {
+                //margin: 30px 0 20px;
+                font-size: $baseFontSize * 2.142857;
+                line-height: 1;
+            }
+
+            .awardPoints {
+                font-size: 100px;
+                // font-weight: bold;
+                line-height: 1em;
+                margin: 0;
+                padding: 0 15px;
+                max-height: 150px;
+                overflow: hidden;
+                //height: 50%;
+            }
+
+            .points {
+                margin: 0;
+                font-size: $baseFontSize * 2.142857;
+                line-height: $baseLineHeight * 2.142857;
+            }
+        }
+
+        .slide img {
+            //box-shadow: 0px 10px 30px rgba(0,0,0,0.125);
+        }
+
+        .ecard {
+            margin: 0 auto;
+            height: 320px;
+            text-align: center;
+            width: 320px;
+            img{
+                vertical-align: baseline;
+            }
+        }
+
+        .mediaContainer {
+            img {
+                height: 320px;
+                text-align: center;
+                width: 320px;
+                max-width: none;
+            }
+        }
+    }
+
+    .nominatorInfo, .nominatorInfoC {
+        font: $baseFontSize $nominations_primaryFontFamily;
+		// margin-right: 20px;
+
+        .comment-text {
+            // margin: 15px 0;
+            word-wrap: break-word;
+        }
+
+        .nominatorInfoWrap {
+            margin-top: 20px;
+            .participant {
+                margin-top: 30px;
+            }
+            .nominatorName {
+                display: inline-block;
+                margin-top: 20px;
+            }
+
+            .avatarwrap {
+                float: left;
+				margin-right: 10px;
+                top: -20px;
+            }
+            @include avatarSizing(72px);
+
+        }
+
+        .translateTextLink {
+            // float: right;
+            margin-top: 5px;
+            //font-weight: bold;
+        }
+    }
+    hr {
+        margin: 10px 0 20px;
+    }
+
+    // .span5 {
+    //     .subTitle {
+    //         padding-left: 50px;
+    //         margin-left: 20px;
+    //     }
+    // }
+    .subTitle {
+        font: $baseFontSize $nominations_primaryFontFamily;
+    }
+    .nominationDetailsC {
+        // font-family: $nominations_primaryFontFamily;
+        // padding-left: 50px;
+
+        .detailsData {
+            // width: 110px;
+            word-break: break-word;
+        }
+
+        .behaviorName {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        // .viewCertificate {
+        //     margin: 10px 0 5px 33%;
+        // }
+
+        .tooltip {
+            .tooltip-inner {
+                @include border-radius(0%);
+                background-color: $nominations_tooltipBg;
+                font: bold 12px $nominations_primaryFontFamily;
+                margin-bottom: 20px;
+                padding: 2px 10px;
+            }
+
+            &.in {
+                filter: alpha(opacity=100);
+                opacity: 1;
+            }
+
+            .tooltip-arrow {
+                border-top-color: $nominations_tooltipBg;
+                margin-bottom: 21px;
+            }
+        }
+    }
+
+    .nominationDetails {
+		border-left: 1px solid #cdcdcd;
+        font-family: $nominations_primaryFontFamily;
+        padding-left: 50px;
+
+        .detailsData {
+            width: 110px;
+            word-break: break-word;
+        }
+
+        .behaviorName {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+		.viewCertificate {
+			margin: 10px 0 5px 33%;
+		}
+
+        .tooltip {
+            .tooltip-inner {
+                @include border-radius(0%);
+                background-color: $nominations_tooltipBg;
+                font: bold 12px $nominations_primaryFontFamily;
+                margin-bottom: 20px;
+                padding: 2px 10px;
+            }
+
+            &.in {
+                filter: alpha(opacity=100);
+                opacity: 1;
+            }
+
+            .tooltip-arrow {
+                border-top-color: $nominations_tooltipBg;
+                margin-bottom: 21px;
+            }
+        }
+    }
+
+    @media (max-width: 976px) {
+        .nominationDetails, .nominationDetailsC {
+            .viewCertificate {
+                margin: 10px 0 10px 0;
+            }
+        }
+    }
+
+    @media (max-width: 767px) {
+        .nominatorInfo, .nominatorInfoC {
+            border-bottom: 1px solid #cdcdcd;
+            float: left;
+            padding-bottom: 20px;
+        }
+
+        .nominationDetails, .nominationDetailsC {
+			border-left: 0px;
+            margin-top: 10px;
+        }
+
+        .awardContent {
+            .title {
+                font-size: $baseFontSize * 2.8571;
+                margin-bottom: 15px;
+            }
+
+            .awardWrap {
+                font-size: $baseFontSize * 1.78571;
+            }
+
+            .awardedDate {
+                font-size: $baseFontSize * 1.0714;
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        .carousel{
+            .slick-arrow {
+                display: none !important;
+            }
+        }
+
+
+        .awardContent {
+            .title {
+                font-size: $baseFontSize * 2.5;
+                margin-bottom: 10px;
+            }
+
+            .icon-printer {
+                font-size: 18px;
+            }
+
+            .awardWrap {
+                font-size: $baseFontSize * 1.428571;
+                margin-bottom: 0px;
+            }
+
+            .awardedDate {
+                font-size: $baseFontSize * 1.0714;
+                margin-bottom: 0px;
+                margin-top: 5px;
+            }
+
+            .awardMain {
+                margin-bottom: 30px;
+            }
+        }
+
+        .nominationDetails {
+            float: left;
+            margin-top: 20px;
+            padding-left: 0px;
+        }
+
+        .awardContainer {
+            width: 200px;
+            height: 200px;
+
+            // .pointCircle {
+            //     margin: 25px auto;
+            // }
+
+            .awardCircle {
+                height: 200px;
+                width: 200px;
+                //line-height: 200px;
+
+                .pointCircle {
+                    //height: 200px;
+                    width: 200px;
+                }
+                .points {
+                    font-size: $baseFontSize * 1.428571;
+                    line-height: 1;
+                }
+
+                .awardTitle {
+                    font-size: $baseFontSize * 1.428571;
+					// margin-bottom: 0px;
+     //                margin-top: 0px;
+     //                margin-left: 10px;
+                }
+
+                .awardPoints {
+                    font-size: 55px;
+                    max-height:85px;
+                    // margin: 0px;
+                    // height: 45%;
+                }
+            }
+
+            .ecard {
+                width: 200px;
+                height: 200px;
+
+                img {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+/***
+ *                  d8b                                             888b     d888               888          888
+ *                  Y8P                                             8888b   d8888               888          888
+ *                                                                  88888b.d88888               888          888
+ *    888  888  888 888 88888b.  88888b.   .d88b.  888d888 .d8888b  888Y88888P888  .d88b.   .d88888  8888b.  888
+ *    888  888  888 888 888 "88b 888 "88b d8P  Y8b 888P"   88K      888 Y888P 888 d88""88b d88" 888     "88b 888
+ *    888  888  888 888 888  888 888  888 88888888 888     "Y8888b. 888  Y8P  888 888  888 888  888 .d888888 888
+ *    Y88b 888 d88P 888 888  888 888  888 Y8b.     888          X88 888   "   888 Y88..88P Y88b 888 888  888 888
+ *     "Y8888888P"  888 888  888 888  888  "Y8888  888      88888P' 888       888  "Y88P"   "Y88888 "Y888888 888
+ *
+ *
+ *
+ */
+
+ /***
+  *                                    oo                     dP   oo                                       oo                                                                        dP          dP
+  *                                                           88                                                                                                                      88          88
+  *       88d888b. .d8888b. 88d8b.d8b. dP 88d888b. .d8888b. d8888P dP .d8888b. 88d888b.          dP  dP  dP dP 88d888b. 88d888b. .d8888b. 88d888b.          88d8b.d8b. .d8888b. .d888b88 .d8888b. 88
+  *       88'  `88 88'  `88 88'`88'`88 88 88'  `88 88'  `88   88   88 88'  `88 88'  `88 88888888 88  88  88 88 88'  `88 88'  `88 88ooood8 88'  `88 88888888 88'`88'`88 88'  `88 88'  `88 88'  `88 88
+  *    dP 88    88 88.  .88 88  88  88 88 88    88 88.  .88   88   88 88.  .88 88    88          88.88b.88' 88 88    88 88    88 88.  ... 88                88  88  88 88.  .88 88.  .88 88.  .88 88
+  *    88 dP    dP `88888P' dP  dP  dP dP dP    dP `88888P8   dP   dP `88888P' dP    dP          8888P Y8P  dP dP    dP dP    dP `88888P' dP                dP  dP  dP `88888P' `88888P8 `88888P8 dP
+  *
+  *
+  */
+.nomination-winner-modal {
+    font-family: $nominationsWinnerModal_fontFamily;
+    color: $nominationsWinnerModal_fgColor;
+    background: $nominationsWinnerModal_bgColor;
+    overflow: hidden;
+    padding: 20px;
+
+    .modal-head {
+        height: $headline3fontSize_mobile * $headlineLineHeight; // lifted from the line-height on .close in _modals.scss
+    }
+    .close {
+        color: $nominationsWinnerModal_fgColor;
+        @include text-shadow(none);
+        @include opacity(0.5);
+
+        &:hover {
+            @include opacity(1);
+        }
+
+        i {
+            font-weight: $fontWeightBold;
+        }
+    }
+
+    .modal-body {
+        margin-top: 110px;
+        margin-bottom: 110px;
+        text-align: center;
+
+        .trophyContainer {
+            width: 210px;
+            height: 210px;
+            margin: $baseLineHeight auto 0;
+
+            @if $nominationsWinnerModal_image {
+                background: url($nominationsWinnerModal_image);
+                background-position: 50% 50%;
+                background-repeat: no-repeat;
+
+                img { display: none; }
+            }
+        }
+
+        .textInfo {
+            font-size: $fontSizeLarge * 3;
+            line-height: $lineHeightLarge * 3;
+            margin: 0.75em auto;
+
+            p {
+                margin: 0;
+            }
+        }
+
+        &.toTop {
+            margin-top: 0;
+            margin-bottom: 220px;
+        }
+    }
+
+    .toTop {
+        @include transition-property(all);
+        @include transition-duration(500ms);
+        @include transition-timing-function(ease-in-out);
+    }
+
+    .modal-footer {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-top: 0;
+        padding: 0;
+        height: 220px;
+
+        border-top: 0px;
+        font-family: $nominationsWinnerModal_fontFamily_bottom;
+        font-size: $fontSizeLarge;
+        line-height: $lineHeightLarge;
+        text-align: left;
+
+        &.toTop {
+            margin-top: -220px;
+        }
+
+        .nominationInfo {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            color: $nominationsWinnerModal_fgColor_bottom;
+            background: $nominationsWinnerModal_bgColor_bottom;
+            margin-bottom: 20px;
+            @include border-radius(0 0 $modal_borderRadius $modal_borderRadius);
+
+            padding: $modal_padding;
+            @media (min-width: $breakpoint_tablet_min) {
+                padding: $modal_padding_tablet;
+            }
+            @media (min-width: $breakpoint_desktop_min) {
+                @if nth($modal_padding_desktop, 2) != nth($modal_padding_tablet, 2)
+                    and nth($modal_padding_desktop, 2) > nth($modal_padding_tablet, 2) {
+                        padding: $modal_padding_desktop;
+                }
+            }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                @if nth($modal_padding_desktop, 2) != nth($modal_padding_desktopLarge, 2) {
+                    padding: $modal_padding_desktopLarge;
+                }
+            }
+        }
+        .multiple {
+            font-size: $fontSizeExtraLarge;
+            line-height: $lineHeightExtraLarge;
+            margin-bottom: $baseLineHeight * 2;
+        }
+        .nominationDetails {
+            color: $nominationsWinnerModal_accentColor_bottom;
+        }
+        .viewNomination {
+            text-align: center;
+            margin-top: $baseLineHeight;
+        }
+        .received-award {
+            color: $nominationsWinnerModal_accentColor_bottom;
+            font-size: 1.5em;
+        }
+    }
+}
+@media (max-width: $breakpoint_mobile_max) {
+    .nomination-winner-modal {
+        .modal-body {
+            .trophyContainer{
+                width: 140px;
+                height: 140px;
+            }
+
+            .textInfo {
+                font-size: $fontSizeLarge * 2;
+                line-height: $lineHeightLarge * 2;
+            }
+        }
+    }
+}
+
+ /***
+  *                oo                   dP           888888ba           dP   dP   dP
+  *                                     88           88    `8b          88   88   88
+  *       .d8888b. dP 88d888b. .d8888b. 88 .d8888b. a88aaaa8P' .d8888b. 88  .8P  .8P 88d888b. .d8888b. 88d888b.
+  *       88'  `"" 88 88'  `88 88'  `"" 88 88ooood8  88   `8b. 88'  `88 88  d8'  d8' 88'  `88 88'  `88 88'  `88
+  *    dP 88.  ... 88 88       88.  ... 88 88.  ...  88    .88 88.  .88 88.d8P8.d8P  88       88.  .88 88.  .88
+  *    88 `88888P' dP dP       `88888P' dP `88888P'  88888888P `8888P88 8888' Y88'   dP       `88888P8 88Y888P'
+  *                                                                 .88                                88
+  *                                                             d8888P                                 dP
+  */
+.circleBgWrap {
+    height: 100%;
+    position: relative;
+    display: none;
+
+    .c {
+        position: absolute;
+        top: 42%;
+        left: 45%;
+        border-radius: 50%;
+    }
+
+    // helper -- returns -1 or 1 randomly
+    @function posOrNeg(){
+      @return random() * 2 - 1;
+    }
+
+    // @for $i from 1 through $nominationsWinnerModal_total {
+    //     $size: (random(35) + 20)+px; // random size, used for width/height
+    //     $x: 0; // initial x pos
+    //     $y: 0; // initial y
+    //     $vx: (random(8) + 4) * posOrNeg(); // x velocity
+    //     $vy: -(random(8)); // y velocity
+    //     $o: .8; // initial opacity
+    //     $vo: .90; // fading velocity
+    //     $g: .07; // gravity
+    //     $hue: random(360); // hue
+    //     $sat: 98%;
+
+    //     .c:nth-child(#{$i}){ // grab this particle
+    //         background-color: hsl($hue, $sat, 50%);
+    //         width: $size;
+    //         height: $size;
+    //         margin-top: -$size/2; // dead center
+    //         margin-left: -$size/2; // yea..
+    //         animation: anim#{$i} $nominationsWinnerModal_time infinite ease-in; // set animation for this particle
+    //         animation-delay: $i * -($nominationsWinnerModal_time/$nominationsWinnerModal_total); // set a negative, even delay for seamless animation
+    //     }
+
+    //     @keyframes anim#{$i}{ // keyframe for this particle
+    //         @for $j from 1 through $nominationsWinnerModal_frames{ // loop to generate keyframes
+
+    //             #{$j * $nominationsWinnerModal_perc}{ // set keyframe percentage, $perc
+    //                 transform: translate3d($x+px, $y+px, 0);
+    //                 opacity: $o;
+    //             }
+
+    //             // update x, y, and opacity
+
+    //             // $o: $o - .5; // lower the opacity
+
+    //             $vy: $vy + $g; // add gravity
+
+    //             @if($vx < 0){ // if x velocity is negative
+    //                 $x: $x - abs($vx); // subtract from x
+    //             } @else {
+    //                 $x: $x + $vx; // add to x
+    //             }
+
+    //             @if($vy < 0){ // same here for y
+    //                 $y: $y - abs($vy);
+    //               } @else {
+    //                 $y: $y + $vy; // boom
+    //             }
+    //         }
+    //     }
+    // }
+}

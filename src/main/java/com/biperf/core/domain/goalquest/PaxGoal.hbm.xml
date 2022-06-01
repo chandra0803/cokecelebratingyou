@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.goalquest.PaxGoal" table="GOALQUEST_PAXGOAL">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PAX_GOAL_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">GOALQUEST_PAXGOAL_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" type="java.lang.Long" column="VERSION" />	
+				 		
+		<!-- participant -->
+		<many-to-one name="participant" column="USER_ID" not-null="true" 
+			class="com.biperf.core.domain.participant.Participant" lazy="false">
+		</many-to-one>
+		
+		<!-- promotion -->
+		<many-to-one name="goalQuestPromotion" column="PROMOTION_ID" not-null="true" 
+			class="com.biperf.core.domain.promotion.GoalQuestPromotion" lazy="false">
+		</many-to-one>
+				
+		<!-- goallevel -->
+		<many-to-one name="goalLevel" column="GOALLEVEL_ID" not-null="false" 
+			class="com.biperf.core.domain.promotion.AbstractGoalLevel" lazy="false">
+        </many-to-one>
+		
+		<!-- currentValue -->
+		<property name="currentValue" column="CURRENT_VALUE" type="java.math.BigDecimal" />
+
+		<!-- overrideQuantity -->
+	    <property name="overrideQuantity" column="OVERRIDE_QUANTITY" type="java.math.BigDecimal" />
+		
+		<!-- baseQuantity -->
+		<property name="baseQuantity" column="BASE_QUANTITY" type="java.math.BigDecimal" />
+		
+		<!-- submissionDate -->
+		<property name="submissionDate" column="SUBMISSION_DATE" type="java.util.Date" />
+
+		<!-- merchlinq catalogid -->
+		<property name="catalogId" column="CATALOG_ID" type="java.lang.String" />
+
+		<!-- merchlinq product set id -->
+		<property name="productSetId" column="PROD_SET_ID" type="java.lang.String" />
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+	</class>
+
+	<query name="com.biperf.core.domain.goalquest.PaxGoalByUserIdAndPromotionId">
+		<![CDATA[
+      from item in class com.biperf.core.domain.goalquest.PaxGoal
+      where item.participant.id = :userId and item.goalQuestPromotion.id = :promotionId
+    ]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.goalquest.PaxGoalByPromotionId">
+		<![CDATA[
+      from item in class com.biperf.core.domain.goalquest.PaxGoal
+      where item.goalQuestPromotion.id = :promotionId
+    ]]>
+	</query>	
+
+  <query name="com.biperf.core.domain.goalquest.UserIdsWithPaxGoalByPromotionId">
+    <!-- <return-scalar column="USER_ID" type="long"/> -->
+    <!-- BugFix 17942 When the bases loaded by file load there will not be any GoalLevelId  -->
+		<![CDATA[
+      select paxGoal.participant.id from com.biperf.core.domain.goalquest.PaxGoal as paxGoal
+      where paxGoal.goalQuestPromotion.id = :promotionId and paxGoal.goalLevel.id is not null
+    ]]>
+  </query>
+
+</hibernate-mapping>
+

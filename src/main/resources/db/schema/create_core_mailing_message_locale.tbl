@@ -1,0 +1,33 @@
+CREATE SEQUENCE mailing_message_locale_pk_sq start with 250 increment by 1
+/
+CREATE TABLE mailing_message_locale
+    (mailing_message_locale_id  NUMBER(18) NOT NULL,     
+     mailing_id      			NUMBER(18) NOT NULL,     
+     locale    					VARCHAR2(10),
+     subject					VARCHAR2(300) NOT NULL,
+     html_message				CLOB,
+     plain_message				CLOB,
+     text_message				VARCHAR(500),
+     created_by number(18) NOT NULL,
+     date_created  				DATE NOT NULL,
+     modified_by number(18),
+     date_modified 				DATE,
+     version       				NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE mailing_message_locale
+ADD CONSTRAINT mailing_message_locale_pk PRIMARY KEY (mailing_message_locale_id)
+USING INDEX
+/
+ALTER TABLE mailing_message_locale
+ADD CONSTRAINT mailing_message_locale_uk UNIQUE (mailing_id, locale)
+/
+ALTER TABLE mailing_message_locale ADD CONSTRAINT mml_mailing_fk
+  FOREIGN KEY (mailing_id) REFERENCES mailing(mailing_id) 
+/
+CREATE INDEX MAILING_MSG_LOCALE_MLG_FK_idx ON MAILING_MESSAGE_LOCALE
+  (MAILING_ID)
+/
+COMMENT ON TABLE mailing_message_locale IS 'The mailing_message_locale table defines the actual message text for the given locale for the message.'
+/
+COMMENT ON COLUMN mailing_message_locale.mailing_message_locale_id IS 'System generated PK.'
+/

@@ -1,0 +1,54 @@
+CREATE TABLE STAGE_DEPOSIT_IMPORT_RECORD
+(
+  IMPORT_RECORD_ID  NUMBER(18)                  NOT NULL,
+  IMPORT_FILE_ID    NUMBER(18),
+  ACTION_TYPE       VARCHAR2(10 CHAR)           NOT NULL,
+  USER_NAME         VARCHAR2(40 CHAR),
+  AWARD_AMOUNT      NUMBER(12,4),
+  AWARD_DATE        DATE,
+  COMMENTS          VARCHAR2(500 CHAR),
+  ANNIVERSARY_NUM   NUMBER(5),
+  FORM_ELEMENT_1    VARCHAR2(500 CHAR),
+  FORM_ELEMENT_2    VARCHAR2(500 CHAR),
+  FORM_ELEMENT_3    VARCHAR2(500 CHAR),
+  CREATED_BY        NUMBER(18)                  NOT NULL,
+  DATE_CREATED      DATE                        NOT NULL
+)
+/
+ALTER TABLE stage_deposit_import_record
+ADD CONSTRAINT stage_dep_import_record_pk PRIMARY KEY (import_record_id)
+USING INDEX
+/
+ALTER TABLE stage_deposit_import_record
+ADD CONSTRAINT stage_dep_import_record_fk FOREIGN KEY (import_file_id)
+REFERENCES import_file (import_file_id)
+/
+CREATE INDEX STG_DEP_MPRT_RC_MPRT_FL_FK_idx ON STAGE_DEPOSIT_IMPORT_RECORD
+  (IMPORT_FILE_ID)
+/
+COMMENT ON TABLE stage_deposit_import_record IS 'Information about a deposit import record.'
+/
+COMMENT ON COLUMN stage_deposit_import_record.import_record_id IS 'Uniquely identifies this import record.'
+/
+COMMENT ON COLUMN stage_deposit_import_record.import_file_id IS 'Identifies the import file that contains this import record.  Foreign key to the IMPORT_FILE table.'
+/
+COMMENT ON COLUMN stage_deposit_import_record.action_type IS 'Indicates how to process this import record.'
+/
+COMMENT ON COLUMN stage_deposit_import_record.user_name IS 'The user name of the user into whose account the award amount will be deposited.'
+/
+COMMENT ON COLUMN stage_deposit_import_record.award_amount IS 'The amount to be deposited into the specified user''s account.'
+/
+COMMENT ON COLUMN stage_deposit_import_record.award_date IS 'Award date'
+/
+COMMENT ON COLUMN stage_deposit_import_record.COMMENTS IS 'Comments'
+/
+COMMENT ON COLUMN STAGE_DEPOSIT_IMPORT_RECORD.FORM_ELEMENT_1 IS 'Deposit - FORM ELEMENT 1 Format is based on setup in promotion wizard'
+/
+COMMENT ON COLUMN STAGE_DEPOSIT_IMPORT_RECORD.FORM_ELEMENT_2 IS 'Deposit - FORM ELEMENT 2 Format is based on setup in promotion wizard.'
+/
+COMMENT ON COLUMN STAGE_DEPOSIT_IMPORT_RECORD.FORM_ELEMENT_3 IS 'Deposit - FORM ELEMENT 3 Format is based on setup in promotion wizard'
+/
+COMMENT ON COLUMN stage_deposit_import_record.created_by IS 'The username of the user who created this record.'
+/
+COMMENT ON COLUMN stage_deposit_import_record.date_created IS 'The date and time at which this record was created.'
+/

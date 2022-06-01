@@ -1,0 +1,21 @@
+CREATE SEQUENCE td_match_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE THROWDOWN_MATCH
+(
+ match_id       NUMBER(18,0) NOT NULL,
+ round_id    	NUMBER(18,0) NOT NULL,
+ status			VARCHAR2(80) NOT NULL,
+ created_by 	number(18),
+ date_created   DATE NOT NULL,
+ modified_by 	number(18),
+ date_modified  DATE,
+ version        NUMBER(18,0) NOT NULL
+)
+/
+ALTER TABLE THROWDOWN_MATCH
+ADD CONSTRAINT match_pk PRIMARY KEY (match_id)
+USING INDEX
+/
+ALTER TABLE THROWDOWN_MATCH ADD CONSTRAINT THROWDOWN_match_rnd_fk
+  FOREIGN KEY (round_id) REFERENCES THROWDOWN_ROUND (ROUND_ID)
+/

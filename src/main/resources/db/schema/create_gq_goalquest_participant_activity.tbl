@@ -1,0 +1,67 @@
+CREATE SEQUENCE goalquest_pax_activity_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE goalquest_participant_activity
+(goalquest_pax_activity_id			NUMBER(18) NOT NULL,
+ TYPE			                   	VARCHAR(10) NOT NULL,
+ is_automotive				        NUMBER(1) NOT NULL,
+ vin								VARCHAR(80),
+ model						   		VARCHAR2(250),
+ trans_type                     	VARCHAR2(250),
+ sales_date                     	DATE,
+ delivery_date                  	DATE,
+ dealer_code					    VARCHAR2(250),
+ dealer_name					    VARCHAR2(250),
+ status								VARCHAR(10) NOT NULL,
+ promotion_id						NUMBER(18) NOT NULL,
+ user_id							NUMBER(18) NOT NULL,
+ quantity							NUMBER(30,2),
+ submission_date					DATE NOT NULL,
+ gq_payout_activity_id				NUMBER(12),
+ created_by                   		NUMBER(18) NOT NULL,
+ date_created                 		DATE NOT NULL,
+ modified_by 						NUMBER(18),
+ date_modified                		DATE,
+ version                      		NUMBER(18,0) NOT NULL
+ )
+/
+ALTER TABLE goalquest_participant_activity
+ADD CONSTRAINT goalquest_pax_activity_pk PRIMARY KEY (goalquest_pax_activity_id)
+USING INDEX
+/
+ALTER TABLE goalquest_participant_activity ADD CONSTRAINT goalquest_pax_activity_fk
+  FOREIGN KEY (gq_payout_activity_id) REFERENCES ACTIVITY (activity_id)
+/
+COMMENT ON TABLE goalquest_participant_activity IS 'Goalquest participant activity.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.goalquest_pax_activity_id IS 'System-generated key that identifies a specific pax activity.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.TYPE IS 'Incremental or replace transaction type.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.is_automotive IS 'Is the transaction an automotive type.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.vin IS 'VIN number for automotive transactions.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.model IS 'Vehicle model for automotive transactions.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.trans_type IS 'Sale (S) or Return (R) for automotive transactions.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.sales_date IS 'Date the transaction was completed for automotive transactions.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.delivery_date IS 'Date vehicle picked up or deliverd for automotive transactions.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.dealer_code IS 'where the vehicle was sold for automotive transactions.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.dealer_name IS 'the dealer name for automotive transactions.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.status IS 'Is activity pending or approved.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.promotion_id IS 'Id of goalquest promotion.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.user_id IS 'Users id.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.quantity IS 'Quantity'
+/
+COMMENT ON COLUMN goalquest_participant_activity.submission_date IS 'Submission Date.'
+/
+COMMENT ON COLUMN goalquest_participant_activity.gq_payout_activity_id IS 'Activy id from Activity table.'
+/

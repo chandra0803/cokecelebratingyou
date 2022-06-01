@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.participant.Audience" table="AUDIENCE">
+	<cache usage="read-write"/>
+    <id name="id" type="java.lang.Long" column="AUDIENCE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">AUDIENCE_PK_SQ</param>
+      </generator>
+    </id>
+
+    <discriminator type="java.lang.String" column="LIST_TYPE"/>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <property name="name" type="java.lang.String" column="NAME"/>
+    <property name="plateauAwardsOnly" type="java.lang.Boolean" column="giftcode_only" />
+    <property name="publicAudience" type="java.lang.Boolean" column="IS_AUDIENCE_PUBLIC" />
+    <property name="rosterAudienceId" type="uuid-char" column="ROSTER_AUDIENCE_ID"/>
+    
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+    <column name="DATE_MODIFIED"/>
+    <column name="MODIFIED_BY"/>
+    </property>
+    
+    <set name="audienceRoles" table="AUDIENCE_ROLE" inverse="true" cascade="all-delete-orphan" lazy="false" >
+      <key column="AUDIENCE_ID" />
+      <one-to-many class="com.biperf.core.domain.participant.AudienceRole" />
+    </set>
+
+    <subclass name="com.biperf.core.domain.participant.CriteriaAudience"
+      discriminator-value="criteria">
+      <set name="audienceCriterias" lazy="false" table="AUDIENCE_CRITERIA" cascade="all-delete-orphan">
+        <key column="AUDIENCE_ID"/>
+        <one-to-many class="com.biperf.core.domain.participant.AudienceCriteria"/>
+      </set>
+      <list name="audienceParticipants" lazy="extra" table="PARTICIPANT_AUDIENCE" cascade="all-delete-orphan">
+        <key column="AUDIENCE_ID"/>
+        <list-index column="PARTICIPANT_AUDIENCE_INDEX"/>
+        <composite-element class="com.biperf.core.domain.participant.AudienceParticipant">
+          <parent name="criteriaAudience"/>
+          <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED"/>
+            <column name="CREATED_BY"/>
+          </property>
+          <!--  found that lazy = true seems to end up being(!) lazy = false(need to investigate further)  in our version of hibernate - try both and go
+          to audience list page, lazy = true eagerly fetches pax but lazy=proxy doesn't  -->
+          <many-to-one name="participant" lazy="proxy" class="com.biperf.core.domain.participant.Participant" column="USER_ID"/>
+        </composite-element>
+      </list>      
+    </subclass>
+
+    <subclass name="com.biperf.core.domain.participant.PaxAudience"
+      discriminator-value="pax">
+      <list name="audienceParticipants" lazy="extra" table="PARTICIPANT_AUDIENCE" cascade="all-delete-orphan">
+        <key column="AUDIENCE_ID"/>
+        <list-index column="PARTICIPANT_AUDIENCE_INDEX"/>
+        <composite-element class="com.biperf.core.domain.participant.AudienceParticipant">
+          <parent name="paxAudience"/>
+          <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED"/>
+            <column name="CREATED_BY"/>
+          </property>
+          <!--  found that lazy = true seems to end up being(!) lazy = false(need to investigate further)  in our version of hibernate - try both and go
+          to audience list page, lazy = true eagerly fetches pax but lazy=proxy doesn't  -->
+          <many-to-one name="participant" lazy="proxy" class="com.biperf.core.domain.participant.Participant" column="USER_ID"/>
+        </composite-element>
+      </list>
+    </subclass>
+    <subclass name="com.biperf.core.domain.participant.PartnerAudience"
+      discriminator-value="partner">
+      <list name="audiencePartners" lazy="extra" table="PARTICIPANT_AUDIENCE" cascade="all-delete-orphan">
+        <key column="AUDIENCE_ID"/>
+        <list-index column="PARTICIPANT_AUDIENCE_INDEX"/>
+        <composite-element class="com.biperf.core.domain.participant.AudienceParticipant">
+          <parent name="partnerAudience"/>
+          <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED"/>
+            <column name="CREATED_BY"/>
+          </property>
+          <!--  found that lazy = true seems to end up being(!) lazy = false(need to investigate further)  in our version of hibernate - try both and go
+          to audience list page, lazy = true eagerly fetches pax but lazy=proxy doesn't  -->
+          <many-to-one name="participant" lazy="proxy" class="com.biperf.core.domain.participant.Participant" column="USER_ID"/>
+        </composite-element>
+      </list>
+    </subclass>
+  </class>
+
+  <query name="com.biperf.core.domain.participant.AllAudiences">
+    <![CDATA[
+		from com.biperf.core.domain.participant.Audience audience
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.participant.AllCriteriaAudiences">
+    <![CDATA[
+    from com.biperf.core.domain.participant.CriteriaAudience criteriaAudience
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.participant.getAllAudienceRole">
+    <![CDATA[
+    from com.biperf.core.domain.participant.AudienceRole audienceRole
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.participant.AllPaxAudiencesForParticipant">
+    <![CDATA[
+    from com.biperf.core.domain.participant.PaxAudience paxAudience 
+      join paxAudience.audienceParticipants audienceParticipant where audienceParticipant.participant.id = :participantId
+    ]]>
+  </query>
+ 
+  <query name="com.biperf.core.domain.participant.CheckPaxAudiencesByPaxAudienceIdParticipantId">
+    <![CDATA[
+    from com.biperf.core.domain.participant.PaxAudience paxAudience 
+      join paxAudience.audienceParticipants audienceParticipant where paxAudience.id =:audienceId and audienceParticipant.participant.id = :participantId
+    ]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.product.AudienceByNameCount">
+		<return-scalar column="result" type="integer"/> 
+	  	<![CDATA[
+		SELECT count(1) as result 
+		  FROM audience 
+		 WHERE lower(name) = :name
+		]]>
+	</sql-query>
+	
+  <query name="com.biperf.core.domain.participant.GetAudienceByName">
+    <![CDATA[
+		from com.biperf.core.domain.participant.Audience audience
+	   where upper(audience.name) = upper(:name)
+  ]]>
+  </query>
+	
+   <sql-query name="com.biperf.core.domain.participant.checkAudiencesByAudienceIdParticipantId">
+		<return-scalar column="result" type="integer"/> 
+	  	<![CDATA[
+	select count(1) as result  from  participant_audience participantAudience  where participantAudience.audience_id = :audienceId  and participantAudience.user_id = :participantId
+		]]>
+	</sql-query>	
+
+   <sql-query name="com.biperf.core.domain.audience.getAudienceList">
+		<return-scalar column="audienceId" type="long"/> 
+		<return-scalar column="audienceName" type="string"/> 
+		<return-scalar column="audienceType" type="string"/> 
+		<return-scalar column="dateModified" type="string"/> 
+		<return-scalar column="publicAudience" type="boolean"/>
+        <return-scalar column="rosterAudienceId" type="uuid-char"/>		
+	  	<![CDATA[
+			SELECT audience_id AS audienceId,
+		           NAME AS audienceName,
+		           list_type AS audienceType,
+		           TO_CHAR(date_modified,'mm/dd/yyyy hh:mi:ss') dateModified,
+		           IS_AUDIENCE_PUBLIC as publicAudience,
+		           roster_audience_id as rosterAudienceId
+		    FROM audience
+		    ORDER BY LOWER(NAME)
+		]]>
+	</sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.audience.getPromotionPrimaryAduienceCountInManagerOrOwnersNode">
+		<return-scalar column="count" type="long" />
+	  	<![CDATA[
+		  	select count(*) as count
+			from application_user p, participant_audience pau, promo_audience pa,user_node un
+			where pau.audience_id = pa.audience_id
+			and p.user_id = pau.user_id
+			and un.user_id = p.user_id
+			and promotion_id = :promotionId
+			and un.node_id = :nodeId
+			order by p.user_id
+  		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.participant.getAudienceListFromAudienceRole">
+		<return alias="a" class="com.biperf.core.domain.participant.Audience" />
+		<![CDATA[
+		  	SELECT {a.*} 
+ 		 	  FROM audience a,
+      			  audience_role ar,
+      			  role r
+			  WHERE a.audience_id = ar.audience_id 
+   				AND ar.role_id = r.role_id 
+  			    AND UPPER (r.code) = UPPER(:code)
+		 ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.participant.getParticipantsbyAudienceIds">
+		<![CDATA[
+			SELECT au.user_id AS id,
+			  au.first_name   AS firstName,
+			  au.last_name    AS lastName,
+			  au.user_name    AS userName
+			FROM participant_audience pa,
+			  application_user au
+			WHERE au.user_id    =pa.user_id
+			AND au.is_active    =1
+			AND pa.audience_id IN ( :audienceIds )
+			AND rownum         <=300
+			ORDER BY first_name ASC 
+		 ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.audience.getAudienceNameById">
+		<return-scalar column="result" type="string"/> 
+	  	<![CDATA[
+		SELECT name as result 
+		  FROM audience 
+		 WHERE AUDIENCE_ID = :audienceId
+		]]>
+	</sql-query>	
+	
+	<sql-query name="com.biperf.core.domain.audience.isUserInDIYCommAudience">
+		<return-scalar column="result" type="integer"/> 
+	  	<![CDATA[
+		  	SELECT count(1) as result FROM 
+		  	       audience a,
+      			   audience_role ar,
+      			   role r,
+      			   participant_audience pa
+  			  WHERE a.audience_id = ar.audience_id 
+    		  AND ar.role_id = r.role_id 
+   		      and a.audience_id = pa.audience_id
+    		  and pa.user_id = :userId
+    		  AND UPPER (r.code) = UPPER(:code)
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.audience.getAudiencesForRosterSearchGroups">
+		<return-scalar column="audienceId" type="long"/> 
+		<return-scalar column="audienceName" type="string"/> 
+		<return-scalar column="audienceType" type="string"/> 
+		<return-scalar column="dateModified" type="string"/> 
+		<return-scalar column="publicAudience" type="boolean"/>
+        <return-scalar column="rosterAudienceId" type="uuid-char"/>		
+			<![CDATA[
+			SELECT audience_id AS audienceId,
+			NAME AS audienceName,
+			list_type AS audienceType,
+			TO_CHAR(date_modified,'mm/dd/yyyy hh:mi:ss') dateModified,
+			IS_AUDIENCE_PUBLIC as publicAudience,
+		    ROSTER_AUDIENCE_ID as rosterAudienceId
+			FROM Audience audience where audience.audience_id = :audienceId and upper(audience.name) = upper(:audienceName) and upper(audience.list_type) = upper(:audienceType)
+			ORDER BY LOWER(NAME)
+			]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.audience.getAllUsersByAudienceId">
+		<return-scalar column="userId" type="long"/>		 
+			<![CDATA[
+			SELECT pau.USER_ID AS userId 
+				FROM PARTICIPANT_AUDIENCE pau, AUDIENCE au
+					WHERE au.audience_id = :audienceId AND pau.audience_id = au.audience_id ORDER BY pau.user_id
+		    ]]>
+	</sql-query>
+	
+ 	<sql-query name="com.biperf.core.domain.audience.getAudienceIdByRosterAudienceId">
+		<return-scalar column="audience_id" type="long"/>
+		<![CDATA[
+     	 	select audience_id from audience where roster_audience_id=:rosterAudienceId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.audience.getRosterAudienceIdByAudienceId">
+		<return-scalar column="roster_audience_id" type="uuid-char"/>
+		<![CDATA[
+     	 	select roster_audience_id from audience where audience_id=:audienceId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.audience.getRosterAudienceIdsByAudienceIds">
+		<return-scalar column="roster_audience_id" type="string"/> 
+		<![CDATA[
+			select roster_audience_id from audience where audience_id in ( :audienceIds )
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.audience.getAudienceDetailsByUserId">
+		<return-scalar column="companyId" type="uuid-char"/> 
+		<return-scalar column="rosterAudienceId" type="uuid-char"/> 
+		<return-scalar column="audienceName" type="string"/> 
+		<return-scalar column="type" type="string"/>
+		<return-scalar column="isPublic" type="boolean"/> 
+		<![CDATA[
+			SELECT (select company_id from company) companyId, a.roster_audience_id rosterAudienceId, a.name audienceName, a.list_type type, a.is_audience_public isPublic 
+			FROM audience a, participant_audience pa, application_user au 
+			WHERE a.audience_id = pa.audience_id(+) AND pa.user_id = au.user_id(+) AND au.user_id = :userId
+		]]>
+	</sql-query>  
+	
+</hibernate-mapping>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.message.Message" table="MESSAGE">
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="MESSAGE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">MESSAGE_PK_SQ</param>
+      </generator>
+    </id> 
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>    
+    <property name="moduleCode" column="MODULE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.MessageModuleType</param>
+      </type>      
+    </property>
+    <property name="statusCode" column="STATUS_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.MessageStatusType</param>
+      </type>      
+    </property>
+    <property name="messageTypeCode" column="MESSAGE_TYPE_CODE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.MessageType</param>
+      </type>
+    </property>
+    <property name="messageSMSGroupType" column="SMS_GROUP_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.MessageSMSGroupType</param>
+      </type>
+    </property>    
+    <property name="name" type="java.lang.String" column="MESSAGE_NAME" not-null="true" />    
+    <property name="dateLastSent" type="java.util.Date" column="DATE_LAST_SENT" />
+    <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE" not-null="true" />
+
+  </class>
+ 
+ 	<query name="com.biperf.core.domain.message.AllMessageList">
+		<![CDATA[
+		from com.biperf.core.domain.message.Message
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.message.MessagesByActiveStatus">
+		<![CDATA[
+		from item in class com.biperf.core.domain.message.Message
+		where item.statusCode = 'act'
+		order by item.moduleCode, item.name
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.message.MessagesByActiveStatusModuleCode">
+		<![CDATA[
+		from item in class com.biperf.core.domain.message.Message
+		where item.statusCode = 'act' and item.moduleCode = :code
+		order by item.moduleCode, item.name
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.message.getAllActiveMessagesByTypecode">
+		<![CDATA[
+		from item in class com.biperf.core.domain.message.Message
+		where item.statusCode = 'act' and item.messageTypeCode = :code
+		order by item.moduleCode, item.name
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.message.getAllActiveTextMessagesBySMSGroupType">
+		<![CDATA[
+		from item in class com.biperf.core.domain.message.Message
+		where item.statusCode = 'act' and item.messageSMSGroupType = :code 
+		order by item.moduleCode, item.name
+		]]>
+	</query>	
+
+	<query name="com.biperf.core.domain.message.MessagesByInactiveStatus">
+		<![CDATA[
+		from item in class com.biperf.core.domain.message.Message
+		where item.statusCode = 'ina'
+		order by item.moduleCode, item.name
+		]]>
+	</query>
+		
+	<query name="com.biperf.core.domain.message.MessageByName">
+	    <![CDATA[
+		from com.biperf.core.domain.message.Message msg
+		where upper(msg.name) = upper(:name)
+		]]>
+    </query>
+    
+    <query name="com.biperf.core.domain.message.MessageByCMAssetCode">
+	    <![CDATA[
+		from com.biperf.core.domain.message.Message msg
+		where msg.cmAssetCode = :cmAssetCode
+		]]>
+    </query>	
+	
+</hibernate-mapping>

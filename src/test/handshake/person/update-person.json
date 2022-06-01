@@ -1,0 +1,73 @@
+{
+  "description": "Update a Person",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "updatePerson",
+      "description": "PUT /persons/${ref:createPerson.export.newPersonId}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}",
+        "options": {
+          "method": "put",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "givenName": "simon",
+            "nickname": "Wilson",
+            "surname":"says",
+            "locale":"en_GB",
+            "pronouns":
+            {
+            	"objective":"obj",
+            	"subjective":"sub"
+            }
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:updatePerson.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:updatePerson.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:updatePerson.res.body.givenName}",
+          "compare": "to.equal",
+          "b": "simon"
+        },
+        {
+          "a": "${ref:updatePerson.res.body.surname}",
+          "compare": "to.equal",
+          "b": "says"
+        },
+        {
+          "a": "${ref:updatePerson.res.body.locale}",
+          "compare": "to.equal",
+          "b": "en_GB"
+        }
+      ]
+    }
+  ]
+}

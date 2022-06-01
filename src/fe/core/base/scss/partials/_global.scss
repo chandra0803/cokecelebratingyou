@@ -1,0 +1,1205 @@
+// Partial-specific variables
+// =========================
+
+// TODO: move all colors outside into colors scss
+
+/***
+ *    888                    888
+ *    888                    888
+ *    888                    888
+ *    88888b.   .d88b.   .d88888 888  888
+ *    888 "88b d88""88b d88" 888 888  888
+ *    888  888 888  888 888  888 888  888
+ *    888 d88P Y88..88P Y88b 888 Y88b 888
+ *    88888P"   "Y88P"   "Y88888  "Y88888
+ *                                    888
+ *                               Y8b d88P
+ *                                "Y88P"
+ */
+ $global_bodyBgColor: $brand_color_white !default;
+ /*
+  * from here down to the end of the BG rules are all pointless.
+  * body backgrounds aren't visible in G6!
+  * except when you're beyond siteMax, but then a solid color is best
+  */
+$global_bodyGradType: false !default; // body background gradients will not be visible in IE7/8
+$global_bodyGradMeta: false !default;
+$global_bodyGradStops: false !default;
+$global_bodyBgImgUrlPath: false !default;
+$global_bodyBgImg: false !default;
+$global_bodyBgImgPosition: 0% 0% !default;
+$global_bodyBgImgRepeat: repeat !default;
+$global_bodyBgImgSize: auto !default;
+$global_bodyBgImgAttachment: fixed !default;
+
+$global_bodyBgColor_siteMax: $brand_color_mid !default;
+
+/***
+ *    888                             888
+ *    888                             888
+ *    888                             888
+ *    88888b.   .d88b.   8888b.   .d88888  .d88b.  888d888
+ *    888 "88b d8P  Y8b     "88b d88" 888 d8P  Y8b 888P"
+ *    888  888 88888888 .d888888 888  888 88888888 888
+ *    888  888 Y8b.     888  888 Y88b 888 Y8b.     888
+ *    888  888  "Y8888  "Y888888  "Y88888  "Y8888  888
+ *
+ *
+ *
+ */
+// SIZING
+$global_header_height_mobile:           60px !default;
+$global_header_height_tablet:           84px !default;
+$global_header_height_desktop:          108px !default;
+$global_header_height_desktopLarge:     108px !default;
+$global_header_logoHeight_mobile:       $global_header_height_mobile * 2 / 3 !default;
+$global_header_logoHeight_tablet:       $global_header_height_tablet * 2 / 3 !default;
+$global_header_logoHeight_desktop:      $global_header_height_desktop * 2 / 3 !default;
+$global_header_logoHeight_desktopLarge: $global_header_height_desktopLarge * 2 / 3 !default;
+
+$global_header_spacing_verti_mobile:        $global_header_height_mobile / 6 !default;
+$global_header_spacing_verti_tablet:        $global_header_height_tablet / 6 !default;
+$global_header_spacing_verti_desktop:       $global_header_height_desktop / 6 !default;
+$global_header_spacing_verti_desktopLarge:  $global_header_height_desktopLarge / 6 !default;
+
+$global_header_spacing_horiz_mobile:        $global_header_height_mobile * 0.28 !default;
+$global_header_spacing_horiz_tablet:        $global_header_height_tablet * 0.28 !default;
+$global_header_spacing_horiz_desktop:       $global_header_height_desktop * 0.28 !default;
+$global_header_spacing_horiz_desktopLarge:  $global_header_height_desktopLarge * 0.28 !default;
+
+// DECORATION
+$global_header_bgColor: $brand_color_white !default;
+$global_header_gradMeta: false !default; // 'to bottom' would be an ideal value // only applies when a background color has been set
+$global_header_gradStops: false !default;
+$global_header_borderTopWidth: 0 !default;
+$global_header_borderTopColor: false !default;
+$global_header_borderBottomWidth: 0 !default;
+$global_header_borderBottomColor: false !default;
+
+/***
+ *             d8b      888          888
+ *             Y8P      888          888
+ *                      888          888
+ *    .d8888b  888  .d88888  .d88b.  88888b.   8888b.  888d888
+ *    88K      888 d88" 888 d8P  Y8b 888 "88b     "88b 888P"
+ *    "Y8888b. 888 888  888 88888888 888  888 .d888888 888
+ *         X88 888 Y88b 888 Y8b.     888 d88P 888  888 888
+ *     88888P' 888  "Y88888  "Y8888  88888P"  "Y888888 888
+ *
+ *
+ *
+ */
+$global_sidebar_zindex: 1100 !default;
+// Global variables for side bar widths and breakpoints
+$global_sidebar_width_mobile: 100% !default;
+$global_sidebar_width_tablet: 256px !default;
+$global_sidebar_width_desktop: 256px !default;
+$global_sidebar_width_desktopLarge: 512px !default;
+$sidebar_collapsed_mobile_width: $global_header_logoHeight_mobile + $global_header_spacing_horiz_mobile * 2 !default;
+$sidebar_collapsed_tablet_width: $global_header_logoHeight_tablet + $global_header_spacing_horiz_tablet * 2 !default;
+$global_sidebar_transition_speed: $animation_duration !default;
+
+$global_sidebar_background: $brand_color_lighter !default;
+$global_sidebar_sidebarBorder_width: 1px !default;
+$global_sidebar_sidebarBorder: $global_sidebar_sidebarBorder_width solid $brand_color_mid !default;
+$global_sidebar_dropShadow: 0 0 50px rgba(0,0,0,0.5) !default;
+
+// faux sidebar body background
+// no !default because these can't be overwritten
+$global_fauxSidebar_bgImage: linear-gradient(to right, $global_sidebar_background 0%, $global_sidebar_background 100%);
+$global_fauxSidebar_bgPosition: 100% 0;
+$global_fauxSidebar_bgRepeat: repeat-y;
+$global_fauxSidebar_bgSize_desktop: $global_sidebar_width_desktop 100%;
+$global_fauxSidebar_bgSize_desktopLarge: $global_sidebar_width_desktopLarge 100%;
+
+/***
+ *             888          888               888 888b    888
+ *             888          888               888 8888b   888
+ *             888          888               888 88888b  888
+ *     .d88b.  888  .d88b.  88888b.   8888b.  888 888Y88b 888  8888b.  888  888
+ *    d88P"88b 888 d88""88b 888 "88b     "88b 888 888 Y88b888     "88b 888  888
+ *    888  888 888 888  888 888  888 .d888888 888 888  Y88888 .d888888 Y88  88P
+ *    Y88b 888 888 Y88..88P 888 d88P 888  888 888 888   Y8888 888  888  Y8bd8P
+ *     "Y88888 888  "Y88P"  88888P"  "Y888888 888 888    Y888 "Y888888   Y88P
+ *         888
+ *    Y8b d88P
+ *     "Y88P"
+ */
+$global_nav_height_mobile:  $global_header_height_mobile * 0.8 !default;
+$global_nav_height:         $global_nav_height_mobile !default;
+$global_nav_margin_mobile:  $global_nav_height_mobile * 0.5 !default;
+$global_nav_margin:         $global_nav_margin_mobile !default;
+
+
+/***
+ *     .d888                  888
+ *    d88P"                   888
+ *    888                     888
+ *    888888 .d88b.   .d88b.  888888 .d88b.  888d888
+ *    888   d88""88b d88""88b 888   d8P  Y8b 888P"
+ *    888   888  888 888  888 888   88888888 888
+ *    888   Y88..88P Y88..88P Y88b. Y8b.     888
+ *    888    "Y88P"   "Y88P"   "Y888 "Y8888  888
+ *
+ *
+ *
+ */
+// This doesn't display on 99% of screens.
+// Likely login page only, but defining globally just in case
+$global_footer_pinnedFooter: true; // always true
+
+$global_footer_bgColor: $global_header_bgColor !default;
+$global_footer_gradMeta: false !default; // 'to bottom' would be an ideal value // only applies when a background color has been set
+$global_footer_gradStops: false !default;
+$global_footer_borderTopWidth: 1px !default;
+$global_footer_borderTopColor: $g6HeadNavBorderColor !default;
+$global_footer_borderBottomWidth: 0 !default;
+$global_footer_borderBottomColor: false !default;
+
+// // calculated using the various height/padding/margin values for the footer parts
+// // value should match that of the height value on #footer below
+//                                  (padding-top of #footer)             + assumed height of .nav  + padding-bottom of #footer
+$global_footer_height_mobile:       ($g6ModulePaddingY / 2)              + (2.5 * $baseLineHeight) + $g6ModulePaddingY;
+$global_footer_height_tablet:       ($g6ModulePaddingY_tablet / 2)       + $baseLineHeight         + $g6ModulePaddingY_tablet;
+$global_footer_height_desktop:      ($g6ModulePaddingY_desktop / 2)      + $baseLineHeight         + $g6ModulePaddingY_desktop;
+$global_footer_height_desktopLarge: ($g6ModulePaddingY_desktopLarge / 2) + $baseLineHeight         + $g6ModulePaddingY_desktopLarge;
+
+
+// Partial-specific code
+// ==================================================
+
+
+// ----- START output ----->
+@if $base_variablesOnly == false {
+
+
+// Platform framework
+// -------------------------
+html {
+    &.touch {
+        height: 100%;
+        min-height: 100%;
+    }
+}
+body {
+    min-height: 100vh;
+    max-width: 100vw;
+
+    .touch & {
+        height: 100%;
+        min-height: 100%;
+    }
+}
+#wrapper_outer {
+    min-height: 100vh;
+
+    .touch & {
+        min-height: 100%;
+    }
+}
+
+
+
+/*
+html.lt-ie9 {
+    height: 100%;
+    // overflow-x: auto;
+
+    body {
+        // overflow-x: auto;
+        // *overflow-x: visible;
+
+        // when the background gradient (by way of filter) is applied to IE7/8, horizontal scrolling of the window breaks badly
+        // the various overflow rules above were my first attempt at a fix, but the x-axis scrollbar would only be visible when the user scrolled all the way to the bottom of the window
+        filter: none;
+    }
+}
+*/
+body {
+    position: relative;
+    padding: 0;
+    // height: 100%;
+    // min-height: 100%; // trying this temporarily
+    // min-height: 100vh;
+    font-family: $bodyFont;
+    // max-width: 100%;
+    //overflow-x: hidden;
+    -webkit-font-smoothing: $webkitFontSmoothing;
+
+    @if $global_bodyBgColor {
+        background: $global_bodyBgColor;
+    }
+    @if $global_bodyGradType and $global_bodyGradMeta and $global_bodyGradStops {
+        @include module_moduleLinerBackground(
+            $bgColor: $global_bodyBgColor,
+            $gradType: $global_bodyGradType,
+            $gradMeta: $global_bodyGradMeta,
+            $gradStops: $global_bodyGradStops,
+            $force: true
+        );
+        background-attachment: fixed;
+    }
+    @if $global_bodyBgImg {
+        @include safeImgUrls($global_bodyBgImg, $global_bodyBgImgUrlPath, $property: 'background-image');
+        background-position: $global_bodyBgImgPosition;
+        background-repeat: $global_bodyBgImgRepeat;
+        background-size: $global_bodyBgImgSize;
+        background-attachment: $global_bodyBgImgAttachment;
+    }
+}
+
+
+/***
+ *    888                               888                        d8b          888
+ *    888                               888                        Y8P          888
+ *    888                               888                                     888
+ *    88888b.  888d888 .d88b.   8888b.  888  888 88888b.   .d88b.  888 88888b.  888888 .d8888b
+ *    888 "88b 888P"  d8P  Y8b     "88b 888 .88P 888 "88b d88""88b 888 888 "88b 888    88K
+ *    888  888 888    88888888 .d888888 888888K  888  888 888  888 888 888  888 888    "Y8888b.
+ *    888 d88P 888    Y8b.     888  888 888 "88b 888 d88P Y88..88P 888 888  888 Y88b.       X88
+ *    88888P"  888     "Y8888  "Y888888 888  888 88888P"   "Y88P"  888 888  888  "Y888  88888P'
+ *                                               888
+ *                                               888
+ *                                               888
+ */
+//TODO: carry breakpoints across all to simplify : this should be mobile first
+/**
+ * These values will not show up in content, but can be
+ * queried by JavaScript to know which breakpoint is active.
+ * Add or remove as many breakpoints as you like.
+ * These are accessed in PageView.js
+ */
+body:before {
+  content: "mini";
+  display: none; /* Prevent from displaying. */
+}
+@media (min-width: $breakpoint_mobileMini_min) {
+    body:before {
+    content: "mobile";
+  }
+}
+@media (min-width: $breakpoint_tablet_min) {
+    body:before {
+    content: "tablet";
+  }
+}
+@media (min-width: $breakpoint_desktop_min) {
+   body:before {
+    content: "desktop";
+  }
+}
+@media (min-width: $breakpoint_desktopLarge_min) {
+   body:before {
+    content: "desktopLarge";
+  }
+}
+@media (min-width: $breakpoint_siteMax_min) {
+   body:before {
+    content: "siteMax";
+  }
+}
+
+
+/***
+ *             d8b      888          888
+ *             Y8P      888          888
+ *                      888          888
+ *    .d8888b  888  .d88888  .d88b.  88888b.   8888b.  888d888
+ *    88K      888 d88" 888 d8P  Y8b 888 "88b     "88b 888P"
+ *    "Y8888b. 888 888  888 88888888 888  888 .d888888 888
+ *         X88 888 Y88b 888 Y8b.     888 d88P 888  888 888
+ *     88888P' 888  "Y88888  "Y8888  88888P"  "Y888888 888
+ *
+ *
+ *
+ */
+// overflow rules for sidebar get a little messy
+html,
+.touch #wrapper_outer {
+  // height: 100%;
+  // min-height: 100%;
+  overflow-x: hidden;
+  position: relative;
+  // -webkit-overflow-scrolling: touch;
+}
+.touch,
+.touch #wrapper_outer {
+  // overflow: hidden;
+}
+//fix for android non-scrolling pages
+.no-overflowtouch {
+    // overflow-x: hidden;
+    // overflow-y: scroll;
+}
+// .touch body.modal-open {
+//   height: auto;
+//   overflow-x: visible;
+// }
+html.modal-open, body.modal-open {
+    overflow: hidden;
+}
+
+.touch .has-footer {
+  // height: 100%;
+  // min-height: 100%;
+
+  #wrapper_outer {
+    // height: auto; // height 100% fixes the outer wrapper to the viewport size
+  }
+}
+
+html {
+    // height:100%;
+    &.touch body {
+        // height:auto;
+
+        &.sidebar-expanded{
+            // height:100%;
+            // min-height: 100%;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-overflow-scrolling: touch;
+
+            #wrapper_outer {
+                overflow: visible;
+            }
+        }
+    }
+}
+
+// SIDEBAR - control page elements and general styling globally
+.sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: $global_sidebar_zindex;
+    width: $global_sidebar_width_mobile;
+    min-height: 100%;
+    background-color: $global_sidebar_background;
+    box-shadow: $global_sidebar_dropShadow;
+
+    transition-property: width, margin-right, box-shadow;
+    transition-duration: $global_sidebar_transition_speed;
+}
+#sidebar-overlay {
+    display: none;
+}
+
+.sidebar-expanded {
+    overflow-y: hidden;
+
+    #sidebar-overlay {
+        position: fixed;
+        z-index: $global_sidebar_zindex - 1;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: $global_bodyBgColor;
+        @include opacity(0.8);
+    }
+}
+
+ /***
+  *                        dP       oo dP
+  *                        88          88
+  *    88d8b.d8b. .d8888b. 88d888b. dP 88 .d8888b.
+  *    88'`88'`88 88'  `88 88'  `88 88 88 88ooood8
+  *    88  88  88 88.  .88 88.  .88 88 88 88.  ...
+  *    dP  dP  dP `88888P' 88Y8888' dP dP `88888P'
+  *
+  *
+  */
+// adjust header and contents to reflect sidebar widths and heights
+#header{
+    padding-right: $sidebar_collapsed_mobile_width;
+}
+
+body.fix-body { 
+    #header {
+        z-index: 1101 !important;
+    }
+    &.sidebar-expanded #header {
+        z-index: 100 !important;
+    }
+}
+
+.sidebar {
+    width: $global_sidebar_width_mobile;
+
+    .sidebar-collapsed & {
+        margin-right: -1 * $global_sidebar_width_mobile;
+        box-shadow: none;
+    }
+}
+
+ /***
+  *      dP            dP       dP            dP
+  *      88            88       88            88
+  *    d8888P .d8888b. 88d888b. 88 .d8888b. d8888P
+  *      88   88'  `88 88'  `88 88 88ooood8   88
+  *      88   88.  .88 88.  .88 88 88.  ...   88
+  *      dP   `88888P8 88Y8888' dP `88888P'   dP
+  *
+  *
+  */
+@media (min-width: $breakpoint_tablet_min) {
+    #header{
+        padding-right: $sidebar_collapsed_tablet_width;
+    }
+    .sidebar {
+        width: $global_sidebar_width_tablet - $global_sidebar_sidebarBorder_width;
+        border-left: $global_sidebar_sidebarBorder;
+
+        .sidebar-collapsed & {
+            margin-right: -1 * $global_sidebar_width_tablet;
+        }
+
+        .sidebar-container {
+            margin-left: -1 * $global_sidebar_sidebarBorder_width;
+        }
+    }
+    .sidebar-expanded {
+        #sidebar-overlay {
+            display: block;
+        }
+    }
+}
+
+ /***
+  *          dP                   dP         dP
+  *          88                   88         88
+  *    .d888b88 .d8888b. .d8888b. 88  .dP  d8888P .d8888b. 88d888b.
+  *    88'  `88 88ooood8 Y8ooooo. 88888"     88   88'  `88 88'  `88
+  *    88.  .88 88.  ...       88 88  `8b.   88   88.  .88 88.  .88
+  *    `88888P8 `88888P' `88888P' dP   `YP   dP   `88888P' 88Y888P'
+  *                                                        88
+  *                                                        dP
+  */
+@media (min-width: $breakpoint_desktop_min) {
+    body {
+        background-image: $global_fauxSidebar_bgImage;
+        background-position: $global_fauxSidebar_bgPosition;
+        background-repeat: $global_fauxSidebar_bgRepeat;
+        background-size: $global_fauxSidebar_bgSize_desktop;
+
+        &.no-sidebar {
+            background-image: none;
+        }
+    }
+
+    #wrapper_inner {
+        position: relative;
+        padding-right: $global_sidebar_width_desktop;
+    }
+    #header {
+        padding-right: 0;
+    }
+    .sidebar {
+        width: $global_sidebar_width_desktop - $global_sidebar_sidebarBorder_width;
+        box-shadow: none;
+    }
+    // see overflow comments above w/r/t .sidebar-collapsed
+    html {
+      overflow-x: auto;
+    }
+}
+
+ /***
+  *          dP                   dP         dP                     dP
+  *          88                   88         88                     88
+  *    .d888b88 .d8888b. .d8888b. 88  .dP  d8888P .d8888b. 88d888b. 88        .d8888b. 88d888b. .d8888b. .d8888b.
+  *    88'  `88 88ooood8 Y8ooooo. 88888"     88   88'  `88 88'  `88 88        88'  `88 88'  `88 88'  `88 88ooood8
+  *    88.  .88 88.  ...       88 88  `8b.   88   88.  .88 88.  .88 88        88.  .88 88       88.  .88 88.  ...
+  *    `88888P8 `88888P' `88888P' dP   `YP   dP   `88888P' 88Y888P' 88888888P `88888P8 dP       `8888P88 `88888P'
+  *                                                        88                                        .88
+  *                                                        dP                                    d8888P
+  */
+@media (min-width: $breakpoint_desktopLarge_min) {
+    body {
+        background-size: $global_fauxSidebar_bgSize_desktopLarge;
+    }
+    .sidebar {
+        width: $global_sidebar_width_desktopLarge - $global_sidebar_sidebarBorder_width;
+    }
+    #wrapper_inner {
+        padding-right: $global_sidebar_width_desktopLarge;
+        background-size: $global_sidebar_width_desktopLarge 100%;
+    }
+}
+
+ /***
+  *             d8b 888            888b     d888
+  *             Y8P 888            8888b   d8888
+  *                 888            88888b.d88888
+  *    .d8888b  888 888888 .d88b.  888Y88888P888  8888b.  888  888
+  *    88K      888 888   d8P  Y8b 888 Y888P 888     "88b `Y8bd8P'
+  *    "Y8888b. 888 888   88888888 888  Y8P  888 .d888888   X88K
+  *         X88 888 Y88b. Y8b.     888   "   888 888  888 .d8""8b.
+  *     88888P' 888  "Y888 "Y8888  888       888 "Y888888 888  888
+  *
+  *
+  *
+  */
+@media (min-width: $breakpoint_siteMax_min) {
+    #wrapper_outer {
+        max-width: $breakpoint_siteMax_min;
+        margin: 0 auto;
+    }
+    #wrapper_inner {
+        // padding-right: $global_sidebar_width_desktopLarge;
+    }
+    body {
+        @if $global_bodyBgColor_siteMax {
+            background-color: $global_bodyBgColor_siteMax;
+            background-image: $global_fauxSidebar_bgImage,
+                              linear-gradient(to right, $global_bodyBgColor 0%, $global_bodyBgColor 100%),
+                              linear-gradient(to right, $global_bodyBgColor_siteMax 50%, darken($global_bodyBgColor_siteMax, 10%) 100%),
+                              linear-gradient(to right, darken($global_bodyBgColor_siteMax, 10%) 0%, $global_bodyBgColor_siteMax 50%);
+            background-position: calc(50% + #{$breakpoint_desktopLarge_max / 2 - $global_sidebar_width_desktopLarge / 2}) 0,
+                                 50% 0,
+                                 0 0,
+                                 100% 0;
+            background-repeat: $global_fauxSidebar_bgRepeat,
+                               repeat-y;
+            background-size: $global_fauxSidebar_bgSize_desktopLarge,
+                             $breakpoint_desktopLarge_max 100%,
+                             calc((100% - #{$breakpoint_desktopLarge_max}) / 2) 100%,
+                             calc((100% - #{$breakpoint_desktopLarge_max}) / 2) 100%;
+
+            &.no-sidebar {
+                background-color: $global_bodyBgColor_siteMax;
+                background-image: linear-gradient(to right, $global_bodyBgColor 0%, $global_bodyBgColor 100%),
+                                  linear-gradient(to right, $global_bodyBgColor_siteMax 50%, darken($global_bodyBgColor_siteMax, 10%) 100%),
+                                  linear-gradient(to right, darken($global_bodyBgColor_siteMax, 10%) 0%, $global_bodyBgColor_siteMax 50%);
+                background-position: 50% 0,
+                                     0 0,
+                                     100% 0;
+                background-repeat: repeat-y;
+                background-size: $breakpoint_desktopLarge_max 100%,
+                                 calc((100% - #{$breakpoint_desktopLarge_max}) / 2) 100%,
+                                 calc((100% - #{$breakpoint_desktopLarge_max}) / 2) 100%;
+            }
+        }
+    }
+}
+//end "mobile first approach"
+
+
+/***
+ *                                          d8b      888          888
+ *                                          Y8P      888          888
+ *                                                   888          888
+ *        88888b.   .d88b.         .d8888b  888  .d88888  .d88b.  88888b.   8888b.  888d888
+ *        888 "88b d88""88b        88K      888 d88" 888 d8P  Y8b 888 "88b     "88b 888P"
+ *        888  888 888  888 888888 "Y8888b. 888 888  888 88888888 888  888 .d888888 888
+ *    d8b 888  888 Y88..88P             X88 888 Y88b 888 Y8b.     888 d88P 888  888 888
+ *    Y8P 888  888  "Y88P"          88888P' 888  "Y88888  "Y8888  88888P"  "Y888888 888
+ *
+ *
+ *
+ */
+.no-sidebar {
+    #header{
+        padding-right: 0;
+    }
+    #wrapper_inner {
+        position: static;
+        padding-right: 0;
+        background: none;
+    }
+}
+
+
+/***
+ *     .d8888888b.                                    888 888
+ *    d88P"   "Y88b                                   888 888
+ *    888  d8b  888                                   888 888
+ *    888  888  888 .d8888b   .d8888b 888d888 .d88b.  888 888
+ *    888  888bd88P 88K      d88P"    888P"  d88""88b 888 888
+ *    888  Y8888P"  "Y8888b. 888      888    888  888 888 888
+ *    Y88b.     .d8      X88 Y88b.    888    Y88..88P 888 888
+ *     "Y88888888P"  88888P'  "Y8888P 888     "Y88P"  888 888
+ *
+ *
+ *
+ */
+// .fix-body {
+//     background: green;
+// }
+// .fix-sidebar {
+//     background: orange;
+// }
+
+.fix-body {
+    @media (min-width: $breakpoint_tablet_min) {
+        // background: green;
+        // .participantPopoverQtip{
+        //       //position:fixed;
+        //     }
+        #header,
+        #globalNav,
+        #contents {
+            position: fixed;
+            left: 0;
+            right: 0;
+        }
+
+        &.pin-body {
+            #wrapper_outer,
+            #wrapper_inner {
+                height: 100%;
+            }
+
+            #header,
+            #globalNav,
+            #contents {
+                position: absolute;
+                top: auto !important;
+            }
+            #contents {
+                bottom: 0;
+            }
+        }
+    }
+    @media (min-width: $breakpoint_desktop_min) {
+        #header,
+        #globalNav,
+        #contents {
+            right: $global_sidebar_width_desktop;
+            z-index: $global_sidebar_zindex - 1;
+        }
+        #contents {
+            z-index: $global_sidebar_zindex;
+        }
+
+    }
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        #header,
+        #globalNav,
+        #contents {
+            right: $global_sidebar_width_desktopLarge;
+        }
+    }
+    @media (min-width: $breakpoint_siteMax_min) {
+        #header,
+        #globalNav,
+        #contents {
+            left: calc((100% - #{$breakpoint_siteMax_min}) / 2);
+            right: calc((100% - #{$breakpoint_siteMax_min}) / 2 + #{$global_sidebar_width_desktopLarge});
+        }
+    }
+}
+
+.fix-sidebar {
+    @media only screen and (max-width: $breakpoint_mobile_max) {
+        overflow: hidden;
+
+        .sidebar {
+            top: 0 !important;
+        }
+        &.pin-sidebar {
+            .sidebar {
+                top: auto !important;
+            }
+        }
+    } // /@media
+    @media only screen and (min-width: $breakpoint_tablet_min) {
+        .sidebar {
+            position: fixed;
+        }
+
+        &.pin-sidebar {
+            .sidebar {
+                position: absolute;
+                bottom: 0;
+                top: auto !important;
+            }
+        }
+    } // /@media
+    @media only screen and (min-width: $breakpoint_desktop_min) {
+        height: auto !important;
+    } // /@media
+    @media (min-width: $breakpoint_siteMax_min) {
+        .sidebar {
+            right: calc((100% - #{$breakpoint_siteMax_min}) / 2);
+        }
+    } // /@media
+}
+
+
+
+
+// Mobile Webkit browsers are having trouble redrawing the background gradient
+// behind or around elements that move. This leaves some elements with white
+// blocks around them when switching filters or resizing the screen. Hopefully
+// this bug will be fixed soon and this rule can be removed.
+// 5 Nov: There are also issues with fixed position backgrounds on touch devices
+// The best solution seems to be to set the background-attachment to scroll and
+// disabled the sticky footer. Unfortunate, but necessary after much testing.
+// .touch {
+//     height: auto;
+
+//     body {
+//         height: auto;
+//         background-attachment: scroll;
+//         // background-size: 100% 100%;
+//     }
+// }
+
+//
+.fixed{
+    position:fixed!important;
+}
+
+.no-scroll{
+    overflow: hidden;
+    min-height: 100%;
+}
+
+
+
+// hide scroll bars but allow scrolling
+.hide-scrollbars{
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none !important;
+}
+.hide-scrollbars::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    display: none;  // Safari and Chrome
+}
+//
+
+
+
+ //TODO: remove overide comeing from twitter bootstrap grid mixins
+    .container {
+        padding: 0;
+        width: 100% !important;
+    }
+
+
+
+
+// WRAPPERs:
+#wrapper_outer {
+    transition-property: margin-right;
+    transition-duration: $global_sidebar_transition_speed;
+}
+
+#wrapper_outer {
+    // min-height: 100%;
+}
+
+#wrapper_inner {
+    .has-footer & {
+        @if $global_footer_pinnedFooter {
+            padding-bottom: $global_footer_height_mobile;
+
+            @media (min-width: $breakpoint_tablet_min) {
+                padding-bottom: $global_footer_height_tablet;
+            }
+            @media (min-width: $breakpoint_desktop_min) {
+                padding-bottom: $global_footer_height_desktop;
+            }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                padding-bottom: $global_footer_height_desktopLarge;
+            }
+        }
+        @else {
+            padding-bottom: 0;
+        }
+    }
+}
+
+// shared
+.container {
+    a:hover [class^="icon-"],
+    a:hover [class*=" icon-"] {
+        text-decoration: none;
+    }
+}
+
+/***
+ *    888                             888
+ *    888                             888
+ *    888                             888
+ *    88888b.   .d88b.   8888b.   .d88888  .d88b.  888d888
+ *    888 "88b d8P  Y8b     "88b d88" 888 d8P  Y8b 888P"
+ *    888  888 88888888 .d888888 888  888 88888888 888
+ *    888  888 Y8b.     888  888 Y88b 888 Y8b.     888
+ *    888  888  "Y8888  "Y888888  "Y88888  "Y8888  888
+ *
+ *
+ *
+ */
+// header region
+// additional styles located in _globalHeader.scss and _participantProfile.scss
+#header {
+    height: $global_header_height_mobile;
+
+    @media (min-width: $breakpoint_tablet_min) {
+        height: $global_header_height_tablet;
+    }
+    @if $global_header_height_desktop != $global_header_height_tablet {
+
+        @media (min-width: $breakpoint_desktop_min) {
+            height: $global_header_height_desktop;
+        }
+    } // /@if
+
+    @if $global_header_height_desktopLarge != $global_header_height_tablet
+        or $global_header_height_desktopLarge != $global_header_height_desktop {
+
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                height: $global_header_height_desktopLarge;
+            }
+    } // /@if
+
+    @if $global_header_bgColor or $global_header_gradStops {
+        // this mixin has a built-in check for whether or not a gradient or solid color has been requested. It also assumes a linear gradient at all times.
+        @include progressBarHelper(
+            $global_header_bgColor,
+            $global_header_gradMeta,
+            $global_header_gradStops
+        );
+    }
+
+    // @if $global_header_borderTopWidth and $global_header_borderTopWidth > 0 {
+    //     border-top: $global_header_borderTopWidth solid $global_header_borderTopColor;
+    // }
+    @if $global_header_borderBottomWidth and $global_header_borderBottomWidth > 0 {
+        border-bottom: $global_header_borderBottomWidth solid $global_header_borderBottomColor;
+    }
+
+    .container {
+        // padding: ($g5PageContentPaddingHoriz / 2) 0;
+        position: relative; // let us have absolutely pos. elements within
+    }
+}
+
+
+/***
+ *                              888                     888
+ *                              888                     888
+ *                              888                     888
+ *     .d8888b .d88b.  88888b.  888888 .d88b.  88888b.  888888 .d8888b
+ *    d88P"   d88""88b 888 "88b 888   d8P  Y8b 888 "88b 888    88K
+ *    888     888  888 888  888 888   88888888 888  888 888    "Y8888b.
+ *    Y88b.   Y88..88P 888  888 Y88b. Y8b.     888  888 Y88b.       X88
+ *     "Y8888P "Y88P"  888  888  "Y888 "Y8888  888  888  "Y888  88888P'
+ *
+ *
+ *
+ */
+// contents region
+#contents {
+    > .container {
+        position: relative;
+    }
+
+    #pageLoadingSpinner {
+        img {
+            position: fixed !important;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -25px 0 0 -25px;
+            width: 50px;
+            height: 50px;
+
+            @media (min-width: $breakpoint_desktop_min) {
+              @include transform( translateX(-1 * $global_sidebar_width_desktop / 2) );
+            }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+              @include transform( translateX(-1 * $global_sidebar_width_desktopLarge / 2) );
+            }
+
+            .loginPage &,
+            .no-sidebar &,
+            .search-overlay-open & {
+              @include transform( none );
+            }
+        }
+    }
+
+    // when a pageView is initialized it adds the class of .page to .page-content, hiding this spinner
+    .page ~ #pageLoadingSpinner {
+        display: none;
+    }
+}
+
+
+.split30, .split40, .split50, .split60, .split70{
+    display: block;
+    width: 100%;
+}
+@media (min-width: $breakpoint_tablet_min) {
+  .split30, .split40, .split50, .split60, .split70{
+        display: inline-block;
+    }
+    .split70{
+        width: 70%;
+    }
+    .split60{
+        width: 60%;
+    }
+    .split50{
+        width: 50%;
+    }
+    .split40{
+        width: 40%;
+    }
+    .split30{
+        width: 30%;
+    }
+}
+
+@media (min-width: $breakpoint_tablet_min) {
+
+}
+
+/***
+ *     .d888                  888
+ *    d88P"                   888
+ *    888                     888
+ *    888888 .d88b.   .d88b.  888888 .d88b.  888d888
+ *    888   d88""88b d88""88b 888   d8P  Y8b 888P"
+ *    888   888  888 888  888 888   88888888 888
+ *    888   Y88..88P Y88..88P Y88b. Y8b.     888
+ *    888    "Y88P"   "Y88P"   "Y888 "Y8888  888
+ *
+ *
+ *
+ */
+// footer region
+// additional styles located in _globalFooter.scss
+#footer {
+    display: none; // hidden by default
+
+    .has-footer & {
+        display: block;
+    }
+
+    // margin: ($g6ModulePaddingY / 2);
+    padding: (($g6ModulePaddingY / 2) - $global_footer_borderTopWidth)                  $g6ModulePaddingX               ($g6ModulePaddingY - $global_footer_borderBottomWidth);
+
+    @media (min-width: $breakpoint_tablet_min) {
+        padding: (($g6ModulePaddingY_tablet / 2) - $global_footer_borderTopWidth)       $g6ModulePaddingX_tablet        ($g6ModulePaddingY_tablet - $global_footer_borderBottomWidth);
+    }
+    @media (min-width: $breakpoint_desktop_min) {
+        padding: (($g6ModulePaddingY_desktop / 2) - $global_footer_borderTopWidth)      $g6ModulePaddingX_desktop       ($g6ModulePaddingY_desktop - $global_footer_borderBottomWidth);
+    }
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        padding: (($g6ModulePaddingY_desktopLarge / 2) - $global_footer_borderTopWidth) $g6ModulePaddingX_desktopLarge  ($g6ModulePaddingY_desktopLarge - $global_footer_borderBottomWidth);
+    }
+
+    @if $global_footer_pinnedFooter {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-top: -1 * $global_footer_height_mobile;
+        // height: $global_footer_height;
+
+        @media (min-width: $breakpoint_tablet_min) {
+            margin-top: -1 * $global_footer_height_tablet;
+        }
+        @media (min-width: $breakpoint_desktop_min) {
+            margin-top: -1 * $global_footer_height_desktop;
+        }
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            margin-top: -1 * $global_footer_height_desktopLarge;
+        }
+        @media (min-width: $breakpoint_siteMax_min) {
+            max-width: $breakpoint_desktopLarge_max - ($g6ModulePaddingX_desktopLarge * 2);
+            left: calc((100% - #{$breakpoint_desktopLarge_max}) / 2);
+        }
+    }
+
+    @if $global_footer_bgColor {
+        // this mixin has a built-in check for whether or not a gradient or solid color has been requested. It also assumes a linear gradient at all times.
+        @include progressBarHelper(
+            $global_footer_bgColor,
+            $global_footer_gradMeta,
+            $global_footer_gradStops
+        );
+    }
+
+    @if $global_footer_borderTopWidth and $global_footer_borderTopWidth > 0 {
+        border-top: $global_footer_borderTopWidth solid $global_footer_borderTopColor;
+    }
+    @if $global_footer_borderBottomWidth and $global_footer_borderBottomWidth > 0 {
+        border-bottom: $global_footer_borderBottomWidth solid $global_footer_borderBottomColor;
+    }
+}
+
+// user avatars
+.avatarwrap{
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    color: $brand_color_white;
+    background: $brand_color_primary;
+    border-radius: 50%;
+    overflow:hidden;
+    // fix for some chrome issues
+    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+    a{
+      font-weight: $fontWeightNormal;
+    }
+    img,
+    .avatar-initials {
+        cursor:default;
+        //border-radius: 50%;
+        //min-height: 100%;
+    }
+    img{
+      // min-height: 100%;
+      // min-width: 100%;
+      // max-width: none;
+      @include centerer(true, true);
+
+    }
+}
+@supports (object-fit: cover){
+  .avatarwrap{
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+img.avatar {
+    // enables SVG gradient support in Opera and IE9
+    $experimental-support-for-svg: true;
+
+    background: $g5AvatarBg;
+    // @include background($g5AvatarBg linear-gradient(to bottom, $g5AvatarBg, lighten($g5AvatarBg, 20%)));
+
+    border-radius: 50%;
+}
+
+// for layout help
+.showLayoutBoxes {
+    #header {
+        box-shadow: inset 0px 0px 12px rgba(255, 0, 0, .5);
+        .container {
+            box-shadow: inset 0px 0px 6px rgba(255, 0, 0, .5);
+        }
+    }
+    #contents {
+        box-shadow: inset 0px 0px 12px rgba(0, 255, 0, .5);
+        .container {
+            box-shadow: inset 0px 0px 6px rgba(0, 255, 0, .5);
+        }
+    }
+    #footer {
+        box-shadow: inset 0px 0px 12px rgba(0, 0, 255, .5);
+        .container {
+            box-shadow: inset 0px 0px 6px rgba(0, 0, 255, .5);
+        }
+    }
+}
+
+
+
+// global .spincover for page loads
+.spincover {
+    // do not add rules here on the bare .spincover class unless you are prepared to have them applied *everwhere* .spincover is used
+
+    &.redirectServerCommand,
+    &.pageLoading,
+    &.pageView {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 2000000001; // 2e9 is the default z-index in the .spin plugin, so we have to go one higher
+        height: 100%;
+        width: 100%;
+        // TODO 5.5: check the page background color. If it's darker than a certain number, set this background to be black (or really dark gray) instead of white
+        // background: $white;
+        @include safeBkgs(rgba(255, 255, 255, .5));
+        zoom: 1;
+
+        .spin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+        }
+    }
+
+    .spin {
+        // do not add rules here on the bare .spin class unless you are prepared to have them applied *everwhere* .spin is used
+
+    }
+}
+
+//resize plugin
+
+.resize-polyfill-wrapper {
+	&.resize-polyfill-polyfilled {
+		
+		// these four base widths were copied from _jHtmlArea.patchedG5.scss so textareas are the same width as the rich text editors
+		// 12px = right/left padding, 2px = right/left border
+        width: 540px - 12px - 2px;
+
+		@media (min-width: 1200px) {
+            width: 702px - 12px - 2px;
+		}
+		@media (min-width: 538px) and (max-width: 979px) {
+            width: 360px - 12px - 2px;
+		}
+		@media (max-width: 767px) {
+            width: 240px - 12px - 2px;
+		}
+		
+		
+		textarea {
+			height: 100% !important;
+			width: 100% !important;
+		}		
+		.resize-polyfill-br {
+			bottom: -18px !important;
+			right: -18px !important;
+		}
+	}	
+}
+
+/***
+ *    888 d8b          888
+ *    888 Y8P          888
+ *    888              888
+ *    888 888 88888b.  888  888 .d8888b
+ *    888 888 888 "88b 888 .88P 88K
+ *    888 888 888  888 888888K  "Y8888b.
+ *    888 888 888  888 888 "88b      X88
+ *    888 888 888  888 888  888  88888P'
+ *
+ *
+ *
+ */
+// .page-content,
+// .sidebar,
+// .launchModule,
+// .module,
+// .modal {
+    a {
+        @include applyGlobalLinkStyles();
+    }
+// }
+
+    // apply to obstructive element that is covering a button, etc.
+    .no-pointer-event {
+        pointer-events: none;
+    }
+
+
+// <----- END output -----
+} // end @if $base_variablesOnly == false

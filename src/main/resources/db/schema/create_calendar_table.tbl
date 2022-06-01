@@ -1,0 +1,11 @@
+CREATE TABLE calendar
+    (time_key                       DATE NOT NULL,
+    weekdaynumber                  NUMBER(7,0) NOT NULL,
+    weekdayname                    VARCHAR2(9) NOT NULL,
+    weekdaybeg                     DATE NOT NULL,
+    weekdayend                     DATE,
+    week_ind                       NUMBER(7,0),
+    month_ind                      NUMBER(7,0),
+    quarter_ind                    NUMBER(7,0),
+    fiscal_ind_flag                VARCHAR2(7))
+/

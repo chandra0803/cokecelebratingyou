@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.calculator.CalculatorCriterionRating" table="CALCULATOR_CRITERION_RATING">
+
+    <id name="id" type="java.lang.Long" column="CALCULATOR_CRITERION_RATING_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CALC_CRITERION_RATING_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <many-to-one name="calculatorCriterion" class="com.biperf.core.domain.calculator.CalculatorCriterion" lazy="false" insert="false" update="false" not-null="true" column="CALCULATOR_CRITERION_ID"/>
+
+    <property name="cmAssetName" type="java.lang.String" column="CM_ASSET_NAME"/>
+    <property name="ratingValue" type="int" column="RATING_VALUE"/>
+
+  </class>
+
+</hibernate-mapping>

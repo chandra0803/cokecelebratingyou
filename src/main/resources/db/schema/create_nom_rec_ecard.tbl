@@ -1,0 +1,20 @@
+CREATE TABLE ecard
+    (card_id        	NUMBER(18) NOT NULL,
+     flash_name        	VARCHAR2(4000) ,
+     is_translatable    NUMBER(1,0) DEFAULT 0 NOT NULL)
+/
+ALTER TABLE ecard
+ADD CONSTRAINT ecard_pk PRIMARY KEY (card_id)
+USING INDEX
+/
+ALTER TABLE ecard ADD CONSTRAINT ecard_fk
+  FOREIGN KEY (card_id) REFERENCES card (card_id)
+/
+COMMENT ON TABLE ecard IS 'The ECARD table defines ecards to be used in the system.'
+/
+COMMENT ON COLUMN ecard.card_id IS 'PK and FK to card'
+/
+COMMENT ON COLUMN ecard.flash_name IS 'Name of the Flash file'
+/
+COMMENT ON COLUMN ecard.is_translatable IS 'Is this card available in multiple languages'
+/

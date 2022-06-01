@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="false">
+
+  <class name="com.biperf.core.domain.engageprogram.EngageProgram" table="PROGRAM">
+	<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+	<id name="programId" type="java.lang.Long" column="PROGRAM_ID">
+		<generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">PROMOTION_PK_SQ</param>
+		</generator>
+	</id>
+
+	<!-- Using version number optimistic locking -->
+	<version name="version" column="VERSION" type="java.lang.Long" />
+		
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditCreateInfo"
+		type="com.biperf.core.utils.hibernate.AuditCreateType">
+		<column name="DATE_CREATED" />
+		<column name="CREATED_BY" />
+	</property>
+
+	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditUpdateInfo"
+		type="com.biperf.core.utils.hibernate.AuditUpdateType">
+		<column name="DATE_MODIFIED" />
+		<column name="MODIFIED_BY" />
+	</property>
+		
+    <!-- attributes -->
+    <property name="externalProgramId" type="uuid-char" column="EXTERNAL_PROGRAM_ID" not-null="true" />
+    
+    <property name="companyId" type="uuid-char" column="COMPANY_ID" not-null="true" />
+    
+    <property name="programName" type="java.lang.String" column="PROGRAM_NAME"/>
+    
+    <property name="programType" type="java.lang.String" column="PROGRAM_TYPE" not-null="true" />
+    
+    <property name="programStatus" type="java.lang.String" column="PROGRAM_STATUS" not-null="true" />
+    
+    <property name="programStartDate" type="java.util.Date" column="PROGRAM_START_DATE" not-null="true" />
+    
+    <property name="programEndDate" type="java.util.Date" column="PROGRAM_END_DATE" />
+    
+    <property name="awardType" type="java.lang.String" column="AWARD_TYPE" />	
+    
+    <property name="programCreateDate" type="java.util.Date" column="PROGRAM_CREATE_DATE" not-null="true" />	
+		
+	<property name="programNameCMXAssetCode" type="java.lang.String" column="PROGRAM_NAME_CMX_ASSET_CODE" />
+	
+	<property name="allowContribution" type="boolean" column="ALLOW_CONTRIBUTION" not-null="true"/>
+	
+	<property name="programHeader" type="java.lang.String" column="PROGRAM_HEADER" />
+	
+	<property name="programHeaderCMXAsstCode" type="java.lang.String" column="PROGRAM_HEADER_CMX_ASSET_CODE" />	
+	
+	<property name="primaryColor" type="java.lang.String" column="PRIMARY_COLOR" />	
+   
+    <property name="secondaryColor" type="java.lang.String" column="SECONDARY_COLOR" />
+    
+    <set name="programsAwardLevels" table="PROGRAM_AWARD_LEVEL" lazy="false" inverse="true" cascade="all-delete-orphan">
+      <key column="PROGRAM_ID" />
+	   <one-to-many class="com.biperf.core.domain.engageprogram.ProgramAwardLevel"/>
+	</set>	
+	
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.engageprogram.EngageProgram.getProgramCmxCode">
+	  <return-scalar column="programCmxCode" type="string" />
+	  <![CDATA[
+		SELECT distinct program_name_cmx_asset_code as programCmxCode
+    	FROM program p
+	  	WHERE p.program_status = 'live'
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

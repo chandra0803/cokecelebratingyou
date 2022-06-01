@@ -1,0 +1,338 @@
+{{! NOTE: these variables are set via JavaScript:
+        isCreator, lastLevel }}
+
+<div class="row-fluid">
+    <div class='span12 contestData dataSectionWrap {{#eq status "finalize_results"}}complete{{/eq}}'>
+        <div class="row-fluid">
+            <div class="dataSection activityGoal">
+                <h4>{{goal}}</h4>
+                {{#if isCreator}}
+                    <span>Goal</span>
+                {{else}}
+                    <span>Team Goal</span>
+                {{/if}}
+            </div>
+
+            <div class="dataSection activityProgress">
+                <h4>{{progress}}</h4>
+
+                {{#ueq status "finalize_results"}}
+                    {{#if isCreator}}
+                        <span>Activity</span>
+                    {{else}}
+                        <span>Team Activity</span>
+                    {{/if}}
+                {{else}}
+                    {{#if isCreator}}
+                        <span>Final Activity</span>
+                    {{else}}
+                        <span>Final Activity</span>
+                    {{/if}}
+                {{/ueq}}
+            </div>
+
+            {{#ueq status "finalize_results"}}
+            <div class="dataSection activityToGo">
+                {{#unless goalAchieved}}
+                    <h4>{{remaining}}</h4>
+                    <span>To Go</span>
+                {{else}}
+                    <h4 class="activityGoalAchieved"><i class="icon-verification"></i></h4>
+                    <span>Goal Achieved</span>
+                {{/unless}}
+            </div>
+            {{/ueq}}
+        </div>
+    </div>
+</div>
+
+<div class="tabWrap">
+    <div class="row-fluid">
+        <div class="span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" data-tab-name="levels" data-target=".levels">
+                        Goal Levels
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" data-tab-name="participants" data-target=".participants">
+                        Participant Breakdown by Level
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12 tab-content">
+            <div class="tab-pane active levels">
+                <div class="row-fluid">
+                    <div class="span12 levelChartWrapper adminChart">
+                        <table class="levelData">
+                            <tr class="levels">
+                                <td class="span2"></td>
+                                {{#each contestLevels}}
+                                <td class="levelCol span2 {{classes}}">
+                                    <div class="levelHeader">
+                                        <span class="levelName">
+                                            <span>Level</span>
+                                            <strong>{{name}}</strong>
+                                        </span>
+                                    </div>
+                                </td>
+                                {{/each}}
+                            </tr>
+
+                            <tr class="goalDetails">
+                                <td class="labels">
+                                    <strong>Goal</strong>
+                                </td>
+                                {{#each contestLevels}}
+                                    <td class="text-center">
+                                        <span>{{#ueq ../baselineType "no"}}Baseline + {{/ueq}}
+                                        {{goalPercent}}{{#eq ../baselineType "percent"}}%{{/eq}}</span>
+                                    </td>
+                                {{/each}}
+                            </tr>
+
+                            <tr class="payoutDetails">
+                                <td class="labels">
+                                    <strong>Contest Payout</strong>
+                                </td>
+                                {{#each contestLevels}}
+                                    <td class="text-center">
+                                        {{#eq ../payoutType "points"}}
+                                            <span>{{payout}} points</span>
+                                        {{/eq}}
+                                        {{#eq ../payoutType "other"}}
+                                            <span>{{payout}}</span>
+                                        {{/eq}}
+                                    </td>
+                                {{/each}}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                {{#if includeBonus}}
+                    <div class="row-fluid">
+                        <div class="span12 goalBonus">
+                            <strong>Bonus:</strong> For every <strong>{{bonusForEvery}}</strong> over level <strong>{{lastLevel.name}}</strong> earn
+                            {{#eq payoutType "points"}}
+                                <strong>{{bonusPayout}} points</strong>
+                            {{/eq}}
+                            {{#eq payoutType "other"}}
+                                <strong>{{bonusPayout}}</strong>
+                            {{/eq}}
+                        </div>
+                    </div>
+                {{/if}}
+            </div> {{! #levels }}
+
+            <div class="tab-pane participants">
+                <div class="row-fluid barChartContainer">
+                    <div class="span12">
+                        <div class="chartHolder barChart">
+
+                            <div class="ssiBarChart">
+                                <dl class="pax-per-level levels{{contestLevels.length}} {{#if includeBonus}}withBonus{{/if}}">
+                                    <dt class="x-axis">Levels</dt>
+                                    <dd class="y-axis">Participants</dd>
+
+                                    {{#each contestLevels}}
+                                    <dt class="key level{{name}}" data-level="{{name}}">
+                                        <span class="label">{{name}}</span>
+                                    </dt>
+                                    <dd class="value level{{name}}" data-level="{{name}}" data-count="{{participantsCount}}">
+                                        <span class="bar"></span>
+                                        <span class="label">{{participantsCount}}</span>
+                                    </dd>
+                                    {{/each}}
+
+                                    {{#if includeBonus}}
+                                    <dt class="key levelB" data-level="B">
+                                        <span class="label">Bonus</span>
+                                    </dt>
+                                    <dd class="value levelB" data-level="B" data-count="{{bonusParticipantsCount}}">
+                                        <span class="bar"></span>
+                                        <span class="label">{{bonusParticipantsCount}}</span>
+                                    </dd>
+                                    {{/if}}
+                                </dl>
+                            </div><!-- /.ssiBarChart -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span12 participantAchieved text-center">
+                        <p><strong>{{unaccountedParticipants}}</strong> participants
+                        {{#eq daysToEnd "0"}}
+                            did not reach
+                        {{else}}
+                            have yet to reach
+                        {{/eq}}
+                        <strong>Level 1</strong></p>
+                    </div>
+                </div>
+            </div> {{! #participants }}
+        </div> <!-- /.tab-content -->
+    </div>
+</div> <!-- /.tabWrap -->
+
+<!-- <div class="barGraphWrap">
+    <div class="row-fluid">
+        <div class="span8">
+            <div class="row-fluid">
+                <div class="span2">
+                    Participants
+                </div>
+                <div class="span10">
+                    <div class="row-fluid">
+                        {{#each contestLevels}}
+                            <div class="span2">
+                                {{participantsCount}}<br>
+                                {{name}}
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    Level
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="row-fluid">
+                <div class="span6 text-center">
+                    {{goal}}<br>goal
+                </div>
+                <div class="span6 text-center">
+                    {{progress}}<br>Team Activity
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+{{#if isCreator}}
+    <div class="row-fluid">
+        <div class="span12 payoutData">
+            {{#eq status "finalize_results"}}
+                <h3 class="sectionTitle payoutTitle"><span class="graphFlow">Final Payout</span></h3>
+            {{else}}
+                {{#eq payoutType "other"}}
+                    <h3 class="sectionTitle payoutTitle"><span class="graphFlow">Potential Payout Value</span></h3>
+                {{else}}
+                    <h3 class="sectionTitle payoutTitle"><span class="graphFlow">Potential Payout</span></h3>
+                {{/eq}}
+            {{/eq}}
+
+            <div class="row-fluid">
+                <div class="span7">
+                    <div class="ssiPayoutGraph" data-model-id="{{id}}" data-chart-type="payoutProgress">
+                        <div class="ssiPayoutGraphBar">
+                            <div class="barFill"></div>
+                        </div>
+
+                        <div class="ssiPayoutGraphProgressMarker">
+                            <i class="arrow"></i>
+                            <div class="number">
+                                <p class="val">{{payoutProgress}}</p> <p class="percent">({{payoutPercentProgress}}%)</p>
+                            </div>
+                        </div>
+
+                        <div class="ssiPayoutGraphGoalMarker payout">
+                            <span class="goalMarkerCount">{{payoutCap}}</span>
+                            {{#eq payoutType "other"}}
+                                <span class="goalMarkerLabel">[Other payout]</span>
+                            {{else}}
+                                <span class="goalMarkerLabel">Points</span>
+                            {{/eq}}
+                        </div>
+
+                        <div class="ssiPayoutGraphGoalMarker bonus">
+                            <span class="goalMarkerCount">{{payoutBonusCap}}</span>
+                            {{#eq payoutType "other"}}
+                                <span class="goalMarkerLabel">with Bonus</span>
+                            {{else}}
+                                <span class="goalMarkerLabel">points with Bonus</span>
+                            {{/eq}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4 offset1 dataSection activityRemaining">
+                    {{#if payoutProgress}}
+                        {{#eq status "finalize_results"}}
+                            {{#eq payoutType "points"}}
+                                <strong>{{payoutProgress}}</strong>
+                                <span>points issued</span>
+                            {{/eq}}
+                            {{#eq payoutType "other"}}
+                                <strong>{{payoutProgress}}</strong>
+                                <span>Payout Issued</span>
+                            {{/eq}}
+                        {{else}}
+                            {{#eq payoutType "points"}}
+                                <strong>{{payoutRemaining}}</strong>
+                            {{/eq}}
+                            {{#eq payoutType "other"}}
+                                <strong>{{payoutRemaining}}</strong>
+                            {{/eq}}
+                            <span>remaining</span>
+                        {{/eq}}
+                    {{/if}}
+                </div>
+
+            </div><!-- /.row-fluid -->
+        </div><!-- /.span12.payoutData -->
+    </div><!-- /.row-fluid -->
+{{/if}}
+
+{{#if includeStackRanking}}
+{{#if isProgressLoaded}}
+<div class="row-fluid">
+    <div class="span12 stackRankWrap stackRankBoard highlightedBoard">
+        <div class="row-fluid">
+            <div class="span6">
+                <h3 class="sectionTitle">Stack Rank</h3>
+            </div>
+            <div class="span6 text-right">
+                <!-- <a href="{{stackRankDetailPageUrl}}" title="" class="viewAll">view all</a> -->
+                <button type="button" class="viewAll viewAllStackRank btn btn-small btn-primary btn-inverse">View All Stack Ranking</button>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12 splitColWrap">
+                <ol class="splitCol splitColSingle">
+                    {{#each stackRankParticipants}}
+                    <li value="{{rank}}" {{#if classes.length}}class="{{#classes}}{{this}} {{/classes}}"{{/if}}>
+                        {{#if score}}<span class="score">{{score}}</span>{{/if}}
+                        {{#if rank}}<b class="rank">{{rank}}.</b>{{/if}}
+                        <div class="avatarwrap">
+                        {{#if avatarUrl}}
+                            <img alt="{{firstName}} {{lastName}}"  src="{{avatarUrl}}">
+                        {{else}}
+                            <span class="avatar-initials">{{trimString firstName 0 1}}{{trimString lastName 0 1}}</span>
+                        {{/if}}
+                        </div>
+                        {{#if contestUrl}}
+                            <a href="{{contestUrl}}" class="leaderName">{{firstName}} {{lastName}}</a>
+                        {{else}}
+                            <span class="leaderName">{{firstName}} {{lastName}}</span>
+                        {{/if}}
+                    </li>
+                    {{/each}}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+{{/if}}

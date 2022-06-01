@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.promotion.EngagementPromotionRulesAudience" table="PROMO_ENG_RULES_AUDIENCE">
+        <id name="id" column="RULES_AUDIENCE_ID" type="java.lang.Long">
+          <generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">PROMO_ENG_RULES_AUDIENCE_PK_SQ</param>
+		  </generator>
+        </id>
+        
+        <!-- Using version number optimistic locking -->
+	    <version name="version" column="VERSION" type="java.lang.Long" />
+	
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+        
+        <many-to-one name="audience" class="com.biperf.core.domain.participant.Audience" not-null="false" lazy="false" >
+            <column name="AUDIENCE_ID" />
+        </many-to-one>
+
+        <many-to-one name="enagementPromotionRules" class="com.biperf.core.domain.promotion.EngagementPromotionRules" not-null="false" lazy="false" >
+            <column name="RULES_ID" />
+        </many-to-one>
+        
+        <many-to-one name="eligiblePromotion" class="com.biperf.core.domain.promotion.Promotion" not-null="false" lazy="false" >
+            <column name="ELIGIBLE_PROMOTION_ID" />
+        </many-to-one>
+        
+        <property name="audienceType" column="AUDIENCE_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SecondaryAudienceType</param>
+			</type>
+		</property>
+        
+    </class>
+</hibernate-mapping>

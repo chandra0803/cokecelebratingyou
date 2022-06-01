@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- Quiz Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.QuizPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_QUIZ" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+  <property name="allowUnlimitedAttempts" type="boolean" column="ALLOW_UNLIMITED_ATTEMPTS" not-null="true"/>
+  <property name="maximumAttempts" type="integer" column="MAXIMUM_ATTEMPTS" not-null="true"/>
+  <property name="includePassingQuizCertificate" type="boolean" column="INCLUDE_PASS_QUIZ_CERTIFICATE" not-null="true"/>
+  <property name="awardActive" type="boolean" column="AWARD_ACTIVE" not-null="true"/>
+  <property name="awardAmount" type="java.lang.Long" column="AWARD_AMOUNT"/>
+  
+  <many-to-one name="quiz" column="QUIZ_ID" class="com.biperf.core.domain.quiz.Quiz" cascade="save-update" lazy="false"/>
+  
+  <set name="promotionCertificates" table="PROMO_CERTIFICATES" lazy="true" inverse="true" cascade="all-delete-orphan">
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionCert"/>
+  </set>
+  
+
+</joined-subclass>
+
+<sql-query name="com.biperf.core.domain.promotion.QuizSubmittedForPromotion">
+    <return-scalar column="count" type="long"/>
+    <![CDATA[
+    	select count(*) count
+          from claim c, promotion p, quiz_claim qc
+          where c.promotion_id = :promotionId
+          and p.promotion_id = c.promotion_Id
+          and c.claim_id = qc.claim_id
+          and qc.pass = 1
+          and p.promotion_type = 'quiz'   
+    ]]>
+</sql-query>
+
+<query name="com.biperf.core.domain.promotion.LiveDIYQuizPromotion">
+	<![CDATA[
+		from com.biperf.core.domain.promotion.QuizPromotion quizPromotion
+	    where quizPromotion.promotionStatus = 'live' 
+	    and quizPromotion.promotionType = 'diy_quiz'
+	    and quizPromotion.submissionStartDate <= :referenceDate 
+	    and ( quizPromotion.submissionEndDate >= :referenceDate or quizPromotion.submissionEndDate is null)
+	    and quizPromotion.deleted = 0
+	]]>		
+</query>
+
+<query name="com.biperf.core.domain.promotion.LiveOrCompletedDIYQuizPromotion">
+	<![CDATA[
+		from com.biperf.core.domain.promotion.QuizPromotion quizPromotion
+	    where quizPromotion.promotionStatus in ('live','complete')
+	    and quizPromotion.promotionType = 'diy_quiz'
+	    and quizPromotion.submissionStartDate <= :referenceDate 
+	    and ( quizPromotion.submissionEndDate >= :referenceDate or quizPromotion.submissionEndDate is null)
+	    and quizPromotion.deleted = 0
+	]]>		
+</query>
+
+</hibernate-mapping>

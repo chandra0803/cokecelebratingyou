@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.PromotionPayout"
+		table="PROMO_PAYOUT">
+
+		<!-- This is the surrogate primary key. Make sure the column and sequence 
+			names are correct. -->
+		<id name="id" column="PROMO_PAYOUT_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">PROMO_PAYOUT_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" type="java.lang.Long" column="VERSION" />
+		<property name="quantity" type="int" column="QUANTITY" />
+
+		<!-- start and end dates for product/category added to promotion -->
+		<property name="productOrCategoryStartDate" type="java.util.Date"
+			column="PRODUCT_OR_CATEGORY_START_DATE" />
+		<property name="productOrCategoryEndDate" type="java.util.Date"
+			column="PRODUCT_OR_CATEGORY_END_DATE" />
+
+		<!-- promotionPayoutGroup -->
+		<many-to-one name="promotionPayoutGroup" lazy="false"
+			insert="false" update="false"
+			class="com.biperf.core.domain.promotion.PromotionPayoutGroup"
+			outer-join="false">
+			<column name="PROMO_PAYOUT_GROUP_ID" not-null="true" />
+		</many-to-one>
+
+		<!-- product -->
+		<many-to-one name="product" lazy="false"
+			class="com.biperf.core.domain.product.Product" cascade="save-update"
+			outer-join="false">
+			<column name="product_id" not-null="false" />
+		</many-to-one>
+
+		<!-- productCategory -->
+		<many-to-one name="productCategory" lazy="false"
+			class="com.biperf.core.domain.product.ProductCategory" cascade="save-update"
+			outer-join="false">
+			<column name="product_category_id" not-null="false" />
+		</many-to-one>
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+	</class>
+
+	<query name="com.biperf.core.domain.promotion.AllPromotionPayouts">
+		<![CDATA[
+		  from com.biperf.core.domain.promotion.PromotionPayout promotionPayout
+		]]>
+	</query>
+
+	<query
+		name="com.biperf.core.domain.activity.GetPromotionPayoutsByProductCount">
+    <![CDATA[
+      select count(*) from com.biperf.core.domain.promotion.PromotionPayout promotionPayout
+      where product_id = :productId
+    ]]>
+	</query>
+
+	<query name="com.biperf.core.domain.promotion.GetPromotionPayoutsByGroupId">
+		<![CDATA[
+			from com.biperf.core.domain.promotion.PromotionPayout promotionPayout
+			where promo_payout_group_id = :groupId
+		]]>
+	</query>
+
+	<query
+		name="com.biperf.core.domain.activity.GetPromotionPayoutsByProductCategoryCount">
+		<![CDATA[
+      select count(*) from com.biperf.core.domain.promotion.PromotionPayout promotionPayout
+			where product_category_id = :productCategoryId
+		]]>
+	</query>
+
+</hibernate-mapping>

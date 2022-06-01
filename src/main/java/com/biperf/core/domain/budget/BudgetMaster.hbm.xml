@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.budget.BudgetMaster" table="BUDGET_MASTER">
+	<cache usage="read-write"/>
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="BUDGET_MASTER_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">BUDGET_MASTER_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <property name="startDate" type="java.util.Date" column="START_DATE"/>
+    <property name="endDate" type="java.util.Date" column="END_DATE"/>
+
+    <property name="budgetType" column="BUDGET_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.BudgetType</param>
+      </type>
+    </property>
+    <property name="finalPayoutRule" column="FINAL_PAYOUT_RULE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.BudgetFinalPayoutRule</param>
+      </type>
+    </property>
+    <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE"/>
+    <property name="nameCmKey" type="java.lang.String" column="NAME_CM_KEY"/>
+    <property name="overrideableType" column="OVERRIDEABLE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.BudgetOverrideableType</param>
+      </type>
+    </property>
+    <property name="multiPromotion" type="boolean" column="MULTI_PROMOTION"/>
+    <property name="active" type="boolean" column="IS_ACTIVE"/>
+
+    <set name="budgetSegments" table="BUDGET_SEGMENT" inverse="true" cascade="all-delete-orphan">
+      <key column="BUDGET_MASTER_ID"/>
+      <one-to-many class="com.biperf.core.domain.budget.BudgetSegment"/>
+    </set>
+
+    <set name="promotions" table="PROMOTION" inverse="true" cascade="all-delete-orphan">
+      <key column="AWARD_BUDGET_MASTER_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.Promotion"/>
+    </set>
+    
+    <set name="cashPromotions" table="PROMOTION" inverse="true" cascade="all-delete-orphan">
+      <key column="CASH_BUDGET_MASTER_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.Promotion"/>
+    </set>
+    
+    <property name="awardType" column="AWARD_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.BudgetMasterAwardType</param>
+      </type>
+    </property>
+    
+	<property name="allowAdditionalTransferrees" type="boolean" column="ALLOW_ADDL_TRANS"/>
+
+  </class>
+
+  <query name="com.biperf.core.domain.budget.AllBudgetMasterList">
+    <![CDATA[
+		from com.biperf.core.domain.budget.BudgetMaster
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.budget.ActiveBudgetMasterList">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.BudgetMaster
+		where item.active = 1
+		]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.budget.ActivePointsBudgetMasterList">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.BudgetMaster
+		where item.active = 1 and item.awardType = 'points'
+		]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.budget.ActiveCashBudgetMasterList">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.BudgetMaster
+		where item.active = 1 and item.awardType = 'cash'
+		]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.budget.getBudgetMasterListForDistribution">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.BudgetMaster
+		where item.active = 1 and item.budgetType != 'central'
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.budget.InactiveBudgetMasterList">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.BudgetMaster
+		where item.active = 0
+		]]>
+  </query>
+  
+	 <query name="com.biperf.core.domain.budget.AllBudgetsForNodeId">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.Budget
+		where item.node.id = :nodeId
+		]]>
+  </query>
+  <query name="com.biperf.core.domain.budget.AllBudgetsForUser">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.Budget
+		where item.user.id = :userId
+		]]>
+  </query>
+  <query name="com.biperf.core.domain.budget.AvailableBudgetForUserByBudgetSegmentId">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.Budget
+		where item.user.id = :userId
+		and item.budgetSegment.id = :budgetSegmentId
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.budget.AvailableBudgetForNodeByBudgetSegmentId">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.Budget
+		where item.node.id = :nodeId
+		and item.budgetSegment.id = :budgetSegmentId
+		]]>
+  </query>
+ 
+  <sql-query name="com.biperf.core.domain.budget.AvailableUsersForBudgetTransfer">
+	<![CDATA[
+		SELECT DISTINCT (parau.USER_ID) AS USER_ID 
+		FROM PARTICIPANT_AUDIENCE parau
+		WHERE parau.AUDIENCE_ID IN 
+			( SELECT DISTINCT (proau.AUDIENCE_ID) 
+			  FROM PROMO_AUDIENCE proau
+			  WHERE proau.PROMOTION_ID IN (:promoId) AND proau.PROMO_AUDIENCE_TYPE = 'PRIMARY' )
+		AND  parau.USER_ID IN (:userId)  	
+	]]>
+  </sql-query>
+
+	<sql-query
+		name="com.biperf.core.domain.budget.BudgetsAttachedCount">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+      		SELECT count(1) as result FROM budget
+       			WHERE BUDGET_SEGMENT_ID = :budgetSegmentId
+    	]]>
+	</sql-query>
+	
+  <sql-query name="com.biperf.core.domain.budget.UserIdsByPromoIdWithOriginalNodeBudgetValue">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select unique un.USER_ID
+		from promotion p, 
+			 budget_master bm, 
+             budget_segment bseg,
+			 budget b, 
+			 user_node un
+		where p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and b.NODE_ID = un.NODE_ID
+		  and p.PROMOTION_ID = :promoId
+		  and bm.BUDGET_TYPE = 'node'
+		  and b.ORIGINAL_VALUE > 0
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.budget.UserIdsByPromoIdWithOriginalPaxBudgetValue">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select unique b.USER_ID
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b
+		where p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and p.PROMOTION_ID = :promoId
+		  and bm.BUDGET_TYPE = 'pax'
+		  and b.ORIGINAL_VALUE > 0
+    ]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.budget.getBudgetByBudgetId">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.Budget
+		where item.id = :budgetId
+	]]>
+  </query>
+	
+	<sql-query name="com.biperf.core.domain.budget.GetActiveBudgetCountByBudgetMaster">
+	<return-scalar column="result" type="integer" />
+		<![CDATA[
+		select count(*) as result
+		from budget_master bm, budget_segment bseg, budget b
+		where bm.budget_master_id = :budgetMasterId
+		and bm.budget_master_id = bseg.budget_master_id
+		and  bseg.budget_segment_id = b.budget_segment_id
+		and bseg.status = 1
+		and b.status = 'active'
+	   	]]>
+	</sql-query>  
+
+	<sql-query name="com.biperf.core.domain.budget.GetActiveBudgetCountByBudgetSegment">
+	<return-scalar column="result" type="integer" />
+		<![CDATA[
+		select count(*) as result
+		from budget_segment bseg, budget b
+		where bseg.budget_segment_id = :budgetSegmentId
+		and bseg.budget_segment_id  = b.budget_segment_id
+		and bseg.status = 1
+		and b.status = 'active'
+	   	]]>
+	</sql-query>  
+	
+	<query name="com.biperf.core.domain.budget.getBudgetMasterByIdAndAwardType">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.BudgetMaster
+		where item.id = :budgetMasterId
+		and item.awardType = :awardType
+	]]>
+  </query>
+  
+  <!-- Client customization start wip 25589-->
+	<query name="com.biperf.core.domain.budget.ActiveBudgetForNodeByBudgetMasterId">
+    <![CDATA[
+		from item in class com.biperf.core.domain.budget.Budget
+		where item.node.id = :nodeId
+		and item.budgetSegment.budgetMaster.id = :budgetMasterId
+		and item.budgetSegment.id = :budgetSegmentId
+		and item.status = 'active'
+		]]>
+  	</query>
+  	
+  	<!-- Client customization start -->
+    <sql-query name="com.biperf.core.domain.budget.getAllActiveInBudgetSegmentForParentNode">
+    <return alias="b" class="com.biperf.core.domain.budget.Budget"/>
+  	<![CDATA[
+  		SELECT {b.*}
+        from budget b, node n
+  		where b.status = 'active'
+        and b.budget_segment_id = :budgetSegmentId
+        and b.node_id = :nodeId                
+        order by n.name
+  	]]>
+    </sql-query>
+  	
+  <!-- Client customization end wip 25589-->
+  	
+  
+</hibernate-mapping>

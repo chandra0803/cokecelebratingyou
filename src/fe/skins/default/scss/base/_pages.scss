@@ -1,0 +1,72 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $pages_pageContentBgColor: ;
+// $pages_pageContentBorderWidth: ;
+// $pages_pageContentBorderWidth_tablet: ;
+// $pages_pageContentBorderWidth_desktop: ;
+// $pages_pageContentBorderWidth_desktopLarge: ;
+// $pages_pageContentBorderColor: ;
+
+/**
+ * pageTopper supports dark backgrounds just fine!
+ * sample variable values supplied below
+ */
+// $pages_pageTopperBgColor: ; // dark version: $brand_color_dark
+// $pages_pageTopperGradType: ; // A false value will cancel the gradient altogether
+// $pages_pageTopperGradMeta: ;
+// $pages_pageTopperGradStops: ;
+
+// $pages_pageTopperTextColor: ; // dark version: $brand_color_white
+// $pages_pageTopperLinkColor: ;
+// $pages_pageTopperLinkHoverColor: ;
+
+// nav tabs in topper
+// $pages_pageTopper_navTabs_borderColor: ; // dark version: $pages_pageTopperBgColor
+// $pages_pageTopper_navTabs_borderWidth: ;
+// $pages_pageTopper_navTabs_textColor: ; // dark version: $brand_color_black
+
+// $pages_pageTopper_navTabs_hoverTextColor: ; // dark version: $brand_color_white
+// $pages_pageTopper_navTabs_hoverBkgColor: ;
+
+// $pages_pageTopper_navTabs_activeTextColor: ; // dark version: $brand_color_white
+// $pages_pageTopper_navTabs_activeBorderColor: ; // dark version: $pages_pageContentBgColor
+// $pages_pageTopper_navTabs_activeBorderWidth: ;
+
+// container-splitter
+// $pages_splitterH2Color: ;
+// $pages_splitterTextColor: ;
+// $pages_splitterLinkColor: ;
+// $pages_splitterLinkHoverColor: ;
+// $pages_splitterLinkIconColor: ;
+// $pages_splitterLinkIconHoverColor: ;
+// $pages_splitterBgColor: ;
+// $pages_splitterBgGradType: ; // A false value will cancel the gradient altogether
+// $pages_splitterBgGradMeta: ;
+// $pages_splitterBgGradStops: ;
+// $pages_splitterBorderTopBottomWidth: ;
+// $pages_splitterBorderTopBottomColor: ;
+// $pages_splitterBoxShadow: ; // default .well box-shadow of inset 0 1px 1px rgba(0,0,0,.05) applies if this is false
+
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/pages";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================
+// ----- START output ----->
+@if $base_variablesOnly == false {
+
+
+
+
+// PUT CUSTOM CODE HERE
+
+
+
+
+// <----- END output -----
+} // end @if $base_variablesOnly == false

@@ -1,0 +1,900 @@
+// App-specific variables
+// =========================
+$leaderboard_textAsOfColorModule: $brand_color_black !default;
+$leaderboard_textAsOfColorPage: $brand_color_dark !default;
+$leaderboard_rankColor: $brand_color_primary !default;
+$leaderboard_rankColorModule: false !default;
+$leaderboard_largeRankTextFontFamily: $titleFont !default;
+$leaderboard_largeRankTextFontFamilyModule: false !default;
+$leaderboard_largeRankTextFontWeight: $fontWeightBold !default;
+
+$leaderboard_leaderColMinWidth: 256px !default;
+$leaderboard_leaderAvatarHeight: 30px !default;
+
+$leaderboard_leaderLinkColorModule: $linkColor !default;
+$leaderboard_leaderLinkColorHoverModule: $linkColorHover !default;
+$leaderboard_leaderLinkColorPage: $linkColor !default;
+$leaderboard_leaderLinkColorHoverPage: $linkColorHover !default;
+
+$leaderboard_leaderBgOdd: $brand_color_lighter !default;
+$leaderboard_leaderBgEven: $brand_color_white !default;
+$leaderboard_leaderBgYou: $brand_color_primary !default;
+$leaderboard_leaderTxtYou: $brand_color_white !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+/***
+ *     .d8888b.  888      .d88888b.  888888b.         d8888 888
+ *    d88P  Y88b 888     d88P" "Y88b 888  "88b       d88888 888
+ *    888    888 888     888     888 888  .88P      d88P888 888
+ *    888        888     888     888 8888888K.     d88P 888 888
+ *    888  88888 888     888     888 888  "Y88b   d88P  888 888
+ *    888    888 888     888     888 888    888  d88P   888 888
+ *    Y88b  d88P 888     Y88b. .d88P 888   d88P d8888888888 888
+ *     "Y8888P88 88888888 "Y88888P"  8888888P" d88P     888 88888888
+ *
+ *
+ *
+ */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.leaderboard {
+    .leaderboardModel {
+        @include clearfix();
+    }
+
+    .background-flash {
+        background-color:#FFFFA3;
+    }
+    .tied {
+        list-style: none;
+        b {
+            visibility: hidden;
+        }
+    }
+
+    .rulestoview {
+        display: none;
+    }
+
+    /***
+     *       dP       oo          dP       dP oo          dP         dP                  dP dP     dP
+     *       88                   88       88             88         88                  88 88     88
+     *       88d888b. dP .d8888b. 88d888b. 88 dP .d8888b. 88d888b. d8888P .d8888b. .d888b88 88     88 .d8888b. .d8888b. 88d888b.
+     *       88'  `88 88 88'  `88 88'  `88 88 88 88'  `88 88'  `88   88   88ooood8 88'  `88 88     88 Y8ooooo. 88ooood8 88'  `88
+     *    dP 88    88 88 88.  .88 88    88 88 88 88.  .88 88    88   88   88.  ... 88.  .88 Y8.   .8P       88 88.  ... 88
+     *    88 dP    dP dP `8888P88 dP    dP dP dP `8888P88 dP    dP   dP   `88888P' `88888P8 `Y88888P' `88888P' `88888P' dP
+     *                        .88                     .88
+     *                    d8888P                  d8888P
+     */
+    .highlightedUser {
+        .card-front {
+            line-height: $card_avatarSize_default;
+        }
+        .card-top {
+            margin-right: -100%;
+        }
+        .card-details {
+            display: inline-block;
+            vertical-align: middle;
+            line-height: normal;
+        }
+
+        .rank,
+        .progress-text,
+        .activitydate {
+            display: block;
+        }
+        .rank {
+            margin-top: -4px;
+            @if $leaderboard_rankColor {
+                color: $leaderboard_rankColor;
+            }
+        }
+        .pre-rank {
+            font-size: $fontSizeLarge;
+        }
+        .large-rank-text {
+            @if $leaderboard_largeRankTextFontFamily {
+                font-family: $leaderboard_largeRankTextFontFamily;
+            }
+            font-size: $fontSizeExtraLarge * 1.5;
+            line-height: $fontSizeExtraLarge * 1.5;
+            font-weight: $leaderboard_largeRankTextFontWeight;
+        }
+		
+		@media (max-width: 479px){
+			.large-rank-text{
+			
+				width: 100%;
+				display: block;
+			}
+        }
+		
+        .progress-text {
+            // font-size: 14px;
+            font-weight: $fontWeightBold;
+        }
+        .activitydate {
+            // line-height: 14px;
+
+            span, strong {
+                font-size: $fontSizeSmall;
+                font-weight: $fontWeightNormal;
+            }
+        }
+
+        /***
+         *     a88888b.                           dP oo
+         *    d8'   `88                           88
+         *    88 d8P 88 88d8b.d8b. .d8888b. .d888b88 dP .d8888b.
+         *    88 Yo8b88 88'`88'`88 88ooood8 88'  `88 88 88'  `88
+         *    Y8.       88  88  88 88.  ... 88.  .88 88 88.  .88
+         *     Y88888P' dP  dP  dP `88888P' `88888P8 dP `88888P8
+         *
+         *
+         */
+        @media (min-width: $breakpoint_tablet_min) {
+            margin-right: auto;
+            margin-left: auto;
+
+            .card-front {
+                line-height: normal;
+            }
+            .card-top {
+                margin-right: auto;
+            }
+            .card-details {
+                display: block;
+            }
+
+            .rank {
+                margin-bottom: $g6ModulePaddingY_tablet / 2;
+            }
+            .large-rank-text {
+                display: block;
+                font-size: $fontSizeExtraLarge * 2;
+                line-height: $fontSizeExtraLarge * 2;
+            }
+        } // /@media
+    } // /.highlightedUser
+
+    /***
+     *       dP                         dP                                                       dP
+     *       88                         88                                                       88
+     *       88 .d8888b. .d8888b. .d888b88 .d8888b. 88d888b. .d8888b.          .d8888b. .d8888b. 88 .d8888b.
+     *       88 88ooood8 88'  `88 88'  `88 88ooood8 88'  `88 Y8ooooo. 88888888 88'  `"" 88'  `88 88 Y8ooooo.
+     *    dP 88 88.  ... 88.  .88 88.  .88 88.  ... 88             88          88.  ... 88.  .88 88       88
+     *    88 dP `88888P' `88888P8 `88888P8 `88888P' dP       `88888P'          `88888P' `88888P' dP `88888P'
+     *
+     *
+     */
+    .leaders-col {
+        display: none;
+        // remove the gap between two OLs (used for responsive columns)
+        margin: 0;
+        box-sizing:border-box;
+        min-width: $leaderboard_leaderColMinWidth;
+        // float: left;
+        list-style: none;
+
+        &.leaders-col-1 {
+            display: block;
+        }
+
+        li {
+            // font-size: 13px;
+            padding: (($card_height_tall / 10 - $leaderboard_leaderAvatarHeight) / 2) 0;
+            line-height: $leaderboard_leaderAvatarHeight;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            vertical-align: middle;
+
+            &.odd {
+                @include safeBkgs($leaderboard_leaderBgOdd);
+            }
+            &.even {
+                @include safeBkgs($leaderboard_leaderBgEven);
+            }
+            &.you {
+                background: $leaderboard_leaderBgYou;
+                color: $leaderboard_leaderTxtYou;
+
+                a {
+                    color: inherit;
+                }
+
+                @if $leaderboard_leaderBgYou == $brand_color_avatarBkg {
+                    .avatarwrap {
+                        color: $brand_color_avatarBkg;
+                        background: $brand_color_avatarTextColor;
+                    }
+                }
+            }
+        }
+
+        // rank
+        .rank {
+            display: inline-block;
+            @include ie7-inline-block();
+            float: left;
+            width: 33px; // a tiny bit wider to acomodate triple digits better (per VQA)
+            text-align: right;
+            font-weight: $fontWeightNormal;
+        }
+
+        // avatar
+        @include avatarSizing($leaderboard_leaderAvatarHeight);
+        .avatarwrap {
+            display: inline;
+            float: left;
+            margin: 0 12px;
+            // width: $leaderboard_leaderAvatarHeight;
+            // height: $leaderboard_leaderAvatarHeight;
+            // text-align: center;
+            // //font-weight: $fontWeightBold;
+            // color: $brand_color_avatarTextColor;
+            // background: $brand_color_avatarBkg;
+            // border-radius: 50%;
+        }
+
+        // score
+        .score {
+            display: block;
+            float: right;
+            margin-right: 12px;
+            padding-left: 6px;
+        }
+
+        // name
+        .leaderName {
+            vertical-align: top;
+            text-overflow: ellipsis;
+            display: block;
+            overflow: hidden;
+        }
+    }// /.leaders-col
+
+    // &.leaderBoardEditPromo-liner {
+    //     #leaderboardFieldsetNotify .control-label.checkbox {
+    //         padding-left: 50px;
+    //         width: 120px;
+
+    //         @media (max-width: 479px){
+    //             padding-left: 20px;
+    //         }
+    //     }
+    // }
+
+
+    /***
+     *     a88888b.                           dP oo
+     *    d8'   `88                           88
+     *    88 d8P 88 88d8b.d8b. .d8888b. .d888b88 dP .d8888b.
+     *    88 Yo8b88 88'`88'`88 88ooood8 88'  `88 88 88'  `88
+     *    Y8.       88  88  88 88.  ... 88.  .88 88 88.  .88
+     *     Y88888P' dP  dP  dP `88888P' `88888P8 dP `88888P8
+     *
+     *
+     */
+
+    // special leaderboard-only breakpoints for stacking columns next to the highlighted user
+    // note use of different margins
+    $margin_mobile:       nth($card_margin, 2);
+    $margin_tablet:       nth($card_margin_tablet, 2);
+    $margin_desktop:      max($margin_tablet, nth($card_margin_desktop, 2));
+    $margin_desktopLarge: max($margin_desktop, nth($card_margin_desktopLarge, 2));
+
+    $card_w_margin_mobile:       0;
+    $card_w_margin_tablet:       $card_width + $margin_tablet;
+    $card_w_margin_desktop:      $card_width + $margin_desktop;
+    $card_w_margin_desktopLarge: $card_width + $margin_desktopLarge;
+
+    $col_mobile:                $leaderboard_leaderColMinWidth;
+    $col_tablet:                $leaderboard_leaderColMinWidth;
+    $col_desktop:               $leaderboard_leaderColMinWidth;
+    $col_desktopLarge:          $leaderboard_leaderColMinWidth;
+
+    $col_w_margin_mobile:       $leaderboard_leaderColMinWidth + $margin_mobile;
+    $col_w_margin_tablet:       $leaderboard_leaderColMinWidth + $margin_tablet;
+    $col_w_margin_desktop:      $leaderboard_leaderColMinWidth + $margin_desktop;
+    $col_w_margin_desktopLarge: $leaderboard_leaderColMinWidth + $margin_desktopLarge;
+
+    $lb_bp_1col_min_mobile:     $g6ModulePaddingX         + $card_w_margin_mobile  + $col_mobile  + $g6ModulePaddingX;
+    $lb_bp_1col_min_tablet:     $g6ModulePaddingX_tablet  + $card_w_margin_tablet  + $col_tablet  + $g6ModulePaddingX_tablet;
+    $lb_bp_1col_min_desktop:    $g6ModulePaddingX_desktop + $card_w_margin_desktop + $col_desktop + $g6ModulePaddingX_desktop + $global_sidebar_width_desktop;
+
+    $lb_bp_2col_min_mobile:         $g6ModulePaddingX              + $card_w_margin_mobile       + $col_mobile  + $col_w_margin_mobile       + $g6ModulePaddingX;
+    $lb_bp_2col_min_tablet:         $g6ModulePaddingX_tablet       + $card_w_margin_tablet       + $col_tablet  + $col_w_margin_tablet       + $g6ModulePaddingX_tablet;
+    $lb_bp_2col_min_desktop:        $g6ModulePaddingX_desktop      + $card_w_margin_desktop      + $col_desktop + $col_w_margin_desktop      + $g6ModulePaddingX_desktop      + $global_sidebar_width_desktop;
+    $lb_bp_2col_min_desktopLarge:   $g6ModulePaddingX_desktopLarge + $card_w_margin_desktopLarge + $col_desktop + $col_w_margin_desktopLarge + $g6ModulePaddingX_desktopLarge + $global_sidebar_width_desktopLarge;
+
+    $lb_bp_3col_min_desktop:        $g6ModulePaddingX_desktop      + $card_w_margin_desktop      + $col_desktop + (2 * $col_w_margin_desktop)      + $g6ModulePaddingX_desktop      + $global_sidebar_width_desktop;
+    $lb_bp_3col_min_desktopLarge:   $g6ModulePaddingX_desktopLarge + $card_w_margin_desktopLarge + $col_desktop + (2 * $col_w_margin_desktopLarge) + $g6ModulePaddingX_desktopLarge + $global_sidebar_width_desktopLarge;
+
+    @mixin lb_1col($paddingY, $margin) {
+        .leaders-col-1 {
+            display: block;
+        }
+        // every column after the first one needs to be sized differently and have some extra space up top
+        .leaders-col-1 ~ .leaders-col {
+            float: left;
+            margin-top: $paddingY / 2;
+            padding-top: $paddingY / 2;
+            border-top: 1px solid $brand_color_border;
+            padding-left: $margin;
+            width: calc(50% - #{$margin / 2});
+        }
+        // every second column can't have left margin
+        .leaders-col:nth-child(2n+2) {
+            clear: both;
+            padding-left: 0;
+        }
+
+        // special treatment for not-one-column layouts in this breakpoint
+        .col-count-2 .leaders-col-2 {
+            width: 100%;
+        }
+        // everything after two columns flows perfectly
+    } // @mixin lb_1col
+
+    @mixin lb_2col($paddingY, $margin, $cardW: $card_width) {
+        .leaders-col-1,
+        .leaders-col-2 {
+            display: block;
+        }
+        .leaders-col {
+            float: left;
+            min-width: 0;
+            @if $cardW > 0 {
+                // 50% [because there are two] - half of (card width - the two gaps)
+                width: calc(50% - #{($cardW + ($margin * 2)) / 2});
+            }
+            @else {
+                width: calc(50% - #{($cardW + $margin) / 2});
+            }
+
+            & ~ .leaders-col {
+                padding-left: $margin;
+            }
+        }
+        // every column after the first two needs to be sized differently and have some extra space up top
+        .leaders-col-2 ~ .leaders-col {
+            margin-top: $paddingY / 2;
+            padding-top: $paddingY / 2;
+            border-top: 1px solid $brand_color_border;
+            width: calc(33.3% - #{($margin * 2) / 3});
+        }
+        // every third column can't have left margin
+        .leaders-col:nth-child(3n+3) {
+            clear: both;
+            padding-left: 0;
+        }
+
+        // special treatment for not-two-column layouts in this breakpoint
+        .col-count-1 .leaders-col {
+            float: none;
+            width: auto;
+        }
+        .col-count-3 .leaders-col-3 {
+            width: 100%;
+        }
+        .col-count-4 .leaders-col-3,
+        .col-count-4 .leaders-col-4 {
+            width: calc(50% - #{$margin / 2});
+            .leaderName {
+                width: 50%;
+            }
+        }
+        // everything after four columns flows perfectly
+    } // @mixin lb_2col
+
+    @mixin lb_3col($paddingY, $margin, $cardW: $card_width) {
+        .leaders-col-1,
+        .leaders-col-2,
+        .leaders-col-3 {
+            display: block;
+        }
+        .leaders-col {
+            float: left;
+            min-width: 0;
+            @if $cardW > 0 {
+                // similar calculation as two columns, but using thirds instead of halves
+                width: calc(33.3% - #{($cardW + ($margin * 3)) / 3});
+            }
+            @else {
+               width: calc(33.3% - #{($cardW + ($margin * 2)) / 3});
+            }
+
+            & ~ .leaders-col {
+                padding-left: $margin;
+            }
+        }
+        // every column after the first three needs to have some extra space up top
+        .leaders-col-3 ~ .leaders-col {
+            margin-top: $paddingY / 2;
+            padding-top: $paddingY / 2;
+            border-top: 1px solid $brand_color_border;
+        }
+        // every fourth column can't have left margin
+        .leaders-col:nth-child(4n+4) {
+            clear: both;
+            padding-left: 0;
+        }
+
+        // special treatment for not-three-column layouts in this breakpoint
+        .col-count-1 .leaders-col {
+            float: none;
+            width: auto;
+        }
+        .col-count-2 .leaders-col {
+            width: calc(50% - #{($cardW + ($margin * 2)) / 2});
+        }
+        .col-count-4 .leaders-col-3 ~ .leaders-col,
+        .col-count-5 .leaders-col-3 ~ .leaders-col {
+            width: calc(50% - #{$margin / 2});
+        }
+        .col-count-6 .leaders-col-3 ~ .leaders-col {
+            width: calc(33.3% - #{$margin * 2 / 3});
+        }
+        // everything after six columns flows perfectly
+    } // @mixin lb_2col
+
+    /**
+     * Breakpoints (view compiled source for actual values)
+     * -----------
+     * $lb_bp_1col_min_mobile:          #{$lb_bp_1col_min_mobile}
+     * $lb_bp_2col_min_mobile:          #{$lb_bp_2col_min_mobile}
+     *
+     * $lb_bp_1col_min_tablet:          #{$lb_bp_1col_min_tablet}
+     * $lb_bp_2col_min_tablet:          #{$lb_bp_2col_min_tablet}
+     *
+     * $lb_bp_1col_min_desktop:         #{$lb_bp_1col_min_desktop}
+     * $lb_bp_2col_min_desktop:         #{$lb_bp_2col_min_desktop}
+     * $lb_bp_3col_min_desktop:         #{$lb_bp_3col_min_desktop}
+     *
+     * $lb_bp_2col_min_desktopLarge:    #{$lb_bp_2col_min_desktopLarge}
+     * $lb_bp_3col_min_desktopLarge:    #{$lb_bp_3col_min_desktopLarge}
+     */
+
+    @media (max-width: ($lb_bp_2col_min_mobile - 1)) {
+        .leaders-col ~ .leaders-col {
+            margin-top: $g6PagePaddingY / 2;
+            padding-top: $g6PagePaddingY / 2;
+            border-top: 1px solid $brand_color_border;
+        }
+    } // /@media
+
+    // above the tablet min line, we float the highlighted user left (beacuse this is where the card turns vertical)
+    @media (min-width: $breakpoint_tablet_min) {
+        .highlightedUser {
+            float: left;
+            margin-right: $margin_mobile;
+            margin-bottom: 0;
+        }
+
+    } // /@media
+
+    @media (min-width: $lb_bp_2col_min_mobile) and (max-width: $breakpoint_mobile_max) {
+        @include lb_2col($g6PagePaddingY, $margin_mobile, $cardW: 0);
+    }// /@media
+
+    // once we're up to tablet view, we can support one or two columns WITH a card
+    @media (min-width: $breakpoint_tablet_min) and (max-width: $breakpoint_tablet_max) {
+        .highlightedUser {
+            margin-right: $margin_tablet;
+        }
+
+        @media (min-width: $lb_bp_1col_min_tablet) and (max-width: $lb_bp_2col_min_tablet - 1) {
+            @include lb_1col($g6PagePaddingY_tablet, $margin_tablet);
+        } // /@media
+
+        // at two columns we need to float them both left next to the highlighted user and do a calculated width
+        @media (min-width: $lb_bp_2col_min_tablet) {
+            @include lb_2col($g6PagePaddingY_tablet, $margin_tablet);
+        } // /@media
+    } // /@media
+
+    // desktop view can support one, two, or three columns
+    @media (min-width: $breakpoint_desktop_min) and (max-width: $breakpoint_desktop_max) {
+        .highlightedUser {
+            margin-right: $margin_desktop;
+        }
+
+        @media (min-width: $lb_bp_1col_min_desktop) and (max-width: $lb_bp_2col_min_desktop - 1) {
+            @include lb_1col($g6PagePaddingY_desktop, $margin_desktop);
+        } // /@media
+
+        @media (min-width: $lb_bp_2col_min_desktop) and (max-width: $lb_bp_3col_min_desktop - 1) {
+            @include lb_2col($g6PagePaddingY_desktop, $margin_desktop);
+        } // /@media
+
+        @media (min-width: $lb_bp_3col_min_desktop) {
+            @include lb_3col($g6PagePaddingY_desktop, $margin_desktop);
+        } // /@media
+    } // /@media
+
+    // desktopLarge can support two or three columns
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        .highlightedUser {
+            margin-right: $margin_desktopLarge;
+        }
+
+        @media (min-width: $lb_bp_2col_min_desktopLarge) and (max-width: $lb_bp_3col_min_desktopLarge - 1) {
+            @include lb_2col($g6PagePaddingY_desktopLarge, $margin_desktopLarge);
+        } // /@media
+
+        @media (min-width: $lb_bp_3col_min_desktopLarge) {
+            @include lb_3col($g6PagePaddingY_desktopLarge, $margin_desktopLarge);
+        } // /@media
+    } // /@media
+}
+/* /.leaderboard */
+
+
+/* ----- MODULE STYLES ----- */
+/***
+ *    888b     d888  .d88888b.  8888888b.  888     888 888      8888888888
+ *    8888b   d8888 d88P" "Y88b 888  "Y88b 888     888 888      888
+ *    88888b.d88888 888     888 888    888 888     888 888      888
+ *    888Y88888P888 888     888 888    888 888     888 888      8888888
+ *    888 Y888P 888 888     888 888    888 888     888 888      888
+ *    888  Y8P  888 888     888 888    888 888     888 888      888
+ *    888   "   888 Y88b. .d88P 888  .d88P Y88b. .d88P 888      888
+ *    888       888  "Y88888P"  8888888P"   "Y88888P"  88888888 8888888888
+ *
+ *
+ *
+ */
+/* ----- MODULE STYLES ----- */
+.launchModule.leaderboard {
+    .leaderboardModel {
+        .spin {
+            display: none;
+        }
+    }
+
+    .module-actions a {
+        //font-weight: $fontWeightBold;
+    }
+
+    .highlightedUser {
+        .activitydate {
+            color: $leaderboard_textAsOfColorModule;
+        }
+        .rank {
+            @if $leaderboard_rankColorModule {
+                color: $leaderboard_rankColorModule;
+            }
+        }
+        .large-rank-text {
+            @if $leaderboard_largeRankTextFontFamilyModule {
+                font-family: $leaderboard_largeRankTextFontFamilyModule;
+            }
+        }
+        .progress-text {
+            color: $leaderboard_textAsOfColorModule;
+        }
+    }
+}
+/* /.launchModule.leaderboard */
+
+/* ----- PAGE STYLES ----- */
+/***
+ *    8888888b.     d8888  .d8888b.  8888888888 .d8888b.
+ *    888   Y88b   d88888 d88P  Y88b 888       d88P  Y88b
+ *    888    888  d88P888 888    888 888       Y88b.
+ *    888   d88P d88P 888 888        8888888    "Y888b.
+ *    8888888P" d88P  888 888  88888 888           "Y88b.
+ *    888      d88P   888 888    888 888             "888
+ *    888     d8888888888 Y88b  d88P 888       Y88b  d88P
+ *    888    d88P     888  "Y8888P88 8888888888 "Y8888P"
+ *
+ *
+ *
+ */
+.page.leaderboard {
+
+    a [class^="icon-"],
+    a [class*=" icon-"] {
+        margin-right: 2px;
+    }
+
+    #leaderboardPageView{
+        .leaderboard-details {
+            margin-top: 0;
+        }
+
+        // #leaderboardFieldsetNotify {
+        //     label{
+        //         text-align: left;
+        //         font-size: 14px;
+        //     }
+        // }
+
+        // #leaderboardFieldsetPromoInfo,
+        // #leaderboardFieldsetActivity {
+        //     i.icon-question{
+        //         font-size: 15px;
+        //         margin-left: 5px;
+        //     }
+
+        //     i.icon-question:hover {
+        //         cursor: pointer;
+        //         color: #666;
+        //     }
+        // }
+    }
+
+    // leaderboardPagePreview.html
+    // --------------------
+    .leaderboard-details {
+        dt {
+            width: 220px;
+        }
+
+        dd {
+            margin-left: 230px;
+        }
+
+        @media (max-width: 767px) {
+            dt {
+                width: auto;
+            }
+
+            dd {
+                margin-left: 0;
+            }
+        }
+    }
+
+    // leaderboardPage.html
+    // --------------------
+    .leaderboard-topper-liner {
+        position: relative;
+
+        .control-group-createnew {
+            float: left;
+            line-height:30px;
+            margin-right:0;
+
+            @media (min-width: $breakpoint_tablet_min) {
+                float: right;
+            }
+        }
+
+        .createnew {
+            font-weight: bold;
+
+            i {
+                margin-left: 5px;
+            }
+        }
+    }
+
+    #controlLeaderboardSetSelect,
+    #controlLeaderboardSelect {
+        label {
+            display: none;
+        }
+    }
+
+    .leaderboardModel {
+        .spin {
+            display: block;
+            margin: 0 auto;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+        }
+
+        .dates {
+            float: left;
+            clear: left;
+        }
+
+        .startdate,
+        .enddate {
+            display: block;
+        }
+
+        .actions {
+            li {
+                display: block;
+            }
+
+            a {
+                //font-weight: $fontWeightBold;
+
+                i {
+                    font-weight: $fontWeightBold;
+                }
+            }
+
+            &.upper {
+                display: block;
+                float: right;
+                margin-left: 0;
+
+                li {
+                    margin-left: 12px;
+                    float: left;
+                }
+            }
+
+            &.lower {
+                display: inline-block;
+                margin-left: 20px;
+                @include clearfix();
+
+                li {
+                    margin: 0 0 12px;
+                }
+            }
+        }
+
+        .leaders-col {
+            display: block;
+        }
+
+        @media (max-width: $breakpoint_mobile_max) {
+            #controlLeaderboardSetSelect{
+                margin-bottom: 4px;
+            }
+
+            .dates {
+                float: none;
+            }
+
+            .actions {
+                &.upper {
+                    display: block;
+                    margin-bottom: 10px;
+                    float: none;
+
+                    li {
+                        display: block;
+                        margin-left: 0px;
+                        float: none;
+                    }
+                }
+            }
+        }
+    }
+
+    // ordinary participants cannot switch between sets or create a new leaderboard
+    &.participant {
+        #controlLeaderboardSetSelect,
+        .createnew {
+            display: none;
+        }
+    }
+
+    // leaderboardPageCreate.html (and *Copy.html, *EditActivity.html)
+    // --------------------
+    #leaderboardFieldsetActivity {
+        h2 {
+            //margin-top: $g5PageContentSpacingVertical;
+			margin-top: 20px;
+        }
+
+        th.score {
+            text-align: center;
+        }
+
+        th.newScore {
+            text-align: right;
+        }
+    }
+
+    #addMoreParticipantsSearch {
+        margin-bottom: 8px;
+    }
+
+    #participantsView {
+        td.score {
+            text-align: center;
+        }
+
+        td.newScore {
+            text-align: right;
+
+            input {
+                text-align: right;
+            }
+        }
+    }
+    .datepickerTrigger{
+        height: 36px;
+        box-sizing:border-box;
+        input{
+            height: 100%;
+            box-sizing:border-box;
+        }
+        .btn{
+            height: 100%;
+        }
+    }
+    .paxSearchWrap {
+        // position: relative;
+        // // width: 225px; why was this here?
+        // @media (max-width: $breakpoint_mobile_max) {
+        //     width: 100%;
+        //     input.paxSearchInput {
+        //         width: 95%;
+        //     }
+        // }
+
+        // i {
+        //     color: $inputSearchIconColor;
+        //     position: absolute;
+        //     top: 12px;
+        //     font-weight: bold;
+        //     right: 10px;
+        // }
+    }
+
+    #leaderboardFieldsetActions {
+        @media (max-width: $breakpoint_mobile_max) {
+            button {
+                width: 100%;
+                display: block;
+                margin-left: 0;
+                margin-bottom: $g6PagePaddingY / 4;
+            }
+        }
+    }
+
+    #leaderboardFieldsetNotify {
+    //     label.checkbox {
+    //         padding-left: 0;
+    //     }
+        .control-label {
+            text-align: left;
+        }
+    }
+    //     #notifyParticipants {
+    //         margin-left: 0;
+    //     }
+    // }
+
+    .participantCollectionViewWrapper table .participant .org {
+        color: $brand_color_dark;
+        display: block;
+    }
+
+    #leaderboardCancelDialogConfirm {
+        margin-right: 12px;
+    }
+
+
+} /* /.page.leaderboard */
+
+#leaderboardPageView {
+    legend{
+        font-size: $fontSizeExtraLarge;
+        margin-bottom: $formFieldLineHeight;
+        margin-top: $formFieldLineHeight;
+    }
+}
+
+.leaderBoardPreviewPage {
+	dt{
+		text-align:left;
+	}
+	h3 {
+		margin: 0px;
+		padding: 0px;
+	}
+}
+
+#leaderboardPageView{
+	#leaderboardFieldsetNotify{
+		.control-group{
+			margin-bottom:0px;
+		}
+	}
+}
+
+/* ----- SHARED ELEMENTS ACROSS ALL MODULES AND PAGES ----- */

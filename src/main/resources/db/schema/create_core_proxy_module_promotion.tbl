@@ -1,0 +1,31 @@
+CREATE SEQUENCE proxy_module_promotion_pk_sq START WITH 100 INCREMENT BY 1
+/
+CREATE TABLE proxy_module_promotion
+    (proxy_module_promotion_id      NUMBER(18,0) NOT NULL,
+    proxy_module_id                NUMBER(18,0) NOT NULL,
+    promotion_id                   NUMBER(18,0) NOT NULL,
+    version												 NUMBER(18,0) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created                   DATE NOT NULL)
+/
+
+ALTER TABLE proxy_module_promotion
+ADD CONSTRAINT proxy_module_promotion_pk PRIMARY KEY (proxy_module_promotion_id)
+USING INDEX
+/
+
+ALTER TABLE proxy_module_promotion
+ADD CONSTRAINT proxy_module_promo_module_fk FOREIGN KEY (proxy_module_id)
+REFERENCES proxy_module (proxy_module_id)
+/
+
+ALTER TABLE proxy_module_promotion
+ADD CONSTRAINT proxy_module_promo_promo_fk FOREIGN KEY (promotion_id)
+REFERENCES promotion (promotion_id)
+/
+CREATE INDEX PRXY_MOD_PROMO_PRXY_MOD_FK_idx ON PROXY_MODULE_PROMOTION
+  (PROXY_MODULE_ID)
+/
+CREATE INDEX PROXY_MOD_PROMO_PROMO_FK_idx ON PROXY_MODULE_PROMOTION
+  (PROMOTION_ID)
+/

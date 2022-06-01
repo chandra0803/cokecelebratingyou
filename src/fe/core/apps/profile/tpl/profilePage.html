@@ -1,0 +1,118 @@
+<!-- ======== PROFILE PAGE SHELL ======== -->
+
+<div id="profilePageView" class="profilePage-liner page-content">
+
+    <!-- <div class="page-topper">
+        <div class="row-fluid topRow">
+            <div class="span12">
+                <h3><span id="partProfFirstName">firstName</span> <span id="partProfLastName">Lastname</span></h3>
+                <h4><span id="partProfPoints">24,650</span> points</h4>
+
+                <div class="btn-group" id="tabSwitcher">
+                    <a class="btn btn-primary btn-inverse dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="tabSelected" data-empty="Choose Section"></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#profile/PersonalInfo" id="tab-PersonalInfo">
+                            <i class="icon-user"></i> Personal Info
+                        </a></li>
+                        <li><a href="#profile/Badges" id="tab-Badges">
+                            <i class="icon-badge-2"></i> Badges
+                        </a></li>
+                        <li><a href="#profile/AlertsAndMessages" id="tab-AlertsAndMessages">
+                            <i class="icon-warning-triangle"></i> Alerts &amp; Messages
+                        </a></li>
+                        <li><a href="#profile/Statement" id="tab-Statement">
+                            <i class="icon-list-bullets"></i> Statement
+                        </a></li>
+                        <li><a href="#profile/FollowList" id="tab-FollowList">
+                            <i class="icon-user-add"></i> Follow List
+                        </a></li>
+                        <li><a href="#profile/ActivityHistory" id="tab-ActivityHistory">
+                            <i class="icon-clock"></i> Activity History
+                        </a></li>
+                        <li><a href="#profile/Dashboard" id="tab-Dashboard">
+                            <i class="icon-location-2"></i> My Dashboard
+                        </a></li>
+                        <li><a href="#profile/ThrowdownStats" id="tab-ThrowdownStats">
+                            <i class="icon-flag-1"></i> Throwdown Player Stats
+                        </a></li>
+                        <li><a href="#profile/Security" id="tab-Security">
+                            <i class="icon-lock"></i> Security
+                        </a></li>
+                        <li><a href="#profile/Preferences" id="tab-Preferences">
+                            <i class="icon-cog"></i> Preferences
+                        </a></li>
+                        <li><a href="#profile/Proxies" id="tab-Proxies">
+                            <i class="icon-fire"></i> Delegates
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <!-- User menu  -->
+    <div class="row-fluid">
+        <div class="span12">
+            <div id="profilePageShellActiveTabSet">
+                <div class="tab-content">
+                    <div class="tab-pane" id="profilePagePersonalInfoTab"></div>
+                    <div class="tab-pane" id="profilePageBadgesTab"></div>
+                    <div class="tab-pane" id="profilePageAlertsAndMessagesTab"></div>
+                    <div class="tab-pane" id="profilePageStatementTab"></div>
+                    <div class="tab-pane" id="profilePageFollowListTab"></div>
+                    <div class="tab-pane" id="profilePageActivityHistoryTab"></div>
+                    <div class="tab-pane" id="profilePageDashboardTab"></div>
+                    <div class="tab-pane" id="profilePageThrowdownStatsTab"></div>
+                    <div class="tab-pane" id="profilePageSecurityTab"></div>
+                    <div class="tab-pane" id="profilePagePreferencesTab"></div>
+                    <div class="tab-pane" id="profilePageProxiesTab"></div>
+                    <div class="tab-pane" id="profilePageGroupsTab"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ./profilePage-liner -->
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+
+    $(document).ready(function(){
+        //attach the view to an existing DOM element
+        window.ppv = new ProfilePageView({
+            el:$('#profilePageView'),
+            pageNav : {
+                back : {
+                    text : 'Back',
+                    url : 'layout.html'
+                },
+                home : {
+                    text : 'Home',
+                    url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+                }
+            },
+            pageTitle : 'Profile',
+            // passing the userId is entirely unnecessary, as the profile always shows the information of the currently logged-in user, but it can be helpful to be explicit.
+            userId: 1234,
+
+            // NOTE: This globalHeader object should be set as G5.props.globalHeader either at the bottom of the layout or in a skin-specific JS file. However, it can be overriden on a page-specific basis by passing the object/values into the PageView. Note that it's an all-or-nothing override, as G5.props.globalHeader is NOT merged with whatever is passed here.
+            globalHeader : {
+                clientLogo : '../../skins/default/img/logo-primary.png',
+                clientName : 'Client Name',
+                programLogo : '../../skins/default/img/logo-secondary.png',
+                programName : 'Program Name'
+            }
+        });
+    });
+
+</script>
+
+<!-- in the JSP, this is included inside a conditional checking to see if the dashboard should be visible -->
+<script type="text/javascript" src="../libs/plugins/fusioncharts.js"></script>
+
+<script type="text/template" id="paxSearchStartViewTpl">
+<jsp:include page="paxSearchStart.html"></jsp:include>
+<?php include("core/base/tpl/paxSearchStartView.html"); ?>
+</script>

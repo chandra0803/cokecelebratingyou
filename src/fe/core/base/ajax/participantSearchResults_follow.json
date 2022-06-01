@@ -1,0 +1,3424 @@
+{
+	"messages": [],
+	"header": {
+		"totalRecordsFound": 36
+	},
+	"participants": [{
+		"lastName": "Smallman",
+		"firstName": "Heather",
+		"organization": "Georgia",
+		"departmentName": "Sales",
+		"jobName": "Coordinator",
+		"participantUrl": null,
+		"promotions": [{
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 410,
+			"name": "bug_66094",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 273,
+			"name": "Celebration Only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 277,
+			"name": "Celebration only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 291,
+			"name": "Celebration Only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 590,
+			"name": "Celebration PURL - Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 550,
+			"name": "CELEBRATION WITH POINTS",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 672,
+			"name": "G6_longFormTest_NoCustomEle",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 510,
+			"name": "GM-Nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 653,
+			"name": "GM-Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 673,
+			"name": "hem_Nomin1_16Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 699,
+			"name": "hem_Nomin2_18Nov_NominatorOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 694,
+			"name": "hem_Nomin2_18Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 700,
+			"name": "hem_Nomin3_18Nov_NomineeOUowner_Self",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 701,
+			"name": "hem_Nomin4_18Nov_NomineeOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 702,
+			"name": "hem_Nomin5_18Nov_Custom",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 697,
+			"name": "New Recognition promotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 371,
+			"name": "nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 691,
+			"name": "Plateau_New",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 703,
+			"name": "Promotion_test_G6-690",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 698,
+			"name": "PURL - 18Nov",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 274,
+			"name": "Purl Celebration none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 452,
+			"name": "Purl Celebration none_bug",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 290,
+			"name": "Purl Celebration Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 276,
+			"name": "purl Celebration Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 270,
+			"name": "Purl only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 271,
+			"name": "Purl only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 275,
+			"name": "Purl only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 370,
+			"name": "purl-Anniver-test",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 696,
+			"name": "Recognition 18/11/16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 272,
+			"name": "Recognition promotion type Award type",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 352,
+			"name": "Recognition with Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 350,
+			"name": "Recognition with Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 351,
+			"name": "Recognition without Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 705,
+			"name": "Recognition without Points Specific Approver",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 453,
+			"name": "RecognitionBadges",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 250,
+			"name": "SampleRecognitionwithPURL",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 333,
+			"name": "SampleRecognitionwithPURL_Oct4th",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 450,
+			"name": "TestDelegatePromotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 451,
+			"name": "testDelegationflow",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 393,
+			"name": "TestNewNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 392,
+			"name": "TestNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 690,
+			"name": "TestNominationNew",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 331,
+			"name": "TestPURLRecogFeed_Oct16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 251,
+			"name": "TestRecognition",
+			"type": "recognition"
+		}],
+		"follow": true,
+		"urlEdit": "",
+		"countryName": "United States",
+		"countryCode": "us",
+		"countryRatio": 1.0,
+		"throwdownEnabled": false,
+		"orgName": "Georgia",
+		"nodes": [{
+			"id": 3089,
+			"name": "Georgia"
+		}],
+		"badges": [],
+		"delegators": [],
+		"alert": {
+			"openNewWindow": false
+		},
+		"eligibleForPromotion": true,
+		"id": 6643,
+		"isSelected": false,
+		"isLocked": false,
+		"isSelf": false
+	}, {
+		"lastName": "Smead pprd",
+		"firstName": "Carolyn",
+		"organization": "East North Central",
+		"departmentName": "Service",
+		"jobName": "Trainee",
+		"participantUrl": "https://g6bb8qa.performnet.com/g6bb8/publicProfileView.do?method=display&clientState=OmFYJbauSKNG8wtytmxvGoQYU1UCCWAKZIFLeMkzCaDm9hy%2BYjR7y04OziDoLtHUvdpH7yFhOthE%0ADghpTB0OB0Hn%2BjHCplhhGfDP2eV6%2FYQqtHB3EYrNn%2B4maFeM5GLnjYPmXb2wyIHkWkWgmZFDy7V8%0A45lEoYQaRJuG8Pfd95n%2Fh0Rm9Qs9MrmJT96RdoYbIZ26xJDLG%2BVNi4lTEziTX5s0ZudJcTsKNzU2%0Aqc7zPc1%2BRoT2Ag5AvPyCJiLrDAWQriwUnNpVkzAGKGWovGPN5CYLbj76TkZwFilM1w%3D%3D&cryptoPass=1",
+		"promotions": [{
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 410,
+			"name": "bug_66094",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 273,
+			"name": "Celebration Only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 277,
+			"name": "Celebration only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 291,
+			"name": "Celebration Only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 590,
+			"name": "Celebration PURL - Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 550,
+			"name": "CELEBRATION WITH POINTS",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 672,
+			"name": "G6_longFormTest_NoCustomEle",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 510,
+			"name": "GM-Nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 653,
+			"name": "GM-Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 673,
+			"name": "hem_Nomin1_16Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 699,
+			"name": "hem_Nomin2_18Nov_NominatorOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 694,
+			"name": "hem_Nomin2_18Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 700,
+			"name": "hem_Nomin3_18Nov_NomineeOUowner_Self",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 701,
+			"name": "hem_Nomin4_18Nov_NomineeOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 702,
+			"name": "hem_Nomin5_18Nov_Custom",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 697,
+			"name": "New Recognition promotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 371,
+			"name": "nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 691,
+			"name": "Plateau_New",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 703,
+			"name": "Promotion_test_G6-690",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 698,
+			"name": "PURL - 18Nov",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 274,
+			"name": "Purl Celebration none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 452,
+			"name": "Purl Celebration none_bug",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 290,
+			"name": "Purl Celebration Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 276,
+			"name": "purl Celebration Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 270,
+			"name": "Purl only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 271,
+			"name": "Purl only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 275,
+			"name": "Purl only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 370,
+			"name": "purl-Anniver-test",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 696,
+			"name": "Recognition 18/11/16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 272,
+			"name": "Recognition promotion type Award type",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 352,
+			"name": "Recognition with Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 350,
+			"name": "Recognition with Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 351,
+			"name": "Recognition without Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 705,
+			"name": "Recognition without Points Specific Approver",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 453,
+			"name": "RecognitionBadges",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 250,
+			"name": "SampleRecognitionwithPURL",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 333,
+			"name": "SampleRecognitionwithPURL_Oct4th",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 450,
+			"name": "TestDelegatePromotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 451,
+			"name": "testDelegationflow",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 393,
+			"name": "TestNewNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 392,
+			"name": "TestNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 690,
+			"name": "TestNominationNew",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 331,
+			"name": "TestPURLRecogFeed_Oct16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 251,
+			"name": "TestRecognition",
+			"type": "recognition"
+		}],
+		"follow": true,
+		"urlEdit": "",
+		"countryName": "United States",
+		"countryCode": "us",
+		"countryRatio": 1.0,
+		"throwdownEnabled": false,
+		"orgName": "East North Central",
+		"nodes": [{
+			"id": 3072,
+			"name": "East North Central"
+		}],
+		"badges": [],
+		"delegators": [],
+		"alert": {
+			"openNewWindow": false
+		},
+		"eligibleForPromotion": true,
+		"id": 6195,
+		"isSelected": false,
+		"isLocked": false,
+		"isSelf": false
+	}, {
+		"lastName": "Smith",
+		"firstName": "Alan",
+		"organization": "Heartland_",
+		"departmentName": "Service",
+		"jobName": "Employee",
+		"participantUrl": "https://g6bb8qa.performnet.com/g6bb8/publicProfileView.do?method=display&clientState=VWZ3lfZkKAvlGZ54igpOHJ3d%2Bp0FYrYvle1KaKJr%2FSqSgRyehjpa%2F6I07EBlL9RlUEXyRq7D5Gym%0AkIEsR2RLEOV2ByP%2BdJqkZNMTTrDKna8uCeL5j96kzp1It2uS8NqEPN6eKZHCfSobVu4do9%2BfExJ2%0AaETPn5a72hKmXEANT4xu23Vi9oeVUHR9BRV%2Bx00T9uxThhs6158xT8rjzWWIcOFIxW0KOOwHHRIw%0Ab%2Fso6mF0lJRfFNpl6g6%2FxzCTays4yJSTT9JRYo4iV2LxX7%2FlLel%2B2ETfTAzeHmFSRw%3D%3D&cryptoPass=1",
+		"promotions": [{
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 410,
+			"name": "bug_66094",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 273,
+			"name": "Celebration Only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 277,
+			"name": "Celebration only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 291,
+			"name": "Celebration Only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 590,
+			"name": "Celebration PURL - Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 550,
+			"name": "CELEBRATION WITH POINTS",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 672,
+			"name": "G6_longFormTest_NoCustomEle",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 510,
+			"name": "GM-Nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 653,
+			"name": "GM-Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 673,
+			"name": "hem_Nomin1_16Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 699,
+			"name": "hem_Nomin2_18Nov_NominatorOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 694,
+			"name": "hem_Nomin2_18Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 700,
+			"name": "hem_Nomin3_18Nov_NomineeOUowner_Self",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 701,
+			"name": "hem_Nomin4_18Nov_NomineeOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 702,
+			"name": "hem_Nomin5_18Nov_Custom",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 697,
+			"name": "New Recognition promotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 371,
+			"name": "nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 691,
+			"name": "Plateau_New",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 703,
+			"name": "Promotion_test_G6-690",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 698,
+			"name": "PURL - 18Nov",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 274,
+			"name": "Purl Celebration none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 452,
+			"name": "Purl Celebration none_bug",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 290,
+			"name": "Purl Celebration Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 276,
+			"name": "purl Celebration Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 270,
+			"name": "Purl only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 271,
+			"name": "Purl only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 275,
+			"name": "Purl only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 370,
+			"name": "purl-Anniver-test",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 696,
+			"name": "Recognition 18/11/16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 272,
+			"name": "Recognition promotion type Award type",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 352,
+			"name": "Recognition with Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 350,
+			"name": "Recognition with Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 351,
+			"name": "Recognition without Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 705,
+			"name": "Recognition without Points Specific Approver",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 453,
+			"name": "RecognitionBadges",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 250,
+			"name": "SampleRecognitionwithPURL",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 333,
+			"name": "SampleRecognitionwithPURL_Oct4th",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 450,
+			"name": "TestDelegatePromotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 451,
+			"name": "testDelegationflow",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 393,
+			"name": "TestNewNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 392,
+			"name": "TestNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 690,
+			"name": "TestNominationNew",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 331,
+			"name": "TestPURLRecogFeed_Oct16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 251,
+			"name": "TestRecognition",
+			"type": "recognition"
+		}],
+		"follow": false,
+		"urlEdit": "",
+		"countryName": "United States",
+		"countryCode": "us",
+		"countryRatio": 1.0,
+		"throwdownEnabled": false,
+		"orgName": "Heartland_",
+		"nodes": [{
+			"id": 5018,
+			"name": "Heartland_"
+		}],
+		"badges": [],
+		"delegators": [],
+		"alert": {
+			"openNewWindow": false
+		},
+		"eligibleForPromotion": true,
+		"id": 60032,
+		"isSelected": false,
+		"isLocked": false,
+		"isSelf": false
+	}, {
+		"lastName": "Smith",
+		"firstName": "Amanda",
+		"organization": "Heartland_",
+		"departmentName": "Sales",
+		"jobName": "Employee",
+		"participantUrl": "https://g6bb8qa.performnet.com/g6bb8/publicProfileView.do?method=display&clientState=FoJLw%2F%2BYIeauKiZbaOxr1dtZ%2BO86VKMnf1qjtUkxhoXIxn8FxctnuZFTNURNJysga6CvvVXB1Pz%2F%0A3B4of1UYZRXQ0LpSMcXntnfOgbtOabEFiVaZpvPeETeXC4jJgbdmRQa%2FMAJI1DdD6SvZUUg4aBOC%0AKxK8Cj9XtPeJpcynjqNcWerFuZX73Rz8x7dE1f83FKs6VzwWUAuDYVbZaCJRDvUEGOeVvbsB3h42%0AXX7oA7n5pKKgFPnp4a%2FvujfmjzjHsEpdzT7XY8P%2B6MTi3gn6llZSsBKumW6D8%2FoJZw%3D%3D&cryptoPass=1",
+		"promotions": [{
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 410,
+			"name": "bug_66094",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 273,
+			"name": "Celebration Only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 277,
+			"name": "Celebration only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 291,
+			"name": "Celebration Only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 590,
+			"name": "Celebration PURL - Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 550,
+			"name": "CELEBRATION WITH POINTS",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 672,
+			"name": "G6_longFormTest_NoCustomEle",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 510,
+			"name": "GM-Nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 653,
+			"name": "GM-Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 673,
+			"name": "hem_Nomin1_16Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 699,
+			"name": "hem_Nomin2_18Nov_NominatorOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 694,
+			"name": "hem_Nomin2_18Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 700,
+			"name": "hem_Nomin3_18Nov_NomineeOUowner_Self",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 701,
+			"name": "hem_Nomin4_18Nov_NomineeOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 702,
+			"name": "hem_Nomin5_18Nov_Custom",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 697,
+			"name": "New Recognition promotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 371,
+			"name": "nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 691,
+			"name": "Plateau_New",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 703,
+			"name": "Promotion_test_G6-690",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 698,
+			"name": "PURL - 18Nov",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 274,
+			"name": "Purl Celebration none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 452,
+			"name": "Purl Celebration none_bug",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 290,
+			"name": "Purl Celebration Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 276,
+			"name": "purl Celebration Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 270,
+			"name": "Purl only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 271,
+			"name": "Purl only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 275,
+			"name": "Purl only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 370,
+			"name": "purl-Anniver-test",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 696,
+			"name": "Recognition 18/11/16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 272,
+			"name": "Recognition promotion type Award type",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 352,
+			"name": "Recognition with Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 350,
+			"name": "Recognition with Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 351,
+			"name": "Recognition without Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 705,
+			"name": "Recognition without Points Specific Approver",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 453,
+			"name": "RecognitionBadges",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 250,
+			"name": "SampleRecognitionwithPURL",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 333,
+			"name": "SampleRecognitionwithPURL_Oct4th",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 450,
+			"name": "TestDelegatePromotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 451,
+			"name": "testDelegationflow",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 393,
+			"name": "TestNewNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 392,
+			"name": "TestNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 690,
+			"name": "TestNominationNew",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 331,
+			"name": "TestPURLRecogFeed_Oct16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 251,
+			"name": "TestRecognition",
+			"type": "recognition"
+		}],
+		"follow": false,
+		"urlEdit": "",
+		"countryName": "United States",
+		"countryCode": "us",
+		"countryRatio": 1.0,
+		"throwdownEnabled": false,
+		"orgName": "Heartland_",
+		"nodes": [{
+			"id": 5018,
+			"name": "Heartland_"
+		}],
+		"badges": [],
+		"delegators": [],
+		"alert": {
+			"openNewWindow": false
+		},
+		"eligibleForPromotion": true,
+		"id": 60037,
+		"isSelected": false,
+		"isLocked": false,
+		"isSelf": false
+	}, {
+		"lastName": "Smith",
+		"firstName": "Amy",
+		"organization": "Heartland_",
+		"departmentName": "Office",
+		"jobName": "Employee",
+		"participantUrl": "https://g6bb8qa.performnet.com/g6bb8/publicProfileView.do?method=display&clientState=37WnDAq1fDIRwdAHiUz%2BnPdy4ufpSqBwwTe06SBdRZip3s%2FAi%2FkJuU4%2FFypyIQe2YJmNgbfirMjy%0ADw%2FEFWKpNVI%2BgZpsOBqaQQerjgfmNBFm7lG74sDoffI00kGp%2BT3yTBTshYKL27xBKeOQWG0Yy8Ku%0AkoQ5obJCFB3sloTiUW7BljcB464jU9FNZLCHdYBGVwz9e7hQgiOu%2FeG%2B%2FAEiThtSJAw3GpeogroY%0AoT0NEwqY1GOUtYnZDT%2BKwgqDGg7wV80hUAjbISQeIHbHAuHphLol%2BiLubabYNwZjUQ%3D%3D&cryptoPass=1",
+		"promotions": [{
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 410,
+			"name": "bug_66094",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 273,
+			"name": "Celebration Only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 277,
+			"name": "Celebration only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 291,
+			"name": "Celebration Only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 590,
+			"name": "Celebration PURL - Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 550,
+			"name": "CELEBRATION WITH POINTS",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 672,
+			"name": "G6_longFormTest_NoCustomEle",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 510,
+			"name": "GM-Nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 653,
+			"name": "GM-Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 673,
+			"name": "hem_Nomin1_16Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 699,
+			"name": "hem_Nomin2_18Nov_NominatorOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 694,
+			"name": "hem_Nomin2_18Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 700,
+			"name": "hem_Nomin3_18Nov_NomineeOUowner_Self",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 701,
+			"name": "hem_Nomin4_18Nov_NomineeOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 702,
+			"name": "hem_Nomin5_18Nov_Custom",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 697,
+			"name": "New Recognition promotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 371,
+			"name": "nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 691,
+			"name": "Plateau_New",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 703,
+			"name": "Promotion_test_G6-690",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 698,
+			"name": "PURL - 18Nov",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 274,
+			"name": "Purl Celebration none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 452,
+			"name": "Purl Celebration none_bug",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 290,
+			"name": "Purl Celebration Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 276,
+			"name": "purl Celebration Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 270,
+			"name": "Purl only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 271,
+			"name": "Purl only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 275,
+			"name": "Purl only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 370,
+			"name": "purl-Anniver-test",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 696,
+			"name": "Recognition 18/11/16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 272,
+			"name": "Recognition promotion type Award type",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 352,
+			"name": "Recognition with Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 350,
+			"name": "Recognition with Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 351,
+			"name": "Recognition without Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 705,
+			"name": "Recognition without Points Specific Approver",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 453,
+			"name": "RecognitionBadges",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 250,
+			"name": "SampleRecognitionwithPURL",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 333,
+			"name": "SampleRecognitionwithPURL_Oct4th",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 450,
+			"name": "TestDelegatePromotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 451,
+			"name": "testDelegationflow",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 393,
+			"name": "TestNewNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 392,
+			"name": "TestNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 690,
+			"name": "TestNominationNew",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 331,
+			"name": "TestPURLRecogFeed_Oct16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 251,
+			"name": "TestRecognition",
+			"type": "recognition"
+		}],
+		"follow": false,
+		"urlEdit": "",
+		"countryName": "United States",
+		"countryCode": "us",
+		"countryRatio": 1.0,
+		"throwdownEnabled": false,
+		"orgName": "Heartland_",
+		"nodes": [{
+			"id": 5018,
+			"name": "Heartland_"
+		}],
+		"badges": [],
+		"delegators": [],
+		"alert": {
+			"openNewWindow": false
+		},
+		"eligibleForPromotion": true,
+		"id": 60033,
+		"isSelected": false,
+		"isLocked": false,
+		"isSelf": false
+	}, {
+		"lastName": "Smith",
+		"firstName": "Anna",
+		"organization": "Heartland_",
+		"departmentName": "Sales",
+		"jobName": "Employee",
+		"participantUrl": "https://g6bb8qa.performnet.com/g6bb8/publicProfileView.do?method=display&clientState=04fpLTiSnN7iI%2FowiJ%2BDODSjCTTLIJ9pon20d77LJu20zeq1eiAY404%2F6UhWKUVSuZKzaF3CJqEC%0A%2Bo12b17OE4TJxbCM7iwsiN%2FCZ5V8%2F5ldEFiJev%2BqsKnulvlR0wEqXp58zMQgr78VkFGVYZlXBnNS%0AfyMr3b704zICOXKmu3dSQQXyG9dMwSmXsgD6L2pWT3z%2FOfuYydR4%2FsAJeI0NShwZ5C7TmZ9LufsO%0AWr78D%2BN0yu503FLYTjm47nIpgHE6vA1gFJnZBE0FMdKN9r6YiUfX3SK%2BS9H0cdW6ZA%3D%3D&cryptoPass=1",
+		"promotions": [{
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 410,
+			"name": "bug_66094",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 273,
+			"name": "Celebration Only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 277,
+			"name": "Celebration only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 291,
+			"name": "Celebration Only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 590,
+			"name": "Celebration PURL - Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 550,
+			"name": "CELEBRATION WITH POINTS",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 672,
+			"name": "G6_longFormTest_NoCustomEle",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 510,
+			"name": "GM-Nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 653,
+			"name": "GM-Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 673,
+			"name": "hem_Nomin1_16Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 699,
+			"name": "hem_Nomin2_18Nov_NominatorOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 694,
+			"name": "hem_Nomin2_18Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 700,
+			"name": "hem_Nomin3_18Nov_NomineeOUowner_Self",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 701,
+			"name": "hem_Nomin4_18Nov_NomineeOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 702,
+			"name": "hem_Nomin5_18Nov_Custom",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 697,
+			"name": "New Recognition promotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 371,
+			"name": "nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 691,
+			"name": "Plateau_New",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 703,
+			"name": "Promotion_test_G6-690",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 698,
+			"name": "PURL - 18Nov",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 274,
+			"name": "Purl Celebration none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 452,
+			"name": "Purl Celebration none_bug",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 290,
+			"name": "Purl Celebration Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 276,
+			"name": "purl Celebration Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 270,
+			"name": "Purl only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 271,
+			"name": "Purl only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 275,
+			"name": "Purl only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 370,
+			"name": "purl-Anniver-test",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 696,
+			"name": "Recognition 18/11/16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 272,
+			"name": "Recognition promotion type Award type",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 352,
+			"name": "Recognition with Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 350,
+			"name": "Recognition with Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 351,
+			"name": "Recognition without Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 705,
+			"name": "Recognition without Points Specific Approver",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 453,
+			"name": "RecognitionBadges",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 250,
+			"name": "SampleRecognitionwithPURL",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 333,
+			"name": "SampleRecognitionwithPURL_Oct4th",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 450,
+			"name": "TestDelegatePromotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 451,
+			"name": "testDelegationflow",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 393,
+			"name": "TestNewNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 392,
+			"name": "TestNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 690,
+			"name": "TestNominationNew",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 331,
+			"name": "TestPURLRecogFeed_Oct16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 251,
+			"name": "TestRecognition",
+			"type": "recognition"
+		}],
+		"follow": false,
+		"urlEdit": "",
+		"countryName": "United States",
+		"countryCode": "us",
+		"countryRatio": 1.0,
+		"throwdownEnabled": false,
+		"orgName": "Heartland_",
+		"nodes": [{
+			"id": 5018,
+			"name": "Heartland_"
+		}],
+		"badges": [],
+		"delegators": [],
+		"alert": {
+			"openNewWindow": false
+		},
+		"eligibleForPromotion": true,
+		"id": 60034,
+		"isSelected": false,
+		"isLocked": false,
+		"isSelf": false
+	}, {
+		"lastName": "Smith",
+		"firstName": "Arnold",
+		"organization": "Heartland_",
+		"departmentName": "Service",
+		"jobName": "Employee",
+		"participantUrl": "https://g6bb8qa.performnet.com/g6bb8/publicProfileView.do?method=display&clientState=Tv%2Bom4JQCdJHvHpEMyopzjpTBZ%2BtnKZi7RWCebEqGltkYrpjmd7635UJHlD%2Bz2XeY8U2P2kp6Ddj%0ADgamJBqHXXfx6K%2Fu8sXJD2zIbXA01udkB2RFcVEZ%2FEQ151yi6nuaQdOsVh0USyM5n2l8f141giCK%0AQi1rjd9Tv4mdihv0WcTP8EdQwtLFBFSW3HA6qmlswtVKYCo9721jQDkFb9jfokE8op2wW%2FNL4Lh1%0AuOH9wtKdgLjGH4m4RVMsdutkaMipw1bSE6e9XPEevxQpqxNK2MjeUoQvdYnmgDrcLg%3D%3D&cryptoPass=1",
+		"promotions": [{
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 410,
+			"name": "bug_66094",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 273,
+			"name": "Celebration Only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 277,
+			"name": "Celebration only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 291,
+			"name": "Celebration Only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 590,
+			"name": "Celebration PURL - Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 550,
+			"name": "CELEBRATION WITH POINTS",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 672,
+			"name": "G6_longFormTest_NoCustomEle",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 510,
+			"name": "GM-Nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 653,
+			"name": "GM-Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 673,
+			"name": "hem_Nomin1_16Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 699,
+			"name": "hem_Nomin2_18Nov_NominatorOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 694,
+			"name": "hem_Nomin2_18Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 700,
+			"name": "hem_Nomin3_18Nov_NomineeOUowner_Self",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 701,
+			"name": "hem_Nomin4_18Nov_NomineeOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 702,
+			"name": "hem_Nomin5_18Nov_Custom",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 697,
+			"name": "New Recognition promotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 371,
+			"name": "nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 691,
+			"name": "Plateau_New",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 703,
+			"name": "Promotion_test_G6-690",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 698,
+			"name": "PURL - 18Nov",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 274,
+			"name": "Purl Celebration none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 452,
+			"name": "Purl Celebration none_bug",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 290,
+			"name": "Purl Celebration Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 276,
+			"name": "purl Celebration Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 270,
+			"name": "Purl only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 271,
+			"name": "Purl only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 275,
+			"name": "Purl only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 370,
+			"name": "purl-Anniver-test",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 696,
+			"name": "Recognition 18/11/16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 272,
+			"name": "Recognition promotion type Award type",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 352,
+			"name": "Recognition with Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 350,
+			"name": "Recognition with Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 351,
+			"name": "Recognition without Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 705,
+			"name": "Recognition without Points Specific Approver",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 453,
+			"name": "RecognitionBadges",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 250,
+			"name": "SampleRecognitionwithPURL",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 333,
+			"name": "SampleRecognitionwithPURL_Oct4th",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 450,
+			"name": "TestDelegatePromotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 451,
+			"name": "testDelegationflow",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 393,
+			"name": "TestNewNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 392,
+			"name": "TestNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 690,
+			"name": "TestNominationNew",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 331,
+			"name": "TestPURLRecogFeed_Oct16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 251,
+			"name": "TestRecognition",
+			"type": "recognition"
+		}],
+		"follow": false,
+		"urlEdit": "",
+		"countryName": "United States",
+		"countryCode": "us",
+		"countryRatio": 1.0,
+		"throwdownEnabled": false,
+		"orgName": "Heartland_",
+		"nodes": [{
+			"id": 5018,
+			"name": "Heartland_"
+		}],
+		"badges": [],
+		"delegators": [],
+		"alert": {
+			"openNewWindow": false
+		},
+		"eligibleForPromotion": true,
+		"id": 60035,
+		"isSelected": false,
+		"isLocked": false,
+		"isSelf": false
+	}, {
+		"lastName": "Smith",
+		"firstName": "Ashley",
+		"organization": "Heartland_",
+		"departmentName": "Office",
+		"jobName": "Employee",
+		"participantUrl": "https://g6bb8qa.performnet.com/g6bb8/publicProfileView.do?method=display&clientState=7RWLEDvrtHZqx90kJnOgsdKeK8eZi%2FSqeia4EhgcDCQkNvlKNR%2FLBB1xOi%2FBZEmTQQvEcwI2xZJm%0Ayotcm97FXAFlatCAqqWX6wz2DGKg3TuHj%2FD7QoRhvAbuUm2cqkUS4z%2FltB3KH7bIiQEU0C9m5wYY%0ACbouGeca8UvtLD6HawFFSCIztX3yPhMRFyxxRIPeKBffgm9WucMIfZG9cQBsafILKnlUIAQPAYAZ%0AKAUa61kvDoJOk8KCIMuqtH1R%2B%2BvGZdKw106mvwXm%2B4PVJDcVIarGFE36RBn5s9Rk%2FA%3D%3D&cryptoPass=1",
+		"promotions": [{
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 410,
+			"name": "bug_66094",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 273,
+			"name": "Celebration Only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 277,
+			"name": "Celebration only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 291,
+			"name": "Celebration Only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 590,
+			"name": "Celebration PURL - Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 550,
+			"name": "CELEBRATION WITH POINTS",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 672,
+			"name": "G6_longFormTest_NoCustomEle",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 510,
+			"name": "GM-Nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 653,
+			"name": "GM-Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 673,
+			"name": "hem_Nomin1_16Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 699,
+			"name": "hem_Nomin2_18Nov_NominatorOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 694,
+			"name": "hem_Nomin2_18Nov_Sanity1",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 700,
+			"name": "hem_Nomin3_18Nov_NomineeOUowner_Self",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 701,
+			"name": "hem_Nomin4_18Nov_NomineeOUownerByType",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 702,
+			"name": "hem_Nomin5_18Nov_Custom",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 697,
+			"name": "New Recognition promotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 371,
+			"name": "nomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 691,
+			"name": "Plateau_New",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 703,
+			"name": "Promotion_test_G6-690",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 698,
+			"name": "PURL - 18Nov",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 274,
+			"name": "Purl Celebration none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 452,
+			"name": "Purl Celebration none_bug",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 290,
+			"name": "Purl Celebration Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 276,
+			"name": "purl Celebration Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 270,
+			"name": "Purl only none",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 271,
+			"name": "Purl only Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 275,
+			"name": "Purl only Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 370,
+			"name": "purl-Anniver-test",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 696,
+			"name": "Recognition 18/11/16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 272,
+			"name": "Recognition promotion type Award type",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 352,
+			"name": "Recognition with Plateau",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 350,
+			"name": "Recognition with Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 351,
+			"name": "Recognition without Points",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": true
+			},
+			"id": 705,
+			"name": "Recognition without Points Specific Approver",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 453,
+			"name": "RecognitionBadges",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 250,
+			"name": "SampleRecognitionwithPURL",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 333,
+			"name": "SampleRecognitionwithPURL_Oct4th",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 450,
+			"name": "TestDelegatePromotion",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 451,
+			"name": "testDelegationflow",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 393,
+			"name": "TestNewNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 392,
+			"name": "TestNomination",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": true,
+				"isEasy": false
+			},
+			"id": 690,
+			"name": "TestNominationNew",
+			"type": "nomination"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 331,
+			"name": "TestPURLRecogFeed_Oct16",
+			"type": "recognition"
+		}, {
+			"attributes": {
+				"commentsActive": true,
+				"ecardsActive": false,
+				"isEasy": false
+			},
+			"id": 251,
+			"name": "TestRecognition",
+			"type": "recognition"
+		}],
+		"follow": false,
+		"urlEdit": "",
+		"countryName": "United States",
+		"countryCode": "us",
+		"countryRatio": 1.0,
+		"throwdownEnabled": false,
+		"orgName": "Heartland_",
+		"nodes": [{
+			"id": 5018,
+			"name": "Heartland_"
+		}],
+		"badges": [],
+		"delegators": [],
+		"alert": {
+			"openNewWindow": false
+		},
+		"eligibleForPromotion": true,
+		"id": 60036,
+		"isSelected": false,
+		"isLocked": false,
+		"isSelf": false
+	}],
+	"totalCount": 0,
+	"allowBadge": false,
+	"allowPublicRecFollowList": false,
+	"maxAllowedToRecognize": 300,
+	"searchFilterTypeCounts": [{
+		"paxSearchFilterType": "location",
+		"count": 2
+	}, {
+		"paxSearchFilterType": "jobTitle",
+		"count": 0
+	}, {
+		"paxSearchFilterType": "department",
+		"count": 0
+	}, {
+		"paxSearchFilterType": "country",
+		"count": 0
+	}]
+}

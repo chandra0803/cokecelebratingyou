@@ -1,0 +1,34 @@
+<%--UI REFACTORED--%>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<%@ include file="/include/taglib.jspf"%>
+
+<table border="0" cellpadding="0" cellspacing="0">
+  <c:forEach items="${parameterValueMap}" var="parameterValueMapEntry" >
+  <c:set var="paramDescription" value="${process.processParameters[parameterValueMapEntry.key].description}"/>
+  <tr class="form-row-spacer">
+    <td class="<c:out value='${parameterValueTDClass}'/>">
+      <c:choose>
+        <c:when test='${!empty paramDescription}'>
+          <c:out escapeXml="false" value="${paramDescription}"/>
+        </c:when>
+        <%-- Fall back to just name --%>
+        <c:otherwise>
+          <c:out escapeXml="false" value="${parameterValueMapEntry.key}"/>
+        </c:otherwise>
+      </c:choose>                
+    </td>
+    <td class="<c:out value='${parameterValueTDClass}'/>">
+      &nbsp;=&nbsp;
+    </td>
+    <td class="<c:out value='${parameterValueTDClass}'/>">
+      <c:forEach items="${parameterValueMapEntry.value}" 
+          var="parameterValue" varStatus="valuesStatus">
+        <c:out escapeXml="false" value="${parameterValue }"/>
+        <c:if test="${!valuesStatus.last}">
+          <br/>
+        </c:if>
+      </c:forEach>
+    </td>
+  </tr>
+  </c:forEach>  
+</table>

@@ -1,0 +1,34 @@
+CREATE TABLE user_twitter 
+(
+  twitter_id            NUMBER(18) not null, 
+  request_token         VARCHAR2 (100 char), 
+  request_token_secret  VARCHAR2(100 char), 
+  access_token          VARCHAR2(100 char), 
+  access_token_secret   VARCHAR2(100 char), 
+  created_by            NUMBER (18)	not null, 
+  date_created          date not null, 
+  modified_by	        NUMBER (18), 
+  date_modified         date, 
+  version			    NUMBER (18)	not null
+)
+/
+ALTER TABLE user_twitter
+ADD CONSTRAINT user_twitter_pk PRIMARY KEY (twitter_id)
+USING INDEX
+/
+CREATE SEQUENCE user_twitter_pk_sq
+START WITH 5000
+CACHE 20
+/
+COMMENT ON TABLE user_twitter IS 'Stores User Twitter Account Information'
+/
+COMMENT ON COLUMN user_twitter.twitter_id IS 'Twitter Id Information'
+/
+COMMENT ON COLUMN user_twitter.request_token IS 'The request token value that is temporarily stored when we first request a token for authorization  (when is_awaiting_pin is true)'
+/
+COMMENT ON COLUMN user_twitter.request_token_secret IS 'The request token secret value that is temporarily stored when we first request a token for authorization (when is_awaiting_pin is true)'
+/
+COMMENT ON COLUMN user_twitter.access_token IS 'The access token value is used to access a user''s twitter account on the user''s behalf'
+/
+COMMENT ON COLUMN user_twitter.access_token_secret IS 'The access token secret value is used to access a user''s twitter account on the user''s behalf'
+/

@@ -1,0 +1,54 @@
+CREATE SEQUENCE purl_contributor_media_pk_sq INCREMENT BY 1 START WITH 5000
+/
+CREATE TABLE purl_contributor_media
+(
+	purl_contributor_media_id     	NUMBER(18) NOT NULL,
+	purl_contributor_id          	NUMBER(18) NOT NULL,
+	type						    VARCHAR2(30),
+	caption							VARCHAR2(255),
+	url								VARCHAR2(512),
+	url_thumb						VARCHAR2(512),
+	sequence_num					NUMBER(8),
+	status			             	VARCHAR2(30),
+    state                           VARCHAR2(30),
+	created_by            			NUMBER(18) NOT NULL,
+	date_created          			DATE NOT NULL,
+  	modified_by           			NUMBER(18),
+  	date_modified         			DATE,
+  	version               			NUMBER(18) NOT NULL,
+  	CONSTRAINT purl_contributor_media_id_pk PRIMARY KEY (purl_contributor_media_id)
+)
+/
+ALTER TABLE purl_contributor_media ADD CONSTRAINT purl_contributor_media_fk
+  FOREIGN KEY (purl_contributor_id) REFERENCES purl_contributor (purl_contributor_id) 
+/
+COMMENT ON TABLE purl_contributor_media IS 'Table purl_contributor_media'
+/
+COMMENT ON COLUMN purl_contributor_media.purl_contributor_media_id IS 'Primary key'
+/
+COMMENT ON COLUMN purl_contributor_media.purl_contributor_id IS 'Purl Contributor reference key'
+/
+COMMENT ON COLUMN purl_contributor_media.type IS 'Media type'
+/
+COMMENT ON COLUMN purl_contributor_media.caption IS 'Media caption'
+/
+COMMENT ON COLUMN purl_contributor_media.url IS 'Media url path for detail'
+/
+COMMENT ON COLUMN purl_contributor_media.url_thumb IS 'Media url path for thumbnail'
+/
+COMMENT ON COLUMN purl_contributor_media.sequence_num IS 'Sequence Number'
+/
+COMMENT ON COLUMN purl_contributor_media.status IS 'Media status type'
+/
+COMMENT ON COLUMN purl_contributor_media.state IS 'Contribution Media state type'
+/
+COMMENT ON COLUMN purl_contributor_media.created_by IS 'Audit created by'
+/
+COMMENT ON COLUMN purl_contributor_media.date_created IS 'Audit created date'
+/
+COMMENT ON COLUMN purl_contributor_media.modified_by IS 'Audit modified by'
+/
+COMMENT ON COLUMN purl_contributor_media.date_modified IS 'Audit modified date'
+/
+COMMENT ON COLUMN purl_contributor_media.version IS 'Optimistic concurrency locking'
+/

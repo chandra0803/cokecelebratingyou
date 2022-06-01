@@ -1,0 +1,198 @@
+<!-- ======== NOMINATIONS SUBMIT PAGE ======== -->
+<div id="nominationsSubmitPageView" class="nominationsSubmitEdit">
+
+    <div class="row-fluid">
+        <div class="span12">
+
+            <!-- JAVA NOTE: in the rare event that the server has an error (FE should catch all errors) -->
+            <!--div class="alert alert-block alert-error">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <div class="error">
+                    <h4>The following errors occurred:</h4>
+                    <ul>
+                        <li>Owner must be selected</li>
+                        <li>Date for recipient send is not a date. Date must follow the format MM/DD/YYYY.</li>
+                    </ul>
+                </div>
+            </div-->
+
+            <div class="wizardTabsVerticalContainer fl">
+
+                <!-- **************************************************************
+                    WIZARD TABS VERTICAL
+                 ***************************************************************** -->
+                <div class="wizardTabsVerticalView" data-content=".wizardTabsContent">
+                    <!-- generated using json+tpl by WizardTabsVerticalView -->
+                </div><!-- /.wizardTabsVerticalView -->
+
+                <!-- **************************************************************
+                    WIZARD TABS VERICAL CONTENT
+                 ***************************************************************** -->
+                 <!--After the template loads we move the stepContent from here and place it under the matching stepTab inside .wizardTabsVerticalView so the flow matches creative -->
+                <div class="wizardTabsVertContent">
+
+                    <!-- **************************************************************
+                        NOMINEE
+                    ************************************************************** -->
+                    <div id="nominationsTabNomineeView" class="stepNomineeContent stepContent" style="display:none">
+                    </div>
+
+                    <!-- **************************************************************
+                        BEHAVIORS
+                    ************************************************************** -->
+                    <div id="nominationsTabBehaviorView" class="stepBehaviorContent stepContent" style="display:none">
+
+
+                    </div>
+
+                    <!-- **************************************************************
+                        ECARD
+                    ************************************************************** -->
+                    <div id="nominationsTabEcardView" class="stepEcardContent stepContent" style="display:none">
+
+
+                    </div>
+
+                    <!-- **************************************************************
+                        WHY
+                    ************************************************************** -->
+                    <div id="nominationsTabWhyView" class="stepWhyContent stepContent" style="display:none">
+
+                    </div><!-- /#nominationsTabWhyView-->
+                </div><!-- /.wizardTabsVertContent-->
+
+                <!-- VALIDATION MSGS - informational tooltip for validation -->
+                <div class="errorTipWrapper" style="display:none">
+                    <div class="errorTip">
+
+                        <!-- display for validateme generic errors -->
+                        <div class="errorMsg msgGenericError">
+                            Please correct the error(s).
+                            <i class="icon-warning-circle"></i>
+                        </div>
+
+                        <!-- Nominee errors -->
+                        <div class="errorMsg msgNoParticipants">
+                            You must add at least one participant.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+
+                        <div class="errorMsg msgTeamName">
+                            You must enter a team name.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+
+                        <div class="errorMsg msgNoAward">
+                            You must enter an award amount for each participant.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+
+                        <div class="errorMsg msgIndividualPax">
+                            You can only selet one participant for individual nomination.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+
+                        <div class="errorMsg maxParticipantsReached">
+                            You have reached the maximun participants allowed.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+
+                        <div class="errorMsg maxParticipantsGroup">
+                            Group exceeds the max participants allowed.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+
+                         <div class="errorMsg awardOutOfRange">
+                            Award value out of range.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+                        <div class="errorMsg fillAward">
+                            Fill Award Amount
+							<i class="icon-warning-circle"></i>
+                        </div>
+                        <div class="errorMsg msgGroupName">
+                            Group name must be unique.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+
+                        <!-- Behavior errors -->
+                        <div class="errorMsg msgNoBehaviors">
+                            You must choose at least one behavior.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+                        <!-- eCard Errors -->
+                        <div class="errorMsg msgNoECard">
+                            You must make a selection.
+                            <i class="icon-warning-circle"></i>
+                        </div>
+                    </div><!-- /.errorTip -->
+                </div><!-- /.errorTipWrapper -->
+
+                <!-- modal to catch errors from server on submit OR save draft -->
+                <div class="modal hide fade nomsErrorsModal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                        <h3>
+                            <i class="icon-warning-circle"></i>
+                            Error(s) encountered
+                        </h3>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="errorsList">
+                            <!-- dynamic -->
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn" data-dismiss="modal">Close</a>
+                    </div>
+                </div><!-- /.nomsErrorsModal -->
+
+                <div class="cancelNominationPopover" style="display:none">
+                    <p>
+                        <b>Cancel Nomination?</b>
+                    </p>
+                    <p>
+                        Selecting 'Yes' will delete this nomination. Are you sure you wish to cancel?
+                    </p>
+                    <p class="tc">
+                        <button href="ajax/serverCommand_redirect.json" id="nominationCancelConfirmBtn" class="btn btn-primary">Yes</button>
+                        <button id="nominationDoNotCancelBtn" class="btn">No</button>
+                    </p>
+                </div><!-- /.cancelNominationPopover -->
+
+                <!-- modal after successfully submitting a nomination -->
+                <div class="modal hide fade nominationSubmittedModal tc" data-backdrop="static">
+                    <div class="modal-header">
+                        <h3>
+                           Nomination submitted!
+                        </h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text here.</p>
+
+                        <a href="layout.html" class="btn btn-primary">Home</a>
+                    </div>
+                </div><!-- /.nomsErrorsModal -->
+
+                <script id="selectGroupTpl" type="text/x-handlebars-template">
+                    <div class="selectGroupSection">
+                        <div class="control-group">
+                            <select name="selectGroup" id="selectGroup" {{#unless this}}readonly="readonly" disabled{{/unless}}>
+                                <option value="" class="defaultOption">Select From My Goups</option>
+                            {{#each this}}
+                                <option value="{{id}}" data-pax-count="{{paxCount}}" {{#if selected}}selected="selected"{{/if}}>{{name}}</option>
+                            {{/each}}
+                            </select>
+
+                            {{#unless this}}
+                                <span>No Groups Saved</span>
+                            {{/unless}}
+                        </div>
+                    </div>
+                </script>
+
+            </div><!-- /.wizardTabsVerticalContainer-->
+        </div>
+    </div>
+
+</div><!--/#nominationsSubmitPageView-->

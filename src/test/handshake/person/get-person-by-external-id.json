@@ -1,0 +1,42 @@
+{
+  "description": "Get a Person by External ID",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "externalId": "BHD-089"
+  },
+  "steps": [
+    {
+      "id": "getPersonByExternalId",
+      "description": "GET /persons/external-id/{externalId}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/external-id/${ref:params.externalId}",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getPersonByExternalId.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getPersonByExternalId.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:getPersonByExternalId.res.body.id}",
+          "compare": "to.equal",
+          "b": "00000000-0000-0000-0000-00000000ea87"
+        }
+      ]
+    }
+  ]
+}

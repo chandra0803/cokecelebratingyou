@@ -1,0 +1,99 @@
+CREATE SEQUENCE purl_recipient_pk_sq INCREMENT BY 1 START WITH 5000
+/
+CREATE TABLE purl_recipient
+(
+  purl_recipient_id     NUMBER(18) NOT NULL,
+  promotion_id          NUMBER(18) NOT NULL,
+  user_id               NUMBER(18) NOT NULL,
+  node_id               NUMBER(18),
+  submitter_id          NUMBER(18),
+  submitter_node_id     NUMBER(18),
+  proxy_user_id         NUMBER(18),  
+  invitation_start_date DATE,
+  award_date            DATE,
+  award_level_id        NUMBER(18),
+  award_amount          NUMBER(12,4),
+  state                 VARCHAR2(30),
+  claim_id              NUMBER(18),
+  is_show_default_contributors NUMBER(1) default 0 NOT NULL,
+  anniversary_num_days  NUMBER(5),
+  anniversary_num_years NUMBER(5),
+  celebration_manager_message_id NUMBER(18),
+  created_by            NUMBER(18) NOT NULL,  
+  date_created          DATE NOT NULL,
+  modified_by           NUMBER(18),
+  date_modified         DATE,
+  version               NUMBER(18) NOT NULL,
+  CONSTRAINT purl_recipient_pk PRIMARY KEY (purl_recipient_id)
+)
+/
+ALTER TABLE purl_recipient ADD CONSTRAINT purl_urecipient_fk1
+  FOREIGN KEY (user_id) REFERENCES application_user (user_id) 
+/
+ALTER TABLE purl_recipient ADD CONSTRAINT purl_recipient_fk2
+  FOREIGN KEY (award_level_id) REFERENCES promo_merch_program_level (promo_merch_program_level_id) 
+/
+ALTER TABLE purl_recipient ADD CONSTRAINT purl_recipient_fk3
+  FOREIGN KEY (promotion_id) REFERENCES promo_recognition (promotion_id) 
+/
+ALTER TABLE purl_recipient ADD CONSTRAINT purl_recipient_fk4
+  FOREIGN KEY (node_id) REFERENCES node (node_id) 
+/
+ALTER TABLE purl_recipient ADD CONSTRAINT purl_recipient_fk5
+  FOREIGN KEY (submitter_id) REFERENCES application_user (user_id) 
+/
+ALTER TABLE purl_recipient ADD CONSTRAINT purl_recipient_fk6
+  FOREIGN KEY (submitter_node_id) REFERENCES node (node_id) 
+/
+ALTER TABLE purl_recipient ADD CONSTRAINT purl_recipient_fk7
+  FOREIGN KEY (proxy_user_id) REFERENCES application_user (user_id) 
+/
+CREATE INDEX purl_recipient_idx ON purl_recipient
+(claim_id)
+/
+COMMENT ON TABLE purl_recipient IS 'Table purl_recipient'
+/
+COMMENT ON COLUMN purl_recipient.purl_recipient_id IS 'Primary key'
+/
+COMMENT ON COLUMN purl_recipient.user_id IS 'User reference key'
+/
+COMMENT ON COLUMN purl_recipient.promotion_id IS 'Recognition Promotion reference'
+/
+COMMENT ON COLUMN purl_recipient.node_id IS 'Node of PURL recipient'
+/
+COMMENT ON COLUMN purl_recipient.submitter_id IS 'Submitter reference key'
+/
+COMMENT ON COLUMN purl_recipient.submitter_node_id IS 'Submitter Node reference key'
+/
+COMMENT ON COLUMN purl_recipient.proxy_user_id IS 'Proxy reference key'
+/
+COMMENT ON COLUMN purl_recipient.invitation_start_date IS 'Start date for invitation'
+/
+COMMENT ON COLUMN purl_recipient.award_date IS 'Award date'
+/
+COMMENT ON COLUMN purl_recipient.award_level_id IS 'Merch Award Level reference'
+/
+COMMENT ON COLUMN purl_recipient.award_amount IS 'Award amount'
+/
+COMMENT ON COLUMN purl_recipient.state IS 'PURL state type'
+/
+COMMENT ON COLUMN purl_recipient.claim_id IS 'Claim reference key'
+/
+COMMENT ON COLUMN purl_recipient.is_show_default_contributors IS 'Display default contributors for invitation'
+/
+COMMENT ON COLUMN purl_recipient.anniversary_num_days IS 'Celebration anniversary days if celebration turned on'
+/
+COMMENT ON COLUMN purl_recipient.anniversary_num_years IS 'Celebration anniversary years if celebration turned on'
+/
+COMMENT ON COLUMN purl_recipient.celebration_manager_message_id IS 'Celebration Manager Message Id reference to celebration manage messages'
+/
+COMMENT ON COLUMN purl_recipient.created_by IS 'Audit created by'
+/
+COMMENT ON COLUMN purl_recipient.date_created IS 'Audit created date'
+/
+COMMENT ON COLUMN purl_recipient.modified_by IS 'Audit modified by'
+/
+COMMENT ON COLUMN purl_recipient.date_modified IS 'Audit modified date'
+/
+COMMENT ON COLUMN purl_recipient.version IS 'Optimistic concurrency locking'
+/

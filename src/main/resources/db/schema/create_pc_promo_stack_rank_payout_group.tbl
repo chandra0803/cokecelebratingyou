@@ -1,0 +1,37 @@
+CREATE SEQUENCE stack_rank_payout_group_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE stack_rank_payout_group
+(stack_rank_payout_group_id   NUMBER(18,0) NOT NULL,
+ node_type_id        		  NUMBER(18,0) NOT NULL, 
+ promotion_id                 NUMBER(18,0) NOT NULL,
+ SUBMITTER_TO_RANK_TYPE		  VARCHAR2(30), 
+ created_by                   NUMBER(18) NOT NULL,
+ date_created                 DATE NOT NULL,
+ modified_by 				  NUMBER(18),
+ date_modified                DATE,
+ version                      NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE stack_rank_payout_group
+ADD CONSTRAINT stack_rank_payout_group_pk PRIMARY KEY (stack_rank_payout_group_id)
+USING INDEX
+/
+ALTER TABLE stack_rank_payout_group ADD CONSTRAINT stack_rank_node_type_fk
+  FOREIGN KEY (node_type_id) REFERENCES node_type (node_type_id) 
+/
+CREATE INDEX STACK_RANK_NODE_TYPE_FK_idx ON STACK_RANK_PAYOUT_GROUP
+  (NODE_TYPE_ID)
+/
+ALTER TABLE stack_rank_payout_group ADD CONSTRAINT stack_rank_group_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promo_product_claim (promotion_id) 
+/
+CREATE INDEX STACK_RANK_PROMO_FK_idx ON STACK_RANK_PAYOUT_GROUP
+  (PROMOTION_ID)
+/
+COMMENT ON COLUMN STACK_RANK_PAYOUT_GROUP.STACK_RANK_PAYOUT_GROUP_ID IS 'system generated PK.'
+/
+COMMENT ON COLUMN STACK_RANK_PAYOUT_GROUP.NODE_TYPE_ID IS 'FK to node type.'
+/
+COMMENT ON COLUMN STACK_RANK_PAYOUT_GROUP.PROMOTION_ID IS 'FK to promotion.'
+/
+COMMENT ON COLUMN STACK_RANK_PAYOUT_GROUP.SUBMITTER_TO_RANK_TYPE IS 'Rank type on payouts.'
+/

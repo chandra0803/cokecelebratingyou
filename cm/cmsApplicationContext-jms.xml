@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+  Copyright (c) 2005 Object Partners, Inc. All Rights Reserved.
+-->
+<beans>
+  
+  <bean id="cmsJmsConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName" value="java:comp/env/jms/ConnectionFactory" />
+  </bean>
+
+  <bean id="cmsJmsTopic" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName" value="java:comp/env/jms/cluster${bi.appGrpNum}g5CacheFlushTopic" />
+  </bean>
+
+  <bean id="cmsJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="cmsJmsConnectionFactory" />
+  </bean>
+
+  <bean id="cmsJmsTopicContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="cmsJmsConnectionFactory" />
+    <property name="destination" ref="cmsJmsTopic" />
+    <property name="messageListener" ref="cmsJmsTopicMessageListener" />
+  </bean>
+
+  <bean id="cmsJmsTopicMessageListener" class="com.objectpartners.cms.jms.CMJmsTopicMessageListener">
+	<property name="jmsTemplate">
+		<ref bean="cmsJmsTemplate" />
+	</property>
+	<property name="topic">
+		<ref bean="cmsJmsTopic" />
+	</property>
+    <property name="applicationName">
+      <value>@PROJECT_NAME@-cm</value>
+    </property>
+  </bean>
+
+  <bean id="cmsJavaMessageService" parent="serviceProxyFactoryParent">
+      <property name="proxyInterfaces">
+          <value>com.objectpartners.cms.service.CMJavaMessageService</value>
+      </property>
+      <property name="target">
+          <bean class="com.objectpartners.cms.service.impl.CMJavaMessageServiceImpl">
+			<property name="jmsTopicMessageListener">
+				<ref bean="cmsJmsTopicMessageListener" />
+			</property>
+          </bean>
+      </property>
+  </bean> 
+
+</beans>

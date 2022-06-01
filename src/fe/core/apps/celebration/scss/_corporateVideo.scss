@@ -1,0 +1,106 @@
+// App-specific variables
+$celebrationCorporateVideo_playBtnColor: $brand_color_white !default;
+$celebrationCorporateVideo_playBtnBg: $brand_color_black !default;
+$celebrationCorporateVideo_closeBtnColor: $brand_color_white !default;
+
+//
+/* ----- MODULE STYLES ----- */
+.launchModule.celebrationCorporateVideo {
+    .module-liner{
+        padding:0;
+    }
+
+    .wide-view {
+        padding: 0;
+        text-align: center;
+    }
+    .module-content{
+        margin:0 auto;
+        max-width: 768px;
+    }
+    img{
+        width: 100%;
+    }
+    @media (min-width: $breakpoint_tablet_min) {
+        .module-liner{
+            padding:$g6ModulePaddingY_tablet $g6ModulePaddingX_tablet;
+        }
+        img{
+             width: auto;
+            @include border-radius($card_borderRadius);
+            @include box-shadow($card_boxShadow);
+        }
+    }
+    @media (min-width: $breakpoint_desktop_min) {
+        .module-liner{
+            padding:$g6ModulePaddingY_desktop $g6ModulePaddingX_desktop;
+        }
+    }
+    .btn-vid-play {
+        @include border-radius(50%);
+        @include opacity(.75);
+        background-color: $celebrationCorporateVideo_playBtnBg;
+        color: $celebrationCorporateVideo_playBtnColor;
+        display: block;
+        font-size: 36px;
+        height: 80px;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        //line-height: 80px;
+        text-align: center;
+        width: 80px;
+        @include vertical-align(absolute);
+        border: 2px solid $celebrationCorporateVideo_playBtnColor;
+        i{
+            position:absolute;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            left: 56%;
+        }
+    }
+
+} /* /.module.celebrationCorporateVideo  */
+
+
+//This gets detached and appended to the body therefore needs to be outiside of module and page views.
+.celebrationPage {
+
+    #corporateVideoModal {
+
+        .modal-body {
+            padding: 0;
+
+            a {
+                bottom: 0;
+                left: 0;
+                position: absolute;
+                right: 0;
+                text-decoration: none;
+                top: 0;
+
+                &:hover {
+                    .btn-vid-play {
+                        @include opacity(1);
+                    }
+                }
+            }
+        }
+        .modal-footer{
+            padding:0;
+        }
+        #celebrationVideo {
+            width: 100%;
+        }
+
+        .close {
+            @include opacity(1);
+            color: $celebrationCorporateVideo_closeBtnColor;
+            left: -15px;
+            position: absolute;
+            text-shadow: 0 1px 0 $black;
+            top: -15px;
+        }
+    }
+}

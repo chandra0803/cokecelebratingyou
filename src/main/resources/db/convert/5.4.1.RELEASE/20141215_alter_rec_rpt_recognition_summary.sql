@@ -1,0 +1,3 @@
+ALTER TABLE rpt_recognition_summary
+ADD SWEEPSTAKE_AMT NUMBER(10)
+/

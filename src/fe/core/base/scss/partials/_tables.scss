@@ -1,0 +1,297 @@
+// Partial-specific variables
+// =========================
+$tables_padding: 24px 12px !default;
+$tables_padding_condensed: (nth($tables_padding, 1) / 2) (nth($tables_padding, 2) / 2) !default;
+
+$tables_theadTextColor: $brand_color_dark !default;
+$tables_theadTextTrans: uppercase !default;
+$tables_theadFontSize: $fontSizeSmall !default;
+$tables_theadFontWeight: $fontWeightSemiBold !default;
+
+$tables_theadBgColor: transparent !default;
+$tables_theadSortableTextColor: $tables_theadTextColor !default;
+$tables_theadSortableTextColorHover: $brand_color_primary !default;
+$tables_theadSortedTextColor: $brand_color_primary !default;
+$tables_theadSortedBgColor: transparent !default;
+$tables_theadSortedSortControlColor: inherit !default;
+
+$tables_tfootFontWeight: $fontWeightBold !default;
+$tables_tfootTextColor: false !default;
+$tables_tfootBgColor: false !default;
+
+$tables_bordered_borderRadius: 0 !default;
+
+$tables_striped_sortedColumnBgColor: $brand_color_light !default;
+
+
+// Partial-specific code
+// ==================================================
+
+// ----- START output ----->
+@if $base_variablesOnly == false {
+
+
+.table {
+    th,
+    td {
+        padding: $tables_padding;
+        line-height: $lineHeightSmall;
+    }
+    thead th {
+        font-size: $tables_theadFontSize;
+        line-height: $lineHeightMini;
+        font-weight: $tables_theadFontWeight;
+        text-transform: $tables_theadTextTrans;
+        color: $tables_theadTextColor;
+    }
+
+    tfoot {
+        th,
+        td {
+            font-weight: $tables_tfootFontWeight;
+
+            @if $tables_tfootTextColor {
+                color: $tables_tfootTextColor;
+            }
+        }
+    }
+}
+
+.table-condensed {
+    th,
+    td {
+        padding: $tables_padding_condensed;
+    }
+}
+
+// ZEBRA-STRIPING
+// --------------
+
+// changing the bootstrap version from odd to even rows
+.table-striped {
+    tbody {
+        > tr:nth-child(odd) > td,
+        > tr:nth-child(odd) > th {
+            background-color: $tableBackground;
+        }
+        > tr:nth-child(even) > td,
+        > tr:nth-child(even) > th {
+            background-color: $tableBackgroundAccent;
+        }
+
+        // removing the border from every table row
+        th,
+        td {
+            border-top: none;
+        }
+    }
+    // adding the border to ~~last row~~ __every__ thead th incase of empty table message
+    // (changed from last row to every th to account for multi-row table theads with rowspan'd cells)
+    thead th {
+        border-bottom: 1px solid $tableBorder;
+    }
+}
+
+
+// HOVER EFFECT
+// ------------
+// Duplicated from bootstrap/_tables.scss here since it has to come after the potential zebra striping
+.table-hover {
+  tbody {
+    tr:hover > td,
+    tr:hover > th {
+      background-color: $tableBackgroundHover;
+    }
+  }
+}
+
+// SORTING
+// --------------
+
+// Sorted column zebra-stripe styles
+.table {
+    thead {
+        .sortable a,
+        .sortHeader a,
+        .row-sortable a {
+            display: block;
+            margin: (-1 * nth($tables_padding, 1)) (-1 * nth($tables_padding, 2));
+            padding: $tables_padding;
+            cursor: pointer;
+
+            @include unapplyGlobalLinkStyles(
+                $color: $tables_theadSortableTextColor $tables_theadSortableTextColorHover
+            );
+        }
+        .sorted a {
+            color: $tables_theadSortedTextColor;
+        }
+        .unsorted .icon-arrow-1-down {
+            display: none;
+        }
+        .descending .icon-arrow-1-up,
+        .desc .icon-arrow-1-up,
+        .ascending .icon-arrow-1-down,
+        .asc .icon-arrow-1-down {
+            display: none;
+        }
+        .descending .icon-arrow-1-down,
+        .desc .icon-arrow-1-down,
+        .ascending .icon-arrow-1-up,
+        .asc .icon-arrow-1-up {
+            display: inline-block;
+        }
+    }
+
+    tbody {
+        > tr > .sorted {
+            background-color: $tables_striped_sortedColumnBgColor;
+        }
+    }
+
+    &.table-condensed {
+        thead {
+            .sortable a,
+            .sortHeader a,
+            .row-sortable a {
+                margin: (-1 * nth($tables_padding_condensed, 1)) (-1 * nth($tables_padding_condensed, 2));
+                padding: $tables_padding_condensed;
+            }
+        }
+    }
+}
+
+// MEDIA QUERY (GOING DESKTOP FIRST HERE)
+@media (max-width: $breakpoint_mobile_max) {
+    .table {
+        th,
+        td {
+            padding: $tables_padding_condensed;
+        }
+
+        thead {
+            .sortable a,
+            .sortHeader a,
+            .row-sortable a {
+                margin: (-1 * nth($tables_padding_condensed, 1)) (-1 * nth($tables_padding_condensed, 2));
+                padding: $tables_padding_condensed;
+            }
+        }
+    }
+}
+
+/*
+// ZEBRA-STRIPING (WITH or WITHOUT BORDERS)
+// --------------
+.table-striped.table-bordered {
+    th {
+        color: $tables_theadTextColor;
+        background-color: $tables_theadBgColor;
+        @include fontSmoothing($tables_theadTextColor, $tables_theadBgColor);
+
+        a {
+            color: $tables_theadTextColor;
+            background-color: $tables_theadBgColor;
+        }
+
+        .sortControl {
+            @include inline-block;
+            vertical-align: top;
+            color: $tables_theadSortControlColor;
+            padding-left: 4px;
+        }
+
+        .icon-sort,
+        .icon-arrow-1-up,
+        .icon-arrow-1-down {
+            line-height: 20px;
+            text-align: center;
+        }
+
+        &.sorted {
+            color: $tables_theadSortedTextColor;
+            background-color: $tables_theadSortedBgColor;
+            @include fontSmoothing($tables_theadSortedTextColor, $tables_theadSortedBgColor);
+
+            a {
+                color: $tables_theadSortedTextColor;
+                background-color: $tables_theadSortedBgColor;
+            }
+
+            .sortControl {
+                color: $tables_theadSortedSortControlColor;
+            }
+        }
+    }
+
+    tfoot th,
+    tfoot td {
+        background-color: $tables_tfootBgColor;
+
+        &.sorted {
+            background-color: adjust-color($tables_tfootBgColor, $lightness: $tables_striped_sortedColumnBgColor);
+        }
+    }
+}
+*/
+
+
+// BORDERED VERSION
+// ----------------
+// Note: this is duplicated from Bootstrap/_tables.scss because we can't specifically override the border radius only for that file. Darn.
+.table-bordered {
+    @if $tables_bordered_borderRadius != null and $tables_bordered_borderRadius != $baseBorderRadius {
+        @include border-radius($tables_bordered_borderRadius);
+
+        // For first th or td in the first row in the first thead or tbody
+        thead:first-child tr:first-child th:first-child,
+        tbody:first-child tr:first-child td:first-child {
+            -webkit-border-top-left-radius: $tables_bordered_borderRadius;
+            border-top-left-radius: $tables_bordered_borderRadius;
+            -moz-border-radius-topleft: $tables_bordered_borderRadius;
+        }
+        thead:first-child tr:first-child th:last-child,
+        tbody:first-child tr:first-child td:last-child {
+            -webkit-border-top-right-radius: $tables_bordered_borderRadius;
+            border-top-right-radius: $tables_bordered_borderRadius;
+            -moz-border-radius-topright: $tables_bordered_borderRadius;
+        }
+        // For first th or td in the first row in the first thead or tbody
+        thead:last-child tr:last-child th:first-child,
+        tbody:last-child tr:last-child td:first-child,
+        tfoot:last-child tr:last-child td:first-child {
+            @include border-radius(0 0 0 $tables_bordered_borderRadius);
+            -webkit-border-bottom-left-radius: $tables_bordered_borderRadius;
+            border-bottom-left-radius: $tables_bordered_borderRadius;
+            -moz-border-radius-bottomleft: $tables_bordered_borderRadius;
+        }
+        thead:last-child tr:last-child th:last-child,
+        tbody:last-child tr:last-child td:last-child,
+        tfoot:last-child tr:last-child td:last-child {
+            -webkit-border-bottom-right-radius: $tables_bordered_borderRadius;
+            border-bottom-right-radius: $tables_bordered_borderRadius;
+            -moz-border-radius-bottomright: $tables_bordered_borderRadius;
+        }
+
+        // Special fixes to round the left border on the first td/th
+        caption + thead tr:first-child th:first-child,
+        caption + tbody tr:first-child td:first-child,
+        colgroup + thead tr:first-child th:first-child,
+        colgroup + tbody tr:first-child td:first-child {
+            -webkit-border-top-left-radius: $tables_bordered_borderRadius;
+            border-top-left-radius: $tables_bordered_borderRadius;
+            -moz-border-radius-topleft: $tables_bordered_borderRadius;
+        }
+        caption + thead tr:first-child th:last-child,
+        caption + tbody tr:first-child td:last-child,
+        colgroup + thead tr:first-child th:last-child,
+        colgroup + tbody tr:first-child td:last-child {
+            -webkit-border-top-right-radius: $tables_bordered_borderRadius;
+            border-top-right-radius: $tables_bordered_borderRadius;
+            -moz-border-right-topleft: $tables_bordered_borderRadius;
+        }
+    }
+}
+
+// <----- END output -----
+} // end @if $base_variablesOnly == false

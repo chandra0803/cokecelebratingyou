@@ -1,0 +1,29 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $news_cycleDotWidth_mobile: ;
+// $news_cycleDotBkg_mobile: ;
+// $news_cycleDotBorderRadius_mobile: ;
+
+// $news_cycleThumbScale: ;
+// $news_cycleThumbSpacing: ;
+
+// $news_pagerTextColor: ;
+// $news_pagerTextColorHover: ;
+// $news_pagerBgColor: ;
+
+// $news_pageTimeStampColor: ;
+
+// $news_pageStoryImageTextColor: ;
+// $news_pageStoryImageBgColor: ;
+// $news_pageStoryAllBackColor: ;
+// $news_pageStoryAllBackColorHover: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "news/scss/news";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

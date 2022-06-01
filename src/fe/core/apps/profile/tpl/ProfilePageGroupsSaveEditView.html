@@ -1,0 +1,78 @@
+<!-- ======== PUBLIC RECOGNITION PAGE FOLLOW LIST ======== -->
+
+<div class="group-error globalerrors alert alert-error hide"><ul class="text-error" /></div>
+<div id="groupsList" class="hide participantCollectionViewWrapper">
+    <h2>My Groups</h2>
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr class="participant-item">
+                <th class="group">Group Name</th>
+                <th class="num-people tc">Number of People</th>
+                <th class="tc"><!-- empty header --></th>
+                <th class="remove">Remove Group</th>
+            </tr>
+        </thead>
+        <tbody id="groupsListView" class="participantCollectionView" data-msg-empty="You are not following anyone." data-hide-on-empty="false">
+            <!-- dynamic -->
+        </tbody>
+    </table>
+    <button class="btn btn-primary open-create-group">Create A Group</button>
+    <div id='confirmDelteGroupDialog' class="confirmDelteGroupDialog hide">
+        <h6>
+            Are you sure you want to delete this group?
+        </h6>
+
+        <p class="tc">
+            <button class="btn btn-primary " id="deleteGroupBtn">Yes</button>
+            <button class="btn " id="genericCloseQtip">No</button>
+        </p>
+    </div>
+</div>
+<div id="saveEditView" class="hide participantCollectionViewWrapper">
+    <h2 class="createHeader" data-create-txt='Create A Group' data-edit-txt='Edit A Group'>Create A Group</h2>
+	<p>Please add two or more people to create a group</p>
+    <button class="btn btn-primary btn-fullmobile recognize-group-edit">Recognize Group</button>
+
+    <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter a group name"}'>
+
+        <fieldset><label>Group Name:</label>
+        <input type='text' class="control-label group-name" for="name"></input></fieldset>
+    </div>
+    <div class="paxSearchStartView" >
+    </div>
+    <table class="table table-condensed table-striped participant-table">
+        <thead>
+            <tr class="participant-item">
+                <th class="group">Participant</th>
+                <th class="remove">Remove from Group</th>
+            </tr>
+        </thead>
+        <!--
+                data-msg-empty: message to display if no followees
+                data-hide-on-empty: hide/show the view (using the *ViewWrapper) when empty/not-empty
+              -->
+        <tbody id="paxListView" class="participantCollectionView" data-alert-type="info" data-hide-on-empty="false">
+            <!-- dynamic -->
+        </tbody>
+    </table>
+    <button class="btn btn-fullmobile btn-primary save-group" disabled>Save</button>
+    <button class="btn btn-fullmobile cancel-group">Cancel</button>
+
+
+</div>
+<!--subTpl.profilePageGroupRow=
+    <tr class='group-row' data-id="{{id}}" >
+      <td class='load-group'>
+          {{name}}
+      </td>
+      <td class='tc'>
+          {{paxCount}}
+      </td>
+      <td  class='tc'>
+          <button class="btn btn-small btn-primary recognize-group">Recognize Group</button>
+      </td>
+      <td class="remove">
+          <a class="delete-group" title="remove this group"><i class="icon-trash"></i></a>
+      </td>
+  </tr>
+  subTpl-->

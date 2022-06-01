@@ -1,0 +1,33 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "publicProfile/scss/publicProfile";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================
+.page.publicProfile {
+	.page-topper .btn {
+		float:right;
+	}
+	.btnCheers {
+		margin: 15px 0px;
+		position:relative;
+	}	
+	#profileQuestionsWrapper {
+		float:left;
+		width: 100%;
+		.profileAnswers {
+			display: flex;
+			margin-left: 0px;
+		}
+	}
+}
+#publicProfileWrapper .commentsItemWrapper .avatarwrap .avatar-initials {
+	font-size: 20px !important;
+	line-height : 60px !important;
+}

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.participant.AudienceCriteria" table="AUDIENCE_CRITERIA">
+
+    <id name="id" type="java.lang.Long" column="AUDIENCE_CRITERIA_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">AUDIENCE_CRITERIA_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <property name="firstName" type="java.lang.String" column="FIRST_NAME"/>
+    <property name="lastName" type="java.lang.String" column="LAST_NAME"/>
+    <property name="employerId" type="java.lang.Long" column="EMPLOYER_ID"/>
+
+     <property name="positionType" type="java.lang.String" column="POSITION_TYPE" />
+    <property name="departmentType" type="java.lang.String" column="DEPARTMENT_TYPE" />
+
+    
+    <property name="languageType" column="LANGUAGE_ID">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.LanguageType</param>
+      </type>
+    </property>
+
+    <property name="nodeName" type="java.lang.String" column="NODE_NAME"/>
+    <property name="nodeId" type="java.lang.Long" column="NODE_ID"/>
+    <property name="countryId" type="java.lang.Long" column="COUNTRY_ID"/>
+    <property name="nodeTypeId" type="java.lang.Long" column="NODE_TYPE_ID"/>
+    <property name="nodeRole" column="USER_NODE_ROLE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.HierarchyRoleType</param>
+      </type>
+    </property>
+    <property name="childNodesIncluded" type="boolean" column="INCLUDE_CHILD_NODES" not-null="true"/>
+    
+    <property name="excludePositionType" type="java.lang.String" column="EXCLUDE_POSITION_TYPE" />
+    <property name="excludeDepartmentType" type="java.lang.String" column="EXCLUDE_DEPARTMENT_TYPE" />
+
+    <property name="excludeNodeName" type="java.lang.String" column="EXCLUDE_NODE_NAME"/>
+    <property name="excludeNodeId" type="java.lang.Long" column="EXCLUDE_NODE_ID"/>
+    <property name="excludeCountryId" type="java.lang.Long" column="EXCLUDE_COUNTRY_ID"/>
+    <property name="excludeNodeTypeId" type="java.lang.Long" column="EXCLUDE_NODE_TYPE_ID"/>
+    <property name="excludeNodeRole" column="EXCLUDE_USER_NODE_ROLE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.HierarchyRoleType</param>
+      </type>
+    </property>
+    <property name="excludeChildNodesIncluded" type="boolean" column="EXCLUDE_INCLUDE_CHILD_NODES" not-null="true"/>
+
+    <many-to-one name="audience" column="AUDIENCE_ID" class="com.biperf.core.domain.participant.Audience" not-null="true" lazy="false"/>
+        
+    <set name="characteristicCriterias" lazy="false" table="AUDIENCE_CRITERIA_CHAR" inverse="true" cascade="all-delete-orphan">
+      <key column="AUDIENCE_CRITERIA_ID"/>
+      <one-to-many class="com.biperf.core.domain.participant.AudienceCriteriaCharacteristic"/>
+    </set>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <!--  commented out as no updates are done on this entity
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+    <column name="DATE_MODIFIED"/>
+    <column name="MODIFIED_BY"/>
+    </property>
+    -->
+  </class>
+
+</hibernate-mapping>

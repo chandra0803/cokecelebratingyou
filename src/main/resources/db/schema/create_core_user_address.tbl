@@ -1,0 +1,93 @@
+CREATE TABLE user_address
+   (user_address_id  number(18) NOT NULL,
+    user_id          number(18) NOT NULL,   
+    address_type     VARCHAR2(255) NOT NULL,
+    country_id       NUMBER(12),
+    addr1            VARCHAR2(4000),
+    addr2            VARCHAR2(4000),
+    addr3            VARCHAR2(4000),
+    addr4            VARCHAR2(4000),
+    addr5            VARCHAR2(4000),
+    addr6            VARCHAR2(4000),
+    city             VARCHAR2(40),
+    state            VARCHAR2(4000),
+    postal_code      VARCHAR2(4000),
+    is_primary       NUMBER(1) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created     DATE NOT NULL,
+    modified_by number(18),
+    date_modified    DATE,
+    version          NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE user_address
+ADD CONSTRAINT user_address_pk PRIMARY KEY (user_address_id)
+USING INDEX
+/
+ALTER TABLE user_address
+ADD CONSTRAINT user_address_udk UNIQUE (user_id,address_type)
+USING INDEX
+/
+ALTER TABLE USER_ADDRESS ADD CONSTRAINT USER_ADDRESS_FK
+  FOREIGN KEY (USER_ID) REFERENCES APPLICATION_USER (USER_ID) 
+/
+ALTER TABLE user_address
+  ADD CONSTRAINT user_address_country_fk
+  FOREIGN KEY (country_id) REFERENCES country(country_id)
+/
+CREATE INDEX USER_ADDRESS_COUNTRY_FK_idx ON USER_ADDRESS
+  (COUNTRY_ID)
+/
+CREATE INDEX USER_ADDRESS_USER_FK_idx ON USER_ADDRESS
+  (USER_ID)
+/
+CREATE INDEX USER_ADDRESS_IDX ON USER_ADDRESS
+(USER_ID,IS_PRIMARY,COUNTRY_ID)
+/
+COMMENT ON TABLE user_address IS 'The USER_ADDRESS table stores user address information.  Several different address types are defined, so each user can have multiple addresses on file.  The primary address is used as the default for all communications, so one address must be designated as the primary on the associated USER/PARTICIPANT record.'
+/
+COMMENT ON COLUMN user_address.user_address_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN user_address.user_id IS 'FK to application_user.'
+/
+COMMENT ON COLUMN user_address.address_type IS 'From Pick List. Possible values APO,BIL,BUS,HOM,OTH,SHP,SNL ...'
+/
+COMMENT ON COLUMN user_address.country_id IS 'Address country.'
+/
+COMMENT ON COLUMN user_address.addr1 IS 'Address 1 identifier used for NA and INTL address.'
+/
+COMMENT ON COLUMN user_address.addr2 IS 'Address 2 identifier used for NA and INTL address.'
+/
+COMMENT ON COLUMN user_address.addr3 IS 'Address 3 identifier used for NA and INTL address.'
+/
+COMMENT ON COLUMN user_address.addr4 IS 'Address 4 identifier used for INTL address.'
+/
+COMMENT ON COLUMN user_address.addr5 IS 'Address 5 identifier used for INTL address.'
+/
+COMMENT ON COLUMN user_address.addr6 IS 'Address 6 identifier used for INTL address.'
+/
+COMMENT ON COLUMN user_address.city IS 'City identifier used for INTL address for NA address.'
+/
+COMMENT ON COLUMN user_address.state IS 'State/province identifier for NA address.'
+/
+COMMENT ON COLUMN user_address.postal_code IS 'Postal Code identifier  for NA address.'
+/
+COMMENT ON COLUMN user_address.created_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN user_address.date_created IS '- Retrofitted'
+/
+COMMENT ON COLUMN user_address.date_modified IS '- Retrofitted'
+/
+COMMENT ON COLUMN user_address.modified_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN user_address.version IS 'Asssist Java optimistic locking'
+/
+--COMMENT ON COLUMN address_type.fips_code IS 'FIPS Code identifier.'
+--/
+--COMMENT ON COLUMN address_type.latitude IS 'Latitude identifier.'
+--/
+--COMMENT ON COLUMN address_type.longitude IS 'Longitude identifier.'
+--/
+CREATE SEQUENCE USER_ADDRESS_PK_SQ
+START WITH 7300
+CACHE 20
+/

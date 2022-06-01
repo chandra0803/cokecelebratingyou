@@ -1,0 +1,76 @@
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
+// A place to define extra global properties.
+// Hopefully, being a script file, it'll give us flexibility to define them however we need.
+//   (rather than being limited to plain text)
+// gradle.properties has library versions and global variables that relate to the build environment
+// standard.yml has properties relating to machine configuration
+// This has properties relating to task execution, as well as dynamic stuff based on properties from the others.
+
+ext {
+  title = 'G6'
+  buildTime = LocalDateTime.now(ZoneId.of("America/Chicago")).format(DateTimeFormatter.ofPattern("MM/dd/yyyy - hh:mm a"))
+  definedSkins = "default"
+  
+  // These database properties can be defined and then used by other tasks. Initializing them here to avoid "missing property" errors
+  db = [:]
+  db.environment = null
+  db.driver = null
+  db.url = null
+  db.port = null
+  db.username = null
+  db.password = null
+  db.dialect = null
+  db.gc_driver = null
+  db.gc_url = null
+  db.gc_port = null
+  db.gc_username = null
+  db.gc_password = null
+  db.gc_dialect = null
+  
+  zapGroup = "zapped"
+  deployGroup = "deploy"
+  cmGroup = "cm"
+  databaseGroup = "database"
+  tomcatGroup = "tomcat"
+  databaseConvertGroup = "database-convert"
+  junitGroup = "junit"
+  checkstyleGroup = "checkstyle"
+  jacocoGroup = "jacoco"
+  findBugsGroup = "findbugs"
+}
+
+// Configuration for the DatabaseScriptTaskPlugin
+databaseScript {
+  configLocations = ["gradle/project/dbTaskConfig.groovy","gradle/project/dbConvertTaskConfig.groovy"]
+  driverClasspath = configurations.sqlConfiguration.asPath
+  dbSetupMethod = { promptForEnv() }
+  dbName = { project.config.installation.data.name }
+  dbDriver = { project.db.driver }
+  dbUrl = { project.db.url }
+  dbUsername = { project.db.username }
+  dbPassword = { project.db.password }
+}
+
+config.tomcat = [:]
+config.tomcat.webapps = tomcatHome() + "/webapps"
+config.tomcat.conf = tomcatHome() + "/conf"
+config.tomcat.lib = tomcatLibDir // Comes from dependencies.gradle - so it may be defined just once
+
+config.ctech = [:]
+config.ctech.appStageDir = "//us1colo.biworldwide.com/webdev/tomcat/grp" + config.installation.data.cluster.number
+config.ctech.staticStageDir = "//us1colo.biworldwide.com/webdev/static_content/" + config.installation.data.url
+
+config.cm = [:]
+config.cm.sourceDir = cmSourceDir // Comes from gradle.properties - Since this path is needed even earlier in script
+
+config.cmdiff.projDir = config.cmdiff.baseDir + "/" + config.installation.data.name
+
+config.dbResourceDir = "src/main/resources/db"
+config.envResourceDir = "env"
+config.xslResourceDir = "gradle/project/xsl"
+
+config.staging = [:]
+config.staging.staticPrepDir = "${project.buildDir}/static_content_local"

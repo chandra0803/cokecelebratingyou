@@ -1,0 +1,418 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!DOCTYPE form-validation PUBLIC
+        "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.3.0//EN"
+        "http://jakarta.apache.org/commons/dtds/validator_1_3_0.dtd">
+
+<!--
+  $Id$
+
+   This file contains the default Struts Validator pluggable validator
+   definitions.  It is contained in struts-core.jar, and should be 
+   referenced in the struts-config.xml under the plug-in element
+   for the ValidatorPlugIn.
+
+      <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property property="pathnames" 
+                      value="/WEB-INF/validator-rules.xml,
+                             /WEB-INF/validation.xml"/>
+      </plug-in>
+
+   These are the default error messages associated with
+   each validator defined in this file.  They should be
+   added to your projects ApplicationResources.properties
+   file or you can associate new ones by modifying the
+   pluggable validators msg attributes in this file.
+
+   # Struts Validator Error Messages
+   system.errors.REQUIRED={0} is required.
+   system.errors.MINLENGTH={0} can not be less than {1} characters.
+   system.errors.MAXLENGTH={0} can not be greater than {1} characters.
+   system.errors.INVALID={0} is invalid.
+
+   system.errors.BYTE={0} must be a byte.
+   system.errors.SHORT={0} must be a short.
+   system.errors.INTEGER={0} must be an integer.
+   system.errors.LONG={0} must be a long.
+   system.errors.FLOAT={0} must be a float.
+   system.errors.DOUBLE={0} must be a double.
+
+   system.errors.DATE={0} is not a date.
+   system.errors.RANGE={0} is not in the range {1} through {2}.
+   system.errors.CREDITCARD={0} is an invalid credit card number.
+   system.errors.EMAIL={0} is an invalid e-mail address.
+
+   Note: Starting in Struts 1.2.0 the default javascript definitions have
+         been consolidated to commons-validator. The default can be overridden
+         by supplying a <javascript> element with a CDATA section, just as
+         in struts 1.1.
+
+-->
+
+<form-validation>
+
+    <global>
+
+        <validator name="required"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateRequired"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   msg="system.errors.REQUIRED"/>
+
+        <validator name="requiredif"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateRequiredIf"
+                   methodParams="java.lang.Object,
+                               org.apache.commons.validator.ValidatorAction,
+                               org.apache.commons.validator.Field,
+                               org.apache.struts.action.ActionMessages,
+                               org.apache.commons.validator.Validator,
+                               javax.servlet.http.HttpServletRequest"
+                   msg="system.errors.REQUIRED"/>
+
+        <validator name="validwhen"
+                   msg="system.errors.REQUIRED"
+                   classname="org.apache.struts.validator.validwhen.ValidWhen"
+                   method="validateValidWhen"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"/>
+
+
+        <validator name="minlength"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateMinLength"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.MINLENGTH"
+                   jsFunction="org.apache.commons.validator.javascript.validateMinLength"/>
+
+
+        <validator name="maxlength"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateMaxLength"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.MAXLENGTH"
+                   jsFunction="org.apache.commons.validator.javascript.validateMaxLength"/>
+
+
+        <validator name="mask"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateMask"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.INVALID"/>
+
+
+        <validator name="byte"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateByte"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.BYTE"
+                   jsFunctionName="ByteValidations"/>
+
+
+        <validator name="short"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateShort"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.SHORT"
+                   jsFunctionName="ShortValidations"/>
+
+
+        <validator name="integer"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateInteger"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.INTEGER"
+                   jsFunctionName="IntegerValidations"/>
+
+
+        <validator name="long"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateLong"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.LONG"/>
+
+
+        <validator name="float"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateFloat"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.FLOAT"
+                   jsFunctionName="FloatValidations"/>
+
+        <validator name="double"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateDouble"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.DOUBLE"/>
+
+
+        <validator name="byteLocale"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateByteLocale"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.BYTE"/>
+
+
+        <validator name="shortLocale"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateShortLocale"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.SHORT"/>
+
+
+        <validator name="integerLocale"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateIntegerLocale"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.INTEGER"/>
+
+
+        <validator name="longLocale"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateLongLocale"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.LONG"/>
+
+
+        <validator name="floatLocale"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateFloatLocale"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.FLOAT"/>
+
+        <validator name="doubleLocale"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateDoubleLocale"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.DOUBLE"/>
+
+
+        <validator name="date"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateDate"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.DATE"
+                   jsFunctionName="DateValidations"/>
+
+
+        <validator name="intRange"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateIntRange"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends="integer"
+                   msg="system.errors.RANGE"/>
+
+        <validator name="longRange"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateLongRange"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends="long"
+                   msg="system.errors.RANGE"/>
+
+
+        <validator name="floatRange"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateFloatRange"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends="float"
+                   msg="system.errors.RANGE"/>
+
+        <validator name="doubleRange"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateDoubleRange"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends="double"
+                   msg="system.errors.RANGE"/>
+
+
+        <validator name="creditCard"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateCreditCard"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.CREDITCARD"/>
+
+
+        <validator name="email"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateEmail"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="system.errors.EMAIL"/>
+
+        <validator name="url"
+                   classname="org.apache.struts.validator.FieldChecks"
+                   method="validateUrl"
+                   methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest"
+                   depends=""
+                   msg="errors.url"/>
+
+        <!--
+          This simply allows struts to include the validateUtilities into a page, it should
+          not be used as a validation rule.
+        -->
+        <validator name="includeJavaScriptUtilities"
+                   classname=""
+                   method=""
+                   methodParams=""
+                   depends=""
+                   msg=""
+                   jsFunction="org.apache.commons.validator.javascript.validateUtilities"/>
+
+    </global>
+
+</form-validation>

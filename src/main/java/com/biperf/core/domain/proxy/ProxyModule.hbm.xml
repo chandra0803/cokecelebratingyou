@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.proxy.ProxyModule" table="PROXY_MODULE">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" column="PROXY_MODULE_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PROXY_MODULE_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+	    
+	<many-to-one name="proxy" column="PROXY_ID" class="com.biperf.core.domain.proxy.Proxy" not-null="true" lazy="false"/>
+	
+	<property name="promotionType" column="PROMOTION_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.PromotionType</param>
+      </type>
+    </property>
+    
+    <property name="allPromotions" type="boolean" column="IS_ALL_PROMOTION" not-null="true"/>
+    
+	<set name="proxyModulePromotions" table="PROXY_MODULE_PROMOTION" lazy="true" inverse="true" cascade="all-delete-orphan">
+	  <key column="PROXY_MODULE_ID" />
+	  <one-to-many class="com.biperf.core.domain.proxy.ProxyModulePromotion" />
+	</set>
+	    
+	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <!-- Insert additional column mappings here  -->
+
+    </class>
+
+    <!-- Named Queries go here.  If you don't need a named query - delete this section  -->
+<!--     
+    <query name="com.biperf.core.domain.product.AllMasterCategoryList">
+		<![CDATA[
+		from com.biperf.core.domain.product.ProductCategory pc where pc.parentProductCategory.id is null
+		]]>
+	</query>
+-->
+      	
+</hibernate-mapping>

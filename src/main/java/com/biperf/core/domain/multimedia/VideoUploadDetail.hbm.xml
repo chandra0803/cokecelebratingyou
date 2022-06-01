@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.multimedia.VideoUploadDetail" table="VIDEO_UPLOAD_DETAIL">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="VIDEO_UPLOAD_DETAIL_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">VIDEO_UPLOAD_DETAIL_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		
+		<property name="videoUrl" type="java.lang.String" column="VIDEO_URL" />
+		<property name="thumbnailUrl" type="java.lang.String" column="THUMBNAIL_URL" />
+	    
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.multimedia.thumbnailByVideo">
+		<return-scalar column="thumbnailUrl" type="string" />
+		<![CDATA[
+			SELECT thumbnail_url as thumbnailUrl
+			FROM video_upload_detail
+			WHERE video_url = :videoUrl and rownum=1
+		]]>
+	</sql-query>
+	
+</hibernate-mapping>

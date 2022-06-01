@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+    <form-bean name="calculatorLibraryListForm" type="com.biperf.core.ui.calculator.CalculatorLibraryListForm" />
+    <form-bean name="calculatorForm" type="com.biperf.core.ui.calculator.CalculatorForm" />
+    <form-bean name="viewCalculatorForm" type="com.biperf.core.ui.calculator.ViewCalculatorForm" />
+    <form-bean name="calculatorCriterionRatingForm" type="com.biperf.core.ui.calculator.CalculatorCriterionRatingForm" />
+    <form-bean name="calculatorCriterionForm" type="com.biperf.core.ui.calculator.CalculatorCriterionForm" />
+    <form-bean name="calculatorPayoutForm" type="com.biperf.core.ui.calculator.CalculatorPayoutForm" />   
+    <form-bean name="calculatorFormListForm" type="com.biperf.core.ui.calculator.CalculatorFormListForm" />    
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite"
+             redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+ 	
+ 	<action path="/calculatorLibraryListDisplay"
+	        name="calculatorLibraryListForm"
+	        parameter="calculator.library" 
+	        type="org.apache.struts.actions.ForwardAction" 
+	        validate="false" 
+	        scope="request"/>
+
+    <action path="/calculatorLibraryDelete" 
+		    name="calculatorLibraryListForm" 
+			parameter="method"
+			type="com.biperf.core.ui.calculator.CalculatorLibraryListAction"
+        	scope="request" 
+        	validate="false"
+        	input="calculator.library">
+      <forward name="success" path="calculator.library" redirect="false"/>
+      <forward name="failure" path="calculator.library" redirect="false"/>
+  	</action>
+ 	
+ 	<action path="/calculatorDisplay"
+      name="calculatorForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorAction"
+      scope="request"
+      validate="false"
+      input="calculator.details">
+      <forward name="success" path="calculator.details" redirect="false"/>
+      <forward name="failure" path="calculator.details" redirect="false"/>
+    </action>
+
+    <action path="/calculatorSave"
+      name="calculatorForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorAction"
+      scope="request"
+      validate="true"
+      input="calculator.details" cancellable="true">
+      <forward name="failure" path="calculator.details" redirect="false"/>
+      <forward name="cancel" path="calculator.view" redirect="false"/>
+      <forward name="success" path="/calculatorView.do" redirect="true"/>
+    </action>
+
+    <!-- Calculator View Mappings -->
+    <action path="/calculatorView"
+      name="viewCalculatorForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorAction"
+      scope="request"
+      validate="false"
+      input="calculator.view">
+      <forward name="failure" path="calculator.view" redirect="false"/>
+      <forward name="success" path="calculator.view" redirect="false"/>
+      <forward name="success_update" path="calculatorView.do" redirect="true"/>
+      <forward name="copy" path="calculator.copy" redirect="false"/>
+    </action>
+	
+	<action path="/calculatorMarkComplete"
+      name="viewCalculatorForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorAction"
+      scope="request"
+      validate="false"
+      input="calculator.view">
+      <forward name="failure" path="calculator.view" redirect="false"/>
+      <forward name="success_update" path="calculator.library" redirect="false"/>
+      <forward name="success" path="calculator.view" redirect="false"/>
+    </action>
+	
+    <action path="/calculatorCopy"
+      name="viewCalculatorForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorAction"
+      scope="request"
+      validate="true"
+      input="calculator.view">
+      <forward name="failure" path="calculator.copy" redirect="false"/>
+      <forward name="success" path="calculator.library" redirect="false"/>
+    </action>
+    
+    <action path="/calculatorPromotionListDisplay"
+	        name="calculatorFormListForm"
+	        parameter="calculator.promotions" 
+	        type="org.apache.struts.actions.ForwardAction" 
+	        validate="false" 
+	        scope="request"/>
+    
+    <!-- Calculator Criterion Mappings -->
+    <action path="/calculatorCriterionDisplay"
+      name="calculatorCriterionForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorCriterionAction"
+      scope="request"
+      validate="false"
+      input="calculator.criterion.details">
+      <forward name="success" path="calculator.criterion.details" redirect="false"/>
+      <forward name="failure" path="calculator.criterion.details" redirect="false"/>
+    </action>
+    
+    <action path="/calculatorCriterionView"
+      name="calculatorCriterionForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorCriterionAction"
+      scope="request"
+      validate="false"
+      input="calculator.criterion.details">
+      <forward name="success" path="calculator.criterion.view" redirect="false"/>
+      <forward name="failure" path="calculator.criterion.view" redirect="false"/>
+    </action>
+	
+    <action path="/calculatorCriterionSave"
+      name="calculatorCriterionForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorCriterionAction"
+      scope="request"
+      validate="true"
+      input="calculator.criterion.details"
+      cancellable="true">
+      <forward name="failure" path="calculator.criterion.details" redirect="false"/>
+      <forward name="cancel" path="/calculatorView.do" redirect="true"/>
+      <forward name="success_update" path="/calculatorCriterionView.do" redirect="true"/>
+      <forward name="success" path="/calculatorView.do" redirect="true"/>
+    </action>
+    
+    <!-- End Calculator Criterion Mappings -->
+
+    <!--  Calculator Payout Mappings -->
+    <action path="/calculatorPayoutDisplay"
+      name="calculatorPayoutForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorPayoutAction"
+      scope="request"
+      validate="false"
+      input="calculator.payout.details">
+      <forward name="success" path="calculator.payout.details" redirect="false"/>
+      <forward name="failure" path="calculator.payout.details" redirect="false"/>
+    </action>
+    
+    <action path="/calculatorPayoutSave"
+      name="calculatorPayoutForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorPayoutAction"
+      scope="request"
+      validate="true"
+      input="calculator.payout.details" 
+      cancellable="true">
+      <forward name="failure" path="calculator.payout.details" redirect="false"/>
+      <forward name="cancel" path="/calculatorView.do" redirect="true"/>
+      <forward name="success" path="/calculatorView.do" redirect="true"/>
+    </action>
+    
+    <action path="/calculatorPayoutGrid"
+	        name="calculatorPayoutForm"
+	        parameter="calculator.payout.grid" 
+	        type="org.apache.struts.actions.ForwardAction" 
+	        validate="false" 
+	        scope="request"/>
+    
+    <!-- End Calculator Payout Mappings -->
+   <!-- Calculator Criterion Rating Mappings -->
+    <action path="/calculatorCriterionRatingDisplay"
+      name="calculatorCriterionRatingForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorCriterionRatingAction"
+      scope="request"
+      validate="false"
+      input="calculator.criterion.rating.details">
+      <forward name="success" path="calculator.criterion.rating.details" redirect="false"/>
+      <forward name="failure" path="calculator.criterion.rating.details" redirect="false"/>
+    </action>
+ 
+    <action path="/calculatorCriterionRatingSave"
+      name="calculatorCriterionRatingForm"
+      parameter="method"
+      type="com.biperf.core.ui.calculator.CalculatorCriterionRatingAction"
+      scope="request"
+      validate="true"
+      input="calculator.criterion.rating.details"
+      cancellable="true">
+      <forward name="failure" path="calculator.criterion.rating.details" redirect="false"/>
+      <forward name="cancel" path="/calculatorCriterionView.do" redirect="true"/>
+      <forward name="success" path="/calculatorCriterionView.do" redirect="true"/>
+      <forward name="success_create" path="calculator.criterion.rating.details" redirect="false"/>
+    </action>
+    
+    
+    <!-- End Calculator Criterion Rating -->
+
+  </action-mappings>
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn"> 
+		<set-property property="pathnames" 
+					  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+	    <set-property property="stopOnFirstError" value="false"/>
+    </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-calculator.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

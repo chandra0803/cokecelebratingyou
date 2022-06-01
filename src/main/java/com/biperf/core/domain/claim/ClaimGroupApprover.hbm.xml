@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <subclass name="com.biperf.core.domain.claim.ClaimGroupApprover" extends="com.biperf.core.domain.claim.ApprovableItemApprover" discriminator-value="cga">
+    <many-to-one name="claimGroup" column="CLAIM_GROUP_ID" class="com.biperf.core.domain.claim.ClaimGroup" lazy="false" update="false" not-null="true" />
+  </subclass>  
+</hibernate-mapping>

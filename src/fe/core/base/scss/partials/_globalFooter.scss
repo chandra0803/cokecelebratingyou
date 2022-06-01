@@ -1,0 +1,87 @@
+// Partial-specific variables
+// =========================
+$global_footer_linksColor: false !default;
+$global_footer_linksFontWeight: false !default;
+$global_footer_linksFontStyle: false !default;
+$global_footer_linksTextDecoration: false !default;
+$global_footer_linksTextTransform: false !default;
+$global_footer_linksDisabledColor: false !default;
+
+$global_footer_copyrightFontStyle: false !default;
+$global_footer_copyrightFontWeight: false !default;
+$global_footer_copyrightTextTransform: false !default;
+$global_footer_copyrightTextColor: false !default;
+
+
+// Partial-specific code
+// ==================================================
+
+#globalFooterView {
+    @include clearfix();
+    font-size: $fontSizeSmall;
+    text-align: center;
+
+    .nav {
+        margin: 0;
+    }
+
+    .nav > li {
+        display: inline-block;
+
+        &.copyright {
+            display: block;
+            margin-top: $baseLineHeight / 2;
+
+            @if $global_footer_copyrightTextColor {
+                color: $global_footer_copyrightTextColor;
+            }
+            @if $global_footer_copyrightFontStyle {
+                font-style: $global_footer_copyrightFontStyle;
+            }
+            @if $global_footer_copyrightFontWeight {
+                font-weight: $global_footer_copyrightFontWeight;
+            }
+            @if $global_footer_copyrightTextTransform {
+                text-transform: $global_footer_copyrightTextTransform;
+            }
+        }
+    }
+    .nav > li > a {
+        margin: 0 8px;
+
+        @include applyGlobalLinkStyles();
+
+        @include unapplyGlobalLinkStyles(
+            $color: $global_footer_linksColor,
+            $fontWeight: $global_footer_linksFontWeight,
+            $fontStyle: $global_footer_linksFontStyle,
+            $textDecoration: $global_footer_linksTextDecoration,
+            $textTransform: $global_footer_linksTextTransform,
+            $bgColor: false,
+            $border: false
+        );
+    }
+
+    .nav > li > a.disabledFootLink {
+        @if $global_footer_linksDisabledColor {
+            color: $global_footer_linksDisabledColor;
+        }
+    }
+
+    .nav > li > a.disabledFootLink:hover {
+        background-color: transparent;
+        cursor: default;
+    }
+
+    @media (min-width: $breakpoint_tablet_min) {
+        text-align: left;
+
+        .nav > li {
+            &.copyright {
+                display: inline-block;
+                float: right;
+                margin-top: 0;
+            }
+        }
+    }
+}

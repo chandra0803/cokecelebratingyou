@@ -1,0 +1,63 @@
+CREATE SEQUENCE rpt_enrollment_summary_pk_sq start with 1 increment by 1
+/
+CREATE TABLE rpt_enrollment_summary
+   (rpt_enrollment_summary_id   NUMBER(18,0),
+    record_type                 VARCHAR2(49),
+    header_node_id              NUMBER(18,0),
+    detail_node_id              NUMBER,
+    enrollment_count            NUMBER(18),
+    enrollment_date             DATE,
+    status                      VARCHAR2(30),
+    job_position                VARCHAR2(100),
+    department                  VARCHAR2(100),
+    role                        VARCHAR2(30),
+    hier_level                  NUMBER,
+    is_leaf                     NUMBER(1,0),
+    rollup_total                NUMBER(18),
+    country_id 			NUMBER(12),       
+    date_created                DATE NOT NULL,
+    created_by                  number(18) NOT NULL,
+    modified_by 		NUMBER (18),
+    date_modified  		DATE)
+/
+ALTER TABLE RPT_ENROLLMENT_SUMMARY ADD CONSTRAINT RPT_ENROLLMENT_SUMMARY_PK
+  PRIMARY KEY ( RPT_ENROLLMENT_SUMMARY_ID)
+ USING INDEX
+/
+COMMENT ON TABLE RPT_ENROLLMENT_SUMMARY IS 
+'used to store the the summarized data for enrollment. Target table for the iReport on Enrollment summary.'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.RECORD_TYPE IS 'To qualify the row as either the node summary or team summary'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.HEADER_NODE_ID IS 'parent node id'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.DETAIL_NODE_ID IS 'child node id'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.ENROLLMENT_COUNT IS 'aggregate value over the dimention'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.HIER_LEVEL IS 'Indicate the depth level in the hierarchy i indicates the topmost level.'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.IS_LEAF IS 'pseudo column to designate the end of drill down. basically indicates that there are no further child nodes for this.'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.RPT_ENROLLMENT_SUMMARY_ID IS 'System generated Primary Key'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.DATE_CREATED IS 'Audit column'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.CREATED_BY IS 'Audit column'
+/
+COMMENT ON COLUMN RPT_ENROLLMENT_SUMMARY.ROLLUP_TOTAL IS 'summary by header node. To assist the percentage calculations.'
+/
+CREATE OR REPLACE TRIGGER trg_rptenrollmentsummary_bi
+ BEFORE
+  INSERT
+ ON rpt_enrollment_summary
+REFERENCING NEW AS NEW OLD AS OLD
+ FOR EACH ROW
+BEGIN
+IF :new.RPT_ENROLLMENT_SUMMARY_ID IS NULL THEN
+    SELECT rpt_enrollment_summary_pk_sq.NEXTVAL
+      INTO :new.RPT_ENROLLMENT_SUMMARY_ID
+      FROM dual ;
+END IF ;
+END  ;
+/

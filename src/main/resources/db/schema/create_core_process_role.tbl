@@ -1,0 +1,49 @@
+CREATE TABLE process_role
+   (process_role_id                NUMBER(18) NOT NULL,
+    process_id                     NUMBER(18) NOT NULL,
+    role_id                        NUMBER(18) NOT NULL,
+    PROCESS_ROLE_TYPE              VARCHAR2(20),
+    created_by number(18) NOT NULL,
+    date_created                   DATE NOT NULL,
+    modified_by number(18),
+    date_modified                  DATE,
+    version                        NUMBER(18) NOT NULL)
+/
+ALTER TABLE process_role
+ADD CONSTRAINT process_role_id_pk PRIMARY KEY (process_role_id)
+USING INDEX
+/
+ALTER TABLE process_role
+ADD CONSTRAINT process_fk FOREIGN KEY (process_id)
+REFERENCES process (process_id)
+/
+ALTER TABLE process_role
+ADD CONSTRAINT role_fk FOREIGN KEY (role_id)
+REFERENCES role (role_id)
+/
+CREATE INDEX PROCESS_ROLE_PROCESS_FK_idx ON PROCESS_ROLE
+  (PROCESS_ID)
+/
+COMMENT ON TABLE process_role IS 'The process table stores all defined processes.'
+/
+COMMENT ON COLUMN process_role.process_role_id IS 'System-generated key that identifies a specific process_role.'
+/
+COMMENT ON COLUMN process_role.process_id IS 'process id.'
+/
+COMMENT ON COLUMN process_role.role_id IS 'role id.'
+/
+COMMENT ON COLUMN process_role.PROCESS_ROLE_TYPE IS '- type of role.'
+/
+COMMENT ON COLUMN process_role.created_by IS '- created by.'
+/
+COMMENT ON COLUMN process_role.date_created IS '- date created.'
+/
+COMMENT ON COLUMN process_role.modified_by IS 'modified by.'
+/
+COMMENT ON COLUMN process_role.date_modified IS '- date modified.'
+/
+COMMENT ON COLUMN process_role.version IS '- version.'
+/
+create sequence PROCESS_ROLE_PK_SQ start with 1540
+/
+

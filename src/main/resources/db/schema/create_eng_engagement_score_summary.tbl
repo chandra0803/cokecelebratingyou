@@ -1,0 +1,49 @@
+CREATE SEQUENCE ENGAGEMENT_SCORE_SUM_ID_SEQ INCREMENT BY 1 START WITH 1 MAXVALUE 99999999999999999999999999 MINVALUE 1
+/
+create table engagement_score_summary
+(
+  engagement_summary_id		NUMBER(18) NOT NULL,
+  record_type				VARCHAR2(49),
+  node_id					NUMBER(18),
+  parent_node_id			NUMBER(18),
+  trans_month				NUMBER(10),
+  trans_year				NUMBER(10),
+  time_frame                 VARCHAR2(10),
+  score						NUMBER(12),
+  total_participant_count	NUMBER(12),
+  received_count			NUMBER(12),
+  sent_count				NUMBER(12),
+  connected_to_count		NUMBER(12),
+  connected_from_count		NUMBER(12),
+  login_activity_count		NUMBER(12),
+  received_target			NUMBER(12),
+  sent_target               NUMBER(12),
+  connected_target			NUMBER(12),
+  connected_from_target     NUMBER(12),
+  login_activity_target     NUMBER(12),
+  SENT_ACHIEVED_COUNT       NUMBER(10),
+  RECV_ACHIEVED_COUNT       NUMBER(10),
+  CONN_TO_ACHIEVED_COUNT    NUMBER(10),
+  CONN_FROM_ACHIEVED_COUNT  NUMBER(10),
+  LOGIN_ACHIEVED_COUNT      NUMBER(10),
+  SCORE_ACHIEVED_COUNT      NUMBER(10),
+  connected_avg_target      NUMBER(18),
+  connected_from_avg_target NUMBER(18),
+  connected_avg             NUMBER(18),
+  connected_from_avg        NUMBER(18),
+  created_by				NUMBER(18) NOT NULL,
+  date_created  			DATE NOT NULL,
+  modified_by				NUMBER(18),
+  date_modified  			DATE,
+  version					NUMBER(18) NOT NULL
+)
+/
+ALTER TABLE engagement_score_summary ADD CONSTRAINT eng_score_sum_pk 
+  PRIMARY KEY (engagement_summary_id) USING INDEX
+/
+ALTER TABLE engagement_score_summary ADD CONSTRAINT eng_score_sum_node_fk
+  FOREIGN KEY (node_id) REFERENCES NODE (node_id)
+/
+CREATE INDEX END_SCORE_SUM_IDX ON ENGAGEMENT_SCORE_SUMMARY
+(RECORD_TYPE,TIME_FRAME,TRANS_MONTH,TRANS_YEAR)
+/

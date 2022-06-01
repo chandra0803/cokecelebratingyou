@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Promotion Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+
+  <definition name="promotion.list" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.PromotionListController">
+    <put name="content" value="/promotion/promotionList.jsp" />
+    <put name='trackingTitle' value='Promotion_List'/>
+  </definition>
+
+  <definition name="nomination.approvals.list" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.NominationApprovalsListController">
+    <put name="content" value="/promotion/nominationApprovalsList.jsp" />
+    <put name='trackingTitle' value='Nomination__Approvals_List'/>
+  </definition>
+  
+  <definition name="expired.promotion.list" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.ExpiredPromotionListController">
+    <put name="content" value="/promotion/expiredPromotionList.jsp" />
+    <put name='trackingTitle' value='Expired_Promotion_List'/>
+  </definition>
+
+  <definition name="promotion.overview" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.PromotionOverviewController">
+    <put name="content" value="/promotion/overview/promotionOverview.jsp" />
+    <put name='trackingTitle' value='Promotion_Overview'/>
+  </definition>
+  
+   <definition name="promotion.copy" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionCopyController">
+    <put name='content' value='/promotion/promotionCopy.jsp' />
+    <put name='trackingTitle' value='Promotion_Copy'/>
+  </definition>
+  
+  <definition name="promotion.rules" extends="beacon.default">
+    <put name='content' value='/promotion/promotionRules.jsp' />
+    <put name='trackingTitle' value='Promotion_Rules'/>
+  </definition>
+  
+  <definition name="promotion.rules.multiple" extends="beacon.default">
+    <put name='content' value='/promotion/promotionRulesMultiple.jsp' />
+    <put name='trackingTitle' value='Promotion_Rules'/>
+  </definition>
+  
+  <definition name="promotion.rules.printerFriendly" extends="beacon.printerFriendly" >
+	<put name='content' value='/promotion/promotionRules.jsp' />
+	<put name='trackingTitle' value='Promotion_Rules'/>
+  </definition> 
+  
+  <definition name="promotion.rules.modalFriendly" extends="beacon.printerFriendly" >
+	<put name='content' value='/promotion/promoRulesForActivity.jsp' />	
+	<put name='trackingTitle' value='Promotion_Rules'/>
+  </definition>    
+  
+  <!--  Promotion Type Definition -->
+  <definition name="promotion.wizard.type.list" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionTypeController">
+    <put name='content' value='/promotion/promotionType.jsp' />
+    <put name='trackingTitle' value='Promotion_Wizard_List'/>
+  </definition>
+
+  <definition name="promotion.audience.paxlist" extends="beacon.printerFriendly">
+    <put name="content" value="/promotion/promotionAudiencePaxList.jsp" />
+    <put name='trackingTitle' value='Promotion_Audience_Pax_List_Printer'/>
+  </definition>
+  
+  <!--  Promotion Sweepstakes Definition -->
+  <definition name="promotion.sweepstakes.list" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.PromotionSweepstakesListController">
+    <put name="content" value="/promotion/promotionSweepstakesList.jsp" />
+    <put name='trackingTitle' value='Promotion_Sweepstakes_List'/>
+  </definition> 
+  
+  <definition name="promotion.sweepstakes.winnerhistory" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.sweepstakes.SweepstakesWinnerHistoryController">
+    <put name="content" value="/promotion/sweepstakes/sweepstakesWinnerHistory.jsp" />
+    <put name='trackingTitle' value='Promotion_Sweepstakes_Winner_History'/>
+  </definition>   
+  
+  <definition name="promotion.sweepstakes.create.winners" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.sweepstakes.CreateWinnersController">
+    <put name="content" value="/promotion/sweepstakes/createWinners.jsp" />
+    <put name='trackingTitle' value='Promotion_Sweepstakes_Create_Winners'/>
+  </definition>
+
+  <definition name="promotion.sweepstakes.pending.winners" extends="beacon.default">
+    <put name="content" value="/promotion/sweepstakes/pendingWinners.jsp" />
+    <put name='trackingTitle' value='Promotion_Sweepstakes_Pending_Winner'/>
+  </definition>
+
+  <definition name="promotion.sweepstakes.award.confirmation" extends="beacon.default">
+    <put name="content" value="/promotion/sweepstakes/sweepstakesAwardConfirmation.jsp" />
+    <put name='trackingTitle' value='Promotion_Sweepstakes_Award_Confirmation'/>
+  </definition>
+
+  <!--  Discretionary Definition -->
+  <definition name="promotion.discretionary.award" extends="beacon.default" 
+  		controllerClass="com.biperf.core.ui.promotion.discretionary.AwardController">
+    <put name="content" value="/promotion/discretionary/award.jsp" />
+    <put name='trackingTitle' value='Promotion_Discretionary_Award'/>
+  </definition>
+  
+  <!-- Stack Rank Definition -->
+  <definition name="stackrank.create" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.stackrank.CreateStackRankController">
+    <put name="content" value="/promotion/stackrank/createStackRank.jsp" />
+    <put name='trackingTitle' value='Stack_Rank_Create'/>
+  </definition>
+
+  <definition name="stackrank.list" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.stackrank.StackRankListController">
+    <put name="content" value="/promotion/stackrank/stackRankList.jsp" />
+    <put name='trackingTitle' value='Stack_Rank_List'/>
+  </definition>  
+  
+  <definition name="expired.stackrank.list" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.stackrank.ExpiredStackRankListController">
+    <put name="content" value="/promotion/stackrank/expiredStackRankList.jsp" />
+    <put name='trackingTitle' value='Expired_Stack_Rank_List'/>
+  </definition>  
+  
+  <definition name="stackrank.history" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.stackrank.StackRankHistoryController">
+    <put name="content" value="/promotion/stackrank/stackRankHistory.jsp" />
+    <put name='trackingTitle' value='Stack_Rank_History'/>
+  </definition>  
+  
+  <definition name="stackrank.pending.list" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.stackrank.StackRankPendingListController">
+    <put name="content" value="/promotion/stackrank/stackRankPendingList.jsp" />
+    <put name='trackingTitle' value='Stack_Rank_Pending_List'/>
+  </definition>
+  
+  <definition name="stackrank.approval.confirmation" extends="beacon.default">
+    <put name="content" value="/promotion/stackrank/stackRankApprovalConfirmation.jsp" />
+    <put name='trackingTitle' value='Stack_Rank_Approval_Confirmation'/>
+  </definition>
+
+  <definition name="pending.stackrank.details" extends="beacon.default" controllerClass="com.biperf.core.ui.promotion.stackrank.PendingStackRankingDetailsController">
+    <put name="content" value="/promotion/stackrank/pendingStackRankingDetails.jsp" />
+    <put name='trackingTitle' value='Pending_Stack_Rank_Details'/>
+  </definition>
+
+  <definition name="stackranknode.display" extends="beacon.default"
+              controllerClass="com.biperf.core.ui.promotion.stackrank.StackRankNodeController">
+    <put name="content" value="/promotion/stackrank/stackRankNode.jsp" />
+    <put name='trackingTitle' value='Stack_Rank_Node_Display'/>    
+  </definition>
+
+ <definition name="promotion.goalquest.view.registration.codes" extends="beacon.printerFriendly"
+  	controllerClass="com.biperf.core.ui.promotion.PromotionRegistrationCodeController">
+    <put name="content" value="/promotion/goalquest/viewRegistrationCodes.jsp"/>
+    <put name='trackingTitle' value='Promotion_GQ_View_Registration_Codes_Printer'/>
+  </definition>   
+  
+  <definition name="promotion.challengepoint.view.registration.codes" extends="beacon.printerFriendly"
+  	controllerClass="com.biperf.core.ui.promotion.PromotionRegistrationCodeController">
+    <put name="content" value="/promotion/challengepoint/viewRegistrationCodes.jsp"/>
+    <put name='trackingTitle' value='Promotion_CP_View_Registration_Codes_Printer'/>
+  </definition>
+  
+ <!-- SSI ADMIN Definition -->
+  <definition name="ssicontest.list" extends="beacon.default" controllerClass="com.biperf.core.ui.ssi.SSIMaintainController">
+       <put name="content"  value="/promotion/ssi/ssiSearchContest.jsp" />
+       <put name='trackingTitle' value='SSI_Contest_Adminstration' />
+ </definition>
+ 
+   <definition name="ssicontest.editcreator" extends="beacon.default" controllerClass="com.biperf.core.ui.ssi.SSIEditCreatorController">
+       <put name="content"  value="/promotion/ssi/ssiEditCreator.jsp" />
+       <put name='trackingTitle' value='SSI_Contest_Adminstration' />
+ </definition>
+  
+  <!--Gamification App  definitions-->
+  <definition name="badge.list" extends="beacon.default">
+		<put name="content" value="/gamification/badgeList.jsp" />
+		<put name='trackingTitle' value='Badge_List' />
+  </definition>
+  
+   <definition name="badge.expired" extends="beacon.default">
+		<put name="content" value="/gamification/badgeListExpired.jsp" />
+		<put name='trackingTitle' value='Badge_List' />
+  </definition>
+  
+  <definition name="badge.create" extends="beacon.default">
+		<put name="content" value="/gamification/badgeAdd.jsp" />
+		<put name='trackingTitle' value='Badge_Create' />
+  </definition>
+  
+   <definition name="badge.update" extends="beacon.default">
+		<put name="content" value="/gamification/badgeEdit.jsp" />
+		<put name='trackingTitle' value='Badge_Create' />
+  </definition>
+  
+  <!-- DIY Quiz Definitions -->
+  
+  <definition name="diyquiz.list" extends="beacon.default">
+		<put name="content" value="/diyquiz/diyQuizList.jsp" />
+		<put name='trackingTitle' value='DIY_Quiz_List' />
+  </definition>
+  
+  <definition name="diyquiz.inactive.list" extends="beacon.default">
+		<put name="content" value="/diyquiz/diyQuizInactiveList.jsp" />
+		<put name='trackingTitle' value='DIY_Quiz_Inactive_List' />
+  </definition>
+  
+  <definition name="diyquiz.create" extends="g5.default">
+		<put name="content" value="/diyquiz/quizPageEdit.jsp" />
+		<put name='trackingTitle' value='DIY_Create_Quiz' />
+  </definition>
+  
+  <definition name="diyquiz.update" extends="g5.default">
+		<put name="content" value="/diyquiz/quizPageEdit.jsp" />
+		<put name='trackingTitle' value='DIY_Update_Quiz' />
+  </definition>
+  
+   <!--  Promotion Sweepstakes Definition -->
+  <definition name="promo.sweepstakes.widget"
+	      	  path="/promotion/promotionSweepstakes.jsp">
+	<put name="promotion.header" value="/promotion/recognition/promotionHeader.jsp" />
+  	<put name="promotionSweepstakesJS" value="/promotion/promotionSweepstakesJS.jsp" />
+  	<put name="promotionSweepstakesMiddle" value="/promotion/badgeSweepstakesMiddle.jsp" />
+	<put name="promotion.footer" value="/promotion/promotionFooter.jsp" />
+  </definition>
+  
+  <definition name="promotion.sweepstakes" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionSweepstakesController">
+    <put name="content" value="promo.sweepstakes.widget" />
+    <put name='trackingTitle' value='Badge_Promotion_SweepStakes' />
+  </definition>
+  
+</tiles-definitions>

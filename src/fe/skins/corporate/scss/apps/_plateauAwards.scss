@@ -1,0 +1,15 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// note: the drawer uses the generic bootstrap well class, so unless explicitly set to something other than false the nubbin color will match the well border
+// $plateauAwards_pageDrawerNubbinSize: ;
+// $plateauAwards_pageDrawerNubbinColor: ;
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "plateauAwards/scss/plateauAwards";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

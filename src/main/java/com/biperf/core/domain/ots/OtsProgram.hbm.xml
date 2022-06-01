@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.ots.OTSProgram" table="OTS_PROGRAM">
+		
+		<id name="id" column="OTS_PROGRAM_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">OTS_PROGRAM_SQ</param>
+			</generator>
+		</id>
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		
+		
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="programNumber" type="java.lang.Long" column="OTS_PROGRAM_NBR"/>
+		<property name="programStatus" column="PROGRAM_STATUS" >
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.OTSProgramStatusType</param>
+			</type>
+		</property>
+		<property name="clientName" type="java.lang.String" column="CLIENT_NAME" />
+		<property name="description" type="java.lang.String" column="DESCRIPTION" />
+		<property name="AudienceType" column="AUDIENCE_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.PrimaryAudienceType</param>
+			</type>
+		</property>
+		
+
+		
+		
+		<set name="programAudience" table="PROGRAM_AUDIENCE" inverse="true" lazy="false" cascade="all-delete-orphan"> 
+			<cache usage="nonstrict-read-write"/>
+			<key column="OTS_PROGRAM_ID" />
+			<one-to-many class="com.biperf.core.domain.ots.ProgramAudience" />
+		</set>
+		
+	</class>
+		
+		
+	
+</hibernate-mapping>
+ 

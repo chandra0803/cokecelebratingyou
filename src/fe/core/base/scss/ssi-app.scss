@@ -1,0 +1,11 @@
+// CORE APPLICATION VARIABLES AND MEASUREMENTS
+@import "partials/colors";
+@import "partials/variables";
+@import "partials/mixins";
+@import "compass/css3";
+
+// make use of SCSS files in style* without actually outputting those files here
+$base_variablesOnly: true;
+@import 'partials/pages';
+
+@import "ssi";

@@ -1,0 +1,632 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"back",
+				"background-size"
+			],
+			[
+				"#owl-",
+				"#owl-demo1"
+			],
+			[
+				"bac",
+				"background-attachment"
+			],
+			[
+				"it",
+				"itemInner"
+			],
+			[
+				"backg",
+				"background-size"
+			],
+			[
+				"#per",
+				"#period1"
+			],
+			[
+				"b",
+				"bottom"
+			],
+			[
+				"lato",
+				"lato-light"
+			],
+			[
+				"item",
+				"itemContent"
+			],
+			[
+				"icon",
+				"iconR"
+			],
+			[
+				"no",
+				"no-repeat"
+			],
+			[
+				"p80s",
+				"p80s1"
+			],
+			[
+				"lato-l",
+				"lato-light-italic"
+			],
+			[
+				"text-",
+				"text-align"
+			],
+			[
+				"p",
+				"p40s"
+			],
+			[
+				"font-s",
+				"font-size"
+			],
+			[
+				"#owl",
+				"#owl-demo2"
+			],
+			[
+				"font-",
+				"font-size"
+			],
+			[
+				"copyb",
+				"copyblock"
+			],
+			[
+				"t",
+				"top"
+			],
+			[
+				"im",
+				"img"
+			],
+			[
+				"cust",
+				"customNavigation"
+			],
+			[
+				"co",
+				"color"
+			],
+			[
+				"fon",
+				"font-weight"
+			],
+			[
+				"Ver",
+				"VerizonApex-Book"
+			],
+			[
+				"na",
+				"navigationContainer"
+			],
+			[
+				"marg",
+				"margin-bottom"
+			],
+			[
+				"img",
+				"images"
+			],
+			[
+				"V",
+				"VerizonApex-Bold"
+			],
+			[
+				"margin-",
+				"margin-top"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"text",
+				"text-transform"
+			],
+			[
+				"sc",
+				"scoreboardMid"
+			],
+			[
+				"service",
+				"serviceAreaLabels"
+			],
+			[
+				"lice",
+				"license"
+			],
+			[
+				"licens",
+				"licenseID"
+			],
+			[
+				"ser",
+				"serviceAreaLabels"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"exter",
+				"externalBannerCP"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Applications/MAMP/htdocs/topopps/index.html",
+			"settings":
+			{
+				"buffer_size": 2126,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Applications/MAMP/htdocs/topopps/scripts/topOpps.js",
+			"settings":
+			{
+				"buffer_size": 1011,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Applications/MAMP/htdocs/topopps/styles/topOpps.css",
+			"settings":
+			{
+				"buffer_size": 3547,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Applications/MAMP/htdocs/fiosrewards/fios_mobile.sublime-project",
+			"settings":
+			{
+				"buffer_size": 81,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"pack",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Applications/MAMP/htdocs/topopps/scorecard-3column.html",
+		"/Applications/MAMP/htdocs/companytimeline/css/fonts.css",
+		"/Applications/MAMP/htdocs/companytimeline/css/owl.theme.css",
+		"/Volumes/webdev/static_content/www.biworldwidedev.com/microsites/wellpoint/index.html",
+		"/Applications/MAMP/htdocs/microsites/sysmex/js/script.js",
+		"/Applications/MAMP/htdocs/companytimeline/js/vendor/stellar.js",
+		"/Volumes/webdev/static_content/www.biworldwidedev.com/microsites/kia/js/script.js",
+		"/Applications/MAMP/htdocs/companytimeline/js/plugins.js",
+		"/Applications/MAMP/htdocs/microsites/tmobile/js/main.js",
+		"/Users/tesch/Downloads/jquery-visible-master/examples/demo-basic.html",
+		"/Users/tesch/Downloads/jquery-visible-master/jquery.visible.min.js",
+		"/Volumes/shared/RESOURCES/Web_Fonts/!!!_ALL_FONTS.css",
+		"/Users/tesch/Downloads/webfontkit-20140805-102100/stylesheet.css",
+		"/Users/tesch/Downloads/webfontkit-20140805-101319/stylesheet.css",
+		"/Users/tesch/Downloads/webfontkit-20140805-100931/stylesheet.css",
+		"/Applications/MAMP/htdocs/loyalty-admin/assets/163e3fcd/style.css",
+		"/Applications/MAMP/htdocs/companytimeline/css/!!!_ALL_FONTS.css",
+		"/Applications/MAMP/htdocs/trccontact.html",
+		"/Users/tesch/Desktop/contact.html",
+		"/Users/tesch/Downloads/contact.php",
+		"/Applications/MAMP/htdocs/companytimeline/index.html",
+		"/Users/tesch/Downloads/html5-boilerplate-4.3.0 2/css/main.css",
+		"/Applications/MAMP/htdocs/fios_mobile/pages/add_property.html",
+		"/Applications/MAMP/htdocs/fios_mobile/mobile.css",
+		"/Volumes/webdev/static_content/www.plinq2.com/plinq/css/plinq2.css",
+		"/Applications/MAMP/htdocs/vzWarehouseOfRewards/congrats.html",
+		"/Applications/MAMP/htdocs/vzWarehouseOfRewards/winnerList.html",
+		"/Applications/MAMP/htdocs/vzWarehouseOfRewards/frontpage-module-winnerlist.html",
+		"/Applications/MAMP/htdocs/vzWarehouseOfRewards/css/wor.css",
+		"/Applications/MAMP/htdocs/vzWarehouseOfRewards/js/wor.js",
+		"/Applications/MAMP/htdocs/vzholidayblowout/styles/holidayblowout.css",
+		"/Applications/MAMP/htdocs/vzWarehouseOfRewards/frontpage-module.html",
+		"/Volumes/webdev/static_content/www.biworldwidedev.com/microsites/kia/index.html",
+		"/Applications/MAMP/htdocs/ahmperfcenter/styles/gauges.css",
+		"/Applications/MAMP/htdocs/ahmperfcenter/scorecard1.html",
+		"/Applications/MAMP/htdocs/ahmperfcenter/styles/plinko.css",
+		"/Applications/MAMP/htdocs/ahmperfcenter/recognitionStep4.html",
+		"/Applications/MAMP/htdocs/milexp/login-usbank.html",
+		"/Applications/MAMP/htdocs/milexp/css/themes/usbank/style.css",
+		"/Applications/MAMP/htdocs/milexp/login-code.html",
+		"/Applications/MAMP/htdocs/milexp/login-standard.html",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/appraiser_panel_inquiry.html",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/themes/rest/js/test.js",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/themes/rest/css/styles.css",
+		"/Users/tesch/Dropbox/SuperLab-Dev/BSC Crossing Email/html/mtc-a.html",
+		"/Users/tesch/Dropbox/SuperLab-Dev/BSC Crossing Email/html/mtc-b.html",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/themes/rest/js/require.js",
+		"/Users/tesch/Downloads/responsive-email-templates/newsletter.html",
+		"/Applications/MAMP/htdocs/ibmrr/styles/designtheme/ibmrrv17/1/main.css",
+		"/Applications/MAMP/htdocs/ibmrr/pie1.html",
+		"/Applications/MAMP/htdocs/ibmrr/pie2.html",
+		"/Applications/MAMP/htdocs/vzscorecard/scripts/script.js",
+		"/Applications/MAMP/htdocs/ibmrr/styles/designtheme/ibmrrv17/1/default.css",
+		"/Applications/MAMP/htdocs/cokeAnimation/bottle.html",
+		"/Applications/MAMP/htdocs/cokeAnimation/bottle.js",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/test.html",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/themes/rest/css/usb-iconfont.css",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/css/form.css",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/themes/rest/css/admin-styles.css",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/css/screen.css",
+		"/Applications/MAMP/htdocs/redsky/pre2prod-migration/home.html",
+		"/Applications/MAMP/htdocs/redsky/home.html",
+		"/Applications/MAMP/htdocs/hwg/css/main.css",
+		"/Applications/MAMP/htdocs/hwg/index.html",
+		"/Applications/MAMP/htdocs/recognition4me/home.html",
+		"/Users/tesch/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/tesch/Downloads/Preferences.sublime-settings",
+		"/Applications/MAMP/htdocs/microsites/tmo/index.html",
+		"/Volumes/webdev/static_content/www.biworldwidedev.com/microsites/tmo/index.html",
+		"/Applications/AMPPS/www/loyalty/index.php",
+		"/Volumes/webdev/static_content/www.biworldwidedev.com/microsites/marriott/index.html",
+		"/Users/tesch/Desktop/project/themes/default/css/la-home.css",
+		"/Users/tesch/Desktop/project/themes/default/css/la-pre-login.css",
+		"/Applications/MAMP/htdocs/purl/cummins/index.html",
+		"/Applications/MAMP/htdocs/microsites/sysmex/index.html",
+		"/Applications/MAMP/htdocs/mysurfacerewards/searchResults.html",
+		"/Applications/MAMP/htdocs/mysurfacerewards/claim1.html",
+		"/Applications/MAMP/htdocs/mysurfacerewards/scripts/commonFunctions.js",
+		"/Applications/MAMP/htdocs/mysurfacerewards/scripts/yui/autocomplete/autocomplete.js",
+		"/Applications/MAMP/htdocs/mysurfacerewards/styles/designtheme/mysurfacerewards/1/default2.css",
+		"/Volumes/ndsdev13/mysurfacerewards/scripts/yui/autocomplete/autocomplete.js",
+		"/Volumes/ndsdev13/mysurfacerewards/scripts/commonFunctions.js",
+		"/Volumes/ndsdev13/mysurfacerewards/styles/designtheme/mysurfacerewards/1/main.css",
+		"/Applications/MAMP/htdocs/mysurfacerewards/activities.html",
+		"/Applications/MAMP/htdocs/mysurfacerewards/account.html",
+		"/Applications/MAMP/htdocs/ibmrr/email-strong.html",
+		"/Applications/MAMP/htdocs/ibmrr/email.css",
+		"/Applications/MAMP/htdocs/plinq/css/plinq2.css",
+		"/Applications/MAMP/htdocs/ibmrr/ecard.html",
+		"/Applications/MAMP/htdocs/plinq/home-pprd.html",
+		"/Applications/MAMP/htdocs/ibmrr/email-managerschoice.html",
+		"/Applications/MAMP/htdocs/ibmrr/email-purl1.html",
+		"/Applications/MAMP/htdocs/ibmrr/email1.html",
+		"/Applications/MAMP/htdocs/plinq/js/tinymce/themes/advanced/skins/default/ui.css",
+		"/Users/tesch/Desktop/WM_Email_Template/newEmail.html",
+		"/Users/tesch/CVSRoot/products/G4 Creative Development/skins/IBM/styles/designtheme/ibmrrv17/1/email.css",
+		"/Users/tesch/Downloads/wellpoint/index.html",
+		"/Applications/AMPPS/phpMyAdmin/config.inc.php",
+		"/Applications/AMPPS/apache/htdocs/index.html",
+		"/Applications/MAMP/htdocs/ibmrr/terms.html",
+		"/Applications/MAMP/htdocs/ibmrr/awardChoices.html",
+		"/Applications/MAMP/conf/apache/httpd.conf",
+		"/Applications/MAMP/htdocs/ibmrr/registrationConfirm.html",
+		"/Users/tesch/Library/Application Support/Sublime Text 2/Packages/CVS/CVS.sublime-settings",
+		"/Users/tesch/Library/Application Support/Sublime Text 2/Packages/User/CVS.sublime-settings",
+		"/Applications/MAMP/htdocs/ibmrr/managerguide.html",
+		"/Applications/MAMP/htdocs/animalhealthrewards/dev-enroll1.html",
+		"/Applications/MAMP/htdocs/AcuraGauge/gauge_acura.html",
+		"/Applications/MAMP/htdocs/AcuraGauge/css/acura/gauges.css",
+		"/Applications/MAMP/htdocs/AcuraGauge/js/gauge.js",
+		"/Applications/MAMP/htdocs/animalhealthrewards/CSS/sr-dave.css"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"talk",
+			" data-type=\"background\" data-speed=\"5\"",
+			" data-type=\"background\" data-speed=\"20\"",
+			" data-type=\"background\" data-speed=\"10\"",
+			" data-stellar-background-ratio=\"0.3\"",
+			"cover",
+			"ratio=\"0.1\"",
+			"ratio=\"2\"",
+			"ratio=\"0.2\"",
+			"ratio=\"0.8\"",
+			" class=\"itemInner\"",
+			"scroll",
+			"lato",
+			"cover",
+			"akz",
+			"action",
+			"d",
+			"action",
+			"form",
+			"award",
+			"counties",
+			"sidebar",
+			"400px",
+			".profile#api-address",
+			"emplo",
+			"\"/",
+			"bever",
+			"carbon",
+			"refere",
+			"resources",
+			"itemselect",
+			"searching",
+			"product",
+			"prepareAddProduct",
+			"select",
+			"callback",
+			"yui",
+			"go",
+			"banner",
+			"document",
+			"proximanova-regular-webfont",
+			"=3D",
+			"container",
+			";\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			" data-type=\"background\" data-speed=\"10\"",
+			" data-type=\"background\" data-speed=\"5\"",
+			" data-type=\"background\" data-speed=\"20\"",
+			" data-type=\"background\" data-speed=\"10\"",
+			"ratio=\"0.3\"",
+			"ratio=\"0.1\"",
+			"ratio=\"2\"",
+			"ratio=\"0.2\"",
+			" class=\"itemInner\" data-stellar-background-ratio=\"0.8\"",
+			"\"",
+			"="
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Applications/MAMP/htdocs/topopps/index.html",
+					"settings":
+					{
+						"buffer_size": 2126,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								804,
+								804
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "/Applications/MAMP/htdocs/topopps/scripts/topOpps.js",
+					"settings":
+					{
+						"buffer_size": 1011,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								766,
+								766
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "/Applications/MAMP/htdocs/topopps/styles/topOpps.css",
+					"settings":
+					{
+						"buffer_size": 3547,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3393,
+								3393
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1689.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Applications/MAMP/htdocs/fiosrewards/fios_mobile.sublime-project",
+					"settings":
+					{
+						"buffer_size": 81,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			],
+			[
+				2,
+				0,
+				3,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.358595109822,
+			0.640936593452,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 147.0,
+	"status_bar_visible": true
+}

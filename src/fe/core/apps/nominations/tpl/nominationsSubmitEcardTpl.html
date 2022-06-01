@@ -1,0 +1,61 @@
+<h3>Select an eCard</h3>
+<!-- WIP #62895 Changes start -->
+<!-- Please note that there also other changes inside the file related to this feature. Search the repo for commit with message "WIP #62895 - Meme & Sticker tool changes" to see all the changes -->
+<ul class="nav nav-tabs hide" id="recognitionPageEcardSectionTabSelectedTabs">
+    <li class="active">
+        <a data-toggle="tab" href="#ecardsSec" data-tab-name="ecards"><span>eCard Library</span></a>
+    </li>            
+    <li>
+        <a data-toggle="tab" href="#memeSec" data-tab-name="memes"><span>Meme Generator</span></a>
+    </li>
+</ul>
+<!-- WIP #62895 Changes end -->
+
+<span class="nominationSaved" style="display:none">Saved &nbsp;<i class="icon icon-diskette-1"></i></span>
+
+<span class="cardSelected">eCard selected</span>
+<span class="cardNotSelected">eCard not selected</span>
+
+<div class="ecardsSection">
+    <div id="drawToolShell">
+        <!-- dynamice - draw tool widget -->
+    </div>
+
+    <!-- card types: none|upload|drawing|eCard
+    <input type="hidden" name="cardType" value="drawing" />
+    <input type="hidden" name="videoUrl" value="http://www.youtube.com" />
+    <input type="hidden" name="cardId" value="123" />
+    <input type="hidden" name="cardUrl" value="http://placehold.it/322x322" />
+    <input type="hidden" name="cardData" value="datadatadata" />-->
+
+    <!-- dynamic - backbone view -->
+</div><!-- /.ecardsSection -->
+
+<div class="privateNom" style="display:none">
+    <div class="control-label">
+        <h3>Private Nomination</h3>
+    </div>
+    <div class="control-group">
+        <label class="checkbox" for="privateNomination">
+
+            <input type="checkbox" id="privateNomination" data-model-key="privateNomination" {{#if this.privateNomination}} checked {{/if}} />
+            Make Nomination Private
+        </label>
+    </div>
+</div>
+
+<div class="stepContentControls">
+
+    <button class="btn btn-primary submitBtn">
+        Submit Nomination
+    </button>
+    <button class="btn btn-primary nextBtn" >
+        Next
+    </button>
+	<button href="#" class="btn cancelBtn">
+        Cancel
+    </button>
+    <button class="btn saveDraftBtn btn-primary btn-inverse">
+        Save Draft
+    </button>
+</div><!-- /.stepContentControls -->

@@ -1,0 +1,38 @@
+<%--UI REFACTORED --%>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<%@ include file="/include/taglib.jspf"%>
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr class="form-blank-row">
+         <td></td>
+    </tr>	
+    <tr class="form-blank-row">
+        <td></td>
+   </tr>	
+  <tr>
+    <td valign=center" align="center">
+    <c:choose>
+      <c:when test="${ cardType == 'eCard' }">
+        <img src="<c:out value="${imageName}"/>" border="0"/>
+      </c:when>
+      <c:when test="${ cardType == 'certificate' }">
+      	<c:if test="${ nominationPromotion == 'false' }">
+			<img src="<%=RequestUtils.getBaseURI(request)%>/assets/img/certificates/<c:out value="${imageName}"/>" border="0"/>
+        </c:if>
+        <c:if test="${ nominationPromotion == 'true' }">
+	       	<img src="<c:out value="${imageName}"/>" border="0"/>
+	    </c:if>
+      </c:when>      
+    </c:choose>
+    </td>
+  </tr>
+   <tr class="form-blank-row">
+        <td></td>
+   </tr>
+  <tr>
+    <td align="center">
+      <input type="button" class="content-buttonstyle" 
+      onclick="window.close();" value="<cms:contentText code="system.button" key="CLOSE_WINDOW" />"/> 
+    </td>
+  </tr>
+</table>

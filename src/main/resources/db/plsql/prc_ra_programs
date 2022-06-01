@@ -1,0 +1,168 @@
+CREATE OR REPLACE PROCEDURE PRC_RA_PROGRAMS (p_in_giver_id      IN  application_user.user_id%TYPE, 
+                                             p_in_receiver_id   IN  application_user.user_id%TYPE,
+                                             p_out_return_code  OUT NUMBER,
+                                             p_out_user_data    OUT SYS_REFCURSOR) 
+ IS
+  PRAGMA AUTONOMOUS_TRANSACTION;
+    /*******************************************************************************
+   -- Purpose: To generate result for RAf or new hires
+   --
+   -- Person        Date         Comments
+   -- -----------   --------     -----------------------------------------------------
+   -- Gorantla      01/06/2018   Initial creation                                                  
+   *******************************************************************************/
+  c_process_name          CONSTANT execution_log.process_name%TYPE:='PRC_RA_PROGRAMS';
+
+  v_user_node             user_node.node_id%TYPE;
+  v_live_cnt_promotion    NUMBER(10);
+  v_cnt_all_active_promo  NUMBER(10);
+  v_level                 PLS_INTEGER;
+  v_orphan_nodes          PLS_INTEGER;
+  v_stage                 VARCHAR2(400);                                      
+
+BEGIN
+  prc_execution_log_entry(c_process_name,1,'INFO','Process Started '||p_in_giver_id||' -'||p_in_receiver_id,null);
+
+  v_stage := 'Get eligible programs list'; 
+  DELETE FROM gtt_ra_program;
+  INSERT INTO gtt_ra_program
+    WITH PROMO AS
+    (SELECT p.*
+      FROM promotion p,
+           promo_recognition pr
+     WHERE p.promotion_id = pr.promotion_id
+       AND pr.is_include_purl = 0
+       AND pr.include_celebrations = 0
+       AND promotion_type = 'recognition'
+       AND award_type != 'merchandise'
+       AND promotion_status = 'live'
+       AND is_fileload_entry = 0 )
+    -- Get the list of promotion assocaited to pax
+    SELECT *
+      FROM 
+    (SELECT p.promotion_id,
+           promotion_name,
+           promotion_status,
+           award_budget_master_id,
+           primary_audience_type,
+           DECODE(secondary_audience_type, 'sameasprimaryaudience',primary_audience_type,secondary_audience_type) secondary_audience_type
+      FROM participant_audience pax_aud,
+           promo_audience promo_aud,
+           promo p
+     WHERE pax_aud.audience_id = promo_aud.audience_id 
+       AND promo_audience_type = 'PRIMARY' 
+       AND promo_aud.promotion_id = p.promotion_id
+       AND pax_aud.user_id = p_in_giver_id
+    UNION
+    -- Get the list of promotion assocaited to pax(all active pax - pax is part of allactive)
+    SELECT p.promotion_id,
+           promotion_name,
+           promotion_status,
+           award_budget_master_id,
+           primary_audience_type,
+           DECODE(secondary_audience_type, 'sameasprimaryaudience',primary_audience_type,secondary_audience_type) secondary_audience_type
+      FROM promo p 
+     WHERE p.primary_audience_type = 'allactivepaxaudience')
+     -- Get the list of promotion assocaited to receiver pax
+     WHERE (secondary_audience_type = 'allactivepaxaudience'
+                     OR EXISTS (SELECT 1
+                                  FROM promo_audience proa,
+                                       participant_audience para 
+                                 WHERE proa.audience_id = para.audience_id
+                                   AND promotion_id = proa.promotion_id
+                                   AND proa.promo_audience_type = 'SECONDARY'
+                                   AND para.user_id = p_in_receiver_id)
+                     );
+    
+    v_stage := 'Get eligible programs details'; 
+    OPEN p_out_user_data FOR 
+      WITH bud_promo AS
+         (SELECT p.promotion_id,
+                 p.promotion_name,
+                 b.budget_id,
+                 b.user_id,
+                 b.node_id,
+                 bm.budget_master_id,
+                 bs.end_Date,
+                 b.current_value,
+                 bs.budget_segment_id
+           FROM budget b,
+                budget_segment bs,
+                budget_master bm,
+                gtt_ra_program p
+          WHERE b.budget_segment_id = bs.budget_segment_id
+            AND bs.budget_master_id = bm.budget_master_id
+            AND p.award_budget_master_id =bm.budget_master_id
+            AND trunc(sysdate) between bs.start_Date and nvl(bs.end_date,trunc(sysdate))
+            AND b.status = 'active')
+      SELECT promotion_id,
+             promotion_name, 
+             sysdate current_date,
+             end_Date budget_exp_date,
+             NVL(Days_to_budget_exp,0) Days_to_budget_exp,
+             DECODE(NVL(budget_amt,0),-1,0,NVL(budget_amt,0)) amount_remaining,
+             budget_id,
+             user_id,
+             node_id,
+             budget_master_id,
+             budget_segment_id,
+             NVL(budget_amt,0) budget_amt
+        FROM (SELECT promotion_id,
+                     promotion_name,
+                     budget_id,
+                     user_id,
+                     node_id,
+                     budget_master_id,
+                     end_Date,
+                     trunc(sysdate) - nvl(end_date,trunc(sysdate)) Days_to_budget_exp,
+                     budget_segment_id,
+                     decode(current_value,0,-1,current_value) budget_amt
+                FROM (
+                     -- Get list of promo details which are tied to pax budget
+                      SELECT *
+                        FROM bud_promo
+                       WHERE user_id = p_in_giver_id
+                      UNION
+                      -- Get list of promo details which are tied to node budget
+                      SELECT *
+                        FROM bud_promo
+                       WHERE (node_id IN (SELECT node_id
+                                          FROM user_node
+                                         WHERE user_id = p_in_giver_id
+                                           AND status = 1))
+                      UNION
+                      -- Get list of promo details which are tied to central budget
+                      SELECT *
+                        FROM bud_promo
+                       WHERE user_id IS NULL
+                         AND node_id IS NULL)
+                      UNION
+                      -- Get list of promotions which are not tied to budget
+                      SELECT promotion_id,
+                             promotion_name,
+                             null budget_id,
+                             null user_id,
+                             null node_id,
+                             null budget_master_id,
+                             null end_Date,
+                             null Days_to_budget_exp,
+                             null budget_segment_id,
+                             null budget_amt
+                        FROM gtt_ra_program
+                       WHERE award_budget_master_id IS NULL)
+       ORDER BY days_to_budget_exp,
+                budget_amt desc,
+                upper(promotion_name);                
+                    
+  COMMIT;
+  prc_execution_log_entry(c_process_name,1,'INFO','Process Completed ',null);
+  p_out_return_code:=0;
+  
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    p_out_return_code :=  99 ;
+    prc_execution_log_entry(c_process_name,1,'ERROR',v_stage||' - '||SQLERRM,null);
+    OPEN p_out_user_data FOR SELECT NULL FROM dual  ;
+END;
+/

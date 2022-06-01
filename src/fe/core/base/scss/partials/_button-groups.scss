@@ -1,0 +1,140 @@
+// Partial-specific variables
+// =========================
+
+
+// Partial-specific code
+// ==================================================
+
+// Button groups
+// --------------------------------------------------
+
+// Space out series of button groups
+.btn-group + .btn-group {
+  margin-left: $btnSpacingX * 1.5;
+}
+
+// gaps between buttons within groups
+.btn-group > .btn + .btn {
+  margin-left: $btnBorderWidth;
+}
+
+
+// Split button dropdowns
+// ----------------------
+.btn-group > .btn + .dropdown-toggle {
+    @include box-shadow(none);
+}
+
+.btn-group > .btn-inverse + .dropdown-toggle {
+    margin-left: -1 * $btnBorderWidth;
+}
+
+// Reposition the caret
+.btn .caret {
+  margin-top: 9px;
+}
+// Carets in other button sizes
+.btn-large .caret {
+  margin-top: 8px;
+}
+.btn-small .caret {
+  margin-top: 9px;
+}
+.btn-mini .caret {
+  margin-top: 7px;
+}
+
+// gotta do a lot of color manipulation for the G6 inverse buttons
+.btn-inverse {
+    .caret {
+        border-top-color: $btnBackgroundHighlight;
+        border-bottom-color: $btnBackgroundHighlight;
+    }
+
+    &:hover .caret,
+    &:focus .caret,
+    &:active .caret,
+    &.active .caret {
+        border-top-color: $btnTxtColor;
+        border-bottom-color: $btnTxtColor;
+    }
+}
+.btn-inverse.btn-primary {
+    .caret {
+        border-top-color: $btnPrimaryBackground;
+        border-bottom-color: $btnPrimaryBackground;
+    }
+
+    &:hover .caret,
+    &:focus .caret,
+    &:active .caret,
+    &.active .caret {
+        border-top-color: $btnPrimaryBackgroundHighlight;
+        border-bottom-color: $btnPrimaryBackgroundHighlight;
+    }
+}
+.btn-inverse.btn-warning {
+    .caret {
+        border-top-color: $btnInfoBackground;
+        border-bottom-color: $btnInfoBackground;
+    }
+
+    &:hover .caret,
+    &:focus .caret,
+    &:active .caret,
+    &.active .caret {
+        border-top-color: $btnInfoBackgroundHighlight;
+        border-bottom-color: $btnInfoBackgroundHighlight;
+    }
+}
+.btn-inverse.btn-danger {
+    .caret {
+        border-top-color: $btnSuccessBackground;
+        border-bottom-color: $btnSuccessBackground;
+    }
+
+    &:hover .caret,
+    &:focus .caret,
+    &:active .caret,
+    &.active .caret {
+        border-top-color: $btnSuccessBackgroundHighlight;
+        border-bottom-color: $btnSuccessBackgroundHighlight;
+    }
+}
+.btn-inverse.btn-info {
+    .caret {
+        border-top-color: $btnWarningBackground;
+        border-bottom-color: $btnWarningBackground;
+    }
+
+    &:hover .caret,
+    &:focus .caret,
+    &:active .caret,
+    &.active .caret {
+        border-top-color: $btnWarningBackgroundHighlight;
+        border-bottom-color: $btnWarningBackgroundHighlight;
+    }
+}
+.btn-inverse.btn-success {
+    .caret {
+        border-top-color: $btnDangerBackground;
+        border-bottom-color: $btnDangerBackground;
+    }
+
+    &:hover .caret,
+    &:focus .caret,
+    &:active .caret,
+    &.active .caret {
+        border-top-color: $btnDangerBackgroundHighlight;
+        border-bottom-color: $btnDangerBackgroundHighlight;
+    }
+}
+
+
+// Vertical button groups
+// ----------------------
+
+.btn-group-vertical > .btn + .btn {
+  margin-left: 0;
+  margin-top: $btnBorderWidth;
+}

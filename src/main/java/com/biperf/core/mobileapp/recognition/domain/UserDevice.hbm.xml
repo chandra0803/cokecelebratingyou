@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.mobileapp.recognition.domain.UserDevice" table="USER_DEVICE">
+
+      <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="USER_DEVICE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">USER_DEVICE_PK_SQ</param>
+      </generator>
+    </id>
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+    
+    <many-to-one name="user" class="com.biperf.core.domain.user.User" column="USER_ID" not-null="true" lazy="false"/>
+    
+    <property name="deviceType" column="DEVICE_TYPE">
+        <type name="com.biperf.core.domain.enums.HibernateVarCharEnum">
+            <param name="enumClass">com.biperf.core.mobileapp.recognition.domain.DeviceType</param>
+        </type>
+    </property>
+    
+    <property name="registrationId" column="REGISTRATION_ID" type="string" access="field"/>
+    <property name="debug" type="boolean" column="DEBUG" />
+    <property name="notificationCount" type="int" column="NOTIFICATION_COUNT"/>
+    <property name="rosterDeviceId" type="uuid-char" column="ROSTER_DEVICE_ID"/>    
+    
+  </class> 
+  
+  <query name="com.biperf.core.mobileapp.recognition.domain.UserDevice.FindByUserId">
+    <![CDATA[
+        from com.biperf.core.mobileapp.recognition.domain.UserDevice as userDevice 
+        where userDevice.user.id = :userId
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.mobileapp.recognition.domain.UserDevice.SearchExisting">
+    <![CDATA[
+        from com.biperf.core.mobileapp.recognition.domain.UserDevice as userDevice 
+        where 
+        userDevice.user.id = :userId
+        and userDevice.registrationId = :registrationId
+    ]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.mobileapp.recognition.domain.UserDevice.Delete">
+    <![CDATA[
+        delete from user_device ud
+        where
+        ud.user_id = :userId
+        and ud.registration_id = :registrationId
+    ]]>
+  </sql-query>
+  
+   <sql-query name="com.biperf.core.mobileapp.recognition.domain.UserDevice.findUserDeviceIdByRosterDeviceId">
+   <return-scalar column="user_device_id" type="long"/>
+      <![CDATA[
+          select user_device_id from user_device where roster_device_id= :rosterDeviceId
+      ]]>
+    </sql-query>
+  
+</hibernate-mapping>

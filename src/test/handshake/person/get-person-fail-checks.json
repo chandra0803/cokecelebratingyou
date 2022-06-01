@@ -1,0 +1,37 @@
+{
+  "description": "Get a Person",
+  "params": {
+    "baseUrl": "http://localhost:8001/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "personId": "00000000-0000-0000-0000-0000000015d254"
+  },
+  "steps": [
+    {
+      "id": "getPerson",
+      "description": "GET /persons/${ref:params.personId}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:params.personId}",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getPerson.res.status}",
+          "compare": "to.equal",
+          "b": 404
+        },
+        {
+          "a": "${ref:getPerson.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    }
+  ]
+}

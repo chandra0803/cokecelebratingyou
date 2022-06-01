@@ -1,0 +1,123 @@
+<?php sleep(2); ?>
+{
+	"messages":[],
+
+	"recognition": {
+
+		"id":1234,
+		"isDetail":true,
+		"isCumulative": false,
+		"recipients":[
+			{
+				"id":45,
+				"firstName":"Ron",
+				"lastName":"Smith",
+				"avatarUrl":"img/_samples/x-profile-pic2.jpg",
+				"orgName":"Sales",
+				"title":"Director",
+				"viewCertificateUrl":"#",
+				"countryCode":"us",
+				"countryName":"United States"
+			}
+		],
+		"recognizer":[
+			{
+				"id":102,
+				"firstName":"Jane",
+				"lastName":"Anderson",
+				"avatarUrl":"img/_samples/x-profile-pic1.jpg",
+				"orgName":"TSG",
+				"title":"Director",
+				"countryCode":"us",
+				"countryName":"United States",
+				"comment": "<p><b>This is a test message - bold.</b> <em><u>A line with italics and underline.</u></em></p><p><><><><><><><><><><ol><li>Number One</li><li><b>Number two - bold</b></li><li>Number three</li></ol><ul><li>Bullet 1</li><li>Bullet 2</li><li>Bullet 3</li></ul></p>",
+				"date":"01/01/2013",
+				"behavior":"Above and Beyond",
+				"badgeUrl": "img/badges/above_beyond_sm.png",
+				"extraFields":[
+					{"name":"Extra 0","value":"Extra field value"},
+					{"name":"Extra 1","value":"Extra Value"}
+				],
+				"eCard": {
+					"id":"2",
+					"name":"Celebration",
+					"imgUrl":"https://gyodaqa.performnet.com/gyoda/assets/img/cards/03-You-are-a-Rock-Star-432.jpg",
+					"imgThumbUrl":"http://placehold.it/70x70",
+					"type": "image",
+					"videoFileType":"",
+					"videoSrc": ""
+				}
+			}
+		]
+		,
+		"teamName":"",
+		"purlUrl":"layout.html?tplPath=apps/purlContribute/tpl/&tpl=purlMainPage.html",
+		"promotionName":"Core Values",
+		"promotionType":"purl",
+		"viewCertificateId": 108,
+		"copies":[
+			"A copy of the email will be sent to all recipient's managers.",
+			"A copy of the email will be sent to you."
+		],
+		"isPublicClaim":true,
+		"numLikers":1,
+		"isMine": true,
+		"isHidden": false,
+		"isLiked": false,
+		"time": "2 days ago",
+		"allowAddPoints":true,
+        "allowTranslate": true,
+		"budget":40,
+		"awardAmountMin":1,
+		"awardAmountMax":50,
+		"countryRatio":1.0,
+		"date": "05/17/2016",
+		"shareLinks":[
+			{
+				"url":"http://www.salesforce.com/chatter/chatter.foo?u=http://some.server.com/some/page.html",
+				"name":"Chatter",
+				"nameId":"chatter"
+			},
+			{
+				"url":"http://www.facebook.com/share.php?u=http://some.server.com/some/page.html",
+				"name":"Facebook",
+				"nameId":"facebook"
+			},
+			{
+				"url":"http://www.linkedin.com/shareArticle?mini=true&url=articleUrl&title=articleTitle&summary=articleSummary&source=articleSource",
+				"name":"Linkedin",
+				"nameId":"linkedin"
+			},
+			{
+				"url":"http://twitter.com/home/?status=Checkin'%20out%20http://some.server.com/some/page.html%20by%20@someuser",
+				"name":"Twitter",
+				"nameId":"twitter"
+			}
+		],
+		"comments":[
+			{
+				"id":23,
+                "allowTranslate": true,
+				"commenter":{
+					"id":12,
+					"firstName":"Willford",
+					"lastName":"Brinkely",
+					"avatarUrl":"img/_samples/x-profile-pic1.jpg"
+				},
+				"comment":"You make it so fun to come to work."
+			},
+			{
+				"id":833,
+                "isMine":true,
+				"commenter":{
+					"id":12,
+					"firstName":"Jonathan",
+					"lastName":"Cole",
+					"avatarUrl":"img/_samples/x-profile-pic2.jpg"
+				},
+				"comment":"Thank you for doing the RFP. Couldn't have made the sale without you."
+			}
+		]
+	}
+
+}

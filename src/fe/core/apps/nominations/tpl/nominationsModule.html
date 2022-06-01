@@ -1,0 +1,60 @@
+<!-- ======== NOMINATIONS MODULE ======== -->
+<div class="module-liner">
+	<div class="wide-view">
+		<div class="nominationIcon">
+			<i class="icon-badge-2"></i>
+		</div>
+
+        <form class="nomination-module-wrapper selectNominationForm" action="layout.html?tplPath=apps/nominations/tpl/&amp;tpl=nominationsSubmitPage.html" method="post">
+            <div class="promoSelectWrap"></div>
+        </form>
+    </div> <!-- ./wide-view -->
+
+    <div class="errorTipWrapper" style="display:none">
+        <i class="icon-warning-triangle"></i>
+        The maxiumum number of nominations submitted has been reached for this promotion.
+    </div><!-- /.errorTipWrapper -->
+
+	<!--subTpl.promoSelector=
+        {{#unless nominations.[1]}}
+            <div class="control-group row-fluid">
+                 <div class="span12 text-center">
+                    <span class="promotionName" data-id={{nominations.[0].promoId}}>{{nominations.[0].name}}</span>
+                    <input type="hidden" name="promoId"" value="{{nominations.[0].promoId}}" />
+                </div>
+            </div>
+
+            <div class="row-fluid button-wrap">
+                <div class="span12 text-center">
+                    <button type="button" class="btn btn-primary nominateBtn">Nominate Someone</button>
+                </div>
+            </div>
+        {{else}}
+            <div class="control-group row-fluid">
+                 <div class="span12 text-center">
+                    <select class="promoSelector" id="promoSelector" name="promoId">
+                        <option class="defaultOption" selected="selected" value="">Select Promotion</option>
+                        {{#each nominations}}
+                            <option value="{{promoId}}" name="{{name}}" data-id="{{promoId}}">
+                                {{name}}
+                            </option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="row-fluid button-wrap">
+                <div class="span12 text-center">
+                    <button type="button" class="btn btn-primary nominateBtn" disabled="disabled">Nominate Someone</button>
+                </div>
+            </div>
+        {{/unless}}
+        {{#if showPastWinnersLink}}
+            <div class="row-fluid button-wrap">
+                <div class="span12 text-center">
+                    <a class="btn btn-primary pastwinnersBtn" href="layout.html?tplPath=apps/nominations/tpl/&amp;tpl=nominationWinnersListPage.html">View Past Winners <i class="icon-trophy-1"></i></a>
+                </div>
+            </div>
+        {{/if}}
+	subTpl-->
+</div><!-- ./module-liner -->

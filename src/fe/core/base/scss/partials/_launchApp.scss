@@ -1,0 +1,37 @@
+// Partial-specific variables
+// =========================
+
+
+// Partial-specific code
+// ==================================================
+
+// GENERAL launchAPP CONTAINER STYLING
+.launchApp .container {
+    padding: 0;
+    width: 100%;
+}
+
+.launchApp .page-title {
+    margin: 0;
+    padding: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.launchApp .moduleContainerViewElement {
+    position: relative;
+}
+
+.appPageContainerViewElement {
+    position:relative;
+}
+
+.appPageContainerViewElement .goBackBtn {
+    margin-bottom:20px;
+}
+
+.appPageContainerDynamicContent {
+    position:relative;
+    min-height:600px;
+    border:1px solid #ccc;
+}

@@ -1,0 +1,241 @@
+// App-specific variables
+// =========================
+$productClaim_claimBgModuleOdd: $brand_color_lighter !default;
+$productClaim_claimBgModuleEven: $brand_color_white !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.claim {
+
+} /* /.claim */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.claim {
+    .module-content {
+        .claimsWrap {
+            margin-top: $baseLineHeight * 1.5;
+
+        }
+
+        .claimItem {
+            margin: 0;
+            padding: $baseLineHeight 0;
+            border-top: solid 1px $brand_color_mid;
+
+            &.odd {
+                //background: $productClaim_claimBgModuleOdd;
+            }
+            &.even {
+                //background: $productClaim_claimBgModuleEven;
+            }
+
+            .title {
+                margin-top: 0;
+                margin-bottom: 0;
+                float: left;
+            }
+
+            .history {
+                float: right;
+                //font-weight: $fontWeightBold;
+            }
+
+            .sub {
+                clear: both;
+            }
+
+            .ends {
+                //font-weight: bold;
+            }
+
+            .emphasized {
+                margin: 0;
+                min-height: 0;
+
+                .highlight {
+                    font-weight: bold;
+                    font-size: 1.5em;
+                }
+            }
+        }
+
+        .claimsWrap {
+            clear: both;
+
+            ul {
+                zoom: 1;
+            }
+        }
+    }
+
+} /* /.launchModule.claim */
+
+/* ----- PAGE STYLES ----- */
+.page.claim {
+
+    input.hiddenValidationInput {
+        margin: 0;
+        padding: 0;
+        width: 0;
+        border: 0;
+    }
+
+    #claimForm {
+        margin-bottom: 0;
+
+        .dl-horizontal {
+            @media (min-width: 768px){
+                dt {
+                    margin-bottom: 10px;
+                    width: 30%;
+                    white-space: normal;
+                }
+                dd {
+                    float: left;
+                    margin: 0 0 10px 10px;
+                    width: 30%;
+                }
+            }
+
+            @media (max-width: 767px) {
+                dt {
+                    width: auto;
+                }
+                dd {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    .formSection {
+        margin-bottom: $g5PageContentSpacingVertical;
+    }
+
+    .relative-qtip-wrapper {
+        position: relative;
+    }
+
+    .relative-qtip {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .ui-tooltip-instruction .ui-tooltip-content {
+        padding:12px;
+        font-size:12px;
+        line-height:16px;
+    }
+
+    #claimSelectPromotion {
+        #claimNav {
+            position: relative;
+            z-index: 1;
+        }
+        #promoSelectInputWrap {
+            margin-left: 0;
+        }
+        .control-label.promotionId {
+            display: none;
+        }
+    }
+
+    #selectedPromoText {
+        #promoTitle {
+            margin-right: 10px;
+            line-height: 30px;
+            float: left;
+        }
+
+        #changePromotion {
+            float: left;
+        }
+    }
+
+    #promotionInfo {
+        clear: both;
+    }
+
+    #claimNav {
+        .qtip {
+            margin-top: 12px;
+        }
+    }
+
+    #productsTable {
+
+        th {
+            text-align: left;
+        }
+        .quantity {
+            width: 1%;
+            text-align: right;
+            padding-right: 12px;
+            white-space: nowrap;
+        }
+        dl {
+            margin: 0px;
+        }
+
+        .editProduct {
+            i { // icon
+                font-size: 22px;
+                cursor: pointer;
+            }
+        }
+        tr.participant-item {
+            td {
+                @media (max-width: $breakpoint_mobile_max) {
+                    white-space: nowrap;
+                }
+            }
+        }
+
+    }
+
+    .deleteProductQtip {
+        width: 120px;
+    }
+
+    .edit-qtip {
+        max-width: 100%;
+
+        @media (max-width: 480px) {
+            margin: 0 2%;
+            min-width: 96%;
+        }
+    }
+
+    .editProductForm {
+        position: relative;
+        padding: 15px 6px 0 6px;
+        width: 454px; // form elements (180 + 260 (datepicker is wider)) + left-right padding below + 1px border
+
+        @media (max-width: 480px) {
+            width: auto;
+        }
+
+        .close {
+            position: absolute;
+            font-size: 20px;
+            z-index: 9999;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+    }
+
+    .datepickerTrigger {
+        .datepickerInp {
+        }
+        .datepickerBtn {
+            @media (min-width: $breakpoint_desktop_min) {
+                right: 0;
+            }
+        }
+    }
+} /* /.page.claim */

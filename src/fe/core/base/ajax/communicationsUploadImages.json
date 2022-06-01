@@ -1,0 +1,37 @@
+<?php sleep(2); ?>
+{
+    "messages" : [
+        {
+            "type":"success",
+            "name":"Image Upload Success",
+            "isSuccess": true,
+            "text":"Some text explaining the nature of the success. If this is false, return the error message.",
+
+            "_comment" : "to see banner artwork, use those 'imageUrl' attributes instead of the generic ones",
+
+            "images" : [
+            <?php if( preg_match('[max]', $_POST['sizes'])) { ?>
+                {
+                    "imageUrl": "img/banners/G6_Banner_2017_02_Wellness2_Max.jpg",
+                    "imageUrl": "http://www.placehold.it/2820x1200/<?php echo(rand(10,99).rand(10,99).rand(10,99)); ?>",
+                    "size": "max"
+                }<?php if( strlen($_POST['sizes']) > 7 ) { ?>,<?php } ?>
+            <?php }?>
+            <?php if( preg_match('[default]', $_POST['sizes'])) { ?>
+                {
+                    "imageUrl": "img/banners/G6_Banner_2017_02_Wellness2_Normal.jpg",
+                    "imageUrl": "http://www.placehold.it/1410x600/<?php echo(rand(10,99).rand(10,99).rand(10,99)); ?>",
+                    "size": "default"
+                }<?php if( strlen($_POST['sizes']) > 7 ) { ?>,<?php } ?>
+            <?php }?>
+            <?php if( preg_match('[mobile]', $_POST['sizes'])) { ?>
+                {
+                    "imageUrl": "img/banners/G6_Banner_2017_02_Wellness2_Mobile.jpg",
+                    "imageUrl": "http://www.placehold.it/705x300/<?php echo(rand(10,99).rand(10,99).rand(10,99)); ?>",
+                    "size": "mobile"
+                }
+            <?php }?>
+            ]
+        }
+    ]
+}

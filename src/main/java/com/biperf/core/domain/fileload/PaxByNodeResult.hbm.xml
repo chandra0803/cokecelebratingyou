@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.fileload.PaxByNodeResult" table="vue_stage_core_role_owners">
+
+ <!-- Note: this id is generated under the covers by using ROWNUM.  This means that multiple
+       reads will result in different id's for different objects.  This field is only in place
+       to satisfy hibernate. -->
+   <id type="java.lang.Long" column="id" />
+
+    <property name="username" type="java.lang.String" column="USER_NAME"/>
+    <property name="userId" type="java.lang.Long" column="USER_ID"/>
+    <property name="nodeId" type="java.lang.Long" column="NODE_ID"/>
+    <property name="nodeRole" type="java.lang.String" column="NODE_ROLE"/>
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID" />
+    <property name="importRecordId" type="java.lang.Long" column="IMPORT_RECORD_ID"/>
+
+  </class>
+
+  <query name="com.biperf.core.domain.fileload.getNodesByParticipantForImportFile">
+    <![CDATA[
+     from com.biperf.core.domain.fileload.PaxByNodeResult paxByNode where
+	      nvl(import_file_id, :importFileId) = :importFileId
+	      order by node_id
+    ]]>
+  </query>
+
+</hibernate-mapping>

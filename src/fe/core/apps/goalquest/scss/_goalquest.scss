@@ -1,0 +1,1210 @@
+// App-specific variables
+// =========================
+$goalquest_textColor_muted: $brand_color_dark !default;
+$goalquest_textColor_success: $brand_color_success !default;
+$goalquest_textColor_fail: $brand_color_alert !default;
+
+$goalquest_levelChosenIconColor: $brand_color_success !default;
+$goalquest_levelOpenIconColor: $brand_color_alert !default;
+$goalquest_statusTxtBgColor: rgba(0,0,0,.7) !default;
+
+$goalquest_progressBarToolTipBgColor: $brand_color_primary !default;
+$goalquest_progressBarToolTipBorderColor: $goalquest_progressBarToolTipBgColor !default;
+$goalquest_progressBarToolTipBoxShadow: none !default;
+
+$goalquest_multiPromo_itemBgColor: $card_backgroundColor !default;
+$goalquest_multiPromo_itemBoxShadow: $card_boxShadow !default;
+$goalquest_multiPromo_borderRadius: $card_borderRadius !default;
+
+$goalquest_pageMultiItemBgColor: $grayLighter !default;
+$goalquest_pageActiveLevelBg: scale-color($linkColor, $lightness: 80%) !default;
+
+$underarmour_module_images_path: $appImagesPath + "/underarmour";
+$underarmour_connect_button_bgColor: #ef2028 !default;
+$underarmour_login_button_bgColor1: rgba(240,32,51,1) !default;
+$underarmour_login_button_bgColor2: rgba(231,0,25,1) !default;
+$underarmour_connect_dot_size: 28px !default;
+$underarmour_connect_dot_size_edit: 54px !default;
+$goalquestUAHeaderHeight: 290px !default;
+
+// App-specific code
+// ==================================================
+
+
+/* ----- GLOBAL APP STYLES ----- */
+/***
+ *     .d8888b.  888      .d88888b.  888888b.         d8888 888
+ *    d88P  Y88b 888     d88P" "Y88b 888  "88b       d88888 888
+ *    888    888 888     888     888 888  .88P      d88P888 888
+ *    888        888     888     888 8888888K.     d88P 888 888
+ *    888  88888 888     888     888 888  "Y88b   d88P  888 888
+ *    888    888 888     888     888 888    888  d88P   888 888
+ *    Y88b  d88P 888     Y88b. .d88P 888   d88P d8888888888 888
+ *     "Y8888P88 88888888 "Y88888P"  8888888P" d88P     888 88888888
+ *
+ *
+ *
+ */
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.goalquest {
+
+    .gqtitlelogo {
+        height: 1.5em;
+        vertical-align: baseline;
+    }
+
+    .goalquestItemsWrapper {
+        .spin {
+            display: none;
+        }
+    }
+
+    /* *****************************************************
+        Core styles for the GQ elements
+
+        Style permutations may include any of the following
+        attributes identified by classes:
+        - single goal
+        - multiple goals
+        - goal status (open, started, ended)
+        - level (hasLevel, noLevel)
+
+        * Recommendation:
+            FOLD the different cases denoted by // NAME [- NAME]
+            to greatly increase readability
+    /* *****************************************************/
+
+    .promotionItem {
+        position: relative;
+    }
+    .multiple {
+        margin: 0 0 (-1 * nth($card_margin, 1)) 0;
+        @include clearfix();
+
+        .promotionItem {
+            margin: 0 0 (nth($card_margin, 1)) 0;
+            width: auto;
+
+            .promotionTitle {
+                font-size: $headline6fontSize;
+                font-weight: $headline6fontWeight;
+
+                strong {
+                    font-weight: inherit;
+                }
+            }
+        }
+    }
+
+    .goalItem {
+        & ~ .goalItem {
+            margin-top: nth($card_padding, 1);
+            padding-top: nth($card_padding, 1);
+            border-top: 1px dashed $goalquest_textColor_muted;
+
+            .promotionTitle {
+                margin-bottom: 0;
+
+                strong {
+                    display: none;
+                }
+                .promotionRules {
+                    line-height: $lineHeightSmall;
+                }
+            }
+        }
+    }
+    .promotionTitle {
+        margin-top: 0;
+    }
+    .promotionRules,
+	.promotionRulesHoneycomb {
+        display: inline;
+        float: right;
+        margin-left: $baseLineHeight;
+        font-size: $baseFontSize;
+        @include applyGlobalLinkStyles();
+    }
+    .subTitle {
+
+        &.partner {
+            font-size: $fontSizeSmall;
+            line-height: $lineHeightSmall;
+            color: $goalquest_textColor_muted;
+        }
+
+        .levelChooseVisual {
+
+        }
+
+        .levelLabelName {
+            display: block;
+
+            .levelLabel {
+
+            }
+
+            .levelName {
+                font-weight: $fontWeightBold;
+            }
+        }
+
+        .levelDesc {
+            display: block;
+            font-size: $fontSizeSmall;
+            line-height: $lineHeightSmall;
+        }
+    }
+
+    .progressUnit {
+        margin-bottom: $baseLineHeight / 2;
+
+        .asOf {
+            font-size: $fontSizeSmall;
+            line-height: $lineHeightSmall;
+            color: $goalquest_textColor_muted;
+        }
+
+        .progress {
+            margin-bottom: 0;
+        }
+        .progress-success {
+
+        }
+        .progress-danger {
+
+        }
+    }
+
+    .statusTxt {
+        font-weight: $fontWeightBold;
+
+        .levelChooseVisual {
+            font-size: 1.33em;
+            vertical-align: middle;
+        }
+
+        .selectIcn,
+        .selectTxt {
+
+        }
+        .sorryIcn,
+        .sorryTxt {
+            color: $goalquest_textColor_fail;
+        }
+        .notAchieveIcn,
+        .notAchieveTxt {
+            color: $goalquest_textColor_fail;
+        }
+        .achieveIcn,
+        .achieveTxt {
+            color: $goalquest_textColor_success;
+        }
+    }
+
+    .levelChooseVisual {
+        font-weight: $fontWeightBold;
+    }
+    .visualItem {
+        font-weight: $fontWeightBold;
+    }
+
+    .btnWrap {
+
+    }
+
+
+    /***
+     *     a88888b.                           dP oo                                                 oo
+     *    d8'   `88                           88
+     *    88 d8P 88 88d8b.d8b. .d8888b. .d888b88 dP .d8888b.    .d8888b. dP    dP .d8888b. 88d888b. dP .d8888b. .d8888b.
+     *    88 Yo8b88 88'`88'`88 88ooood8 88'  `88 88 88'  `88    88'  `88 88    88 88ooood8 88'  `88 88 88ooood8 Y8ooooo.
+     *    Y8.       88  88  88 88.  ... 88.  .88 88 88.  .88    88.  .88 88.  .88 88.  ... 88       88 88.  ...       88
+     *     Y88888P' dP  dP  dP `88888P' `88888P8 dP `88888P8    `8888P88 `88888P' `88888P' dP       dP `88888P' `88888P'
+     *                                                                88
+     *                                                                dP
+     */
+    @media (min-width: $breakpoint_mobileMini_min) {
+    } // /@media
+
+    @media (min-width: $breakpoint_tablet_min) {
+        .multiple {
+            margin-right: -1 * nth($card_margin_tablet, 2);
+            margin-bottom: -1 * nth($card_margin_tablet, 1);
+
+            .promotionItem {
+                display: inline;
+                float: left;
+                clear: left;
+                margin-right: nth($card_margin_tablet, 2);
+                margin-bottom: nth($card_margin_tablet, 1);
+                width: calc(50% - #{nth($card_margin_tablet, 2)});
+
+                &:nth-of-type(even) {
+                    float: right;
+                    clear: right;
+                }
+            }
+        }
+        .goalItem ~ .goalItem {
+            margin-top: nth($card_padding_tablet, 1);
+            padding-top: nth($card_padding_tablet, 1);
+        }
+    } // /@media
+
+    @media (min-width: $breakpoint_desktop_min) {
+        @if nth($card_margin_desktop, 2) != nth($card_margin_tablet, 2) {
+            .multiple {
+                margin-right: -1 * nth($card_margin_desktop, 2);
+                margin-bottom: -1 * nth($card_margin_desktop, 1);
+
+                .promotionItem {
+                    margin-right: nth($card_margin_desktop, 2);
+                    margin-bottom: nth($card_margin_desktop, 1);
+                    width: calc(50% - #{nth($card_margin_desktop, 2)});
+                }
+            }
+        } // /@if
+
+        @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+            .goalItem ~ .goalItem {
+                margin-top: nth($card_padding_desktop, 1);
+                padding-top: nth($card_padding_desktop, 1);
+            }
+        } // /@if
+    } // /@media
+
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        @if nth($card_margin_desktopLarge, 2) != nth($card_margin_desktop, 2) {
+            .multiple {
+                margin-right: -1 * nth($card_margin_desktopLarge, 2);
+                margin-bottom: -1 * nth($card_margin_desktopLarge, 1);
+
+                .promotionItem {
+                    margin-right: nth($card_margin_desktopLarge, 2);
+                    margin-bottom: nth($card_margin_desktopLarge, 1);
+                    width: calc(50% - #{nth($card_margin_desktopLarge, 2)});
+                }
+            }
+        } // /@if
+
+        @if nth($card_padding_desktopLarge, 2) != nth($card_padding_desktop, 2) {
+            .goalItem ~ .goalItem {
+                margin-top: nth($card_padding_desktopLarge, 1);
+                padding-top: nth($card_padding_desktopLarge, 1);
+            }
+        } // /@if
+    } // /@media
+
+
+    /***
+     *               dP              dP
+     *               88              88
+     *    .d8888b. d8888P .d8888b. d8888P dP    dP .d8888b. .d8888b. .d8888b.
+     *    Y8ooooo.   88   88'  `88   88   88    88 Y8ooooo. 88ooood8 Y8ooooo.
+     *          88   88   88.  .88   88   88.  .88       88 88.  ...       88
+     *    `88888P'   dP   `88888P8   dP   `88888P' `88888P' `88888P' `88888P'
+     *
+     *
+     */
+
+    // STATUS OPEN - NO LEVEL
+    .gqStatus_open.gqNoLevel {
+    } // .gqStatus_open.gqNoLevel
+
+    // STATUS OPEN - HAS LEVEL
+    .gqStatus_open.gqHasLevel {
+    } // .gqStatus_open.gqHasLevel
+
+    // STATUS STARTED - HAS LEVEL
+    .gqStatus_started.gqHasLevel {
+    } // .gqStatus_started.gqHasLevel
+
+    // STATUS STARTED - NO LEVEL
+    .gqStatus_started.gqNoLevel,
+    .gqStatus_ended.gqNoLevel {
+    } // .gqStatus_started.gqNoLevel
+
+    // STATUS ENDED - NO LEVEL
+    .gqStatus_ended.gqNoLevel {
+    } // .gqStatus_ended.gqNoLevel
+
+    // STATUS ENDED - HAS LEVEL
+    .gqStatus_ended.gqHasLevel {
+        .levelChooseVisual {
+            font-size: 2em;
+        }
+
+        @media (min-width: $breakpoint_tablet_min) {
+            .goalItem {
+                position: relative;
+                padding-right: 60%;
+                width: 40%;
+            }
+
+            .statusTxt {
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: 40%;
+                bottom: 0;
+                padding-left: $g6ModulePaddingX_tablet;
+                text-align: center;
+            }
+            .levelChooseVisual {
+                display: block;
+                font-size: $fontSizeExtraLarge * 4;
+                line-height: 1.25em;
+            }
+        } // /@media
+
+        @media (min-width: $breakpoint_desktop_min) {
+            @if $g6ModulePaddingX_desktop != $g6ModulePaddingX_tablet {
+                .statusTxt {
+                    padding-left: $g6ModulePaddingX_desktop;
+                }
+            }
+        } // /@media
+
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if $g6ModulePaddingX_desktopLarge != $g6ModulePaddingX_desktop {
+                .statusTxt {
+                    padding-left: $g6ModulePaddingX_desktopLarge;
+                }
+            }
+        } // /@media
+    } // .gqStatus_ended.gqHasLevel
+
+} /* /.goalquest */
+
+
+/* ----- MODULE STYLES ----- */
+/***
+ *    888b     d888  .d88888b.  8888888b.  888     888 888      8888888888
+ *    8888b   d8888 d88P" "Y88b 888  "Y88b 888     888 888      888
+ *    88888b.d88888 888     888 888    888 888     888 888      888
+ *    888Y88888P888 888     888 888    888 888     888 888      8888888
+ *    888 Y888P 888 888     888 888    888 888     888 888      888
+ *    888  Y8P  888 888     888 888    888 888     888 888      888
+ *    888   "   888 Y88b. .d88P 888  .d88P Y88b. .d88P 888      888
+ *    888       888  "Y88888P"  8888888P"   "Y88888P"  88888888 8888888888
+ *
+ *
+ *
+ */
+.launchModule.goalquest, .page-content.goalquest {
+    .progress .bar {
+        @include transition(none);
+    }
+
+    .module-liner {
+        min-height: $g5ModuleUnit / 2;
+        &.gqSingle {
+            .module-title.ua-header {
+                margin: 0;
+                position: relative;
+                z-index: 5;
+                a {
+                    position: absolute;
+                    top: $g6ModulePaddingY * 1.5;
+                    @media (min-width: $breakpoint_tablet_min) {
+                        top: $g6ModulePaddingY_tablet * 1.5;
+                    }
+                    @media (min-width: $breakpoint_desktop_min) {
+                        top: $g6ModulePaddingY_desktop * 1.5;
+                    }
+                    @media (min-width: $breakpoint_desktopLarge_min) {
+                        top: $g6ModulePaddingY_desktopLarge * 1.5;
+                    }
+                }
+            }
+            .promotionItem.single.ua {
+                margin: (-1 * $g6ModulePaddingY) (-1 * $g6ModulePaddingX);
+                @media (min-width: $breakpoint_tablet_min) {
+                    margin: (-1 * $g6ModulePaddingY_tablet) (-1 * $g6ModulePaddingX_tablet);
+                }
+                @media (min-width: $breakpoint_desktop_min) {
+                    margin: (-1 * $g6ModulePaddingY_desktop) (-1 * $g6ModulePaddingX_desktop);
+                }
+                @media (min-width: $breakpoint_desktopLarge_min) {
+                    margin: (-1 * $g6ModulePaddingY_desktopLarge) (-1 * $g6ModulePaddingX_desktopLarge);
+                }
+                .goalItem {
+                    padding: (2 * $g6ModulePaddingY) $g6ModulePaddingX;
+                    margin-bottom: 0;
+                    @media (min-width: $breakpoint_tablet_min) {
+                        padding: (2 * $g6ModulePaddingY_tablet) $g6ModulePaddingX_tablet;
+                    }
+                    @media (min-width: $breakpoint_desktop_min) {
+                        padding: (2 * $g6ModulePaddingY_desktop) $g6ModulePaddingX_desktop;
+                    }
+                    @media (min-width: $breakpoint_desktopLarge_min) {
+                        padding: (2 * $g6ModulePaddingY_desktopLarge) $g6ModulePaddingX_desktopLarge;
+                    }
+                    .promotionTitle {
+                        margin-top: 1em;
+                    }
+                }
+                .ua-footer {
+                    bottom: $g6ModulePaddingY;
+                    right: $g6ModulePaddingX;
+                    position: absolute;
+                    @media (min-width: $breakpoint_tablet_min) {
+                        bottom: $g6ModulePaddingY_tablet;
+                        right: $g6ModulePaddingX_tablet;
+                    }
+                    @media (min-width: $breakpoint_desktop_min) {
+                        bottom: $g6ModulePaddingY_desktop;
+                        right: $g6ModulePaddingX_desktop;
+                    }
+                    @media (min-width: $breakpoint_desktopLarge_min) {
+                        bottom: $g6ModulePaddingY_desktopLarge;
+                        right: $g6ModulePaddingX_desktopLarge;
+                    }
+                }
+            }
+        }
+    }
+
+    .gqtitlelogo {
+        margin-top: -1em;
+        margin-right: 10px;
+    }
+
+/*
+888     888       d8888
+888     888      d88888
+888     888     d88P888
+888     888    d88P 888
+888     888   d88P  888
+888     888  d88P   888
+Y88b. .d88P d8888888888
+ "Y88888P" d88P     888
+*/
+    .promotionItem {
+        &.ua {
+            background-image: url($underarmour_module_images_path + "/ua-background-mobile.jpg");
+            background-repeat: no-repeat;
+            background-position: bottom center;
+            background-size: cover;
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                background-image: url($underarmour_module_images_path + "/ua-background-max.jpg");
+                background-size: contain;
+            }
+            @media (min-width: $breakpoint_desktop_min) {
+                background-image: url($underarmour_module_images_path + "/ua-background-max.jpg");
+                background-size: cover;
+            }
+
+            .goalItem {
+                position: relative;
+                z-index: 2;
+                margin-bottom: $g6ModulePaddingY / 2;
+                @media (min-width: $breakpoint_tablet_min) {
+                    margin-bottom: $g6ModulePaddingY_tablet / 2;
+                }
+                @media (min-width: $breakpoint_desktop_min) {
+                    margin-bottom: $g6ModulePaddingY_desktop / 2;
+                }
+                @media (min-width: $breakpoint_desktopLarge_min) {
+                    margin-bottom: $g6ModulePaddingY_desktopLarge / 2;
+                }
+            }
+
+            .ua-footer {
+                text-align: right;
+                .ua-logo {
+                    display: inline-block;
+                    @include safeImgUrls("underarmour/ua-fitness-connect.png", $appImagesPath, $property: 'background-image');
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    width: 150px;
+                    height: 19px;
+                    background-position: bottom center;
+                    position: relative;
+                    top: 9px;
+                }
+
+                .ua-connect-status {
+                    display: inline-block;
+                    width: 40px;
+                    height: 20px;
+                    .ua-widget {
+                        //background: $brand_color_light;
+                        border-radius: 4px;
+                        height: 100%;
+                            .ua-dot {
+                                display: inline-block;
+                                border: solid 2px $brand_color_white;
+                                width: $underarmour_connect_dot_size;
+                                height: $underarmour_connect_dot_size;
+                                border-radius: $underarmour_connect_dot_size;
+                                line-height: $underarmour_connect_dot_size;
+                                vertical-align: middle;
+                                background: $brand_color_alert;
+                                text-align: center;
+                                .icon {
+                                    display: inline-block;
+                                    font-weight: $fontWeightBold;
+                                    font-size: $baseFontSize;
+                                    color: $brand_color_white;
+                                    line-height: $underarmour_connect_dot_size;
+                                }
+                            }
+
+                        &.connected {
+                            .ua-dot {
+                                background: $brand_color_success;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.ua-connected {
+                // connected nest stuff goes here....
+            }
+        }
+    }
+
+
+} /* /.launchModule.goalquest,.launchModule.challengepoint */
+
+
+
+/* managerModule styles */
+/***
+ *                                                                     8888ba.88ba                 dP          dP
+ *                                                                     88  `8b  `8b                88          88
+ *    88d8b.d8b. .d8888b. 88d888b. .d8888b. .d8888b. .d8888b. 88d888b. 88   88   88 .d8888b. .d888b88 dP    dP 88 .d8888b. .d8888b.
+ *    88'`88'`88 88'  `88 88'  `88 88'  `88 88'  `88 88ooood8 88'  `88 88   88   88 88'  `88 88'  `88 88    88 88 88ooood8 Y8ooooo.
+ *    88  88  88 88.  .88 88    88 88.  .88 88.  .88 88.  ... 88       88   88   88 88.  .88 88.  .88 88.  .88 88 88.  ...       88
+ *    dP  dP  dP `88888P8 dP    dP `88888P8 `8888P88 `88888P' dP       dP   dP   dP `88888P' `88888P8 `88888P' dP `88888P' `88888P'
+ *                                               .88
+ *                                           d8888P
+ */
+.launchModule.goalquestManager,
+.launchModule.challengepointManager {
+    .module-liner {
+        min-height: 0;
+    }
+	
+	&.challengepoint {
+		h3.module-title{ 
+			a.title-link.promotionRules {
+				float: left;
+				font-size: 30px;
+			}
+		}
+	}
+
+    @media (min-width: $breakpoint_tablet_min) {
+        .module-title {
+            margin-bottom: 0;
+        }
+    }
+} /* /.launchModule.goalquest.goalquestManager/challengepointManager */
+
+
+/* ----- PAGE STYLES ----- */
+/***
+ *    8888888b.     d8888  .d8888b.  8888888888 .d8888b.
+ *    888   Y88b   d88888 d88P  Y88b 888       d88P  Y88b
+ *    888    888  d88P888 888    888 888       Y88b.
+ *    888   d88P d88P 888 888        8888888    "Y888b.
+ *    8888888P" d88P  888 888  88888 888           "Y88b.
+ *    888      d88P   888 888    888 888             "888
+ *    888     d8888888888 Y88b  d88P 888       Y88b  d88P
+ *    888    d88P     888  "Y8888P88 8888888888 "Y8888P"
+ *
+ *
+ *
+ */
+ .page.goalquest {
+    .spin {
+        display: block;
+        margin: ($g6ModulePaddingY) auto;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+
+        @media (min-width: $breakpoint_tablet_min) {
+            margin: ($g6ModulePaddingY) auto;
+        } // /@media
+
+        @media (min-width: $breakpoint_desktop_min) {
+            @if $g6ModulePaddingY_desktop != $g6ModulePaddingY_tablet {
+                margin: ($g6ModulePaddingY_desktop) auto;
+            } // /@if
+        } // /@media
+
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if $g6ModulePaddingY_desktopLarge != $g6ModulePaddingY_desktop {
+                margin: ($g6ModulePaddingY_desktopLarge) auto;
+            } // /@if
+        } // /@media
+    }
+ } /* /.page.goalquest,.page.challengepoint */
+
+
+/* ----- LIST PAGE STYLES ----- */
+/***
+ *    dP oo            dP    888888ba
+ *    88               88    88    `8b
+ *    88 dP .d8888b. d8888P a88aaaa8P' .d8888b. .d8888b. .d8888b.
+ *    88 88 Y8ooooo.   88    88        88'  `88 88'  `88 88ooood8
+ *    88 88       88   88    88        88.  .88 88.  .88 88.  ...
+ *    dP dP `88888P'   dP    dP        `88888P8 `8888P88 `88888P'
+ *                                                   .88
+ *                                               d8888P
+ */
+#goalquestPageListView {
+    .multiple {
+        margin-right: 0;
+
+        .promotionItem {
+            display: block;
+            float: none;
+            margin-right: 0;
+            width: auto;
+        }
+    }
+} // /#goalquestPageListView
+
+
+
+
+/* ----- RULES PAGE STYLES ----- */
+/***
+ *                      dP                    888888ba
+ *                      88                    88    `8b
+ *    88d888b. dP    dP 88 .d8888b. .d8888b. a88aaaa8P' .d8888b. .d8888b. .d8888b.
+ *    88'  `88 88    88 88 88ooood8 Y8ooooo.  88        88'  `88 88'  `88 88ooood8
+ *    88       88.  .88 88 88.  ...       88  88        88.  .88 88.  .88 88.  ...
+ *    dP       `88888P' dP `88888P' `88888P'  dP        `88888P8 `8888P88 `88888P'
+ *                                                                    .88
+ *                                                                d8888P
+ */
+#goalquestPageRulesView {
+    .dl-horizontal dt {
+        text-align: left;
+    }
+}
+
+
+
+
+
+/* ----- EDIT PAGE STYLES ----- */
+/***
+ *                   dP oo   dP    888888ba
+ *                   88      88    88    `8b
+ *    .d8888b. .d888b88 dP d8888P a88aaaa8P' .d8888b. .d8888b. .d8888b.
+ *    88ooood8 88'  `88 88   88    88        88'  `88 88'  `88 88ooood8
+ *    88.  ... 88.  .88 88   88    88        88.  .88 88.  .88 88.  ...
+ *    `88888P' `88888P8 dP   dP    dP        `88888P8 `8888P88 `88888P'
+ *                                                         .88
+ *                                                     d8888P
+ */
+#goalquestPageEditView {
+    /*
+    888     888       d8888
+    888     888      d88888
+    888     888     d88P888
+    888     888    d88P 888
+    888     888   d88P  888
+    888     888  d88P   888
+    Y88b. .d88P d8888888888
+     "Y88888P" d88P     888
+    */
+    &.ua-page {
+        position: relative;
+        padding-top: 0;
+        .ua-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            @include safeImgUrls("underarmour/ua-background-max.jpg", $appImagesPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: $goalquestUAHeaderHeight;
+            z-index: 1;
+        }
+        .ua-page-content {
+            &.ua-widget-container {
+                position: relative;
+                z-index: 9;
+            }
+            .logo-container {
+                position: absolute;
+                top: 70px;
+            }
+
+        }
+        .ua-page-content{
+            &.ua-tab-container{
+                height: $goalquestUAHeaderHeight;
+                vertical-align: bottom;
+                .span12 {
+                    position: absolute;
+                    bottom: 0;
+                    .wizardTabsView {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+        .export-tools {
+            display: none;
+            .btn {
+                background-color: rgba(0, 0, 0, 0.2);
+                color: $brand_color_black;
+            }
+        }
+        dl:not(:first-child) {
+            margin-left: 0;
+            margin-bottom: 0;
+        }
+        .ua-page-content {
+            position: relative;
+            z-index: 2;
+            .ua-partners {
+                .partner-logos {
+                    text-align: center;
+                    img {
+                        width: 20%;
+                        margin: $g6ModulePaddingX;
+                        @media (min-width: $breakpoint_tablet_min) {
+                            width: 13%;
+                        }
+                        @media (min-width: $breakpoint_desktop_min) {
+                            width: 14%;
+                        }
+                        @media (min-width: $breakpoint_desktopLarge_min) {
+                            width: 14%;
+                        }
+                    }
+                }
+            }
+            .partner-apps {
+                padding-bottom: $g6ModulePaddingY;
+                text-align: center;
+                img {
+                    margin-right: $g6ModulePaddingX;
+                    margin-top: $g6ModulePaddingY;
+                    width: 42px;
+                    @media (min-width: $breakpoint_desktop_min) {
+                        width: 72px;
+                    }
+                }
+            }
+        }
+        .ua-logo {
+            @include safeImgUrls("underarmour/ua-fitness-connect.png", $appImagesPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: bottom center;
+            position: absolute;
+            width: 150 + $underarmour_connect_dot_size;
+            height: $underarmour_connect_dot_size;
+            top: -1 * ($g6ModulePaddingY / 1.5);
+            right: 1.3 * $underarmour_connect_dot_size_edit;
+            text-align: right;
+            @media (min-width: $breakpoint_desktop_min) {
+                width: 300 + $underarmour_connect_dot_size_edit;
+                height: $underarmour_connect_dot_size_edit;
+                top: 0;
+            }
+            @media (max-width: $breakpoint_mobile_max) {
+                top: auto;
+                right: auto;
+            }
+            .ua-widget {
+                height: 100%;
+                position: relative;
+                    .ua-dot {
+                        display: inline-block;
+                        width: $underarmour_connect_dot_size_edit;
+                        height: $underarmour_connect_dot_size_edit;
+                        border-radius: $underarmour_connect_dot_size_edit;
+                        line-height: $underarmour_connect_dot_size_edit;
+                        vertical-align: middle;
+                        background: $brand_color_alert;
+                        text-align: center;
+                        position: absolute;
+                        right: -1.3 * $underarmour_connect_dot_size_edit;
+                        @media (max-width: $breakpoint_tablet_max){
+                            width: $underarmour_connect_dot_size;
+                            height: $underarmour_connect_dot_size;
+                            border-radius: $underarmour_connect_dot_size;
+                            line-height: $underarmour_connect_dot_size;
+                            right: -1.3 * $underarmour_connect_dot_size;
+                        }
+                        .icon {
+                            display: inline-block;
+                            font-weight: $fontWeightBold;
+                            font-size: $baseFontSize * 1.75;
+                            color: $brand_color_white;
+                            line-height: $underarmour_connect_dot_size_edit;
+                            @media (max-width: $breakpoint_tablet_max){
+                                line-height: $underarmour_connect_dot_size;
+                                font-size: $baseFontSize;
+                            }
+                        }
+                    }
+                &.connected {
+                    .ua-dot {
+                        background: $brand_color_success;
+                    }
+                }
+            }
+        }
+        p.ua-connect-button {
+            @media (max-width: $breakpoint_mobile_max) {
+                text-align: center;
+            }
+            .btn-uaconnect {
+                background: $underarmour_connect_button_bgColor;
+                font-size: $fontSizeExtraLarge;
+                padding: 1em 1.25em;
+                font-weight: $fontWeightNormal;
+                text-shadow: 0px -1px 0 $brand_color_black;
+                box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+                background: linear-gradient(to bottom, $underarmour_login_button_bgColor1 0%,$underarmour_login_button_bgColor2 100%);
+                @media (max-width: $breakpoint_mobile_max) {
+                    line-height: 1.1em;
+                    display: block;
+                    strong {
+                        display: block;
+                    }
+                }
+            }
+        }
+        .ua-connect-status-edit {
+            text-align: center;
+            width: 100%;
+            padding-bottom: $g6ModulePaddingY / 2;
+            .ua-widget {
+                display: inline-block;
+                border-radius: 4px;
+                background: $brand_color_alert;
+                color: $brand_color_white;
+                padding: $btnPadding;
+                &.connected {
+                    background: $brand_color_success;
+                    .ua-dot {
+                        background: $brand_color_success;
+                    }
+                }
+            }
+        }
+        .ua-mock-service-bypass {
+
+        }
+    }
+
+    .wizardTabsView {
+    }
+
+    .gqEditForm {
+        margin-bottom: 0;
+    }
+
+    .stepContent {
+        .rulesText {
+            margin-top:20px;
+        }
+    }
+
+    .stepContent .stepContentControls {
+    }
+
+
+    // .stepGoalContent styles
+    .stepGoalContent h4 {
+    }
+    .stepGoalContent h4:first-child {
+    }
+    .stepGoalContent dl {
+    }
+
+
+    .goalDesc {
+    }
+    .selectBy {
+        font-size: $fontSizeSmall;
+        line-height: $lineHeightSmall;
+        font-weight: $fontWeightBold;
+        color: $brand_color_dark;
+    }
+
+    .levelsWrapper {
+        position: relative; // pay heed, absolute pos qtip within
+        *min-height: 400px; //ie7 position issue with qtip
+    }
+    .levelItem {
+        clear: both;
+        padding: 12px 12px 12px 36px;
+    }
+    .levelItem:hover {
+        background: mix($goalquest_pageActiveLevelBg, #fff);
+    }
+    .levelItem.active,
+    .levelItem.active:hover {
+        background: $goalquest_pageActiveLevelBg;
+    }
+    .levelItem.active.isNarrow.isSelectable {
+        margin-bottom: 100px; // room for empty selected item qtip
+    }
+    .levelItem.active.isNarrow.isSelectable.isSelected {
+        margin-bottom: 150px; // room selected item qtip
+    }
+
+    .levelName {
+        margin-bottom: 0;
+        font-weight: $fontWeightBold;
+    }
+
+    .levelDesc {
+    }
+
+    .levelDeets {
+        @include clearfix();
+
+        .deetLabels {
+            float: left;
+            padding: 0 8px 0 0;
+            font-size: $fontSizeSmall;
+            font-weight: $fontWeightBold;
+            span { display: block; }
+        }
+        .deetValues {
+            span { display: block; }
+            .wideValue, .awardBtn { display: inline; }
+        }
+    }
+
+    .partnerSearchSlidingWrapper {
+    }
+
+    .submitPartners {
+
+    }
+
+    .submitPlateauAwardImageContent {
+        float: left;
+        text-align: center;
+        .paTitle {
+            font-weight: bold;
+        }
+    }
+    dl:not(:first-child){
+        margin-left: $g6ModulePaddingX;
+    }
+    .dl-horizontal dt {
+        text-align: left;
+    }
+    .dl-horizontal dd {
+        margin-bottom: $baseLineHeight;
+    }
+     @media (min-width: $breakpoint_tablet_min) {
+        .dl-horizontal dd {
+            margin-bottom: inherit;
+        }
+     }
+    .submitLevelName {
+        font-weight: $fontWeightBold;
+    }
+}
+
+// this qtip contains .selectedPlateauAward
+.selectedPlateauAwardQTip {
+    max-width: 380px;
+    // inside a qtip
+    .selectedPlateauAward {
+        text-align: center;
+        padding: 20px 20px 10px 20px;
+        width: 280px; //ie8
+        img {width: 280px; height: 280px;}
+        .noAwardContent {
+            display: none;
+            font-size: 14px;
+            i {
+                font-size: 35px;
+                color: $brand_color_light;
+            }
+        }
+        &.noAward .noAwardContent {
+            display: block;
+        }
+        &.noAward .hasAwardContent {
+            display: none;
+        }
+        h5 {
+            margin-bottom: 0;
+        }
+        &.isNarrow {
+            padding: 4px 0 0 0;
+            width: 200px; // ie8
+            max-width: 200px;
+            img {width:100px;height:100px;}
+            h5 {font-size: 12px; line-height: 14px; margin-top: 4px;}
+        }
+        }
+    }
+
+// this qtip contains .nextBtnTip
+.gqNextBtnQTip {
+    max-width: 180px;
+    .nextBtnTip {
+        .nextBtnMsg {
+            display: none;
+            i {
+                font-size: 18px;
+                float: left;
+                padding: 0 4px 0 0;
+            }
+    }
+}
+}
+
+
+
+/* ----- DETAIL PAGE STYLES ----- */
+/***
+ *          dP            dP            oo dP  888888ba
+ *          88            88               88  88    `8b
+ *    .d888b88 .d8888b. d8888P .d8888b. dP 88 a88aaaa8P' .d8888b. .d8888b. .d8888b.
+ *    88'  `88 88ooood8   88   88'  `88 88 88  88        88'  `88 88'  `88 88ooood8
+ *    88.  .88 88.  ...   88   88.  .88 88 88  88        88.  .88 88.  .88 88.  ...
+ *    `88888P8 `88888P'   dP   `88888P8 dP dP  dP        `88888P8 `8888P88 `88888P'
+ *                                                                     .88
+ *                                                                 d8888P
+ */
+#goalquestPageDetailView {
+    position: relative;
+
+    @media (max-width: $breakpoint_mobile_max) {
+        .rulesLink {
+            float: none;
+        }
+    }
+
+    @media (min-width: $breakpoint_tablet_min) {
+        .cpProgramWrapper .dl-horizontal dt,
+        .gqDescWrapper .dl-horizontal dt {
+            margin-bottom: 10px;
+            width: 20%; // room for long titles
+            white-space: normal;
+        }
+        .cpProgramWrapper .dl-horizontal dd,
+        .gqDescWrapper .dl-horizontal dd {
+            float: left;
+            margin: 0 0 10px 10px;
+            width: 20%
+        }
+    }
+
+    .partnerTitle {
+        margin-top: -1 * $baseLineHeight / 2;
+        font-size: $baseFontSize;
+
+        .partnerName {
+            font-size: $baseFontSize * 1.25;
+        }
+    }
+
+    .gqProgressAsOf {
+        font-size: $fontSizeSmall;
+        margin-bottom: 2px;
+    }
+    .progress .bar {
+        //@include transition(none);
+        transition: none;
+    }
+    .statusTxt {
+        font-weight: bold;
+
+        .visualItem {
+            font-size: 1.33em;
+            vertical-align: middle;
+        }
+
+        &.noGoalSel {
+            color: $goalquest_textColor_fail;
+
+            .sorry {
+                display: block;
+            }
+            .levelOpen {
+            }
+        }
+        &.notAchieved {
+            color: $goalquest_textColor_fail;
+        }
+        &.achieved {
+            color: $goalquest_textColor_success;
+        }
+    }
+    .gqPlateauAward {
+        text-align: center;
+
+        .paTitle {
+            font-weight: bold;
+            margin-top: 6px;
+        }
+    }
+}
+/*.lt-ie9 #goalquestPageDetailView {
+    .cpProgramWrapper .dl-horizontal dt {
+        width: 250px; // room for long titles
+    }
+    .cpProgramWrapper .dl-horizontal dd {
+        margin-left: 270px; // room for long titles
+    }
+}*/
+
+
+/***
+ *                              888
+ *                              888
+ *                              888
+ *     .d88b.  888d888 88888b.  88888b.   8888b.  88888b.  .d8888b
+ *    d88""88b 888P"   888 "88b 888 "88b     "88b 888 "88b 88K
+ *    888  888 888     888  888 888  888 .d888888 888  888 "Y8888b.
+ *    Y88..88P 888     888 d88P 888  888 888  888 888  888      X88
+ *     "Y88P"  888     88888P"  888  888 "Y888888 888  888  88888P'
+ *                     888
+ *                     888
+ *                     888
+ */
+/* ----- AUTO MODAL STYLES ----- */
+.autoModalGoalquest {
+    .dl-horizontal dt {
+        text-align: left;
+    }
+}
+
+.gqtip {
+    min-width: 40px;
+    background: $goalquest_progressBarToolTipBgColor;
+    border-color: $goalquest_progressBarToolTipBorderColor;
+    @include box-shadow($goalquest_progressBarToolTipBoxShadow);
+
+    &.success {
+        background: $brand_color_success;
+        border-color: $brand_color_success;
+    }
+    &.fail {
+        background: $brand_color_alert;
+        border-color: $brand_color_alert;
+    }
+}
+.gqtip .ui-tooltip-content {
+    font-size: $baseFontSize;
+    font-weight: bold;
+    text-align: center;
+    padding: 2px 0;
+}

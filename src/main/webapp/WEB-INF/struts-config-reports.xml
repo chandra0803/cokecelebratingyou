@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+"http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <form-beans>
+    <form-bean name="reportParametersForm" type="com.biperf.core.ui.reports.ReportParametersForm"/>
+    <form-bean name="dashboardReportForm" type="com.biperf.core.ui.reports.dashboard.DashboardReportForm"/>
+    <form-bean name="reportManageForm" type="com.biperf.core.ui.reports.ReportManageForm" />
+  </form-beans>
+  
+  <action-mappings>
+  
+  <action path="/reportMenu" type="com.biperf.core.ui.reports.ReportMenuAction">
+      <forward name="success" path="report.menu" redirect="false"/>
+  </action>
+  
+  <!-- ============================= -->
+  <!-- ==== RECOGNITION REPORTS ==== -->
+  <!-- ============================= -->
+  
+   <action path="/displayRecognitionGivenByOrgReport"
+    		type="com.biperf.core.ui.reports.recognition.RecognitionGivenByOrgReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_recognition_given_summary_report" path="recognition.given.summary.report.page"/>
+      <forward name="display_recognition_given_detail_report" path="recognition.given.detail.report.page"/>    
+      <forward name="display_recognition_given_piechart" path="report.recognition.given.piechart"/> 
+      <forward name="display_recognition_given_bytime_barchart" path="report.recognition.given.time.barchart"/>
+      <forward name="display_recognition_given_participationrate_barchart" path="report.recognition.given.participationrate.barchart"/>
+      <forward name="display_recognition_given_participationrate_piechart" path="report.recognition.given.participationrate.piechart"/>
+      <forward name="display_recognition_points_given_barchart" path="report.recognition.points.given.barchart"/>
+      <forward name="display_recognition_points_given_bytime_barchart" path="report.recognition.points.given.bytime.barchart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>  
+    </action>
+    
+    <action path="/displayRecognitionReceivedByOrgReport"
+    		type="com.biperf.core.ui.reports.recognition.RecognitionReceivedByOrgReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_recognition_received_summary_report" path="recognition.received.summary.report.page"/>
+      <forward name="display_recognition_received_detail_report" path="recognition.received.detail.report.page"/>    
+      <forward name="display_recognition_received_piechart" path="report.recognition.received.piechart"/> 
+      <forward name="display_recognition_received_bytime_barchart" path="report.recognition.received.time.barchart"/>
+      <forward name="display_recognition_received_participationrate_barchart" path="report.recognition.received.participationrate.barchart"/>
+      <forward name="display_recognition_received_participationrate_piechart" path="report.recognition.received.participationrate.piechart"/>
+      <forward name="display_recognition_points_received_barchart" path="report.recognition.points.received.barchart"/>
+      <forward name="display_recognition_points_received_bytime_barchart" path="report.recognition.points.received.bytime.barchart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>  
+    </action>
+    
+    <action path="/displayRecognitionGivenByPaxReport"
+    		type="com.biperf.core.ui.reports.recognition.RecognitionGivenByPaxReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_recognition_summary_given_byparticipant_report" path="recognition.summary.given.byparticipant.report.page"/>
+      <forward name="display_recognition_activity_given_byparticipant_report" path="recognition.activity.given.byparticipant.report.page"/>
+      <forward name="display_recognitions_given_byparticipant_barchart" path="report.recognitions.given.byparticipant.barchart"/>
+      <forward name="display_recognition_points_given_byparticipant_barchart" path="report.recognition.points.given.byparticipant.barchart"/>
+      <forward name="display_recognitions_given_bypromotion_barchart" path="report.recognitions.given.bypromotion.barchart"/>
+      <forward name="display_recognition_points_given_bypromotion_barchart" path="report.recognition.points.given.bypromotion.barchart"/>
+      <forward name="display_recognitions_given_metrics_barchart" path="report.recognitions.given.metrics.barchart"/>
+      <forward name="display_recognitions_given_participation_rate_bypax_piechart" path="report.recognitions.given.participation.rate.bypax.piechart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <action path="/displayRecognitionReceivedByPaxReport"
+    		type="com.biperf.core.ui.reports.recognition.RecognitionReceivedByPaxReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_recognition_summary_received_byparticipant_report" path="recognition.summary.received.byparticipant.report.page"/>
+      <forward name="display_recognition_details_received_byparticipant" path="recognition.details.received.byparticipant.report.page"/>
+      <forward name="display_recognition_activity_received_byparticipant_report" path="recognition.activity.received.byparticipant.report.page"/> 
+      <forward name="display_recognitions_received_byparticipant_barchart" path="report.recognitions.received.byparticipant.barchart"/>
+      <forward name="display_recognition_points_received_byparticipant_barchart" path="report.recognition.points.received.byparticipant.barchart"/>
+      <forward name="display_recognitions_received_bypromotion_barchart" path="report.recognitions.received.bypromotion.barchart"/>
+      <forward name="display_recognition_points_received_bypromotion_barchart" path="report.recognition.points.received.bypromotion.barchart"/>
+      <forward name="display_recognitions_received_metrics_barchart" path="report.recognitions.received.metrics.barchart"/>
+      <forward name="display_recognitions_received_participation_rate_bypax_piechart" path="report.recognitions.received.participation.rate.bypax.piechart"/>
+      <forward name="display_recognitions_received_scatter_plot" path="report.recognitions.received.scatter.plot"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+  
+    <!-- ========================================== -->
+    <!-- ==== RECOGNITION PURL ACTIVITY REPORT ==== -->
+   	<!-- ========================================== -->
+   	
+    <action path="/displayRecognitionPurlActivityReport"
+    		type="com.biperf.core.ui.reports.recognitionpurlactivity.RecognitionPurlActivityReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_summary_report" path="report.recognitionpurl.summary"/>
+      <forward name="display_participant_list_report" path="report.recognitionpurl.paxlist"/>   
+      <forward name="display_purl_activity_chart" path="report.recognitionpurl.activity.chart"/>   
+      <forward name="display_overall_contributors_chart" path="report.recognitionpurl.overall.contributors.chart"/>   
+      <forward name="display_purl_recipients_chart" path="report.recognitionpurl.recipients.chart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+  	<!-- ============================ -->
+    <!-- ==== NOMINATION REPORTS ==== -->
+   	<!-- ============================ -->
+       
+   	<action path="/displayNominationReceiverReport"
+    		type="com.biperf.core.ui.reports.nomination.NominationReceiverReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_nomination_receiver_summary_report" path="report.nominationsreceiver.summary"/>
+       <forward name="display_nomination_nominee_report" path="report.nominations.nominee"/>   
+      <forward name="display_nomination_top_nominee" path="report.nominationsreceiver.top.nominee"/>      
+      <forward name="display_report_parameters" path="report.display.parameters"/>                                   
+    </action>
+    
+    <action path="/displayNominationGiverReport"
+    		type="com.biperf.core.ui.reports.nomination.NominationGiverReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_summary_report" path="report.nominationsgiver.summary"/>
+      <forward name="display_nominationslist_report" path="report.nominationsgiver.nominationslist"/>
+      <forward name="display_top_nominators_report" path="report.nominationsgiver.top.nominators.chart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <action path="/displayNominationGivenByOrgReport"
+    		type="com.biperf.core.ui.reports.nomination.NominationGivenByOrgReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_summary_report" path="report.nominationsgiven.org.summary"/>
+      <forward name="display_nominators_report" path="report.nominationsgiven.org.nominators.chart"/>
+      <forward name="display_nominees_report" path="report.nominationsgiven.org.nominees.chart"/>
+      <forward name="display_nominatons_by_month" path="report.nominationsgiven.by.month.chart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>        
+    </action>
+    
+    <!-- ================================= -->
+    <!-- ==== NOMINATION AGING REPORT ==== -->
+   	<!-- ================================= -->
+    <action path="/displayNominationAgingReport"
+    		type="com.biperf.core.ui.reports.nomination.NominationAgingReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_nom_aging_summary" path="report.nom.aging.summary"/>   
+      <forward name="display_nom_aging_tabular_report" path="report.nom.aging.tabular"/>   
+      <forward name="display_nom_aging_barchart_report" path="report.nom.aging.barchart"/>   
+      <forward name="display_report_parameters" path="report.display.parameters"/>   
+    </action>
+    
+    <!-- ============================ -->
+    <!-- ==== ENROLLMENT REPORTS ==== -->
+   	<!-- ============================ -->
+    
+    <action path="/displayEnrollmentActivityReport"
+    		type="com.biperf.core.ui.reports.enrollment.EnrollmentActivityReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_enrollment_activity_summary" path="report.enrollment.summary"/>   
+      <forward name="display_enrollment_activity_details" path="report.enrollment.details"/>
+      <forward name="display_enrollment_activity_barchart" path="report.enrollment.barchart"/>   
+      <forward name="display_enrollment_activity_piechart" path="report.enrollment.piechart"/>   
+      <forward name="display_enrollment_activity_status_percentage_barchart" path="report.enrollment.status.percentage.barchart"/>
+      <forward name="display_enrollment_activity_status_inactive_barchart" path="report.enrollment.active.inactive.barchart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <!-- ================================ -->
+    <!-- ==== BADGE ACTIVITY REPORTS ==== -->
+   	<!-- ================================ -->
+    
+    <action path="/displayBadgeActivityByOrgReport"
+    		type="com.biperf.core.ui.reports.badge.BadgeActivityByOrgReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_summary_level_tabular_data" path="report.badgeactivity.summary"/>   
+      <forward name="display_team_level_tabular_data" path="report.badgeactivity.team"/>
+      <forward name="display_participant_level_tabular_data" path="report.badgeactivity.participant"/>   
+      <forward name="display_badges_earned_bar_chart" path="report.badgeactivity.badgesearned.barchart"/>   
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+ 	<!-- ==================================== -->
+    <!-- ==== THROWDOWN ACTIVITY REPORTS ==== -->
+   	<!-- ==================================== -->
+    
+    <action path="/displayThrowdownActivityByPaxSummaryReport"
+    		type="com.biperf.core.ui.reports.throwdown.ThrowdownActivityByPaxReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_summary_report" path="report.throwdownactivity.summary"/>   
+      <forward name="display_detail_report" path="report.throwdownactivity.detail"/> 
+      <forward name="display_total_activity_chart" path="report.throwdownactivity.totalactivity.chart"/>   
+      <forward name="display_activity_by_round_chart" path="report.throwdownactivity.activitybyround.chart"/>
+      <forward name="display_points_earned_chart" path="report.throwdownactivity.pointsearned.chart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>    
+    
+    <!-- ============================ -->
+    <!-- ==== LOGIN REPORTS ==== -->
+   	<!-- ============================ -->
+    
+    <action path="/displayLoginActivityByOrgReport"
+    		type="com.biperf.core.ui.reports.login.LoginActivityByOrgReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_login_organization_summary" path="report.loginActivity.org.summary"/>
+      <forward name="display_login_org_pax_list" path="report.loginActivity.org.paxlist"/>
+      <forward name="display_login_pax_detail" path="report.loginActivity.paxdetail"/>
+      <forward name="display_login_bar_results" path="report.loginActivity.barchart"/>   
+      <forward name="display_login_average_bar_results" path="report.loginActivity.average.barchart"/>   
+      <forward name="display_login_percentage_bar_results" path="report.loginActivity.percentage.barchart"/>   
+      <forward name="display_login_organization_bar_results" path="report.loginActivity.organization.barchart"/>   
+      <forward name="display_login_timeframe_bar_results" path="report.loginActivity.timeframe.barchart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <action path="/displayLoginActivityByPaxReport"
+    		type="com.biperf.core.ui.reports.login.LoginActivityByPaxReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_login_pax_summary" path="report.loginActivity.pax.summary"/>
+      <forward name="display_login_pax_detail" path="report.loginActivity.paxdetail"/>      
+      <forward name="display_login_bar_results" path="report.loginActivity.barchart"/>   
+      <forward name="display_login_average_bar_results" path="report.loginActivity.average.barchart"/>   
+      <forward name="display_login_percentage_bar_results" path="report.loginActivity.percentage.barchart"/>   
+      <forward name="display_login_organization_bar_results" path="report.loginActivity.organization.barchart"/>   
+      <forward name="display_login_timeframe_bar_results" path="report.loginActivity.timeframe.barchart"/>
+      <forward name="display_top_login_by_pax_results" path="report.loginActivity.topPax.barchart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <!-- ============================ -->
+    <!-- ==== INDIVIDUAL REPORTS ==== -->
+   	<!-- ============================ -->
+    
+    <action path="/displayIndividualActivityReport"
+    		type="com.biperf.core.ui.reports.individual.IndividualActivityReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_individual_activity_summary" path="report.individualactivity.summary"/> 
+      <forward name="display_individual_activity_points_received" path="report.individualactivity.pointsreceived"/>  
+      <forward name="display_individual_activity_points_given_received" path="report.individualactivity.pointsgivenreceived"/>       
+      <forward name="display_individual_activity_total_activity" path="report.individualactivity.totalactivity"/>       
+      <forward name="display_individual_activity_metrics" path="report.individualactivity.metrics"/>            
+      <forward name="display_individual_activity_awards_received_summary" path="report.individualactivity.summary.awardsreceived"/>  
+      <forward name="display_individual_activity_nominations_received_summary" path="report.individualactivity.summary.nominationsreceived"/>      
+      <forward name="display_individual_activity_nominations_given_summary" path="report.individualactivity.summary.nominationsgiven"/>           
+      <forward name="display_individual_activity_product_claim_summary" path="report.individualactivity.summary.productclaim"/>   
+      <forward name="display_individual_activity_recognitions_given_summary" path="report.individualactivity.summary.recognitionsgiven"/>   
+      <forward name="display_individual_activity_recognitions_received_summary" path="report.individualactivity.summary.recognitionsreceived"/>                       
+      <forward name="display_individual_activity_quiz_summary" path="report.individualactivity.summary.quiz"/>                     
+      <forward name="display_individual_activity_quiz_detail" path="report.individualactivity.detail.quiz"/>
+      <forward name="display_individual_activity_goal_quest_summary" path="report.individualactivity.goalquest"/>
+      <forward name="display_individual_activity_challengepoint_summary" path="report.individualactivity.challengepoint"/>    
+      <forward name="display_individual_activity_onthespot_summary" path="report.individualactivity.onthespot"/>
+      <forward name="display_individual_activity_throwdown_summary" path="report.individualactivity.throwdown.summary"/>
+      <forward name="display_individual_activity_throwdown_detail" path="report.individualactivity.throwdown.detail"/>
+      <forward name="display_individual_activity_badge_summary" path="report.individualactivity.badge.summary"/>  
+      <forward name="display_individual_ssi_contest_summary" path="report.individualactivity.ssicontest.summary"/>                     
+      <forward name="display_report_parameters" path="report.display.parameters"/>     	
+    </action>
+
+    <!-- ============================ -->
+    <!-- ==== CLAIM REPORTS ==== -->
+   	<!-- ============================ -->
+    
+    <action path="/displayClaimByOrgReport"
+    		type="com.biperf.core.ui.reports.claim.ClaimByOrgReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_claim_by_org_summary" path="report.claimbyorg.summary"/>
+      <forward name="display_claim_by_org_pax_summary" path="report.claimbyorg.pax.summary"/> 
+      <forward name="display_claim_by_org_claim_summary" path="report.claimbyorg.claim.summary"/>    
+      <forward name="display_claim_by_org_participation_rate" path="report.claimbyorg.participation.rate"/>      
+      <forward name="display_claim_by_org_participation_level" path="report.claimbyorg.participation.level"/>          
+      <forward name="display_claim_by_org_monthly" path="report.claimbyorg.monthly"/>         
+      <forward name="display_claim_by_org_submission_status" path="report.claimbyorg.status.submission"/>   
+      <forward name="display_claim_by_item_submission_status" path="report.claimbyorg.status.item"/>       
+      <forward name="display_claim_totals" path="report.claimbyorg.totals"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>            
+    </action>
+    
+    <action path="/displayClaimByPaxReport"
+    		type="com.biperf.core.ui.reports.claim.ClaimByPaxReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_claim_by_pax_summary" path="report.claimbypax.summary"/>        
+      <forward name="display_claim_by_pax_participation_rate" path="report.claimbypax.participation.rate"/>
+      <forward name="display_claim_by_pax_participation_level" path="report.claimbypax.participation.level"/>
+      <forward name="display_claim_by_pax_average_claims" path="report.claimbypax.averageclaims"/>
+      <forward name="display_claim_by_pax_claim_status" path="report.claimbypax.status.claim"/>
+      <forward name="display_claim_by_pax_item_status" path="report.claimbypax.status.item"/>  
+      <forward name="display_claim_list_summary" path="report.claimbypax.list.summary"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>            
+    </action>
+    
+    <action path="/displayItemsClaimExtractReport"
+    		type="com.biperf.core.ui.reports.claim.ClaimReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">          
+    </action>
+    
+    
+    <!-- ============================ -->
+    <!-- ==== GOAL QUEST REPORTS ==== -->
+   	<!-- ============================ -->
+    
+    <action path="/displayGoalQuestProgressReport"
+    		type="com.biperf.core.ui.reports.goalquest.GoalQuestProgressReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_goal_quest_progress_summary" path="report.goalquestprogress.summary"/>   
+      <forward name="display_goal_quest_progress_detail" path="report.goalquestprogress.detail"/>   
+      <forward name="display_goal_quest_goalprogress_chart" path="report.goalquestprogress.chart.goalprogress"/>     
+      <forward name="display_goal_quest_progressresults_chart" path="report.goalquestprogress.chart.progressresults"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>     
+    </action>
+    
+    <action path="/displayGoalQuestSelectionReport"
+    		type="com.biperf.core.ui.reports.goalquest.GoalQuestSelectionReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_goal_quest_selection_summary" path="report.goalquestselection.summary"/>   
+      <forward name="display_goal_quest_selection_detail" path="report.goalquestselection.detail"/>   
+      <forward name="display_goal_quest_selection_totals_chart" path="report.goalquestselection.chart.totals"/> 
+      <forward name="display_goal_quest_selection_percentage_chart" path="report.goalquestselection.chart.percentage"/>  
+      <forward name="display_goal_quest_selection_by_org_chart" path="report.goalquestselection.chart.org"/>                       
+      <forward name="display_report_parameters" path="report.display.parameters"/>     
+    </action>
+    
+    <action path="/displayGoalQuestAchievementReport"
+    		type="com.biperf.core.ui.reports.goalquest.GoalQuestAchievementReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_goal_quest_achievement_summary" path="report.goalquestachievement.summary"/>   
+      <forward name="display_goal_quest_achievement_detail" path="report.goalquestachievement.detail"/>               
+      <forward name="display_goal_quest_achievement_percentage_chart" path="report.goalquestachievement.chart.percentage"/>            
+      <forward name="display_goal_quest_achievement_count_chart" path="report.goalquestachievement.chart.count"/>        
+      <forward name="display_goal_quest_achievement_results_chart" path="report.goalquestachievement.chart.results"/>          
+      <forward name="display_goal_quest_achievement_percentage_by_org_chart" path="report.goalquestachievement.chart.percentagebyorg"/>
+      <forward name="display_goal_quest_achievement_count_by_org_chart" path="report.goalquestachievement.chart.countbyorg"/>     
+      <forward name="display_report_parameters" path="report.display.parameters"/>     
+    </action>
+    
+    <action path="/displayGoalQuestManagerReport"
+    		type="com.biperf.core.ui.reports.goalquest.GoalQuestManagerReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_goal_quest_manager_summary" path="report.goalquestmanager.summary"/>
+      <forward name="display_manager_points_earned_chart" path="report.goalquestmanager.chart.pointsearned"/>       
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+      <forward name="display_goal_quest_manager_detail" path="report.goalquestmanager.detail"/>     
+    </action>
+    
+    <action path="/displayGoalQuestProgramSummaryReport"
+    		type="com.biperf.core.ui.reports.goalquest.GoalQuestProgramSummaryReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_goal_quest_program_summary" path="report.goalquestprogram.summary"/>
+      <forward name="display_goal_quest_goalachievement_chart" path="report.goalquestsummary.chart.goalachievement"/>
+      <forward name="display_goal_quest_incremental_chart" path="report.goalquestsummary.chart.incremental"/>       
+      <forward name="display_report_parameters" path="report.display.parameters"/>     
+    </action>
+    
+    <!-- ============================ -->
+    <!-- ==== CHALLENGEPOINT  REPORTS ==== -->
+   	<!-- ============================ -->
+   	 <action path="/displayChallengePointSelectionReport"
+    		type="com.biperf.core.ui.reports.challengepoint.ChallengePointSelectionReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_challenge_point_selection_summary" path="report.challengepointselection.summary"/>   
+      <forward name="display_challenge_point_selection_detail" path="report.challengepointselection.detail"/>   
+      <forward name="display_challenge_point_selection_totals_chart" path="report.challengepointselection.chart.totals"/> 
+      <forward name="display_challenge_point_selection_percentage_chart" path="report.challengepointselection.chart.percentage"/>  
+      <forward name="display_challenge_point_selection_by_org_chart" path="report.challengepointselection.chart.org"/>                       
+      <forward name="display_report_parameters" path="report.display.parameters"/>     
+    </action>
+    
+    <action path="/displayChallengePointProgressReport"
+    		type="com.biperf.core.ui.reports.challengepoint.ChallengePointProgressReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_challenge_point_progress_summary" path="report.challengepointprogress.summary"/>   
+      <forward name="display_challenge_point_progress_detail" path="report.challengepointprogress.detail"/>   
+      <forward name="display_challenge_point_goalprogress_chart" path="report.challengepointprogress.chart.goalprogress"/>     
+      <forward name="display_challenge_point_progressresults_chart" path="report.challengepointprogress.chart.progressresults"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>     
+    </action>
+    
+   	<action path="/displayChallengepointAchievementReport"
+    		type="com.biperf.core.ui.reports.challengepoint.ChallengepointAchievementReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_challenge_point_achievement_summary" path="report.challengepointachievement.summary"/>   
+      <forward name="display_challenge_point_achievement_detail" path="report.challengepointachievement.detail"/>               
+      <forward name="display_challenge_point_achievement_percentage_chart" path="report.challengepointachievement.chart.percentage"/>            
+      <forward name="display_challenge_point_achievement_count_chart" path="report.challengepointachievement.chart.count"/>        
+      <forward name="display_challenge_point_achievement_results_chart" path="report.challengepointachievement.chart.results"/>          
+      <forward name="display_challenge_point_achievement_percentage_by_org_chart" path="report.challengepointachievement.chart.percentagebyorg"/>
+      <forward name="display_challenge_point_achievement_count_by_org_chart" path="report.challengepointachievement.chart.countbyorg"/>     
+      <forward name="display_report_parameters" path="report.display.parameters"/>     
+    </action>
+    
+    <action path="/displayChallengePointManagerReport"
+    		type="com.biperf.core.ui.reports.challengepoint.ChallengePointManagerReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_challenge_point_manager_summary" path="report.challengepointmanager.summary"/>
+      <forward name="display_manager_points_earned_chart" path="report.challengepointmanager.chart.pointsearned"/>       
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+      <forward name="display_challenge_point_manager_detail" path="report.challengepointmanager.detail"/>     
+    </action>
+                    
+    <action path="/displayChallengePointProgramSummaryReport"
+    		type="com.biperf.core.ui.reports.challengepoint.ChallengePointProgramSummaryReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_challenge_point_program_summary" path="report.challengepointprogram.summary"/>
+      <forward name="display_challenge_point_goalachievement_chart" path="report.challengepointsummary.chart.goalachievement"/>
+      <forward name="display_challenge_point_incremental_chart" path="report.challengepointsummary.chart.incremental"/>       
+      <forward name="display_report_parameters" path="report.display.parameters"/>     
+    </action>
+    
+    <!-- ========================== -->
+    <!-- ==== BEHAVIORS REPORT ==== -->
+   	<!-- ========================== -->
+    <action path="/displayBehaviorsReport"
+    		type="com.biperf.core.ui.reports.behavior.BehaviorsReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_behavior_summary" path="report.behavior.summary"/>   
+      <forward name="display_behavior_tabular_report" path="report.behavior.tabular"/>   
+      <forward name="display_behavior_barchart_report" path="report.behavior.barchart"/>   
+      <forward name="display_behavior_piechart_report" path="report.behavior.piechart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>   
+    </action>
+    
+    <!-- ============================ -->
+    <!-- ==== PARTICIPANT SEARCH ==== -->
+   	<!-- ============================ -->
+	<action path="/participantsSearchReport" type="com.biperf.core.ui.reports.participantsearch.ParticipantSearchReportAction" parameter="method"  scope="request" />
+	
+	<action path="/participantSearchView"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.participantsearchview"
+      scope="request"
+      validate="false"/>
+      
+    <action path="/participantSearchTableRow"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.participantsearchtablerow"
+      scope="request"
+      validate="false"/>
+
+    <action path="/participantRowItemSingle"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.participantrowitem"
+      scope="request"
+      validate="false"/>
+    
+    <action path="/participantPopoverView"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.participantpopoverview"
+      scope="request"
+      validate="false"/>
+      
+        <action path="/drawToolTemplate"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.drawtooltemplate"
+      scope="request"
+      validate="false"/>
+
+    <action path="/drawToolCardList"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.drawtoolcardlist"
+      scope="request"
+      validate="false"/>
+
+    <action path="/drawToolShell"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.drawtoolshell"
+      scope="request"
+      validate="false"/>
+
+    <action path="/contributorsView"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.contributorsview"
+      scope="request"
+      validate="false"/>
+
+    <action path="/contributorViewItem"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="reports.tpl.contributorviewitem"
+      scope="request"
+      validate="false"/>
+      
+    <action path="/ecardUpload"
+      type="com.biperf.core.ui.recognition.EcardUploadAction"
+      scope="request"
+      name="ecardUploadForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="reports.ecardupload" redirect="true"/>
+    </action>
+	    
+    
+    <!-- ==================================================== -->
+    <!-- ==== POINTS BUDGET BALANCE REPORT ==== -->
+   	<!-- ==================================================== -->
+    
+    <action path="/displayPointsBudgetBalanceReport"
+    		type="com.biperf.core.ui.reports.budget.PointsBudgetBalanceReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_budget_balance_summary" path="report.budgetbalance.summary"/>  
+      <forward name="display_budget_balance_by_promotion_summary" path="report.budgetbalance.promotion.summary"/>  
+      <forward name="display_budget_balance_utilization_percentage" path="report.budgetbalance.utilization.percentage"/>         
+      <forward name="display_budget_balance_promotion_totals" path="report.budgetbalance.promotion.totals"/>         
+      <forward name="display_budget_balance_utilization_level" path="report.budgetbalance.utilization.level"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>           
+    </action>
+    
+    <!-- ============================= -->
+    <!-- ==== CASH BUDGET REPORTS ==== -->
+   	<!-- ============================= -->
+    
+    <action path="/displayCashBudgetBalanceReport"
+    		type="com.biperf.core.ui.reports.budget.CashBudgetBalanceReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_budget_balance_summary" path="report.cashbudgetbalance.summary"/>  
+      <forward name="display_budget_balance_by_promotion_summary" path="report.cashbudgetbalance.promotion.summary"/>  
+      <forward name="display_budget_balance_utilization_percentage" path="report.cashbudgetbalance.utilization.percentage"/>         
+      <forward name="display_budget_balance_promotion_totals" path="report.cashbudgetbalance.promotion.totals"/>         
+      <forward name="display_budget_balance_utilization_level" path="report.cashbudgetbalance.utilization.level"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>           
+    </action>
+    
+    <!-- ============================ -->
+    <!-- ====== AWARDS REPORTS ====== -->
+   	<!-- ============================ -->
+    
+    <action path="/displayAwardsByOrgReport"
+    		type="com.biperf.core.ui.reports.awards.AwardsByOrgReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_awards_summary_report" path="report.awards.summary.report.page"/>
+      <forward name="display_awards_first_detail_report" path="report.awards.first.detail.report.page"/>
+      <forward name="display_awards_second_detail_report" path="report.awards.second.detail.report.page"/>     
+      <forward name="display_total_points_issued_for_org_barchart" path="report.awards.total.points.issued.for.org.barchart"/>
+      <forward name="display_received_notreceived_awards_for_org_barchart" path="report.awards.received.notreceived.awards.for.org.barchart"/>
+      <forward name="display_persons_receiving_awards_for_org_barchart" path="report.awards.persons.receiving.awards.for.org.barchart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/> 
+    </action>
+    
+    <action path="/displayAwardsByPaxReport"
+    		type="com.biperf.core.ui.reports.awards.AwardsByPaxReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_awards_summary_by_pax_report" path="report.awards.summary.bypax.report.page"/>
+      <forward name="display_awards_detail_by_pax_report" path="report.awards.detail.bypax.report.page"/>    
+      <forward name="display_total_points_issued_by_pax_barchart" path="report.awards.total.points.issued.bypax.barchart"/> 
+   	  <forward name="display_received_notreceived_awards_pax_piechart" path="report.awards.received.notreceived.awards.pax.piechart"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <!-- ==================================== -->
+    <!-- ====== PLATEAU AWARDS REPORTS ====== -->
+   	<!-- ==================================== -->
+    
+    <action path="/displayPlateauAwardLevelActivityReport"
+    		type="com.biperf.core.ui.reports.plateauawards.PlateauAwardLevelActivityReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_level_activity_summary" path="report.plateauawards.levelactivity.summary.report.page"/>
+      <forward name="display_level_activity_team" path="report.plateauawards.levelactivity.team.report.page"/>
+      <forward name="display_plateau_award_activity_chart" path="report.plateauawards.levelactivity.activity.chart"/>     
+      <forward name="display_perc_plateau_award_activity_chart" path="report.plateauawards.levelactivity.percentage.activity.chart"/> 
+      <forward name="display_report_parameters" path="report.display.parameters"/> 
+    </action>
+    
+    <action path="/displayPlateauAwardItemSelectionReport"
+    		type="com.biperf.core.ui.reports.plateauawards.PlateauAwardItemSelectionReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_item_selection_summary" path="report.plateauawards.itemselection.summary.report.page"/>
+      <forward name="display_plateau_award_selection_chart" path="report.plateauawards.itemselection.selection.chart"/>     
+      <forward name="display_top_redeemed_awards_chart" path="report.plateauawards.itemselection.topredeemed.chart"/> 
+      <forward name="display_report_parameters" path="report.display.parameters"/> 
+    </action>
+    
+    <action path="/displayPlateauAwardItemSelectionReportExtract"
+    		type="com.biperf.core.ui.reports.plateauawards.ParticipantAwardActivtyExportReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+    </action>
+    
+    <!-- ============================ -->
+    <!-- ====== QUIZZES REPORTS ===== -->
+   	<!-- ============================ -->
+   	
+   	<action path="/displayQuizActivityReport"
+    		type="com.biperf.core.ui.reports.quiz.QuizActivityReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_quiz_activity_summary_report" path="report.quiz.activity.summary.report.page"/>
+      <forward name="display_quiz_activity_detail_one_report" path="report.quiz.activity.detailone.report.page"/>
+      <forward name="display_quiz_activity_detail_two_report" path="report.quiz.activity.detailtwo.report.page"/>
+      <forward name="display_quiz_activity_for_org_report" path="report.quiz.activity.for.org.report.page"/>
+      <forward name="display_quiz_status_percent_for_org_report" path="report.quiz.status.percent.for.org.report.page"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <action path="/displayQuizAnalysisReport"
+    		type="com.biperf.core.ui.reports.quiz.QuizAnalysisReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_quiz_analysis_summary_report" path="report.quiz.analysis.summary.report.page"/>
+      <forward name="display_quiz_analysis_detail_one_report" path="report.quiz.analysis.detailone.report.page"/>
+      <forward name="display_quiz_analysis_detail_two_report" path="report.quiz.analysis.detailtwo.report.page"/>
+      <forward name="display_quiz_question_analysis_report" path="report.quiz.question.analysis.report.page"/>
+      <forward name="display_quiz_attempts_percent_for_org_report" path="report.quiz.attempts.percent.for.org.report.page"/>
+       <forward name="display_quiz_attempts_status_for_org_report" path="report.quiz.attempts.status.for.org.report.page"/>
+       <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <!-- ==================================== -->
+	<!-- ====== SURVEY REPORT ===== -->
+	<!-- ==================================== -->
+    
+    <action path="/displaySurveyAnalysisReport"
+    		type="com.biperf.core.ui.reports.survey.SurveyAnalysisReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_survey_analysis_summary_report" path="report.survey.analysis.summary.report.page"/>
+      <forward name="display_survey_analysis_by_question_report" path="report.survey.analysis.question.report.page"/>
+      <forward name="display_survey_attempts_percent_for_org_report" path="report.survey.attempts.percent.for.org.report.page"/>
+      <forward name="display_survey_attempts_status_for_org_report" path="report.survey.attempts.status.for.org.report.page"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/> 
+    </action>    
+    
+    <!-- ==================================== -->
+	<!-- ====== WORKHAPPIER REPORT ===== -->
+	<!-- ==================================== -->
+    
+    <action path="/displayConfidentialFeedback"
+    		type="com.biperf.core.ui.reports.workhappier.WorkHappierReportConfidentialFeedbackAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_summary_report" path="report.workhappier.confidentialfeedback.report.page"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>
+    
+    <action path="/displayHappinessPulse"
+    		type="com.biperf.core.ui.reports.workhappier.WorkHappierReportHappinessPulseAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      <forward name="display_summary_report" path="report.workhappier.happinesspulse.report.page"/>
+      <forward name="display_report_parameters" path="report.display.parameters"/>
+    </action>  
+
+	<!-- ==================================== -->
+	<!-- ====== HIERARCHY EXPORT REPORT ===== -->
+	<!-- ==================================== -->
+	
+	<action path="/displayHierarchyExportReport"
+    		type="com.biperf.core.ui.reports.hierarchyexport.HierarchyExportReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+      	<forward name="display_summary_report" path="report.hierarchy.export.summary.page"/>	
+    </action>
+   	
+   	<!-- ====================================== -->
+	<!-- ====== PARTICIPANT EXPORT REPORT ===== -->
+	<!-- ====================================== -->
+	
+	<action path="/displayParticipantExportReport"
+    		type="com.biperf.core.ui.reports.participantexport.ParticipantExportReportAction" 
+    		parameter="method"
+      		name="reportParametersForm" 
+      		scope="session" 
+      		validate="false" 
+      		input="error.page">
+    	<forward name="display_summary_report" path="report.participant.export.summary.page"/>
+    </action>
+   	
+   	<!-- ================================================ -->
+    <!-- ==== ENGAGEMENT PARTICIPATION SCORE EXTRACT ==== -->
+   	<!-- ================================================ -->
+    
+    <action path="/displayEngagementScoreExtractReport"
+    		type="com.biperf.core.ui.reports.engagement.EngagementReportAction"
+    		parameter="method" 
+      		scope="request" 
+      		validate="false">
+    </action>
+   	  
+    <!-- ============================ -->
+    <!-- ==== USER DASHBOARD ==== -->
+   	<!-- ============================ -->
+    
+    <action path="/displayDashboard"
+    		type="com.biperf.core.ui.reports.dashboard.DashboardReportAction" 
+    		parameter="method"
+      		name="dashboardReportForm" 
+      		scope="request" 
+      		validate="false" 
+      		input="report.display.dashboard">
+      <forward name="display_dashboard" path="report.display.dashboard"/>
+      <forward name="display_individual_dashboard_item" path="report.display.individual.dashboard.item"/>
+      <forward name="display_update_dashboard_item" path="report.display.update.dashboard.item"/>   
+    </action>
+   
+    <action path="/file/download"
+    		type="com.biperf.core.ui.reports.file.ReportFileDownloadAction" 
+      		scope="request" 
+      		validate="false">
+    </action>
+   
+    <action path="/allReports"
+            parameter="all.reports.page"
+            type="org.apache.struts.actions.ForwardAction"/>
+            
+   <action path="/manageReports"
+            parameter="manage.reports.page"
+            type="org.apache.struts.actions.ForwardAction"/>
+    
+    <action path="/manageReportList"
+            name="reportManageForm"
+            parameter="method"
+            type="com.biperf.core.ui.reports.ReportManageAction"
+            scope="request"
+            validate="false">
+      <forward name="success" path="manage.reports.page"/>
+      <forward name="failure" path="manage.reports.page" redirect="false"/>
+    </action>
+    
+    <!-- 
+        <action path="/exportToPDF" 
+    		type="com.biperf.core.ui.reports.FusionChartExportAction" 
+      		scope="request" />
+	-->
+	
+	<!--TEMP **begin  -->
+	<action path="/participantProfileView" type="org.apache.struts.actions.ForwardAction"  parameter="profile.view" />
+	<action path="/globalFooterView" type="org.apache.struts.actions.ForwardAction" parameter="report.empty" />
+	<!--TEMP **end  -->
+    
+  </action-mappings>
+
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+    processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+    multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+  <message-resources null="true"
+    parameter="BeaconResources_en"
+    factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+      value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-reports.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-reports.xml"/>
+    <set-property property="definitions-debug" value="10"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+  
+</struts-config>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.purl.PurlContributor" table="PURL_CONTRIBUTOR">
+  
+    <id name="id" type="java.lang.Long" column="PURL_CONTRIBUTOR_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PURL_CONTRIBUTOR_PK_SQ</param>
+      </generator>
+    </id>
+    
+     <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+    
+    <many-to-one name="purlRecipient" column="PURL_RECIPIENT_ID" class="com.biperf.core.domain.purl.PurlRecipient" not-null="true" lazy="false" unique="true" />   
+    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" lazy="false"/>
+    <many-to-one name="invitedContributor" column="INVITE_CONTRIBUTOR_ID" class="com.biperf.core.domain.purl.PurlContributor" lazy="false" />   
+    
+  	<property name="state" column="STATE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PurlContributorState</param>
+        </type>
+    </property>
+
+    <property name="firstName" type="java.lang.String" column="FIRST_NAME" />
+    <property name="lastName" type="java.lang.String" column="LAST_NAME" />
+    <property name="emailAddr" type="java.lang.String" column="EMAIL_ADDR" />
+    <property name="avatarUrl" column="AVATAR_URL" type="java.lang.String" />
+    
+	<property name="avatarState" column="AVATAR_STATE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PurlMediaState</param>
+        </type>
+    </property>
+
+    <list name="medias" table="PURL_CONTRIBUTOR_MEDIA" lazy="extra" inverse="false" cascade="all-delete-orphan">
+      <key column="PURL_CONTRIBUTOR_ID" not-null="true" />
+      <list-index column="SEQUENCE_NUM" />
+      <one-to-many class="com.biperf.core.domain.purl.PurlContributorMedia" />
+    </list>
+    
+    <list name="comments" table="PURL_CONTRIBUTOR_COMMENT" lazy="extra" inverse="false" cascade="all-delete-orphan">
+      <key column="PURL_CONTRIBUTOR_ID" not-null="true" />
+      <list-index column="SEQUENCE_NUM" />
+      <one-to-many class="com.biperf.core.domain.purl.PurlContributorComment" />
+    </list>
+	<property name="sendLater" type="boolean" column="is_send_later" />
+	<property name="defaultInvitee" type="boolean" column="DEFAULT_INVITEE" />
+
+  </class> 
+  
+   <sql-query name="com.biperf.core.domain.purl.getNotMigratedPurlContributorAvatarData">
+	<return-scalar column="userId" type="long"/> 
+	<return-scalar column="avatarOriginal" type="string"/> 		
+		<![CDATA[
+			SELECT PURL_CONTRIBUTOR_ID userId, AVATAR_URL avatarOriginal FROM PURL_CONTRIBUTOR WHERE AVATAR_URL IS NOT NULL AND AVATAR_URL NOT LIKE '%biw.cloud/v1%' AND AVATAR_URL NOT LIKE '%personal/avatar%' AND AVATAR_URL NOT LIKE '%cm3dam%' AND AVATAR_URL NOT LIKE '%assets%' AND ( AVATAR_STATE != 'deleted' OR AVATAR_STATE IS NULL )
+		]]>
+	</sql-query>   
+
+	<sql-query name="com.biperf.core.domain.purl.PurlContributor.getAllPendingPurlContributionsProActive">
+    <return alias="pc" class="com.biperf.core.domain.purl.PurlContributor" />
+    <![CDATA[
+        select {pc.*} 
+        from purl_contributor pc, purl_recipient pr, application_user au
+        where pc.purl_recipient_id = pr.purl_recipient_id
+        and pc.state in ('invitation','contribution')
+        and pr.promotion_id = :promoId
+        and NOT EXISTS
+            (select 'x' from purl_contributor_comment where purl_contributor_id = pc.purl_contributor_id)
+        and pr.user_id = au.user_id
+        and au.is_active = 1
+        and trunc(pr.award_date - :numberOfDays ) = trunc(sysdate)  
+    ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.purl.getAllInternalPurlContributorUser">
+	<return-scalar column="USER_ID" type="long"/> 
+		<![CDATA[
+		SELECT DISTINCT USER_ID FROM PURL_CONTRIBUTOR WHERE AVATAR_URL IS NOT NULL AND AVATAR_URL NOT LIKE '%biw.cloud/v1%' AND AVATAR_URL LIKE '%personal/avatar%' AND AVATAR_URL NOT LIKE '%cm3dam%' AND AVATAR_URL NOT LIKE '%assets%' AND USER_ID IS NOT NULL
+		]]>
+	</sql-query> 
+	
+	<sql-query name="com.biperf.core.domain.purl.getNotSyncPurlContrbUserAvatarData">
+	<return-scalar column="userId" type="long"/> 
+	<return-scalar column="avatarUrl" type="string"/> 	
+		<![CDATA[SELECT P.USER_ID userId, P.AVATAR_ORIGINAL avatarUrl FROM PARTICIPANT P, APPLICATION_USER AU WHERE P.USER_ID = AU.USER_ID AND P.USER_ID IN ( :userIds ) AND P.AVATAR_ORIGINAL IS NOT NULL AND P.AVATAR_ORIGINAL LIKE '%biw.cloud/v1/profile/public/avatars%' AND REGEXP_LIKE (lower(P.AVATAR_ORIGINAL), lower(AU.ROSTER_USER_ID))]]>
+	</sql-query> 
+	
+	<sql-query name="com.biperf.core.domain.purl.getAllPurlUsersAvatarMigrated">
+		<return-scalar column="PURL_CONTRIBUTOR_ID" type="long"/> 
+		<![CDATA[
+			SELECT PURL_CONTRIBUTOR_ID FROM PURL_CONTRIBUTOR WHERE USER_ID IN ( :userIds ) AND AVATAR_URL IS NOT NULL AND AVATAR_URL LIKE '%profile/public/avatars/image%'
+		]]>
+	</sql-query> 
+	
+	<sql-query name="com.biperf.core.domain.purl.getNotMigratedPurlUserAvatar">
+		<return-scalar column="purlContributorId" type="long"/> 
+		<return-scalar column="userId" type="long"/> 
+		<return-scalar column="avatarUrl" type="string"/> 	
+		<![CDATA[
+			SELECT PURL_CONTRIBUTOR_ID purlContributorId, USER_ID userId, AVATAR_URL avatarUrl FROM PURL_CONTRIBUTOR WHERE USER_ID IN ( :userIds ) AND AVATAR_URL IS NOT NULL AND AVATAR_URL NOT LIKE '%profile/public/avatars/image%'
+		]]>
+	</sql-query> 
+
+	<sql-query name="com.biperf.core.domain.purl.getAllPurlContrbUsersToCopyTheUrl">
+	<return-scalar column="USER_ID" type="long"/> 
+		<![CDATA[SELECT DISTINCT P.USER_ID USER_ID FROM PURL_CONTRIBUTOR P, APPLICATION_USER AU WHERE P.USER_ID IS NOT NULL AND P.USER_ID = AU.USER_ID AND AU.ROSTER_USER_ID IS NOT NULL AND P.AVATAR_URL IS NOT NULL AND P.AVATAR_URL LIKE '%biw.cloud/v1/profile/public/avatars%' AND P.AVATAR_URL NOT LIKE '%cm3dam%' AND P.AVATAR_URL NOT LIKE '%assets%' AND NOT REGEXP_LIKE (lower(P.AVATAR_URL), lower(AU.ROSTER_USER_ID))]]>
+	</sql-query> 
+	
+   <sql-query name="com.biperf.core.domain.purl.client.isExternalContributorExists">
+	<return-scalar column="emailAddressCount" type="integer" />
+	<![CDATA[
+		select count(*) as emailAddressCount from adih_external_unsubscribe where email_address = :emailAddress
+	]]>
+	</sql-query>
+	
+</hibernate-mapping>

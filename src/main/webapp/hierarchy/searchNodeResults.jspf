@@ -1,0 +1,37 @@
+<%@ page import="java.util.*" %>
+<%@ page import="com.biperf.core.domain.hierarchy.Node"%>
+<%@ page import="com.biperf.core.utils.ClientStateUtils" %>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<%@ include file="/include/taglib.jspf" %>
+<table width="100%" border="1">
+
+	<tr>
+		<td align="center">
+		<%--FIXME CM 2 --%>
+			<font size="3"><cms:contentText key="NODE_SEARCH_RESULTS" code="node.view"/></font>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<%  Map paramMap = new HashMap();
+					Node temp;
+			%>
+			<display:table defaultsort="1" defaultorder="ascending" name="nodeSearchResults" id="node" class="list">
+			<display:setProperty name="basic.empty.showtable" value="true"></display:setProperty>
+				<display:column title="manage">
+					<%  temp = (Node)pageContext.getAttribute("node");
+							paramMap.put( "nodeId", temp.getId() );
+							pageContext.setAttribute("updateUrl", ClientStateUtils.generateEncodedLink( "", "maintainNode.do?method=displayUpdate", paramMap ) );
+							pageContext.setAttribute("deleteUrl", ClientStateUtils.generateEncodedLink( "", "maintainNode.do?method=displayDelete", paramMap ) );
+					%>
+					<a href="${updateUrl}"><cms:contentText code="node.view" key="UPDATE" /></a> |
+					<a href="${deleteUrl}"><cms:contentText code="node.view" key="DELETE" /></a>
+				</display:column>
+				<display:column property="name" title="name"/>
+				<display:column property="description" title="description"/>
+			</display:table>
+		</td>
+	</tr>
+
+</table>

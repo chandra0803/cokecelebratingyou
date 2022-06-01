@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.purl.PurlRecipientCustomElement" table="PURL_RECIPIENT_CFSE">
+
+		<id name="id" type="java.lang.Long" column="PURL_RECIPIENT_CFSE_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">PURL_RECIPIENT_CFSE_PK_SQ</param>
+	        </generator>
+	    </id>
+
+        <!-- Using version number optimistic locking -->
+        <version name="version" column="VERSION" type="java.lang.Long" />
+
+      	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+
+      	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+        	<column name="DATE_MODIFIED"/>
+        	<column name="MODIFIED_BY"/>
+      	</property>
+
+      <property name="value" type="java.lang.String" column="value" access="field" />
+
+      <many-to-one name="purlRecipient" column="PURL_RECIPIENT_ID" class="com.biperf.core.domain.purl.PurlRecipient" insert="false" update="false" not-null="true" lazy="false"/>
+      <many-to-one name="claimFormStepElement" column="CLAIM_FORM_STEP_ELEMENT_ID" class="com.biperf.core.domain.claim.ClaimFormStepElement" lazy="false" update="false" not-null="true"/>
+
+    </class>
+</hibernate-mapping>

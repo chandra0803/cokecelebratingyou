@@ -1,0 +1,4 @@
+DELETE FROM MESSAGE WHERE CM_ASSET_CODE = 'message_data.message.138808'
+/
+DELETE FROM MESSAGE WHERE CM_ASSET_CODE = 'message_data.message.103097'
+/

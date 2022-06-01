@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.activity.Activity" table="ACTIVITY">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="ACTIVITY_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">ACTIVITY_PK_SQ</param>
+			</generator>
+		</id>
+
+    <discriminator type="java.lang.String" column="ACTIVITY_DISCRIM"/>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+      type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <property name="approvalRound" column="APPROVAL_ROUND" type="java.lang.Long" />
+    <property name="guid" column="GUID" type="java.lang.String" />
+    <property name="submissionDate" column="SUBMISSION_DATE" type="java.util.Date" />
+    <property name="posted" column="IS_POSTED" type="boolean" />
+    <many-to-one name="node" column="NODE_ID" not-null="false" lazy="false"/>
+    <many-to-one name="participant" column="USER_ID" not-null="false" lazy="false"/>
+    <many-to-one name="promotion" column="PROMOTION_ID" not-null="true" lazy="false"/>
+    <many-to-one name="claim" column="CLAIM_ID" not-null="false" lazy="proxy" />
+    <many-to-one name="country" column="COUNTRY_ID" not-null="false" lazy="proxy" />
+
+    <set name="activityJournals" table="ACTIVITY_JOURNAL" cascade="all-delete-orphan" lazy="false">
+      <key column="ACTIVITY_ID"/>
+      <composite-element class="com.biperf.core.domain.journal.ActivityJournal">
+        <parent name="activity"/>
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+        <many-to-one name="journal" class="com.biperf.core.domain.journal.Journal" column="JOURNAL_ID" lazy="false"/>
+      </composite-element>
+    </set>
+    
+    <set name="activityMerchOrders" table="ACTIVITY_MERCH_ORDER" cascade="all-delete-orphan" lazy="false">
+      <key column="ACTIVITY_ID"/>
+      <composite-element class="com.biperf.core.domain.merchandise.ActivityMerchOrder">
+        <parent name="activity"/>
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+        <many-to-one name="merchOrder" class="com.biperf.core.domain.merchandise.MerchOrder" column="MERCH_ORDER_ID" lazy="false"/>
+      </composite-element>
+    </set>
+
+  </class>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsByPromotionDuringPeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+       select distinct USER_ID from ACTIVITY 
+        where PROMOTION_ID=:promoId and IS_POSTED=1
+        	  and IS_SUBMITTER=:isSubmitter and
+              SUBMISSION_DATE between :startDate and :endDate
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsUsingPaxBudgetByPromotionDuringPeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select distinct a.USER_ID 
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b, 
+		     activity a 
+		where p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and b.USER_ID = a.USER_ID 
+		  and a.PROMOTION_ID = p.PROMOTION_ID 
+		  and p.PROMOTION_ID = :promoId 
+		  and bm.BUDGET_TYPE = 'pax' 
+		  and a.IS_POSTED = 1 
+		  and a.IS_SUBMITTER = 1 
+		  and b.ORIGINAL_VALUE > 0 
+		  and a.SUBMISSION_DATE between :startDate and :endDate 
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsUsingAllPaxBudgetByPromotionDuringPeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select distinct a.USER_ID 
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b, 
+		     activity a 
+		where p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and b.USER_ID = a.USER_ID 
+		  and a.PROMOTION_ID = p.PROMOTION_ID 
+		  and p.PROMOTION_ID = :promoId 
+		  and bm.BUDGET_TYPE = 'pax' 
+		  and a.IS_POSTED = 1 
+		  and a.IS_SUBMITTER = 1 
+		  and b.ORIGINAL_VALUE > 0 
+		  and b.CURRENT_VALUE <= 0 
+		  and a.SUBMISSION_DATE between :startDate and :endDate 
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.activity.RecognitionsSubmittedForPromotion">
+    <return-scalar column="count" type="long"/>
+    <![CDATA[
+    	select count(*) count from ACTIVITY a
+        where a.PROMOTION_ID=:promotionId
+              and (a.ACTIVITY_DISCRIM='recognition' or a.ACTIVITY_DISCRIM='order') 
+              and a.IS_SUBMITTER=1    
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsNotUsingAllPaxBudgetByPromotion">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select distinct b.USER_ID 
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b
+		where p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and p.PROMOTION_ID = :promoId 
+		  and bm.BUDGET_TYPE = 'pax' 
+		  and b.ORIGINAL_VALUE > 0 
+		  and b.CURRENT_VALUE > 0 
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsUsingNodeBudgetByPromotionDuringPeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select distinct a.USER_ID 
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b, 
+		     activity a, 
+		     user_node un 
+		where p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and b.NODE_ID = un.NODE_ID 
+		  and un.USER_ID = a.USER_ID 
+		  and a.PROMOTION_ID = p.PROMOTION_ID 
+		  and p.PROMOTION_ID = :promoId 
+		  and bm.BUDGET_TYPE = 'node' 
+		  and a.IS_POSTED = 1 
+		  and a.IS_SUBMITTER = 1 
+		  and b.ORIGINAL_VALUE > 0 
+		  and a.SUBMISSION_DATE between :startDate and :endDate 
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsUsingAllNodeBudgetByPromotionDuringPeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select distinct a.USER_ID 
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b, 
+		     activity a, 
+		     user_node un 
+		where p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and b.NODE_ID = un.NODE_ID 
+		  and un.USER_ID = a.USER_ID 
+		  and a.PROMOTION_ID = p.PROMOTION_ID 
+		  and p.PROMOTION_ID = :promoId 
+		  and bm.BUDGET_TYPE = 'node' 
+		  and a.IS_POSTED = 1 
+		  and a.IS_SUBMITTER = 1 
+		  and b.ORIGINAL_VALUE > 0 
+		  and b.CURRENT_VALUE <= 0 
+        -  and a.SUBMISSION_DATE between :startDate and :endDate 
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsNotUsingAllNodeBudgetByPromotion">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select distinct un.USER_ID 
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b, 
+		     user_node un 
+		where p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and b.NODE_ID = un.NODE_ID 
+		  and p.PROMOTION_ID = :promoId 
+		  and bm.BUDGET_TYPE = 'node' 
+		  and b.ORIGINAL_VALUE > 0 
+		  and b.CURRENT_VALUE > 0 
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsUsingCentralBudgetByPromotionDuringPeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select distinct a.USER_ID 
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b, 
+		     activity a 
+		where a.PROMOTION_ID = p.PROMOTION_ID 
+		  and p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and p.PROMOTION_ID = :promoId 
+		  and bm.BUDGET_TYPE = 'central' 
+		  and a.IS_POSTED = 1 
+		  and a.IS_SUBMITTER = 1 
+		  and b.ORIGINAL_VALUE > 0 
+		  and a.SUBMISSION_DATE between :startDate and :endDate
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsNotUsingAllCentralBudgetByPromotion">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+        select distinct a.USER_ID 
+        from promotion p, 
+             budget_master bm, 
+             budget_segment bseg,
+             budget b, 
+             activity a 
+        where a.PROMOTION_ID = p.PROMOTION_ID 
+          and p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+          and p.PROMOTION_ID = :promoId 
+          and bm.BUDGET_TYPE = 'central' 
+          and b.ORIGINAL_VALUE > 0 
+          and b.CURRENT_VALUE > 0 
+    ]]>
+  </sql-query>  
+
+  <sql-query name="com.biperf.core.domain.activity.UserIdsUsingAllCentralBudgetByPromotionDuringPeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+		select distinct a.USER_ID 
+		from promotion p, 
+		     budget_master bm, 
+             budget_segment bseg,
+		     budget b, 
+		     activity a 
+		where a.PROMOTION_ID = p.PROMOTION_ID 
+		  and p.AWARD_BUDGET_MASTER_ID = bm.BUDGET_MASTER_ID 
+          and bm.BUDGET_MASTER_ID = bseg.BUDGET_MASTER_ID
+          and bseg.BUDGET_SEGMENT_ID = b.BUDGET_SEGMENT_ID
+		  and p.PROMOTION_ID = :promoId 
+		  and bm.BUDGET_TYPE = 'central' 
+		  and a.IS_POSTED = 1 
+		  and a.IS_SUBMITTER = 1 
+		  and b.ORIGINAL_VALUE > 0 
+		  and b.CURRENT_VALUE <= 0 
+		  and a.SUBMISSION_DATE between :startDate and :endDate
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.activity.MyRecognitionReceived">
+    <return-scalar column="recognition_received" type="long"/>
+    <![CDATA[
+		SELECT COUNT(claim_id) recognition_received
+		  FROM rpt_recognition_detail
+		 WHERE promotion_id    = :promotionId
+		   AND recvr_user_id   = :participantId 
+		   AND trunc(date_submitted)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                           AND fnc_locale_to_date_dt(:toDate,:languageCode)
+    ]]>
+  </sql-query>
+
+<sql-query name="com.biperf.core.domain.activity.RecognitionReceivedAveargeForMyTeam">
+    <return-scalar column="team_average_recog_received" type="java.math.BigDecimal"/>
+    <![CDATA[
+		SELECT CASE WHEN all_recognition_cnt = 0 THEN 0
+       ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(all_recognition_cnt/pax_cnt, 2) END
+       END team_average_recog_received  
+  		FROM (WITH recevr_node AS
+            (SELECT node_id
+               FROM user_node
+              WHERE user_id    = :participantId
+                AND is_primary = 1)
+             SELECT (SELECT SUM(activity_count)
+                       FROM rpt_promo_node_activity
+                      WHERE giver_recvr_type = 'receiver'
+                        AND node_id          = rn.node_id
+                        AND promotion_id     = :promotionId
+                        AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                                 AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                     ) all_recognition_cnt,
+                    (SELECT SUM(elig_cnt) from (
+                    SELECT COUNT(participant_id) elig_cnt
+                       FROM rpt_pax_promo_eligibility
+                      WHERE giver_recvr_type = 'receiver'
+                        AND promotion_id     = :promotionId
+                        AND node_id          = rn.node_id
+                        UNION
+                        SELECT SUM(ELIG_COUNT)
+                       FROM rpt_pax_promo_elig_allaud_team
+                      WHERE giver_recvr_type = 'receiver'
+                      AND node_id          = rn.node_id
+                      AND fnc_check_promo_aud ('receiver',NULL,:promotionId) = 1)) pax_cnt
+               FROM recevr_node rn
+        )
+    ]]>
+  </sql-query>
+
+<sql-query name="com.biperf.core.domain.activity.RecognitionReceivedAveargeForPromotions">
+    <return-scalar column="promotion_avg_recog_received" type="java.math.BigDecimal"/>
+    <![CDATA[
+       SELECT CASE WHEN total_recognition_cnt = 0 THEN 0
+       ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(total_recognition_cnt/pax_cnt, 2) END
+       END promotion_avg_recog_received
+  	   FROM (SELECT (SELECT SUM(activity_count)
+                  FROM rpt_promo_node_activity
+                 WHERE giver_recvr_type = 'receiver'
+                   AND promotion_id     = :promotionId
+                   AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                            AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                ) total_recognition_cnt,
+               (SELECT SUM(elig_cnt) from (SELECT COUNT(participant_id) elig_cnt
+                  FROM rpt_pax_promo_eligibility
+                 WHERE giver_recvr_type = 'receiver'
+                   AND promotion_id     = :promotionId
+                    UNION
+                SELECT SUM(ELIG_COUNT)
+                  FROM rpt_pax_promo_elig_allaud_team
+                 WHERE giver_recvr_type = 'receiver'
+              AND fnc_check_promo_aud ('receiver',NULL,:promotionId) = 1)
+                ) pax_cnt
+          FROM dual)
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.MyRecognitionSent">
+    <return-scalar column="recognition_sent" type="long"/>
+    <![CDATA[
+		SELECT COUNT(claim_id) recognition_sent
+		  FROM rpt_recognition_detail
+		 WHERE promotion_id    = :promotionId
+		   AND giver_user_id   = :participantId 
+		   AND trunc(date_submitted)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                           AND fnc_locale_to_date_dt(:toDate,:languageCode)
+    ]]>
+  </sql-query>
+
+<sql-query name="com.biperf.core.domain.activity.RecognitionSentAveargeForMyTeam">
+    <return-scalar column="team_average_recognition_sent" type="java.math.BigDecimal"/>
+    <![CDATA[
+        SELECT CASE WHEN recog_sent_cnt = 0 THEN 0
+       ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(recog_sent_cnt/pax_cnt, 2) END
+       END team_average_recognition_sent  
+  FROM (SELECT (SELECT SUM(activity_count)
+                  FROM rpt_promo_node_activity
+                 WHERE giver_recvr_type = 'giver'
+                   AND node_id          = un.node_id
+                   AND promotion_id     = :promotionId
+                   AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                            AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                ) recog_sent_cnt,
+          (SELECT SUM(elig_cnt) from 
+          (SELECT COUNT(participant_id) elig_cnt
+                  FROM rpt_pax_promo_eligibility
+                 WHERE giver_recvr_type = 'giver'
+                   AND promotion_id     = :promotionId
+                   AND node_id          = un.node_id
+                   UNION ALL
+                SELECT SUM(ELIG_COUNT)
+                  FROM rpt_pax_promo_elig_allaud_team
+                 WHERE giver_recvr_type = 'giver'
+                 AND node_id            = un.node_id
+              AND fnc_check_promo_aud ('giver',NULL,:promotionId) = 1)
+                ) pax_cnt 
+          FROM user_node un
+         WHERE un.user_id    = :participantId
+           AND un.is_primary = 1
+        )
+    ]]>
+  </sql-query>
+
+
+<sql-query name="com.biperf.core.domain.activity.RecognitionSentAveargeForPromotions">
+    <return-scalar column="promotion_avg_recog_sent" type="java.math.BigDecimal"/>
+    <![CDATA[
+    SELECT CASE WHEN total_recognition_cnt = 0 THEN 0
+       ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(total_recognition_cnt/pax_cnt, 2) END
+       END promotion_avg_recog_sent
+        FROM (SELECT (SELECT SUM(activity_count)
+                  FROM rpt_promo_node_activity
+                 WHERE giver_recvr_type = 'giver'
+                   AND promotion_id     = :promotionId
+                   AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                            AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                ) total_recognition_cnt,
+                (SELECT SUM(elig_cnt) from 
+               (SELECT COUNT(participant_id) elig_cnt
+                  FROM rpt_pax_promo_eligibility
+                 WHERE giver_recvr_type = 'giver'
+                   AND promotion_id     = :promotionId
+                   UNION
+                SELECT SUM(ELIG_COUNT)
+                  FROM rpt_pax_promo_elig_allaud_team
+                 WHERE giver_recvr_type = 'giver'
+              AND fnc_check_promo_aud ('giver',NULL,:promotionId) =1)
+        ) pax_cnt
+          FROM dual)
+    ]]>
+  </sql-query>
+ 
+ <sql-query name="com.biperf.core.domain.activity.MySubmittedNominations">
+    <return-scalar column="nomination_submitted_count" type="long"/>
+    <![CDATA[
+        SELECT  COUNT(nomination_submitted_count)  nomination_submitted_count   FROM    
+             (  SELECT claim_id  nomination_submitted_count
+                  FROM RPT_NOMINATION_DETAIL
+                 WHERE promotion_id    = :promotionId
+                   AND giver_user_id   = :participantId 
+                   AND TRUNC(date_submitted)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                   AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                   AND ( (claim_status = 'complete' and claim_item_status = 'pend') or r1_approval_status <> 'non_winner'  OR r2_approval_status <> 'non_winner' 
+                         OR r3_approval_status <> 'non_winner' OR r4_approval_status <> 'non_winner' OR r5_approval_status <> 'non_winner' )
+            )
+    ]]>
+  </sql-query>
+ 
+<sql-query name="com.biperf.core.domain.activity.SubmittedNominationsAveargeForMyTeam">
+    <return-scalar column="team_average_nom_sent" type="java.math.BigDecimal"/>
+    <![CDATA[
+		SELECT SUM(team_average_nom_sent) team_average_nom_sent  
+      FROM (SELECT CASE WHEN nom_sent_cnt = 0 THEN 0
+       ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(nom_sent_cnt/pax_cnt, 2) END
+       END team_average_nom_sent  
+       FROM (SELECT (SELECT SUM(activity_count)
+                      FROM rpt_promo_node_activity
+                     WHERE giver_recvr_type = 'giver'
+                       AND node_id          = un.node_id
+                       AND promotion_id     = :promotionId
+                       AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                                AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                    ) nom_sent_cnt,
+                (SELECT SUM(elig_cnt) from 
+                      (SELECT COUNT(participant_id) elig_cnt
+                              FROM rpt_pax_promo_eligibility
+                             WHERE giver_recvr_type = 'giver'
+                               AND promotion_id     = :promotionId
+                               AND node_id          = un.node_id
+                               UNION ALL
+                            SELECT SUM(ELIG_COUNT)
+                              FROM rpt_pax_promo_elig_allaud_team
+                             WHERE giver_recvr_type = 'giver'
+                             AND node_id            = un.node_id
+                          AND fnc_check_promo_aud ('giver',NULL,:promotionId) = 1)
+                            ) pax_cnt 
+          FROM user_node un
+         WHERE un.user_id    = :participantId
+           AND un.is_primary = 1))	
+    ]]>
+  </sql-query>
+
+
+<sql-query name="com.biperf.core.domain.activity.SubmittedNominationsAveargeForPromotions">
+    <return-scalar column="promotion_avg_nom_sent" type="java.math.BigDecimal"/>
+    <![CDATA[
+         SELECT CASE WHEN total_nom_cnt = 0 THEN 0
+       ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(total_nom_cnt/pax_cnt, 2) END
+       END promotion_avg_nom_sent
+            FROM (SELECT (SELECT SUM(activity_count)
+                  FROM rpt_promo_node_activity
+                 WHERE giver_recvr_type = 'giver'
+                   AND promotion_id     = :promotionId
+                   AND trunc(submission_date) BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                           AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                ) total_nom_cnt,
+              (SELECT SUM(elig_cnt) from 
+               (SELECT COUNT(participant_id) elig_cnt
+                  FROM rpt_pax_promo_eligibility
+                 WHERE giver_recvr_type = 'giver'
+                   AND promotion_id     = :promotionId
+                   UNION
+                SELECT SUM(ELIG_COUNT)
+                  FROM rpt_pax_promo_elig_allaud_team
+                 WHERE giver_recvr_type = 'giver'
+              AND fnc_check_promo_aud ('giver',NULL,:promotionId) =1)
+        ) pax_cnt
+          FROM dual)   
+    ]]>
+  </sql-query>
+
+<sql-query name="com.biperf.core.domain.activity.MyNominationsReceived">
+    <return-scalar column="nomination_received_count" type="long"/>
+    <![CDATA[
+    SELECT COUNT(claim_id) nomination_received_count
+                  FROM RPT_NOMINATION_DETAIL
+                 WHERE promotion_id    = :promotionId
+                   AND recvr_user_id   = :participantId 
+                   AND TRUNC(date_submitted)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                   AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                   AND ( (claim_status = 'complete' and claim_item_status = 'pend') or r1_approval_status <> 'non_winner'  OR r2_approval_status <> 'non_winner' 
+                         OR r3_approval_status <> 'non_winner' OR r4_approval_status <> 'non_winner' OR r5_approval_status <> 'non_winner' )
+    ]]>
+  </sql-query>
+
+<sql-query name="com.biperf.core.domain.activity.NominationsReceivedAveargeForMyTeam">
+    <return-scalar column="team_average_nom_received" type="java.math.BigDecimal"/>
+    <![CDATA[
+                    SELECT SUM(team_average_nom_received) team_average_nom_received
+              FROM (SELECT CASE WHEN nom_received_cnt = 0 THEN 0
+                   ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(nom_received_cnt/pax_cnt, 2) END
+                   END team_average_nom_received  
+              FROM (SELECT (SELECT SUM(activity_count)
+                              FROM rpt_promo_node_activity
+                             WHERE giver_recvr_type = 'receiver'
+                               AND node_id          =  un.node_id
+                               AND promotion_id     = :promotionId
+                               AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                                        AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                            ) nom_received_cnt,
+                    (SELECT SUM(elig_cnt) from 
+                      (SELECT COUNT(participant_id) elig_cnt
+                              FROM rpt_pax_promo_eligibility
+                             WHERE giver_recvr_type = 'receiver'
+                               AND promotion_id     = :promotionId
+                               AND node_id          = un.node_id
+                               UNION ALL
+                            SELECT SUM(ELIG_COUNT)
+                              FROM rpt_pax_promo_elig_allaud_team
+                             WHERE giver_recvr_type = 'receiver'
+                             AND node_id            = un.node_id
+                          AND fnc_check_promo_aud ('receiver',NULL,:promotionId) = 1)
+                            ) pax_cnt 
+
+                      FROM user_node un
+                     WHERE un.user_id    = :participantId
+                      AND un.is_primary = 1))
+    ]]>
+  </sql-query>
+
+<sql-query name="com.biperf.core.domain.activity.NominationsReceivedAveargeForCompany">
+    <return-scalar column="promotion_avg_nom_received" type="java.math.BigDecimal"/>
+    <![CDATA[
+        SELECT CASE WHEN total_nom_cnt = 0 THEN 0
+              ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(total_nom_cnt/pax_cnt, 2) END
+              END promotion_avg_nom_received
+              FROM (SELECT (SELECT SUM(activity_count)
+                  FROM rpt_promo_node_activity
+                 WHERE giver_recvr_type = 'receiver'
+                   AND promotion_id     = :promotionId
+                   AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                            AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                ) total_nom_cnt,
+               (SELECT SUM(elig_cnt) from 
+               (SELECT COUNT(participant_id) elig_cnt
+                  FROM rpt_pax_promo_eligibility
+                 WHERE giver_recvr_type = 'receiver'
+                   AND promotion_id     = :promotionId
+                   UNION
+                SELECT SUM(ELIG_COUNT)
+                  FROM rpt_pax_promo_elig_allaud_team
+                 WHERE giver_recvr_type = 'receiver'
+              AND fnc_check_promo_aud ('receiver',NULL,:promotionId) =1)
+        ) pax_cnt
+
+          FROM dual
+        )
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.activity.MyProductClaimsSubmitted">
+    <return-scalar column="claims_submitted_count" type="long"/>
+    <![CDATA[
+		SELECT COUNT(claim_id) claims_submitted_count
+      	FROM rpt_claim_detail c
+     	WHERE promotion_id         = :promotionId       
+       	  AND c.submitter_user_id  = :participantId
+       	  AND c.claim_status       = :claimStatus  
+       	  AND trunc(c.date_submitted)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+       	  AND fnc_locale_to_date_dt(:toDate,:languageCode)
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.ProductClaimsSubmittedAverageForMyTeam">
+    <return-scalar column="team_average_claims_submitted" type="java.math.BigDecimal"/>
+    <![CDATA[
+        SELECT CASE WHEN claims_submitted_cnt = 0 THEN 0
+        ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(claims_submitted_cnt/pax_cnt, 2) END
+        END team_average_claims_submitted   
+        FROM ( SELECT (SELECT NVL(SUM(activity_count), 0)
+               FROM rpt_promo_node_activity
+               WHERE giver_recvr_type = :claimStatus
+                  AND node_id          = un.node_id
+                  AND promotion_id     = :promotionId
+                  AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                              AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                     ) claims_submitted_cnt,
+                     (SELECT SUM(elig_cnt) from
+                           ( SELECT COUNT(participant_id)  elig_cnt
+                      FROM rpt_pax_promo_eligibility
+                       WHERE giver_recvr_type IN ('receiver','submitter')
+                           AND promotion_id     = :promotionId
+                           AND node_id          = un.node_id
+                             UNION ALL
+                            SELECT SUM(ELIG_COUNT)
+                              FROM rpt_pax_promo_elig_allaud_team
+                             WHERE giver_recvr_type  in ('giver','submitter')
+                             AND node_id            = un.node_id
+                          AND fnc_check_promo_aud ('giver',NULL,:promotionId) = 1
+                          )
+                            ) pax_cnt 
+                 FROM user_node un
+                 WHERE un.user_id    = :participantId
+                     AND un.is_primary = 1
+               )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.activity.ProductClaimsSubmittedAverageForCompany">
+    <return-scalar column="promotion_avg_claims_submitted" type="java.math.BigDecimal"/>
+    <![CDATA[
+                   SELECT CASE WHEN total_claims_submitted_cnt = 0 THEN 0
+        ELSE CASE WHEN pax_cnt = 0 THEN 0 ELSE ROUND(total_claims_submitted_cnt/pax_cnt, 2) END
+        END promotion_avg_claims_submitted
+        FROM ( SELECT ( SELECT NVL(SUM(activity_count), 0)
+                        FROM rpt_promo_node_activity
+                        WHERE giver_recvr_type = :claimStatus
+                          AND promotion_id     = :promotionId
+                          AND trunc(submission_date)  BETWEEN fnc_locale_to_date_dt(:fromDate,:languageCode) 
+                                                         AND fnc_locale_to_date_dt(:toDate,:languageCode)
+                      ) total_claims_submitted_cnt,
+                   (SELECT SUM(elig_cnt) from
+                           ( SELECT COUNT(participant_id)  elig_cnt
+                      FROM rpt_pax_promo_eligibility
+                       WHERE giver_recvr_type IN ('receiver','submitter')
+                           AND promotion_id     = :promotionId
+                             UNION ALL
+                            SELECT SUM(ELIG_COUNT)
+                              FROM rpt_pax_promo_elig_allaud_team
+                             WHERE giver_recvr_type  in ('giver','submitter')
+                          AND fnc_check_promo_aud ('giver',NULL,:promotionId) = 1
+                          )
+                          ) pax_cnt 
+                FROM dual )
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.activity.getGQAndCPActivities">
+		<return alias="a" class="com.biperf.core.domain.activity.Activity" />
+		<![CDATA[
+     	 select a.*
+		     from promotion p,
+		          promo_goalquest pg,
+		          activity a,
+		          activity_merch_order amo
+		    where p.promotion_id = pg.promotion_id
+		      and p.promotion_id = a.promotion_id
+		      and p.promotion_id in ( SELECT * FROM TABLE(get_array_varchar(:promotionIds) ) )
+		      and a.activity_id = amo.activity_id
+		      and p.promotion_type in ('goalquest', 'challengepoint')
+		      and p.promotion_status = 'live'
+		      AND pg.issue_awards_run = 1
+		      AND a.user_id = :userId
+		      AND a.submission_date
+		          BETWEEN
+		            TO_DATE(:startDate,NVL((SELECT pattern FROM locale_date_pattern WHERE locale=:languageCode ),'MM/DD/YYYY'))
+		          AND
+		            TO_DATE(:endDate,NVL((SELECT pattern FROM locale_date_pattern WHERE locale=:languageCode ),'MM/DD/YYYY'))+1
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.activity.getPromotionbyMerchOrderId">
+		<return-scalar column="promotion_id" type="long"/>
+		<![CDATA[
+     	 	select p.promotion_id promotion_id 
+		 	 from promotion p,
+		       activity a,
+		       activity_merch_order amo,
+		       merch_order mo
+		 where p.promotion_id = a.promotion_id
+		   and a.activity_id = amo.activity_id
+		   and amo.merch_order_id = mo.merch_order_id
+		   and mo.merch_order_id = :merchOrderId
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.activity.getPromotionNamebyMerchOrderId">
+		<return-scalar column="promotion_name" type="string"/>
+		<![CDATA[
+     	 	select p.promotion_name promotion_name 
+		 	 from promotion p,
+		       activity a,
+		       activity_merch_order amo,
+		       merch_order mo
+		 where p.promotion_id = a.promotion_id
+		   and a.activity_id = amo.activity_id
+		   and amo.merch_order_id = mo.merch_order_id
+		   and mo.merch_order_id = :merchOrderId
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.activity.getRecipientClaimActivityForNomination">
+		<return alias="a" class="com.biperf.core.domain.activity.Activity" />
+		<![CDATA[
+     	 SELECT a.*
+		     FROM activity a
+		      WHERE a.user_id =:participantId
+		      AND a.claim_id =:claimId
+		      AND a.is_submitter = 0
+		      AND a.approval_round > 1
+    ]]>
+	</sql-query>
+<sql-query name="com.biperf.core.domain.activity.getRecipientClaimActivity">
+		<return alias="a" class="com.biperf.core.domain.activity.Activity" />
+		<![CDATA[
+     	 SELECT a.*
+		     FROM activity a
+		      WHERE a.user_id =:participantId
+		      AND a.claim_id =:claimId
+		      AND a.is_submitter = 0
+    ]]>
+	</sql-query>
+	
+		
+</hibernate-mapping>

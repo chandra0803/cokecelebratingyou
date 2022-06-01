@@ -1,0 +1,13 @@
+DROP TABLE activity_merch_order CASCADE CONSTRAINTS
+/
+DROP TABLE MERCH_ORDER CASCADE CONSTRAINTS
+/
+DROP TABLE merch_order_bill_code CASCADE CONSTRAINTS
+/
+-- SEQUENCES
+DROP SEQUENCE merch_order_pk_sq
+/
+DROP SEQUENCE merch_order_bill_pk_sq
+/
+DROP SEQUENCE batch_id_sq
+/

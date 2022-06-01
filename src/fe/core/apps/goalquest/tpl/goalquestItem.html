@@ -1,0 +1,175 @@
+<!--
+    GQ, CP MODULES and LIST PAGES
+    * be sure to test changes in LIST PAGE and MODULES!
+-->
+
+<div class="promotionItem {{promotionItemClass}} {{#eq promotionItemClass "multiple"}}card{{/eq}} {{status}} {{#if ua}}ua{{/if}} {{#if uaconnected}}ua-connected{{/if}}" data-promotion-id="{{id}}">
+    {{#if ua}}<div class="innerGradient" />{{/if}}
+    {{#goals}}
+
+        <div class="goalItem {{#if noGoal}}gqNoLevel{{/if}}" data-goal-id="{{id}}">
+
+            <h4 class="promotionTitle">
+                {{#if ../honeycombProgram}}
+					<a href="{{rulesLink}}" target="_blank" class="promotionRulesHoneycomb">
+						Rules
+					</a> {{else}}
+					<a href="{{rulesLink}}" class="promotionRules">
+						Rules
+					</a>
+				{{/if}}
+
+                <strong>{{../name}}</strong>
+            </h4>
+
+
+            {{#if isPartner}}
+            <p class="subTitle partner">
+                Partnered with
+                <span class="partnerName">
+                {{participant.firstName}} {{participant.lastName}}
+                </span>
+            </p>
+            {{/if}}
+
+            {{#or goalStarted goalEnded}}
+            {{#if showProgress}}
+            <div class="progressUnit">
+                <p class="asOf">Progress as of {{progressDate}}:</p>
+                <div class="progress progress-tip{{#if goalWin}} progress-success{{/if}}{{#if goalFail}} progress-danger{{/if}}" class="goalQuestProgessBarWrapper" data-value="{{progressValue}}%" data-status="{{#if goalWin}}success{{/if}}{{#if goalFail}}fail{{/if}}">
+                    {{#if percentageExceeds}}
+                    <div class="bar" style="width: 100%;"><!-- {{progressValue}}% --></div>
+                    {{else}}
+                    <div class="bar" style="width: 0;"><!-- {{progressValue}}% --></div>
+                    {{/if}}
+                </div>
+            </div>
+            {{/if}}
+            {{/or}}
+
+            {{#if goalLevel}}
+            <p class="subTitle">
+                <!-- <span class="levelChooseVisual">
+                    <i class="levelChosen visualItem icon-check-circle"></i>
+                </span> -->
+                <span class="levelLabelName">
+                    {{#if isPartner}}
+                    <span class="levelLabel">Goal:</span>
+                    {{else}}
+                    <span class="levelLabel">Your Goal:</span>
+                    {{/if}}
+                    <span class="levelName">{{goalLevel.name}} </span>
+                </span>
+                <span class="levelDesc">{{goalLevel.description}}</span>
+            </p>
+            {{/if}}
+
+            <p class="statusTxt">
+
+                {{#if goalOpen}}
+                {{#if noGoal}}
+                {{#if canChange}}
+                <span class="levelChooseVisual">
+                    <i class="selectIcn visualItem icon-calendar"></i>
+                </span>
+                <span class="selectTxt">
+                    Select your goal by
+                    {{../startDate}}
+                </span>
+                {{/if}}
+                {{/if}}
+                {{/if}}
+
+                {{#if showNoGoal}}
+                <span class="levelChooseVisual">
+                    <i class="sorryIcn visualItem icon-cancel-circle"></i>
+                </span>
+                <span class="sorryTxt">
+                    We're sorry. You did not select a goal.
+                </span>
+                {{/if}}
+
+                {{#if goalFail}}
+                <span class="levelChooseVisual">
+                    <i class="notAchieveIcn visualItem icon-cancel-circle"></i>
+                </span>
+                <span class="notAchieveTxt">
+                    {{#if isPartner}}
+                    The goal was not achieved
+                    {{else}}
+                    You did not achieve your goal
+                    {{/if}}
+                </span>
+                {{/if}}
+
+                {{#if goalWin}}
+                <span class="levelChooseVisual">
+                    <i class="achieveIcn visualItem icon-verification"></i>
+                </span>
+                <span class="achieveTxt">
+                    {{#if isPartner}}
+                    Congrats! The goal was achieved.
+                    {{else}}
+                    Congrats! You achieved your goal!
+                    {{/if}}
+                </span>
+                {{/if}}
+
+            </p>
+
+            <span class="btnWrap">
+                {{#if showBtn_Rules}}
+                <!-- <a href="{{rulesLink}}" class="btn btn-primary">
+                    Read Rules
+                </a> -->
+				{{/if}}
+
+                {{#if showBtn_Select}}
+                <a href="{{selectGoalLink}}" {{#if ../honeycombProgram}}target="_blank"{{/if}} class="btn btn-primary">
+                    Select Goal
+                </a>
+                {{/if}}
+
+                {{#if showBtn_Change}}
+                <a href="{{selectGoalLink}}" {{#if ../honeycombProgram}}target="_blank"{{/if}} class="btn btn-primary">
+                    Change Goal
+                </a>
+                {{/if}}
+
+                {{#if showBtn_Progress}}
+                <a href="{{progressLink}}" {{#if ../honeycombProgram}}target="_blank"{{/if}} class="btn btn-primary btn-inverse">
+                    View Progress
+                </a>
+                {{/if}}
+
+                {{#if showBtn_View}}
+                <a href="{{resultsLink}}" {{#if ../honeycombProgram}}target="_blank"{{/if}} class="btn btn-primary btn-inverse">
+                    View Results
+                </a>
+                {{/if}}
+            </span>
+
+        </div><!-- /.goalItem -->
+
+    {{/goals}}
+
+    {{#if ua}}
+        <div class="ua-footer">
+            <div class="ua-logo">
+                <span></span><!-- logo goes here-->
+            </div>
+            <div class="ua-connect-status">
+                <div class="ua-widget {{#if uaconnected}}connected{{/if}}">
+                    <div class="ua-dot" {{#if uaconnected}}data-title-connect-status="Connected"{{else}} data-title-connect-status="Not Connected"{{/if}}>
+                        {{#if uaconnected}}
+                            <i class="icon icon-link-2"></i>
+                            {{else}}
+                            <i class="icon icon-link-3-broken"></i>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/if}}
+
+</div>

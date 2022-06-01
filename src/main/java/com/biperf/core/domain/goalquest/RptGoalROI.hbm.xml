@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.goalquest.RptGoalROI" table="RPT_GOAL_ROI">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" column="RPT_GOAL_ROI_ID" type="java.lang.Long">
+	  <generator class="seqhilo">
+	    <param name="max_lo">0</param> <param name="sequence">RPT_GOAL_ROI_SQ</param>
+	  </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" type="java.lang.Long" column="VERSION" />	
+			
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+	      	  type="com.biperf.core.utils.hibernate.AuditCreateType">
+			  <column name="DATE_CREATED" />
+			  <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+	      	  type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			  <column name="DATE_MODIFIED" />
+			  <column name="MODIFIED_BY" />
+    </property>			
+
+    <property name="nbrOfParticipants" column="NBR_OF_PAX" type="java.lang.Integer" />
+    <property name="pctOfParticipants" column="PCT_OF_PAX" type="java.lang.Double" />
+    <property name="totBaselineObjective" column="TOT_BASE_OBJ" type="java.math.BigDecimal" />
+    <property name="totActualProduction" column="TOT_CURR_VALUE" type="java.math.BigDecimal" />
+    <property name="pctIncrease" column="PCT_INCREASE" type="java.lang.Double" />	
+    <property name="unitDollarIncrease" column="UNIT_INCREASE" type="java.lang.Double" />
+	    
+    <!-- promotion -->
+    <many-to-one name="goalQuestPromotion" column="PROMOTION_ID" not-null="true" 
+	  class="com.biperf.core.domain.promotion.GoalQuestPromotion" lazy="false">
+    </many-to-one>
+		
+	<!-- ROI count type -->
+	<property name="goalROICountType" column="COUNT_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.GoalROICountType</param>
+      </type>
+    </property>	
+    
+  </class>
+
+  <query name="com.biperf.core.domain.goalquest.RptGoalROIByPromotionId">
+	<![CDATA[
+		from com.biperf.core.domain.goalquest.RptGoalROI rptGoalROI
+		where goalQuestPromotion.id = :promotionId
+	]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.goalquest.AllActivePaxCount">
+	<return-scalar column="result" type="integer"/> 
+  	<![CDATA[
+		SELECT count(1) as result 
+		  FROM participant p,
+		  	   user_node 	 
+		 WHERE p.status = 'active'
+		 	AND p.user_id = user_node.user_id
+		 	AND user_node.role != 'own'
+	]]>
+  </sql-query>	
+  
+	 
+  <query name="com.biperf.core.domain.goalquest.PaxsByGoalsAchieved">
+    <![CDATA[
+    select new com.biperf.core.value.GoalROIValueBean( 
+    	count(rptGoalDetail.participant.id), 
+    	sum(rptGoalDetail.baseQuantity), 
+    	sum(rptGoalDetail.currentValue) )
+     from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail     
+    where rptGoalDetail.goalQuestPromotion.id = :promotionId
+      and rptGoalDetail.achieved = 1
+      and rptGoalDetail.manager = 0      
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.goalquest.PaxsByGoalsNotAchievedOverBaseline">
+    <![CDATA[
+    select new com.biperf.core.value.GoalROIValueBean( 
+    	count(rptGoalDetail.participant.id), 
+    	sum(rptGoalDetail.baseQuantity), 
+    	sum(rptGoalDetail.currentValue) )
+     from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail     
+    where rptGoalDetail.paxGoal is not null 
+      and rptGoalDetail.goalQuestPromotion.id = :promotionId
+      and rptGoalDetail.achieved = 0
+      and rptGoalDetail.manager = 0      
+      and (rptGoalDetail.currentValue >= rptGoalDetail.baseQuantity )
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.goalquest.Subtotal">
+  	<![CDATA[
+  	select new com.biperf.core.value.GoalROIValueBean( 
+    	count(rptGoalDetail.participant.id), 
+    	sum(rptGoalDetail.baseQuantity), 
+    	sum(rptGoalDetail.currentValue) )
+     from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail     
+    where rptGoalDetail.manager = 0 and
+    (rptGoalDetail.goalQuestPromotion.id = :promotionId
+      	   and rptGoalDetail.achieved = 1 )  
+      or  ( rptGoalDetail.paxGoal is not null 
+           and rptGoalDetail.manager = 0 
+      	   and rptGoalDetail.goalQuestPromotion.id = :promotionId
+      	   and rptGoalDetail.achieved = 0
+      	   and (rptGoalDetail.currentValue >= rptGoalDetail.baseQuantity ))
+  	]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.goalquest.PaxsByGoalsNotAchievedUnderBaseline">
+    <![CDATA[
+    select new com.biperf.core.value.GoalROIValueBean( 
+    	count(rptGoalDetail.participant.id), 
+    	sum(rptGoalDetail.baseQuantity), 
+    	sum(rptGoalDetail.currentValue) )
+     from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail     
+    where  rptGoalDetail.paxGoal is not null  and rptGoalDetail.paxGoal.goalLevel is not null
+      and rptGoalDetail.goalQuestPromotion.id = :promotionId
+      and rptGoalDetail.achieved = 0
+      and rptGoalDetail.manager = 0      
+      and ( rptGoalDetail.baseQuantity is null or   rptGoalDetail.currentValue is null or  rptGoalDetail.currentValue = 0 or rptGoalDetail.currentValue < rptGoalDetail.baseQuantity )
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.goalquest.PaxsDidNotSelectGoal">
+    <![CDATA[
+    select new com.biperf.core.value.GoalROIValueBean( 
+    	count(rptGoalDetail.participant.id), 
+    	sum(rptGoalDetail.baseQuantity), 
+    	sum(rptGoalDetail.currentValue) )
+     from com.biperf.core.domain.goalquest.RptGoalDetail rptGoalDetail     
+    where rptGoalDetail.goalQuestPromotion.id = :promotionId
+      and rptGoalDetail.paxGoal is null
+      and rptGoalDetail.manager = 0    
+    ]]>
+  </query>
+  
+
+</hibernate-mapping>
+
+

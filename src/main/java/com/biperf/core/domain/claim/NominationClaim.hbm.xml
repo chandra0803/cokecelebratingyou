@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <joined-subclass name="com.biperf.core.domain.claim.NominationClaim" extends="com.biperf.core.domain.claim.Claim" table="NOMINATION_CLAIM" >
+    <key column="CLAIM_ID" not-null="true" />
+
+    <!-- Must leave lazy = false for instance of to work -->
+    <many-to-one name="card" column="CARD_ID" class="com.biperf.core.domain.multimedia.Card" not-null="false" update="true" insert="true" lazy="false"/>
+
+    <property name="source" column="SOURCE">
+        <type name="com.biperf.core.domain.enums.HibernateVarCharEnum">
+            <param name="enumClass">com.biperf.core.domain.claim.RecognitionClaimSource</param>
+        </type>
+    </property>
+
+    <property name="copySender" column="COPY_SENDER" type="boolean" />
+    <property name="submitterComments" column="SUBMITTER_COMMENTS" type="java.lang.String" />
+    <property name="moreInfoComments" column="MORE_INFO_COMMENTS" type="java.lang.String" />
+    <property name="giverDevisionKey" column="ADIH_GIVER_DIV_KEY" type="java.lang.String" />
+    <property name="recieverDivisonKey" column="ADIH_RECIP_DIV_KEY" type="java.lang.String" />
+
+    <property name="submitterCommentsLanguageType" column="SUBMITTER_COMMENTS_LANG_ID">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.LanguageType</param>
+      </type>
+    </property>
+
+    <property name="teamName" column="TEAM_NAME" type="java.lang.String" />
+    <property name="teamId" column="TEAM_ID" type="long" not-null="false"/>
+     <property name="ownCardName" column="OWN_CARD_NAME" type="java.lang.String" />
+    <property name="hidePublicRecognition" column="HIDE_PUBLIC_RECOGNITION" type="boolean" />
+    
+    
+    <set name="claimRecipients" lazy="true" table="CLAIM_RECIPIENT" inverse="true" cascade="all-delete-orphan">
+      <key column="CLAIM_ID" />
+      <one-to-many class="com.biperf.core.domain.claim.ClaimItem" />
+    </set>
+
+    <set name="teamMembers" lazy="false" table="CLAIM_PARTICIPANT" inverse="true" cascade="all-delete-orphan">
+      <key column="CLAIM_ID"/>
+      <one-to-many class="com.biperf.core.domain.claim.ProductClaimParticipant"/>
+    </set>
+    
+    <set name="calculatorResponses" table="CALCULATOR_RESPONSE" inverse="true" cascade="all-delete-orphan" order-by="sequence_num">
+      <key column="CLAIM_ID" not-null="true"/>
+      <one-to-many class="com.biperf.core.domain.claim.CalculatorResponse"/>
+    </set>
+   
+    <set name="nominationClaimBehaviors" table="NOMINATION_CLAIM_BEHAVIORS"  inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="CLAIM_ID" not-null="true" />			
+			<one-to-many class="com.biperf.core.domain.claim.NominationClaimBehaviors" />
+  	</set>
+  	
+    <property name="nominationStatusType" column="STATUS">
+		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+			<param name="lookupClass">com.biperf.core.domain.enums.NominationClaimStatusType</param>
+		</type>
+	</property>
+	
+	<many-to-one name="timPeriod" column="NOMINATION_TIME_PERIOD_ID" class="com.biperf.core.domain.promotion.NominationPromotionTimePeriod" />	
+    
+    <property name="stepNumber" column="STEP_NUMBER" type="java.lang.Integer" />
+    
+    <property name="certificateId" column="CERTIFICATE_ID" type="long" not-null="false"/>
+    
+    <property name="isReversal" column="IS_REVERSE" type="boolean"  access="field"/>
+    
+    <property name="whyAttachmentUrl" column="WHY_ATTACHMENT_URL" type="java.lang.String" />
+    <property name="whyAttachmentName" column="WHY_ATTACHMENT_NAME" type="java.lang.String" />    
+    <property name="cardVideoUrl" column="CARD_VIDEO_URL" type="java.lang.String" />
+    <property name="cardVideoImageUrl" column="CARD_VIDEO_IMAGE_URL" type="java.lang.String" />
+    <property name="drawingDataUrl" column="DRAWING_DATA_URL" type="java.lang.String" />
+    <property name="cardType" column="CARD_TYPE" type="java.lang.String" />
+    
+     <property name="awardGroupType" column="AWARD_GROUP_TYPE">
+    	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+      		<param name="lookupClass">com.biperf.core.domain.enums.NominationAwardGroupType</param>
+    	</type>
+  	 </property>
+  	 
+  	 <set name="claimFiles" lazy="false" table="ADIH_CLAIM_FILE" inverse="true" cascade="all-delete-orphan">
+      <key column="CLAIM_ID"/>
+      <one-to-many class="com.biperf.core.domain.client.TcccClaimFile"/>
+    </set>
+    
+  </joined-subclass>
+  
+  <!-- <query name="com.biperf.core.domain.claim.getNominationMyWinners">   
+    <![CDATA[
+    SELECT 
+    	new com.biperf.core.value.nomination.NominationMyWinnersValueBean(nc.teamId, cia.approverUser.id, a.id, p.promotionName, nvl(TRUNC(cia.notificationDate),cia.dateApproved) dateWon )
+		FROM Claim c,
+		ClaimItem ci,
+		ClaimItemApprover cia,
+		ClaimRecipient cr,
+		NominationClaim nc,
+		Activity a,
+		Promotion p
+	WHERE c.id = ci.id
+	  AND ci.id = cia.id
+	  AND cia.approvalStatusType = 'winner'
+	  AND ci.id = cr.id
+	  AND cr.recipient.id = :userId
+	  AND ci.id = nc.id
+	  AND nc.id = a.id
+	  AND cr.recipient.id = a.participant.id
+	  AND cia.approvalRound = a.approvalRound
+	  AND a.submitter = 0
+	  AND c.promotion.id = p.id
+	  ]]>
+  </query> -->
+  
+  <sql-query name="com.biperf.core.claim.getClaimsSubmittedCountByPeriod">
+	<return-scalar column="result" type="long"/>
+	<![CDATA[
+          SELECT COUNT(*) AS result
+          FROM nomination_claim nc
+          INNER JOIN claim c
+          ON nc.claim_id = c.claim_id
+          WHERE nc.nomination_time_period_id = :timePeriodId
+          	AND c.submitter_id = :submitterId
+          	AND nc.status = 'complete'
+	]]>
+  </sql-query>
+  
+   <sql-query name="com.biperf.core.claim.getClaimsSubmittedCountByPeriodAndNominee">
+	<return-scalar column="result" type="long"/>
+	<![CDATA[
+          select    count(*)  AS result   
+          from claim  c , 
+          nomination_claim  nc,
+          claim_item  ci ,
+          claim_recipient  cr
+      where 
+      c.claim_id =  nc.claim_id  and      
+      nc.status = 'complete'  and
+      c.claim_id =  ci.claim_id  and
+      ci.claim_item_id =  cr.claim_item_id    and
+      c.submitter_id = :nominator    and
+      nc.nomination_time_period_id = :timePeriodId   and
+      cr.participant_id = :nominee 
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.nominationclaim.getInProgressNominationClaimAndPromotionId">
+	<return-scalar column="promotion_id"/>
+	<return-scalar column="claim_id"/>
+	<![CDATA[
+	 SELECT c.promotion_id,
+     c.claim_id
+     FROM nomination_claim nc,
+     claim c
+     WHERE nc.claim_id = c.claim_id
+     AND nc.status     = 'in-complete'
+     AND c.submitter_id = :userId
+    ]]>
+  </sql-query>
+  
+  
+  <sql-query
+	name="com.biperf.core.claim.inProgressCount">
+	<return-scalar column="result" type="long" />
+	<![CDATA[
+          select   count(1 )   as result
+     from 
+     nomination_claim  nc , 
+     claim  c     
+     where  
+     c.claim_id =   nc.claim_id  and
+     c.submitter_id = :submitterId  and
+     nc.status =  'in-complete'
+	]]>
+</sql-query>
+
+<sql-query name="com.biperf.core.domain.nominationclaim.getNominationApprovalsByClaimCount">
+	<return-scalar column="result" type="integer" />
+	<![CDATA[
+      SELECT  COUNT(1) as result
+       FROM (
+       SELECT c.claim_id,
+       CASE WHEN  pn.payout_level_type = 'finalLevel' THEN NVL(p.award_budget_master_id,p.cash_budget_master_id)
+            WHEN pn.payout_level_type = 'eachLevel' AND pnl.award_payout_type = 'points' THEN p.award_budget_master_id
+                 WHEN pn.payout_level_type = 'eachLevel' AND pnl.award_payout_type = 'cash' THEN p.cash_budget_master_id
+                 ELSE NVL(p.award_budget_master_id,p.cash_budget_master_id) END as budget_master_id
+          FROM claim_approver_snapshot cm, 
+               claim c,
+               promotion p,
+               promo_nomination pn,
+               promo_nomination_level pnl
+         WHERE cm.approver_user_id = :userId
+           AND (cm.claim_id = c.claim_id OR c.claim_group_id = cm.claim_group_id)
+           AND c.is_open = 1
+           AND c.promotion_id = p.promotion_id
+           AND p.promotion_id = pn.promotion_id
+           AND p.promotion_id = pnl.promotion_id
+           AND ((pn.payout_level_type = 'eachLevel' AND c.approval_round = pnl.level_index )
+                                   OR (pn.payout_level_type = 'finalLevel' ) )
+           AND NVL(p.approval_end_date,SYSDATE) >= SYSDATE
+           AND EXISTS ( SELECT 1
+                          FROM claim_recipient cr,
+                               claim_item ci,
+                               claim cl,
+                               application_user au
+                         WHERE cr.claim_item_id = ci.claim_item_id
+                           AND ci.claim_id = cl.claim_id
+                           AND cl.claim_id = c.claim_id
+                           AND cr.participant_id = au.user_id
+                           AND au.is_active = 1
+                            )
+           AND NOT EXISTS (SELECT 1
+                             FROM  claim_item ci,
+                                   claim_item_approver cia
+                             WHERE ci.claim_id = c.claim_id
+                               AND (ci.claim_item_id = cia.claim_item_id OR c.claim_group_id = cia.claim_group_id) 
+                               AND cia.approval_round = (c.approval_round - 1)
+                               AND cia.notification_date > TRUNC(SYSDATE)
+                           )                       
+         UNION ALL   
+        SELECT DISTINCT c.claim_id,
+          CASE WHEN pn.payout_level_type = 'finalLevel' THEN NVL(p.award_budget_master_id,p.cash_budget_master_id)
+                 WHEN pn.payout_level_type = 'eachLevel' AND pnl.award_payout_type = 'points' THEN p.award_budget_master_id
+                 WHEN pn.payout_level_type = 'eachLevel' AND pnl.award_payout_type = 'cash' THEN p.cash_budget_master_id
+                 ELSE NVL(p.award_budget_master_id,p.cash_budget_master_id) END budget_master_id
+          FROM claim_item_approver cia,
+               claim_item ci,
+               claim c,
+               promotion p,
+               promo_nomination pn,
+              promo_nomination_level pnl
+         WHERE cia.approver_user_id = :userId
+           AND cia.approval_status_type IN ('winner','approv','non_winner')
+           AND (cia.claim_item_id = ci.claim_item_id OR cia.claim_group_id = c.claim_group_id)
+           AND ci.claim_id = c.claim_id
+           AND c.promotion_id = p.promotion_id
+           AND p.promotion_id = pn.promotion_id
+           AND p.promotion_id = pnl.promotion_id
+           AND ((pn.payout_level_type = 'eachLevel' AND c.approval_round = pnl.level_index )
+                                   OR (pn.payout_level_type = 'finalLevel' ) )
+           AND NVL(cia.notification_date,TRUNC(SYSDATE)) <= TRUNC(SYSDATE)     
+           And Nvl(P.Approval_End_Date,Sysdate) >= Sysdate) rpt, budget_segment bs
+           WHERE rpt.budget_master_id = bs.budget_master_id (+)
+            AND (bs.budget_master_id IS NULL OR 
+                (Bs.Budget_Master_Id Is Not Null And Trunc(Sysdate) Between Bs.Start_Date And Nvl(Bs.End_Date,Trunc(Sysdate))))
+	]]>
+</sql-query>
+
+
+<sql-query name="com.biperf.core.domain.nominationclaim.getNominationApprovalsByClaimCountForSideBar">
+	<return-scalar column="result" type="integer" />
+	<![CDATA[
+      SELECT  COUNT(1) as result
+       from CLAIM_APPROVER_SNAPSHOT where approver_user_id = :userId
+	]]>
+</sql-query>
+
+<sql-query name="com.biperf.core.ui.pastwinner.getTeamMembersByTeamName">
+	<return-scalar column="name" type="string"/>
+	<return-scalar column="id" type="long"/>
+	<![CDATA[
+	
+	    select au.first_name ||' '|| au.last_name as name, au.user_id as id
+        FROM nomination_claim nc,
+        claim_item ci,
+        claim_recipient cr,
+        application_user au
+        WHERE nc.team_id = :teamId
+        AND nc.claim_id = ci.claim_id 
+        AND ci.claim_item_id = cr.claim_item_id
+        AND cr.participant_id = au.user_id        
+	
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.claim.getNominationCountByCardId">
+	<return-scalar column="result" type="integer" />
+	<![CDATA[	
+	    SELECT  COUNT(1) as result
+       from nomination_claim where card_id = :cardId
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.claim.getOwnCardsForNomination">
+	<return-scalar column="id" type="long" />
+	<return-scalar column="ownCardName" type="string" />
+	<![CDATA[	
+	    SELECT CLAIM_ID id, OWN_CARD_NAME ownCardName FROM NOMINATION_CLAIM WHERE OWN_CARD_NAME IS NOT NULL and OWN_CARD_NAME LIKE '%/cm3dam/ecard/%'
+	]]>
+  </sql-query>
+  
+ 
+</hibernate-mapping>

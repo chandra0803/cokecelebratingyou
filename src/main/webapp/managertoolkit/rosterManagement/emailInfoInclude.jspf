@@ -1,0 +1,33 @@
+<%@ include file="/include/taglib.jspf" %>
+
+<fieldset>
+	<h3>
+		<cms:contentText key="EMAIL_HEADER"
+			code="participant.roster.management.edit" />
+	</h3>
+	<div class="control-group">
+		<label for="primaryEmailAddressType" class="control-label"><cms:contentText
+				key="PRIMARY_EMAIL_TYPE" code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<html:select styleId="primaryEmailAddressType" property="emailType">
+				<html:option value=''>
+					<cms:contentText key="SELECT_ONE" code="system.general" />
+				</html:option>
+				<html:options collection="emailTypeList" property="code"
+					labelProperty="name" />
+			</html:select>
+            <span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label for="emailAddress" class="control-label"><cms:contentText
+				key="EMAIL_ADDRESS" code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<html:text styleId="emailAddress" property="emailAddress" size="30"
+				maxlength="75" styleClass="input-large" />
+		</div>
+	</div>
+</fieldset>

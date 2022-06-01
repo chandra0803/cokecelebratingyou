@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.user.UserCharacteristic" table="USER_CHARACTERISTIC">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="USER_CHARACTERISTIC_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">USER_CHARACTERISTIC_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		
+		<!--  the actual value of each characteristic -->
+		<property name="characteristicValue" type="java.lang.String" column="CHARACTERISTIC_VALUE" />
+	    
+	    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="false"/>
+	    <many-to-one name="userCharacteristicType" column="CHARACTERISTIC_ID" class="com.biperf.core.domain.characteristic.UserCharacteristicType" not-null="true" lazy="false"/>
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+    	<property name="rosterUserCharId" type="uuid-char" column="ROSTER_USER_CHAR_ID"/>		
+	</class>	
+	
+	<query name="com.biperf.core.domain.characteristic.getAllForCharIDAndValue">
+		<![CDATA[
+		from com.biperf.core.domain.user.UserCharacteristic uc
+		where uc.userCharacteristicType =:charID
+		and lower(uc.characteristicValue) = :charValue
+		]]>
+	</query>
+	
+	 <!--  WIP 56492 customization starts  -->
+  <sql-query name="com.biperf.core.domain.user.usercharacteristic.getCharacteristicValueByDivisionKeyAndUserId">
+		<return-scalar column="characteristicValue" type="string"/>
+    	<![CDATA[
+       		SELECT DISTINCT UC.CHARACTERISTIC_VALUE AS characteristicValue FROM USER_CHARACTERISTIC UC,CHARACTERISTIC C 
+       		WHERE 
+     		C.DESCRIPTION = 'Division Key'
+     		AND UC.CHARACTERISTIC_ID = C.CHARACTERISTIC_ID
+     		AND  USER_ID = :userId
+    	]]>
+  	</sql-query>
+	<!--  WIP 56492 customization ends -->
+	
+	<!--  WIP 37311 customization starts  -->
+  <sql-query name="com.biperf.core.domain.user.usercharacteristic.getCharacteristicValueByUserAndCharacterisiticId">
+		<return-scalar column="characteristicValue" type="string"/>
+    	<![CDATA[
+       		SELECT distinct uc.CHARACTERISTIC_VALUE AS characteristicValue
+			FROM USER_CHARACTERISTIC uc
+			WHERE uc.USER_ID = :userId
+			AND uc.CHARACTERISTIC_ID = :characteristicId
+			
+    	]]>
+  	</sql-query>
+	<!--  WIP 37311 customization ends -->
+	
+	<sql-query name="com.biperf.core.domain.user.usercharacteristic.getAllDivisionKeyValues">
+		<return-scalar column="characteristicValue" type="string"/>
+    	<![CDATA[
+       		select distinct characteristic_value as characteristicValue 
+       		from user_characteristic where characteristic_id = (select long_val from os_propertyset where entity_name = 'coke.user.char.division.key')
+			
+    	]]>
+  	</sql-query>
+	
+	
+</hibernate-mapping>

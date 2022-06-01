@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	
+	<class name="com.biperf.core.domain.ots.ProgramAudience" table="PROGRAM_AUDIENCE">
+		
+		<id name="id" column="PROGRAM_AUDIENCE_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PROGRAM_AUDIENCE_SQ</param>
+			</generator>
+		</id>
+		
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+		<many-to-one name="otsProgram"
+					 class="com.biperf.core.domain.ots.OTSProgram"
+					 outer-join="false"
+           lazy="false">
+			<column name="OTS_PROGRAM_ID"  />
+		</many-to-one>
+
+		<!-- audience -->
+		<many-to-one name="audience"
+					 class="com.biperf.core.domain.participant.Audience" 
+					 outer-join="false" 
+					 
+					 lazy="false">
+			<column name="AUDIENCE_ID" />
+		</many-to-one>
+		
+	</class>
+	
+	
+</hibernate-mapping>

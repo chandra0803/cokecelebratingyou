@@ -1,0 +1,40 @@
+CREATE SEQUENCE ENGAGEMENT_SCORE_DETAIL_ID_SEQ INCREMENT BY 1 START WITH 1 MAXVALUE 99999999999999999999999999 MINVALUE 1
+/
+create table engagement_score_detail
+(
+  engagement_detail_id			NUMBER(18) NOT NULL,
+  user_id						NUMBER(18),
+  node_id						NUMBER(18),
+  score							NUMBER(12),
+  is_average					NUMBER(1) DEFAULT 0,
+  received_count				NUMBER(12),
+  sent_count					NUMBER(12),
+  connected_to_count			NUMBER(12),
+  connected_from_count			NUMBER(12),
+  login_activity_count			NUMBER(12),
+  received_target			    NUMBER(12),
+  sent_target                   NUMBER(12),
+  connected_target			    NUMBER(12),
+  connected_from_target         NUMBER(12),
+  login_activity_target         NUMBER(12),
+  is_recognition_rec_recent		NUMBER(1) DEFAULT 0,
+  trans_month					NUMBER(10),
+  trans_year					NUMBER(10),
+  time_frame                     VARCHAR2(10),
+  IS_RECOG_SENT_TARGET_ACHIEVED  NUMBER(1),
+  IS_RECOG_RECV_TARGET_ACHIEVED  NUMBER(1),
+  IS_CONN_TO_TARGET_ACHIEVED     NUMBER(1),
+  IS_CONN_FROM_TARGET_ACHIEVED   NUMBER(1),
+  IS_LOGIN_TARGET_ACHIEVED       NUMBER(1),
+  IS_SCORE_TARGET_ACHIEVED NUMBER(1)
+)
+/
+ALTER TABLE engagement_score_detail ADD CONSTRAINT eng_score_detail_pk 
+  PRIMARY KEY (engagement_detail_id) USING INDEX
+/
+ALTER TABLE engagement_score_detail ADD CONSTRAINT eng_score_detail_user_fk
+  FOREIGN KEY (user_id) REFERENCES PARTICIPANT (user_id) 
+/
+ALTER TABLE engagement_score_detail ADD CONSTRAINT eng_score_detail_node_fk
+  FOREIGN KEY (node_id) REFERENCES NODE (node_id)
+/

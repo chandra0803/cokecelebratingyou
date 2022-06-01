@@ -1,0 +1,60 @@
+@import "base/colors";
+@import "base/variables";
+
+// @font-face fonts
+@import "fonts";
+
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $email_bodyBgColor: ;
+
+// $email_baseFontFamily: ;
+// $email_baseFontSize: ;
+// $email_baseLineHeight: ;
+// $email_baseFontColor: ;
+// $email_headlineFontFamily: ;
+// $email_headlineFontSize: ;
+// $email_headlineLineHeight: ;
+// $email_headlineFontColor: ;
+// $email_linkColor: ;
+
+// $email_frameBgColor: ;
+// $email_frameBorderWidth: ;
+// $email_frameBorderColor: ;
+
+// $email_headerBgColor: ;
+// $email_headerBorderBottomWidth: ;
+// $email_headerBorderBottomColor: ;
+
+// $email_contentBgColor: ;
+// $email_contentBorderWidth: ;
+// $email_contentBorderColor: ;
+
+// $email_contentCommentFontFamily: ;
+// $email_contentCommentFontSize: ;
+// $email_contentCommentFontColor: ;
+// $email_cardBadgeBgColor: ;
+
+// these should be copied over from partials/progress-bars (more or less)
+// $email_progressBackBorderRadius: ;
+// $email_progressBackBgColor: ;
+// $email_progressBackGradMeta: ;
+// $email_progressBackGradStops: ;
+// $email_progressBarBgColor: ;
+// $email_progressBarGradMeta: ;
+// $email_progressBarGradStops: ;
+
+// $email_footerBgColor: ;
+// $email_footerBorderWidth: ;
+// $email_footerBorderColor: ;
+
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "../../../core/base/scss/email";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

@@ -1,0 +1,93 @@
+@keyframes spinning { from{  transform: rotate(0deg); } to { transform: rotate(-360deg); } } // infinite 360 spin
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeOut { from { opacity:1; } to { opacity:0; } }
+
+.gq-btn {
+    // font-size: 16px;
+    font-weight: bold;
+    // border-radius: 30px;
+    margin-top: 10px;
+
+    position: relative;
+    overflow: hidden; // fixes hitbox overflow
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 100%;
+    transition: width 0.25s ease-in-out;
+
+    &:focus
+
+    &:active {
+        box-shadow:none;
+        text-decoration:none;
+    }
+
+    &:hover {
+        box-shadow:none;
+        text-decoration:none;
+
+    }
+
+    .loader-container {
+        position: absolute;
+        top: 17px;
+        left: 17px;
+        z-index: 100;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        width: 26px;
+        height: 26px;
+
+    }
+
+    &.done {
+        width: 60px;
+        svg {
+            opacity: 1;
+        }
+    }
+
+    svg {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        opacity: 0;
+    }
+}
+
+
+.fetching  {
+    border-radius: 180px !important; // hard overwrite
+    width: 60px;
+
+    svg {
+        animation-delay: .25s;
+        animation-duration: .5s;
+        animation-name: fadeIn;
+        animation-fill-mode: forwards;
+    }
+
+    .spinning {
+        animation: spinning 1.2s linear infinite;
+    }
+
+    .btn-txt {
+        animation-duration: .5s;
+        animation-name: fadeOut;
+        animation-fill-mode: forwards;
+    }
+}
+
+.data {
+    border-radius: 180px !important; // hard overwrite
+    width: 60px;
+    svg {
+        animation-delay: .25s;
+        animation-duration: .5s;
+        animation-name: fadeIn;
+        animation-fill-mode: forwards;
+    }
+}
+

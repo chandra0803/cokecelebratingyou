@@ -1,0 +1,53 @@
+<%-- UI REFACTORED --%>
+<%@ page import="java.util.*" %>
+<%@ page import="com.biperf.core.domain.user.Role" %>
+<%@ page import="com.biperf.core.utils.ClientStateUtils" %>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+
+<%  Map parameterMap = new HashMap();
+		Role temp;
+%>
+<display:table defaultsort="1" defaultorder="ascending" name="allRoles" id="role" pagesize="20" sort="list" requestURI="<%=RequestUtils.getOriginalRequestURI(request)%>">
+<display:setProperty name="basic.empty.showtable" value="true"></display:setProperty>
+
+  <display:setProperty name="basic.msg.empty_list_row">
+    <tr class="crud-content" align="left">
+      <td colspan="{0}">
+        <cms:contentText key="NO_ROLES" code="admin.role"/>
+      </td>
+    </tr>
+  </display:setProperty>
+
+  <display:column titleKey="admin.role.ROLE_NAME" headerClass="crud-table-header-row" class="crud-content left-align nowrap" sortable="true" sortProperty="name">
+		<%  temp = (Role)pageContext.getAttribute("role");
+				parameterMap.put( "roleId", temp.getId() );
+				pageContext.setAttribute("updateUrl", ClientStateUtils.generateEncodedLink( "", "displayUpdateRole.do?method=displayUpdate", parameterMap ) );
+		%>
+    <a href="<c:out value="${updateUrl}"/>" class="crud-content-link">
+    	<c:out value="${role.name}"/>
+    </a>
+  </display:column>
+
+  <display:column titleKey="admin.role.ROLE_CODE" headerClass="crud-table-header-row" class="crud-content left-align" sortable="true">
+    <c:out value="${role.code}"/>
+  </display:column>
+
+  <display:column titleKey="admin.role.USER_TYPE" headerClass="crud-table-header-row" class="crud-content left-align" sortable="true">
+    <c:forEach items="${role.userTypes}" var="userType" varStatus="status">
+      <c:out value="${userType.name}"/><c:if test="${!status.last}"><c:out value=", "/></c:if>
+    </c:forEach>
+  </display:column>
+
+  <display:column titleKey="admin.role.ACTIVE" headerClass="crud-table-header-row" class="crud-content left-align" sortable="true" sortProperty="activityName">
+    <c:choose>
+      <c:when test="${role.active}">
+        <cms:contentText code="admin.role" key="YES"/>
+      </c:when>
+      <c:otherwise>
+        <cms:contentText code="admin.role" key="NO"/>
+      </c:otherwise>
+    </c:choose>
+  </display:column>
+
+</display:table>
+

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.goalquest.GoalQuestParticipantActivity" table="GOALQUEST_PARTICIPANT_ACTIVITY">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="GOALQUEST_PAX_ACTIVITY_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">GOALQUEST_PAX_ACTIVITY_PK_SQ</param>
+			</generator>
+		</id>
+
+	<!-- Using version number optimistic locking -->
+	<version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+      type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <property name="type" column="TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.GoalQuestPaxActivityType</param>
+      </type>
+    </property>      
+    
+    <property name="automotive" column="IS_AUTOMOTIVE" type="boolean" />
+    <!-- from Automotive fileload -->
+    <property name="vin" column="VIN" type="java.lang.String" />
+    <property name="model" type="java.lang.String" column="MODEL"/>
+    <property name="transactionType" column="TRANS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ProgressTransactionType</param>
+      </type>
+    </property>    
+    <property name="salesDate" type="java.util.Date" column="SALES_DATE"/>
+    <property name="deliveryDate" type="java.util.Date" column="DELIVERY_DATE"/>
+    <property name="dealerCode" type="java.lang.String" column="DEALER_CODE"/>
+    <property name="dealerName" type="java.lang.String" column="DEALER_NAME"/>
+
+    <property name="status" column="STATUS">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.GoalQuestPaxActivityStatus</param>
+      </type>
+    </property>      
+
+    <many-to-one name="goalQuestPromotion" column="PROMOTION_ID" not-null="false" lazy="proxy"/>
+    <many-to-one name="participant" column="USER_ID" not-null="true" lazy="proxy"/>
+    <property name="quantity" column="QUANTITY" type="java.math.BigDecimal" />
+    <property name="submissionDate" column="SUBMISSION_DATE" type="java.util.Date" />
+    <many-to-one name="payoutActivity" column="GQ_PAYOUT_ACTIVITY_ID" not-null="false" lazy="proxy"/>
+    
+  </class>
+  
+	<query name="com.biperf.core.domain.goalquest.GoalQuestPaxActivityByUserIdAndPromotionId">
+		<![CDATA[
+      from item in class com.biperf.core.domain.goalquest.GoalQuestParticipantActivity
+      where item.participant.id = :userId and item.goalQuestPromotion.id = :promotionId
+      order by item.submissionDate, item.id
+    ]]>
+	</query>  
+	
+
+  <sql-query name="com.biperf.core.domain.goalquest.ActivityByPromotionAndUserIdWithPayout">
+    <return-scalar column="result" type="boolean"/> 
+    <![CDATA[
+       select 1 as result
+       from   GOALQUEST_PARTICIPANT_ACTIVITY 
+       where  PROMOTION_ID=:promotionId 
+       and    USER_ID = :userId
+       and    GQ_PAYOUT_ACTIVITY_ID is not null
+    ]]>
+  </sql-query>
+  	
+</hibernate-mapping>

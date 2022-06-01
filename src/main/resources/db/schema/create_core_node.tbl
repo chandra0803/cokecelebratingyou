@@ -1,0 +1,57 @@
+CREATE SEQUENCE NODE_PK_SQ INCREMENT BY 1 START WITH 7000
+/
+create table NODE
+(NODE_ID         NUMBER(18) NOT NULL,  
+ NODE_TYPE_ID    NUMBER(18) NOT NULL,  
+ NAME            VARCHAR2(255) NOT NULL,
+ PATH			 VARCHAR2(4000) NOT NULL,
+ DESCRIPTION     VARCHAR2(4000),
+ SELF_ENROLLMENT_CODE VARCHAR2(255),
+ PARENT_NODE_ID  NUMBER(18),
+ HIERARCHY_ID    NUMBER(18) NOT NULL,
+ IS_DELETED 	NUMBER(1) NOT NULL,
+ created_by number(18) NOT NULL,
+ DATE_CREATED    DATE NOT NULL,
+ modified_by number(18),
+ DATE_MODIFIED   DATE,
+ VERSION         NUMBER(18) NOT NULL,
+	CONSTRAINT node_pk PRIMARY KEY (node_id),
+	CONSTRAINT node_name_udk UNIQUE (NAME,HIERARCHY_ID))
+/
+ALTER TABLE NODE  ADD CONSTRAINT NODE_HIERARCHY_FK
+  FOREIGN KEY (HIERARCHY_ID) REFERENCES HIERARCHY (HIERARCHY_ID) 
+/
+ALTER TABLE NODE  ADD CONSTRAINT NODE_NODE_TYPE_FK
+  FOREIGN KEY (NODE_TYPE_ID) REFERENCES NODE_TYPE (NODE_TYPE_ID) 
+/
+CREATE INDEX NODE_HIERARCHY_FK_idx ON NODE
+  (HIERARCHY_ID)
+/
+CREATE INDEX NODE_NODE_TYPE_FK_idx ON NODE
+  (NODE_TYPE_ID)
+/
+CREATE INDEX NODE_NAME_IDX ON NODE
+(NODE_ID, PARENT_NODE_ID)
+/
+COMMENT ON TABLE NODE IS 'The NODE table stores the various nodes.'
+/
+COMMENT ON COLUMN node.created_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN node.date_created IS '- Retrofitted'
+/
+COMMENT ON COLUMN node.parent_node_id IS 'The identifier to the parent node of this record'
+/
+COMMENT ON COLUMN node.date_modified IS '- Retrofitted'
+/
+COMMENT ON COLUMN node.modified_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN node.node_id IS 'Unique identifier that identifies the node.'
+/
+COMMENT ON COLUMN node.is_deleted IS 'Identifies this records as logically deleted.'
+/
+COMMENT ON COLUMN node.name IS 'A unique name which identifies this node by name.'
+/
+COMMENT ON COLUMN node.path IS 'A unique name which identifies this node by path in the hierarchy.'
+/
+COMMENT ON COLUMN node.description IS 'A brief description of this node.'
+/

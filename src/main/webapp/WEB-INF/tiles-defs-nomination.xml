@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+	<definition name="google.analytics.webtracking" path="/include/googleAnalyticsWebtracking.jsp"
+		controllerClass="com.biperf.core.ui.maincontent.GoogleAnalyticsWebtrackingController" />
+
+	<definition name="g5.default" path="/layouts/g5BaseLayout.jsp">
+		<put name='init' value='default.init' />
+		<put name="header" value="g6.globalHeader" />
+		<put name='globalNav' value='/layouts/globalNav.jsp' />
+		<put name='footer' value='/layouts/globalFooter.jsp' />
+		<put name='pageNav' value='/layouts/pageNavView.jsp' />
+		<put name='globalSidebar' value='/profile/globalSidebarView.jsp' />
+		<put name='layoutScripts' value='/layouts/layoutScripts.jsp' />
+		<put name='homeApp' value='/empty.jsp' />
+		<put name='profile' value='/profile/participantProfileView.jsp' />
+		<put name='content' value='/empty.jsp' />
+		<put name='webtracking' value='google.analytics.webtracking' />
+		<put name='trackingTitle' value='G5' />
+		<put name='wrapperClass' value="" />
+	</definition>
+
+	<definition name="default.init" path="/empty.jsp"
+		controllerClass="com.biperf.core.ui.PageLayoutController" />
+
+
+
+	<definition name="nomination.tpl.participantsearchview"
+		path="/profileutil/participantSearchView.jsp" />
+	<definition name="nomination.tpl.participantsearchtablerow"
+		path="/profileutil/participantSearchTableRow.jsp" />
+
+
+
+
+
+	<definition name="nominationInProgress.list.view" extends="g5.default">
+		<put name="content" value="/nomination/nominationsInprogressListPageView.jsp" />
+	</definition>
+
+	<definition name="nominationInProgress.list.view.tpl"
+		path="/nomination/nominationsInprogressListTableTpl.jsp" />
+
+	<definition name="nomination.submit.view" extends="g5.default">
+		<put name="content" value="/nomination/nominationsSubmitPage.jsp" />
+		<put name="trackingTitle" value="SubmitNomination" />
+	</definition>
+
+	<definition name="draw.tool.tpl"
+		path="/submitrecognition/tpl/drawToolTemplate.jsp"
+		controllerClass="com.biperf.core.ui.nomination.DrawToolTemplateController" />
+
+	<definition name="nomination.submit.tabs.tpl"
+		path="/nomination/tpl/nominationsWizardTabVertical.jsp" />
+
+	<definition name="nom.tpl.nominationsSubmitNominatingTpl"
+		path="/nomination/tpl/nominationsSubmitNominatingTpl.jsp" />
+	<definition name="nom.tpl.nominationsSubmitNomineeTpl"
+		path="/nomination/tpl/nominationsSubmitNomineeTpl.jsp" />
+	<definition name="nom.tpl.nominationsSubmitEcardTpl"
+		path="/nomination/tpl/nominationsSubmitEcardTpl.jsp" />
+	<definition name="nom.tpl.nominationsSubmitBehaviorsTpl"
+		path="/nomination/tpl/nominationsSubmitBehaviorsTpl.jsp" />
+	<definition name="nom.tpl.nominationsSubmitWhyTpl"
+		path="/nomination/tpl/nominationsSubmitWhyTpl.jsp" />
+
+	<definition name="recog.tpl.drawtoolcardlist"
+		path="/submitrecognition/tpl/drawToolCardList.jsp" />
+
+	<definition name="nomination.tpl.participantrowawarditem"
+		path="/submitrecognition/tpl/participantRowAwardItem.jsp" />
+	<definition name="nomination.tpl.participantpopoverview"
+		path="/profileutil/participantPopoverView.jsp" />
+
+
+	<definition name="nomination.moreinfo.view" extends="g5.default">
+		<put name="content" value="/nomination/nominationsMoreInfo.jsp" />
+		<put name="trackingTitle" value="NominationMoreInfo" />
+	</definition>
+
+	<definition name="nomination.pastwinnerslist.view" extends="g5.default">
+		<put name="content" value="/nomination/nominationWinnersListPage.jsp" />
+		<put name="trackingTitle" value="NominationsPastWinners" />
+	</definition>
+
+	<definition name="nomination.pastwinnerdetails.view" extends="g5.default">
+		<put name="content" value="/nomination/nominationsWinnersDetailPage.jsp" />
+		<put name="trackingTitle" value="NominationsPastWinnersDetail" />
+	</definition>
+
+	<definition name="nomination.mywinners.view" extends="g5.default">
+		<put name="content" value="/nomination/nominationsMyNomsListPage.jsp" />
+		<put name="trackingTitle" value="NominationsMyWinnersList" />
+	</definition>
+</tiles-definitions>

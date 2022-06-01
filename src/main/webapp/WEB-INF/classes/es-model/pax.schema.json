@@ -1,0 +1,230 @@
+{
+	"properties": {
+		"userId": {
+			"index": false,
+			"type": "long"
+		},
+		"firstname": {
+			"type": "keyword",
+			"fields": {
+				"lower_case_sort": {
+					"type": "text",
+					"analyzer": "case_insensitive_sort_analyzer"
+				}
+			}
+		},
+		"lastname": {
+			"type": "keyword",
+			"fields": {
+				"lower_case_sort": {
+					"type": "text",
+					"analyzer": "case_insensitive_sort_analyzer"
+				}
+			}
+		},
+		"positionTypeCode": {
+			"type": "keyword",
+			"index": true
+		},
+		"departmentTypeCode": {
+			"type": "keyword",
+			"index": true
+		},
+		"primaryNodeId": {
+			"index": false,
+			"type": "long"
+		},
+		"countryId": {
+			"index": true,
+			"type": "long"
+		},
+		"avatar": {
+			"type": "keyword",
+			"index": false
+		},
+		"audienceIds": [
+
+		],
+		"name": {
+			"type": "text",
+			"index": true,
+			"analyzer": "pax_name_index_analyzer",
+			"search_analyzer": "pax_name_search_analyzer"
+		},
+		"paths": [
+
+		],
+		"allNodeIds": {
+			"index": true,
+			"type": "long"
+		},
+		"isOptOutAwards": {
+			"type": "boolean",
+			"index": false
+		},
+		"userName": {
+			"type": "keyword",
+			"index": true
+		},
+		"roleType": {
+			"type": "keyword",
+			"index": true
+		},
+		"pronouns": {
+			"properties": {
+				"objective": {
+					"type": "text"
+				},
+				"subjective": {
+					"type": "text"
+				}
+			}
+		},
+		"personCountry": {
+			"type": "keyword",
+			"index": true
+		},
+		"languagePreference": {
+			"type": "keyword",
+			"index": true
+		},
+		"state": {
+			"type": "keyword",
+			"index": true
+		},
+		"phoneNumbers": {
+			"type": "nested",
+			"properties": {
+				"phoneType": {
+					"type": "keyword",
+					"index": true
+				},
+				"phoneNbr": {
+					"type": "keyword",
+					"index": true
+				},
+				"countryPhonecode": {
+					"type": "keyword",
+					"index": true
+				},
+				"primary": {
+					"type": "boolean",
+					"index": false
+				}
+			}
+		},
+		"emailAddress": {
+			"type": "nested",
+			"properties": {
+				"emailType": {
+					"type": "keyword",
+					"index": true
+				},
+				"emailAddress": {
+					"type": "keyword",
+					"index": true
+				},
+				"primary": {
+					"type": "boolean",
+					"index": false
+				}
+			}
+		},
+		"personAttributes": {
+			"type": "nested",
+			"properties": {
+				"characteristicName": {
+					"type": "keyword",
+					"index": true
+				},
+				"characteristicValue": {
+					"type": "keyword",
+					"index": true
+				}
+			}
+		},
+		"personAddresses": {
+			"type": "nested",
+			"properties": {
+				"addressType": {
+					"type": "keyword",
+					"index": true
+				},
+				"countryName": {
+					"type": "keyword",
+					"index": true
+				},
+				"address1": {
+					"type": "keyword",
+					"index": true
+				},
+				"address2": {
+					"type": "keyword",
+					"index": true
+				},
+				"address3": {
+					"type": "keyword",
+					"index": true
+				},
+				"address4": {
+					"type": "keyword",
+					"index": true
+				},
+				"address5": {
+					"type": "keyword",
+					"index": true
+				},
+				"address6": {
+					"type": "keyword",
+					"index": true
+				},
+				"city": {
+					"type": "keyword",
+					"index": true
+				},
+				"state": {
+					"type": "keyword",
+					"index": true
+				},
+				"postalCode": {
+					"type": "keyword",
+					"index": true
+				},
+				"primary": {
+					"type": "boolean",
+					"index": false
+				}
+			}
+		},
+		"rosterUserId": {
+			"type": "keyword",
+			"index": true
+		},
+		"title": {
+			"type": "keyword",
+			"index": true
+		},
+		"suffix": {
+			"type": "keyword",
+			"index": true
+		},
+		"hireDate": {
+			"type": "keyword",
+			"index": true
+		},
+		"terminationDate": {
+			"type": "keyword",
+			"index": true
+		},
+		"middleName": {
+			"type": "keyword",
+			"fields": {
+				"lower_case_sort": {
+					"type": "text",
+					"analyzer": "case_insensitive_sort_analyzer"
+				}
+			}
+		}
+
+	}
+}

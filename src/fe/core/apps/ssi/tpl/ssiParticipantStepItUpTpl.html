@@ -1,0 +1,194 @@
+{{! NOTE: this src needs to point to the javascript lib}}
+<div class="raphael" data-src="../libs/raphael-min.js"></div>
+
+{{! NOTE: these variables are set via JavaScript:
+		isFirstLevel, isLastLevel, classes, lastLevel }}
+<div class="row-fluid">
+    <div class="span12 levelChartWrapper">
+        <table class="levelData">
+            <tr class="levels">
+                <td class="span2"></td>
+                {{#each contestLevels}}
+                <td class="levelCol span2 {{classes}}">
+                    <div class="levelHeader">
+                        <span class="levelName">
+                            <span>Level</span>
+                            <strong>{{name}}</strong>
+                        </span>
+
+                    {{#if isCompleted}}
+                        <div class="levelStatus levelCompleted">
+                    {{else}}
+                        <div class="levelStatus levelNotCompleted">
+                    {{/if}}
+                            <div class="backgroundLinkBar"></div>
+
+                            {{#if isCurrentLevel}}
+                            <div class="levelStatusInProgress">
+                                <div class="chartHolder" data-chart-type="circle" data-model-id="{{id}}">
+                                <div class="chartDataWrapper">
+                                    <div class="chartData">
+                                        <div class="chartDataInner">
+                                            <div class="levelProgress">
+                                                <span>{{progress}}</span>
+                                            </div>
+                                            <div class="levelGoal">
+                                                <span>{{goalAmount}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="levelStatusRemaining">
+                                {{#ueq ../status "finalize_results"}}
+                                {{#if ../includeBonus}}
+                                {{#if isCompleted}}
+                                    <strong class="offset">{{../bonusActivity}} in bonus</strong>
+                                {{else}}
+                                    <strong><span>{{remaining}}</span> to go</strong>
+                                {{/if}}
+                                {{else}}
+                                {{#if isCompleted}}
+                                {{#if isLastLevel}}
+                                    <strong class="offset">Highest Level Achieved</strong>
+                                {{else}}
+                                    <strong>Level {{name}} Achieved</strong>
+                                {{/if}}
+                                {{else}}
+                                    <strong><span>{{remaining}}</span> to go</strong>
+                                {{/if}}
+                                {{/if}}
+                                {{else}}
+                                    <strong class="offset">Level {{name}} Achieved</strong>
+                                {{/ueq}}
+                            </div>
+                            {{else}}
+                            <div class="circleData">
+                                <i class="icon-more-circle notcomplete"></i>
+                                <i class="icon-cancel-circle notcomplete done"></i>
+                                <i class="icon-check-circle complete"></i>
+                            </div>
+                            {{/if}}
+
+
+                            <!-- {{#eq ../status "finalize_results"}}
+
+                               {{#if isCurrentLevel}}
+                                  <div class="levelStatusInProgress">
+                                     <div class="chartHolder" data-chart-type="circle" data-model-id="{{id}}">
+                                        <div class="chartDataWrapper">
+                                        <div class="chartData">
+                                            <div class="chartDataInner">
+                                               <div class="levelProgress">
+                                                  <span>{{progress}}</span>
+                                               </div>
+                                               <div class="levelGoal">
+                                                  <span>{{goalAmount}}</span>
+                                               </div>
+                                            </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                  </div>
+                                  <div class="levelStatusRemaining">
+                                     <strong class="offset">Level {{name}} Achieved</strong>
+                                  </div>
+                               {{/if}}
+                            {{/eq}} -->
+
+                        </div> {{! / .levelStatus }}
+
+                    </div>
+                </td>
+                    {{! #if isLastLevel}}
+                        {{! isbonus }}
+                    {{! /if}}
+                {{/each}}
+            </tr>
+
+            <tr class="goalDetails">
+                <td class="labels">
+                    {{#if baseline}}
+                        <strong>Baseline</strong>
+                        <strong>Goal</strong>
+                    {{/if}}
+                    <strong>Goal Amount</strong>
+                </td>
+                {{#each contestLevels}}
+                    <td class="text-center {{#if isCurrentLevel}}currentLevelValue{{/if}}">
+                        {{#if ../baseline}}
+                            <span>{{../baseline}}</span>
+                            <span>{{goalPercent}}%</span>
+                        {{/if}}
+                        <span>{{goalAmount}}</span>
+                    </td>
+                {{/each}}
+            </tr>
+
+            <tr class="payoutDetails">
+                <td class="labels">
+                    <strong>Payout</strong>
+                    {{#eq payoutType "points"}}
+                    {{#if includeBonus}}
+                        <strong>Bonus</strong>
+                    {{/if}}
+                    {{/eq}}
+                </td>
+                {{#each contestLevels}}
+                    <td class="text-center {{#if isCurrentLevel}}currentLevelValue{{/if}}">
+                        {{#eq ../payoutType "points"}}
+                            <span>{{payout}} points</span>
+                            {{#if ../includeBonus}}
+                                {{#if isLastLevel}}
+                                    {{#if ../bonusEarned}}
+                            <span>{{../bonusEarned}} points</span>
+                                    {{else}}
+                            <span>--</span>
+                                    {{/if}}
+                                {{else}}
+                            <span>&nbsp;</span>
+                                {{/if}}
+                            {{/if}}
+                        {{/eq}}
+                        {{#eq ../payoutType "other"}}
+                            <span>{{payout}}</span>
+                        {{/eq}}
+                    </td>
+                {{/each}}
+            </tr>
+        </table>
+
+        {{#or includeStackRanking includeBonus}}
+        <div class="paxBottomData">
+            <div class="row-fluid">
+                {{#if includeStackRanking}}
+                    <div class="{{#if includeBonus}}span4{{/if}} rankData">
+                        <h4 class="sectionTitle">Stack Rank</h4>
+                        <span class="avatar">
+                            {{#if stackRank.thumbnailUrl}}
+                                <img alt="{{stackRank.firstName}} {{stackRank.lastName}}" class="avatar" src="{{stackRank.thumbnailUrl}}" />
+                            <!-- we don't appear to have name data in the stackRank object at this time -->
+                            {{else}}
+                                <!-- <span class="avatar-initials">{{trimString stackRank.firstName 0 1}}{{trimString stackRank.lastName 0 1}}</span> -->
+                            {{/if}}
+                        </span>
+                        <div class="rankDataMeta">
+                            <strong class="yourRank">#{{stackRank.rank}} of {{stackRank.participantsCount}}</strong>
+                        </div>
+                        <a href="#" data-stackrank-activityid="{{../activityId}}" class="viewAll viewAllStackRank btn btn-small btn-primary btn-inverse">View Stack Ranking</a>
+                    </div>
+                {{/if}}
+                {{#if includeBonus}}
+                    <div class="{{#if includeStackRanking}}span8{{/if}} bonusData">
+                        <h4 class="sectionTitle">Bonus</h4>
+                        <p>After reaching your objective, you are elligible for the following:</p>
+                        <strong class="forEvery">For every {{bonusForEvery}} <span>&bull;</span> Earn {{bonusPayout}} {{#eq bonusPayout "1"}}point{{else}}points{{/eq}}
+                        </strong>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+        {{/or}}
+    </div>
+</div>

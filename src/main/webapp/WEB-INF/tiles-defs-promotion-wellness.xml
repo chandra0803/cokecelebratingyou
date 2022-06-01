@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Promotion Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+  
+  <!--  Promotion Header Definition -->
+  <definition name="promo.header"
+	      	  path="/promotion/wellness/promotionHeader.jsp">
+  </definition>
+  
+  <!--  Promotion Footer Definition -->
+  <definition name="promo.footer"
+	      	  path="/promotion/promotionFooter.jsp">
+  </definition>
+  
+   <!--  Promotion Basics Definition -->
+  <definition name="promo.basics.widget"
+	      	  path="/promotion/promotionBasics.jsp">
+	<put name="promotion.header" value="promo.header" />
+  	<put name="promotionBasicsMiddle" value="/promotion/wellness/promotionBasicsMiddle.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.basics" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionBasicsController">
+    <put name='content' value="promo.basics.widget" />
+    <put name='trackingTitle' value='Wellness_Promotion_Basics' />
+  </definition>
+  
+  <!--  Promotion Audience Definition -->
+  <definition name="promo.audience.widget"
+	      	  path="/promotion/promotionAudienceShell.jsp"
+              controllerClass="com.biperf.core.ui.promotion.PromotionAudienceController">
+	<put name="promotion.header" value="promo.header" />
+	<put name="audiencePageTop" value="/promotion/promotionAudienceTop.jsp" />
+	<put name="audiencePageBottom" value="/empty.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+
+  <definition name="promotion.audience" extends="beacon.default">
+    <put name="content" value="promo.audience.widget" />
+    <put name='trackingTitle' value='Wellness_Promotion_Audience' />
+  </definition>
+
+  <definition name="promotion.audience.paxlist" extends="beacon.printerFriendly">
+    <put name="content" value="/promotion/promotionAudiencePaxList.jsp" />
+  </definition>
+  
+   <!--  Promotion Awards Definition -->
+  <definition name="promo.awards.widget"
+	      	  path="/promotion/promotionAwards.jsp">
+	<put name="promotion.header" value="promo.header" />
+    <put name="promotionAwardsMiddle" value="/promotion/wellness/promotionAwardsMiddle.jsp" />
+    <put name="promotionAwardsJS" value="/promotion/wellness/promotionAwardsJS.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.awards" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionAwardsController">
+    <put name='content' value="promo.awards.widget" />
+    <put name='trackingTitle' value='Wellness_Promotion_Awards' />
+  </definition>
+  
+  
+</tiles-definitions>

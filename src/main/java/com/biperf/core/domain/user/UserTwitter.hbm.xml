@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="false">
+
+  <class name="com.biperf.core.domain.user.UserTwitter" table="USER_TWITTER">
+	<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+	<id name="id" type="java.lang.Long" column="TWITTER_ID">
+		<generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">USER_TWITTER_PK_SQ</param>
+		</generator>
+	</id>
+
+	<!-- Using version number optimistic locking -->
+	<version name="version" column="VERSION" type="java.lang.Long" />
+		
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditCreateInfo"
+		type="com.biperf.core.utils.hibernate.AuditCreateType">
+		<column name="DATE_CREATED" />
+		<column name="CREATED_BY" />
+	</property>
+
+	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditUpdateInfo"
+		type="com.biperf.core.utils.hibernate.AuditUpdateType">
+		<column name="DATE_MODIFIED" />
+		<column name="MODIFIED_BY" />
+	</property>
+		
+    <!-- attributes -->
+    <property column="REQUEST_TOKEN" name="requestToken" not-null="false" type="string"/>
+    <property column="REQUEST_TOKEN_SECRET" name="requestTokenSecret" not-null="false" type="string"/>
+    <property column="ACCESS_TOKEN" name="accessToken" not-null="false" type="string"/>
+    <property column="ACCESS_TOKEN_SECRET" name="accessTokenSecret" not-null="false" type="string"/>
+    </class>
+    
+</hibernate-mapping>

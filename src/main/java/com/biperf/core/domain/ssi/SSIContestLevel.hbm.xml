@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.ssi.SSIContestLevel" table="SSI_CONTEST_LEVEL">
+		<cache usage="read-write"/>
+			<id name="id" type="long" column="SSI_CONTEST_LEVEL_ID">
+				<generator class="seqhilo">
+					<param name="max_lo">0</param><param name="sequence">SSI_CONTEST_LEVEL_PK_SQ</param>
+				</generator>
+			</id>
+			<version    name="version" type="long" column="VERSION" />
+			<property   name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+				<column name="DATE_CREATED" />
+				<column name="CREATED_BY" />
+			</property>
+			<property   name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+				<column name="DATE_MODIFIED" />
+				<column name="MODIFIED_BY" />
+			</property>
+			
+			<many-to-one name="contest" column="SSI_CONTEST_ID" not-null="true" class="com.biperf.core.domain.ssi.SSIContest" lazy="false"/>
+			<many-to-one name="badgeRule" column="BADGE_RULE_ID" class="com.biperf.core.domain.gamification.BadgeRule" lazy="false" cascade="none" />
+			
+			<property name="goalAmount" column="GOAL_AMOUNT" type="java.lang.Double"/>
+			<property name="payoutAmount" column="PAYOUT_AMOUNT" type="java.lang.Long" />
+			<property name="payoutDesc" column="PAYOUT_DESCRIPTION" type="java.lang.String" />
+			<property name="sequenceNumber" column="SEQUENCE_NUMBER" type="java.lang.Integer"/>				
+
+	</class>
+	
+</hibernate-mapping>  

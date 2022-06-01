@@ -1,0 +1,49 @@
+{
+  "description": "Update a group",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+  },
+  "steps": [
+    {
+      "id": "createGroup",
+      "description": "First create a group",
+      "call": {
+        "path": "./create-group.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createGroup.export.newGroupId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "deleteGroup",
+      "description": "DELETE /groups/{groupId}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/groups/${ref:createGroup.export.newGroupId}",
+        "options": {
+          "method": "delete",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:deleteGroup.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:deleteGroup.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    }
+  ]
+}

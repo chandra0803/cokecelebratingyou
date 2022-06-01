@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.user.UserEmailAddress" table="USER_EMAIL_ADDRESS">
+
+		<id name="id" type="java.lang.Long" column="EMAIL_ADDRESS_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">USER_EMAIL_ADDRESS_PK_SQ</param>
+	        </generator>
+	    </id>
+
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+        <property name="emailType" column="EMAIL_TYPE">
+            <type name="com.biperf.core.utils.hibernate.PickListUserType">
+                <param name="lookupClass">com.biperf.core.domain.enums.EmailAddressType</param>
+            </type>
+        </property>
+        <property name="verificationStatus" column="VERIFICATION_STATUS">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.VerificationStatusType</param>
+			</type>
+		</property>
+	    <property name="emailAddr" type="java.lang.String" column="EMAIL_ADDR" />
+	    <property name="isPrimary" type="java.lang.Boolean" column="IS_PRIMARY" />
+    	<property name="rosterEmailId" type="uuid-char" column="ROSTER_EMAIL_ID"/>	    
+	    
+	    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="false"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+	</class>
+
+	<sql-query name="com.biperf.core.domain.UserEmailAddress.isUserEmailAddressExists">
+	<return-scalar column="emailAddressCount" type="integer" />
+	<![CDATA[
+		select count(*) as emailAddressCount from user_email_address where email_addr = :emailAddress
+	]]>
+	</sql-query>
+	
+</hibernate-mapping>

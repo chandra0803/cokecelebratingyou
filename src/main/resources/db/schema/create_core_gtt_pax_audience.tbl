@@ -1,0 +1,11 @@
+CREATE GLOBAL TEMPORARY TABLE gtt_pax_audience
+(user_id        NUMBER (18),
+ audience_id    NUMBER (18))
+ON COMMIT PRESERVE ROWS
+/
+COMMENT ON TABLE gtt_pax_audience IS 'Global temporary table to hold user id and audience id'
+/
+COMMENT ON COLUMN gtt_pax_audience.user_id IS 'User id'
+/
+COMMENT ON COLUMN gtt_pax_audience.audience_id IS 'Audience id'
+/

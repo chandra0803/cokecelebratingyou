@@ -1,0 +1,79 @@
+<div class="group-error globalerrors alert alert-error hide"><ul class="text-error" /></div>
+<div class="selectedPaxView" >
+
+    <div class="selectedCards"> <div  class="selected-carousel selected-pax-card-wrap"></div></div>
+    <div class="selectedView-controls">
+        <div class="labels">
+            <span class="text selectedCount" > </span>
+            <span class="text"> People Selected</span>
+            <span class="text pipe"> | </span>
+            <span class="link deselectAll" >Deselect All</span>
+            <span class="text pipe viewAllSpan" > | </span>
+            <a  data-toggle="collapse" class="link toggle-accordion viewAll" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample" data-view-all='View All' data-view-less='View Less'>View All</a>
+        </div>
+        <div class="selectedView-button-wrap">
+
+            <button class="hide hidden-control btn btn-primary selectedView_recognize_button"  data-url="layout.html?tplPath=apps/programSelect/tpl/&tpl=programSelectPageView.html">Recognize</button>
+            <button class="hide hidden-control btn btn-primary selectedView_close_button">Done Adding</button>
+            <!-- <button class="hide btn btn-inverse btn-primary save-as-group" data-save-txt='NEED CM KEY Save as Group' data-update-txt='NEED CM KEY  Update Group'>Save as Group</button> -->
+            <button class="hide btn btn-inverse btn-primary go-to-groups">Create or Edit a Group</button>
+            <!-- <button class="button">Follow</button>-->
+            <!--<button class="button">Save Group</button>-->
+        </div>
+    </div>
+
+    <div id="saveEditView" class="hide">
+        <h3 class="createHeader" data-create-txt='Create A Group' data-edit-txt='Update Group'>Create A Group</h3>
+        <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter a group name"}'>
+            <fieldset><label>NEED CM KEY Group Name:</label>
+            <input type="text" class="control-label group-name" for="name"></input></fieldset>
+        </div>
+        <button class="btn btn-large btn-primary save-group  btn-fullmobile" disabled>Save</button>
+        <button class="btn btn-large cancel-group  btn-fullmobile">Cancel</button>
+    </div>
+
+
+
+
+
+
+</div>
+
+<div class="modal hide fade go-to-groups-modal" >
+        <div class="modal-header">
+            <h3 class="modal-title">Are you sure?</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-close"></i></button>
+        </div>
+        <div class="modal-body">
+            Groups are managed on a separate page. By choosing to Create or Edit a Group, you will lose all data entered on the current page.
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary btn-fullmobile" data-dismiss="modal">No, Continue Recognition</button>
+            <a href="layout.html?tplPath=apps/profile/tpl/&amp;tpl=profilePage.html#profile/Groups" class="btn btn-primary exit-confirm btn-fullmobile">Yes, Manage Groups</a>
+        </div>
+    </div>
+<!--subTpl.paxSelectedCardTpl=
+    <div class='item'>
+        <div class="selectedView-card" data-id="{{id}}">
+             <div class="rounded-checkbox selected-checkbox">
+              <i class="icon-check-circle card-select-icon"></i>
+            </div>
+
+             <div class="avatar-box">
+                {{#if avatarUrl}}
+                    <img src="{{avatarUrl}}" class="avatar" />
+                {{else}}
+                    <div class="avatar avatar-initials">{{trimString firstName 0 1}}{{trimString lastName 0 1}}</div>
+                {{/if}}
+             </div>
+             <div class="name">{{firstName}} {{lastName}}</div>
+             <div class="job-description">
+                 {{#if jobName}}{{jobName}} <br/> {{/if}}
+                 {{#if organization}}{{organization}}{{/if}}
+                 {{#if departmentName}}{{#if organization}} | {{/if}} {{departmentName}}{{/if}}
+             </div>
+         </div>
+    </div>
+subTpl-->
+
+

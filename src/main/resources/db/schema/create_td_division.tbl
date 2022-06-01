@@ -1,0 +1,22 @@
+CREATE SEQUENCE td_division_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE THROWDOWN_DIVISION
+(
+ division_id        	NUMBER(18,0) NOT NULL,
+ promotion_id       	NUMBER(18,0) NOT NULL,
+ DIVISION_NAME_ASSET_CODE  VARCHAR2(1000),
+ MINIMUM_QUALIFIER	  	NUMBER(18,4) NOT NULL,
+ created_by 	    	number(18) NOT NULL,
+ date_created       	DATE NOT NULL,
+ modified_by 	    	number(18),
+ date_modified      	DATE,
+ version            	NUMBER(18,0) NOT NULL
+)
+/
+ALTER TABLE THROWDOWN_DIVISION
+ADD CONSTRAINT division_pk PRIMARY KEY (division_id)
+USING INDEX
+/
+ALTER TABLE THROWDOWN_DIVISION ADD CONSTRAINT THROWDOWN_DIVISION_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/

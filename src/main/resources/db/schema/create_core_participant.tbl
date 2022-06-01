@@ -1,0 +1,66 @@
+CREATE TABLE participant
+   (user_id                 NUMBER(18) NOT NULL,
+    awardbanq_nbr           VARCHAR2(100), -- jwe modified to encrypted 5/25
+    date_awardbanq_extract     DATE,
+    centrax_id              VARCHAR2(100), -- jwe modified to encrypted 5/25
+    relationship_type       VARCHAR2(30),
+    status                  VARCHAR2(30),
+    date_status_change      DATE,
+    suspension_status       VARCHAR2(30),
+    IS_OPT_OUT_OF_AWARDS     NUMBER(1) DEFAULT 0 NOT NULL,
+    IS_OPT_OUT_OF_PROGRAM     NUMBER(1) DEFAULT 0 NOT NULL,
+    DATE_OPT_OUT_OF_AWARDS   DATE,
+    DATE_OPT_OUT_OF_PROGRAM   DATE,
+    terms_acceptance        VARCHAR2(30),
+    user_id_accepted        VARCHAR2(30),
+    date_terms_accepted        DATE,
+    facebook_id             NUMBER(18),
+    twitter_id              NUMBER(18),
+    avatar_original         VARCHAR2(100),
+    avatar_small            VARCHAR2(100),
+    ALLOW_PUBLIC_RECOGNITION    NUMBER(1,0) DEFAULT 1 NOT NULL,
+    ALLOW_PUBLIC_INFORMATION    NUMBER(1,0) DEFAULT 1 NOT NULL,
+    ALLOW_PUBLIC_BIRTH_DATE     NUMBER(1,0) DEFAULT 1 NOT NULL,
+    ALLOW_PUBLIC_HIRE_DATE      NUMBER(1,0) DEFAULT 1 NOT NULL,
+    giftcode_only NUMBER(1) DEFAULT 0,
+    sso_id                     VARCHAR2(100),
+    ua_authorized               DATE,
+    termination_date           DATE,
+    date_created               DATE,
+    date_modified              DATE,
+    CONSTRAINT PARTICIPANT_PK PRIMARY KEY (user_id))
+/
+ALTER TABLE PARTICIPANT ADD CONSTRAINT PARTICIPANT_USER_FK
+  FOREIGN KEY (USER_ID) REFERENCES APPLICATION_USER (USER_ID) 
+/
+ALTER TABLE PARTICIPANT ADD CONSTRAINT PARTICIPANT_TWITTER_FK 
+  FOREIGN KEY ( TWITTER_ID ) REFERENCES USER_TWITTER ( TWITTER_ID )
+/
+ALTER TABLE PARTICIPANT ADD CONSTRAINT PARTICIPANT_FACEBOOK_FK 
+  FOREIGN KEY ( FACEBOOK_ID ) REFERENCES USER_FACEBOOK ( FACEBOOK_ID )
+/
+CREATE INDEX PARTICIPANT_IDX ON PARTICIPANT
+(USER_ID, STATUS)
+/
+CREATE INDEX pax_puclic_recog_idx ON PARTICIPANT(allow_public_recognition,user_id)
+/
+COMMENT ON TABLE participant IS 'The PARTICIPANT table defines key characteristics of a participant which are used to define a person who participates in a client program.'
+/
+COMMENT ON COLUMN participant.status IS 'ACTIVE or INACTIVE. ACTIVE indicates the participant is under no restriction in the application. INACTIVE indicates the participant is restricted to all/some access of the application system. For example: A participant is set to INACTIVE by the application if he does not accept the Terms & Conditions given the client program requires the Acceptance.'
+/
+COMMENT ON COLUMN participant.terms_acceptance IS 'indicate the participants acceptance of the Terms & Conditions of the program he/she participants in. If the pax does not accept the T&C, the pax status is set to INACTIVE by the application.  In the event a client program does not impose Acceptance of the Terms & Conditions, this is set to accepted by the application thru the UI and fileload. Default is not accepted.'
+/
+COMMENT ON COLUMN participant.user_id_accepted IS 'the user id of the person who has accepted the Terms & Conditions. This could be the participant herself, or an User such as an BI or Client Administrator.  In the event a client does not impose Terms & Conditions Acceptance to its participants, this is null.'
+/
+COMMENT ON COLUMN participant.date_terms_accepted IS 'the date the Terms & Conditions are accepted. In the event a client does not impose Terms & Conditions Acceptance to its participants, this is null.'
+/
+COMMENT ON COLUMN participant.facebook_id IS 'User facebook details reference to User Facebook table'
+/
+COMMENT ON COLUMN participant.twitter_id IS 'User twitter details reference to User Twitter table'
+/
+COMMENT ON COLUMN PARTICIPANT.ALLOW_PUBLIC_RECOGNITION  IS 'whether the participant is willing to show his recognition to all or not'
+/
+COMMENT ON COLUMN PARTICIPANT.ALLOW_PUBLIC_INFORMATION  IS 'whether the participant is willing to show his information to all or not'
+/
+COMMENT ON COLUMN PARTICIPANT.TERMINATION_DATE  IS 'whether the participant is inactive or not'
+/

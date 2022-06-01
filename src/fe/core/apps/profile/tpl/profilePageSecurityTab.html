@@ -1,0 +1,75 @@
+<h2>Security</h2>
+
+<form id="profilePageSecurityTabForm" class="form-horizontal" method="POST" action="ajax/profilePageSecurityTab_success.json">
+    <fieldset>
+        <div class="control-group loginId">
+            <label class="control-label" for="input01">Login ID</label>
+            <div class="controls loginIdValue">
+                <label class="checkbox">LOGINID</label>
+            </div>
+        </div>
+		<div class="passwordReset wrapper">
+			<h3>Reset Password</h3>
+			<div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter current password"}'>
+				<label class="control-label" for="profilePageSecurityTabCurrentPassword">Current Password</label>
+				<div class="controls input-append input-append-inside passShow">
+					<input type="text" id="profilePageSecurityTabCurrentPassword" name="profilePageSecurityTabCurrentPassword" class="span4" />
+					<a class="add-on btn btn-link icon-eye show-pw"></a>
+				</div>
+			</div>
+
+			<div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter the new password"}'>
+				<label class="control-label" for="profilePageSecurityTabConfirmNewPassword">New Password</label>
+				<span class="controls input-append input-append-inside passShow">
+					<input type="password" id="profilePageSecurityTabConfirmNewPassword" name="profilePageSecurityTabConfirmNewPassword" class="span4" />
+					<a class="add-on btn btn-link show-pw icon-eye-off"></a>
+				</span>
+			</div>
+		</div>
+		<div class="accountRecovery wrapper">
+			<h3>Account Recovery</h3>
+			<p>Email address and/or mobile phone number used in case you have difficulty logging in. These should be different from your primary work contact methods.</p>
+			<p class="accountRecoveryInfo">You will never receive any communications through these means unless you explicitly request account assistance.</p>
+			<div class="mobileNumber">
+				<div class="control-group countryPhoneCodeWrapper"
+                     data-validate-flags="nonempty"
+                     data-validate-fail-msgs='{"nonempty" : "Please select a promotion"}'>
+					<label class="control-label" for="phoneNumber">Mobile Number</label>
+						<div class="controls">
+							<select name="countryPhoneCode" id="countryPhoneCode">
+								<option selected="" value="">Select a topic</option>
+								<option value="1">United States +1</option>
+								<option value="49">United Kingdom +49</option>
+								<option value="61">Australia +61</option>
+								<option value="86">China +86</option>
+								<option value="56">Easter Island +56</option>
+								<option value="30">Germany +30</option>
+								<option value="91">India +91</option>
+								<option value="81">Japan +81</option>
+								<option value="379">Vatican City +379</option>
+							</select>
+						</div>
+				</div>
+				<div class="control-group phoneNumberWrapper" data-validate-regex="(^\d{3}-?\d{3}-?\d{4}$|^\d{9}$)" data-validate-flags="nonempty,regex" data-validate-fail-msgs='{"nonempty" : "Please enter Country Code.","regex":"Please enter a valid phonenumber."}'>
+					<div class="controls phoneNumber">
+					   <input type="text" value="" placeholder="xxx-xxx-xxxx" id="phoneNumber" name="phoneNumber">
+					</div>
+				</div>
+			</div>
+			<div class="control-group validateme emailAddress" data-validate-flags="email" data-validate-fail-msgs='{"email" : "Please enter a valid email address."}'>
+				<label class="control-label" for="profilePageSecurityTabEmailAddress">Email Address</label>
+				<div class="controls">
+					<input type="text" id="emailAddress" name="emailAddress" />
+				</div>
+				<div class="controls">
+                    <p class="help-block">Please Enter Email address and/or mobile phone number.</p>
+                </div>
+			</div>
+		</div>
+        <fieldset id="profilePageSecurityTabFieldsetActions" class="form-actions">
+            <button id="profilePageSecurityTabButtonSave" name="triggeredBy" value="profilePageSecurityTabButtonSave" class="btn btn-primary" disabled type="submit">Save</button>
+            <button id="profilePageSecurityTabButtonCancel" name="triggeredBy" value="profilePageSecurityTabButtonCancel" class="btn">Reset</button>
+        </fieldset>
+
+    </fieldset>
+</form>

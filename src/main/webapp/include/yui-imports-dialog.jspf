@@ -1,0 +1,7 @@
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<link rel="stylesheet" type="text/css" href="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/yui/container/assets/container.css" />
+<link rel="stylesheet" type="text/css" href="<%=RequestUtils.getBaseURI(request)%>/styles/yui-skins/container-skin.css" />
+
+<script type="text/javascript" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/yui/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/yui/container/container.js"></script>
+<script type="text/javascript" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/yui/connection/connection.js"></script>

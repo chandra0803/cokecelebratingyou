@@ -1,0 +1,952 @@
+// App-specific variables
+// =========================
+$profile_badgesTab_badgeDateEarnedTextColor: $brand_color_dark !default;
+
+$profile_proxiesTab_highlightedPaxBgColor: $brand_color_mid !default;
+
+$profilePage_editAvatarColor: $brand_color_dark !default;
+$profilePage_editAvatarBkg: $brand_color_light !default;
+
+$profilePage_avatarSize: 160px !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- PAGE STYLES ----- */
+.page.profile {
+    .table {
+        th.sortable {
+            @media (max-width: $breakpoint_mobile_max) {
+                white-space: nowrap;
+            }
+        }
+    }
+    .table td{
+        vertical-align: middle;
+        .no-access-given{
+            color:$brand_color_alert;
+            font-weight: $fontWeightBold;
+            //list-style: none;
+        }
+    }
+    .spincover {
+        position: absolute;
+        top: -1 * $g6PagePaddingY;
+        right: -1 * $g6PagePaddingX;
+        bottom: -1 * $g6PagePaddingY;
+        left: -1 * $g6PagePaddingX;
+        z-index: 10000;
+        background: $brand_color_white;
+        background: rgba(255, 255, 255, .5);
+
+        @media (min-width: $breakpoint_tablet_min) {
+            @if $g6PagePaddingY_tablet != $g6PagePaddingY or $g6PagePaddingX_tablet != $g6PagePaddingX {
+                top: -1 * $g6PagePaddingY_tablet;
+                right: -1 * $g6PagePaddingX_tablet;
+                bottom: -1 * $g6PagePaddingY_tablet;
+                left: -1 * $g6PagePaddingX_tablet;
+            }
+        }
+        @media (min-width: $breakpoint_desktop_min) {
+            @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet or $g6PagePaddingX_desktop != $g6PagePaddingX_tablet {
+                top: -1 * $g6PagePaddingY_desktop;
+                right: -1 * $g6PagePaddingX_desktop;
+                bottom: -1 * $g6PagePaddingY_desktop;
+                left: -1 * $g6PagePaddingX_desktop;
+            }
+        }
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop or $g6PagePaddingX_desktopLarge != $g6PagePaddingX_desktop {
+                top: -1 * $g6PagePaddingY_desktopLarge;
+                right: -1 * $g6PagePaddingX_desktopLarge;
+                bottom: -1 * $g6PagePaddingY_desktopLarge;
+                left: -1 * $g6PagePaddingX_desktopLarge;
+            }
+        }
+
+        .spin {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+        }
+    }
+
+    &.profilePage-liner,
+    &.profilePageAccount-liner {
+        .tab-content {
+            overflow: visible;
+            position: relative;
+
+            .spin {
+                display: block;
+                margin: 0 auto;
+                width: $spinner_widthHeight;
+                height: $spinner_widthHeight;
+            }
+            .sa-activity-history {
+                display: inline-block;
+                position: relative;
+                top: -3px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    // .paxSearchWrap {
+    //     position: relative;
+    //     width: 225px;
+
+    //     i {
+    //         color: $inputSearchIconColor;
+    //         position: absolute;
+    //         top: 12px;
+    //         font-weight: bold;
+    //         right: 10px;
+    //     }
+    // }
+
+    #profilePageMessageDetailContent {
+        p {
+            word-wrap: break-word;
+        }
+
+        .progress {
+            td {
+                display: none;
+            }
+
+            td.bar {
+                display: block; //ie7 can be weird about table-cell
+                display: table-cell;
+            }
+        }
+
+    }
+
+    #profilePageSecurityTabForm {
+		.passShow {
+			display: inline-block;
+			margin-left: 30px;
+			input {
+				min-width: 192px;
+                padding-right: 32px;
+			}
+		}
+		.loginId {
+			margin-bottom: 10px;
+
+			label.control-label {
+				text-align: left;
+				width: 70px;
+			}
+			.loginIdValue {
+				margin-left: 100px;
+			}
+		}
+
+        .controls {
+            i.icon-lock{
+                font-size: 20px;
+                //margin-left: 5px;
+                line-height: 19px;
+                vertical-align: middle;
+                background: none;
+                border: none;
+                &:hover {
+                    cursor: default;
+                }
+            }
+        }
+		.accountRecoveryInfo {
+			 font-style: italic;
+		}
+		.wrapper{
+			border-top: 1px solid #ccc;
+			margin-bottom: 20px;
+			padding-top: 10px;
+		}
+		.emailAddress {
+			.help-block {
+				color: #e7605c;
+				display: none;
+				margin-top: 10px;
+			}
+		}
+		.accountRecovery {
+			select {
+				width: 212px;
+			}
+			input {
+				width: 192px;
+			}
+            .row {
+                margin-left: 0;
+            }
+            .terms-open {
+                cursor: pointer;
+            }
+		}
+        .verify-wrapper {
+            margin-left:180px;
+            margin-top: 5px;
+            .icon-cancel-circle {
+                color: $brand_color_alert;
+                font-weight: bold;
+                margin: 0 5px;
+                vertical-align: middle;
+            }
+            .icon-check-circle {
+                color: $brand_color_success;
+                font-weight: bold;
+                margin: 0 5px;
+                vertical-align: middle;
+            }
+            span {
+                font-weight: bold;
+            }
+            .btn {
+                margin-left: 20px;
+            }
+        }
+        .mobileNumber {
+            .control-label {
+                padding-top: 0;
+                margin-top: -3px;
+                margin-bottom: 0;
+            }
+        }
+
+        .andor {
+            margin-top: 0;
+            margin-left: 180px;
+            text-align: left;
+            margin-bottom: 21px;
+            .and-or-hr {
+                display: inline-block;
+                width: 45px;
+                hr {
+                    margin: 0;
+                }
+            }
+            .and-or-text {
+                display: inline-block;
+                vertical-align: sub;
+                margin: 0 10px;
+            }
+        }
+        .countryPhoneCodeWrapper,
+        .phoneNumberWrapper {
+            margin-bottom: 0;
+        }
+        @media (max-width: $breakpoint_mobile_max){
+            .checkbox{
+                padding-left: 0;
+                font-style: italic;
+            }
+			#countryPhoneCode {
+				margin-bottom: 20px;
+			}
+			.loginId {
+				.loginIdValue {
+					margin-left: 0px;
+				}
+			}
+			.passShow {
+				margin-left: 0px;
+			}
+        }
+		@media (min-width: $breakpoint_desktop_min) {
+			.mobileNumber {
+				.control-group {
+					display: inline-block;
+					.phoneNumber {
+						margin-left: 5px;
+					}
+				}
+			}
+		}
+    }
+    #profilePageSecurityTab {
+        #code {
+            display: block;
+        }
+        .code-label {
+            display: inline-block;
+        }
+        .icon-info {
+            vertical-align: baseline;
+            padding-left: 0;
+        }
+        .recovery-no-phone {
+            cursor: pointer;
+            margin-left: 12px;
+        }
+    }
+
+    #profilePagePersonalInfoTab {
+        h2 ~ h2 {
+            margin-top: $g5PageContentSpacingVertical;
+        }
+
+        .profileQuestionWrapper {
+            margin-top: 0;
+
+            @media (min-width: $breakpoint_tablet_min) {
+                margin-top: 20px;
+            }
+        }
+
+        dl,
+        dd,
+        dt {
+            margin: 0;
+        }
+
+        dt {
+            margin-top: 6px;
+        }
+
+        dd {
+            img {
+                vertical-align: baseline; // make sure flags align with text
+            }
+        }
+
+        .profilePictureUploadContainer {
+            @include avatarSizing($profilePage_avatarSize);
+            margin-bottom: 20px;
+            position: relative;
+
+            a {
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .profilePageAvatar {
+                margin: 0;
+
+                .spincover {
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+
+                    .spin {
+                        color: $textColor;
+                        top: 50%;
+                        margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+                    }
+                }
+            }
+
+            @media (min-width: $breakpoint_tablet_min) {
+                margin-bottom: 0;
+            }
+        }
+
+        .avatar-initials {
+            font-size: $baseFontSize * 4.286;
+            line-height: $profilePage_avatarSize;
+        }
+
+        #personalInformationUploadImageLink {
+            border-radius: 24px;
+        }
+
+        #edit-avatar-icon {
+            position: absolute;
+            z-index: 1;
+            left: $profilePage_avatarSize * 0.76;
+            bottom: 5px;
+            background-color: $profilePage_editAvatarBkg;
+            border: 3px solid $brand_color_white;
+            background-clip: content-box;
+            padding: 0;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            opacity: 1;
+            text-align: center;
+
+            i {
+                font-size: 12px;
+                font-weight: bold;
+                color: $profilePage_editAvatarColor;
+            }
+        }
+
+        .personalInfoUploadImageTip {
+            form {
+                padding: 10px;
+                margin-bottom: 0;
+
+                p {
+                    margin-bottom: 0;
+                }
+            }
+
+            .fileUpload {
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 1em;
+            }
+
+            .fileUpload input.upload {
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 100%;
+                // margin: 0;
+                // padding: 0;
+                font-size: 10px;
+                cursor: pointer;
+                opacity: 0;
+                filter: alpha(opacity=0);
+            }
+        }
+
+        @media (max-width: $breakpoint_tablet_max) {
+            dl {
+                border-bottom: 1px solid $brand_color_mid;
+                margin-bottom: 20px;
+                padding-bottom: 20px;
+
+                dt {
+                    width: auto;
+                    margin-top: 7px;
+                }
+            }
+
+            dl dd {
+                margin-left: 0 !important;
+            }
+        }
+    }
+
+    #profilePageActivityHistoryTab {
+        .profilePageActivityHistoryResultsGraph {
+            .asOfText {
+                display: block;
+                font-weight: $fontWeightNormal;
+                font-size: $fontSizeSmall;
+            }
+
+            p {
+                margin: 0 0 4px 0;
+                font-weight: $fontWeightSemiBold;
+            }
+
+            .quant {
+                float: right;
+                width: 20px;
+                margin-left: 10px;
+                line-height: 12px;
+            }
+
+            .progress {
+                margin-right: 30px;
+                margin-bottom: 10px;
+            }
+
+            .bar {
+                // reset the transition -- we manually animate this (also will animate in ie8/7)
+                @include transition(none);
+            }
+        }
+
+        .table-result-count {
+            p {
+                text-align: right;
+                font-size: 12px;
+            }
+        }
+        
+        #profilePageActivityHistoryTabPromotion {
+            width: auto;
+        }
+    }
+
+    #profilePageDashboardTab {
+        h3.title {
+            position: absolute;
+            margin: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .spin {
+            position: static;
+        }
+    }
+
+    #profilePageBadgesTab {
+        span {
+            display: block;
+        }
+    }
+
+    #profilePageAlertsAndMessagesTab {
+        .row {
+            position: relative;
+        }
+
+        .spincover .spin {
+            top: 50%;
+        }
+
+        .messagePaginationCounter{
+            display: inline;
+            line-height: 75px;
+            font-size: 14px;
+            font-weight: bold;
+            float: left;
+        }
+
+        .alertsColumn {
+            min-width: 140px;
+        }
+
+        .tableSwipeHelp {
+            display: none;// TODO remove this element from the DOM
+        }
+
+        table {
+            th,
+            button,
+            .btn {
+                white-space: nowrap;
+            }
+        }
+    }
+
+    #profilePageStatementTab {
+
+        #profilePageStatementTabSummary{
+            .dl-horizontal {
+                margin-top: 0;
+                margin-bottom: 20px;
+
+                dt {
+                    width: 22.5%;
+                    text-align: left;
+
+                    @media (max-width: $breakpoint_tablet_max) {
+                        width: auto;
+                    }
+                }
+
+                dd{
+                    margin-left: 22.5%;
+                    margin-right: 60%;
+                    text-align: right;
+
+                    @media (max-width: $breakpoint_tablet_max) {
+                        margin-left: 0;
+                        margin-right: 0;
+                        margin-bottom: 10px;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+
+        #profilePageStatementTabTransactionDetails{
+            margin-top: $baseLineHeight * 2;
+        }
+
+        h3 {
+            margin-top: 0; // fix align export icons
+        }
+        .export-tools{
+            float: right;
+            @media (max-width: $breakpoint_mobile_max) {
+                width: 100%;
+                float: left;
+                .export{
+                    margin-left:0;
+                }
+            }
+        }
+
+        h3 ~ h3 {
+            margin-top: $baseLineHeight * 2;
+        }
+         @media (min-width: $breakpoint_tablet_min) {
+            .export-tools ~ .export-tools {
+                margin-top: $baseLineHeight * 2;
+            }
+        }
+
+        thead tr {
+            white-space: nowrap;
+        }
+    }
+
+    #profilePageProxiesTab {
+        .participantSearchVisibilityControls .visibilityControlsLiner {
+            margin-bottom: $g5PageContentPaddingHoriz * 2 / 3;
+        }
+
+        .participantCollectionViewWrapper {
+            th {
+                text-align: left;
+            }
+
+            .edit,
+            .remove {
+                text-align: center;
+            }
+
+            .coreaccess ul {
+                margin-bottom: 0;
+                li{
+                    list-style: none;
+                }
+            }
+            ul{
+                margin-left: 10px;
+            }
+            .modpromo li {
+                list-style: none;
+            }
+
+            .modpromo dl {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            tr.info {
+                background: $profile_proxiesTab_highlightedPaxBgColor;
+            }
+        }
+
+        #profilePageProxiesTabEdit {
+            .participant {
+                overflow: hidden;
+
+                .participant-popover {
+                    font-weight: bold;
+                }
+
+                .avatar {
+                    display: inline;
+                    float: left;
+                    margin-right: 8px;
+                    width: 48px;
+                }
+
+                .org {
+                    display: block;
+                }
+            }
+
+            .control-label {
+                font-weight: bold;
+            }
+        }
+    }
+
+    #profilePagePreferencesTab #preferencesTabLegalCheckBox {
+        //margin-bottom: 10px;
+        margin-top: 60px;
+        @media (max-width: $breakpoint_tablet_max){
+            margin-top: 50px;
+        }
+        @media (max-width: $breakpoint_mobile_max){
+            margin-top:40px;
+        }
+
+    }
+
+    #profilePagePreferencesTab {
+        label{
+            text-align: left;
+        }
+
+        label.checkbox span {
+            margin-left: 5px;
+            border-left: 1px solid #AAA;
+            padding-left: 5px;
+        }
+
+        .controls {
+            margin-left: 160px;
+
+            @media (max-width: $breakpoint_mobile_max){
+                margin-left: 0;
+            }
+        }
+
+        #profilePagePreferencesTabFieldsetActions {
+            border-top: solid 1px $brand_color_mid;
+        }
+        #profilePagePreferencesTabFieldsetPublic {
+        }
+        #startTwitterAuthorization {
+            .btn {
+                margin-bottom: $baseLineHeight / 2;
+            }
+        }
+        #facebookSettings {
+            img {
+                margin-bottom: $baseLineHeight / 2;
+            }
+        }
+
+        #profilePagePreferencesTabFieldsetTextMessages {
+            li:first-child{
+                display: block;
+            }
+        }
+
+        #profilePagePreferencesTabFieldsetEStatements {
+            .control-group {
+                float: left;
+            }
+
+            label {
+                float: left;
+                padding-top: 4px;
+            }
+
+            span {
+                border: none;
+                padding-left: 0;
+            }
+
+            .participantEmailUpdateCont {
+                display: inline-block;
+                margin-left: 10px;
+            }
+
+            .estatements {
+                margin-top: 2px;
+            }
+        }
+
+        #profilePagePreferencesTabFieldsetUnderarmour {
+            .btn-uaconnect {
+                display: none;
+                margin-left: 0;
+            }
+            p.ua-error {
+                display: none;
+            }
+        }
+
+    }
+} /* /.page.profile */
+
+#emailAddress,
+#phoneNumber {
+    background-color: $inputBackground;
+    cursor: text;
+    color: $inputTextColor;
+}
+#profilePageQuizDetailView {
+    dl dd img {
+        width: 50px;
+    }
+}
+
+/* badge styles are not namespaced sos they can be used in modals or elsewhere */
+.badge-group {
+    margin-bottom: $g5PageContentSpacingVertical;
+
+    .badge-group-title {
+        @media (max-width: $breakpoint_tablet_max) {
+            font-size: 15px;
+            margin-bottom: 0px;
+        }
+    }
+
+    .badges {
+        ul {
+            width: 100%;
+            float: none;
+            list-style: none;
+            margin-bottom: 0;
+            margin-left: 0;
+
+            .badge-item {
+                list-style: none;
+                clear: left;
+                width: 48%;
+                display: inline-block;
+                vertical-align: top;
+                padding: 12px 0;
+                zoom: 1;
+                *display: inline;
+
+                img {
+                    margin-right: 12px;
+                    float: left;
+                }
+
+                @media (max-width: $breakpoint_tablet_max) {
+                    width: 100%;
+                    display: block;
+                }
+
+                &.earned-false img {
+                    @include opacity(.3);
+                }
+
+                &.background-flash {
+                    background-color: transparentize($brand_color_primary, 0.5);
+                }
+            }
+
+            .badge-name,
+            .badge-how-to-earn,
+            .badge-contest-name,
+            .badge-date-earned {
+                line-height: 1.3;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            .badge-name {
+                font-size: 14px;
+                font-weight: bold;
+                margin-top: 4px;
+                padding-top: 16px;
+            }
+
+            .hasHowToEarnText,
+            .hasContestName {
+                padding-top: 12px;
+            }
+
+            .hasHowToEarnText.hasProgressBar,
+            .hasHowToEarnText.hasWasEarned,
+            .hasContestName.hasWasEarned {
+                padding-top:0;
+            }
+
+            .skipHowToEarnText,
+            .skipDateProgress {
+                padding-top: 16px;
+            }
+
+            .skipHowToEarnText.skipDateProgress,
+            .skipHowToEarnText.skipProgressVisible {
+                padding-top: 18px;
+            }
+
+            .badge-how-to-earn,
+            .badge-contest-name {
+                font-size: 13px;
+            }
+
+            .badge-date-earned {
+                color: $profile_badgesTab_badgeDateEarnedTextColor;
+                font-size: 13px;
+            }
+
+            .progress {
+                margin: 2px 0 0 0;
+                width: 66%;
+                height: 16px;
+                line-height: 16px;
+                filter: 80;
+
+                .bar {
+                    font-size: 11px;
+                }
+            }
+        }// ul
+    }// .badge
+
+    &.reformatted {
+        .badges {
+            overflow: hidden;
+
+            ul {
+                width: 50%;
+                float: left;
+
+                .badge-item {
+                    width: 100%;
+                }
+            }
+        }
+
+        @media (max-width: $breakpoint_tablet_max) {
+            .badges {
+                ul {
+                    width: 100%;
+                    float: none;
+                }
+            }
+        }
+    }
+}// /.badge-group
+
+// alerts/messages detail modal lives outside the view container
+#detailModal {
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+    dl {
+        margin-top: 0;
+    }
+    dd {
+        margin-left: 0;
+        margin-bottom: $baseLineHeight / 2;
+    }
+}
+
+
+// GROUPS
+#groupsList{
+    .load-group{
+        max-width: 75px;
+         @media (min-width: $breakpoint_mobileMini_min) {
+            max-width: 100px;
+         }
+         @media (min-width: $breakpoint_tablet_min) {
+            max-width: 200px;
+         }
+        word-wrap: break-word;
+        cursor: pointer;
+
+        color: $brand_color_link;
+        font-weight: $fontWeightBold;
+        &:hover{
+            color: $brand_color_link_hover;
+            cursor: pointer;
+
+        }
+    }
+    .delete-group{
+        cursor: pointer;
+    }
+    .table {
+        th,
+        td {
+            &.tc{
+                text-align:center;
+            }
+        }
+    }
+}
+#saveEditView{
+    .createHeader{
+        display: inline-block;
+    }
+    .participant-table{
+        margin-top: $g6PagePaddingY/2;
+    }
+    .recognize-group-edit{
+        float: right;
+    }
+}

@@ -1,0 +1,8 @@
+ALTER TABLE PROMOTION
+ADD CASH_BUDGET_MASTER_ID NUMBER(18)
+/
+ALTER TABLE PROMOTION MODIFY AWARD_TYPE VARCHAR2(40) NULL
+/
+ALTER TABLE promotion ADD CONSTRAINT promo_cash_budget_master_fk
+FOREIGN KEY (cash_budget_master_id) REFERENCES budget_master (budget_master_id)
+/

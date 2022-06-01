@@ -1,0 +1,51 @@
+<?php sleep(2); ?>
+{
+    "totalPromotionCount": 4,
+	"raEnable": true,
+    "nodes": [
+        {
+            "id":23456,
+            "name":"Node A",
+            "selected": false
+        },
+        {
+            "id":23457,
+            "name":"Node B",
+            "selected": false
+        }
+    ],
+    "programs": [
+		{
+			"promoId": 1,
+			"name" : "Promo Nomination 1",
+            "type": "nom",
+			"maxSubmissionAllowed" : null,
+            "isPurl": false,
+			"usedSubmission" : 10
+		},
+		{
+			"promoId": 2,
+			"name" : "Promo Recognition 1",
+            "type": "rec",
+			"maxSubmissionAllowed" : 10 ,
+            "isPurl": true,
+			"usedSubmission" : 6
+		},
+		{
+			"promoId": 3,
+			"name" : "Promo Recognition 2",
+            "type": "rec",
+			"maxSubmissionAllowed" : 10 ,
+            "isPurl": false,
+			"usedSubmission" : 12
+		},
+		{
+			"promoId": 4,
+			"name" : "Promo Nomination 2",
+            "type": "nom",
+			"maxSubmissionAllowed" : 10 ,
+            "isPurl": false,
+			"usedSubmission" : 2
+		}
+    ]
+}

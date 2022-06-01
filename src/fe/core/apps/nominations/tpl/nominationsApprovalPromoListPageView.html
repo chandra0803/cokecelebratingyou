@@ -1,0 +1,38 @@
+<!-- ======== NOMINATIONS APPROVAL PROMO LIST PAGE ======== -->
+<div id="nominationsApprovalPromoListPageView" class="page-content nominationsApprovalPromoPage">
+	 <div class="row-fluid">
+        <div class="span12">
+			<div class="tableTitle">Here are your nominees.</div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis malesuada rutrum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris et fermentum purus. Donec elementum pharetra fringilla. </p>
+        </div>
+    </div>
+	<div class="row-fluid">
+        <div class="span12">
+            <div class="pagination pagination-right paginationControls first"></div>
+			<div class="nominationsApprovalPromoWrap" data-msg-empty="No nominations found">
+				<!-- dynamic from nominationsApprovalPromoListTpl.html -->
+			</div>
+            <div class="pagination pagination-right paginationControls first"></div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    //attach the view to an existing DOM element
+    var nlpv = new NominationsApprovalPromoListPageView({
+        el:$('#nominationsApprovalPromoListPageView'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url : 'layout.html'
+            },
+            home : {
+                text : 'Home',
+                url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+            }
+        },
+        pageTitle : 'Nomination Promotion List'
+    });
+
+});
+</script>

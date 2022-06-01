@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <joined-subclass name="com.biperf.core.domain.claim.ProductClaim" extends="com.biperf.core.domain.claim.Claim" table="PRODUCT_CLAIM" >
+    <key column="CLAIM_ID" not-null="true" />
+
+    <set name="claimProducts" lazy="false" 
+    table="CLAIM_PRODUCT" inverse="true" 
+    cascade="all-delete-orphan" order-by="APPROVAL_STATUS_TYPE DESC">
+      <key column="CLAIM_ID"/>
+      <one-to-many class="com.biperf.core.domain.claim.ClaimItem"/>
+    </set>
+
+    <set name="claimParticipants" lazy="false" table="CLAIM_PARTICIPANT" inverse="true" cascade="all-delete-orphan">
+      <key column="CLAIM_ID"/>
+      <one-to-many class="com.biperf.core.domain.claim.ProductClaimParticipant"/>
+    </set>
+  </joined-subclass>
+
+  <query name="com.biperf.core.quicksearch.claim_product">
+    <![CDATA[
+    select distinct claim from com.biperf.core.domain.claim.ProductClaim claim 
+      where claim.id in
+        ( select claimProduct.claim.id 
+          from com.biperf.core.domain.claim.ClaimProduct claimProduct 
+            where ( (:value is not null and lower(claimProduct.product.name) like :value)
+                    or (:value is null and claimProduct.product.name is not null) )
+        )
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.quicksearch.claim_teammember">
+    <![CDATA[
+    select distinct claim from com.biperf.core.domain.claim.ProductClaim claim
+      join claim.claimParticipants productClaimParticipant
+        where ( (:value is not null and lower(productClaimParticipant.participant.lastName) like :value)
+                or (:value is null and productClaimParticipant.participant.lastName is not null) )
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.quicksearch.claim_claimnum">
+    <![CDATA[
+    from com.biperf.core.domain.claim.ProductClaim claim
+      where ( (:value is not null and lower(claim.claimNumber) like :value)
+              or (:value is null and claim.claimNumber is not null) )
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.quicksearch.claim_submitter">
+    <![CDATA[
+    from com.biperf.core.domain.claim.ProductClaim claim
+      where ( (:value is not null and lower(claim.submitter.lastName) like :value)
+              or (:value is null and claim.submitter.lastName is not null) )
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.quicksearch.claim_txstatus">
+    <![CDATA[
+    from com.biperf.core.domain.claim.ProductClaim claim
+      where ( (:value is not null and ( ('open' like lower(:value) and claim.open = 1) 
+                                        or ('closed' like lower(:value) and claim.open = 0) ) )
+              or (:value is null and claim.open is not null) )
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.quicksearch.claim_proxy">
+    <![CDATA[
+    from com.biperf.core.domain.claim.ProductClaim claim
+      where ( (:value is not null and lower(claim.proxyUser.lastName) like :value)
+              or (:value is null and claim.proxyUser.lastName is not null) )
+    ]]>
+  </query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.claim_claimnum">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+			SELECT count(1) as result
+			  FROM claim c,
+			       promotion p
+			 WHERE c.promotion_id = p.promotion_id
+			   AND p.promotion_type = 'product_claim'
+			   AND ( (:value is not null and c.claim_number like :value)
+			         or (:value is null and c.claim_number is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.claim_product">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+			SELECT count(distinct c.claim_id) as result
+			  FROM claim c,
+			       claim_item ci,
+			       claim_product cp,
+			       product prd,
+			       promotion p
+			 WHERE c.claim_id = ci.claim_id
+			   AND ci.claim_item_id = cp.claim_item_id
+			   AND cp.product_id = prd.product_id
+			   AND c.promotion_id = p.promotion_id
+			   AND p.promotion_type = 'product_claim'
+			   AND ( (:value is not null and prd.product_name like :value)
+			         or (:value is null and prd.product_name is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.claim_teammember">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+			SELECT count(distinct c.claim_id) as result
+			  FROM claim c,
+			       claim_participant cp,
+			       promotion p,
+			       application_user au
+			 WHERE c.claim_id = cp.claim_id
+			   AND c.promotion_id = p.promotion_id
+			   AND cp.participant_id = au.user_id
+			   AND p.promotion_type = 'product_claim'
+			   AND ( (:value is not null and au.last_name like :value)
+			         or (:value is null and au.last_name is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.claim_submitter">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+			SELECT count(1) as result
+			  FROM claim c,
+			       promotion p,
+			       application_user au
+			 WHERE c.promotion_id = p.promotion_id
+			   AND c.submitter_id = au.user_id
+			   AND p.promotion_type = 'product_claim'
+			   AND ( (:value is not null and au.last_name like :value)
+			         or (:value is null and au.last_name is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.claim_txstatus">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+			SELECT count(1) as result
+			  FROM claim c,
+			       promotion p
+			 WHERE c.promotion_id = p.promotion_id
+			   AND p.promotion_type = 'product_claim'
+			   AND (    ('open'   like lower(:value) and c.is_open = 1) 
+			         OR ('closed' like lower(:value) and c.is_open = 0) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.claim_proxy">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+			SELECT count(1) as result
+			  FROM claim c,
+			       promotion p,
+			       application_user au
+			 WHERE c.promotion_id = p.promotion_id
+			   AND c.proxy_user_id = au.user_id
+			   AND p.promotion_type = 'product_claim'
+			   AND ( (:value is not null and au.last_name like :value)
+			         or (:value is null and au.last_name is not null) )
+    ]]>
+  </sql-query>
+  
+</hibernate-mapping>

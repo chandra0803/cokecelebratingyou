@@ -1,0 +1,52 @@
+// App-specific variables
+// =========================
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.resourceCenter {
+
+} /* /.resourceCenter */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.resourceCenter {
+    .module-actions {
+        position: relative;
+    }
+
+    ul.button-container {
+        margin-left: 0;
+
+        li.btnWrap {
+            list-style-type: none;
+            margin: 0 10px 20px 0;
+
+            @media (min-width: $breakpoint_tablet_min) {
+                display: inline-block;
+
+                a {
+                    width: auto;
+                }
+            }
+
+            a {
+                box-sizing: border-box;
+                width: 100%;
+                white-space: nowrap;
+            }
+        }
+    }
+} /* /.launchModule.resourceCenter */
+
+
+/* ----- PAGE STYLES ----- */
+.page.resourceCenter {
+    padding-top: 35px;
+
+    h3{
+        margin-top: 0;
+    }
+
+} /* /.page.resourceCenter */

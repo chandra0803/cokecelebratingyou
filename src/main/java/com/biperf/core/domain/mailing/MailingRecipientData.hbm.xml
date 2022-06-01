@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.mailing.MailingRecipientData" table="MAILING_RECIPIENT_DATA">
+
+        <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+        <id name="id" type="java.lang.Long" column="MAILING_RECIPIENT_DATA_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">MAILING_RECIPIENT_DATA_PK_SQ</param>
+            </generator>
+        </id>
+
+        <!-- Using version number optimistic locking -->
+        <version name="version" column="VERSION" type="java.lang.Long" />
+        
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED" />
+            <column name="CREATED_BY" />
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+            <column name="DATE_MODIFIED" />
+            <column name="MODIFIED_BY" />
+        </property>  
+
+        <property name="key" column="DATA_KEY" type="string" />       
+        <property name="value" column="DATA_VALUE" type="string" />       
+        
+        <many-to-one name="mailingRecipient" column="MAILING_RECIPIENT_ID" not-null="true" lazy="proxy" />       
+        
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,75 @@
+{
+   "id":5584,
+   "clientState":"RKPd5RWpBwM5uCZtCtOS93Wv+YkHAInp0ggAYSOKVphIPJmHJ93BWYtrtNvQgVbTZYQZ0bNe1fOX\nJIYXpXGaQdWXhGXaCLUjYT2WzcZl09z+HODaeAvo423oOIDGH4SOi2xmiCuq4CWe5DYuNsMvkpkf\nbp/XasMaI1YE0wPwByVEpvJuPL6E8cZ0355hZS2jE9j4Shy1WYDoDGnEYSzHx5VJV3Wjk5zB0j8S\nsKvL/39j2zJoJIWgmM1SKLlD9pvZZvCJN8VdYqVRm+MB7o+kHBgbOU9DlXwPr2YdJtLrWOm4EOKe\nLTObfsXtMyfstBNxMUMCq2hrao1OgVP9BMOjTQ81gt/4jjLpFGGmJLjJK+mXkAxYv49OU+/mrtjw\nu0I+c+KlphcIqmnh2FRrpMMbaGBvmUg6tQbVe6LxqNFBCXt5llEc1Dlvoiu09CdaNeS1qMwOAyh2\nr1PKJx88zaTSzIboWoD9xQgBIT9/M04H3GnDNpPGrGqoDdGG8HLfQxNX1KKuJdqYU+M9Aj6/Du6k\n1f5oSpOjVfhpSTzrG/Xka7AGrIRl0UV8OXHPUO1zKkaTNrHRe1erYrct+0hC0Hyi0wCHDm0wbGYP\nUSh+nxeaDk8NaRd62bvQ34OCt3U=",
+   "contestType":"objectives",
+   "status":"draft",
+   "startDate":"02/24/2017",
+   "endDate":"02/26/2017",
+   "tileStartDate":"02/24/2017",
+   "name":"UnitedContest123",
+   "description":"Testing",
+   "attachmentTitle":"",
+   "attachmentUrl":"",
+   "chargeContestTo":null,
+   "participantsCount":3,
+   "managersCount":0,
+   "superViewersCount":0,
+   "includeMessage":false,
+   "message":null,
+   "nextUrl":"https://gyodaqa.performnet.com/gyoda/ssi/previewContest.do",
+   "activityMeasuredIn":"units",
+   "activityMeasuredName":"Units/Number",
+   "payoutType":"points",
+   "payoutTypeName":"Point(s)",
+   "collectDataMethod":"activityUpload",
+   "billCodeRequired": true,
+   "billCodes":[
+      {
+         "billCode":"creator_department",
+         "billCodeName":"Creator - Department Name",
+         "customValue":null,
+         "index":0
+      },
+      {
+         "billCode":"participant_orgUnitName",
+         "billCodeName":"Participant - Org unit name",
+         "customValue":null,
+         "index":2
+      },
+      {
+         "billCode":"creator_countryCode",
+         "billCodeName":"Creator - Country Code",
+         "customValue":null,
+         "index":3
+      },
+      {
+         "billCode":"creator_userName",
+         "billCodeName":"Creator - Login ID",
+         "customValue":null,
+         "index":null
+      },
+      {
+         "billCode":"creator_customValue",
+         "billCodeName":"Creator - Custom Value",
+         "customValue":"abcdefghijklmonopqrstuv",
+         "index":null
+      }
+   ],
+   "activityDescription":"Test SSI PS",
+   "goal":"300",
+   "includeBonus":false,
+   "bonus":"Varies by Participant",
+   "optionShowBadges":true,
+   "individualBonusCap":"Varies by Participant",
+   "maximumPayoutBonus":null,
+   "objectiveAmount":"100",
+   "payoutAmount":"200 Point(s)",
+   "maximumPayout":"600 Point(s)",
+   "payoutDescription":"Varies by Participant",
+   "badge":{
+
+   },
+   "maximumPotential":"300",
+   "includeStackRanking":false
+}
+

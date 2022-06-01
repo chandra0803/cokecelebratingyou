@@ -1,0 +1,390 @@
+{{debug}}
+{{#promotion}}
+<div class="row-fluid">
+    <div class="span6 approvalFiltersWrap">
+        <form id="approvalsSearchForm" class="form" method="post" action="">
+            <!-- Custom for coco cola wip#58122 starts -->
+                <input type="hidden" class="levelInputs" name="level[0].totalpoints" value="100">
+                <input type="hidden" class="levelInputs" name="level[1].totalpoints" value="50">
+                <input type="hidden" class="levelInputs" name="level[2].totalpoints" value="300">
+                <input type="hidden" class="capPerPax" name="capPerPax" value="25">
+            <!-- Custom for coco cola wip#58122 ends -->
+            <div class="control-group inline">
+                <label class="control-label">
+                    Date Submittited Range
+                </label>
+
+                <div class="controls">
+                    <div class="input-append input-append-inside datepickerTrigger showTodayBtn"
+                        data-date-format="mm/dd/yyyy"
+                        data-date-language="en_US"
+                        data-date-startdate="01/14/2016"
+                        data-date-todaydate="01/14/2016"
+                        data-date-autoclose="true">
+
+                        <input type="text" id="dateStart" name="dateStart" readonly="readonly" class="date datepickerInp input-medium">
+
+                        <button class="btn awardDateIcon">
+                            <i class="icon-calendar"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group inline">
+                <label class="control-label inline">
+                    To
+                </label>
+
+                <div class="controls inline">
+                    <div class="input-append input-append-inside datepickerTrigger showTodayBtn"
+                        data-date-format="mm/dd/yyyy"
+                        data-date-language="en_US"
+                        data-date-startdate="01/14/2016"
+                        data-date-todaydate="01/14/2016"
+                        data-date-autoclose="true">
+
+                        <input type="text" id="dateEnd" name="dateEnd" readonly="readonly" class="date datepickerInp input-medium">
+
+                        <button class="btn awardDateIcon">
+                            <i class="icon-calendar"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{#if timePeriodEnabled}}
+                <div class="control-group">
+                    <label class="control-label">
+                        Time Period
+                    </label>
+
+                    <div class="controls">
+                        <select name="timePeriodFilter" id="timePeriodFilter">
+                            <option value="" class="defaultOption">Select a Time Period</option>
+                            {{#each timePeriods}}
+                            <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+            {{/if}}
+
+            <div class="control-group">
+                <label class="control-label">
+                    Approval Levels
+                </label>
+
+                <div class="controls">
+                    <select name="levelsFilter" id="levelsFilter">
+                        {{#each approvalLevels}}
+                        <option value="{{id}}" {{#if selected}} selected {{/if}}>
+                        {{#if displayName}}
+                            {{displayName}}
+                        {{else}}
+                            Level {{id}}
+                        {{/if}}
+                        </option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group statusGroup">
+                <label class="control-label">
+                    Status
+                </label>
+
+                <div class="controls">
+                    <select name="statusFilter" id="statusFilter" multiple="true">
+                        <option value="pend">Pending</option>
+                        {{#or finalLevelApprover payoutAtEachLevel}}
+                        <option value="winner">Winner</option>
+                        {{else}}
+                        <option value="approv">Approved</option>
+                        {{/or}}
+                        <option value="non_winner">Non Winner</option>
+                        <option value="more_info">More Info</option>
+                        {{#if isAdmin}}
+                        <option value="expired">Expired</option>
+                        {{/if}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" name="showNominations" value="Show Nominees" class="btn btn-primary showActivityBtn"/>
+                </div>
+            </div>
+        </form>
+    </div><!-- /.approvalFiltersWrap -->
+
+    <div class="approvalTopRightCont span5 offset1">
+      <!--dynamic from nominationsApprovalBudgetTpl.html-->
+
+    </div><!-- /.approvalTopRightCont -->
+</div><!--/.row-fluid-->
+
+<div class="row-fluid">
+    <div class="span12 compareSection min-height-zero">
+         <!--dynamic-->
+    </div>
+ </div>
+
+<div class="row-fluid">
+    <div class="span12 min-height-zero">
+        <div class="nominationTableControls fl">
+            <a class="expandCollapseAll collapsed">Expand/Collapse All</a>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <form class="approvalTableWrap span12" action="./ajax/nominationsApprovalPageData.json" method="post"><!--  dynamic from nominationApprovalTableTpl.html --></form>
+
+        <button type="submit" class="btn btn-primary submitApproval btn-fullmobile">Done</button>
+        <button class="btn popoverTrigger btn-fullmobile" data-popover-content="cancelNomination">Cancel</button>
+
+        <div class="mobileDetectTooltip" style="display:none">
+            <p>Approvals can only be submitted through desktop or tablet. Please choose another device to access this page.</p>
+        </div>
+    </div><!-- /.span12 -->
+</div><!-- /.row-fluid -->
+
+<!-- POPOVERS -->
+<div class="conversionInfoPopover" style="display: none">
+    <p>Informaiton about points/cash conversion.</p>
+</div>
+
+<div class="budgetIncreasePopover" style="display:none">
+    <div class="control-group validateme"
+        data-validate-fail-msgs='{"nonempty":"You must enter budget amount."}'
+        data-validate-flags='nonempty'>
+
+        <label class="control-label" for="budgetIncrease">Requested Increase</label>
+        <div class="controls">
+            <input type="text" name="budgetIncrease" class="budgetIncrease" id="budgetIncrease" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary sendBudgetRequest">Send Request</button>
+</div>
+
+<div id="sameForAllTipTpl" class="sameForAllTip" style="display:none">
+    <span class="singleClaim"><a href="#">same for all</a></span>
+</div><!-- /#sameForAllTipTpl -->
+
+<div class="pastWinnerPopover" style="display: none">
+    <p>Participant is a past winner.</p>
+</div>
+
+<div class="maxLimitPopover" style="display: none">
+    <p>Participant has hit the nomination winner limit.</p>
+</div>
+
+<div class="cancelNominationPopover" style="display:none">
+    <p>
+        All changes will be lost. Are you sure you wish to cancel?
+    </p>
+
+    <p class="tc">
+        <button href="layout.html" id="nominationCancelConfirmBtn" class="btn btn-primary btn-fullmobile">Yes</button>
+        <button id="nominationDoNotCancelBtn" class="btn btn-fullmobile">No</button>
+    </p>
+</div>
+
+<div id="addAwardModal" class="modal hide fade">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button">
+            <i class="icon-close"></i>
+        </button>
+
+        <h3>Add Award</h3>
+        <h4 class="budgetContent">Remaining Budget</h4>
+
+        <span class="currentBalance budgetContent">
+
+            <span class="balance"></span>
+            {{#if currencyLabel}}
+            {{currencyLabel}}
+            {{/if}}
+
+            {{#eq payoutType "points"}}
+                points
+            {{/eq}}
+        </span>
+        <span class="budgetIncreaseText budgetContent">Return to previous screen to request increase.</span>
+    </div>
+
+    <div class="modal-body">
+        <div class="teamHeader">
+            <span>Recipient</span>
+            <span class="award" data-msg-points="points">
+            Award
+            </span>
+        </div>
+
+        <div class="teamRecipientList">
+            <!-- dynamic from addAwardTpl -->
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary addAwardBtn">Add &amp; Close</button>
+    </div>
+</div><!-- /#addAwardModal -->
+
+<!-- VALIDATION MSGS - informational tooltip for validation -->
+<div class="errorTipWrapper" style="display:none">
+    <div class="errorTip">
+        <!-- display for validateme generic errors -->
+        <div class="errorMsg msgGenericError">
+            <i class="icon-exclamation-sign"></i>
+            Please correct the error(s).
+        </div>
+        <div class="errorMsg overBudget">
+            <i class="icon-exclamation-sign"></i>
+            <span id="errorText">Your Hard-Cap Budget has been exceeded.</span>
+        </div>
+         <div class="errorMsg awardOutOfRange">
+            <i class="icon-exclamation-sign"></i>
+            Award value out of range.
+        </div>
+		<div class="errorMsg fillAward">
+            <i class="icon-warning-circle"></i>
+            Fill Award Amount
+		</div>
+    </div><!-- /.errorTip -->
+</div><!-- /.errorTipWrapper -->
+
+<!--subTpl.addAwardTpl=
+
+    <ul data-team-index={{index}}>
+    {{#each teamMembers}}
+        <li>
+            <div class="paxInfo">
+                <a class="profile-popover" data-participant-ids="[{{paxId}}]">{{name}}</a>
+                <img src="img/flags/{{countryCode}}.png" />
+
+                <span>{{orgName}}</span>
+                {{#if departmentName}}<span>- {{departmentName}}</span>{{/if}}
+                <span>- {{jobName}}</span>
+            </div>
+
+            <div class="awardInfo">
+                <input type="number" class="input-medium awardPointsInp{{#if optOutAwards}} optOut{{/if}}" {{#if optOutAwards}} disabled data-msg="User opted out of awards"{{/if}} value="{{#if optOutAwards}}0{{else}}{{award}}{{/if}}" />
+            </div>
+        </li>
+    {{/each}}
+    </ul>
+subTpl-->
+
+<!--subTpl.comparePaxTpl=
+    <div class="compareNomineeBlock" data-index="{{index}}">
+        <input type="checkbox" class="close-compare fr" checked />
+
+        <span class="avatarwrap">
+            <span class="avatarContainer">
+                {{#if isTeam}}
+                    <span class="avatar-initials">
+                        <i class="icon-team-1"></i>
+                    </span>
+                {{else if avatarUrl}}
+                    <img src="{{avatarUrl}}" alt="{{trimString nominee 0 1}}" />
+                {{else}}
+                    <span class="avatar-initials">{{trimString nominee 0 1}}</span>
+                {{/if}}
+            </span>
+        </span>
+
+        <div class="compareDetails">
+             <span class="nomineeName">{{nominee}}</span>
+
+            {{#unless isTeam}}
+                <img src="img/flags/{{countryCode}}.png" alt="" />
+
+                <span class="nomineeMeta">{{orgName}}</span>
+                {{#if departmentName}}<span class="nomineeMeta">- {{departmentName}}</span>{{/if}}
+                <span class="nomineeMeta">- {{jobName}}</span>
+            {{/unless}}
+
+            {{#if reason}}
+                <strong>Reason</strong>
+                <span>{{{reason}}}</span>
+            {{/if}}
+
+            {{#if behaviors}}
+                <strong>Behaviors</strong>
+
+                {{#each behaviors}}
+
+                <span>{{name}}</span>
+
+                {{/each}}
+            {{/if}}
+
+            {{#if customFields}}
+                {{#each customFields}}
+                    <strong>{{name}}</strong>
+                    <span>{{description}}</span>
+                {{/each}}
+            {{/if}}
+        </div>
+
+        <a class="viewTableRow">View in Table <i class="icon-arrow-2-square-down"></i></a>
+
+    </div>
+
+subTpl-->
+{{/promotion}}
+
+<!--subTpl.cumulativeCarouselDetails=
+ {{#each this}}
+    <dl class="item dl-horizontal">
+        <dt>Nominator</dt>
+        <dd>{{nominator}}</dd>
+
+        <dt>Date Submitted</dt>
+        <dd>{{dateSubmitted}}</dd>
+
+        {{#if reason}}
+            <dt>Reason</dt>
+            <dd class="reason">{{{reason}}}</dd>
+			<dd class="translateTextLink"><a href="clientState=XXX">Translate</a></dd>
+            <br/>
+        {{/if}}
+
+        {{#if moreInfo}}
+            <dt>More Info</dt>
+            <dd>{{{moreInfo}}}</dd>
+            <br/>
+        {{/if}}
+
+        {{#if customFields}}
+            {{#each customFields}}
+            <dt>{{name}}</dt>
+            <dd>{{{description}}}</dd>
+            <br/>
+            {{/each}}
+        {{/if}}
+
+        {{#if attachments}}
+            <dt>Attachment</dt>
+            <dd>{{#each attachments}}
+            <a href="{{attachmentUrl}}" target="_blank">{{#if attachmentName}}{{attachmentName}}{{else}}{{attachmentUrl}}{{/if}}</a><br/>
+        {{/each}}
+            </dd>
+            <br/>
+        {{/if}}
+
+
+        {{#if eCertUrl}}
+        <dt>eCert</dt>
+        <dd><a href="#" class="generateCertPdf" data-claimId="{{claimId}}" target="_blank">View eCertificate</a></dd>
+        {{/if}}
+    </dl>
+{{/each}}
+subTpl-->

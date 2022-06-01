@@ -1,0 +1,40 @@
+CREATE SEQUENCE challengepoint_progress_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE challengepoint_progress
+(challengepoint_progress_id			NUMBER(18) NOT NULL,
+ promotion_id						NUMBER(18) NOT NULL,
+ user_id							NUMBER(18) NOT NULL,
+ type							    VARCHAR2(10) NOT NULL,
+ quantity                           NUMBER(18,2),
+ submission_date                    DATE NOT NULL,
+ created_by                   		NUMBER(18) NOT NULL,
+ date_created                 		DATE NOT NULL,
+ modified_by 						NUMBER(18),
+ date_modified                		DATE,
+ version                      		NUMBER(18,0) NOT NULL
+ )
+/
+ALTER TABLE challengepoint_progress
+ADD CONSTRAINT challengepoint_progress_pk PRIMARY KEY (challengepoint_progress_id)
+USING INDEX
+/
+ALTER TABLE challengepoint_progress ADD CONSTRAINT cp_progress_promo_id_fk
+  FOREIGN KEY (promotion_id) REFERENCES promo_challengepoint (promotion_id)
+/
+ALTER TABLE challengepoint_progress ADD CONSTRAINT cp_progress_pax_fk
+  FOREIGN KEY (user_id) REFERENCES participant (user_id)
+/
+COMMENT ON TABLE challengepoint_progress IS 'Challenge point participant progress tracking table.'
+/
+COMMENT ON COLUMN challengepoint_progress.challengepoint_progress_id IS 'System-generated key that identifies a specific progress load.'
+/
+COMMENT ON COLUMN challengepoint_progress.promotion_id IS 'Id of challengepoint promotion.'
+/
+COMMENT ON COLUMN challengepoint_progress.user_id IS 'Users id.'
+/
+COMMENT ON COLUMN challengepoint_progress.type IS 'Whether this is a add or replace type load'
+/
+COMMENT ON COLUMN challengepoint_progress.quantity IS 'Progress Result'
+/
+COMMENT ON COLUMN challengepoint_progress.submission_date IS 'Date that this is quantity is as of.'
+/

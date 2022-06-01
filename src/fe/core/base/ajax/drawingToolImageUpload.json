@@ -1,0 +1,17 @@
+<?php sleep(2) ?>
+{
+    "messages":[
+        {
+            "_COMMENT_": "remove _ before error to see modal",
+            "type":"_error",
+            "command":"modal",
+            "name":"Image Upload Failure",
+            "text":"Upload Error Text"
+        }
+    ],
+    "properties":{
+        "videoUrl": "http://www.youtube.com",
+        "isSuccess": true,
+		"imageUrl": "http://lorempixel.com/432/432/people/1/Uploaded-Image"
+    }
+}

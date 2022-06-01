@@ -1,0 +1,22 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $hero_bgColor: ;
+$hero_bgImg: 'hero.jpg' 'hero_lowres.jpg';
+// $hero_bgImgPosition: ;
+// $hero_bgImgRepeat: ;
+// $hero_bgImgSize: ;
+// $hero_bgImgAttachment: ;
+// $hero_bgImgAllowedNotHome: ; // set to true to have the background image show up on every instance of the hero
+
+// $hero_searchMinHeight: ;
+
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "hero/scss/hero";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

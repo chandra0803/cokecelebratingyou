@@ -1,0 +1,169 @@
+<!-- ======== NOMINATIONS: APPROVALS PAGE ======== -->
+<div id="nominationsApprovalPageView" class="page-content">
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>Nomination Approvals</h2>
+        </div>
+    </div>
+    <div id="pendingNominationsWrapper">
+        <div class="approvalPromotionWrapper">
+
+            <div class="row-fluid">
+                <div class="span10 promotionList control-group">
+                    <!-- Generated content from promotionsListTpl -->
+                </div>
+
+                <div class="span2">
+                    <ul class="export-tools fr">
+                        <li><a href="#" class="pageView_print btn btn-small">Print <i class="icon-printer"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- /.approvalPromotionWrapper.row-fluid-->
+
+        <!-- promotions name view template -->
+        <script id="promotionNameTpl" type="text/x-handlebars-template">
+            <div class="controls promoChangeWrapper">
+                <span class="nominationPromotionName headline_3">
+                    {{name}}
+                </span>
+
+                {{#gte totalPromotionCount 2}}
+                <button type="button" id="nominationChangePromoBtn" class="btn btn-primary btn-inverse popoverTrigger" data-popover-content="promoChange">Change</button>
+                {{/gte}}
+
+                {{#if rulesText}}
+                <a href="#" class="doViewRules">View Rules</a>
+                {{/if}}
+            </div><!-- /.promoChangeWrapper -->
+        </script><!-- /#promotionsListTpl -->
+
+        <!-- promotions list client side template -->
+        <script id="promotionsListTpl" type="text/x-handlebars-template">
+            <div class="controls promoWrapper">
+                <select id="promotionId" name="promotionId">
+                    {{#each this}}
+                        <option value="{{promoId}}">
+                            {{name}}
+                        </option>
+                    {{/each}}
+                </select>
+            </div><!-- /.promoWrapper -->
+        </script><!-- /#promotionsListTpl -->
+
+        <div class="approvalSearchWrapper"><!--nominationsApprovalPageTpl.html--></div>
+
+    </div><!-- /#pendingNominationsWrapper-->
+
+    <div id="rulesModal" class="modal hide fade">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <i class="icon-close"></i>
+            </button>
+            <h3>Rules</h3>
+        </div>
+        <div class="modal-body">
+            <!-- dynamic -->
+        </div>
+    </div><!-- /#rulesModal -->
+
+    <div id="statusModal" class="modal hide fade">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <i class="icon-close"></i>
+            </button>
+            <h3>Status</h3>
+        </div>
+        <div class="modal-body">
+            Please save your changes before approving more nominations.
+        </div>
+    </div><!-- /#statusModal -->
+
+    <div id="sortModal" class="modal hide fade">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <i class="icon-close"></i>
+            </button>
+            <h3>Status</h3>
+        </div>
+        <div class="modal-body">
+            Please click "Done" before sorting or your changes will be lost.
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+            <button class="btn btn-primary doTheSort" data-dismiss="modal">Sort Anyway</button>
+        </div>
+    </div><!-- /#sortModal -->
+
+    <div class="promoChangePopover" style="display:none">
+        <p>
+            <b>Change the promotion?</b>
+        </p>
+        <p>
+            Your current selections and entries will be lost.
+        </p>
+        <p class="tc">
+            <button id="nominationChangePromoConfirmBtn" class="btn btn-primary">Yes</button>
+            <button id="nominationChangePromoCancelBtn" class="btn">Cancel</button>
+        </p>
+    </div><!-- /.promoChangeConfirmDialog -->
+
+    <!-- Success Modal -->
+     <div class="modal hide fade approvalSuccessModal" data-backdrop="static">
+        <div class="modal-header">
+            <h3>Your statuses have been updated.</h3>
+        </div>
+        <div class="modal-body">
+            <!-- <p>Your statuses have been updated.</p> -->
+
+            <button class="btn btn-primary updateBtn">Ok</button>
+        </div>
+    </div><!-- /.approvalSuccessModal -->
+
+</div><!-- /#nominationsApprovalPageView. -->
+<div class="modal hide fade certificateModal" id="certificateModal">
+    <div class="modal-body loading">
+        <div class="progress-indicator">
+            <span class="spin">
+            </span>
+            <p>Generating PDF...</p>
+        </div>
+        <div class="pdf-wrapper" style="height: 500px;">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+    </div>
+</div>
+<script>
+
+$(document).ready(function() {
+    // Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to
+
+    var idJson = {
+        promotionId: 2,
+        claimId: 234,
+        levelNumber: 4,
+        status: "winner"
+    };
+
+    //attach the view to an existing DOM element
+    var napv = new NominationsApprovalPageView({
+        el:$('#nominationsApprovalPageView'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url : 'layout.html?tpl=approvalsPageIndex&tplPath=apps/approvals/tpl/'
+            },
+            home : {
+                text : 'Home',
+                url : 'layout.html?tplPath=base/tpl/&amp;tpl=layout.html'
+            }
+        },
+        pageTitle : 'Nomination Approvals',
+        idJson: idJson
+    });
+
+});
+
+</script>

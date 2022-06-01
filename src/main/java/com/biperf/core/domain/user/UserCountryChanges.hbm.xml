@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.user.UserCountryChanges" table="USER_COUNTRY_CHANGES">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="USER_COUNTRY_CHANGES_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">USER_COUNTRY_CHANGES_PK_SQ</param>
+      </generator>
+    </id>
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+    
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+	<!--<many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="false"/>
+    -->
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID"/>
+    <property name="userId" type="java.lang.Long" column="USER_ID"/>        
+    <property name="oldCountryId" type="java.lang.Long" column="OLD_COUNTRY_ID"/>
+    <property name="oldCampaignNbr" type="java.lang.String" column="OLD_CAMPAIGN_NBR"/>
+    <property name="oldAwardBanqNbr" type="java.lang.String" column="OLD_AWARDBANQ_NBR"/>
+    <property name="oldCentraxId" type="java.lang.String" column="OLD_CENTRAX_ID"/>
+    <property name="newCountryId" type="java.lang.Long" column="NEW_COUNTRY_ID"/>
+    <property name="newCampaignNbr" type="java.lang.String" column="NEW_CAMPAIGN_NBR"/>
+    <property name="newAwardBanqNbr" type="java.lang.String" column="NEW_AWARDBANQ_NBR"/>
+    <property name="newCentraxId" type="java.lang.String" column="NEW_CENTRAX_ID"/>
+    <property name="balanceToMove" type="java.lang.Long" column="BALANCE_TO_MOVE"/>
+    <property name="processed" type="java.lang.Boolean" column="IS_PROCESSED"/>
+    <property name="message" type="java.lang.String" column="MESSAGE"/>    
+    
+    <property name="acctBalanceTransferDate" type="java.util.Date" column="ACCT_XFER_DATE" />
+    <property name="acctBalanceTransferResultCode" type="java.lang.Long" column="ACCT_XFER_CODE"/>
+   </class>
+
+    <sql-query name="com.biperf.core.domain.user.GetUsersToMoveBalance">
+     <return alias="ucc" class="com.biperf.core.domain.user.UserCountryChanges" />
+    <![CDATA[
+			select {ucc.*}
+			from user_country_changes ucc, application_user au
+			where (ucc.is_processed is null or ucc.is_processed = 0)
+			and ucc.user_id = au.user_id			
+		]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.user.UserCountryChanges.getUserByOldCampaign">
+         <return alias="ucc" class="com.biperf.core.domain.user.UserCountryChanges" />
+      <![CDATA[
+     	select {ucc.*}
+        from user_country_changes ucc
+        where ucc.old_campaign_nbr = :oldCampaignNbr
+        and ucc.user_id = :userId
+        and FNC_JAVA_DECRYPT(ucc.old_awardbanq_nbr) is not null
+        and FNC_JAVA_DECRYPT(ucc.old_centrax_id) is not null
+        ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.user.UserCountryChanges.getCentraxIdDecrypted">
+	  <return-scalar column="centraxIdDec" type="string"/>
+	  <![CDATA[
+		select FNC_JAVA_DECRYPT(:centraxId) as centraxIdDec
+		from dual
+		]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.user.UserCountryChanges.getDecryptedValue">
+	  <return-scalar column="decryptedValue" type="string"/>
+	  <![CDATA[
+		select FNC_JAVA_DECRYPT(:toDecrypt) as decryptedValue
+		from dual
+		]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.user.UserCountryChanges.getEncryptedValue">
+	  <return-scalar column="encryptedValue" type="string"/>
+	  <![CDATA[
+		select FNC_JAVA_ENCRYPT(:toEncrypt) as encryptedValue
+		from dual
+		]]>
+  	</sql-query>   
+    
+    <sql-query name="com.biperf.core.domain.user.uccWithAccountBalancesToTranfer">
+    	<return-scalar column="user_country_changes_id" type = "long"/>    
+    	<![CDATA[
+      		select user_country_changes_id
+  				from user_country_changes 
+  				where is_processed = 1 and 
+            		  acct_xfer_date is null and
+            		  NVL(balance_to_move,0) > 0
+    	]]>
+  	</sql-query>
+  </hibernate-mapping>

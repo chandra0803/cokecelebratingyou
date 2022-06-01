@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- Challenge Point Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.ChallengePointPromotion" extends="com.biperf.core.domain.promotion.GoalQuestPromotion" table="PROMO_CHALLENGEPOINT" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+
+  <property name="challengePointAwardType" column="CHALLENGE_POINT_AWARD_TYPE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.ChallengePointAwardType</param>
+    </type>
+  </property>
+  <property name="managerCanSelect" column="MANAGER_CAN_SELECT" type="boolean" />
+
+  <property name="awardThresholdType" type="java.lang.String" column="AWARD_THRESHOLD_TYPE"/>
+  <property name="awardThresholdValue" column="AWARD_THRESHOLD_VALUE" type="java.lang.Integer" />
+  <property name="awardIncrementType" type="java.lang.String" column="AWARD_INCREMENT_TYPE"/>
+  <property name="awardIncrementValue" column="AWARD_INCREMENT_VALUE" type="java.lang.Integer" />
+  <property name="awardPerIncrement" column="AWARD_PER_INCREMENT" type="java.lang.Integer" />  
+  <property name="totalTeamProductionMeasure" column="TOTAL_TEAM_PRODUCTION_MEASURE" type="java.lang.String" />
+  <property name="totalTeamProduction" column="TOTAL_TEAM_PRODUCTION" type="java.lang.Integer" />
+  <property name="managerAward" column="MANAGER_AWARD" type="java.lang.Integer" />
+
+</joined-subclass>
+
+</hibernate-mapping>

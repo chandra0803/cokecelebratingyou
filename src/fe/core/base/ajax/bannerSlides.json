@@ -1,0 +1,95 @@
+<?php sleep(2); ?>
+{
+    "messages": [],
+
+    "slides":[
+        {
+            "id": 1001,
+            "text": "Looking to travel your way?",
+            "linkText": "INLINE Click here for Envoy Travel",
+            "linkUrl": "http://wwww.EnvoyTravel.com",
+            "target": "",
+            "bannerImageUrl":"img/banners/G6_Banner_2017_02_Wellness2_Normal.jpg",
+            "bannerImageUrl_mobile":"img/banners/G6_Banner_2017_02_Wellness2_Mobile.jpg",
+            "bannerImageUrl_max":"img/banners/G6_Banner_2017_02_Wellness2_Max.jpg",
+            "classes": "class1, class2, class3"
+        },
+        {
+            "id": 10001,
+            "text": "Looking to travel your way?",
+            "linkText": "INLINE Click here for Envoy Travel",
+            "linkUrl": "http://wwww.EnvoyTravel.com",
+            "target": "",
+            "bannerImageUrl":"img/banners/G6_Banner_2017_02_Wellness2_Normal.jpg",
+            "bannerImageUrl_mobile":"img/banners/G6_Banner_2017_02_Wellness2_Mobile.jpg",
+            "bannerImageUrl_max":"img/banners/G6_Banner_2017_02_Wellness2_Max.jpg",
+            "classes": "class1, class2, class3"
+        },
+        {
+            "id": 12001,
+            "text": "Looking to travel your way?",
+            "linkText": "INLINE Click here for Envoy Travel",
+            "linkUrl": "http://wwww.EnvoyTravel.com",
+            "target": "",
+            "bannerImageUrl":"img/banners/G6_Banner_2017_02_Wellness2_Normal.jpg",
+            "bannerImageUrl_mobile":"img/banners/G6_Banner_2017_02_Wellness2_Mobile.jpg",
+            "bannerImageUrl_max":"img/banners/G6_Banner_2017_02_Wellness2_Max.jpg",
+            "classes": "class1, class2, class3"
+        },
+        {
+            "id": 2001,
+            "text": "Looking to travel your way?",
+            "linkText": "INLINE Click here for Envoy Travel",
+            "linkUrl": "http://wwww.EnvoyTravel.com",
+            "target": "",
+            "bannerImageUrl":"img/banners/G6_Banner_2017_02_Wellness2_Normal.jpg",
+            "bannerImageUrl_mobile":"img/banners/G6_Banner_2017_02_Wellness2_Mobile.jpg",
+            "bannerImageUrl_max":"img/banners/G6_Banner_2017_02_Wellness2_Max.jpg",
+            "classes": "class1, class2, class3"
+        },
+        {
+            "id": 3001,
+            "text": "Looking to travel your way?",
+            "linkText": "INLINE Click here for Envoy Travel",
+            "linkUrl": "http://wwww.EnvoyTravel.com",
+            "target": "",
+            "bannerImageUrl":"img/banners/G6_Banner_2017_02_Wellness2_Normal.jpg",
+            "bannerImageUrl_mobile":"img/banners/G6_Banner_2017_02_Wellness2_Mobile.jpg",
+            "bannerImageUrl_max":"img/banners/G6_Banner_2017_02_Wellness2_Max.jpg",
+            "classes": "class1, class2, class3"
+        },
+
+        {
+            "id": 1002,
+            "text": "Looking to travel your way?",
+            "linkText": "INLINE Click here for Envoy Travel",
+            "target": "_blank",
+            "bannerImageUrl":"img/banners/G6_Banner_2017_02_Wellness1_Normal.jpg",
+            "bannerImageUrl_mobile":"img/banners/G6_Banner_2017_02_Wellness1_Mobile.jpg",
+            "bannerImageUrl_max":"img/banners/G6_Banner_2017_02_Wellness1_Max.jpg",
+            "classes": "class1, class2, class3"
+        },
+        {
+            "id": 1004,
+            "text": "Looking to travel your way?",
+            "linkText": "INLINE Click here for Envoy Travel",
+            "linkUrl": "http://wwww.EnvoyTravel.com",
+            "target": "",
+            "bannerImageUrl":"img/banners/G6_Banner_2017_02_Wellness3_Normal.jpg",
+            "bannerImageUrl_mobile":"img/banners/G6_Banner_2017_02_Wellness3_Mobile.jpg",
+            "bannerImageUrl_max":"img/banners/G6_Banner_2017_02_Wellness3_Max.jpg",
+            "classes": "class1, class2, class3"
+        },
+        {
+            "id": 1005,
+            "text": "Looking to travel your way?",
+            "linkText": "INLINE Click here for Envoy Travel",
+            "linkUrl": "http://wwww.EnvoyTravel.com",
+            "target": "",
+            "bannerImageUrl":"img/banners/G6_Banner_2017_02_Wellness2_Normal.jpg",
+            "bannerImageUrl_mobile":"img/banners/G6_Banner_2017_02_Wellness2_Mobile.jpg",
+            "bannerImageUrl_max":"img/banners/G6_Banner_2017_02_Wellness2_Max.jpg",
+            "classes": "class1, class2, class3"
+        }
+    ]
+}

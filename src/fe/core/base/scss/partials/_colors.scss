@@ -1,0 +1,302 @@
+// BRAND COLORS
+// ============
+$brand_color_primary: #29c3d2 !default;
+$brand_color_secondary: #083c5a !default;
+$brand_color_tertiary: #76508e !default;
+
+// MESSAGING COLORS
+// ============
+$brand_color_success: #5fce8a !default; // green
+$brand_color_warning: #f0cb5b !default; // yellow
+$brand_color_alert: #e7605c !default; // red
+
+// GRASCALE STACK
+// ============
+$brand_color_black: #353a40 !default;
+$brand_color_darker: #666 !default;
+$brand_color_dark: #999 !default;
+$brand_color_mid: #ccc !default;
+$brand_color_light: #e8e8e8 !default;
+$brand_color_lighter: #efefef !default;
+$brand_color_white: #fff !default;
+
+// OTHER COLORS
+// ============
+$brand_color_stripe: #f8f8f8 !default;
+$brand_color_border: $brand_color_mid !default;
+
+$brand_color_export_csv: #0D7136 !default; // same as XLS for now. Try #CD8042 to match the brown/gold we had in G5
+$brand_color_export_doc: #295A99 !default;
+$brand_color_export_pdf: #d40000 !default;
+$brand_color_export_xls: #0D7136 !default;
+
+/*
+
+BRAND COLORS
+============
+
+Teal (Primary)
+#29c3d2
+
+Navy (secondary)
+#083c5a
+
+Purple (tertiary)
+#76508e
+
+
+MESSAGING COLORS
+============
+
+Salmon (alert)
+#e7605c
+
+Yellow (warning)
+#f0cb5b
+
+Green
+#5fce8a
+
+
+GRAYSCALE STACK
+===============
+
+Black (branded)
+#353a40
+
+Darker Gray
+#666666
+
+Dark Gray
+#999999
+
+Gray
+#cccccc
+
+Light Gray
+#e8e8e8
+
+Lighter Gray
+#efefef
+
+White (branded)
+#ffffff
+
+
+OTHER COLORS
+============
+
+Stripes
+#f8f8f8
+
+*/
+
+// LINKS
+// ============
+$brand_color_link: #246369 !default;
+$brand_color_link_hover: #2f838b !default;
+$brand_color_link_active: $brand_color_link_hover !default;
+$brand_color_link_disabled: #a9ced2 !default;
+
+// SPINNERS
+// ============
+$brand_color_spinner_fg: $brand_color_white !default;
+$brand_color_spinner_bg: rgba(0, 0, 0, .33) !default;
+
+// FUSIONCHARTS
+// ============
+// note: clients can submit a list of hex values for their charts. Set to false to use the FC default palette
+// sample color stack commented out below
+$brand_chartColors: false !default;
+/*
+$brand_chartColors: $brand_color_primary,
+                     $brand_color_secondary,
+                     $brand_color_tertiary,
+                     scale-color($brand_color_primary, $lightness: 50%, $saturation: -50%),
+                     scale-color($brand_color_secondary, $lightness: 50%, $saturation: -50%),
+                     scale-color($brand_color_tertiary, $lightness: 50%, $saturation: -50%) !default;
+*/
+
+// AVATAR
+// ============
+$brand_color_avatarTextColor: $brand_color_white !default;
+$brand_color_avatarBkg: $brand_color_primary !default;
+
+
+
+// overwritting twitter default colors - should slowly move away from these and use brand colors
+// and don't add below styles to new scss G6 2016 - if needed move above or to respective file
+// TODO: clean up what is not used
+
+// Grays
+// -------------------------
+$black:                 $brand_color_black !default;
+$grayDarker:            $brand_color_darker !default;
+$grayDark:              $brand_color_dark !default;
+$gray:                  $brand_color_mid !default;
+$grayLight:             $brand_color_light !default;
+$grayLighter:           $brand_color_lighter !default;
+$white:                 $brand_color_white !default;
+
+
+// Scaffolding
+// -------------------------
+$bodyBackground:        $brand_color_white !default;
+$textColor:             $brand_color_black !default;
+
+
+// Links
+// -------------------------
+$linkColor:             $brand_color_link !default;
+$linkColorHover:        $brand_color_link_hover !default;
+
+
+// Form states and alerts
+// -------------------------
+$warningText:             $brand_color_warning !default;
+$warningBackground:       scale-color($warningText, $lightness: 75%) !default;
+$warningBorder:           $warningBackground !default;
+
+$errorText:               $brand_color_alert !default;
+$errorBackground:         scale-color($errorText, $lightness: 75%) !default;
+$errorBorder:             $errorBackground !default;
+
+$successText:             $brand_color_success !default;
+$successBackground:       scale-color($successText, $lightness: 75%) !default;
+$successBorder:           $successBackground !default;
+
+$infoText:                $brand_color_secondary !default;
+$infoBackground:          scale-color($infoText, $lightness: 75%) !default;
+$infoBorder:              $infoBackground !default;
+
+$placeholderText:         $brand_color_dark !default;
+
+
+// Pagination
+// -------------------------
+$paginationBackground:                transparent !default;
+$paginationBorder:                    transparent !default;
+$paginationActiveBackground:          $brand_color_primary !default;
+
+
+// Tables
+// -------------------------
+// set in _variables.scss
+// $tableBackground:                   transparent !default; // overall background-color
+// $tableBackgroundAccent:             #f9f9f9 !default; // for striping
+// $tableBackgroundHover:              #f5f5f5 !default; // for hover
+// $tableBorder:                       #ddd !default; // table and cell border
+
+
+// Buttons
+// -------------------------
+// button variables that get passed into Bootstrap's _buttons.scss go in this file
+    // note: *Highlight background colors are used for hover state
+// button variables that are used to override Bootstrap's styles go in G6's _buttons.scss
+$buttonLinkColor:                   $brand_color_link !default;
+$buttonLinkColorHover:              $brand_color_link_hover !default;
+
+$btnTxtColor:                       $brand_color_black !default;
+$btnBackground:                     $brand_color_mid !default;
+$btnBackgroundHighlight:            desaturate(darken($brand_color_mid, 20%), 10%) !default;
+$btnBorder:                         $btnBackground !default;
+
+$btnPrimaryTxtColor:                $brand_color_white !default;
+$btnPrimaryBackground:              $brand_color_primary !default;
+$btnPrimaryBackgroundHighlight:     desaturate(darken($brand_color_primary, 20%), 10%) !default;
+
+$btnInfoTxtColor:                   $brand_color_white !default;
+$btnInfoBackground:                 $brand_color_secondary !default;
+$btnInfoBackgroundHighlight:        desaturate(darken($brand_color_secondary, 20%), 10%) !default;
+
+$btnSuccessTxtColor:                $brand_color_white !default;
+$btnSuccessBackground:              $brand_color_success !default;
+$btnSuccessBackgroundHighlight:     desaturate(darken($brand_color_success, 20%), 10%) !default;
+
+$btnWarningTxtColor:                $brand_color_white !default;
+$btnWarningBackground:              $brand_color_warning !default;
+$btnWarningBackgroundHighlight:     desaturate(darken($brand_color_warning, 20%), 10%) !default;
+
+$btnDangerTxtColor:                 $brand_color_white !default;
+$btnDangerBackground:               $brand_color_alert !default;
+$btnDangerBackgroundHighlight:      desaturate(darken($brand_color_alert, 20%), 10%) !default;
+
+$btnInverseBackground:              transparent !default;
+$btnInverseBackgroundHighlight:     transparent !default;
+
+$invertBtnTxtColor:                 $brand_color_primary !default;
+$invertBtnBackground:               $brand_color_white !default;
+$invertBtnBackgroundHighlight:      desaturate(darken($brand_color_white, 10%), 10%) !default;
+
+
+// Forms
+// -------------------------
+$inputTextColor:                $brand_color_black !default;
+$inputBackground:               $brand_color_white !default;
+$inputBorder:                   $btnBackground !default;
+$inputSearchIconColor:          $brand_color_dark !default;
+// $inputDisabledBackground:       $brand_color_disabled !default;
+
+
+// Dropdowns
+// -------------------------
+$dropdownBackground:            $brand_color_white !default;
+$dropdownBorder:                rgba(0,0,0,.2) !default;
+$dropdownDividerTop:            $brand_color_light !default;
+$dropdownDividerBottom:         $brand_color_white !default;
+
+$dropdownLinkColor:             $brand_color_dark !default;
+$dropdownLinkColorHover:        $brand_color_white !default;
+$dropdownLinkColorActive:       $brand_color_white !default;
+
+$dropdownLinkBackgroundActive:  $linkColor !default;
+$dropdownLinkBackgroundHover:   $dropdownLinkBackgroundActive !default;
+
+
+
+// COMPONENT VARIABLES
+// --------------------------------------------------
+
+
+// Tooltips and popovers
+// -------------------------
+$tooltipColor:            $brand_color_white !default;
+$tooltipBackground:       $brand_color_black !default;
+// $tooltipArrowWidth:       5px !default;
+$tooltipArrowColor:       $tooltipBackground !default;
+
+// $popoverBackground:       #fff !default;
+// $popoverArrowWidth:       10px !default;
+// $popoverArrowColor:       #fff !default;
+// $popoverTitleBackground:  darken($popoverBackground, 3%) !default;
+
+// // Special enhancement for popovers
+// $popoverArrowOuterWidth:  $popoverArrowWidth + 1 !default;
+// $popoverArrowOuterColor:  rgba(0,0,0,.25) !default;
+
+
+
+// RA Tile and Details
+// -------------------------
+
+
+$ra_primary1: #ffb000 !default; // yellow
+$ra_primary2: #1c496d !default; // navy
+
+$ra_neutral1: #343334 !default; // dark gray
+$ra_neutral2: #666666 !default; // gray
+$ra_neutral3: #cccccc !default; // medium gray
+$ra_neutral4: #f6f6f6 !default; // light gray
+
+$ra_accent1: #fed500 !default; // light yellow
+$ra_accent2: #ff9700 !default; // orange
+$ra_accent3: #fe8500 !default; // dark orange
+
+$ra_indicatorRed: #e76a6e !default; // red
+$ra_indicatorGray: #bebebe !default; // Gray
+
+$ra_IconColor: #ffaa01 !default; // orange
+$ra_modelBgColor: #ffefbf !default; // light orange;
+
+$ra_indicatorGreen: #27c3d2 !default; // green;
+$ra_indicatorLightGreen: #68c186 !default; // light green;

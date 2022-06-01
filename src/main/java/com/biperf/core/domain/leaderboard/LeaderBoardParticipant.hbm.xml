@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+   <class name="com.biperf.core.domain.leaderboard.LeaderBoardParticipant" table="LEADERBOARD_PARTICIPANT">
+   
+   <id name="id" type="long" column="LEADERBOARD_PARTICIPANT_ID">
+       <generator class="seqhilo">
+         <param name="max_lo">0</param> <param name="sequence">LEADERBOARD_PARTICIPANT_PK_SQ</param>
+       </generator>
+     </id>
+     
+     <!-- Using version number optimistic locking -->
+     <version name="version" type="long" column="VERSION"/>
+     
+     <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+	   
+	    <many-to-one name="leaderboard" column="LEADERBOARD_ID" class="com.biperf.core.domain.leaderboard.LeaderBoard" not-null="true" lazy="false" cascade="delete"/>
+	    
+	    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.participant.Participant" not-null="true" lazy="false" cascade="none"/>
+	    <property name="active" column="IS_ACTIVE" type="boolean"/>
+	    <property name="score" column="SCORE" type="string"/>
+	    <property name="asOfDate" column="AS_OF_DATE" type="java.util.Date"/>
+        <property name="participantRank" column="RANK" type="long"/> 
+   </class>
+ 
+	
+	<sql-query name="com.biperf.core.domain.leaderboard.getLeaderBoardPaxbyLeaderBoardId">
+    <return alias="lbp" class="com.biperf.core.domain.leaderboard.LeaderBoardParticipant"/>
+    <![CDATA[
+          select lbp.* from leaderboard_participant lbp where lbp.leaderboard_id = :leaderBoardId and lbp.is_active=1;
+    ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.leaderboard.getLeaderBoardPaxByUserId">
+    <return alias="lbp" class="com.biperf.core.domain.leaderboard.LeaderBoardParticipant"/>
+    <![CDATA[
+           select lbp.* from leaderboard_participant lbp where lbp.user_id = :user_id;
+    ]]>
+    </sql-query>
+    
+  	<query name="com.biperf.core.domain.leaderboard.getLeaderBoardsByParticipantUserId">
+    <![CDATA[
+    from com.biperf.core.domain.leaderboard.LeaderBoardParticipant lbp
+     where lbp.user.id = :userId
+    ]]>
+  	</query>
+	
+		<sql-query name="com.biperf.core.domain.leaderboard.LeaderBoardsForTile">
+		<return alias="leaderBoard" class="com.biperf.core.domain.leaderboard.LeaderBoard" />
+    <![CDATA[
+		select distinct L.*  from LEADERBOARD L,
+			LEADERBOARD_PARTICIPANT LP
+			WHERE
+			l.leaderboard_id = lp.leaderboard_id
+			AND  (l.user_id = :userId OR lp.user_id = :userId)
+			AND lp.is_active = 1
+			AND l.status='C' and NVL(TRUNC(l.display_end_date),TRUNC(sysdate)) >=TRUNC(sysdate)
+			AND trunc(l.START_DATE) <=trunc(sysdate)
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.leaderboard.isUserHasLiveLeaderboard">
+	<return-scalar column="count" type="integer" />
+	<![CDATA[
+	select decode(COUNT(l.leaderboard_id),0,'0','1') as count  from LEADERBOARD L,
+		LEADERBOARD_PARTICIPANT LP
+		WHERE
+		l.leaderboard_id = lp.leaderboard_id(+)
+		AND (l.user_id = :userId OR lp.user_id = :userId)
+		AND lp.is_active = 1
+		AND l.status='C' and NVL(TRUNC(l.display_end_date),sysdate) >=sysdate
+		AND trunc(l.START_DATE) <=trunc(sysdate)
+	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.leaderboard.LeaderBoardsForPendingSet">
+		<return alias="leaderBoard" class="com.biperf.core.domain.leaderboard.LeaderBoard" />
+    <![CDATA[
+		select distinct L.*  from LEADERBOARD l,
+			LEADERBOARD_PARTICIPANT lp
+			WHERE
+			l.leaderboard_id = lp.leaderboard_id(+)
+			AND  (l.user_id = :userId AND l.status = 'U')	 
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.leaderboard.LeaderBoardsForArchivedSet">
+		<return alias="leaderBoard" class="com.biperf.core.domain.leaderboard.LeaderBoard" />
+    <![CDATA[
+		select distinct L.*  from LEADERBOARD l,
+			LEADERBOARD_PARTICIPANT lp
+			WHERE
+			l.leaderboard_id = lp.leaderboard_id(+)
+			AND  (l.user_id = :userId AND (l.status = 'C' AND l.end_date is not null AND trunc(l.end_date) <trunc(sysdate)))	 
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.leaderboard.LeaderBoardsForActiveSet">
+		<return alias="leaderBoard" class="com.biperf.core.domain.leaderboard.LeaderBoard" />
+    <![CDATA[
+		select distinct L.*  from LEADERBOARD l,
+			LEADERBOARD_PARTICIPANT lp
+			WHERE
+			l.leaderboard_id = lp.leaderboard_id(+)
+			AND  (l.user_id = :userId OR (lp.user_id = :userId AND  trunc(l.start_date)<=trunc(sysdate)))
+			AND  l.status = 'C'
+            AND  ( TRUNC(decode(l.end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),l.end_date))>=TRUNC(sysdate)
+            OR  NVL( TRUNC(L.DISPLAY_END_DATE),TRUNC(SYSDATE)) >=TRUNC(SYSDATE)) 	 
+		]]>
+	</sql-query>
+	
+</hibernate-mapping>    

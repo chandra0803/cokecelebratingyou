@@ -1,0 +1,196 @@
+CREATE OR REPLACE FUNCTION fnc_java_get_date_time_pattern (p_in_locale IN VARCHAR2)
+ RETURN VARCHAR2 IS
+ 
+/*******************************************************************************
+
+-- Purpose: Function that returns date and time format in varchar for a input locale 
+            (locale example: 'en_US' or 'en_GB' or 'de_DE' or 'fr_CA' etc)
+
+-- Modification history
+
+-- Person      Date        Comments
+-- ---------   ----------  -----------------------------------------------------
+-- Arun S      08/23/2011  Initial Creation
+-- Avinash G   07/10/2012  Fix to bug #41245
+--Ravi Dhanekula 04/16/2014 Added lookup from the table instead of case statements.
+  
+*******************************************************************************/
+ 
+ v_pattern varchar2(100);
+ 
+BEGIN
+ 
+SELECT pattern INTO v_pattern FROM locale_date_pattern
+WHERE locale= p_in_locale;
+
+/*
+	SELECT
+		CASE p_in_locale
+			WHEN 'ja_JP' THEN 'YYYY/MM/DD HH24:MI'
+			WHEN 'es_PE' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'en' THEN 'MM/DD/YYYY HH24:MI'
+			WHEN 'ja_JP_JP' THEN 'YYYY/MM/DD HH24:MI'
+			WHEN 'es_PA' THEN 'MM/DD/YYYY HH24:MI'
+			WHEN 'sr_BA' THEN 'YYYY-MM-DD HH24:MI'
+			WHEN 'mk' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'es_GT' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_AE' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'no_NO' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'sq_AL' THEN 'YYYY-MM-DD HH24:MI'
+			WHEN 'bg' THEN 'YYYY-MM-DD HH24:MI'
+			WHEN 'ar_IQ' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_YE' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'hu' THEN 'YYYY.MM.DD. HH24:MI'
+			WHEN 'pt_PT' THEN 'DD-MM-YYYY HH24:MI'
+			WHEN 'el_CY' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_QA' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'mk_MK' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'sv' THEN 'YYYY-MM-DD HH24:MI'
+			WHEN 'de_CH' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'en_US' THEN 'MM/DD/YYYY HH24:MI'
+			WHEN 'fi_FI' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'is' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'cs' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'en_MT' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'sl_SI' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'sk_SK' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'it' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'tr_TR' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'zh' THEN 'YYYY-MM-DD HH24:MI'
+			WHEN 'th' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_SA' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'no' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'en_GB' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'sr_CS' THEN 'DD.MM.YYYY. HH24:MI'
+			WHEN 'lt' THEN 'YYYY.MM.DD HH24:MI'
+			WHEN 'ro' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'en_NZ' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'no_NO_NY' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'lt_LT' THEN 'YYYY.MM.DD HH24:MI'
+			WHEN 'es_NI' THEN 'MM-DD-YYYY HH24:MI'
+			WHEN 'nl' THEN 'DD-MM-YYYY HH24:MI'
+			WHEN 'ga_IE' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'fr_BE' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'es_ES' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_LB' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ko' THEN 'YYYY. MM. DD HH24:MI'
+			WHEN 'fr_CA' THEN 'YYYY-MM-DD HH24:MI'
+			WHEN 'et_EE' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'ar_KW' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'sr_RS' THEN 'DD.MM.YYYY. HH24:MI'
+			WHEN 'es_US' THEN 'MM/DD/YYYY HH24:MI'
+			WHEN 'es_MX' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_SD' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'in_ID' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ru' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'lv' THEN 'YYYY.DD.MM HH24:MI'
+			WHEN 'es_UY' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'lv_LV' THEN 'YYYY.DD.MM HH24:MI'
+			WHEN 'iw' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'pt_BR' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_SY' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'hr' THEN 'YYYY.MM.DD HH24:MI'
+			WHEN 'et' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'es_DO' THEN 'MM/DD/YYYY HH24:MI'
+			WHEN 'fr_CH' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'hi_IN' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'es_VE' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_BH' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'en_PH' THEN 'MM/DD/YYYY HH24:MI'
+			WHEN 'ar_TN' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'fi' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'de_AT' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'es' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'nl_NL' THEN 'DD-MM-YYYY HH24:MI'
+			WHEN 'es_EC' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'zh_TW' THEN 'YYYY/MM/DD HH24:MI'
+			WHEN 'ar_JO' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'be' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'is_IS' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'es_CO' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'es_CR' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'es_CL' THEN 'DD-MM-YYYY HH24:MI'
+			WHEN 'ar_EG' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'en_ZA' THEN 'YYYY/MM/DD HH24:MI'
+			WHEN 'th_TH' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'el_GR' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'it_IT' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ca' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'hu_HU' THEN 'YYYY.MM.DD. HH24:MI'
+			WHEN 'fr' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'en_IE' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'uk_UA' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'pl_PL' THEN 'DD.MM.YYYY HH24:MI'
+			WHEN 'fr_LU' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'nl_BE' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'en_IN' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ca_ES' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'ar_MA' THEN 'DD/MM/YYYY HH24:MI'
+			WHEN 'es_BO' THEN 'DD-MM-YYYY HH24:MI'
+			ELSE
+				CASE p_in_locale
+					WHEN 'en_AU' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'sr' THEN 'DD.MM.YYYY. HH24:MI'
+					WHEN 'zh_SG' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'pt' THEN 'DD-MM-YYYY HH24:MI'
+					WHEN 'uk' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'es_SV' THEN 'MM-DD-YYYY HH24:MI'
+					WHEN 'ru_RU' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'ko_KR' THEN 'YYYY. MM. DD HH24:MI'
+					WHEN 'vi' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'ar_DZ' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'vi_VN' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'sr_ME' THEN 'DD.MM.YYYY. HH24:MI'
+					WHEN 'sq' THEN 'YYYY-MM-DD HH24:MI'
+					WHEN 'ar_LY' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'ar' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'zh_CN' THEN 'YYYY-MM-DD HH24:MI'
+					WHEN 'be_BY' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'zh_HK' THEN 'YYYY-MM-DD HH24:MI'
+					WHEN 'ja' THEN 'YYYY/MM/DD HH24:MI'
+					WHEN 'iw_IL' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'bg_BG' THEN 'YYYY-MM-DD HH24:MI'
+					WHEN 'in' THEN 'YYYY/MM/DD HH24:MI'
+					WHEN 'mt_MT' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'es_PY' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'sl' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'fr_FR' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'cs_CZ' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'it_CH' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'ro_RO' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'es_PR' THEN 'MM-DD-YYYY HH24:MI'
+					WHEN 'en_CA' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'de_DE' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'ga' THEN 'YYYY/MM/DD HH24:MI'
+					WHEN 'de_LU' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'de' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'es_AR' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'sk' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'ms_MY' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'hr_HR' THEN 'DD.MM.YYYY. HH24:MI'
+					WHEN 'en_SG' THEN 'MM/DD/YYYY HH24:MI'
+					WHEN 'da' THEN 'DD-MM-YYYY HH24:MI'
+					WHEN 'mt' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'pl' THEN 'YYYY-MM-DD HH24:MI'
+					WHEN 'ar_OM' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'tr' THEN 'DD.MM.YYYY HH24:MI'
+					WHEN 'th_TH_TH' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'el' THEN 'DD/MM/YYYY HH24:MI'
+					WHEN 'ms' THEN 'YYYY/MM/DD HH24:MI'
+					WHEN 'sv_SE' THEN 'YYYY-MM-DD HH24:MI'
+					WHEN 'da_DK' THEN 'DD-MM-YYYY HH24:MI'
+					WHEN 'es_HN' THEN 'MM-DD-YYYY HH24:MI'
+					ELSE 'MM/DD/YYYY HH24:MI'
+				END
+		END
+	INTO pattern
+	FROM dual; */
+
+	RETURN v_pattern;
+
+EXCEPTION 
+  WHEN OTHERS THEN
+    v_pattern := 'MM/DD/YYYY HH24:MI';
+    RETURN v_pattern;  
+END;
+/

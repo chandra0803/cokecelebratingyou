@@ -1,0 +1,177 @@
+{
+  "description": "Create a Person Address",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2"
+  },
+  "steps": [
+  	{
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createPersonAddress",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"label": "${ref:params.label}",
+  			"country": "USA",
+  			"postalCode": "55443",
+  			"line1":"123 Main Street"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    },
+    {
+      "id": "createPersonAddress",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"city": "${ref:params.city}",
+  			"country": "USA",
+  			"postalCode": "55443",
+  			"line1":"123 Main Street"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    },
+    {
+      "id": "createPersonAddress",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"city": "${ref:params.city}",
+  			"label": "${ref:params.label}",
+  			"postalCode": "55443",
+  			"line1":"123 Main Street"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    },
+    {
+      "id": "createPersonAddress",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"city": "${ref:params.city}",
+  			"label": "${ref:params.label}",
+  			"country": "USA",
+  			"line1":"123 Main Street"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    },
+    {
+      "id": "createPersonAddress",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/postal-addresses",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"city": "${ref:params.city}",
+  			"label": "${ref:params.label}",
+  			"country": "USA",
+  			"line1":"123 Main Street"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAddress.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:createPersonAddress.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    }
+  ]
+}

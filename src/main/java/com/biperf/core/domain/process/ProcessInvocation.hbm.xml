@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.process.ProcessInvocation" table="PROCESS_INVOCATION">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PROCESS_INVOCATION_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PROCESS_INVOCATION_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		
+		<many-to-one name="process" column="PROCESS_ID" class="com.biperf.core.domain.process.Process" not-null="true" update="true" insert="true" lazy="false" />
+		
+		<property name="startDate" type="java.util.Date" column="START_DATE"/>
+		<property name="endDate" type="java.util.Date" column="END_DATE"/>
+    	
+    	<many-to-one name="runAsUser" column="RUN_AS_USER_ID" class="com.biperf.core.domain.user.User" not-null="true" update="true" insert="true" lazy="false" />
+    	
+    	<set name="processInvocationParameters" table="PROCESS_INVOCATION_PARAMETER" lazy="true" inverse="true" cascade="all-delete-orphan">
+        	<key column="PROCESS_INVOCATION_ID" not-null="true"/>
+        	<one-to-many class="com.biperf.core.domain.process.ProcessInvocationParameter"/>
+      	</set>
+      	
+      	<list name="processInvocationComments" table="PROCESS_INVOCATION_COMMENT" lazy="extra" inverse="false" cascade="all-delete-orphan" >
+        	<key column="PROCESS_INVOCATION_ID" not-null="true" />
+        	<list-index column="sequence_num"/>
+        	<one-to-many class="com.biperf.core.domain.process.ProcessInvocationComment"/>
+      	</list>
+		
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+	</class>
+	
+	<query name="com.biperf.core.domain.process.ProcessInvocationCountByProcess">
+		<![CDATA[
+		  select count(*) from com.biperf.core.domain.process.ProcessInvocation processInvocation
+      		where processInvocation.process = :process
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.process.ProcessInvocationByProcess">
+		<![CDATA[
+		  from com.biperf.core.domain.process.ProcessInvocation processInvocation
+      		where processInvocation.process = :process
+      		order by processInvocation.id desc
+		]]>
+	</query>
+	
+</hibernate-mapping>

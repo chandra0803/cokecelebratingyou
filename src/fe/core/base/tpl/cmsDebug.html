@@ -1,0 +1,2103 @@
+<!doctype html>
+<html>
+<head>
+    <title>Fancy-Shmancy CMS Locator tool...</title>
+
+    <style>
+        body {
+            background: #000;
+            color: #aaa;
+            font-size: 12px;
+            line-height: 20px;
+            font-family: helvetica, arial, sans-serif;
+        }
+        a {
+            color: #6af;
+        }
+        #header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            padding: 10px;
+            height: 50px;
+            color: #333;
+            background: rgba(204,204,204,0.9);
+            z-index: 1;
+        }
+        .count {
+            float: left;
+        }
+        .actions {
+            margin: 0;
+            text-align: right;
+            list-style: none;
+        }
+        .actions li {
+            display: inline-block;
+        }
+
+        .fields {
+            margin: 10px 0 0 0;
+            padding: 0;
+            border: none;
+        }
+        .label.sortBy {
+            float: right;
+        }
+
+        #contents {
+            padding-top: 70px;
+            -webkit-font-smoothing: antialiased;
+        }
+        .error {
+            margin: 10px;
+            text-align: center;
+            color: #f66;
+        }
+        .entry {
+            border-top: 1px solid #000;
+            background: #222;
+        }
+        .contents {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .element {
+            border-bottom: 1px solid #000;
+        }
+        .element.odd {
+            /*background: #333;*/
+        }
+        .element.open {
+            background: #333;
+        }
+        .element .top {
+            position: relative;
+            padding: 5px 30px 5px 10px;
+            white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+        .element.value .top {
+            /*overflow-x: visible;*/
+            white-space: normal;
+        }
+        .element .toggle {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            margin-top: -10px;
+            margin-right: -8px;
+            width: 16px;
+            font-family: monospace;
+            font-size: 16px;
+            text-align: center;
+            color: #6af;
+            float: right;
+        }
+        .element.closed .guts,
+        .element.closed .collapse,
+        .element.open .expand {
+            display: none;
+        }
+        .element.open .guts {
+            display: block;
+        }
+        .element.closed .expand,
+        .element.open .collapse {
+            display: inline;
+        }
+        #header .count i,
+        .element .value i {
+            padding: 2px 1px;
+            margin: -2px -1px;
+            font-style: normal;
+            background: rgba(0,127,255, 0.4);
+        }
+        .element .guts {
+            padding:  5px 10px 10px 20px;
+            border-top: 1px dashed #000;
+        }
+        .element .pages {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .element .guts .value,
+        .element .guts .key,
+        .element .guts .page {
+            display: block;
+        }
+        .element .guts .key,
+        .element .guts .page {
+            white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+        .element .guts .value {
+            color: #fff;
+        }
+        .element .guts .page {
+            color: #aca;
+        }
+    </style>
+
+    <!-- All JavaScript at the bottom, except jquery-->
+    <script src="../../libs/jquery.js"></script>
+</head>
+
+<body>
+    <div id="header">
+    </div>
+
+    <div id="contents">
+    </div>
+
+    <script id="header-template" type="text/x-handlebars-template">
+        <form action="cmsDebug.html" method="GET">
+            <span class="count">{{#if filterBy}}<i>{{/if}}{{elementCount}}{{#if filterBy}}</i>{{/if}} records</span>
+            <ul class="actions">
+                <li class="refresh"><button type="submit" class="btn refresh" name="method" value="refresh">Refresh</button></li>
+                <li class="clear"><button type="submit" class="btn clear" name="method" value="clear">Clear</button></li>
+            </ul>
+
+            <fieldset class="fields">
+                <input type="search" name="filterBy" id="filterBy" placeholder="Filter values" class="input filter" {{#if filterBy}}value="{{filterBy}}"{{/if}}>
+
+                <label for="sortBy" class="label sortBy">
+                    Sort
+                    <select name="sortBy" id="sortBy" class="select sort">
+                        <optgroup label="Sort">
+                            <option value="value" {{#eq sortBy "value"}}selected="selected"{{/eq}}>Value</option>
+                            <option value="key" {{#eq sortBy "key"}}selected="selected"{{/eq}}>Key</option>
+                            <option value="page" {{#eq sortBy "page"}}selected="selected"{{/eq}}>Page</option>
+                        </optgroup>
+                    </select>
+                </label>
+            </fieldset>
+        </form>
+    </script>
+
+    <script id="contents-template" type="text/x-handlebars-template">
+        {{#unless elements}}
+        <p class="error">Nothing to see here. Nope. No way.</p>
+        {{else}}
+        <div class="entry">
+            <ul class="contents">
+                {{#each elements}}
+                {{#eq ../sortBy "value"}}
+                <li class="element {{../sortBy}} closed">
+                {{else}}
+                <li class="element {{../sortBy}} {{#if ../filterBy}}open{{else}}closed{{/if}}">
+                {{/eq}}
+
+                {{#eq ../sortBy "value"}}
+                    <div class="top" title="{{value}}">
+                        <span class="value">{{value}}</span>
+                        <span class="toggle expand">&#9656;</span>
+                        <span class="toggle collapse">&#9662;</span>
+                    </div>
+                    <div class="guts">
+                        <span class="key" title="{{key}}"><a href="{{url}}" target="_blank">{{key}}</a></span>
+                        <ul class="pages">
+                        {{#each pages}}
+                            <li class="page" title="{{this}}">{{this}}</li>
+                        {{/each}}
+                        </ul>
+                    </div>
+                {{/eq}}
+
+                {{#eq ../sortBy "key"}}
+                    <div class="top" title="{{key}}">
+                        <span class="key">{{key}}</span>
+                        <span class="toggle expand">&#9656;</span>
+                        <span class="toggle collapse">&#9662;</span>
+                    </div>
+                    <div class="guts">
+                        <span class="value">{{value}}</span>
+                        <span class="key" title="{{key}}"><a href="{{url}}" target="_blank">{{key}}</a></span>
+                        <ul class="pages">
+                        {{#each pages}}
+                            <li class="page" title="{{this}}">{{this}}</li>
+                        {{/each}}
+                        </ul>
+                    </div>
+                {{/eq}}
+
+                {{#eq ../sortBy "page"}}
+                    <div class="top" title="{{page}}">
+                        <span class="page">{{page}}</span>
+                        <span class="toggle expand">&#9656;</span>
+                        <span class="toggle collapse">&#9662;</span>
+                    </div>
+                    <div class="guts">
+                        <span class="value">{{value}}</span>
+                        <span class="key" title="{{key}}"><a href="{{url}}" target="_blank">{{key}}</a></span>
+                        <span class="page" title="{{page}}">{{page}}</span>
+                    </div>
+                {{/eq}}
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/unless}}
+    </script>
+
+    <!-- additional scripts go here -->
+    <script src="../../libs/underscore.js"></script>
+    <script src="../../libs/handlebars.js"></script>
+    <script src="../js/cmsDebug.js"></script>
+
+    <script type="text/javascript">
+        cmsDbgObj = {
+            "elementCount": 167,
+            "pageCount": 168,
+            "elements": [
+                {
+                    "assetId": 10021215,
+                    "contentKeyId": 10024393,
+                    "key": "home.header.SKIP_SECTION",
+                    "value": "Skip to section navigation",
+                    "pages": [
+                        "/include/g3ReduxHeader.jsp",
+                        "/include/g3ReduxFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021215"
+                },
+                {
+                    "assetId": 10017858,
+                    "contentKeyId": 10017928,
+                    "key": "home.quicksearch.SEARCH_BY",
+                    "value": "Search By",
+                    "pages": [
+                        "/homepage/g3ReduxQuickSearch.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017858"
+                },
+                {
+                    "assetId": 10024988,
+                    "contentKeyId": 10027031,
+                    "key": "recognitionSubmit.errors.SELECT_PROMO",
+                    "value": "You must select a promotion.",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024988"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.SELECT_REPORT2",
+                    "value": "(up to five)",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.UPDATE",
+                    "value": "update",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.FAVORITE_HEADER",
+                    "value": "My Reports",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.WELCOME_EMAIL_RECIEVED",
+                    "value": "Welcome Email Received",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_LOADING",
+                    "value": "Loading...",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.COMMENTS",
+                    "value": "Comments",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10021215,
+                    "contentKeyId": 10024393,
+                    "key": "home.header.SKIP_NAV",
+                    "value": "Skip to main navigation",
+                    "pages": [
+                        "/include/g3ReduxHeader.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021215"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PERSONAL_HEADER",
+                    "value": "Personal Information",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.MORE_EMAIL_ADDRESSES",
+                    "value": "more email addresses",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.UNLOCK_ACCOUNT",
+                    "value": "Unlock Account",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024966,
+                    "contentKeyId": 10026209,
+                    "key": "participant.profile.PUBLIC_PROFILE",
+                    "value": "Public Profile",
+                    "pages": [
+                        "/profile/participantProfileView.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024966"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.LAUNCH_SITE_ASSET_LOCATOR",
+                    "value": "???participant.participant.LAUNCH_SITE_ASSET_LOCATOR???",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.REMOVE_FORMATTING",
+                    "value": "Remove formatting",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.CHAR_LIMIT",
+                    "value": "Remaining Characters:",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.REMAINING_CHARS",
+                    "value": "Remaining Characters",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_CA_MENU",
+                    "value": "Canadian English",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10001299,
+                    "contentKeyId": 10001866,
+                    "key": "login.loginpage.TITLE",
+                    "value": "Welcome",
+                    "pages": [
+                        "/login/loginPage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10001299"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.ADDL_INFO_HEADER",
+                    "value": "Additional Information",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PROMOTIONS_HEADER",
+                    "value": "Promotions",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10021216,
+                    "contentKeyId": 10024394,
+                    "key": "home.nav.SKIP_SECTION",
+                    "value": "Skip to section navigation",
+                    "pages": [
+                        "/include/g3ReduxNav.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021216"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.NAME",
+                    "value": "Name",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10021214,
+                    "contentKeyId": 10024392,
+                    "key": "home.footer.RETURN_CONTENT",
+                    "value": "Return to top of content",
+                    "pages": [
+                        "/include/g3ReduxFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021214"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.ADD_REPORT",
+                    "value": "Add Report",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.ES_MX_MENU",
+                    "value": "Mexican Spanish",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.CHECK_SPELLING",
+                    "value": "Check spelling",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_IGNORE_WORD",
+                    "value": "Ignore word",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.NO_PROMOTIONS_COMMON",
+                    "value": "There are no promotions in common with this participant",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10021216,
+                    "contentKeyId": 10024394,
+                    "key": "home.nav.SKIP_CONTENT",
+                    "value": "Skip to content",
+                    "pages": [
+                        "/include/g3ReduxNav.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021216"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.PRIVACY_POLICY",
+                    "value": "Privacy Policy",
+                    "pages": [
+                        "/layouts/globalFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10024982,
+                    "contentKeyId": 10027025,
+                    "key": "profile.proxies.tab.ACTING_AS",
+                    "value": "Acting as",
+                    "pages": [
+                        "/profile/participantProfileView.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024982"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.SECRET_ANSWER",
+                    "value": "Answer",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_US_MENU",
+                    "value": "US English",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024966,
+                    "contentKeyId": 10026209,
+                    "key": "participant.profile.VIEW_PROFILE",
+                    "value": "View Profile",
+                    "pages": [
+                        "/profile/participantProfileView.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024966"
+                },
+                {
+                    "assetId": 10017866,
+                    "contentKeyId": 10017936,
+                    "key": "home.navmenu.admin.VIEW_BADGE_LIST",
+                    "value": "View Badge List",
+                    "pages": [
+                        "/homepage/adminHomePage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017866"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_ADD_TO_DIST_END",
+                    "value": "to the dictionary?",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10017866,
+                    "contentKeyId": 10017936,
+                    "key": "home.navmenu.admin.FILE_LOADS",
+                    "value": "File Loads",
+                    "pages": [
+                        "/homepage/adminHomePage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017866"
+                },
+                {
+                    "assetId": 10021215,
+                    "contentKeyId": 10024393,
+                    "key": "home.header.HELP",
+                    "value": "Help",
+                    "pages": [
+                        "/include/g3ReduxHeader.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021215"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_GB_MENU",
+                    "value": "UK English",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.ADDRESS_HEADER",
+                    "value": "Address",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.EMAIL_HEADER",
+                    "value": "Email Address",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_MENU",
+                    "value": "English",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10016223,
+                    "contentKeyId": 10014193,
+                    "key": "system.button.CONTINUE",
+                    "value": "Continue",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016223"
+                },
+                {
+                    "assetId": 10016223,
+                    "contentKeyId": 10014193,
+                    "key": "system.button.CLOSE",
+                    "value": "Close",
+                    "pages": [
+                        "/include/layouts/g3ReduxBaseLayout.jsp",
+                        "/layouts/globalFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016223"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.BALANCES",
+                    "value": "balances",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.ORG_AND_PROMO",
+                    "value": "Select an Org Unit",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.UNORDERED_LIST",
+                    "value": "Insert Unordered List",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.SUSPENSION_STATUS",
+                    "value": "Suspension Status",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.RESEND_WELCOME_EMAIL",
+                    "value": "Resend Welcome Email",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.SELECT_ORG_UNIT",
+                    "value": "Org Unit For Reporting",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.RULES",
+                    "value": "Rules",
+                    "pages": [
+                        "/layouts/globalFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.LAUNCH_SITE",
+                    "value": "Launch Site",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.USER_ID",
+                    "value": "User ID",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.MORE_OPTIONS_INSTRUCTION",
+                    "value": "Provides the ability to add an eCard, additional recipients and points (if applicable) to your recognition.",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.LOGIN_ID",
+                    "value": "Login ID",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.TYPE",
+                    "value": "Type at least",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.CHANGE_LANGUAGE",
+                    "value": "Change Language",
+                    "pages": [
+                        "/layouts/globalFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.TITLE_OVERVIEW",
+                    "value": "Participant Overview",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.CHARACTERS",
+                    "value": "characters",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10024988,
+                    "contentKeyId": 10027031,
+                    "key": "recognitionSubmit.errors.COMMENT_LIMIT",
+                    "value": "Character limit of 1000 exceeded",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024988"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.MORE_ADDRESSES",
+                    "value": "more addresses",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.COMMUNICATIONS_LOG",
+                    "value": "Communications Log",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.VIEW_MY_REPORTS",
+                    "value": "View My Reports",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PRIMARY_ADDRESS_TYPE",
+                    "value": "Primary Address Type",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PARTICIPANT_STATUS",
+                    "value": "Participant Status",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.RECOG_SENT",
+                    "value": "Your recognition has been sent.",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PARTICIPANT_TERMS_ACCEPT",
+                    "value": "T&Cs Acceptance",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.NO_RESULTS",
+                    "value": "No results",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.ALL_REPORTS",
+                    "value": "All Reports",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.ENROLLMENT_DATE",
+                    "value": "Enrollment Date",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.DISCRETIONARY_AWARD",
+                    "value": "Discretionary Award",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.SECURITY_DETAILS",
+                    "value": "Roles and ACLs",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013681,
+                    "contentKeyId": 10014151,
+                    "key": "participant.myaccount.LAUNCH_AS",
+                    "value": "Launched as",
+                    "pages": [
+                        "/profile/participantProfileView.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013681"
+                },
+                {
+                    "assetId": 10021214,
+                    "contentKeyId": 10024392,
+                    "key": "home.footer.RETURN_NAV",
+                    "value": "Return to main navigation",
+                    "pages": [
+                        "/include/g3ReduxFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021214"
+                },
+                {
+                    "assetId": 10021215,
+                    "contentKeyId": 10024393,
+                    "key": "home.header.LOG_OUT",
+                    "value": "Log Out",
+                    "pages": [
+                        "/include/g3ReduxUserInfo.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021215"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_POST_JSON_ERROR",
+                    "value": "Sorry, there was an error processing the request.",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.INDEX",
+                    "value": "Index",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.EMAIL_ADDRESS",
+                    "value": "Email Address",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10001299,
+                    "contentKeyId": 10001866,
+                    "key": "login.loginpage.LOG_IN",
+                    "value": "Log In",
+                    "pages": [
+                        "/login/loginPage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10001299"
+                },
+                {
+                    "assetId": 10013683,
+                    "contentKeyId": 10014153,
+                    "key": "participant.search.TYPE_ATLEAST_TWO_CHARS",
+                    "value": "Type at least 2 characters.",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013683"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.GENDER",
+                    "value": "Gender",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PROXY_HEADER",
+                    "value": "View Proxies",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PRIMARY",
+                    "value": "Primary",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.HTML_SOURCE_VIEW",
+                    "value": "Show/Hide HTML Source View",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10021215,
+                    "contentKeyId": 10024393,
+                    "key": "home.header.CONTACT_US",
+                    "value": "Contact Us",
+                    "pages": [
+                        "/include/g3ReduxHeader.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021215"
+                },
+                {
+                    "assetId": 10001299,
+                    "contentKeyId": 10001866,
+                    "key": "login.loginpage.INTRO_PARA_ONE",
+                    "value": "Welcome! This is your one-stop shop for all of your program information. Check back often as information changes regularly.",
+                    "pages": [
+                        "/login/loginPage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10001299"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.SEARCH_RESULTS",
+                    "value": "Search Results",
+                    "pages": [
+                        "/homepage/quickSearchResults.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10001299,
+                    "contentKeyId": 10001866,
+                    "key": "login.loginpage.LOGIN_HEADER",
+                    "value": "If you already have an ID and password, log in here.",
+                    "pages": [
+                        "/login/loginPage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10001299"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.WEB_SITE_HEADER",
+                    "value": "Web Site Information",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10016223,
+                    "contentKeyId": 10014193,
+                    "key": "system.button.CANCEL",
+                    "value": "Cancel",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016223"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.DE_DE_MENU",
+                    "value": "German",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10017866,
+                    "contentKeyId": 10017936,
+                    "key": "home.navmenu.admin.SYSTEM_VARIABLES",
+                    "value": "System Variables",
+                    "pages": [
+                        "/homepage/adminHomePage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017866"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.BOLD",
+                    "value": "Bold",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10001299,
+                    "contentKeyId": 10001866,
+                    "key": "login.loginpage.HELP",
+                    "value": "Help",
+                    "pages": [
+                        "/login/loginPage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10001299"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PHONE_NUMBER",
+                    "value": "Telephone Number",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.BANK_ACCOUNT_HEADER",
+                    "value": "Bank Account Information",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_IGNORE_FOREVER",
+                    "value": "Ignore forever",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10016226,
+                    "contentKeyId": 10014196,
+                    "key": "system.common.labels.LOADING",
+                    "value": "Loading...",
+                    "pages": [
+                        "/profile/participantProfileView.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016226"
+                },
+                {
+                    "assetId": 10016231,
+                    "contentKeyId": 10014201,
+                    "key": "system.errors.NOTHING_FOUND",
+                    "value": "Nothing found to display.",
+                    "pages": [
+                        "/homepage/quickSearchResults.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016231"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.NOT_APPLICABLE",
+                    "value": "not applicable",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.QUICKSEARCH_RESULTS_INSTRUCTIONS",
+                    "value": "Please select the correct participant below by clicking on their name.",
+                    "pages": [
+                        "/homepage/quickSearchResults.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.AWARDBANQ_NUMBER",
+                    "value": "Awardbanq Number",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10017866,
+                    "contentKeyId": 10017936,
+                    "key": "home.navmenu.admin.VIEW_PROMO_LIST",
+                    "value": "View Promotion List",
+                    "pages": [
+                        "/homepage/adminHomePage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017866"
+                },
+                {
+                    "assetId": 10021214,
+                    "contentKeyId": 10024392,
+                    "key": "home.footer.RETURN_TOP",
+                    "value": "Return to top of page",
+                    "pages": [
+                        "/include/g3ReduxFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021214"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.UNDERLINE",
+                    "value": "Underline",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.HOME",
+                    "value": "Home",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.REPORTS",
+                    "value": "Reports",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.HIERARCHY_HEADER",
+                    "value": "Org Unit Assignment",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.ITALIC",
+                    "value": "Italic",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10017866,
+                    "contentKeyId": 10017936,
+                    "key": "home.navmenu.admin.VIEW_BUDGET_MASTER_LIST",
+                    "value": "View Budget Master List",
+                    "pages": [
+                        "/homepage/adminHomePage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017866"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.SELECT_PROMO",
+                    "value": "Select a Promotion",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_ADD_TO_DIST",
+                    "value": "Are you sure you want to add the word",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10021215,
+                    "contentKeyId": 10024393,
+                    "key": "home.header.SKIP_CONTENT",
+                    "value": "Skip to content",
+                    "pages": [
+                        "/include/g3ReduxHeader.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021215"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.ABOUT_ME",
+                    "value": "Avatar & About Me",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10016223,
+                    "contentKeyId": 10014193,
+                    "key": "system.button.BACK",
+                    "value": "Back",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016223"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.DATE_OF_BIRTH",
+                    "value": "Date of Birth",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_IGNORE_ALL",
+                    "value": "Ignore all",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.FR_CA_MENU",
+                    "value": "Canadian French",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.SELECT_REPORT",
+                    "value": "Please select a report",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10021215,
+                    "contentKeyId": 10024393,
+                    "key": "home.header.WELCOME",
+                    "value": "Welcome",
+                    "pages": [
+                        "/include/g3ReduxUserInfo.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021215"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.CHARACTERISTIC_HEADER",
+                    "value": "Characteristics",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.ORDERED_LIST",
+                    "value": "Insert Ordered List",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.MORE_OPTIONS",
+                    "value": "Add More",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10013632,
+                    "contentKeyId": 10013441,
+                    "key": "promotion.recognizeSomeone.HEADER",
+                    "value": "Recognize Someone",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013632"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PHONE_HEADER",
+                    "value": "Telephone Number",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10016249,
+                    "contentKeyId": 10014219,
+                    "key": "participant.transactionhistory.TRANSACTION_HISTORY",
+                    "value": "Transaction History",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016249"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.EMPLOYMENT_HEADER",
+                    "value": "Employment Information",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_NO_MISSPELLINGS",
+                    "value": "The spell check is complete.",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.COPYRIGHT_TEXT",
+                    "value": "Copyright ©2016 BI WORLDWIDE™. All rights reserved.",
+                    "pages": [
+                        "/layouts/globalFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PRIMARY_EMAIL_TYPE",
+                    "value": "Primary Email Type",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024988,
+                    "contentKeyId": 10027031,
+                    "key": "recognitionSubmit.errors.COMMENTS_REQUIRED",
+                    "value": "You must enter comments.",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024988"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.NOTE",
+                    "value": "Please complete the following information for the participant. NOTE: If you are also using file loads to maintain participant information, please be sure to update this participant's information there as well.",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.MORE_PHONE",
+                    "value": "more telephone numbers",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.CENTRAX_ID",
+                    "value": "Centrax ID",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PREFERENCES_HEADER",
+                    "value": "Preferences",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024966,
+                    "contentKeyId": 10026209,
+                    "key": "participant.profile.MORE",
+                    "value": "more",
+                    "pages": [
+                        "/profile/participantProfileView.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024966"
+                },
+                {
+                    "assetId": 10001299,
+                    "contentKeyId": 10001866,
+                    "key": "login.loginpage.PASSWORD",
+                    "value": "Password",
+                    "pages": [
+                        "/login/loginPage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10001299"
+                },
+                {
+                    "assetId": 10016226,
+                    "contentKeyId": 10014196,
+                    "key": "system.common.labels.NO",
+                    "value": "No",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016226"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.SPELL_CHECK",
+                    "value": "Check Spelling",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.SSN",
+                    "value": "SSN/SIN",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10017866,
+                    "contentKeyId": 10017936,
+                    "key": "home.navmenu.admin.AUDIENCE",
+                    "value": "Audience Definitions",
+                    "pages": [
+                        "/homepage/adminHomePage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017866"
+                },
+                {
+                    "assetId": 10017858,
+                    "contentKeyId": 10017928,
+                    "key": "home.quicksearch.VALUE",
+                    "value": "Value",
+                    "pages": [
+                        "/homepage/g3ReduxQuickSearch.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017858"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.SECRET_QUESTION",
+                    "value": "Security Question",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10019092,
+                    "contentKeyId": 10019759,
+                    "key": "recognition.select.recipients.SEARCHBY_LAST_NAME",
+                    "value": "Last Name",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019092"
+                },
+                {
+                    "assetId": 10021199,
+                    "contentKeyId": 10024377,
+                    "key": "login.errors.PASSWORD_REQ",
+                    "value": "Password is required.",
+                    "pages": [
+                        "/login/loginPage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021199"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.RECOGNIZE",
+                    "value": "I'd like to recognize:",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_IGNORE_FOREVER_TITLE",
+                    "value": "Ignore word forever (add to dictionary)",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10024983,
+                    "contentKeyId": 10027026,
+                    "key": "recognition.submit.ADVANCED",
+                    "value": "Advanced",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024983"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.THROWDOWN_STATS",
+                    "value": "Throwdown Stats",
+                    "pages": [
+                        "/profile/participantProfileView.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.INSTRUCTION_4",
+                    "value": "Please remove a report before adding more to your My Reports page.",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.INSTRUCTION_3",
+                    "value": "Drag to change the display order of your reports.",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_NOSUGGESTIONS",
+                    "value": "(No suggestions)",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.PRIMARY_PHONE_TYPE",
+                    "value": "Primary Telephone Type",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.INSTRUCTION_2",
+                    "value": "You must save a minimum of one report.",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.INSTRUCTION_1",
+                    "value": "Save up to five of your favorite reports to the My Reports page.",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10021214,
+                    "contentKeyId": 10024392,
+                    "key": "home.footer.COPYRIGHT",
+                    "value": "© 2016 BIW ®",
+                    "pages": [
+                        "/include/g3ReduxFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10021214"
+                },
+                {
+                    "assetId": 10024988,
+                    "contentKeyId": 10027031,
+                    "key": "recognitionSubmit.errors.SELECT_NODE",
+                    "value": "You must select a org unit.",
+                    "pages": [
+                        "/submitrecognition/easy/recognitionModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024988"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.CONTACT_US",
+                    "value": "Contact Us",
+                    "pages": [
+                        "/layouts/globalFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10001299,
+                    "contentKeyId": 10001866,
+                    "key": "login.loginpage.USERNAME",
+                    "value": "Login ID",
+                    "pages": [
+                        "/login/loginPage.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10001299"
+                },
+                {
+                    "assetId": 10019112,
+                    "contentKeyId": 10019779,
+                    "key": "report.dashboard.MANAGE_FAVORITE1",
+                    "value": "Manage My Reports",
+                    "pages": [
+                        "/reports/reportsModule.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10019112"
+                },
+                {
+                    "assetId": 10016227,
+                    "contentKeyId": 10014197,
+                    "key": "system.general.FAQ",
+                    "value": "FAQs",
+                    "pages": [
+                        "/layouts/globalFooter.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10016227"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.ENROLLMENT_SOURCE",
+                    "value": "Enrollment Source",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10013680,
+                    "contentKeyId": 10014150,
+                    "key": "participant.participant.HISTORY",
+                    "value": "history",
+                    "pages": [
+                        "/participant/participantDisplay.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10013680"
+                },
+                {
+                    "assetId": 10024981,
+                    "contentKeyId": 10027024,
+                    "key": "system.richtext.EN_AU_MENU",
+                    "value": "Australian English",
+                    "pages": [
+                        "/layouts/g5BaseLayout.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10024981"
+                },
+                {
+                    "assetId": 10017858,
+                    "contentKeyId": 10017928,
+                    "key": "home.quicksearch.SEARCH_FOR",
+                    "value": "Search For",
+                    "pages": [
+                        "/homepage/g3ReduxQuickSearch.jsp"
+                    ],
+                    "urlPrefix": "http://localhost:7001/g6bb8-cm",
+                    "url": "http://localhost:7001/g6bb8-cm/assetDetail.do?assetId=10017858"
+                }
+            ]
+        };
+    </script>
+
+</body>
+</html>

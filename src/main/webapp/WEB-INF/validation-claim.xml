@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN" 
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+  <formset>
+    <form name="/claimFormMaintainCreate">
+      <field property="formName" depends="required">
+        <arg0 key="claims.form.details.FORM_NAME" />
+      </field>
+      <field property="claimFormModuleType" depends="required">
+        <arg0 key="claims.form.details.MODULE" />
+      </field>
+    </form>
+    <form name="/claimFormMaintainUpdate">
+      <field property="formName" depends="required">
+        <arg0 key="claims.form.details.FORM_NAME" />
+      </field>
+      <field property="claimFormModuleType" depends="required">
+        <arg0 key="claims.form.details.MODULE" />
+      </field>
+    </form>
+    <form name="/claimFormMaintainCopy">
+      <field property="newFormName" depends="required">
+        <arg0 key="claims.form.copy.NEW_FORM_NAME" />
+      </field>
+    </form>
+    <form name="claimFormStepViewForm">
+      <field property="newElementSequenceNum" depends="integer">
+        <arg0 key="claims.form.step.view.REORDER" />
+      </field>
+    </form>
+    <form name="claimFormStepForm" >
+     <field property="name" depends="required">
+       <arg0 key="claims.claimformstep.NAME_REQUIRED_ERROR" />
+     </field>
+   </form>
+    <form name="claimFormStepElementForm">
+      <field property="cmData.elementLabel" depends="required">
+        <arg0 key="claims.form.step.element.LABEL_FIELD" />
+      </field>
+    </form>
+    <form name="claimProductForm" >
+      <field property="quantity" depends="required,long">
+        <arg0 key="claims.product.details.QTY_SOLD" />
+      </field>
+    </form>
+    <form name="payoutTransactionDetailsForm">
+      <field property="actionCode" depends="required">
+        <arg0 key="participant.payout.transaction.detail.ACTION" />
+      </field>
+    </form>
+  </formset>
+</form-validation>

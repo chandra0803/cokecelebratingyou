@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+  <form-beans>
+	<form-bean name="ssiContestGeneralInfoForm" type="com.biperf.core.ui.ssi.SSIContestGeneralInfoForm" />                           <!-- Contest Creation 1st step -->
+	<form-bean name="ssiContestGeneralInfoAwardThemNowForm" type="com.biperf.core.ui.ssi.SSIContestGeneralInfoAwardThemNowForm" />   <!-- ATN Contest Creation 1st step -->
+	<form-bean name="ssiContestPaxManagerSuperViewerForm" type="com.biperf.core.ui.ssi.SSIContestPaxManagerSuperViewerForm" />   <!-- Contest Creation 2nd step -->
+	<form-bean name="ssiContestPayoutObjectivesForm" type="com.biperf.core.ui.ssi.SSIContestPayoutObjectivesForm" />                 <!-- Contest Creation 3rd step Objectives-->
+	<form-bean name="ssiContestPayoutDoThisGetThatForm" type="com.biperf.core.ui.ssi.SSIContestPayoutDoThisGetThatForm" />           <!-- Contest Creation 3rd step DTGT-->
+	<form-bean name="ssiContestPayoutStepItUpForm" type="com.biperf.core.ui.ssi.SSIContestPayoutStepItUpForm" />           	 		 <!-- Contest Creation 3rd step Step It Up-->
+	<form-bean name="ssiContestPayoutStackRankForm" type="com.biperf.core.ui.ssi.SSIContestPayoutStackRankForm" />           	     <!-- Contest Creation 3rd step Stack Rank-->
+	<form-bean name="ssiContestCreatorForm" type="com.biperf.core.ui.ssi.SSIContestCreatorForm" />
+	<form-bean name="ssiContestManagerForm" type="com.biperf.core.ui.ssi.SSIContestManagerForm" />
+	<form-bean name="ssiContestParticipantForm" type="com.biperf.core.ui.ssi.SSIContestParticipantForm" />
+	<form-bean name="ssiContestViewForm" type="com.biperf.core.ui.ssi.SSIContestViewForm" />
+	<form-bean name="ssiContestListForm" type="com.biperf.core.ui.ssi.SSIContestListForm" />
+	<form-bean name="ssiContestUpdateResultsForm" type="com.biperf.core.ui.ssi.SSIContestUpdateResultsForm" />
+	<form-bean name="ssiContestUploadResultsForm" type="com.biperf.core.ui.ssi.SSIContestUploadResultsForm" />
+	<form-bean name="ssiContestApprovalForm" type="com.biperf.core.ui.ssi.SSIContestApprovalForm" />
+	<form-bean name="ssiContestActivityHistoryForm" type="com.biperf.core.ui.ssi.SSIContestActivityHistoryForm" />
+	<form-bean name="ssiContestPayoutAwardThemNowForm" type="com.biperf.core.ui.ssi.SSIContestPayoutAwardThemNowForm" />
+	<form-bean name="ssiContestSummaryAwardThemNowForm" type="com.biperf.core.ui.ssi.SSIContestSummaryAwardThemNowForm" />
+	<form-bean name="ssiContestPayoutsForm" type="com.biperf.core.ui.ssi.SSIContestPayoutsForm" />
+	<form-bean name="ssiContestPayoutHistoryAwardThemNowForm" type="com.biperf.core.ui.ssi.SSIContestPayoutHistoryAwardThemNowForm" />
+	<form-bean name="ssiContestIssuanceApprovalForm" type="com.biperf.core.ui.ssi.SSIContestIssuanceApprovalForm" />
+	<form-bean name="ssiContestApprovalPayoutHistoryAwardThemNowForm" type="com.biperf.core.ui.ssi.SSIContestApprovalPayoutHistoryAwardThemNowForm" />
+	<form-bean name="ssiDataCollecionForm" type="com.biperf.core.ui.ssi.SSIDataCollecionForm" />
+	<form-bean name="ssiContestClaimSubmissionForm" type="com.biperf.core.ui.ssi.SSIContestClaimSubmissionForm" />
+	<form-bean name="ssiContestApproveClaimsForm" type="com.biperf.core.ui.ssi.SSIContestApproveClaimsForm" />
+	<form-bean name="ssiContestClaimDetailForm" type="com.biperf.core.ui.ssi.SSIContestClaimDetailForm" />
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+    <forward name="failure_errors_only" path="errors.only.display" redirect="false"/>
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+	
+	<!-- Contest Creation Related Mappings Starts-->
+    <action path="/createGeneralInfo" name="ssiContestGeneralInfoForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestGeneralInfoAction" scope="request" validate="false">
+	  <forward name="display_general_info" path="ssi.contest.create" redirect="false"/>
+	  <forward name="display_general_info_ssiadmin" path="ssi.contest.create.ssiadmin" redirect="false"/>
+	  <forward name="display_atn_general_info" path="/createGeneralInfoAwardThemNow.do?method=prepareCreate" redirect="false"/>
+	  <forward name="success" path="/creatorContestList.do?method=display" redirect="true"/>    	
+  	</action>
+  	
+  	<action path="/saveGeneralInfo" name="ssiContestGeneralInfoForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIContestGeneralInfoAction" scope="request" validate="true"/>
+			
+	<action path="/createGeneralInfoAwardThemNow" name="ssiContestGeneralInfoAwardThemNowForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestGeneralInfoAwardThemNowAction" scope="request" validate="false">
+	  <forward name="display_general_info" path="ssi.contest.create" redirect="false"/>        	
+  	</action>
+  	
+  	<action path="/saveGeneralInfoAwardThemNow" name="ssiContestGeneralInfoAwardThemNowForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIContestGeneralInfoAwardThemNowAction" scope="request" validate="true"/>		
+	
+	<action path="/displayContestParticipantsInfo" name="ssiContestPaxManagerSuperViewerForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestPaxManagerSuperViewerAction" scope="request" validate="false"/>
+			
+	<action path="/manageContestParticipantsInfo" name="ssiContestPaxManagerSuperViewerForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestPaxManagerSuperViewerAction" scope="request" validate="true"/>
+
+	<action path="/manageContestParticipantsAwardThemNowInfo" name="ssiContestPaxManagerSuperViewerForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestParticipantsAwardThemNowAction" scope="request" validate="true"/>
+			
+	<action path="/displayContestManagersInfo" name="ssiContestPaxManagerSuperViewerForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestPaxManagerSuperViewerAction" scope="request" validate="false"/>		
+			
+	<action path="/manageContestManagersInfo" name="ssiContestPaxManagerSuperViewerForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestPaxManagerSuperViewerAction" scope="request" validate="true"/>	
+
+	<action path="/displayContestSuperViewersInfo" name="ssiContestPaxManagerSuperViewerForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestPaxManagerSuperViewerAction" scope="request" validate="false"/>		
+			
+	<action path="/manageContestSuperViewersInfo" name="ssiContestPaxManagerSuperViewerForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIContestPaxManagerSuperViewerAction" scope="request" validate="true"/>	
+	
+	<action path="/participantSearchAction" name="ssiContestPaxManagerSuperViewerForm" parameter="method"
+			type="com.biperf.core.ui.ssi.SSIParticipantSearchAction" scope="request" />
+			
+	<action path="/manageContestPayoutObjectives" name="ssiContestPayoutObjectivesForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIContestPayoutObjectivesAction" scope="request" validate="true"/>
+			
+	<action path="/manageContestPayoutAwardThemNow" name="ssiContestPayoutAwardThemNowForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIContestPayoutAwardThemNowAction" scope="request" validate="true"/>			
+			
+	<action path="/manageContestPayoutDoThisGetThat" name="ssiContestPayoutDoThisGetThatForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIContestPayoutDoThisGetThatAction" scope="request" validate="true"/>	
+			
+	<action path="/manageContestPayoutStepItUp" name="ssiContestPayoutStepItUpForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIContestPayoutStepItUpAction" scope="request" validate="true"/>
+								
+	<action path="/manageContestPayoutStackRank" name="ssiContestPayoutStackRankForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIContestPayoutStackRankAction" scope="request" validate="true"/>
+			
+	<action path="/createContest" name="ssiContestCreatorForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIContestCreatorAction" scope="request" validate="false"/>
+			
+   	<action path="/displayContestSummaryAwardThemNow" name="ssiContestSummaryAwardThemNowForm" parameter="method" input="ssi.contest.atn.summary"
+			type="com.biperf.core.ui.ssi.SSIContestSummaryAwardThemNowAction" scope="request" validate="false">
+		<forward name="display" path="ssi.contest.atn.summary" redirect="false"/> 		
+	</action>
+	
+	<action path="/displayPayoutHistoryAwardThemNow" name="ssiContestPayoutHistoryAwardThemNowForm" parameter="method" input="ssi.contest.atn.payout.history"
+			type="com.biperf.core.ui.ssi.SSIContestPayoutHistoryAwardThemNowAction" scope="request" validate="false">
+		<forward name="display" path="ssi.contest.atn.payout.history" redirect="false"/> 		
+	</action>
+				
+    <action path="/previewContest" parameter="method" type="com.biperf.core.ui.ssi.SSIContestPreviewAction" scope="request" validate="false"/>	
+    
+    <action path="/dataCollection" name="ssiDataCollecionForm" parameter="method" input="ssi.contest.create"
+			type="com.biperf.core.ui.ssi.SSIDataCollectionAction" scope="request" validate="true"/>		
+						
+	<!--  Contest Creation Related Mappings Ends -->
+	
+	<!-- Contest Participant related mappings starts -->						
+  	<action path="/participantContestList" parameter="method" type="com.biperf.core.ui.ssi.SSIContestParticipantAction" 
+  		scope="request" validate="false" name="ssiContestListForm">
+		<forward name="display" path="ssi.paxContest.list" redirect="false"/> 		
+	</action>
+	
+	<action path="/participantActivityHistory" parameter="method" type="com.biperf.core.ui.ssi.SSIContestParticipantAction" 
+  		scope="request" validate="false" name="ssiContestActivityHistoryForm"/>
+  	
+  	<action path="/participantSubmitClaim" parameter="method" type="com.biperf.core.ui.ssi.SSIContestParticipantAction" 
+  		scope="request" validate="false" name="ssiContestClaimSubmissionForm">
+  		<forward name="display" path="ssi.paxContest.submitClaim" redirect="false"/>
+  	</action>
+  	
+  	<action path="/approveContestClaims" parameter="method" type="com.biperf.core.ui.ssi.SSIContestApproveClaimsAction" 
+  		scope="request" validate="false" name="ssiContestApproveClaimsForm">
+  		<forward name="display" path="ssi.contest.approveClaim" redirect="false"/>
+  		<forward name="success" path="/approveContestClaims.do" redirect="true"/>
+  	</action>
+  	
+  	<action path="/approveClaimDetail" parameter="method" type="com.biperf.core.ui.ssi.SSIContestApproveClaimsAction" 
+  		scope="request" validate="false" name="ssiContestClaimDetailForm">
+  		<forward name="display" path="ssi.contest.approveClaimDetail" redirect="false"/>
+  	</action>
+  	
+  	<action path="/participantSubmitClaimSave" parameter="method" type="com.biperf.core.ui.ssi.SSIContestParticipantAction" 
+  		scope="request" validate="true" name="ssiContestClaimSubmissionForm" input="ssi.paxContest.submitClaim">
+  		<forward name="success" path="/participantContestList.do" redirect="true"/>
+  	</action>
+  	
+  	<action path="/contestClaimDetail" parameter="method" type="com.biperf.core.ui.ssi.SSIContestParticipantAction" 
+  		scope="request" validate="false" name="ssiContestClaimDetailForm">
+  		<forward name="display" path="ssi.contest.viewClaimDetail" redirect="false"/>
+  	</action>
+  		
+	<!-- Contest Participant related mappings ends -->
+	
+	<!-- Contest manager related mappings starts -->
+	<action path="/managerContestList" parameter="method" type="com.biperf.core.ui.ssi.SSIContestManagerAction" 
+  		scope="request" validate="false" name="ssiContestListForm">
+		<forward name="display" path="ssi.managerContest.list" redirect="false"/> 		
+	</action>
+	<!-- Contest manager related mappings ends -->
+	
+	<!-- Contest Creator related mappings starts -->
+	<action path="/creatorContestList" parameter="method" type="com.biperf.core.ui.ssi.SSIContestCreatorAction" 
+  		scope="request" validate="false" name="ssiContestListForm">
+		<forward name="display" path="ssi.creatorContest.list" redirect="false"/>
+	</action>
+	
+	<!-- For Email redirects -->
+	<action path="/creatorContestListRedirect" parameter="method" type="com.biperf.core.ui.ssi.SSIContestCreatorAction" 
+  		scope="request" validate="false" name="ssiContestListForm">
+		<forward name="display" path="ssi.creatorContest.list" redirect="false"/>
+	</action>
+	
+	<!-- For Email redirects -->
+	<action path="/managerContestListRedirect" parameter="method" type="com.biperf.core.ui.ssi.SSIContestManagerAction" 
+  		scope="request" validate="false" name="ssiContestListForm">
+		<forward name="display" path="ssi.managerContest.list" redirect="false"/> 		
+	</action>
+	
+	<!-- For Email redirects -->
+	 <action path="/participantContestListRedirect" parameter="method" type="com.biperf.core.ui.ssi.SSIContestParticipantAction" 
+  		scope="request" validate="false" name="ssiContestListForm">
+		<forward name="display" path="ssi.paxContest.list" redirect="false"/>
+		<forward name="fromReport" path="ssi.paxContest.list.report" redirect="false"/> 		
+	</action>
+	
+	<action path="/contestResults" parameter="method" type="com.biperf.core.ui.ssi.SSIContestUpdateResultsAction" 
+  		scope="request" validate="false" input="ssi.creatorContest.updateResults" name="ssiContestUpdateResultsForm">
+		<forward name="display" path="ssi.creatorContest.updateResults" redirect="false"/>
+		<forward name="saved" path="/creatorContestList.do" redirect="false"/>
+		<forward name="success" path="/creatorContestList.do" redirect="true"/>
+	</action>
+	
+	<action path="/contestPayouts" parameter="method" type="com.biperf.core.ui.ssi.SSIContestCreatorAction" 
+		scope="request" validate="false" name="ssiContestPayoutsForm">
+		<forward name="display" path="ssi.creatorContest.approvePayouts" redirect="false"/>
+		<!-- <forward name="issuedAwards" path="/creatorContestList.do" redirect="false"/>  -->
+		<forward name="issuedAwards" path="/displayContestSummaryAwardThemNow.do" redirect="false"/>
+	</action>
+	
+
+	<action path="/uploadContestResults" parameter="method" type="com.biperf.core.ui.ssi.SSIContestUpdateResultsAction" 
+  		scope="request" validate="false" input="ssi.creatorContest.updateResults" name="ssiContestUploadResultsForm">
+		<forward name="display" path="ssi.creatorContest.updateResults" redirect="false"/>
+		<forward name="saved" path="/creatorContestList.do" redirect="false"/>		
+	</action>
+
+	<!-- Contest Creator related mappings ends -->
+	
+	<!-- Contest Approval Mappings Start -->
+	<action path="/loadSSIContestApprovalSummary" name="ssiContestApprovalForm" parameter="method" input="ssi.contest.load.approval"
+			type="com.biperf.core.ui.ssi.SSIContestApprovalAction" scope="request" validate="true">
+			<forward name="display" path="ssi.contest.load.approval" redirect="false"/>        	
+	</action>		
+	
+	<action path="/loadSSIContestIssuanceApprovalSummary" name="ssiContestIssuanceApprovalForm" parameter="method" input="ssi.contest.load.issuance.approval"
+			type="com.biperf.core.ui.ssi.SSIContestIssuanceApprovalAction" scope="request" validate="false">
+			<forward name="display" path="ssi.contest.load.issuance.approval" redirect="false"/>        	
+	</action>	
+
+	<action path="/loadSSIContestApprovalDetail" name="ssiContestApprovalForm" parameter="method" 
+			type="com.biperf.core.ui.ssi.SSIContestApprovalAction" scope="request" validate="false"/>
+			
+	<action path="/manageSSIContestApprovalSummary" name="ssiContestApprovalForm" parameter="method" input="ssi.contest.load.approval"
+			type="com.biperf.core.ui.ssi.SSIContestApprovalAction" scope="request" validate="true">
+		<forward name="success" path="../claim/approvalsListPage.do" redirect="true"/>
+	</action>			
+	<!-- Contest Approval Mappings End -->
+	
+	<action path="/contestDownloadAction" parameter="method" type="com.biperf.core.ui.ssi.SSIContestDownloadAction" 
+		scope="request" validate="false"/>
+		
+	<action path="/contestDetailsExportAction" parameter="method" type="com.biperf.core.ui.ssi.SSIContestDetailsExportAction" 
+		scope="request" validate="false"/>	
+	
+	<action path="/contestProgressLoadAction" parameter="method" type="com.biperf.core.ui.ssi.SSIContestProgressLoadAction" 
+		scope="request" validate="false"/>
+	
+	<action path="/contestPayoutsDownloadAction" parameter="method" type="com.biperf.core.ui.ssi.SSIContestPayoutsDownloadAction" 
+		scope="request" validate="false"/>
+
+	<action path="/contestClaimsExtract" parameter="method" type="com.biperf.core.ui.ssi.ContestClaimsExtractAction" 
+		scope="request" validate="false"/>
+		
+  </action-mappings>
+
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+     processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" tempDir="@FILE_UPLOAD_TEMP_DIR@" 
+     multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+    factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+      value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-ssi.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

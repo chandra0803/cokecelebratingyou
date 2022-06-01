@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Proxy Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+  <!-- g3 redux -->
+  <definition name="account.proxy.list" extends="g3redux.default" 
+  			  controllerClass="com.biperf.core.ui.proxy.ProxyListController">
+    <put name="pagelayout" value="pagelayout1" />
+    <put name="containerclass" value="prettytop" />           
+    <put name="navselected" value="home.nav.ACCOUNT" />	
+    <put name="subnav" value="participant.account.subnav" />
+    <put name="subNavSelected" value="proxy" />
+    <put name="content" value="/proxy/g3ReduxProxyList.jsp" />
+    <put name='trackingTitle' value='Account_Proxy_List'/>
+  </definition>
+   <!-- g3 redux end -->
+  
+  <definition name="proxy.detail" extends="beacon.default" controllerClass="com.biperf.core.ui.proxy.ProxyDetailController">
+    <put name="content" value="/proxy/proxyDetail.jsp" />
+    <put name='trackingTitle' value='Proxy_Detail'/>
+  </definition>
+   
+  <definition name="pax.ajax.participantsearch" path="/participant/participantSearchAjax.jsp"/>
+  <definition name="pax.ajax.participantsearch.nodes" path="/participant/participantSearchAjaxNodes.jsp"/>
+  <definition name="pax.ajax.participantsearch.picklist.items" path="/participant/participantSearchAjaxPickListItems.jsp"/>
+
+</tiles-definitions>

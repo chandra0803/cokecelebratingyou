@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- Recognition Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.RecognitionPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_RECOGNITION" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+
+  <property name="awardActive" type="boolean" column="AWARD_ACTIVE" not-null="true"/>
+  <property name="awardAmountTypeFixed" type="boolean" column="AWARD_AMOUNT_TYPE_FIXED" not-null="true"/>
+  <property name="awardAmountFixed" type="java.lang.Long" column="AWARD_AMOUNT_FIXED"/>
+  <property name="awardAmountMin" type="java.lang.Long" column="AWARD_AMOUNT_MIN"/>
+  <property name="awardAmountMax" type="java.lang.Long" column="AWARD_AMOUNT_MAX"/>
+  <property name="behaviorActive" type="boolean" column="BEHAVIOR_ACTIVE" not-null="true"/>
+  <property name="fileloadBudgetAmount" type="boolean" column="FILELOAD_BUDGET_AMOUNT" not-null="true"/>
+  <property name="cardActive" type="boolean" column="CARD_ACTIVE" not-null="true"/>
+  <property name="cardClientEmailAddress" type="java.lang.String" column="CARD_CLIENT_EMAIL"/>
+  <property name="cardClientSetupDone" type="boolean" column="CARD_CLIENT_SETUP_DONE" not-null="true"/>
+  <property name="includeCertificate" type="boolean" column="INCLUDE_CERTIFICATE" not-null="true"/>
+  <property name="copyRecipientManager" type="boolean" column="COPY_RECIPIENT_MANAGER" not-null="true"/>
+  <property name="copyOthers" type="boolean" column="IS_COPY_OTHERS" not-null="true"/>
+  <property name="allowManagerAward" type="boolean" column="ALLOW_MANAGER_AWARD" not-null="true" />
+  <property name="mgrAwardPromotionId" type="java.lang.Long" column="MGR_AWARD_PROMOTION_ID"/>
+  <property name="apqConversion" type="boolean" column="APQ_CONVERSION" not-null="true"/>
+  <property name="awardStructure" type="java.lang.String" column="AWARD_STRUCTURE"/>
+  <property name="noNotification" type="boolean" column="NO_NOTIFICATION"/>
+  <property name="featuredAwardsEnabled" type="boolean" column="FEATURED_AWARDS_ENABLED"/>  
+  <property name="openEnrollmentEnabled" type="boolean" column="IS_OPEN_ENROLLMENT_ENABLED"/>
+  <property name="selfRecognitionEnabled" type="boolean" column="IS_SELF_RECOGNITION_ENABLED"/>
+  <property name="budgetSweepEnabled" type="boolean" column="IS_BUDGET_SWEEP_ENABLED"/>
+  <property name="showInBudgetTracker" type="boolean" column="IS_SHOW_IN_BUDGET_TRACKER"/>
+  <property name="includePurl" type="boolean" column="IS_INCLUDE_PURL" not-null="true"/>
+  <property name="displayPurlInPurlTile" type="boolean" column="DISPLAY_PURL_IN_PURL_TILE" not-null="true"/>
+  <property name="allowPublicRecognition" type="boolean" column="ALLOW_PUBLIC_RECOGNITION" not-null="true"/>
+  <property name="allowPromotionPrivate" type="boolean" column="ALLOW_PROMOTION_PRIVATE" not-null="true"/>
+  <property name="allowYourOwnCard" type="boolean" column="ALLOW_YOUR_OWN_CARD" not-null="true"/>
+  <property name="drawYourOwnCard" type="boolean" column="DRAW_YOUR_OWN_CARD" not-null="true"/>
+  <property name="allowRecognitionSendDate" type="boolean" column="IS_SET_RECOGNITION_DATE" not-null="true"/>
+  <property name="publicRecogAwardAmountMin" type="java.lang.Long" column="PUBLIC_REC_AWARD_AMOUNT_MIN"/>
+  <property name="publicRecogAwardAmountMax" type="java.lang.Long" column="PUBLIC_REC_AWARD_AMOUNT_MAX"/>
+  <property name="allowPublicRecognitionPoints" type="boolean" column="ALLOW_PUBLIC_RECOG_POINTS" not-null="true"/>
+  <property name="publicRecogAwardAmountTypeFixed" type="boolean" column="PUBLIC_REC_AWARD_TYPE_FIXED" not-null="true"/>
+  <property name="publicRecogAwardAmountFixed" type="java.lang.Long" column="PUBLIC_REC_AWARD_AMOUNT_FIXED"/>
+  <property name="maxDaysDelayed" type="java.lang.Long" column="MAX_DAYS_DELAYED"/>
+  <property name="behaviorRequired" type="boolean" column="IS_BEHAVIOR_REQUIRED"/>
+  <property name="mobAppEnabled" type="boolean" column="IS_MOB_APP_ENABLED"/>
+  
+  <property name="purlStandardMessageEnabled" type="boolean" column="IS_PURL_STANDARD_MESSAGE"/>
+  <property name="purlStandardMessage" type="java.lang.String" column="PURL_STANDARD_MESSAGE"/>
+  <property name="defaultContributorAvatar" type="java.lang.String" column="DEFAULT_CONTRIBUTOR_AVATAR"/>
+  <property name="defaultContributorName" type="java.lang.String" column="DEFAULT_CONTRIBUTOR_NAME"/>
+  <property name="contentResourceCMCode" type="java.lang.String" column="CONTENT_RESOURCE"/>
+  
+  <property name="includeCelebrations" type="boolean" column="INCLUDE_CELEBRATIONS"/>
+  <property name="celebrationDisplayPeriod" type="java.lang.Long" column="CELEBRATION_DISPLAY_PERIOD"/>
+  <property name="allowOwnerMessage" type="boolean" column="ALLOW_OWNER_MESSAGE"/>
+   <property name="allowDefaultMessage" type="boolean" column="ALLOW_DEFAULT_MESSAGE"/>
+  <property name="defaultMessage" type="java.lang.String" column="DEFAULT_MESSAGE"/>
+  <property name="defaultCelebrationAvatar" type="java.lang.String" column="DEFAULT_CELEBRATION_AVATAR"/>
+  <property name="defaultCelebrationName" type="java.lang.String" column="DEFAULT_CELEBRATION_NAME"/>
+  <property name="yearTileEnabled" type="boolean" column="YEAR_TILE_ENABLED"/>
+  <property name="timelineTileEnabled" type="boolean" column="TIMELINE_TILE_ENABLED"/>
+  <property name="videoTileEnabled" type="boolean" column="VIDEO_TILE_ENABLED"/>
+  <property name="shareToMedia" type="boolean" column="SHARE_TO_MEADIA"/>
+  <property name="serviceAnniversary" type="boolean" column="SERVICE_ANNIVERSARY"/>
+  <property name="anniversaryInYears" type="java.lang.Boolean" column="ANNIVERSARY_IN_YEARS"/>
+  <property name="fillerImg1AwardNumberEnabled" type="boolean" column="FILLER_IMG_1_AWARD_NUM_ENABLED"/>
+  <property name="fillerImg2AwardNumberEnabled" type="boolean" column="FILLER_IMG_2_AWARD_NUM_ENABLED"/>
+  <property name="fillerImg3AwardNumberEnabled" type="boolean" column="FILLER_IMG_3_AWARD_NUM_ENABLED"/>
+  <property name="fillerImg4AwardNumberEnabled" type="boolean" column="FILLER_IMG_4_AWARD_NUM_ENABLED"/>
+  <property name="fillerImg5AwardNumberEnabled" type="boolean" column="FILLER_IMG_5_AWARD_NUM_ENABLED"/>
+  <property name="paxDisplayOrder" type="java.lang.String" column="PAX_DISPLAY_ORDER"/>
+  <property name="cheersPromotion" type="boolean" column="ADIH_IS_CHEERS" /> 
+  <property name="allowMeme" type="boolean" column="ADIH_ALLOW_MEME"/>
+  <property name="allowSticker" type="boolean" column="ADIH_ALLOW_STICKER"/>
+  <property name="allowUploadOwnMeme" type="boolean" column="ADIH_UPLOAD_OWN_MEME"/>
+            
+  <property name="videoPath" column="VIDEO_PATH">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PromotionCelebrationsVideoType</param>
+     </type>
+  </property>
+  
+   <property name="celebrationFillerImage1" column="CELEBRATION_FILLER_IMAGE_1">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PromotionCelebrationsImageType</param>
+     </type>
+  </property>
+  
+   <property name="celebrationFillerImage2" column="CELEBRATION_FILLER_IMAGE_2">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PromotionCelebrationsImageType</param>
+     </type>
+  </property>
+  
+   <property name="celebrationFillerImage3" column="CELEBRATION_FILLER_IMAGE_3">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PromotionCelebrationsImageType</param>
+     </type>
+  </property>
+  
+   <property name="celebrationFillerImage4" column="CELEBRATION_FILLER_IMAGE_4">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PromotionCelebrationsImageType</param>
+     </type>
+  </property>
+  
+   <property name="celebrationFillerImage5" column="CELEBRATION_FILLER_IMAGE_5">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PromotionCelebrationsImageType</param>
+     </type>
+  </property>
+  
+  <property name="celebrationGenericEcard" column="CELEBRATION_GENERIC_ECARD">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PromotionCelebrationGenericEcardsType</param>
+     </type>
+  </property>
+  
+  <many-to-one name="publicRecogBudgetMaster" class="com.biperf.core.domain.budget.BudgetMaster" cascade="none" not-null="false" lazy="false">
+     <column name="PUBLIC_REC_BUDGET_MASTER_ID" />
+  </many-to-one>
+  
+  <property name="publicRecognitionAudienceType" column="PUBLIC_REC_AUDIENCE_TYPE">
+	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+	  <param name="lookupClass">com.biperf.core.domain.enums.PublicRecognitionAudienceType</param>
+	</type>
+ </property>  
+  
+  <property name="purlPromotionMediaType" column="PURL_MEDIA_TYPE">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PurlPromotionMediaType</param>
+     </type>
+  </property>
+  
+  <property name="purlMediaValue" column="PURL_MEDIA_VALUE">
+     <type name="com.biperf.core.utils.hibernate.PickListUserType">
+       <param name="lookupClass">com.biperf.core.domain.enums.PurlPromotionMediaValue</param>
+     </type>
+  </property>
+  
+  <set name="promotionECard" table="PROMO_CARD" lazy="true" inverse="true" cascade="all-delete-orphan" where="CARD_TYPE='ECARD'">
+  <!-- <set name="promotionECard" table="PROMO_CARD" lazy="true" inverse="true" cascade="all-delete-orphan">-->
+  	<cache usage="nonstrict-read-write"/>
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionECard"/>
+  </set>
+  
+  <set name="promotionCertificates" table="PROMO_CERTIFICATES" lazy="true" inverse="true" cascade="all-delete-orphan">
+  	<cache usage="nonstrict-read-write"/>
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionCert"/>
+  </set>
+
+  <set name="promotionBehaviors" lazy="true" table="PROMO_BEHAVIOR" cascade="all-delete-orphan">
+  	<cache usage="nonstrict-read-write"/>
+    <key column="promotion_id"/>
+    <composite-element class="com.biperf.core.domain.promotion.PromotionBehavior">
+      <parent name="promotion" />
+      <property name="promotionBehaviorType" column="behavior_type">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PromoRecognitionBehaviorType</param>
+        </type>
+      </property>
+      <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        <column name="DATE_CREATED"/>
+        <column name="CREATED_BY"/>
+      </property>
+    </composite-element>
+  </set>
+
+  <set name="homePageItems" lazy="false" table="PROMO_HOME_PAGE_ITEM" cascade="all-delete-orphan">
+  	<cache usage="nonstrict-read-write"/>
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.HomePageItem" />
+  </set>
+  
+  <set name="promotionPublicRecognitionAudiences" table="PROMO_AUDIENCE" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='PUBLIC_RECOGNITION'">
+  	<cache usage="nonstrict-read-write"/>
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionPublicRecognitionAudience"/>
+  </set>
+  
+   <set name="promotionBudgetSweeps" table="PROMO_BUDGET_SWEEP" inverse="true" lazy="false" cascade="all-delete-orphan">
+	<key column="PROMOTION_ID" not-null="true"/>
+	<one-to-many class="com.biperf.core.domain.budget.PromotionBudgetSweep"/>
+   </set>  
+  
+</joined-subclass>
+
+<sql-query name="com.biperf.core.domain.promotion.RecognitionsSubmittedForPromotion">
+    <return-scalar column="count" type="long"/>
+    <![CDATA[
+    	select count(*) count
+          from claim c, promotion p 
+          where c.promotion_id=:promotionId
+          and p.promotion_id = c.promotion_Id
+          and p.promotion_type = 'recognition'   
+    ]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.promotion.RecognitionPromotion.processParameterValueChoices.allLiveRecMerchLevelPromotions">
+		<![CDATA[
+      select distinct new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+           from com.biperf.core.domain.promotion.Promotion promotion
+            where promotion.promotionStatus= 'live' and promotion.deleted = 0          
+            and promotion.promotionType = 'recognition' and promotion.awardType = 'merchandise' and promotion.id in
+             (select recPromo.id from  com.biperf.core.domain.promotion.RecognitionPromotion recPromo
+                  where recPromo.awardStructure ='level')
+    ]]>
+	</query>
+	
+  <query name="com.biperf.core.domain.promotion.RecognitionPromotion.processParameterValueChoices.allLiveRecPurlFileLoadPromotions">
+	<![CDATA[
+      	select distinct new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from com.biperf.core.domain.promotion.Promotion promotion
+        where promotion.promotionStatus = 'live' and promotion.deleted = 0          
+            and promotion.promotionType = 'recognition' and promotion.fileLoadEntry = java.lang.Boolean.TRUE and promotion.id in
+              (	select recPromo.id from com.biperf.core.domain.promotion.RecognitionPromotion recPromo
+                where recPromo.includePurl = java.lang.Boolean.TRUE)
+   	]]>
+  </query>
+  
+   <query name="com.biperf.core.domain.promotion.RecognitionPromotion.awardGenPromotion.allLiveRecNonPurlFileLoadPromotions">
+	<![CDATA[
+	    select distinct new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from com.biperf.core.domain.promotion.Promotion promotion
+        where promotion.promotionStatus = 'live' and promotion.deleted = 0          
+            and promotion.promotionType = 'recognition' and promotion.fileLoadEntry = java.lang.Boolean.TRUE and promotion.id in
+              (	select recPromo.id from com.biperf.core.domain.promotion.RecognitionPromotion recPromo
+                where recPromo.includePurl = java.lang.Boolean.FALSE)
+        order by promotion.promotionName asc
+   	]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.promotion.CelebrationImageFillersForPromotion">
+    <return-scalar column="image_1_number_enabled" type="boolean"/>
+    <return-scalar column="image_1_name" type="string"/>
+    <return-scalar column="image_2_number_enabled" type="boolean"/>
+    <return-scalar column="image_2_name" type="string"/>
+    <return-scalar column="image_3_number_enabled" type="boolean"/>
+    <return-scalar column="image_3_name" type="string"/>
+    <return-scalar column="image_4_number_enabled" type="boolean"/>
+    <return-scalar column="image_4_name" type="string"/>
+    <return-scalar column="image_5_number_enabled" type="boolean"/>
+    <return-scalar column="image_5_name" type="string"/>
+    <![CDATA[
+		select pr.filler_img_1_award_num_enabled as image_1_number_enabled, 
+			   pr.celebration_filler_image_1 as image_1_name, 
+			   pr.filler_img_2_award_num_enabled as image_2_number_enabled,
+			   pr.celebration_filler_image_2 as image_2_name , 
+			   pr.filler_img_3_award_num_enabled as image_3_number_enabled,
+			   pr.celebration_filler_image_3 as image_3_name, 
+			   pr.filler_img_4_award_num_enabled as image_4_number_enabled, 
+			   pr.celebration_filler_image_4 as image_4_name, 
+			   pr.filler_img_5_award_num_enabled as image_5_number_enabled, 
+			   pr.celebration_filler_image_5 as image_5_name  
+		from promo_recognition pr
+		where pr.promotion_id = :promotionId
+    ]]>
+  </sql-query>
+	
+  <sql-query name="com.biperf.core.domain.promotion.select_is_self_recognition_enabled">   
+  <return-scalar column="result" type="integer" />
+    <![CDATA[
+		select pr.IS_SELF_RECOGNITION_ENABLED as result
+		from promo_recognition pr
+		where pr.promotion_id = :promotionId
+    ]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.promotion.RecognitionPromotion.processParameterValueChoices.allLiveCompletedAndUnderConstructionPromotionsWithPurl">
+    <![CDATA[
+      select distinct new com.biperf.core.value.FormattedValueBean(recogPromotion.id, recogPromotion.promotionName)
+      from com.biperf.core.domain.promotion.RecognitionPromotion recogPromotion
+      where ( recogPromotion.promotionStatus= 'live' or recogPromotion.promotionStatus= 'complete' or recogPromotion.promotionStatus= 'under_construction' )   
+        and recogPromotion.includePurl=true and recogPromotion.promotionType = 'recognition' 
+      order by recogPromotion.promotionName 
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.promotion.RecognitionPromotion.processParameterValueChoices.allNonExpiredPromotions">
+    <![CDATA[
+      select distinct new com.biperf.core.value.FormattedValueBean(recogPromotion.id, recogPromotion.promotionName)
+      from com.biperf.core.domain.promotion.RecognitionPromotion recogPromotion
+      where recogPromotion.promotionType = 'recognition'
+      and recogPromotion.promotionStatus != 'expired'
+      order by recogPromotion.promotionName
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.promotion.RecognitionPromotion.processParameterValueChoices.allNonExpiredCelebrationPromotions">
+    <![CDATA[
+      select distinct new com.biperf.core.value.FormattedValueBean(recogPromotion.id, recogPromotion.promotionName)
+      from com.biperf.core.domain.promotion.RecognitionPromotion recogPromotion
+      where recogPromotion.promotionType = 'recognition'
+      and recogPromotion.promotionStatus != 'expired'
+      and recogPromotion.includeCelebrations = java.lang.Boolean.TRUE
+      order by recogPromotion.promotionName
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.promotion.RecognitionPromotion.processParameterValueChoices.allNonExpiredMerchandisePromotions">
+    <![CDATA[
+      select distinct new com.biperf.core.value.FormattedValueBean(recogPromotion.id, recogPromotion.promotionName)
+      from com.biperf.core.domain.promotion.RecognitionPromotion recogPromotion
+      where recogPromotion.promotionType = 'recognition'
+      and recogPromotion.promotionStatus != 'expired'
+      and recogPromotion.awardType = com.biperf.core.domain.enums.PromotionAwardsType.MERCHANDISE
+      order by recogPromotion.promotionName
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.promotion.RecognitionPromotion.processParameterValueChoices.allNonExpiredWithBudget">
+    <![CDATA[
+      select distinct new com.biperf.core.value.FormattedValueBean(recogPromotion.id, recogPromotion.promotionName)
+      from com.biperf.core.domain.promotion.RecognitionPromotion recogPromotion
+      where recogPromotion.promotionType = 'recognition'
+      and recogPromotion.promotionStatus != 'expired'
+      and recogPromotion.budgetMaster IS NOT NULL
+      order by recogPromotion.promotionName
+    ]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.promotion.RecognitionPromotion.getNotMigratedPromRecogAvatarData">
+	<return-scalar column="promotionId" type="long"/> 
+	<return-scalar column="defaultContributorAvatar" type="string"/>
+	<return-scalar column="defaultCelebrationAvatar" type="string"/>
+		<![CDATA[
+			SELECT PROMOTION_ID promotionId, DEFAULT_CONTRIBUTOR_AVATAR defaultContributorAvatar, DEFAULT_CELEBRATION_AVATAR defaultCelebrationAvatar from PROMO_RECOGNITION WHERE ( DEFAULT_CONTRIBUTOR_AVATAR NOT LIKE '%biw.cloud/v1%' AND DEFAULT_CONTRIBUTOR_AVATAR IS NOT NULL ) OR ( DEFAULT_CELEBRATION_AVATAR NOT LIKE '%biw.cloud/v1%' AND DEFAULT_CELEBRATION_AVATAR IS NOT NULL ) 
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getNotMigratedPromRecogPictureData">
+		<return-scalar column="promotionId" type="long"/> 
+		<return-scalar column="contentResource" type="string"/>
+			<![CDATA[SELECT PROMOTION_ID promotionId,CONTENT_RESOURCE contentResource FROM PROMO_RECOGNITION WHERE IS_CONT_RES_MIGRATED = 0 AND CONTENT_RESOURCE IS NOT NULL]]>
+	</sql-query>
+
+	
+</hibernate-mapping>

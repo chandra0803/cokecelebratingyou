@@ -1,0 +1,58 @@
+CREATE TABLE country
+   (country_id                NUMBER(12) NOT NULL,
+    country_code              VARCHAR2(30) NOT NULL,
+    cm_asset_code             VARCHAR2(80),
+    NAME_CM_KEY                    VARCHAR2(40),
+    awardbanq_country_abbrev  VARCHAR2(3),
+    address_method            VARCHAR2(30) NOT NULL,
+    supplier_id               NUMBER(12),
+    campaign_nbr              VARCHAR2(30),
+    campaign_code             VARCHAR2(40),
+    campaign_password         VARCHAR2(100),
+    program_id                VARCHAR2(30),
+    program_password          VARCHAR2(100),
+    status                    VARCHAR2(30) NOT NULL,
+    date_status               DATE,
+    shopping_banner_url		  VARCHAR2(1000),
+    allow_sms				  NUMBER(1,0) DEFAULT 0 NOT NULL,    
+    display_travel_award      NUMBER(1,0) DEFAULT 0 NOT NULL,
+    support_email_addr        VARCHAR2(75),
+    created_by number(18) NOT NULL,
+    date_created              DATE NOT NULL,
+    modified_by number(18),
+    date_modified             DATE,
+    version                   NUMBER(18) NOT NULL,
+    phone_country_code        VARCHAR2(10),
+    timezone_id				  VARCHAR2(100) NOT NULL,
+    budget_media_value		  NUMBER(12,4),
+    currency_code			  VARCHAR2(3)
+    )
+/
+
+ALTER TABLE country
+ADD CONSTRAINT country_pk PRIMARY KEY (country_id)
+USING INDEX
+/
+ALTER TABLE country
+ADD CONSTRAINT country_code_uk UNIQUE (country_code)
+USING INDEX
+/
+ALTER TABLE COUNTRY ADD
+(  
+  require_postalcode NUMBER(1) DEFAULT 1 NOT NULL
+)
+/
+COMMENT ON COLUMN country.country_code IS 'Two character ISO code/representation of Country'
+/
+COMMENT ON COLUMN country.awardbanq_country_abbrev IS 'Three letter country code used by awardbaq'
+/
+COMMENT ON COLUMN country.address_method IS 'to drive the address capture for INTL and NA ( US,MX,CN)'
+/
+COMMENT ON COLUMN country.support_email_addr IS 'Country specific support mailbox email address'
+/
+COMMENT ON COLUMN country.phone_country_code IS 'Country specific ISO Dialing Code'
+/
+COMMENT ON COLUMN country.budget_media_value IS 'Country specific media value in USD'
+/
+create sequence country_pk_sq start with 6000 
+/

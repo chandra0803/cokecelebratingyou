@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.promotion.SurveyQuestion" table="SURVEY_QUESTION">
+
+    <id name="id" type="java.lang.Long" column="SURVEY_QUESTION_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">SURVEY_QUESTION_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <many-to-one name="survey" class="com.biperf.core.domain.promotion.Survey" lazy="false" insert="false" update="false" not-null="true" column="SURVEY_ID"/>
+
+    <property name="statusType" column="STATUS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.SurveyQuestionStatusType</param>
+      </type>
+    </property>
+
+	<property name="cmAssetName" type="java.lang.String" column="CM_ASSET_NAME"/>
+	<property name="sequenceNum" type="int" column="SEQUENCE_NUM" insert="false" update="false"/>
+	
+	<property name="responseType" column="RESPONSE_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.SurveyResponseType</param>
+      </type>
+    </property>
+	
+	<property name="openEndedRequired" type="boolean" column="IS_OPEN_ENDED_REQUIRED" />
+	<property name="startSelectionLabel" type="java.lang.String" column="START_SELECTION_LABEL"/>
+	<property name="endSelectionLabel" type="java.lang.String" column="END_SELECTION_LABEL"/>
+	<property name="startSelectionValue" type="java.lang.Long" column="START_SELECTION_VALUE"/>
+	<property name="endSelectionValue" type="java.lang.Long" column="END_SELECTION_VALUE"/>
+	<property name="precisionValue" type="java.math.BigDecimal" column="PRECISION_VALUE"/>
+	
+    <list name="surveyQuestionResponses" table="SURVEY_QUESTION_RESPONSE" inverse="false" lazy="extra" cascade="all-delete-orphan, merge">
+      <key column="SURVEY_QUESTION_ID" not-null="true"/>
+      <list-index column="sequence_num"/>
+      <one-to-many class="com.biperf.core.domain.promotion.SurveyQuestionResponse"/>
+    </list> 
+
+  </class>
+
+</hibernate-mapping>

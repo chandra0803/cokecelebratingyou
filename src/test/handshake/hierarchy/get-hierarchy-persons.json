@@ -1,0 +1,46 @@
+{
+  "description": "Get the people in a hierarchy",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "hierarchyId": "00000000-0000-0000-0000-000000001389"
+  },
+  "steps": [
+    {
+      "id": "getHierarchyPersons",
+      "description": "GET /hierarchies/{hierarchyId}/persons",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies/${ref:params.hierarchyId}/persons",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getHierarchyPersons.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getHierarchyPersons.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:getHierarchyPersons.res.body.persons}",
+          "compare": "to.not.be.empty"
+        },
+        {
+          "a": "${ref:getHierarchyPersons.res.body.persons}",
+          "compare": "to.containSubset",
+          "b": [ { "givenName": "Angel" }, { "surname": "Daniels" } ]
+        }
+      ]
+    }
+  ]
+}

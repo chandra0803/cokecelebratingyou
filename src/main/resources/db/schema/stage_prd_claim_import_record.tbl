@@ -1,0 +1,27 @@
+CREATE TABLE stage_prd_claim_import_record
+    (import_record_id              NUMBER(18,0),
+    import_file_id                 NUMBER(18,0),
+    record_type                    VARCHAR2(30),
+    header_record_id               NUMBER(18,0),
+    user_name                      VARCHAR2(40),
+    node_name                      VARCHAR2(40),
+    form_element_name              VARCHAR2(40),
+    form_element_value             VARCHAR2(4000),
+    product_name                   VARCHAR2(40),
+    quantity                       NUMBER(18,0),
+    characteristic_name1           VARCHAR2(40),
+    characteristic_value1          VARCHAR2(2000),
+    characteristic_name2           VARCHAR2(40),
+    characteristic_value2          VARCHAR2(2000),
+    characteristic_name3           VARCHAR2(40),
+    characteristic_value3          VARCHAR2(2000),
+    characteristic_name4           VARCHAR2(40),
+    characteristic_value4          VARCHAR2(2000),
+    characteristic_name5           VARCHAR2(40),
+    characteristic_value5          VARCHAR2(2000),
+    created_by                     NUMBER(18,0) NOT NULL,
+    date_created                   DATE NOT NULL)
+/
+ALTER TABLE STAGE_PRD_CLAIM_IMPORT_RECORD
+MODIFY PRODUCT_NAME VARCHAR2(70)
+/

@@ -1,0 +1,25 @@
+CREATE SEQUENCE td_div_payout_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE THROWDOWN_DIVISION_PAYOUT
+(
+ division_payout_id NUMBER(18,0) NOT NULL,
+ division_id        NUMBER(18,0) NOT NULL,
+ outcome_type    	VARCHAR2(80) NOT NULL,
+ POINTS				NUMBER(6) NOT NULL,
+ PICK_POINTS		NUMBER(6) NOT NULL,
+ created_by 	    number(18) NOT NULL,
+ date_created       DATE NOT NULL,
+ modified_by 	    number(18),
+ date_modified      DATE,
+ version            NUMBER(18,0) NOT NULL
+)
+/
+ALTER TABLE THROWDOWN_DIVISION_PAYOUT
+ADD CONSTRAINT div_payout_pk PRIMARY KEY (division_payout_id)
+USING INDEX
+/
+ALTER TABLE THROWDOWN_DIVISION_PAYOUT ADD CONSTRAINT THROWDOWN_DIV_PAYOUT_fk
+  FOREIGN KEY (division_id) REFERENCES THROWDOWN_DIVISION (division_id)
+/
+ALTER TABLE THROWDOWN_DIVISION_PAYOUT ADD CONSTRAINT div_payout_unq UNIQUE (division_id, outcome_type)
+/

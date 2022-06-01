@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.process.Process" table="PROCESS">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PROCESS_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PROCESS_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		
+		<property name="name" type="java.lang.String" column="PROCESS_NAME" />
+		<property name="processLastExecutedDate" type="java.util.Date" column="PROCESS_LAST_EXECUTED_DATE" />
+		<property name="processBeanName" type="java.lang.String" column="PROCESS_BEAN_NAME" />
+		
+		<property name="processStatusType" column="PROCESS_STATUS_TYPE">
+      		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+        		<param name="lookupClass">com.biperf.core.domain.enums.ProcessStatusType</param>
+      		</type>
+    	</property>
+		
+		<property name="description" type="java.lang.String" column="DESCRIPTION" />
+    
+    	<set name="editRoles" table="PROCESS_ROLES" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROCESS_ROLE_TYPE='EDIT'">
+      		<key column="PROCESS_ID"/>
+      		<one-to-many class="com.biperf.core.domain.process.ProcessRoleEdit"/>
+    	</set>
+    
+    	<set name="launchRoles" table="PROCESS_ROLES" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROCESS_ROLE_TYPE='LAUNCH'">
+      		<key column="PROCESS_ID"/>
+      		<one-to-many class="com.biperf.core.domain.process.ProcessRoleLaunch"/>
+    	</set>
+    
+    	<set name="viewLogRoles" table="PROCESS_ROLES" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROCESS_ROLE_TYPE='VIEW_LOG'">
+      		<key column="PROCESS_ID"/>
+      		<one-to-many class="com.biperf.core.domain.process.ProcessRoleViewLog"/>
+    	</set>
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+	</class>
+
+	<query name="com.biperf.core.domain.process.AllProcesses">
+		<![CDATA[
+		  from com.biperf.core.domain.process.Process process
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.process.ProcessByStatus">
+		<![CDATA[
+		  from com.biperf.core.domain.process.Process process
+      		where process.processStatusType = :status
+		]]>
+	</query>
+  
+	<query name="com.biperf.core.domain.process.ProcessByName">
+		<![CDATA[
+		  from com.biperf.core.domain.process.Process process
+      		where process.name = :processName
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.process.ProcessByBeanName">
+		<![CDATA[
+		  from com.biperf.core.domain.process.Process process
+      		where process.processBeanName = :processBeanName
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.process.getGeneralProcessByStatus">
+		<![CDATA[
+		  from com.biperf.core.domain.process.Process process
+      		where process.processStatusType = :status
+      		and process.name NOT LIKE '%SYSTEM_PROCESS%'
+      		and process.processBeanName NOT LIKE '%adminTest%'
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.process.getSystemProcessByStatus">
+		<![CDATA[
+		  from com.biperf.core.domain.process.Process process
+      		where process.processStatusType = :status
+      		and process.name LIKE '%SYSTEM_PROCESS%'
+		]]>
+	</query>
+	
+    <query name="com.biperf.core.domain.process.getAdminTestProcessByStatus">
+		<![CDATA[
+		  from com.biperf.core.domain.process.Process process
+      		where process.processStatusType = :status
+      		and process.processBeanName LIKE '%adminTest%'
+		]]>
+	</query>
+	
+	
+	<!-- Client customizations for wip #23129 starts --> 
+	<query name="com.biperf.core.domain.process.clientGiftCodeSweepPromotions">
+	  <![CDATA[
+      	select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from com.biperf.core.domain.promotion.RecognitionPromotion promotion
+        where promotion.awardType = 'merchandise'
+          and promotion.promotionStatus = 'live' and promotion.deleted = 0
+          and promotion.apqConversion = 1
+      ]]>
+	</query>	
+
+    <!--  the where clause in this query must be the same as com.biperf.core.domain.merchandise.MerchOrder.getAllUnredeemedOrdersByPromotion  -->
+	<sql-query name="com.biperf.core.domain.process.clientGiftCodeSweepBean">
+	  <return-scalar column="month_year" type="string"/>
+	  <return-scalar column="month_year_desc" type="string"/>
+	    <![CDATA[  
+	        select x.mmyyyy month_year, 
+	               to_char(to_date(x.mmyyyy,'mmyyyy'),'fmMonth yyyy')||
+	               ' - total unredeemed gift codes older than '||
+	               (select to_char(trunc(sysdate) - int_val,'mm/dd/yyyy') from os_propertyset where entity_name = 'coke.gift.code.sweep.minimum.days')||
+	               ' = '|| x.mmyyyy_count month_year_desc
+	        from(
+	        select to_char(merchOrder.date_created,'mmyyyy') mmyyyy,count(*) mmyyyy_count
+	        from Merch_Order merchOrder,
+	        Promo_Merch_Program_Level promoMerchProgramLevel,
+	        Promo_Merch_Country promoMerchCountry
+	        where merchOrder.promo_merch_program_level_id = promoMerchProgramLevel.promo_merch_program_level_id
+	        and promoMerchProgramLevel.promo_merch_country_id = promoMerchCountry.promo_merch_country_id
+	        and promoMerchCountry.promotion_id = :promoId
+	        and merchOrder.is_redeemed = 0
+	        and trunc(merchOrder.date_created) < (select trunc(sysdate) - int_val from os_propertyset where entity_name = 'coke.gift.code.sweep.minimum.days') 
+	        and merchOrder.participant_id not in (select user_id 
+                                     from user_characteristic
+                                     where characteristic_id  IN ( select long_val from os_propertyset where entity_name='coke.opt.out.char.id' )
+                                     and characteristic_value = 'true')
+	        group by to_char(merchOrder.date_created,'mmyyyy')
+	        order by 1
+	        ) x
+	    ]]>			
+  </sql-query>
+  <!-- Client customizations for wip #23129 ends -->
+</hibernate-mapping>

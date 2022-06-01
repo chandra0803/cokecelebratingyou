@@ -1,0 +1,14 @@
+// Core application variables and measurements
+// -------------------------
+@import "base/colors";
+@import "base/variables";
+@import "base/mixins";
+
+// make use of SCSS files in core* without actually outputting those files here
+// -------------------------
+$base_variablesOnly: true;
+@import "base/global";
+
+// actual imports
+// -------------------------
+@import "apps/leaderboard";

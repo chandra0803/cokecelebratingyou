@@ -1,0 +1,25 @@
+CREATE SEQUENCE PROMO_ENG_RULES_AUDIENCE_PK_SQ INCREMENT BY 1 START WITH 1 MAXVALUE 99999999999999999999999999 MINVALUE 1
+/
+CREATE TABLE promo_eng_rules_audience
+(
+	rules_audience_id		NUMBER(18) NOT NULL,	
+	rules_id            	NUMBER(18) NOT NULL,
+	audience_id             NUMBER(18),
+	eligible_promotion_id   NUMBER(18),
+	audience_type			VARCHAR2(40),
+  	created_by				NUMBER(18) NOT NULL,
+  	date_created  			DATE NOT NULL,
+  	modified_by				NUMBER(18),
+  	date_modified  			DATE,
+  	version					NUMBER(18) NOT NULL
+)
+/
+ALTER TABLE promo_eng_rules_audience ADD CONSTRAINT promo_eng_rules_audience_pk 
+  PRIMARY KEY (rules_audience_id) USING INDEX
+/
+ALTER TABLE promo_eng_rules_audience ADD CONSTRAINT promo_eng_rules_fk
+  FOREIGN KEY (rules_id) REFERENCES promo_engagement_rules (id)
+/
+ALTER TABLE promo_eng_rules_audience ADD CONSTRAINT promo_eng_audience_fk
+  FOREIGN KEY (audience_id) REFERENCES audience (audience_id)
+/

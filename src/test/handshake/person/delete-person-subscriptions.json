@@ -1,0 +1,115 @@
+{
+  "description": "Update a Person Push Notification Subscription",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "newPersonName": "Updated ${faker:hacker.adjective} Person Phone"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+   {
+      "id": "createPersonSubscriptions",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"label": "IOS",
+  			"token": "mytoken"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonSubscriptions.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonSubscriptions.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonSubscriptions.res.body.label}",
+          "compare": "to.equal",
+          "b": "IOS"
+        },
+        {
+          "a": "${ref:createPersonSubscriptions.res.body.token}",
+          "compare": "to.equal",
+          "b": "mytoken"
+        }
+      ]
+    },
+    {
+      "id": "deletePersonSubscriptions",
+      "description": "DELETE /persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions/${ref:createPersonSubscriptions.res.body.id}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions/${ref:createPersonSubscriptions.res.body.id}",
+        "options": {
+          "method": "delete",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {}
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:deletePersonSubscriptions.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:deletePersonSubscriptions.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    },
+    {
+      "id": "getPersonSubscriptions",
+      "description": "GET /persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getPersonSubscriptions.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getPersonSubscriptions.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    }
+  ]
+}

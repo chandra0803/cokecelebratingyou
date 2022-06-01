@@ -1,0 +1,55 @@
+{
+
+    "promotion": {
+        "name": "Promotion 1",
+        "promoId": 3,
+        "isAdmin": true,
+        "nodeId": 1234,
+        "finalLevelApprover": true,
+        "totalPromotionCount": 2,
+        "timePeriodEnabled": true,
+        "notificationDateEnabled": true,
+        "payoutAtEachLevel": false,
+        "timePeriods": [
+            {
+                "id": 345,
+                "name": "Jan - Apr 2016"
+            },
+            {
+                "id": 3456,
+                "name": "May - Aug 2016"
+            },
+            {
+                "id": 345,
+                "name": "Sept - Dec 2016"
+            }
+        ],
+        "_Comment_": "status can be pend|approv|winner|non_winner|more_info|expired",
+        "status": "pend, winner",
+        "currencyLabel": "USD",
+        "_Comment_": "payoutType can be points|cash|other",
+        "payoutType": "cash",
+        "rulesText": "I am some rules text.",
+        "approvalLevels": [
+            {
+                "id": 334,
+                "name": "bronze",
+                "displayName": "Bronze Level",
+                "selected": false
+            },
+            {
+                "id": 243,
+                "name": "silver",
+                "displayName": "Silver Level",
+                "selected": true
+            },
+            {
+                "id": 347,
+                "name": "gold",
+                "displayName": "Gold Level",
+                "selected": false
+            }
+
+        ]
+    }
+}

@@ -1,0 +1,169 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+/***
+ *    888                    888
+ *    888                    888
+ *    888                    888
+ *    88888b.   .d88b.   .d88888 888  888
+ *    888 "88b d88""88b d88" 888 888  888
+ *    888  888 888  888 888  888 888  888
+ *    888 d88P Y88..88P Y88b 888 Y88b 888
+ *    88888P"   "Y88P"   "Y88888  "Y88888
+ *                                    888
+ *                               Y8b d88P
+ *                                "Y88P"
+ */
+// $global_bodyBgColor: ;
+ /*
+  * from here down to the end of the BG rules are all pointless.
+  * body backgrounds aren't visible in G6!
+  * except when you're beyond siteMax, but then a solid color is best
+  */
+// $global_bodyGradType: ;
+// $global_bodyGradMeta: ;
+// $global_bodyGradStops: ;
+// $global_bodyBgImgUrlPath: ;
+// $global_bodyBgImg: ;
+// $global_bodyBgImgPosition: ;
+// $global_bodyBgImgRepeat: ;
+// $global_bodyBgImgSize: ;
+// $global_bodyBgImgAttachment: ;
+
+// $global_bodyBgColor_siteMax: ;
+
+/***
+ *    888                             888
+ *    888                             888
+ *    888                             888
+ *    88888b.   .d88b.   8888b.   .d88888  .d88b.  888d888
+ *    888 "88b d8P  Y8b     "88b d88" 888 d8P  Y8b 888P"
+ *    888  888 88888888 .d888888 888  888 88888888 888
+ *    888  888 Y8b.     888  888 Y88b 888 Y8b.     888
+ *    888  888  "Y8888  "Y888888  "Y88888  "Y8888  888
+ *
+ *
+ *
+ */
+// SIZING
+// take care with these sizing variables. Everything below the first four are calculated
+// $global_header_height_mobile: ;
+// $global_header_height_tablet: ;
+// $global_header_height_desktop: ;
+// $global_header_height_desktopLarge: ;
+// $global_header_logoHeight_mobile: ;
+// $global_header_logoHeight_tablet: ;
+// $global_header_logoHeight_desktop: ;
+// $global_header_logoHeight_desktopLarge: ;
+
+// $global_header_spacing_verti_mobile: ;
+// $global_header_spacing_verti_tablet: ;
+// $global_header_spacing_verti_desktop: ;
+// $global_header_spacing_verti_desktopLarge: ;
+
+// $global_header_spacing_horiz_mobile: ;
+// $global_header_spacing_horiz_tablet: ;
+// $global_header_spacing_horiz_desktop: ;
+// $global_header_spacing_horiz_desktopLarge: ;
+
+// DECORATION
+// $global_header_bgColor: ;
+// $global_header_gradMeta: ; // 'to bottom' would be an ideal value // only applies when a background color has been set
+// $global_header_gradStops: ;
+// $global_header_borderTopWidth: ;
+// $global_header_borderTopColor: ;
+// $global_header_borderBottomWidth: ;
+// $global_header_borderBottomColor: ;
+
+/***
+ *             d8b      888          888
+ *             Y8P      888          888
+ *                      888          888
+ *    .d8888b  888  .d88888  .d88b.  88888b.   8888b.  888d888
+ *    88K      888 d88" 888 d8P  Y8b 888 "88b     "88b 888P"
+ *    "Y8888b. 888 888  888 88888888 888  888 .d888888 888
+ *         X88 888 Y88b 888 Y8b.     888 d88P 888  888 888
+ *     88888P' 888  "Y88888  "Y8888  88888P"  "Y888888 888
+ *
+ *
+ *
+ */
+ // $global_sidebar_zindex: ;
+// Global variables for side bar widths and breakpoints
+// be very careful with these!
+// $global_sidebar_width_mobile: ;
+// $global_sidebar_width_tablet: ;
+// $global_sidebar_width_desktop: ;
+// $global_sidebar_width_desktopLarge: ;
+// $sidebar_collapsed_mobile_width: ;
+// $sidebar_collapsed_tablet_width: ;
+// $global_sidebar_transition_speed: ;
+
+// $global_sidebar_background: ;
+// $global_sidebar_sidebarBorder_width: ;
+// $global_sidebar_sidebarBorder: ;
+// $global_sidebar_dropShadow: ;
+
+// $global_fauxSidebar_bgImage: ;
+// $global_fauxSidebar_bgPosition: ;
+// $global_fauxSidebar_bgRepeat: ;
+// $global_fauxSidebar_bgSize_desktop: ;
+// $global_fauxSidebar_bgSize_desktopLarge: ;
+
+/***
+ *             888          888               888 888b    888
+ *             888          888               888 8888b   888
+ *             888          888               888 88888b  888
+ *     .d88b.  888  .d88b.  88888b.   8888b.  888 888Y88b 888  8888b.  888  888
+ *    d88P"88b 888 d88""88b 888 "88b     "88b 888 888 Y88b888     "88b 888  888
+ *    888  888 888 888  888 888  888 .d888888 888 888  Y88888 .d888888 Y88  88P
+ *    Y88b 888 888 Y88..88P 888 d88P 888  888 888 888   Y8888 888  888  Y8bd8P
+ *     "Y88888 888  "Y88P"  88888P"  "Y888888 888 888    Y888 "Y888888   Y88P
+ *         888
+ *    Y8b d88P
+ *     "Y88P"
+ */
+// $global_nav_height_mobile: ;
+// $global_nav_height: ;
+// $global_nav_margin_mobile: ;
+// $global_nav_margin: ;
+
+
+/***
+ *     .d888                  888
+ *    d88P"                   888
+ *    888                     888
+ *    888888 .d88b.   .d88b.  888888 .d88b.  888d888
+ *    888   d88""88b d88""88b 888   d8P  Y8b 888P"
+ *    888   888  888 888  888 888   88888888 888
+ *    888   Y88..88P Y88..88P Y88b. Y8b.     888
+ *    888    "Y88P"   "Y88P"   "Y888 "Y8888  888
+ *
+ *
+ *
+ */
+// This doesn't display on 99% of screens.
+// Likely login page only, but defining globally just in case
+// $global_footer_bgColor: ;
+// $global_footer_gradMeta: ; // 'to bottom' would be an ideal value // only applies when a background color has been set
+// $global_footer_gradStops: ;
+// $global_footer_borderTopWidth: ;
+// $global_footer_borderTopColor: ;
+// $global_footer_borderBottomWidth: ;
+// $global_footer_borderBottomColor: ;
+
+// $global_footer_height_mobile: ;
+// $global_footer_height_tablet: ;
+// $global_footer_height_desktop: ;
+// $global_footer_height_desktopLarge: ;
+//
+
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/global";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

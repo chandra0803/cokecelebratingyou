@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div
+  className="narrow-form-page login"
+>
+  <form
+    action={undefined}
+    className="narrow-form"
+    method="post"
+  >
+    <p>
+      <a
+        onClick={[Function]}
+        tabIndex="9"
+      >
+        <span>
+          <i
+            className="icon-arrow-1-circle-left"
+          />
+           
+        </span>
+      </a>
+    </p>
+    <h3 />
+    <p />
+    <div
+      className="email-field input-wrap focused activation"
+    >
+      <div
+        className="activation-field-desc"
+      >
+        <div>
+          Enter your corporate email address
+        </div>
+        <label
+          className="control-label"
+          htmlFor="formUserId5005"
+        >
+          Email Address
+        </label>
+        <input
+          autoFocus={true}
+          className="gq-input"
+          id="formUserId5005"
+          name="Email Address"
+          onChange={[Function]}
+          onKeyPress={[Function]}
+          tabIndex={1}
+          type="text"
+          value={undefined}
+        />
+      </div>
+      <div
+        className="activation-field-desc"
+      >
+        <div>
+          Enter your personal email address
+        </div>
+        <label
+          className="control-label"
+          htmlFor="formUserId5080"
+        >
+          Email Address2
+        </label>
+        <input
+          className="gq-input"
+          id="formUserId5080"
+          name="Email Address2"
+          onChange={[Function]}
+          onKeyPress={[Function]}
+          tabIndex={2}
+          type="text"
+          value={undefined}
+        />
+      </div>
+    </div>
+    <button
+      className="gq-btn disabled btn btn-block btn-primary form-action-btn"
+      onClick={[Function]}
+      tabIndex={3}
+      type="button"
+    />
+    <p
+      className="help"
+    >
+      <a
+        onClick={[Function]}
+        tabIndex="3"
+      >
+        <span />
+      </a>
+    </p>
+  </form>
+  <div
+    className="theme-image"
+  />
+</div>
+`;

@@ -1,0 +1,58 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+
+// $publicRecognition_commentBgColor: ;
+
+// purl item
+// these styles should sync up with the "*_detailsBg*" styles in _purlContribute.scss (unless otherwise noted by Creative)
+// $publicRecognition_purlItemBgColor: ;
+// $publicRecognition_purlItemBgImg: ;
+// $publicRecognition_purlItemBgImgPath: ;
+// $publicRecognition_purlItemBgImgPosition: ;
+// $publicRecognition_purlItemBgImgPosition_mobile: ;
+// $publicRecognition_purlItemBgImgRepeat: ;
+// $publicRecognition_purlItemBgImgSize: ;
+// $publicRecognition_purlItemBgImgSize_mobile: ;
+
+// $publicRecognition_purlItemTextColor: ;
+// $publicRecognition_purlItemAvatarBorderColor: ;
+
+// $publicRecognition_purlItemBalloonsImg: ;
+// $publicRecognition_purlItemBalloonsImgPath: ;
+// $publicRecognition_purlItemBalloonsImgWidth: ;
+// $publicRecognition_purlItemBalloonsImgHeight: ;
+// $publicRecognition_purlItemBalloonsImgPositionRight: ;
+
+// nom item
+// these styles should sync up with the "$nominationsPastWinnersModule_bg*" styles in _nominations.scss (unless otherwise noted by Creative)
+// $publicRecognition_nomItemBgColor: ;
+// $publicRecognition_nomItemBgImg: ;
+// $publicRecognition_nomItemBgImgPath: ;
+// $publicRecognition_nomItemBgImgPosition: ;
+// $publicRecognition_nomItemBgImgPosition_mobile: ;
+// $publicRecognition_nomItemBgImgRepeat: ;
+// $publicRecognition_nomItemBgImgSize: ;
+// $publicRecognition_nomItemBgImgSize_mobile: ;
+
+// $publicRecognition_nomItemTextColor: ;
+// $publicRecognition_nomItemAvatarBorderColor: ;
+
+// $publicRecognition_nomItemBadgeImg: ;
+// $publicRecognition_nomItemBadgeImgPath: ;
+// $publicRecognition_nomItemBadgeImgWidth: ;
+// $publicRecognition_nomItemBadgeImgHeight: ;
+// $publicRecognition_nomItemBadgeImgPositionRight: ;
+
+
+// $publicRecognition_imgWidthComment : ;
+
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "publicRecognition/scss/publicRecognition";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

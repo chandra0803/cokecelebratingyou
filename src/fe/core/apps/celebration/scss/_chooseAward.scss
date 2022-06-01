@@ -1,0 +1,131 @@
+// App-specific variables
+// =========================
+$celebrationChooseAward_bgColor: $g5ModuleBgColor !default;
+$celebrationChooseAward_gradType: $g5ModuleGradType !default;
+$celebrationChooseAward_gradMeta: $g5ModuleGradMeta !default;
+$celebrationChooseAward_gradStops: $g5ModuleGradStops !default;
+$celebrationChooseAward_ImgUrlPath: $appImagesPath !default;
+$celebrationChooseAward_ImgUrl: "celebration/celebration_choose_bg.jpg" !default;
+
+$celebrationChooseAward_headerColor: $brand_color_black !default;
+$celebrationChooseAward_fontColor: $brand_color_black !default;
+$celebrationChooseAward_numberColor: $brand_color_primary !default;
+$celebrationChooseAward_pointsColor: $brand_color_black !default;
+
+
+/* ----- MODULE STYLES ----- */
+.launchModule.celebrationChooseAward {
+    .module-content{
+        display: table;
+        width: 100%;
+    }
+    .module-liner{
+        white-space: nowrap;
+    }
+    @if $celebrationChooseAward_ImgUrl {
+            @include safeImgUrls($celebrationChooseAward_ImgUrl, $celebrationChooseAward_ImgUrlPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            filter: none;
+            background-size:cover;
+        }
+
+    .left-col{
+        text-align: center;
+        box-sizing: border-box;
+        vertical-align: center;
+    }
+    .right-col{
+        text-align: center;
+        box-sizing: border-box;
+        vertical-align: center;
+    }
+    .single-col{
+        width: 100%;
+        text-align: center;
+    }
+    .chooseHeader {
+        color: $celebrationChooseAward_fontColor;
+
+        span {
+            display: block;
+        }
+    }
+
+    .celebrationCountdownContainer {
+
+        font-size: $baseFontSize;
+        line-height: $lineHeightSmall;
+
+        .timeLeft{
+            display: block;
+            color: $celebrationChooseAward_headerColor;
+        }
+        .icon-clock {
+            color: $celebrationChooseAward_numberColor;
+            font-size: round($fontSizeMid * 2.475);
+            display: none;
+        }
+
+        #redeemCountdown {
+            display: inline-block;
+            color: $celebrationChooseAward_numberColor;
+            font-size: round($fontSizeMid * 2.475);
+        }
+    }
+
+    .link-cover {
+        float: left;
+        @include ignoreGlobalLinkStyles();
+    }
+
+    .celebrationPointsContainer {
+        color: $celebrationChooseAward_pointsColor;
+        .pointsEarned{
+
+        }
+    }
+    @media (min-width: $breakpoint_tablet_min) {
+        .left-col{
+            text-align: left;
+        }
+        .right-col{
+            text-align: center;
+        }
+        .celebrationCountdownContainer {
+            font-size: $fontSizeMid;
+            line-height: $lineHeightMid;
+            .icon-clock {
+                margin-right: 10px;
+                margin-top:5px;
+                font-size: round($fontSizeMid * 2.475);
+            }
+            #redeemCountdown {
+                font-size: round($fontSizeMid * 2.475);
+            }
+        }
+    }
+    @media (min-width: $breakpoint_desktop_min) {
+        .celebrationCountdownContainer {
+             font-size: $fontSizeLarge;
+             line-height: $lineHeightLarge;
+            .icon-clock {
+                font-size: round($fontSizeMid * 2.8125);
+            }
+            #redeemCountdown {
+               font-size: round($fontSizeMid * 2.8125);
+            }
+        }
+    }
+     @media (min-width: $breakpoint_desktopLarge_min) {
+        .celebrationCountdownContainer {
+             font-size: $fontSizeExtraLarge;
+             line-height: $lineHeightExtraLarge;
+            .icon-clock {
+                font-size: round($fontSizeMid * 3.75); // ~60px;
+            }
+            #redeemCountdown {
+                font-size: round($fontSizeMid * 3.75); // ~60px;
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $paxSearch_recordsFoundWeight: ;
+// $paxSearch_recordsFoundColor: ;
+// $paxSearch_recordsFoundBgColor: ;
+//
+// $paxSearch_spinnerFgColor: ;
+// $paxSearch_spinnerBkgColor: ;
+// $paxSearch_spinnerBkgBorderRadius: ;
+// $paxSearch_cardMaxSize: ;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/paxSearchView";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

@@ -1,0 +1,67 @@
+{
+  "description": "Create a Person",
+  "params": {
+  	"baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "givenName": "Roster ${faker:hacker.adjective} Person",
+    "surname": "Roster ${faker:hacker.adjective} Person",
+  },
+  "export": {
+    "newPersonId": "${ref:createPerson.res.body.id}",
+    "newExternalId":"${ref:createPerson.res.body.externalId}"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "POST /persons",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "givenName": "${ref:params.givenName}",
+            "nickname": "Wilson",
+            "surname":"${ref:params.surname}",
+            "country":"USA",
+            "locale":"en-us",
+            "externalId":"${ref:params.externalId}",
+            "pronouns":
+            {
+            	"subjective":"sub"
+            }
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPerson.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPerson.res.body.givenName}",
+          "compare": "to.equal",
+          "b": "${ref:params.givenName}"
+        },
+        {
+          "a": "${ref:createPerson.res.body.surname}",
+          "compare": "to.equal",
+          "b": "${ref:params.surname}"
+        },
+        {
+          "a": "${ref:createPerson.res.body.locale}",
+          "compare": "to.equal",
+          "b": "en-us"
+        }
+      ]
+    }
+  ]
+}

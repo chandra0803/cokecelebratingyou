@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+	<definition name="engagement.team.dashboard" extends="g5.default">
+       	<put name="content" value="/engagement/engagementPageTeamDashboard.jsp" />
+		<put name='trackingTitle' value='Engagement_Page_Team_Dashboard' />
+	</definition>	
+
+	<definition name="engagement.chart.rec.sent.bypromo" path="/engagement/engagementDetailRecognitionSentChart.jsp" />
+	<definition name="engagement.chart.rec.received.bypromo" path="/engagement/engagementDetailRecognitionReceivedChart.jsp" />
+	<definition name="engagement.chart.unique.rec.sent" path="/engagement/engagementUniqueRecognitionSentChart.jsp" />
+	<definition name="engagement.chart.unique.rec.received" path="/engagement/engagementUniqueRecognitionsReceivedChart.jsp" />
+	<definition name="engagement.chart.login.visits" path="/engagement/engagementDetailVisitsChart.jsp" />
+	<definition name="engagement.recognized.team" path="/engagement/engagementPageTeamDashboard.jsp" />
+
+</tiles-definitions>

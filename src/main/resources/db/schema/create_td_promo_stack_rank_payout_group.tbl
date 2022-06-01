@@ -1,0 +1,34 @@
+CREATE SEQUENCE td_stackrank_paygroup_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE throwdown_stackrank_paygroup
+(stackrank_paygroup_id   	  NUMBER(18,0) NOT NULL,
+ node_type_id        		  NUMBER(18,0), 
+ promotion_id                 NUMBER(18,0) NOT NULL,
+ created_by                   NUMBER(18) NOT NULL,
+ date_created                 DATE NOT NULL,
+ modified_by 				  NUMBER(18),
+ date_modified                DATE,
+ version                      NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE throwdown_stackrank_paygroup
+ADD CONSTRAINT td_stackrank_paygroup_pk PRIMARY KEY (stackrank_paygroup_id)
+USING INDEX
+/
+ALTER TABLE throwdown_stackrank_paygroup ADD CONSTRAINT td_stackrank_node_type_fk
+  FOREIGN KEY (node_type_id) REFERENCES node_type (node_type_id) 
+/
+CREATE INDEX TD_STACKRANK_NODE_TYPE_FK_idx ON THROWDOWN_STACKRANK_PAYGROUP
+  (NODE_TYPE_ID)
+/
+ALTER TABLE throwdown_stackrank_paygroup ADD CONSTRAINT td_stackrank_group_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promo_throwdown (promotion_id) 
+/
+CREATE INDEX TD_STACKRANK_PROMO_FK_idx ON THROWDOWN_STACKRANK_PAYGROUP
+  (PROMOTION_ID)
+/
+COMMENT ON COLUMN THROWDOWN_STACKRANK_PAYGROUP.STACKRANK_PAYGROUP_ID IS 'system generated PK.'
+/
+COMMENT ON COLUMN THROWDOWN_STACKRANK_PAYGROUP.NODE_TYPE_ID IS 'FK to node type.'
+/
+COMMENT ON COLUMN THROWDOWN_STACKRANK_PAYGROUP.PROMOTION_ID IS 'FK to promotion.'
+/

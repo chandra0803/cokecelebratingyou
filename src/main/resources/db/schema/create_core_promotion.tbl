@@ -1,0 +1,153 @@
+CREATE SEQUENCE promotion_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE promotion
+(promotion_id                            NUMBER(18,0) NOT NULL,
+ PROMO_NAME_ASSET_CODE                   VARCHAR2(1000) NOT NULL,
+ promotion_name                          VARCHAR2(1000) NOT NULL,
+ promotion_type                          VARCHAR2(80) NOT NULL,
+ promotion_status                        VARCHAR2(30) NOT NULL,
+ certificate                        	 VARCHAR2(30),
+ is_deleted                              NUMBER(1,0) NOT NULL,
+ claim_form_id                           NUMBER(18,0),
+ promotion_start_date                    DATE NOT NULL,
+ promotion_end_date                      DATE,
+ has_web_rules                           NUMBER(1,0) NOT NULL,
+ CM_ASSET_CODE                           VARCHAR2(80),
+ web_rules_cm_key                        VARCHAR2(80),
+ web_rules_start_date                    DATE,
+ web_rules_end_date                      DATE,
+ approval_start_date                     DATE,
+ approval_end_date                       DATE,
+ approval_type                           VARCHAR2(80),
+ approver_type                           VARCHAR2(80),
+ approval_auto_delay_days                NUMBER(3,0),
+ approval_cond_claim_cnt                 NUMBER(3,0),
+ approval_cond_amt_field_id              NUMBER(18,0),
+ approval_cond_amt_operator              VARCHAR2(80),
+ approval_cond_amt                       NUMBER(16,4),
+ approver_node_id                        NUMBER(18,0),
+ approval_hierarchy_id                   NUMBER(18),
+ approval_node_type_id                   NUMBER(18),
+ approval_node_levels                    NUMBER(3,0),
+ award_budget_master_id                  NUMBER(18),
+ cash_budget_master_id                   NUMBER(18),
+ badge_setup_id							 NUMBER(18),
+ is_taxable                              NUMBER(1)  DEFAULT 0 NOT NULL,
+ is_online_entry                         NUMBER(1)  DEFAULT 0 NOT NULL,
+ is_fileload_entry                       NUMBER(1)  DEFAULT 0 NOT NULL,
+ primary_audience_type                   VARCHAR2(40),
+ secondary_audience_type                 VARCHAR2(40),
+ web_rules_audience_type                 VARCHAR2(40),
+ partner_audience_type                   VARCHAR2(40),
+ award_type                              VARCHAR2(40),
+ sweeps_active                           NUMBER(1) DEFAULT 0 NOT NULL,
+ sweeps_claim_eligibility_type           VARCHAR2(120),
+ sweeps_winner_eligibility_type          VARCHAR2(80),
+ sweeps_multiple_award_type              VARCHAR2(40),
+ sweeps_primary_basis_type               VARCHAR2(40),
+ sweeps_primary_winners                  NUMBER(18),
+ sweeps_primary_award_amount             NUMBER(14,2),
+ sweeps_primary_award_level              NUMBER(18),
+ sweeps_secondary_basis_type             VARCHAR2(40),
+ sweeps_secondary_winners                NUMBER(18),
+ sweeps_secondary_award_amount           NUMBER(14,2),
+ sweeps_secondary_award_level          	 NUMBER(18),
+ score_by                                VARCHAR2(100),
+ calculator_id                           NUMBER(18,0),
+ allow_self_enroll						 NUMBER(1,0) DEFAULT 0 NOT NULL,
+ enroll_program_code					 VARCHAR2(10),
+ created_by                              NUMBER(18) NOT NULL,
+ date_created                            DATE NOT NULL,
+ modified_by                             NUMBER(18),
+ date_modified                           DATE,
+ version                                 NUMBER(18,0) NOT NULL,
+ purpose                                 VARCHAR2(2000),
+ BILLS_ACTIVE							 NUMBER(1,0) DEFAULT 0 NOT NULL,
+ SWP_BILLS_ACTIVE						 NUMBER(1,0) DEFAULT 0 NOT NULL,
+ TILE_DISPLAY_START_DATE                 DATE,
+ TILE_DISPLAY_END_DATE                   DATE,
+ OVERVIEW 					             VARCHAR2(100)
+ )
+/
+ALTER TABLE promotion
+ADD CONSTRAINT promotion_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promotion ADD CONSTRAINT promotion_claimfrm_fk
+  FOREIGN KEY (claim_form_id) REFERENCES claim_form (claim_form_id)
+/
+ALTER TABLE promotion ADD CONSTRAINT promotion_clmfrm_stpelement_fk
+  FOREIGN KEY (approval_cond_amt_field_id) REFERENCES claim_form_step_element (claim_form_step_element_id)
+/
+ALTER TABLE promotion ADD CONSTRAINT promotion_node_fk
+  FOREIGN KEY (approver_node_id) REFERENCES node (node_id)
+/
+ALTER TABLE promotion ADD CONSTRAINT promotion_budget_master_fk
+  FOREIGN KEY (award_budget_master_id) REFERENCES budget_master (budget_master_id)
+/
+ALTER TABLE promotion ADD CONSTRAINT promo_cash_budget_master_fk
+  FOREIGN KEY (cash_budget_master_id) REFERENCES budget_master (budget_master_id)
+/
+ALTER TABLE promotion
+ADD CONSTRAINT promotion_calculator_id_fk FOREIGN KEY (calculator_id)
+REFERENCES calculator (calculator_id)
+/
+CREATE INDEX PROMOTION_CLAIM_FORM_FK_idx ON PROMOTION
+  (CLAIM_FORM_ID)
+/
+CREATE INDEX promotion_calculator_id_fk ON PROMOTION
+  (calculator_id)
+/
+
+CREATE INDEX PROMO_APPR_COND_AMT_FLD_FK_idx ON PROMOTION
+  (APPROVAL_COND_AMT_FIELD_ID)
+/
+CREATE INDEX PROMOTION_APPROVER_NODE_FK_idx ON PROMOTION
+  (APPROVER_NODE_ID)
+/
+CREATE INDEX PROMOTION_AWRD_BGT_MSTR_FK_idx ON PROMOTION
+  (AWARD_BUDGET_MASTER_ID)
+/
+CREATE INDEX PROMOTYPE_IDX ON PROMOTION
+(PROMOTION_TYPE, PROMOTION_ID)
+/
+COMMENT ON COLUMN PROMOTION.PROMOTION_ID IS 'System generated PK.'
+/
+COMMENT ON COLUMN PROMOTION.CLAIM_FORM_ID IS 'Link to the claim form definition applicable for this promotion'
+/
+COMMENT ON COLUMN PROMOTION.PROMOTION_START_DATE IS 'Date the claim submissions can start'
+/
+COMMENT ON COLUMN PROMOTION.PROMOTION_END_DATE IS 'Last date for the claim submission'
+/
+COMMENT ON COLUMN PROMOTION.APPROVAL_START_DATE IS 'Date the claim approvals can start'
+/
+COMMENT ON COLUMN PROMOTION.APPROVAL_END_DATE IS 'Date the claim approvals should end'
+/
+COMMENT ON COLUMN PROMOTION.APPROVAL_AUTO_DELAY_DAYS IS 'Indicates the number of days the claim has to wait before it is approved.'
+/
+COMMENT ON COLUMN PROMOTION.APPROVAL_COND_CLAIM_CNT IS 'To implement a business rule if every nth claim submission results in a payout.'
+/
+COMMENT ON COLUMN PROMOTION.APPROVAL_COND_AMT_FIELD_ID IS 'FK to claim_form_step_element'
+/
+COMMENT ON COLUMN PROMOTION.APPROVAL_COND_AMT_OPERATOR IS 'Pick list item for common mathematical expressions.'
+/
+COMMENT ON COLUMN PROMOTION.APPROVAL_COND_AMT IS 'Value of the conditional amount'
+/
+COMMENT ON COLUMN PROMOTION.APPROVAL_NODE_LEVELS IS 'Approval process flow. Number of levels starting from the first approver node and higher up the the hiearchy the claim has to be approved by..'
+/
+COMMENT ON COLUMN PROMOTION.IS_DELETED IS 'Used for logical deletes'
+/
+COMMENT ON COLUMN PROMOTION.WEB_RULES_START_DATE IS 'Date the promotion web rules start'
+/
+COMMENT ON COLUMN PROMOTION.WEB_RULES_END_DATE IS 'Date the promotion web rules end'
+/
+COMMENT ON COLUMN PROMOTION.CM_ASSET_CODE IS 'Content Manager asset for the promotion'
+/
+COMMENT ON COLUMN PROMOTION.WEB_RULES_CM_KEY IS 'Content Manager key for Rules Text data'
+/
+COMMENT ON COLUMN PROMOTION.HAS_WEB_RULES IS 'Does the Promotion support Rules Text'
+/
+COMMENT ON COLUMN PROMOTION.SWEEPS_PRIMARY_AWARD_LEVEL IS 'The ordinal level of the sweepstake primary award'
+/
+COMMENT ON COLUMN PROMOTION.SWEEPS_SECONDARY_AWARD_LEVEL IS 'The ordinal level of the sweepstake secondary award'
+/

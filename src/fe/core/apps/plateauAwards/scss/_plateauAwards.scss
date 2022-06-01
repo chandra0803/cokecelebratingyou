@@ -1,0 +1,635 @@
+// App-specific variables
+// =========================
+// note: the drawer uses the generic bootstrap well class, so unless explicitly set to something other than false the nubbin color will match the well border
+$plateauAwards_pageDrawerNubbinSize: 12px !default;
+$plateauAwards_pageDrawerNubbinColor: false !default;
+
+
+//Redeem
+// $plateauAwardsRedeemSingleModule_bgColor: $g5ModuleBgColor !default;
+// $plateauAwardsRedeemSingleModule_gradType: $g5ModuleGradType !default;
+// $plateauAwardsRedeemSingleModule_gradMeta: $g5ModuleGradMeta !default;
+// $plateauAwardsRedeemSingleModule_gradStops: $g5ModuleGradStops !default;
+// $plateauAwardsRedeemSingleModule_ImgUrlPath: $appImagesPath !default;
+// $plateauAwardsRedeemSingleModule_ImgUrl2x2: "celebration/bg-choose-award-module.jpg" !default;
+
+// $plateauAwardsRedeemMultiModule_bgColor: $g5ModuleBgColor !default;
+// $plateauAwardsRedeemMultiModule_gradType: $g5ModuleGradType !default;
+// $plateauAwardsRedeemMultiModule_gradMeta: $g5ModuleGradMeta !default;
+// $plateauAwardsRedeemMultiModule_gradStops: $g5ModuleGradStops !default;
+// $plateauAwardsRedeemMultiModule_ImgUrlPath: $appImagesPath !default;
+// $plateauAwardsRedeemMultiModule_ImgUrl2x2: "plateau/plateauRedeemBg.jpg" !default;
+
+// $plateauAwardsRedeemSingleHeader_fontColor: $grayDark !default;
+// $plateauAwardsRedeemSingle_fontFamily: "open-sans", $bodyFont !default;
+// $plateauAwardsRedeemSingle_countdownColor: $white !default;
+
+// $plateauAwardsRedeemMultiHeader_fontColor: $grayDark !default;
+// $plateauAwardsRedeemMultiList_bgColorTop: $gray !default;
+// $plateauAwardsRedeemMultiList_bgColorBottom: $grayLight !default;
+// $plateauAwardsRedeemMultiList_activeBgColor: #303030 !default;
+// $plateauAwardsRedeemMultiList_borderColor: $white !default;
+
+// $plateauAwardsRedeemMulti_countdownWeeksColor: $green !default;
+// $plateauAwardsRedeemMulti_countdownDaysColor: $red !default;
+
+// App-specific code
+// ==================================================
+
+@if $plateauAwards_pageDrawerNubbinColor == false {
+    $plateauAwards_pageDrawerNubbinColor: darken($wellBackground, 7%); // borrowed from bootstrap/_wells.scss for the border color
+}
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.plateauAwards {
+
+} /* /.plateauAwards */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.plateauAwards {
+
+    #plateauCarousel {
+        height: 100%;
+        padding: 0;
+        .slick-arrow {
+            position: absolute;
+            top: 48%;
+            font-size: 50px;
+            @media (max-width: $breakpoint_mobile_max) {
+                display: none !important;
+            }
+            &.slick-prev {
+                left: -50px;
+                //color: $tip_textColor;
+            }
+            &.slick-next {
+                right: -50px;
+                //color: $tip_textColor;
+            }
+            &:hover {
+                cursor: pointer;
+            }
+            &.slick-disabled {
+                visibility: hidden;
+            }
+        }
+        .slick-list {
+            overflow: hidden;
+            height: 100%;
+        }
+        .slick-track {
+            height: 100%;
+            .item {
+                width: 100%;
+                height: 100%;
+                display: inline-block;
+                vertical-align: top;
+                text-align: center;
+                margin: 10px;
+                .item-title {
+                    margin-top: $baseLineHeight;
+                    font-weight: $fontWeightBold;
+                }
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+        .slick-dots {
+            bottom: -5%;
+            @media (min-width: $breakpoint_desktop_min) {
+                bottom: -10%;
+            }
+            left:0;
+            position:absolute;
+            line-height:0;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            li {
+                margin: 0;
+                display:inline-block;
+                opacity: 0.4;
+                background: none;
+                @include transition(opacity 0.5s);
+                button {
+                    text-indent: -999em;
+                    border: solid 1px $brand_color_primary;
+                    background: none;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    margin: 0 10px;
+                    padding: 0;
+                }
+                &.slick-active {
+                    opacity: 1;
+                    button {
+                        background: $brand_color_primary;
+                    }
+                }
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+} /* /.launchModule.plateauAwards */
+
+/* ----- PAGE STYLES ----- */
+.page.plateauAwards {
+
+    .page-topper {
+        padding-bottom: 0; //ensures tabs look right
+
+        .promotionSelectWrapper {
+            margin-bottom: $baseLineHeight;
+        }
+    }
+    // START spin
+    .spin {
+        position: absolute;
+        z-index: 100;
+        top: 50%;
+        left: 50%;
+        margin: (-1 * $spinner_widthHeight / 2 - 10) 0 0 (-1 * $spinner_widthHeight / 2 - 10);
+        padding: 10px;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+        color: $brand_color_spinner_fg;
+        @include safeBkgs($brand_color_spinner_bg);
+        @include borderRadiusSlim($spinner_bgBorderRadius);
+    }
+    .spinner {
+        top: 50% !important;
+        left: 50% !important;
+
+        .lt-ie8 & {
+            margin-top: -10px;
+            margin-left: -10px;
+        }
+    }
+    .spincover {
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: transparentize($g5ModuleBgColor, 0.5);
+    }
+    // END spin
+    .currentProducts {
+        min-height: 300px;//room for spinner
+        //for spinner bug with x-scroll
+        // * disabled to allow drawer to 'pull out' to edge
+        //overflow: hidden;
+
+        li { //shove widows and row-starters to the left... add more if necessary
+            @media (min-width: $breakpoint_tablet_min) {
+                &:nth-child(5),
+                &:nth-child(9),
+                &:nth-child(13),
+                &:nth-child(17),
+                &:nth-child(21),
+                &:nth-child(24),
+                &:nth-child(28),
+                &:nth-child(32),
+                &:nth-child(36),
+                &:nth-child(40)
+                {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    //product browser
+    #productBrowser {
+        position: relative;
+    }
+
+    //award items
+
+    .awardItem {
+        display: none;//start life hidden
+        // all images are same size
+        // image height from below + 2 * caption padding from bootstrap core + 3 * caption line height from below
+        height: (250px * 2 / 3) + (2 * 9px) + (3 * 16px);
+        .thumbnail {
+            border: 0 none;
+            @include border-radius(0);
+            @include box-shadow(none);
+            cursor:pointer;
+
+            .img-backdrop {
+                text-align: center;
+
+                img {
+                    height: 250px * 2 / 3; // we are getting 250px x 250px from Scene7.
+                    width: 250px * 2 / 3; // we are getting 250px x 250px from Scene7.
+                }
+            }
+
+            .caption {
+                h5 {
+                    font-size: $baseFontSize;
+                    line-height: $baseLineHeight;
+                    margin: 0;
+                    max-height: $baseLineHeight * 3; // up to three lines
+                    text-align: center;
+                    text-overflow: ellipsis; // no worky :(
+                    overflow: hidden;
+                    a {
+                        //font-weight: $fontWeightBold;
+                    }
+                }
+            }
+        }
+    }
+
+    //drawer of details
+    .drawer {
+        position: relative;
+        // pulling it up so it's closer to the bottom of the thumbnails to which it is pointing
+        margin-top: -$baseLineHeight;
+        // overriding the :last-child stuff that pulls the bottom up when this is the last element in its container. Have to do this because .tab-content has an overflow of auto producing scrollbars
+        margin-bottom: $baseLineHeight !important;
+        // pull flush with edge of page
+        //margin-left: -($g5PageContentPaddingHoriz) + $gridGutterWidth + $g5PageContentLeftRightBorderWidth;
+        margin-left: 0;
+        height: 280px;
+
+        .nubbin {
+            position: absolute;
+            top: -$plateauAwards_pageDrawerNubbinSize;
+            left: 12.5%;
+            margin-left: -($plateauAwards_pageDrawerNubbinSize / 2);
+            border: $plateauAwards_pageDrawerNubbinSize solid transparent;
+            border-top-width: 0;
+            border-bottom-color: $plateauAwards_pageDrawerNubbinColor;
+        }
+
+        .drawer-liner {
+            display: none; //start life out hidden
+            height: 100%;
+			overflow-y: auto;
+            @include clearfix();
+
+            img {
+                height: 280px;
+                float: left;
+                margin-right: 20px;
+            }
+            h2 {
+                font-size: $fontSizeExtraLarge;
+            }
+            p, h2 {
+                max-width: 100%;
+            }
+            div {
+                max-width: 100%;
+                ul {
+                    display: inline-block;
+                    width: 50%;
+                    max-width: 50%;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .drawer {
+            margin-left: -($g5PageContentPaddingHoriz1200) + $gridGutterWidth1200 + $g5PageContentLeftRightBorderWidth1200;
+            margin-left: 0;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 979px) {
+        .awardItem {
+            // image height from below + 2 * caption padding from bootstrap core + 3 * caption line height from below
+            height: (250px / 2) + (2 * 9px) + (3 * 16px);
+
+            .thumbnail {
+                .img-backdrop {
+                    img {
+                        width: (250px / 2);
+                        height: (250px / 2);
+                    }
+                }
+            }
+        }
+
+        .drawer {
+            margin-left: -($g5PageContentPaddingHoriz768) + $gridGutterWidth768 + $g5PageContentLeftRightBorderWidth768;
+            margin-left: 0;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .drawer {
+            //margin-left: -$g5PageContentPaddingHorizMobile;
+            height: auto;
+
+            .nubbin {
+                left: 50% !important;
+            }
+        }
+    }
+
+    @media (max-width: 599px) {
+        .drawer {
+            .drawer-liner {
+                img {
+                    display: block;
+                    float: none;
+                    margin: 0 auto 20px auto;
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+} /* /.page.plateauAwards */
+
+#plateauAwardsPageReminderView {
+    .form-horizontal {
+        margin-bottom: 0;
+    }
+
+    fieldset {
+        min-width: 0;
+    }
+
+    #outstandingAwardToRedeem #selectAllCheckbox {
+        position: relative;
+    }
+} /*#plateauAwardsPageReminderView*/
+
+/**
+*   8888888b.               888
+*   888   Y88b              888
+*   888    888              888
+*   888   d88P .d88b.   .d88888  .d88b.   .d88b.  88888b.d88b.
+*   8888888P" d8P  Y8b d88" 888 d8P  Y8b d8P  Y8b 888 "888 "88b
+*   888 T88b  88888888 888  888 88888888 88888888 888  888  888
+*   888  T88b Y8b.     Y88b 888 Y8b.     Y8b.     888  888  888
+*   888   T88b "Y8888   "Y88888  "Y8888   "Y8888  888  888  888
+**/
+/**
+ * prettu sure this went away completely
+ *
+.module.plateauAwardsRedeem {
+
+    .icon-clock {
+        *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf000;&nbsp;'); // IE7 support
+
+        &::before {
+            content: '\f000';
+        }
+
+    }
+
+    .redeem-single-promotion {
+        @if $plateauAwardsRedeemSingleModule_ImgUrl2x2 {
+            @include safeImgUrls($plateauAwardsRedeemSingleModule_ImgUrl2x2, $plateauAwardsRedeemSingleModule_ImgUrlPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            filter: none;
+            height: 308px;
+            padding: 18px;
+        }
+
+        @else {
+            @include module_moduleLinerBackground(
+                $bgColor: $plateauAwardsRedeemSingleModule_bgColor,
+                $gradType: $plateauAwardsRedeemSingleModule_gradType,
+                $gradMeta: $plateauAwardsRedeemSingleModule_gradMeta,
+                $gradStops: $plateauAwardsRedeemSingleModule_gradStops
+            );
+        }
+
+        h2 {
+            color: $plateauAwardsRedeemSingleHeader_fontColor;
+            font-family: $plateauAwardsRedeemSingle_fontFamily;
+            font-weight: $fontWeightLight;
+            font-size: $baseFontSize * 2.28;
+            line-height: 1.1;
+            margin: 0 0 14px 0;
+
+            span {
+                display: block;
+                font-size: $baseFontSize * 1.92;
+            }
+        }
+
+        @media (max-width: 479px) {
+            .btn {
+                width: 50%;
+            }
+        }
+    }
+
+    .redeem-multi-promotion {
+        @if $plateauAwardsRedeemMultiModule_ImgUrl2x2 {
+            @include safeImgUrls($plateauAwardsRedeemMultiModule_ImgUrl2x2, $plateauAwardsRedeemMultiModule_ImgUrlPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            filter: none;
+        }
+
+        @else {
+            @include module_moduleLinerBackground(
+                $bgColor: $plateauAwardsRedeemMultiModule_bgColor,
+                $gradType: $plateauAwardsRedeemMultiModule_gradType,
+                $gradMeta: $plateauAwardsRedeemMultiModule_gradMeta,
+                $gradStops: $plateauAwardsRedeemMultiModule_gradStops
+            );
+        }
+
+        h2 {
+            color: $plateauAwardsRedeemMultiHeader_fontColor;
+            font-size: $baseFontSize * 1.571;
+            font-weight: $fontWeightLight;
+            line-height: $baseLineHeight * 1.35;
+            margin: 0;
+            padding: 15px 10px 10px;
+
+            span {
+                display: block;
+                font-size: $baseFontSize * 1.43;
+            }
+        }
+
+        ul {
+            @include background-image(linear-gradient($plateauAwardsRedeemMultiList_bgColorTop, $plateauAwardsRedeemMultiList_bgColorBottom));
+            @include box-shadow(rgba(0,0,0, 0.6) 0 6px 11px -6px inset);
+            height: 231px;
+            list-style: none;
+            margin: 0;
+            overflow: auto;
+            position: relative;
+        }
+
+        li {
+            box-sizing: border-box;
+            height: 113px;
+            position: relative;
+
+            a {
+                bottom: 0;
+                color: #ffffff;
+                left: 0;
+                padding: 30px 10px 25px;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .promo-name {
+                float: left;
+                font-size: $baseFontSize * 1.714;
+                height: 42px;
+                width: 140px;
+            }
+
+            .redeemCountdown {
+                display: block;
+                float: right;
+
+                .time-display {
+                    color: $white;
+                    float: right;
+                    font-size: $baseFontSize * 2.714;
+                    line-height: $baseLineHeight * 1.5;
+                }
+
+                .time-label {
+                    clear: both;
+                    float: left;
+                    font-size: $baseFontSize * 1.286;
+                }
+
+                .icon-clock {
+                    float: right;
+                    font-size: $baseFontSize * 2.286;
+                    margin-right: 10px;
+                    width: auto;
+                }
+            }
+
+            &:first-child {
+                background: $plateauAwardsRedeemMultiList_activeBgColor;
+
+                .redeemCountdown.weeks {
+                    color: $plateauAwardsRedeemMulti_countdownWeeksColor;
+                }
+
+                .redeemCountdown {
+                    color: $plateauAwardsRedeemMulti_countdownDaysColor;
+                }
+            }
+
+            &:hover .promo-name {
+                text-decoration: underline;
+            }
+
+            &:hover a[disabled] {
+                cursor: default;
+
+                .promo-name {
+                    text-decoration: none;
+                }
+            }
+
+            & + li {
+                border-top: 1px solid $plateauAwardsRedeemMultiList_borderColor;
+            }
+        }
+
+        li.long-list {
+            height: 80px;
+
+            a {
+                padding: 20px 10px;
+            }
+
+            .time-display {
+                font-size: 30px;
+            }
+
+            .icon-clock {
+                font-size: 26px;
+            }
+
+            .time-label {
+                font-size: 16px;
+            }
+
+            &:first-child {
+                height: 100px;
+
+                a {
+                    padding: 30px 10px 25px;
+                }
+
+                .time-display {
+                    font-size: $baseFontSize * 2.714;
+                }
+
+                .icon-clock {
+                    font-size: $baseFontSize * 2.286;
+                }
+
+                .time-label {
+                    font-size: $baseFontSize * 1.286;
+                }
+            }
+        }
+
+        // .redeem-btn {
+        //     background: rgba(0,0,0,.7);
+        //     bottom: 0;
+        //     display: none;
+        //     left: 0;
+        //     position: absolute;
+        //     right: 0;
+        //     top: 0;
+
+        //     a {
+        //         margin: 37px 0 0 95px;
+        //     }
+        // }
+    }
+
+    .redeem-countdown-container {
+        bottom: 20px;
+        color: $plateauAwardsRedeemSingle_countdownColor;
+        position: absolute;
+        text-align: right;
+        width: 280px;
+
+        p {
+            font-weight: $fontWeightLight;
+            font-size: $baseFontSize * 1.42;
+            margin-bottom: 4px;
+        }
+
+        .icon-clock {
+            float: left;
+            font-size: $baseFontSize * 2.5;
+        }
+
+        .redeemCountdown {
+            font: normal $baseFontSize * 2.5 $bodyFont;
+        }
+    }
+
+    .time-label {
+        display: none;
+    }
+
+}
+ *
+ */
+
+/* /.module.plateauAwardsRedeem  */

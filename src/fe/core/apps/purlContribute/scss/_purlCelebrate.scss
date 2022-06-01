@@ -1,0 +1,812 @@
+// App-specific variables
+// =========================
+$purlCelebrate_moduleBgColor: #120E25 !default;
+$purlCelebrate_moduleBgImg: "celebration/upcomingCelebrations.jpg" !default;
+$purlCelebrate_moduleBgImgPath: $appImagesPath !default;
+$purlCelebrate_moduleBgImgSize: cover !default;
+$purlCelebrate_moduleBgImgPosition: 50% 50% !default;
+
+$purlCelebrate_pageTopperColor: $brand_color_white !default;
+$purlCelebrate_pageTopperBgColor: $purlCelebrate_moduleBgColor !default;
+$purlCelebrate_pageTopperBgImg: $purlCelebrate_moduleBgImg !default;
+$purlCelebrate_pageTopperBgImgPath: $purlCelebrate_moduleBgImgPath !default;
+$purlCelebrate_pageTopperBgImgSize: $purlCelebrate_moduleBgImgSize !default;
+$purlCelebrate_pageTopperBgImgPosition: $purlCelebrate_moduleBgImgPosition !default;
+$purlCelebrate_pageTopperBgImgOpacity: 0.5 !default;
+
+$purlCelebrate_titleColor: $brand_color_white !default;
+$purlCelebrate_titleSpanColor: $purlCelebrate_titleColor !default;
+$purlCelebrate_titleNumberColor: $purlCelebrate_titleColor !default;
+
+$purlCelebrate_timeLeftColor: $brand_color_dark !default;
+$purlCelebrate_timeLeftTodayColor: $brand_color_alert !default;
+
+$purlCelebrate_fontFamily: $titleFont !default;
+$purlCelebrate_moduleListInfoColor: $brand_color_white !default;
+$purlCelebrate_modulePopoverColor: $brand_color_white !default;
+
+$purlCelebrate_magnifyColor: $gray !default;
+
+// for the PURL backs of cards (search results)
+$card_purlRec_color: $purlCelebrate_pageTopperColor !default;
+$card_purlRec_bgColor: $purlCelebrate_pageTopperBgColor !default;
+$card_purlRec_bgImg: $purlCelebrate_pageTopperBgImg !default;
+$card_purlRec_bgImgPath: $purlCelebrate_pageTopperBgImgPath !default;
+$card_purlRec_bgImgSize: $purlCelebrate_pageTopperBgImgSize !default;
+$card_purlRec_bgImgPosition: $purlCelebrate_pageTopperBgImgPosition !default;
+$card_purlRec_bgImgOpacity: $purlCelebrate_pageTopperBgImgOpacity !default;
+$card_purlRec_timeLeftColor: $brand_color_mid !default;
+$card_purlRec_timeLeftTodayColor: $purlCelebrate_timeLeftTodayColor !default;
+
+$slick-dot-color: transparent !default;
+$slick-dot-color-border: $brand_color_primary !default;
+$slick-dot-color-active: $brand_color_primary !default;
+$slick-prev-character: "\2190" !default;
+$slick-next-character: "\2192" !default;
+$slick-dot-character: "\2022" !default;
+$slick-dot-size: 8px !default;
+$slick-opacity-default: 1 !default;
+$slick-opacity-on-hover: 1 !default;
+$slick-opacity-not-active: 1 !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- MODULE STYLES ----- */
+.launchModule.purlCelebrate {
+
+    .module-liner {
+        padding: 0;
+        height: auto;
+        // TODO: THESE BACKGROUND RULES NEED TO BE SKINNABLE
+        background-color: $purlCelebrate_moduleBgColor;
+        @include safeImgUrls($purlCelebrate_moduleBgImg, $purlCelebrate_moduleBgImgPath, $property: 'background-image');
+        background-size: $purlCelebrate_moduleBgImgSize;
+        background-position: $purlCelebrate_moduleBgImgPosition;
+    }
+
+    .purlCelebrateModuleTop {
+        width: 89%;
+        max-width: $breakpoint_desktop_min;
+        margin: 0 auto;
+
+        .purlCelebrateModuleTitle {
+            color: $purlCelebrate_titleColor;
+            display: inline-block;
+            font-family: $purlCelebrate_fontFamily;
+            font-size: $baseFontSize ;
+            font-weight: $fontWeightBold;
+            line-height: $baseLineHeight;
+            vertical-align: top;
+            float: left;
+            text-transform: uppercase;
+        }
+
+        a.viewMore {
+            float: right;
+            display: inline-block;
+            line-height: 1em;
+            margin-top: 15px;
+            margin-right: 5px;
+
+            @media (max-width: $breakpoint_mobileMini_max) {
+                margin-top: 12px;
+            }
+            @include ignoreGlobalLinkStyles(
+                $color: $brand_color_white false
+            );
+            font-weight: $fontWeightBold; // added this after the default styles because of VQA request
+        }
+    }
+
+    .purlCelebrateSubTitle {
+        color: $purlCelebrate_titleSpanColor;
+        display: block;
+        font: $fontWeightLight $baseFontSize * 2.86 $purlCelebrate_fontFamily;
+        line-height: $baseLineHeight * 2;
+        margin: 0 0 0 15px;
+    }
+
+    .purlCelebrateTotal {
+        color: $purlCelebrate_titleNumberColor;
+        display: inline-block;
+        margin-right: 2px;
+    }
+
+    .purlCelebrateList .carousel {
+        width: 90%;
+        margin: 0 auto 30px;
+        max-height: 100px;
+        padding-left: 10px;
+        text-align: center;
+        overflow: hidden;
+        @media (max-width: $breakpoint_mobile_max) {
+            margin-bottom: 20px;
+        }
+        @media (max-width: $breakpoint_mobileMini_max) {
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+
+        .slick-list {
+            overflow: hidden;
+            margin-right: -1px;
+            @media (min-width: $breakpoint_desktopLarge_min) {
+            }
+            @media (max-width: $breakpoint_tablet_max) {
+            }
+        }
+        .slick-dots {
+            position: absolute;
+            list-style: none;
+            display: block;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            li {
+                position: relative;
+                display: inline-block;
+                height: $slick-dot-size * 2 ;
+                width: $slick-dot-size * 2;
+                margin: 0 5px;
+                padding: 0;
+                cursor: pointer;
+                button {
+                    border: 0;
+                    background: transparent;
+                    display: block;
+                    height: $slick-dot-size * 2;
+                    width: $slick-dot-size * 2;
+                    outline: none;
+                    line-height: 0px;
+                    font-size: 0px;
+                    color: transparent;
+                    padding: 5px;
+                    cursor: pointer;
+                    &:hover, &:focus {
+                        outline: none;
+                        &:before {
+                            opacity: $slick-opacity-on-hover;
+                        }
+                    }
+                    &:before {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        content: $slick-dot-character;
+                        width: $slick-dot-size;
+                        height: $slick-dot-size;
+                        display: block;
+                        border-radius:50%;
+                        border: 1px solid $slick-dot-color-border;
+                        background: $slick-dot-color;
+                        opacity: $slick-opacity-not-active;
+                        -webkit-font-smoothing: antialiased;
+                        -moz-osx-font-smoothing: grayscale;
+                    }
+                }
+                &.slick-active button:before {
+                    background: $slick-dot-color-active;
+                    opacity: $slick-opacity-default;
+                }
+            }
+        }
+        .slick-arrow {
+            line-height: 100px;
+            position: absolute;
+            bottom: 30px;
+            font-size: 36px;
+            @media (max-width: $breakpoint_mobile_max) {
+                display: none !important;
+            }
+
+            &.slick-prev {
+                left: 0;
+                color: $brand_color_white;
+            }
+
+            &.slick-next {
+                right: 0;
+                color: $brand_color_white;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &.slick-disabled {
+                visibility: hidden;
+            }
+        }
+
+        .item {
+            display: inline-block;
+            list-style: none;
+            padding: 0;
+
+            margin: 0;
+            text-align: left;
+            margin-right: 20px;
+            @media (max-width: $breakpoint_mobileMini_max) {
+                margin-right: 0;
+            }
+
+
+
+            .item-inner-wrapper{
+                max-width: 320px;
+                border-radius: 8px;
+                max-height: 100px;
+                margin: 0 auto;
+                background: $brand_color_white;
+                overflow: hidden;
+            }
+
+            img.avatar {
+                float: left;
+                height: 100px;
+                width: 100px;
+                border-radius: 0;
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+                background: none;
+            }
+
+            span.avatar {
+                float: left;
+                height: 100px;
+                width: 100px;
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+                background: $brand_color_primary;
+                color: $brand_color_white;
+                font-size: $baseFontSize * 2.14;
+                line-height: 100px;
+                text-align: center;
+                text-transform: uppercase;                
+            }
+
+            .celebrationInfo {
+                display: block;
+                float: left;
+                width: 50px;
+                height: 50px;
+                border: solid 3px $brand_color_white;
+                background-clip: content-box;
+                background: $brand_color_black;
+                border-radius: 50%;
+                overflow: hidden;
+                text-align: center;
+                margin: 23px 0 0 -28px;
+                color: $purlCelebrate_titleSpanColor;
+                position: relative;
+
+                &.noAnniversary {
+                    display: none;
+                }
+
+                .promotion {
+                    position: absolute;
+                    left: 0;
+                    top: 50px;
+                    border-radius: 50px;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 100%;
+                    color: $brand_color_primary;
+                    font-family: $purlCelebrate_fontFamily;
+                    line-height: 50px;
+                    font-size: 16px; //px value because it's dependent on the balloon's size
+                    font-weight: $fontWeightBold;
+                    z-index: 101;
+                }
+
+                .balloon {
+                    @include safeImgUrls("celebration/upcomingCel-balloon.png", $appImagesPath, $property: 'background-image');
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    background-position: 0 45px;
+                    position: absolute;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 100;
+                }
+            }
+
+            .personalInfo {
+                display: block;
+                float: left;
+                line-height: $baseLineHeight;
+                margin: 10px 15px;
+                font-size: $baseFontSize * 1.14;
+                font-weight: $fontWeightSemiBold;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                width: calc(100% - #{100px + (50px / 2 + 3px) + (15px * 2)}); // 100% - (avatar width + half celebrationInfo width + left/right margin)
+
+                a.profile-popover {
+                    font-family: $purlCelebrate_fontFamily;
+                    display: block;
+                    line-height: 1.2em;
+                    @include ignoreGlobalLinkStyles(
+                        $color: $brand_color_black
+                    );
+                }
+
+                .celebrationTimeLeft {
+                    display: block;
+                    font-weight: $fontWeightBold;
+                    font-size: $baseFontSize * 0.75;
+                    color: $purlCelebrate_timeLeftColor;
+                    line-height: $baseLineHeight;
+                    margin-left:1px;
+                    i {
+                        position: relative;
+                        top: 1px;
+                        padding-right: 2px;
+                        font-weight: $fontWeightBold;
+                    }
+
+                    &.isToday {
+                        color: $purlCelebrate_timeLeftTodayColor;
+                    }
+                }
+
+                a.shareLink {
+                    font-size: $fontSizeSmall;
+                    line-height: $lineHeightSmall;
+                    display: block;
+                }
+            }
+            .noAnniversary ~ .personalInfo {
+                width: calc(100% - #{100px + (15px * 2)}); // 100% - (avatar width + left/right margin)
+            }
+            &.slick-active, &.slick-active.slick-current { //make the balloon fly...
+                .balloon, .promotion {
+                    transition: all 800ms cubic-bezier(.71,.58,.64,1.32) ;
+                }
+                .balloon {
+                    background-position: 0px 0px;
+                }
+                .promotion {
+                    top: 0;
+                }
+            }
+            &.initialLoad {
+                .balloon {
+                    background-position: 0px 0px;
+                }
+                .promotion {
+                    top: 0;
+                }
+            }
+        }
+    }
+
+    .purlModuleBottom {
+        float: left;
+        padding: 15px 10px;
+    }
+
+    .purlCelebrateEmpty {
+        color: $brand_color_white;
+        text-align: center;
+        margin-bottom: $g6ModulePaddingY;
+        p {
+            margin-top: 40px;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        a {
+            margin-top: 10px;
+        }
+
+    }
+
+}/* /.launchModule */
+
+/* ----- PAGE STYLES ----- */
+.page.purlCelebrate {
+    .spin {
+        display: block;
+        height: $spinner_widthHeight;
+        margin: 0;
+        position: absolute;
+        right: 50%;
+        top: 50%;
+        width: $spinner_widthHeight;
+    }
+
+    .page-topper {
+        color: $purlCelebrate_pageTopperColor;
+        background-color: $purlCelebrate_pageTopperBgColor;
+        @include safeImgUrls($purlCelebrate_pageTopperBgImg, $purlCelebrate_pageTopperBgImgPath, $property: 'background-image');
+        background-size: $purlCelebrate_pageTopperBgImgSize;
+        background-position: $purlCelebrate_pageTopperBgImgPosition;
+
+        @if $purlCelebrate_pageTopperBgImgOpacity and $purlCelebrate_pageTopperBgImgOpacity < 1 {
+            position: relative;
+
+            &::before {
+                display: block;
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: transparentize($purlCelebrate_pageTopperBgColor, $purlCelebrate_pageTopperBgImgOpacity);
+            }
+
+            div {
+                position: relative;
+            }
+        }
+    }
+
+    #purlPastPresentSelect {
+        label {
+            display: inline-block;
+            width: auto;
+            background: $brand_color_lighter;
+            border: none;
+            color: $brand_color_black;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: none;
+            @include transition(all 0.1s ease-in-out);
+        }
+
+        input {
+            display: none;
+        }
+
+        input:checked + label {
+            background-color: $brand_color_primary;
+            color: $brand_color_white;
+        }
+
+        label:first-of-type {
+            border-radius: 4px 0 0 4px;
+        }
+
+        label:last-of-type {
+            border-radius: 0 4px 4px 0;
+        }
+    }
+
+    .purlCelebrateView,
+    .purlCelebrateFilterWrap {
+        display: inline-block;
+        margin-right: 30px;
+        @media (max-width: $breakpoint_mobile_max) {
+            margin-bottom: 10px;
+        }
+        .arrowToken {
+            cursor: pointer;
+            font-size: $fontSizeMid;
+            font-weight: $fontWeightBold;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .tokenName {
+            background-color: $brand_color_white;
+        }
+        .toggleLabel,
+        .filterLabel {
+            display: block;
+            margin-bottom: 5px; // borrowed from bootstrap/_forms.scss > label
+            font-weight: $fontWeightSemiBold; // copied from _forms.scss > $forms_labelFontWeight;
+        }
+
+        .dropdown {
+            margin-top: 0;
+
+           display: block;
+
+           .dropdown-menu {
+				max-height: ($baseLineHeight * 1.667) * 12;
+				overflow: auto;
+               > li {
+                   > a {
+                       line-height: $baseLineHeight * 1.667;
+                       i {
+
+                           float: right;
+                           line-height: $baseLineHeight * 1.667;
+                       }
+                   }
+                   ul{
+                       margin: 0;
+                       list-style: none;
+                   }
+                   li {
+                       line-height: $baseLineHeight * 1.667;
+                       padding-left: 25px;
+                   }
+                   li:hover {
+                       color: $brand_color_white;
+                       background-color: $brand_color_primary;
+                       cursor: pointer;
+                   }
+                   hr {
+                       margin: 0;
+                   }
+               }
+           }
+           .addNewFilter {
+               margin-bottom: 0;
+           }
+
+       }
+
+
+        label.radio {
+            line-height: $btnLineHeight * 1.35;
+            padding: $btnPadding;
+        }
+    }
+
+    .purlCelebrateSearch {
+        display: inline-block;
+
+        label {
+            display: inline-block;
+            // margin: 10px 0;
+        }
+
+        .selected-filter{
+            display: inline-block;
+            list-style: none;
+            padding: 5px 8px;
+            margin: 5px;
+            background: #efefef;
+            color: #353a40;
+            border-radius: 5px;
+            padding: 3px 10px;
+            white-space: nowrap;
+
+            .removeSearchToken {
+                margin-left: 5px;
+                cursor: pointer;
+                color: $brand_color_primary;
+            }
+        }
+
+        .filter-bold {
+            font-weight: $fontWeightBold;
+        }
+        @supports (-webkit-overflow-scrolling: touch) {
+            /* CSS specific to iOS devices */ 
+            #purlCelebrateNameInput {
+                line-height: $baseFontSize * 2;
+            }
+          }
+        // #purlCelebrateNameInput {
+        //     line-height: $baseFontSize * 2;
+        // }
+
+    }
+
+    .celebrationTitle {
+        display: none;
+    }
+
+
+    .dropdown-menu-info {
+        font-size: 80%;
+        padding: 5px 8px;
+    }
+
+    .purlCelebrateItemsCont {
+        .table {
+            td {
+                vertical-align: middle;
+
+                &.pax-name {
+                    line-height: 40px;
+
+                    a {
+                        display: inline-block;
+                        max-width: calc(100% - #{40px + 8px + 4px});
+                        line-height: normal;
+                        vertical-align: middle;
+                    }
+                }
+            }
+
+            .avatar {
+                background-color: $brand_color_primary;
+                border-radius: 50%;
+                color: $brand_color_white;
+                cursor: pointer;
+                display: inline-block;
+                font-size: $fontSizeLarge;
+                font-weight: normal;
+                height: 40px;
+                line-height: 40px;
+                margin-right: 8px;
+                min-width: 40px;
+                text-align: center;
+                vertical-align: middle;
+                width: 40px;
+            }
+            th.sortable {
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .purlCelebrateItems.emptySet {
+        h2 {
+            font-size: $baseFontSize * 1.429;
+        }
+
+        i {
+            margin-right: 10px;
+        }
+    }
+
+    .purlCelebrateSearch {
+        .searchWrap {
+            margin-top: 0;
+            margin-bottom: 0;
+            position: relative;
+
+            .btn {
+                background: none;
+                // border: none;
+                // border-radius: 4px;
+                // box-shadow: none;
+                height: 28px;
+                padding: 0 5px;
+                // position: absolute;
+                right: 2px;
+                top: 2px;
+                // z-index: 3;
+            }
+        }
+
+        .searchBtn {
+            i {
+                color: $purlCelebrate_magnifyColor;
+                font-size: round($baseFontSize * 1.28);
+                line-height: 32px;
+                text-shadow: none;
+            }
+        }
+
+        .spinnerWrap {
+            background-color: $brand_color_white;
+            border-radius: 4px;
+            display: none;
+            height: 28px;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            vertical-align: top;
+            width: 28px;
+            z-index: 4;
+        }
+    }
+}/* /.purlCelebrate */
+.page.purlCelebrate.sa-filter {
+    .page-topper {
+        color: $brand_color_black;
+        background-image: url($appImagesPath + "sa-uc.jpg");
+        &::before {
+            content: none
+        }
+    }
+    #purlPastPresentSelect label {
+        background: #fff;
+    }
+}
+/* ----- CARD BACK STYLES ----- */
+.card {
+    &.flipped-alt {
+        overflow: hidden; // dangerous, as it leaks out for every instance of .flipped-alt
+        border-radius: $card_borderRadius;
+    }
+    .card-back.card-purlrec {
+        overflow: auto;
+        color: $card_purlRec_color;
+        background-color: $card_purlRec_bgColor;
+        @include safeImgUrls($card_purlRec_bgImg, $card_purlRec_bgImgPath, $property: 'background-image');
+        background-size: $card_purlRec_bgImgSize;
+        background-position: $card_purlRec_bgImgPosition;
+
+        @if $card_purlRec_bgImgOpacity and $card_purlRec_bgImgOpacity < 1 {
+            // position: relative;
+
+            &::before {
+                display: block;
+                content: '';
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: -200%;
+                left: 0;
+                z-index: 0;
+                background: transparentize($card_purlRec_bgColor, $card_purlRec_bgImgOpacity);
+            }
+        }
+
+        .card-back-content-alt > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        // color the user's name at the top
+        .participant-name a {
+            @include ignoreGlobalLinkStyles(
+                $color: $brand_color_white false
+            );
+        }
+
+        // check to see if the text color is lighter than the background
+        // if so, apply invert-btn styles to the btn-inverse
+        // (copied from .invert-btn AND .btn-inverse &.invert-btn in _buttons.scss)
+        @if lightness($card_purlRec_color) > lightness($card_purlRec_bgColor) {
+            .btn-inverse {
+                color: $invertBtnBackground;
+                border-color: $invertBtnBackground;
+
+                @include g6buttonStates($invertBtnBackgroundHighlight, transparent, transparent, $invertBtnBackgroundHighlight, $invertBtnBackgroundHighlight);
+            }
+        }
+
+        .purlrec-container {
+            clear: both;
+            text-align: left;
+
+            .celebrationInfo {
+                float: left;
+                margin-right: 8px;
+                margin-bottom: $baseLineHeight / 2; // match paragraph bottom margin
+            }
+
+            .purlItem ~ .purlItem {
+                margin-top: $baseLineHeight;
+            }
+
+            h4 {
+                font-size: $headline4fontSize_mobile; // mobile size all the time for space considerations
+                margin-bottom: 0;
+            }
+            h4,
+            .celebrationTimeLeft {
+                margin-left: 50px + 6px + 8px;
+            }
+
+            .celebrationTimeLeft {
+                font-weight: $fontWeightBold;
+                font-size: $baseFontSize * 0.75;
+                color: $card_purlRec_timeLeftColor;
+
+                i {
+                    position: relative;
+                    top: 1px;
+                    padding-right: 2px;
+                    font-weight: $fontWeightBold;
+                }
+
+                &.isToday {
+                    color: $card_purlRec_timeLeftTodayColor;
+                }
+            }
+
+            .btn {
+                clear: both;
+            }
+        }
+    }
+}/* /.card */

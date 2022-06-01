@@ -1,0 +1,11 @@
+<?php sleep(2); ?>
+{
+    "messages":[
+        {
+            "type":"serverCommand",
+            "command":"modal",
+            "name":"Success.",
+            "text":"Cheers, old chap."
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+<%--UI REFACTORED--%>
+     <span class="subheadline">
+			<c:out value="${user.titleType.name}" />
+		  	<c:out value="${user.firstName}" />
+			<c:out value="${user.middleName}" />
+			<c:out value="${user.lastName}" />
+			<c:out value="${user.suffixType.name}" />		                
+     </span>
+

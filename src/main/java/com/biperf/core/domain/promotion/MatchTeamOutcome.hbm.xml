@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.MatchTeamOutcome" table="THROWDOWN_MATCH_TEAM_OUTCOME">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="MATCH_OUTCOME_ID">
+			<generator class="seqhilo">
+				<param name="sequence">td_match_team_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED" />
+	      <column name="MODIFIED_BY" />
+	    </property>
+
+		<property name="currentValue" type="java.math.BigDecimal" column="CURRENT_VALUE"/>
+
+		<many-to-one name="promotion" column="PROMOTION_ID" not-null="true" lazy="proxy" insert="true" update="false"/>
+    	<many-to-one name="match" column="MATCH_ID" not-null="true" lazy="proxy" insert="true" update="false"/>
+    	<many-to-one name="team" column="TEAM_ID" not-null="true" lazy="proxy" insert="true" update="false" />
+    	
+    	<property name="outcome" column="OUTCOME_TYPE">
+		    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+		      <param name="lookupClass">com.biperf.core.domain.enums.MatchTeamOutcomeType</param>
+		    </type>
+		</property>
+		
+		<set name="progress" table="THROWDOWN_MATCH_TEAM_PROGRESS" lazy="true" inverse="true" cascade="all" order-by="DATE_CREATED ASC">
+		   <key column="MATCH_OUTCOME_ID" not-null="true" />
+		   <one-to-many class="com.biperf.core.domain.promotion.MatchTeamProgress"/>
+		</set>
+		
+	</class>
+	
+	  <sql-query name="com.biperf.core.domain.promotion.getTeamOutcomeByPromotionIdUserIdRoundNumber">
+	    <return alias="tmtc" class="com.biperf.core.domain.promotion.MatchTeamOutcome" />
+	    <![CDATA[
+			SELECT distinct {tmtc.*} 
+			FROM throwdown_match_team_outcome tmtc, throwdown_team tt, throwdown_round tr, throwdown_match tm
+			WHERE tmtc.team_id = tt.team_id
+			AND tmtc.match_id = tm.match_id
+			AND tm.round_id = tr.round_id
+			AND tmtc.promotion_id = :promotionId
+			AND tt.user_id = :userId
+			AND tr.round_number = :roundNumber
+			]]>
+	  </sql-query>	
+</hibernate-mapping>

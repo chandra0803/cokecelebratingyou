@@ -1,0 +1,328 @@
+CREATE TABLE stage_pax_import_record
+  (
+    import_record_id              NUMBER(18) NOT NULL,
+    import_file_id                NUMBER(18) NOT NULL INITIALLY DEFERRED,
+    action_type                   VARCHAR2(10) NOT NULL,
+
+    user_id                       NUMBER(18),
+    user_name                     VARCHAR2(40),
+    first_name                    VARCHAR2(40),
+    middle_name                   VARCHAR2(40),
+    last_name                     VARCHAR2(40),
+    suffix                        VARCHAR2(30),
+    ssn                           VARCHAR2(40),
+    birth_date                    DATE,
+    gender                        VARCHAR2(10),
+    active                        NUMBER(1),
+    status                        VARCHAR2(30),
+    
+    terms_acceptance 			  VARCHAR2(30),
+    user_id_accepted 			  VARCHAR2(30),
+    date_terms_accepted 		  DATE,
+
+    email_address                 VARCHAR2(75),
+    email_address_type            VARCHAR2(30),
+    text_message_address          VARCHAR2(75),
+
+    address_1                     VARCHAR2(4000),
+    address_2                     VARCHAR2(4000),
+    address_3                     VARCHAR2(4000),
+    address_4                     VARCHAR2(4000),
+    address_5                     VARCHAR2(4000),
+    address_6                     VARCHAR2(4000),
+    city                          VARCHAR2(40),
+    state                         VARCHAR2(100),
+    country_id                    NUMBER(18),
+    country_code                  VARCHAR2(30),
+    postal_code                   VARCHAR2(100),
+    address_type                  VARCHAR2(255),
+
+    personal_phone_number         VARCHAR2(30),
+    business_phone_number         VARCHAR2(30),
+    cell_phone_number             VARCHAR2(30),
+
+    employer_id                   NUMBER(18),
+    employer_name                 VARCHAR2(255),
+    job_position                  VARCHAR2(1000),
+    department                    VARCHAR2(100),
+    hire_date                     DATE,
+    termination_date              DATE,
+
+    node_id1                      NUMBER(18),
+    node_id2                      NUMBER(18),
+    node_id3                      NUMBER(18),
+    node_id4                      NUMBER(18),
+    node_id5                      NUMBER(18),
+
+    node_name1                    VARCHAR2(255),
+    node_name2                    VARCHAR2(255),
+    node_name3                    VARCHAR2(255),
+    node_name4                    VARCHAR2(255),
+    node_name5                    VARCHAR2(255),
+
+    node_relationship1            VARCHAR2(60),
+    node_relationship2            VARCHAR2(60),
+    node_relationship3            VARCHAR2(60),
+    node_relationship4            VARCHAR2(60),
+    node_relationship5            VARCHAR2(60),
+
+    characteristic_id1            NUMBER(18),
+    characteristic_id2            NUMBER(18),
+    characteristic_id3            NUMBER(18),
+    characteristic_id4            NUMBER(18),
+    characteristic_id5            NUMBER(18),
+    characteristic_id6 		      NUMBER(18),
+    characteristic_id7 		      NUMBER(18),
+    characteristic_id8 			  NUMBER(18),
+    characteristic_id9 			  NUMBER(18),
+    characteristic_id10  	  	  NUMBER(18),
+    characteristic_id11 	  	  NUMBER(18),
+    characteristic_id12	 		  NUMBER(18),
+    characteristic_id13   		  NUMBER(18),
+    characteristic_id14 		  NUMBER(18),
+    characteristic_id15 		  NUMBER(18),
+    characteristic_id16           NUMBER(18),
+    characteristic_id17           NUMBER(18),
+    characteristic_id18           NUMBER(18),
+    characteristic_id19           NUMBER(18),
+    characteristic_id20           NUMBER(18),
+
+    characteristic_name1          VARCHAR2(250),
+    characteristic_name2          VARCHAR2(250),
+    characteristic_name3          VARCHAR2(250),
+    characteristic_name4          VARCHAR2(250),
+    characteristic_name5          VARCHAR2(250),
+    characteristic_name6 		  VARCHAR2(250),
+    characteristic_name7 		  VARCHAR2(250),
+    characteristic_name8 		  VARCHAR2(250),
+    characteristic_name9 		  VARCHAR2(250),
+    characteristic_name10 		  VARCHAR2(250),
+    characteristic_name11 		  VARCHAR2(250),
+    characteristic_name12		  VARCHAR2(250),
+    characteristic_name13		  VARCHAR2(250),
+    characteristic_name14 		  VARCHAR2(250),
+    characteristic_name15		  VARCHAR2(250),
+    characteristic_name16         VARCHAR2(250),
+    characteristic_name17         VARCHAR2(250),
+    characteristic_name18         VARCHAR2(250),
+    characteristic_name19         VARCHAR2(250),
+    characteristic_name20         VARCHAR2(250),
+	
+	characteristic_value1         VARCHAR2(100),
+    characteristic_value2         VARCHAR2(100),
+    characteristic_value3         VARCHAR2(100),
+    characteristic_value4         VARCHAR2(100),
+    characteristic_value5         VARCHAR2(100),
+    characteristic_value6		  VARCHAR2(100),
+    characteristic_value7		  VARCHAR2(100),
+    characteristic_value8		  VARCHAR2(100),
+    characteristic_value9		  VARCHAR2(100),
+    characteristic_value10		  VARCHAR2(100),
+    characteristic_value11		  VARCHAR2(100),
+    characteristic_value12		  VARCHAR2(100),
+    characteristic_value13		  VARCHAR2(100),
+    characteristic_value14		  VARCHAR2(100),
+    characteristic_value15 		  VARCHAR2(100),    
+    characteristic_value16        VARCHAR2(100),
+    characteristic_value17        VARCHAR2(100),
+    characteristic_value18        VARCHAR2(100),
+    characteristic_value19        VARCHAR2(100),
+    characteristic_value20        VARCHAR2(100),
+
+    role_id1                      NUMBER(18),
+    role_id2                      NUMBER(18),
+    role_id3                      NUMBER(18),
+    role_id4                      NUMBER(18),
+    role_id5                      NUMBER(18),
+
+    role_description1             VARCHAR2(255),
+    role_description2             VARCHAR2(255),
+    role_description3             VARCHAR2(255),
+    role_description4             VARCHAR2(255),
+    role_description5             VARCHAR2(255),
+
+    created_by number(18) NOT NULL,
+    date_created                  DATE NOT NULL,
+    language_id                   VARCHAR2(10),
+    sso_id 						  VARCHAR2(100)
+  )
+/
+ALTER TABLE stage_pax_import_record
+ADD CONSTRAINT stage_pax_import_record_pk PRIMARY KEY (import_record_id)
+USING INDEX
+/
+ALTER TABLE stage_pax_import_record
+ADD CONSTRAINT stage_pax_import_record_fk FOREIGN KEY (import_file_id)
+REFERENCES import_file (import_file_id)
+/
+CREATE INDEX STG_PAX_MPRT_RC_MPRT_FL_FK_idx ON STAGE_PAX_IMPORT_RECORD
+  (IMPORT_FILE_ID)
+/
+COMMENT ON TABLE stage_pax_import_record IS 'Information about a participant import record.'
+/
+COMMENT ON COLUMN stage_pax_import_record.import_record_id IS 'Uniquely identifies an import record.'
+/
+COMMENT ON COLUMN stage_pax_import_record.import_file_id IS 'Identifies the import file that contains this import record.  Foreign key to the IMPORT_FILE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.action_type IS 'Indicates how to process this import record.'
+/
+COMMENT ON COLUMN stage_pax_import_record.user_id IS 'The participant''s user ID.'
+/
+COMMENT ON COLUMN stage_pax_import_record.user_name IS 'The participant''s user name.'
+/
+COMMENT ON COLUMN stage_pax_import_record.first_name IS 'The participant''s first name.'
+/
+COMMENT ON COLUMN stage_pax_import_record.middle_name IS 'The participant''s middle name.'
+/
+COMMENT ON COLUMN stage_pax_import_record.last_name IS 'The participant''s last name.'
+/
+COMMENT ON COLUMN stage_pax_import_record.suffix IS 'The participant''s name suffix; for example, "senior."'
+/
+COMMENT ON COLUMN stage_pax_import_record.ssn IS 'The participant''s social security number.'
+/
+COMMENT ON COLUMN stage_pax_import_record.birth_date IS 'The participant''s birth date.'
+/
+COMMENT ON COLUMN stage_pax_import_record.gender IS 'The participant''s gender.'
+/
+COMMENT ON COLUMN participant.status IS 'ACTIVE or INACTIVE. ACTIVE indicates the participant is under no restriction in the application. INACTIVE indicates the participant is restricted to all/some access of the application system. For example: A participant is set to INACTIVE by the application if he does not accept the Terms & Conditions given the client program requires the Acceptance.'
+/
+COMMENT ON COLUMN participant.terms_acceptance IS 'indicate the participants acceptance of the Terms & Conditions of the program he/she participants in. If the pax does not accept the T&C, the pax status is set to INACTIVE by the application.  In the event a client program does not impose Acceptance of the Terms & Conditions, this is set to accepted by the application thru the UI and fileload. Default is not accepted.'
+/
+COMMENT ON COLUMN participant.user_id_accepted IS 'the user id of the person who has accepted the Terms & Conditions. This could be the participant herself, or an User such as an BI or Client Administrator.  In the event a client does not impose Terms & Conditions Acceptance to its participants, this is null.'
+/
+COMMENT ON COLUMN participant.date_terms_accepted IS 'the date the Terms & Conditions are accepted. In the event a client does not impose Terms & Conditions Acceptance to its participants, this is null.'
+/
+COMMENT ON COLUMN stage_pax_import_record.email_address IS 'The participant''s email address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.email_address_type IS 'The type of the participant''s email address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.text_message_address IS 'The participant''s text message address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.address_1 IS 'The first line of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.address_2 IS 'The second line of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.address_3 IS 'The third line of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.address_4 IS 'The fourth line of the participant''s address.  Used for addresses outside North America only.'
+/
+COMMENT ON COLUMN stage_pax_import_record.address_5 IS 'The fifth line of the participant''s address.  Used for addresses outside North America only.'
+/
+COMMENT ON COLUMN stage_pax_import_record.address_6 IS 'The sixth line of the participant''s address.  Used for addresses outside North America only.'
+/
+COMMENT ON COLUMN stage_pax_import_record.city IS 'The city componoent of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.state IS 'The state componoent of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.country_id IS 'The ID of the country componoent of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.country_code IS 'The code of the country componoent of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.postal_code IS 'The postal code componoent of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.address_type IS 'The type of the participant''s address.'
+/
+COMMENT ON COLUMN stage_pax_import_record.personal_phone_number IS 'The participant''s personal phone number.'
+/
+COMMENT ON COLUMN stage_pax_import_record.business_phone_number IS 'The participant''s business phone number.'
+/
+COMMENT ON COLUMN stage_pax_import_record.cell_phone_number IS 'The participant''s cell phone number.'
+/
+COMMENT ON COLUMN stage_pax_import_record.employer_name IS 'The name of the participant''s employer.'
+/
+COMMENT ON COLUMN stage_pax_import_record.employer_id IS 'The id of the participant''s employer.'
+/
+COMMENT ON COLUMN stage_pax_import_record.job_position IS 'The name of the participant''s job position.'
+/
+COMMENT ON COLUMN stage_pax_import_record.department IS 'The name of the department in which the participant works.'
+/
+COMMENT ON COLUMN stage_pax_import_record.hire_date IS 'The date on which the participant was hired.'
+/
+COMMENT ON COLUMN stage_pax_import_record.termination_date IS 'The date on which the participant''s employment was terminated.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_id1 IS 'Identifies the first node associated with the participant.  Foreign key into the NODE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_id2 IS 'Identifies the second node associated with the participant.  Foreign key into the NODE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_id3 IS 'Identifies the third node associated with the participant.  Foreign key into the NODE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_id4 IS 'Identifies the fourth node associated with the participant.  Foreign key into the NODE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_id5 IS 'Identifies the fifth node associated with the participant.  Foreign key into the NODE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_name1 IS 'The name of the first node associated with the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_name2 IS 'The name of the second node associated with the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_name3 IS 'The name of the third node associated with the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_name4 IS 'The name of the fourth node associated with the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_name5 IS 'The name of the fifth node associated with the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_relationship1 IS 'Identifies the participant''s relationship with first node with which he or she is associated.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_relationship2 IS 'Identifies the participant''s relationship with second node with which he or she is associated.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_relationship3 IS 'Identifies the participant''s relationship with third node with which he or she is associated.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_relationship4 IS 'Identifies the participant''s relationship with fourth node with which he or she is associated.'
+/
+COMMENT ON COLUMN stage_pax_import_record.node_relationship5 IS 'Identifies the participant''s relationship with fifth node with which he or she is associated.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_id1 IS 'Identifies the first characteristic of the participant.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_id2 IS 'Identifies the second characteristic of the participant.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_id3 IS 'Identifies the third characteristic of the participant.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_id4 IS 'Identifies the fourth characteristic of the participant.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_id5 IS 'Identifies the fifth characteristic of the participant.  Foreign key into the CHARACTERISTIC table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_name1 IS 'The name of the first characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_name2 IS 'The name of the second characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_name3 IS 'The name of the third characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_name4 IS 'The name of the fourth characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_name5 IS 'The name of the fifth characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_value1 IS 'The value of the first characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_value2 IS 'The value of the second characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_value3 IS 'The value of the third characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_value4 IS 'The value of the fourth characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.characteristic_value5 IS 'The value of the fifth characteristic of the participant.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_id1 IS 'Identifies the participant''s first role.  Foreign key into the ROLE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_id2 IS 'Identifies the participant''s first role.  Foreign key into the ROLE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_id3 IS 'Identifies the participant''s first role.  Foreign key into the ROLE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_id4 IS 'Identifies the participant''s first role.  Foreign key into the ROLE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_id5 IS 'Identifies the participant''s first role.  Foreign key into the ROLE table.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_description1 IS 'Describes the participant''s first role.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_description2 IS 'Describes the participant''s second role.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_description3 IS 'Describes the participant''s third role.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_description4 IS 'Describes the participant''s fourth role.'
+/
+COMMENT ON COLUMN stage_pax_import_record.role_description5 IS 'Describes the participant''s fifth role.'
+/
+COMMENT ON COLUMN stage_pax_import_record.created_by IS 'The username of the user who created this record.'
+/
+COMMENT ON COLUMN stage_pax_import_record.date_created IS 'The date and time at which this record was created.'
+/
+COMMENT ON COLUMN stage_pax_import_record.language_id IS 'Identifies the participant''s language.'
+/

@@ -1,0 +1,259 @@
+/* ----- MAIN SUBMIT MODULE STYLES ----- */
+.launchModule.nominations {
+
+    /* ----- NOMINATION WINNERS MODULE----- */
+    &.nominationsWinners {
+        .module-liner {
+            @if $nominationsPastWinnersModule_bgColor {
+                background-color: $nominationsPastWinnersModule_bgColor;
+            }
+            @if $nominationsPastWinnersModule_bgImg {
+                @include safeImgUrls($nominationsPastWinnersModule_bgImg, $nominationsPastWinnersModule_bgImgPath, $property: 'background-image');
+                @if $nominationsPastWinnersModule_bgImgPosition {
+                    background-position: $nominationsPastWinnersModule_bgImgPosition;
+                }
+                @if $nominationsPastWinnersModule_bgImgRepeat {
+                    background-repeat: $nominationsPastWinnersModule_bgImgRepeat;
+                }
+                @if $nominationsPastWinnersModule_bgImgSize {
+                    background-size: $nominationsPastWinnersModule_bgImgSize;
+                }
+            }
+        }
+        @if $nominationsPastWinnersModule_titleColor {
+            .module-title {
+                a {
+                    @include ignoreGlobalLinkStyles(
+                        $color: $nominationsPastWinnersModule_titleColor false
+                    );
+                }
+            }
+        }
+        @if $nominationsPastWinnersModule_linkColor {
+            .module-actions a {
+                color: $nominationsPastWinnersModule_linkColor;
+            }
+        }
+
+        // special leaderboard-only breakpoints for stacking columns next to the highlighted user
+        // note use of different margins
+        $margin_tablet:       nth($card_margin_tablet, 2);
+        $margin_desktop:      max($margin_tablet, nth($card_margin_desktop, 2));
+        $margin_desktopLarge: max($margin_desktop, nth($card_margin_desktopLarge, 2));
+
+        $card_w_margin_tablet:       $card_width + $margin_tablet;
+        $card_w_margin_desktop:      $card_width + $margin_desktop;
+        $card_w_margin_desktopLarge: $card_width + $margin_desktopLarge;
+
+        $nom_bp_3col_min_tablet:         $g6ModulePaddingX_tablet       + (3 * $card_w_margin_tablet)       + $g6ModulePaddingX_tablet;
+        $nom_bp_3col_min_desktop:        $g6ModulePaddingX_desktop      + (3 * $card_w_margin_desktop)      + $g6ModulePaddingX_desktop      + $global_sidebar_width_desktop;
+
+        $nom_bp_4col_min_desktopLarge:   $g6ModulePaddingX_desktopLarge + (4 * $card_w_margin_desktopLarge) + $g6ModulePaddingX_desktopLarge + $global_sidebar_width_desktopLarge;
+
+        /**
+         * Breakpoints (view compiled source for actual values)
+         * -----------
+         * $nom_bp_3col_min_tablet:          #{$nom_bp_3col_min_tablet}
+         * $nom_bp_3col_min_desktop:         #{$nom_bp_3col_min_desktop}
+         *
+         * $nom_bp_4col_min_desktopLarge:    #{$nom_bp_4col_min_desktopLarge}
+         */
+
+        .winnersContainerInner {
+            margin-top: $baseLineHeight / 2;
+
+            .nomsList {
+                margin: 0 0 (-1 * nth($card_margin, 1)) 0;
+                padding: 0;
+                @include clearfix();
+
+                .nom {
+                    display: block;
+                    list-style-type: none;
+                    margin: 0 0 nth($card_margin, 1) 0;
+                    padding: 0;
+                    @include clearfix();
+
+                    .detailUrl {
+                        @include ignoreGlobalLinkStyles();
+                    }
+
+                    .title {
+                        font-size: $fontSizeMid;
+                        line-height: $lineHeightMid;
+                        @if $nominationsPastWinnersModule_titleColor {
+                            @include ignoreGlobalLinkStyles(
+                                $color: $nominationsPastWinnersModule_titleColor false,
+                                $fontWeight: $fontWeightSemiBold
+                            );
+                        }
+
+                        .awardName {
+                            display: block;
+                        }
+                        .detailName {
+                            display: block;
+                            font-size: $baseFontSize;
+                            line-height: $baseLineHeight;
+                        }
+                    }
+
+                    .card {
+                        margin-bottom: 0;
+                        width: auto;
+                    }
+
+                    .profile-popover {
+                        @include applyGlobalLinkStyles(
+                            $fontWeight: false,
+                            $fontStyle: false,
+                            $textTransform: false
+                        );
+                    }
+
+                    // only show four at mobile
+                    &:nth-of-type(n+5) {
+                        display: none;
+                    }
+                }
+            }
+
+            @media (min-width: $breakpoint_mobileMini_min) {
+
+            } // /@media
+
+            @media (min-width: $breakpoint_tablet_min) {
+                .nomsList {
+                    margin-right: -1 * $margin_tablet;
+                    margin-bottom: -1 * nth($card_margin_tablet, 1);
+
+                    .nom {
+                        display: inline;
+                        float: left;
+                        clear: left;
+                        margin-right: $margin_tablet;
+                        margin-bottom: nth($card_margin_tablet, 1);
+                        width: calc(50% - #{$margin_tablet});
+
+                        // show six at tablet
+                        &:nth-of-type(n+5) {
+                            display: inline;
+                        }
+                        &:nth-of-type(n+7) {
+                            display: none;
+                        }
+
+                        &:nth-of-type(even) {
+                            float: right;
+                            clear: right;
+                        }
+                    }
+                }
+            } // /@media
+
+            @media (min-width: $breakpoint_desktop_min) {
+                @if $margin_desktop != $margin_tablet {
+                    .nomsList {
+                        margin-right: -1 * $margin_desktop;
+                        margin-bottom: -1 * nth($card_margin_desktop, 1);
+
+                        .nom {
+                            margin-right: $margin_desktop;
+                            margin-bottom: nth($card_margin_desktop, 1);
+                            width: calc(50% - #{$margin_desktop});
+                        }
+                    }
+                } // /@if
+            } // /@media
+
+            // extra breakpoint for three columns on tablet, desktop
+            @media (min-width: $nom_bp_3col_min_tablet) and (max-width: $breakpoint_tablet_max),
+                   (min-width: $nom_bp_3col_min_desktop) {
+
+                .nomsList {
+                    .nom {
+                        float: left;
+                        clear: none;
+                        width: calc(33.3% - #{$margin_tablet});
+
+                        &:nth-of-type(even) {
+                            float: left;
+                            clear: none;
+                        }
+
+                        &:nth-of-type(3n+1) {
+                            clear: left;
+                        }
+
+                        &:nth-of-type(3n+3) {
+                            float: right;
+                            clear: right;
+                        }
+                    }
+                }
+            } // /@media
+
+            // extra breakpoint for three columns on desktop
+            @media (min-width: $nom_bp_3col_min_desktop) {
+                @if $margin_desktop != $margin_tablet {
+                   .nomsList {
+                        .nom {
+                            width: calc(33.3% - #{$margin_desktop});
+                        }
+                    }
+                }
+            } // /@media
+
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                @if $margin_desktopLarge != $margin_desktop {
+                    .nomsList {
+                        margin-right: -1 * $margin_desktopLarge;
+                        margin-bottom: -1 * nth($card_margin_desktopLarge, 1);
+
+                        .nom {
+                            margin-right: $margin_desktopLarge;
+                            margin-bottom: nth($card_margin_desktopLarge, 1);
+                            width: calc(33.3% - #{$margin_desktopLarge});
+                        }
+                    }
+                } // /@if
+            } // /@media
+
+            // extra breakpoint for four columns on desktopLarge
+            @media (min-width: $nom_bp_4col_min_desktopLarge) {
+               .nomsList {
+                    .nom {
+                        width: calc(25% - #{$margin_desktopLarge});
+
+                        // show eight on desktopLarge
+                        &:nth-of-type(n+7) {
+                            display: inline;
+                        }
+                        &:nth-of-type(n+9) {
+                            display: none;
+                        }
+
+                        &:nth-of-type(3n+1),
+                        &:nth-of-type(3n+3) {
+                            float: left;
+                            clear: none;
+                        }
+
+                        &:nth-of-type(4n+1) {
+                            clear: left;
+                        }
+
+                        &:nth-of-type(4n+4) {
+                            float: right;
+                            clear: right;
+                        }
+                    }
+                }
+            } // /@media
+        }
+    }
+
+} /* /.module.nominations */
+#nominationsInprogressListPageView{
+    position:relative;
+}

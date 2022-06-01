@@ -1,0 +1,414 @@
+/***
+*    888               888 888
+*    888               888 888
+*    888               888 888
+*    88888b.   8888b.  888 888  .d88b.   .d88b.  88888b.  .d8888b
+*    888 "88b     "88b 888 888 d88""88b d88""88b 888 "88b 88K
+*    888  888 .d888888 888 888 888  888 888  888 888  888 "Y8888b.
+*    888 d88P 888  888 888 888 Y88..88P Y88..88P 888  888      X88
+*    88888P"  "Y888888 888 888  "Y88P"   "Y88P"  888  888  88888P'
+*
+*
+*
+*/
+
+$balloon1-color: rgba(226, 87, 76, 0.9) !default;
+$balloon2-color: rgba(38, 166, 209, 0.9) !default;
+$balloon3-color: rgba(239, 199, 94, 0.9) !default;
+$balloon4-color: rgba(162, 117, 197, 0.9) !default;
+$balloon5-color: rgba(61, 179, 158, 0.9) !default;
+$balloon6-color: rgba(228, 167, 113, 0.9) !default;
+$balloonNumFontSize: 3em !default;
+$balloonNum-color: rgba(255, 255, 255, 0.6) !default;
+$balloonWidth:85px !default;
+$balloonHeight:$balloonWidth * 1.2 !default;
+$balloonNotFontSize: $balloonWidth/9 !default;
+$balloonAnimationTime:10s !default;
+$balloonAnimationHeight: 250px !default;
+$balloonLowerHeight: $balloonAnimationHeight/2 !default;
+.celebrationBalloons {
+    .balloonContainer {
+        padding-top: 5%;
+        text-align: center;
+        height: 95%;
+        width: 100%;
+        //overflow: hidden;
+        position: relative;
+    }
+    .balloon {
+        width: $balloonWidth;
+        height: $balloonHeight;
+        border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+        position: absolute;
+        box-shadow: inset -10px -2px 10px rgba(0, 0, 0, 0.25);
+        transform: translate(-50%, $balloonAnimationHeight);
+        &:before {
+            content: "▲";
+            font-size: $balloonNotFontSize;
+            display: block;
+            text-align: center;
+            width: 100%;
+            position: absolute;
+            bottom: -12px;
+        }
+        &:after {
+            display: inline-block;
+            top: $balloonHeight;
+            position: relative;
+            height: $balloonAnimationHeight;
+            width: 1px;
+            margin: 0 auto;
+            content: "";
+            background: rgba(255, 255, 255, 0.2);
+        }
+        &.balloonAnimation {
+            transition: transform 5s ease-in-out;
+            -webkit-animation: balloons $balloonAnimationTime forwards;
+            animation: balloons $balloonAnimationTime forwards;
+            //animation-fill-mode: forwards;
+            -webkit-transform-origin: center $balloonHeight;
+            transform-origin: center $balloonHeight;
+            transform: translate(-50%, $balloonAnimationHeight);
+        }
+    }
+    @keyframes balloons {
+        from {
+            transform: translate(-50%, $balloonAnimationHeight) rotate(-2deg);
+        }
+        10% {
+            transform: translate(-50%, $balloonLowerHeight) rotate(2deg);
+        }
+        40% {
+            transform: translate(-50%, $balloonLowerHeight+10) rotate(-2deg);
+        }
+        60% {
+            transform: translate(-50%, $balloonLowerHeight) rotate(3deg);
+        }
+        80% {
+            transform: translate(-50%, $balloonLowerHeight+10) rotate(-1deg);
+        }
+        to {
+            transform: translate(-50%, $balloonLowerHeight+5) rotate(0deg);
+        }
+    }
+    .balloon .highlight {
+        width: 100%;
+        height: 100%;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        //background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(255, 255, 255, 0.7)), color-stop(14%, rgba(255, 255, 255, 0.5)), color-stop(25%, rgba(255, 255, 255, 0)));
+        //background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.5) 14%, rgba(255, 255, 255, 0) 24%);
+        //-webkit-transform: translateX(-30%) translateY(-30%) skewX(-20deg);
+        //transform: translateX(-30%) translateY(-30%) skewX(-20deg);
+        background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(255, 255, 255, 0.2)), color-stop(32%, rgba(255, 255, 255, 0.2)), color-stop(35%, rgba(255, 255, 255, 0)));
+        background: radial-gradient(ellipse, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 32%, rgba(255, 255, 255, 0) 35%);
+        background-size:30% 70%;
+        background-repeat:no-repeat;
+        -webkit-transform: translateX(-3%) translateY(3%) skewX(-4deg);
+        transform: translateX(-3%) translateY(3%) skewX(-4deg);
+
+        /* .cssfilters & {
+            background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(255, 255, 255, 0.8)), color-stop(14%, rgba(255, 255, 255, 0.8)), color-stop(25%, rgba(255, 255, 255, 0)));
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
+            -webkit-filter: blur(10px);
+            filter: blur(10px);
+        } */
+
+        &:after{
+            width: 100%;
+            height: 100%;
+            content: "";
+            position: absolute;
+            top: 9%;
+            left: 8%;
+            border-radius: 50%;
+            background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(255, 255, 255, 0.2)), color-stop(6%, rgba(255, 255, 255, 0.3)), color-stop(6%, rgba(255, 255, 255, 0)));
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2) 6%, rgba(255, 255, 255, 0) 6%);
+            -webkit-transform: translateX(-40%) translateY(0) skewX(10deg);
+            transform: translateX(-40%) translateY(0) skewX(10deg);
+        }
+    }
+    .balloon .balloonNum {
+        position: absolute;
+        margin: auto;
+        text-align: center;
+        top: 45%;
+        font-size: $balloonNumFontSize;
+        color: $balloonNum-color;
+        left: 0;
+        width: 100%;
+    }
+    // BALLOON 1
+    .balloon:nth-child(1) {
+        background: $balloon1-color;
+        left: 50%;
+        &.balloonAnimation {
+            -webkit-animation: balloon1 $balloonAnimationTime ease-in-out;
+            animation: balloon1 $balloonAnimationTime ease-in-out;
+            -webkit-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+        }
+        &:before {
+            color: $balloon1-color;
+        }
+        /*BALLOON 1 4*/
+        @keyframes balloon1 {
+            from {
+                transform: translate(-50%, $balloonAnimationHeight) rotate(5deg);
+            }
+            10% {
+                transform: translate(-50%, -5px) rotate(-4deg);
+            }
+            40% {
+                transform: translate(-50%, 10px) rotate(2deg);
+            }
+            60% {
+                transform: translate(-50%, -5px) rotate(-3deg);
+            }
+            80% {
+                transform: translate(-50%, 5px) rotate(1deg);
+            }
+            to {
+                transform: translate(-50%, 0) rotate(0deg);
+            }
+        }
+    }
+    .balloon:nth-child(2) {
+        background: $balloon2-color;
+        left: 63%;
+        top: 5%;
+        -webkit-animation-delay: 0.1s;
+        animation-delay: 0.1s;
+        -webkit-animation-duration: $balloonAnimationTime - 0.1s;
+        animation-duration: $balloonAnimationTime - 0.1s;
+        &:before {
+            color: $balloon2-color;
+        }
+    }
+    .balloon:nth-child(3) {
+        background: $balloon3-color;
+        left: 82%;
+        top: 23%;
+        -webkit-animation-delay: 0.2s;
+        animation-delay: 0.2s;
+        -webkit-animation-duration: $balloonAnimationTime - 0.2s;
+        animation-duration: $balloonAnimationTime - 0.2s;
+        &:before {
+            color: $balloon3-color;
+        }
+    }
+    .balloon:nth-child(4) {
+        background: $balloon4-color;
+        left: 36%;
+        top: 10%;
+        &:before {
+            color: $balloon4-color;
+        }
+    }
+    .balloon:nth-child(5) {
+        background: $balloon5-color;
+        left: 18%;
+        top: 25%;
+        -webkit-animation-delay: 0.3s;
+        animation-delay: 0.3s;
+        -webkit-animation-duration: $balloonAnimationTime - 0.3s;
+        animation-duration: $balloonAnimationTime - 0.3s;
+        &:before {
+            color: $balloon5-color;
+        }
+    }
+    .balloon:nth-child(6) {
+        background: $balloon6-color;
+        left: 55%;
+        top: 29%;
+        -webkit-animation-delay: 0.5s;
+        animation-delay: 0.5s;
+        -webkit-animation-duration: $balloonAnimationTime - 0.5s;
+        animation-duration: $balloonAnimationTime - 0.5s;
+        &:before {
+            color: $balloon6-color;
+        }
+    }
+}
+
+
+/***
+ *                                       888      888
+ *                                       888      888
+ *                                       888      888
+ *    .d8888b  88888b.   8888b.  888d888 888  888 888  .d88b.  .d8888b
+ *    88K      888 "88b     "88b 888P"   888 .88P 888 d8P  Y8b 88K
+ *    "Y8888b. 888  888 .d888888 888     888888K  888 88888888 "Y8888b.
+ *         X88 888 d88P 888  888 888     888 "88b 888 Y8b.          X88
+ *     88888P' 88888P"  "Y888888 888     888  888 888  "Y8888   88888P'
+ *             888
+ *             888
+ *             888
+ */
+
+$badgeAnimationHeight:250px;
+$badgeAnimationTime:3.75s;
+$badgeAnimationTimeDelay: 0.25s;
+$sparkleAnimationTime:1s;
+$sparkle1AnimationTimeDelay:1s;
+$sparkle2AnimationTimeDelay:0;
+$sparkleFontSize:3em;
+.sparkleContainer {
+    .sparkleImg {
+        transform: translateY($badgeAnimationHeight);
+        &.sparkleAnimation {
+            transition: transform $badgeAnimationTime ease-out;
+            -webkit-animation: badgeAnimation $badgeAnimationTime forwards;
+            animation: badgeAnimation $badgeAnimationTime forwards;
+            -webkit-transform-origin: center bottom;
+            transform-origin: center bottom;
+            -webkit-animation-delay: $badgeAnimationTimeDelay;
+            animation-delay: $badgeAnimationTimeDelay;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            @keyframes badgeAnimation {
+                from {
+                    transform: translateY($badgeAnimationHeight) rotateY(0);
+                }
+                15% {
+                    transform: translateY(-5%) rotateY(360deg);
+
+                }
+                25% {
+                    transform: translateY(4%) ;
+                    //transform: rotateY(180deg);
+
+                }
+                45% {
+                    transform: translateY(-3%);
+                    //transform: rotateY(180deg);
+                }
+                70% {
+                    transform: translateY(2%);
+                    //transform: rotateY(180deg);
+                }
+                to {
+                    transform: translateY(0);
+                }
+            }
+            .sparkle {
+                -webkit-animation: small $sparkleAnimationTime forwards;
+                animation: small $sparkleAnimationTime forwards;
+                -webkit-animation-delay: 0.75s;
+                animation-delay: 0.75s;
+                opacity: 0;
+                position: absolute;
+                //content: '✦';
+                color: rgba(255, 255, 255, 0.9);
+                &:before {
+                    content: '✴';
+                    top: 0;
+                    left: 0;
+                    position: absolute;
+                    -webkit-animation: large $sparkleAnimationTime forwards;
+                    animation: large $sparkleAnimationTime forwards;
+                    -webkit-animation-delay: $sparkle2AnimationTimeDelay;
+                    animation-delay: $sparkle2AnimationTimeDelay;
+                    color: rgba(255, 255, 255, 0.5);
+                    .cssfilters & {
+                        -webkit-animation: largeBlur $sparkleAnimationTime forwards;
+                        animation: largeBlur $sparkleAnimationTime forwards;
+                    }
+                }
+                &:after {
+                    content: '✳';
+                    top: 0;
+                    left: 0;
+                    color: rgba(255, 255, 255, 0.4);
+                    position: absolute;
+                    -webkit-animation: medium $sparkleAnimationTime forwards;
+                    animation: medium $sparkleAnimationTime forwards;
+                    -webkit-animation-delay: $sparkle2AnimationTimeDelay;
+                    animation-delay: $sparkle2AnimationTimeDelay;
+                }
+                &.sparkle1 {
+                    top: 22%;
+                    left: 15%;
+                    font-size: $sparkleFontSize;
+                    -webkit-animation-delay: $sparkle1AnimationTimeDelay;
+                    animation-delay: $sparkle1AnimationTimeDelay;
+                    &:before {
+                        -webkit-animation-delay: $sparkle1AnimationTimeDelay;
+                        animation-delay: $sparkle1AnimationTimeDelay;
+                    }
+                    &:after {
+                        -webkit-animation-delay: $sparkle1AnimationTimeDelay;
+                        animation-delay: $sparkle1AnimationTimeDelay;
+                    }
+                }
+                &.sparkle2 {
+                    font-size: $sparkleFontSize/2;
+                    top: 58%;
+                    right: 23%;
+                }
+            }
+            @keyframes large {
+                from {
+                    opacity: 0;
+                    transform: rotate(-540deg) scale(0);
+                }
+                50% {
+                    opacity: 0.5;
+                }
+                to {
+                    opacity: 0;
+                    transform: rotate(0) scale(2);
+                }
+            }
+            @keyframes largeBlur {
+                from {
+                    opacity: 0;
+                    transform: rotate(-540deg) scale(0);
+                }
+                50% {
+                    opacity: 1;
+                    // -moz-filter: blur(2px);
+                    // filter: blur(2px);
+                }
+                to {
+                    opacity: 0;
+                    // -moz-filter: blur(4px);
+                    // filter: blur(4px);
+                    transform: rotate(0) scale(2);
+                }
+            }
+            @keyframes medium {
+                from {
+                    opacity: 0;
+                    transform: rotate(45deg) scale(0);
+                }
+                50% {
+                    opacity: 1;
+                    transform: rotate(225deg) scale(2.5);
+                }
+                to {
+                    // -moz-filter: blur(3px);
+                    // filter: blur(3px);
+                    opacity: 0;
+                    transform: rotate(405deg) scale(0);
+                }
+            }
+            @keyframes small {
+                from {
+                    //opacity: 0;
+                    transform: rotate(0) scale(0);
+                }
+                50% {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 1;
+                    transform: rotate(360deg) scale(1);
+                }
+            }
+        }
+    }
+}

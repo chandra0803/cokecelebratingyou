@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.employer.Employer" table="EMPLOYER">
+
+    <id name="id" type="long" column="EMPLOYER_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">EMPLOYER_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" type="long" column="VERSION"/>
+
+    <property name="name" type="string" column="NAME"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <property name="active" column="IS_ACTIVE" type="boolean" />
+    <property name="statusReason" column="STATUS_REASON" type="string" />
+    <property name="federalTaxId" column="FEDERAL_TAX_ID" type="string" />
+    <property name="stateTaxId" column="STATE_TAX_ID" type="string" />
+    <property name="phoneNumber" column="PHONE_NBR" type="string" />
+    <property name="phoneExtension" column="PHONE_EXT" type="string" />
+    <property name="countryPhoneCode" type="java.lang.String" column="COUNTRY_PHONE_CODE" />
+    <property name="activeParticipantCount" type="int" lazy="true" >
+      <formula>( select count(*) from participant_employer pe, participant p
+        where pe.termination_date is null and pe.employer_id = EMPLOYER_ID
+        and pe.user_id = p.user_id and p.status = 'active' )
+      </formula>
+    </property>
+
+    <component name="address" class="com.biperf.core.domain.Address">
+      <property name="addr1" type="string" column="ADDR1"/>
+      <property name="addr2" type="string" column="ADDR2"/>
+      <property name="addr3" type="string" column="ADDR3"/>
+      <property name="city" type="string" column="CITY"/>
+      <property name="stateType" column="STATE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.StateType</param>
+        </type>
+      </property>
+      <property name="postalCode" type="string" column="POSTAL_CODE"/>
+      <many-to-one name="country" column="country_id" class="com.biperf.core.domain.country.Country" lazy="false"/>      
+    </component>
+  </class>
+
+  <query name="com.biperf.core.domain.employer.AllEmployerList">
+    <![CDATA[
+		from com.biperf.core.domain.employer.Employer
+		]]>
+  </query>
+  <query name="com.biperf.core.domain.employer.ActiveEmployerList">
+    <![CDATA[
+		from com.biperf.core.domain.employer.Employer emp where emp.active = 1
+		]]>
+  </query>
+</hibernate-mapping>

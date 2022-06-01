@@ -1,0 +1,432 @@
+$appSourcePath: '' !default;
+
+// application config.rb directory helpers (paths relative to this file, obviously)
+$appCssPath:         $appSourcePath+"css/" !default;
+$appSassPath:        $appSourcePath+"scss/" !default;
+$appImagesPath:      $appSourcePath+"img/" !default;
+$appFontsPath:       $appSourcePath+"rsrc/" !default;
+$appJavascriptsPath: $appSourcePath+"js/" !default;
+
+
+/***
+ *    888888b.                     888             888
+ *    888  "88b                    888             888
+ *    888  .88P                    888             888
+ *    8888888K.   .d88b.   .d88b.  888888 .d8888b  888888 888d888 8888b.  88888b.       888  888  8888b.  888d888 .d8888b
+ *    888  "Y88b d88""88b d88""88b 888    88K      888    888P"      "88b 888 "88b      888  888     "88b 888P"   88K
+ *    888    888 888  888 888  888 888    "Y8888b. 888    888    .d888888 888  888      Y88  88P .d888888 888     "Y8888b.
+ *    888   d88P Y88..88P Y88..88P Y88b.       X88 Y88b.  888    888  888 888 d88P       Y8bd8P  888  888 888          X88
+ *    8888888P"   "Y88P"   "Y88P"   "Y888  88888P'  "Y888 888    "Y888888 88888P"         Y88P   "Y888888 888      88888P'
+ *                                                                        888
+ *                                                                        888
+ *                                                                        888
+ */
+// Bootstrap variables (grouped by sections copied from that file)
+// ==================================================
+
+
+// Typography
+// -------------------------
+// Font families - overwrite bootstrap vars
+$sansFontFamily:        'open-sans', "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
+$monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
+
+$clientFontRegular: $sansFontFamily !default; 
+$clientFontMedium: $sansFontFamily  !default; 
+$clientFontBold : $sansFontFamily  !default;
+
+
+$baseFontSize:          14px !default;
+$baseFontFamily:        $sansFontFamily !default;
+$baseLineHeight:        21px !default;
+
+$headingsFontFamily:    inherit !default; // empty to use BS default, $baseFontFamily
+$headingsFontWeight:    bold !default;    // instead of browser default, bold
+$headingsColor:         inherit !default; // empty to use BS default, $textColor
+
+
+// Component sizing
+// -------------------------
+// Based on 14px font-size and 20px line-height
+// not all of these are Bootstrap vars, but including them here for ease of reading
+
+$fontSizeExtraLarge:    round($baseFontSize * 1.71) !default; // ~24px
+$fontSizeLarge:         round($baseFontSize * 1.28) !default; // ~18px
+$fontSizeMid:           round($baseFontSize * 1.14) !default; // ~16px
+$fontSizeSmall:         round($baseFontSize * 0.85) !default; // ~12px
+$fontSizeMini:          round($baseFontSize * 0.75) !default; // ~11px
+// Calculation for getting font sizes that aren't already a variable
+// targetPxSize / $baseFontSize = quotient.
+// font-size: $baseFontSize * quotient;
+
+
+// Tables
+// -------------------------
+$tableBackground:                   transparent !default; // overall background-color
+$tableBackgroundAccent:             transparentize($brand_color_mid, 0.67) !default; // for striping
+$tableBackgroundHover:              $brand_color_stripe !default; // for hover
+$tableBorder:                       $brand_color_border !default; // table and cell border
+
+
+// Buttons
+// -------------------------
+// see _colors.scss
+
+
+// Forms
+// -------------------------
+$btnLineHeight:                 16px !default;
+$btnPadding:                    8px 28px !default;
+$btnPaddingLarge:               12px 33px !default;
+$btnPaddingSmall:               3px 18px !default;
+$btnPaddingMini:                1px 6px !default;
+$btnBorderWidth:                2px !default;
+
+$formFieldLineHeight:           $btnLineHeight;
+$formFieldPadding:              nth($btnPadding, 1) 8px !default;
+$formFieldBorderWidth:          $btnBorderWidth !default;
+
+$formActionsBackground:         transparent !default;
+$formActionsBorderWidth:        1px !default;
+$formActionsBorderColor:        $brand_color_border !default;
+$inputHeight:                   $formFieldLineHeight + (nth($formFieldPadding, 1) * 2) + ($formFieldBorderWidth * 2) !default; // base line-height + vertical padding + top/bottom border
+
+
+// FIXED GRID
+// --------------------------------------------------
+
+// Custom, Default 940px grid
+// -------------------------
+$gridColumns:             12 !default;
+$gridColumnWidth:         68px !default;
+$gridGutterWidth:         12px !default;
+
+// Custom, 1200px min
+// -------------------------
+$gridColumnWidth1200:    80px !default;
+$gridGutterWidth1200:    18px !default;
+
+// Custom, 768px-979px
+// -------------------------
+$gridColumnWidth768:     50px !default;
+$gridGutterWidth768:     $gridGutterWidth !default;
+
+
+// COMPONENT VARIABLES
+// --------------------------------------------------
+
+// Sprite icons path
+// -------------------------
+$iconSpritePath:          "" !default;
+$iconWhiteSpritePath:     "" !default;
+
+
+// Hr border color
+// -------------------------
+$hrBorder:                $brand_color_mid !default;
+
+
+/***
+ *    oo                                         dP
+ *                                               88
+ *    dP 88d8b.d8b. 88d888b. .d8888b. 88d888b. d8888P
+ *    88 88'`88'`88 88'  `88 88'  `88 88'  `88   88
+ *    88 88  88  88 88.  .88 88.  .88 88         88
+ *    dP dP  dP  dP 88Y888P' `88888P' dP         dP
+ *                  88
+ *                  dP
+ */
+// Give access to the Bootstrap variables
+@import "bootstrap/variables";
+
+
+/***
+ *     .d8888b.   .d8888b.
+ *    d88P  Y88b d88P  Y88b
+ *    888    888 888
+ *    888        888d888b.       888  888  8888b.  888d888 .d8888b
+ *    888  88888 888P "Y88b      888  888     "88b 888P"   88K
+ *    888    888 888    888      Y88  88P .d888888 888     "Y8888b.
+ *    Y88b  d88P Y88b  d88P       Y8bd8P  888  888 888          X88
+ *     "Y8888P88  "Y8888P"         Y88P   "Y888888 888      88888P'
+ *
+ *
+ *
+ */
+// G5 variables (grouped roughly by logical sense)
+// ==================================================
+
+// BREAKPOINTS - mobile first
+/*
+ * use
+
+.mobileSizesDefault {
+    // ALL MOBILE SIZES and up should be default styles
+}
+@media (min-width: $breakpoint_tablet_min) {
+    //TABLET SIZES - and up
+}
+@media (min-width: $breakpoint_desktop_min) {
+   //DESKTOP SIZES - and up
+}
+@media (min-width: $breakpoint_desktopLarge_min) {
+    //DESKTOP LARGE
+}
+*/
+$breakpoint_mobileMini_min: 480px;
+$breakpoint_tablet_min: 768px;
+$breakpoint_desktop_min: 1025px; // intentionally 1px bigger than expected
+$breakpoint_desktopLarge_minimum: 1367px;
+
+$breakpoint_desktopLarge_min: 1536px; // intentionally 1px bigger than expected
+$breakpoint_siteMax_min: 1921px; // intentionally 1px bigger than expected
+$breakpoint_mobileMin_min: 380px; // iphone6 plus
+$breakpoint_mobileMin_max: 420px;
+$breakpoint_mobilePhoneMin_min: 321px; // iphone6
+$breakpoint_mobilePhoneMin_max: 375px;
+$breakpoint_mobilePhoneMin_minValue: 320px; // iphone5
+
+// ADDING Max sizes as well for backwards compatability
+$breakpoint_mobileMini_max:   $breakpoint_mobileMini_min - 1;
+$breakpoint_mobile_max:       $breakpoint_tablet_min - 1;
+$breakpoint_tablet_max:       $breakpoint_desktop_min - 1;
+$breakpoint_desktop_max:      $breakpoint_desktopLarge_min - 1;
+$breakpoint_desktopLarge_max: $breakpoint_siteMax_min - 1;
+
+
+// Utils
+// -------------------------
+$animation_duration: 300ms !default;
+
+// Typography
+// -------------------------
+// Font Weights
+$fontWeightLight:       100 !default;
+$fontWeightNormal:      normal !default;
+$fontWeightBold:        bold !default;
+$fontWeightSemiBold:    600 !default;
+$fontWeightExBold:      900 !default;
+
+// font smoothing
+$webkitFontSmoothing:   antialiased !default;
+
+$lineHeightExtraLarge:  round($baseLineHeight / $baseFontSize * $fontSizeExtraLarge) !default; // ~36px
+$lineHeightLarge:       round($baseLineHeight / $baseFontSize * $fontSizeLarge) !default; // ~27px
+$lineHeightMid:         round($baseLineHeight / $baseFontSize * $fontSizeMid) !default; // ~24px
+$lineHeightSmall:       round($baseLineHeight / $baseFontSize * $fontSizeSmall) !default; // ~18px
+$lineHeightMini:        round($baseLineHeight / $baseFontSize * $fontSizeMini) !default; // ~16px
+
+$titleFont: $headingsFontFamily !default;
+$titleFontWeightLight: $fontWeightLight !default;
+$titleFontWeightNormal: normal !default;
+$titleFontWeightBold: bold !default;
+$titleFontWeight: $titleFontWeightNormal !default;
+$bodyFont: $sansFontFamily !default;
+
+$headline2fontSize_mobile: round($baseFontSize * 2.14) !default; //~36px
+$headline3fontSize_mobile: round($baseFontSize * 1.57) !default; //~22px
+$headline4fontSize_mobile: round($baseFontSize * 1.29) !default; //~18px
+$headline5fontSize_mobile: round($baseFontSize * 1.29) !default; //~18px
+$headline6fontSize_mobile: round($baseFontSize * 1.14) !default; //~16px
+
+$headline2fontSize: round($baseFontSize * 3.43) !default; //~48px
+$headline3fontSize: round($baseFontSize * 2.14) !default; //~30px
+$headline4fontSize: round($baseFontSize * 1.71) !default; //~24px
+$headline5fontSize: round($baseFontSize * 1.71) !default; //~24px
+$headline6fontSize: round($baseFontSize * 1.14) !default; //~16px
+
+$headlineLineHeight: 1.125 !default;
+$headlineMarginY: $headlineLineHeight / 2 !default;
+
+$headline2fontWeight: $fontWeightLight !default;
+$headline3fontWeight: $fontWeightBold !default;
+$headline4fontWeight: $fontWeightBold !default;
+$headline5fontWeight: $fontWeightNormal !default;
+$headline6fontWeight: $fontWeightSemiBold !default;
+
+$headline2fontFamily: $titleFont !default;
+$headline3fontFamily: $titleFont !default;
+$headline4fontFamily: false !default;
+$headline5fontFamily: false !default;
+$headline6fontFamily: false !default;
+
+// links
+$linkFontWeight: $fontWeightBold !default;
+$linkFontStyle: none !default;
+$linkTextDecoration: none !default;
+$linkTextTransform: none !default;
+$linkBgColor: transparent !default;
+$linkBorder: false !default; // applies to border-bottom only
+
+$linkFontWeightHover: false !default;
+$linkFontStyleHover: false !default;
+$linkTextDecorationHover: false !default;
+$linkTextTransformHover: false !default;
+$linkBgColorHover: transparent !default;
+$linkBorderHover: false !default; // applies to border-bottom only
+
+
+// LAUNCH APP
+// G6 modules
+// mobile first approach
+// --------------------------------------------------
+$g6ModulePaddingY: 45px !default;
+$g6ModulePaddingX: 20px !default;
+$g6ModulePaddingY_tablet: 50px !default;
+$g6ModulePaddingX_tablet: 50px !default;
+$g6ModulePaddingY_desktop: 70px !default;
+$g6ModulePaddingX_desktop: 70px !default;
+$g6ModulePaddingY_desktopLarge: 70px !default;
+$g6ModulePaddingX_desktopLarge: 70px !default;
+
+
+// PAGE PADDING
+// G6 pages
+// mobile first approach
+// --------------------------------------------------
+$g6PagePaddingY:              $g6ModulePaddingY !default;
+$g6PagePaddingX:              $g6ModulePaddingX !default;
+$g6PagePaddingY_tablet:       $g6ModulePaddingY_tablet !default;
+$g6PagePaddingX_tablet:       $g6ModulePaddingX_tablet !default;
+$g6PagePaddingY_desktop:      $g6ModulePaddingY_desktop !default;
+$g6PagePaddingX_desktop:      $g6ModulePaddingX_desktop !default;
+$g6PagePaddingY_desktopLarge: $g6ModulePaddingY_desktopLarge !default;
+$g6PagePaddingX_desktopLarge: $g6ModulePaddingX_desktopLarge !default;
+
+
+// HEADER/NAV BORDERS
+// G6 nav and pages
+// mobile first approach
+// --------------------------------------------------
+$g6HeadNavBorderWidth:              1px !default;
+$g6HeadNavBorderWidth_tablet:       $g6HeadNavBorderWidth !default;
+$g6HeadNavBorderWidth_desktop:      $g6HeadNavBorderWidth !default;
+$g6HeadNavBorderWidth_desktopLarge: $g6HeadNavBorderWidth !default;
+$g6HeadNavBorderColor: $brand_color_border !default;
+
+
+// Horizontal padding of page content, 960px
+// -------------------------
+$g5PageContentPaddingHoriz: $g6PagePaddingX_desktop !default;
+$g5PageContentLeftRightBorderWidth: 0; // removed !default so it can't be overwritten
+
+// Horizontal padding of page content, 768px
+// -------------------------
+$g5PageContentPaddingHoriz768: $g6PagePaddingX_tablet !default;
+$g5PageContentLeftRightBorderWidth768: 0; // removed !default so it can't be overwritten
+
+// Horizontal padding of page content, 1200px
+// -------------------------
+$g5PageContentPaddingHoriz1200: $g6PagePaddingX_desktopLarge !default;
+$g5PageContentLeftRightBorderWidth1200: 0; // removed !default so it can't be overwritten
+
+// Horizontal padding of page content, Mobile
+// -------------------------
+$g5PageContentPaddingHorizMobile: $g6PagePaddingX !default;
+
+// Vertical spacing of content sections
+// -------------------------
+$g5PageContentSpacingVertical: $g6PagePaddingY_desktop !default;
+
+//Vertical padding of page topper, 1200px
+// -------------------------
+$g5PageTopperPaddingVert1200: $g6PagePaddingY_desktopLarge !default;
+
+
+// HOME APP
+// legacy variables for leftover G5 modules (Throwdown, Celebration)
+// --------------------------------------------------
+$g5ModuleGutter: 0px !default;
+$g5ModuleUnit: 160px !default;
+$g5ModulePadding: 18px !default;
+
+$g5ModuleBgColor: $brand_color_white !default;
+$g5ModuleGradType: none !default;
+$g5ModuleGradMeta: to bottom !default;
+// NOTE: the module_moduleLinerBackground() mixin takes a false value and turns it into a string that looks like this: (lighten($bgColor, 17%), $bgColor)
+// It proved to be too difficult (impossible?) to set this variable as a calculated list that would dynamically take the background color
+$g5ModuleGradStops: false !default;
+
+$g5ModuleIconColor: $brand_color_primary !default;
+$g5ModuleTitleColor: $brand_color_primary !default;
+$g5ModuleTitleFontFamily: $titleFont !default;
+$g5ModuleTitleFontStyle: false !default;
+$g5ModuleTitleTextTransform: false !default;
+// NOTE: these must be a list of five values, corresponding respectively to 1x1, 2x1, 2x2, 4x2, 4x4 modules sizes.
+// By default, 4x2 uses the same font size and weight as 2x2, which is why it is passed as false.
+$g5ModuleTitleFontSizes: 18px, 24px, 40px, false, 64px !default;
+$g5ModuleTitleFontWeights: $titleFontWeightBold, $titleFontWeightBold, $titleFontWeightNormal, false, $titleFontWeightLight !default;
+
+$g5ModuleVisitAppButtonOffset: max($g5ModuleGutter, 6px) * 1.5 !default;
+
+// HOME APP AND PAGES
+// --------------------------------------------------
+$g5ModPgBorderWidth: 0 !default;
+$g5ModPgBorderColor: $brand_color_border !default;
+$g5ModPgTopperBgColor: $brand_color_mid !default;
+
+
+// FIXED GRID
+// --------------------------------------------------
+$g5GridGutterHeight: $gridGutterWidth * 1.5 !default;
+$g5GridGutterHeight768: $gridGutterWidth768 * 1.5 !default;
+$g5GridGutterHeight1200: $gridGutterWidth1200 * 1.5 !default;
+
+
+// COMPONENTS
+// -------------------------
+$progressBar_baseBorderRadius: 0 !default;
+$spinner_widthHeight: 60px !default;
+$spinner_bgBorderRadius: 50% !default;
+
+$card_backgroundColor: $brand_color_white !default;
+$card_borderRadius: 6px !default;
+$card_boxShadow: 0 0 10px rgba(0,0,0,0.1875) !default;
+
+$card_padding:              ($g6ModulePaddingY / 2)        $g6ModulePaddingX !default;
+$card_padding_tablet:       ($g6ModulePaddingY_tablet / 2) ($g6ModulePaddingX_tablet / 2) !default;
+// half the desktop or desktopLarge padding was far too big, so we get the bigger of tablet/2 or desktop/3
+// when applying padding in @media queries, checking to see if desktop padding != tablet padding can save a lot of code that doesn't need to be generated
+$card_padding_desktop:      max(nth($card_padding_tablet, 1), ($g6ModulePaddingY_desktop / 3))       max(nth($card_padding_tablet, 2), ($g6ModulePaddingX_desktop / 3)) !default;
+$card_padding_desktopLarge: max(nth($card_padding_desktop, 1), ($g6ModulePaddingY_desktopLarge / 3)) max(nth($card_padding_desktop, 2), ($g6ModulePaddingX_desktopLarge / 3)) !default;
+
+$card_margin:              $card_padding !default;
+$card_margin_tablet:       $card_padding_tablet !default;
+$card_margin_desktop:      $card_padding_desktop !default;
+$card_margin_desktopLarge: $card_padding_desktopLarge !default;
+
+$card_avatarSize_default: 100px !default;
+$card_avatarSize_large:   160px !default;
+$card_avatarSize_small:   60px !default;
+$card_avatarSize_mini:    40px !default;
+
+$card_width:         256px !default;
+$card_height_tall:   400px !default;
+$card_height_medium: $card_height_tall - 40px !default;
+$card_height_short:  $card_height_medium - 40px !default;
+
+
+$modal_padding:              $card_padding !default;
+$modal_padding_tablet:       $card_padding_tablet !default;
+$modal_padding_desktop:      $card_padding_desktop !default;
+$modal_padding_desktopLarge: $card_padding_desktopLarge !default;
+
+$modal_bgColor: $brand_color_white !default;
+$modal_borderWidth: 0px !default;
+$modal_borderColor: transparent !default;
+$modal_borderRadius: 6px !default;
+
+
+// AVATARS
+// --------------------------------------------------
+$g5AvatarBg: $brand_color_avatarBkg !default;
+
+
+// ICONOGRAPHY
+// --------------------------------------------------
+
+// Export icons
+// -------------------------
+$exportIconWidth: 40px !default;
+$exportIconHeight: $inputHeight !default;

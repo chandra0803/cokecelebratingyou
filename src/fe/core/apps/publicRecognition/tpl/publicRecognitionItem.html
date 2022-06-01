@@ -1,0 +1,1073 @@
+<!-- publicRecognitionItem TPL - top level TPL for pubRec -->
+
+{{#if isDetail}}
+
+    <!-- DETAILS FOR DETAIL PAGE -->
+
+    <div class="row-fluid">
+        <div class="span8">
+            <h3>{{promotionName}}</h3>
+        </div>
+
+        <div class="span4">
+            <ul class="share-print">
+                {{#if isMine}}
+                    {{#if shareLinks}}
+                    <li>Share</li>
+                    {{#shareLinks}}
+                        <li>
+                            <a target="_blank"
+                                class="social-icon {{this.nameId}} icon-size-16"
+                                href="{{this.url}}"></a>
+                        </li>
+                    {{/shareLinks}}
+                    {{/if}}
+                {{/if}}
+                <li class="print-wrap">
+                    <a href="#" class="pageView_print btn btn-small printBtn">
+                        Print <i class="icon-printer"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    {{#if isCumulative}}
+    <div class="row-fluid pubRecDetails">
+        <div class="span12">
+
+            <div class="row-fluid section-container {{#if recognizer.[0].eCard}}span8{{else}}span12{{/if}}">
+                <div class="span3">
+                    <p><strong>To: </strong></p>
+                </div>
+
+                <div class="span9 recipientsContainer">
+                    {{#if teamName}}
+                        <div class="teamName">
+                            <p>{{teamName}}</p>
+                        </div>
+                    {{/if}}
+
+                    {{#recipients}}
+                    <div class="recipientWrap">
+                        <div class="avatarWrap avatarwrap recipientAvatar">
+
+                            <a class="profile-popover" data-participant-ids="[{{id}}]" href="#">
+                                {{#if this.avatarUrl}}
+                                <img alt="" src="{{this.avatarUrl}}" />
+                                {{else}}
+                                 <span class="avatar-initials" data-name="{{firstName}} {{lastName}}">{{trimString this.firstName 0 1}}{{trimString this.lastName 0 1}}</span>
+                                {{/if}}
+                            </a>
+                        </div>
+
+                        <div class="recipientInfoWrap">
+                            <a class="profile-popover" data-participant-ids="[{{id}}]" href="#">
+                            {{this.lastName}}, {{this.firstName}}
+                            </a>
+
+                            <span class="paxMeta">
+                                {{#if this.orgName}}
+                                {{this.orgName}}
+                                {{/if}}
+
+                                {{#if this.department}}
+                                 | {{this.department}}
+                                {{/if}}
+
+                                {{#if this.title}}
+                                 | {{this.title}}
+                                {{/if}}
+                            </span>
+
+                            {{#if this.viewCertificateUrl}}
+                            <a href="{{this.viewCertificateUrl}}" target="_blank">View Certificate</a>
+                            <!--<a href="#" class="certificateUrl" data-recipientId="{{this.id}}">View Certificate</a>-->
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/recipients}}
+
+                    {{#if recipientIdsHidden.length}}
+                    <p class="showHiddenWrap">
+                        and
+                        <a class="showHidden" href="#">
+                            <span class="likeCount">{{recipientIdsHidden.length}}</span> others
+                        </a>
+                    </p>
+
+                    <div class="hiddenRecipients"></div>
+                    {{/if}}
+
+                </div>
+            </div>
+
+            {{#if awardAmount}}
+            <div class="row-fluid section-container">
+                <div class="span3">
+                    <p><strong>Award Amount</strong></p>
+                </div>
+                <div class="span9">
+                    <p>{{awardAmount}}</p>
+                </div>
+            </div>
+            {{/if}}
+
+            {{#ueq promotionType "nomination"}}
+            {{! if additional types don't have copies, nest #ueq here}}
+            <div class="row-fluid section-container">
+                <div class="span3">
+                    <strong>Copies</strong>
+                </div>
+               {{#if copies}}
+                <div class="span9">
+                    {{#copies}}
+                        <p>{{this}}</p>
+                    {{/copies}}
+                </div>
+                {{else}}
+                <div class="span9">
+                    None selected.
+                </div>
+                {{/if}}
+            </div>
+            {{/ueq}}
+
+            {{#each recognizer}}
+            <div class="row-fluid section-container cumulativeRecognizerWrap">
+                <div class="{{#if ecard}}span8{{else}}span12{{/if}}">
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <p><strong>From</strong></p>
+                        </div>
+
+                        <div class="span9">
+                            <div class="recipientWrap">
+                                <div class="avatarWrap">
+
+                                    <a class="profile-popover" data-participant-ids="[{{id}}]" href="#">
+                                        {{#if this.avatarUrl}}
+                                        <img alt="" src="{{this.avatarUrl}}" class="avatar recipientAvatar" height="60" width="60" />
+                                        {{else}}
+                                         <span class="avatar recipientAvatar" data-name="{{firstName}} {{lastName}}">{{trimString this.firstName 0 1}}{{trimString this.lastName 0 1}}</span>
+                                        {{/if}}
+                                    </a>
+                                </div>
+
+                                <div class="recipientInfoWrap">
+                                    <a class="profile-popover" data-participant-ids="[{{id}}]" href="#">
+                                    {{this.lastName}}, {{this.firstName}}
+                                    </a>
+
+                                    <span class="paxMeta">
+                                        {{#if this.orgName}}
+                                        {{this.orgName}}
+                                        {{/if}}
+
+                                        {{#if this.department}}
+                                         | {{this.department}}
+                                        {{/if}}
+
+                                        {{#if this.title}}
+                                         | {{this.title}}
+                                        {{/if}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{#if date}}
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <strong>Date</strong>
+                            </div>
+                            <div class="span9">
+                                <p>{{date}}</p>
+                            </div>
+                        </div>
+                        {{/if}}
+
+                        {{#if comment}}
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <p><strong>Comments</strong></p>
+                            </div>
+                            <div class="span9 detail-comment">
+                                <!-- do no wrap comment in P tag, it will have its own --> <!-- not getting wrapped in P tags, so adding -->
+                                <p>{{{comment}}}</p>
+                            </div>
+                        </div>
+                        {{/if}}
+
+                        {{#if behavior}}
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <strong>Behavior</strong>
+                            </div>
+                            <div class="span9">
+                                <p><img class="behaviorBadge" src="{{badgeUrl}}" alt="{{behavior}}"/>{{behavior}}</p>
+                            </div>
+                        </div>
+                        {{/if}}
+
+                        {{#extraFields}}
+                        <div class="row-fluid">
+                            <div class="span3">
+                                <strong>{{this.name}}</strong>
+                            </div>
+                            <div class="span9">
+                                <p>{{this.value}}</p>
+                            </div>
+                        </div>
+                        {{/extraFields}}
+                    </div>
+
+                </div><!--/.span8-->
+
+                {{#if eCard}}
+                    <div class="span4 eCard">
+                        {{#eq eCard.type "image"}}
+                            <img alt="{{eCard.name}}" src="{{eCard.imgUrl}}">
+                        {{/eq}}
+                        {{#eq eCard.type "video"}}
+                        <div class="recognitionVideoWrapper">
+                                <video id="recognitionVideo" class="ecard video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls preload="auto" data-setup="{}">
+                                <source src="{{eCard.videoSrc}}" type="{{eCard.videoFileType}}">
+                            </video>
+                        </div>
+                        {{/eq}}
+                    </div>
+                {{/if}}
+            </div>
+            {{/each}}
+
+        </div><!--/.span12-->
+    </div><!--/.row-fluid-->
+
+    {{else}}
+
+    <div class='row-fluid pubRecDetails'>
+        <div class="span12">
+            <div class="row-fluid section-container {{#if recognizer.[0].eCard}}span8{{else}}span12{{/if}}">
+                <div class="span12">
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <p><strong>To: </strong></p>
+                        </div>
+
+                        <div class="span9 recipientsContainer">
+                            {{#if teamName}}
+                                <div class="teamName">
+                                    <p>{{teamName}}</p>
+                                </div>
+                            {{/if}}
+
+                            {{#recipients}}
+                            <div class="recipientWrap">
+                                <div class="avatarWrap avatarwrap recipientAvatar">
+                                    <a class="profile-popover" data-participant-ids="[{{id}}]" href="#">
+                                        {{#if this.avatarUrl}}
+                                        <img alt="" src="{{this.avatarUrl}}" />
+                                        {{else}}
+                                         <span class="avatar-initials" data-name="{{firstName}} {{lastName}}">{{trimString this.firstName 0 1}}{{trimString this.lastName 0 1}}</span>
+                                        {{/if}}
+                                    </a>
+                                </div>
+
+                                <div class="recipientInfoWrap">
+                                    <a class="profile-popover" data-participant-ids="[{{id}}]" href="#">
+                                    {{this.lastName}}, {{this.firstName}}
+                                    </a>
+
+                                    <span class="paxMeta">
+                                        {{#if this.orgName}}
+                                        {{this.orgName}}
+                                        {{/if}}
+
+                                        {{#if this.department}}
+                                         | {{this.department}}
+                                        {{/if}}
+
+                                        {{#if this.title}}
+                                         | {{this.title}}
+                                        {{/if}}
+                                    </span>
+
+                                    {{#if this.viewCertificateUrl}}
+                                    <a href="{{this.viewCertificateUrl}}" target="_blank">View Certificate</a>
+                            <!--<a href="#" class="certificateUrl" data-recipientId="{{this.id}}">View Certificate</a>-->
+                                    {{/if}}
+                                </div>
+
+                            </div>
+                            {{/recipients}}
+
+                            {{#if recipientIdsHidden.length}}
+                            <p class="showHiddenWrap">
+                                and
+                                <a class="showHidden" href="#">
+                                    <span class="likeCount">{{recipientIdsHidden.length}}</span> others
+                                </a>
+                            </p>
+
+                            <div class="hiddenRecipients"></div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            {{#recognizerShown}}
+                {{#if this.eCard}}
+                   
+                        {{#eq this.eCard.type "image"}}
+							 <div class="span4 ecard-span">
+								<img alt="{{this.eCard.name}}" src="{{this.eCard.imgUrl}}">
+							</div>
+                        {{/eq}}
+
+                        {{#eq this.eCard.type "video"}}
+                        <div class="recognitionVideoWrapper">
+                                <video id="recognitionVideo" class="span5 ecard-span video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls preload="auto" data-setup="{}">
+                                <source src="{{this.eCard.videoSrc}}" type="{{this.eCard.videoFileType}}">
+                            </video>
+                        </div>
+                        {{/eq}}
+                   
+                {{/if}}
+            {{/recognizerShown}}
+            {{#recognizerShown}}
+
+            <div class="row-fluid section-container recognizerCotainer {{#if ../recognizer.[0].eCard}}span8{{else}}span12{{/if}}">
+                <div class="span3">
+                    <p><strong>From</strong></p>
+                </div>
+                <div class="span9">
+                    <div class="recipientWrap">
+                        <div class="avatarWrap avatarwrap recipientAvatar">
+
+                            <a class="profile-popover" data-participant-ids="[{{id}}]" href="#">
+                                {{#if this.avatarUrl}}
+                                <img alt="" src="{{this.avatarUrl}}" />
+                                {{else}}
+                                 <span class="avatar-initials" data-name="{{firstName}} {{lastName}}">{{trimString this.firstName 0 1}}{{trimString this.lastName 0 1}}</span>
+                                {{/if}}
+                            </a>
+                        </div>
+
+                        <div class="recipientInfoWrap">
+                            <a class="profile-popover" data-participant-ids="[{{id}}]" href="#">
+                            {{this.lastName}}, {{this.firstName}}
+                            </a>
+
+                            <span class="paxMeta">
+                                {{#if this.orgName}}
+                                {{this.orgName}}
+                                {{/if}}
+
+                                {{#if this.department}}
+                                 | {{this.department}}
+                                {{/if}}
+
+                                {{#if this.title}}
+                                 | {{this.title}}
+                                {{/if}}
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {{/recognizerShown}}
+
+            <div class="row-fluid section-container {{#if recognizer.[0].eCard}}span8{{else}}span12{{/if}}">
+                {{#recognizerShown}}
+                <div class="row-fluid">
+                    <div class="span3">
+                        <strong>Date</strong>
+                    </div>
+                    <div class="span9">
+                        <p>{{this.date}}</p>
+                    </div>
+                </div>
+                {{/recognizerShown}}
+
+                {{#if awardAmount}}
+                <div class="row-fluid">
+                    <div class="span3">
+                        <strong>Award Amount</strong>
+                    </div>
+                    <div class="span9">
+                        <p>{{awardAmount}}</p>
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#recognizerShown}}
+                {{#if behavior}}
+                <div class="row-fluid">
+                    <div class="span3">
+                        <strong>Behavior</strong>
+                    </div>
+                    <div class="span9">
+
+                        <p><img class="behaviorBadge" src="{{this.badgeUrl}}" alt="{{this.behavior}}"/>{{this.behavior}}</p>
+                    </div>
+                </div>
+                {{/if}}
+                {{/recognizerShown}}
+
+                {{#ueq promotionType "nomination"}}
+                {{! if additional types don't have copies, nest #ueq here}}
+                <div class="row-fluid print-hide">
+                    <div class="span3">
+                        <strong>Copies</strong>
+                    </div>
+                   {{#if copies}}
+                    <div class="span9">
+                        {{#copies}}
+                            <p>{{this}}</p>
+                        {{/copies}}
+                    </div>
+                    {{else}}
+                    <div class="span9">
+                        <p>None selected.</p>
+                    </div>
+                    {{/if}}
+                </div>
+                {{/ueq}}
+
+                {{#recognizerShown}}
+                {{#extraFields}}
+                <div class="row-fluid">
+                    <div class="span3">
+                        <strong>{{this.name}}</strong>
+                    </div>
+                    <div class="span9">
+                        <p>{{this.value}}</p>
+                    </div>
+                </div>
+                {{/extraFields}}
+                {{/recognizerShown}}
+
+                {{#recognizerShown}}
+                <div class="row-fluid">
+                    <div class="span3">
+                        <strong>Comments</strong>
+                    </div>
+                    <div class="span9 detail-comment">
+                        <!-- do no wrap comment in P tag, it will have its own -->
+                        {{{this.comment}}}
+                    </div>
+                </div>
+                {{/recognizerShown}}
+            </div>
+
+            {{#if purlUrl}}
+            <div class="row-fluid span8 purlBtnContainer">
+                <div>
+                    <a class="btn btn-primary purlBtn" href="{{purlUrl}}">View PURL</a>
+                </div>
+            </div>
+            {{/if}}
+
+        </div><!-- /.span6 -->
+
+    </div><!-- /.row-fluid -->
+    {{/if}}
+
+    {{#if isPublicClaim}}
+        <div class="row-fluid">
+            <div class="span12 recognition-container">
+
+
+                <ul class="recognition-props {{#if recognizer.[0].eCard}}span8{{else}}span12{{/if}}">
+
+
+                    <!-- !isHidden || isMine -->
+                    {{#ifnotor isHidden isMine}}
+                        {{#unless isMine}}
+                            {{#if budget}}
+                                <li class="propLineTop"><a href="#" class="showAddPointsFormBtn">Add Points</a> </li>
+                            {{/if}}
+                        {{/unless}}
+
+                        {{#if allowTranslate}}
+                            <li class="propLineTop"><a href="#" class="translatePubRec">Translate</a></li>
+                        {{/if}}
+
+                        <li>
+                            {{#if isLiked}}
+                                <a href="#" class="likePubRecBtn liked mylike" data-like="Like" data-unlike="Unlike"><i class="icon-star"></i>Unlike</a>
+                                {{#gte numLikers 2}}
+                                    <a class="profile-popover likeCountStatus" href="#" data-recognition-id="{{id}}" data-participant-info-type="likers"> <span class="badge">{{numLikers}}</span></a>
+                                {{else}}
+                                    <span class="likeCountStatus" ><span class="badge">{{numLikers}}</span></span>
+                                {{/gte}}
+                            {{else}}
+                                <a href="#" class="likePubRecBtn" data-like="Like" data-unlike="Unlike"><i class="icon-star"></i>Like</a>
+                                {{#gte numLikers 1}}
+                                    <a class="profile-popover likeCountStatus" href="#" data-recognition-id="{{id}}" data-participant-info-type="likers"> <span class="badge">{{numLikers}}</span></a>
+                                {{else}}
+                                    <span class="likeCountStatus" ><span class="badge">{{numLikers}}</span></span>
+                                {{/gte}}
+                            {{/if}}
+
+
+                        </li>
+                        <li>|</li>
+                        <li>
+                            <a href="#" class="viewAllCommentsBtn showCommentFormBtn"><i class="icon-message-2"></i>Comment</a>
+                            {{#gte comments.length 1}}
+                                 <a href="#" class="viewAllCommentsBtn commentCountStatus" data-comment="Comment" data-comments="Comments"> <span class="badge">{{comments.length}}</span></a>
+                            {{else}}
+                                <span class="commentCountStatus" ><span class="badge">{{comments.length}}</span></span>
+                            {{/gte}}
+                        </li>
+
+
+
+
+
+                    {{/ifnotor}}
+                    <li class="timeStamp propLineTop">{{time}}</li>
+                </ul><!-- /.recognition-props -->
+
+                <div class="hidePublicRecognitionQTip" style="display:none">
+                    <p>
+                        <b>Hide Recognition?</b>
+                    </p>
+                    <p>
+                        This will permanently remove this recognition from public view. Are you sure you want to hide this recognition?
+                    </p>
+                    <p class="tc">
+                        <button type="submit" class="btn btn-primary publicRecognitionHideRecognitionConfirm">Hide</button>
+                        <button type="submit" class="btn btn-inverse btn-primary publicRecognitionHideRecognitionCancel">Cancel</button>
+                    </p>
+                </div>
+
+            </div><!-- /.span12 -->
+        </div><!-- /.row-fluid -->
+    {{/if}}
+
+{{else}} <!-- isDetail ELSE -->
+
+
+<!-- DETAILS FOR MODULE and RECOGNITIONS PAGE (not DETAIL) -->
+<div class="app-row detail-row">
+
+    {{#eq promotionType "purl"}}
+        <div class="celebrationBalloons animation-not-started">
+            <div class="balloonContainer">
+            <div class="balloon"><span class="highlight"></span><span class="balloonNum"></span></div>
+            <div class="balloon"><span class="highlight"></span></div>
+            <div class="balloon"><span class="highlight"></span></div>
+            <div class="balloon"><span class="highlight"></span></div>
+            <div class="balloon"><span class="highlight"></span></div>
+            <div class="balloon"><span class="highlight"></span></div>
+          </div>
+        </div>
+    {{/eq}}
+
+    {{#eq promotionType "nomination"}}
+        <div class="sparkleContainer animation-not-started">
+            <div class="nominationBadge sparkleImg">
+                <div class="sparkle1 sparkle">&#x2726;</div>
+                <div class='sparkle2 sparkle'>&#x2726;</div>
+            </div>
+        </div>
+    {{/eq}}
+
+    <!--Cheers Customization - Celebrating you wip-62128 - Added additional promotype with name cheers and displayed the content - starts -->
+    {{#if cheersPromotion}}
+        <div class="cheersRecognition">
+            <div class="cheersLeft">
+                <h1>Cheers !</h1>
+            </div>
+            <div class="cheersRight">
+                <div class="username">
+                    {{#isSingle recipients}}
+                        <span class="recipient">{{single.firstName}} {{single.lastName}}</span><span class="cheersBy">was HighFived by</span><span class="recognizer">{{../recognizer.firstName}} {{../recognizer.lastName}}</span>
+                        <div class="comments recognition-comment readMore"
+                            data-read-more-num-lines="2" data-msg-read-more="more">
+                            {{{../comment}}}
+                        </div>
+                        {{else}} 
+                            {{#each recipients}}
+                                <span class="recipient pubRecRecipient">{{firstName}} {{lastName}}.</span>
+                            {{/each}} 
+                            <a class="othersWrap" style="display:none"></a>
+                            <span class="othersCountWrap" style="display:none">and <span class="othersCount"></span> others</span>                                                        
+                            <span class="cheersBy">was HighFived by</span><span class="recognizer">{{recognizer.firstName}} {{recognizer.lastName}}</span>
+                            <div class="comments recognition-comment readMore"
+                                data-read-more-num-lines="2" data-msg-read-more="more">
+                                {{{comment}}}
+                            </div>
+                    {{/isSingle}}                      
+                </div>                                                
+            </div>
+            <div class="timeStamp">
+                <span class="timeStamp">{{time}}</span> 
+            </div>
+        </div>
+    
+    <!--Cheers Customization - Celebrating you wip-62128 - Added additional promotype with name cheers and displayed the content - ends -->
+
+    <!--Cheers Customization - Celebrating you wip-62128 - Added non cheers promocheck - starts -->
+    {{else}}    
+    <div class="app-col pubRecAvatarWrap">
+        {{#isSingle recipients}}
+
+            <div class="avatarwrap recipientAvatar">
+                <a class="profile-popover recipientPopover" data-participant-ids="[{{single.id}}]">
+                    {{#if single.avatarUrl}}
+                    <img alt="{{firstName}} {{lastName}}" src="{{single.avatarUrl}}" />
+                    {{else}}
+                    <span class="avatar-initials">{{trimString single.firstName 0 1}}{{trimString single.lastName 0 1}}</span>
+                    {{/if}}
+                </a>
+            </div>
+            {{#eq ../promotionType "recognition"}}
+                <div class="avatarwrap recognizerAvatar recognizerPopover">
+                    <a class="profile-popover " data-participant-ids="[{{../recognizer.id}}]">
+                    {{#if ../recognizer.avatarUrl}}
+                    <img alt="{{../recognizer.firstName}} {{../recognizer.lastName}}"  src="{{../recognizer.avatarUrl}}" />
+                    {{else}}
+                    <span class="avatar-initials">{{trimString ../recognizer.firstName 0 1}}{{trimString ../recognizer.lastName 0 1}}</span>
+                    {{/if}}
+
+                </a>
+            </div>
+            {{/eq}}
+        {{else}}
+            {{#eq ../promotionType "nomination"}}
+                <div class="avatarwrap recipientAvatar teamRecipientPopover">
+                    <a class="viewAllRecip" data-participant-ids="[{{id}}]" href="#">
+                        <span class="avatar-initials"><i class="icon-team-1"></i></span>
+                    </a>
+                </div>
+
+            {{else}}
+
+                {{#each recipients}}
+                    <div class="avatarwrap multiRecipientAvatar">
+                        <a class="profile-popover " data-participant-ids="[{{id}}]" href="#">
+                            {{#if avatarUrl}}
+                            <img alt="" src="{{avatarUrl}}" data-name="{{firstName}} {{lastName}}" />
+                            {{else}}
+                             <span class="avatar-initials" data-name="{{firstName}} {{lastName}}">{{trimString firstName 0 1}}{{trimString lastName 0 1}}</span>
+                            {{/if}}
+                        </a>
+                    </div>
+                {{/each}}
+                <div class="avatarwrap allRecipAvatar">
+                    <a class="recipientAvatar viewAllRecip">
+                        <span class="avatar-initials "></span>
+                    </a>
+                </div>
+
+                <div class="viewOthersPopover" style="display:none">
+                    <ul>
+                        <!-- dynamic from PublicRecognitionModuleView.js -->
+                    </ul>
+                </div>
+
+
+
+                {{#eq promotionType "recognition"}}
+                <hr />
+
+                    <div class="avatarwrap multiReceiverAvatar">
+                        <a class="profile-popover " data-participant-ids="[{{recognizer.id}}]">
+                            {{#if recognizer.avatarUrl}}
+                                <img alt="{{recognizer.firstName}} {{recognizer.lastName}}" data-name="{{firstName}} {{lastName}}"  src="{{recognizer.avatarUrl}}"  />
+                            {{else}}
+                                <span data-name="{{firstName}} {{lastName}}" class="avatar-initials">{{trimString recognizer.firstName 0 1}}{{trimString recognizer.lastName 0 1}}</span>
+                            {{/if}}
+                        </a>
+                    </div>
+
+                {{/eq}}
+            {{/eq}}
+
+            <div class="viewAllRecipPopover" style="display:none">
+                <ul>
+                    {{#each recipients}}
+                        <li>{{firstName}} {{lastName}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/isSingle}}
+    </div>
+
+    <div class="app-col recognition-block">
+        {{#if purlUrl}}
+            <a href="{{purlUrl}}" class="recDetailLink"></a>
+        {{else}}
+            <a href="{{publicRecognitionPageDetailUrl}}" class="recDetailLink"></a>
+        {{/if}}
+
+        <div class="comment-top ">
+
+            {{#isSingle recipients}}
+                {{#eq ../promotionType "recognition"}}
+                <div {{#if ../badgeImg}}class="topWrapper"{{/if}}>
+                    <div class="recipNameWrap">
+                        <a class="pubRecRecipient" href="{{../publicRecognitionPageDetailUrl}}">{{single.firstName}} {{single.lastName}}<span class="paxMeta">{{#if single.orgName}} {{single.orgName}}|
+                        {{/if}}
+
+                        {{#if single.departmentName}}
+                        {{single.departmentName}}|
+                        {{/if}}
+
+                        {{#if single.jobName}}
+                        {{single.jobName}}
+                        {{/if}}
+                        </span>
+
+                        </a>
+                    </div>
+
+
+                    <span class="recAction">was recognized by</span>
+
+                    <a class="pubRecRecognizer" href="{{../publicRecognitionPageDetailUrl}}">{{../recognizer.firstName}} {{../recognizer.lastName}}</a>
+                </div>
+
+                {{/eq}}
+
+                {{#eq ../promotionType "nomination"}}
+                    <div class="recipNameWrap">
+                       <a class="pubRecRecipient" href="{{../publicRecognitionPageDetailUrl}}">{{single.firstName}} {{single.lastName}}<span class="paxMeta">{{#if single.orgName}} {{single.orgName}}|
+                        {{/if}}
+
+                        {{#if single.departmentName}}
+                        {{single.departmentName}}|
+                        {{/if}}
+
+                        {{#if single.jobName}}
+                        {{single.jobName}}
+                        {{/if}}
+                        </span>
+                        </a>
+                    </div>
+
+                    <span class="won">won the</span>
+
+                <span class="pubRecNomPromoName">{{../promotionName}}</span>
+
+                {{/eq}}
+
+                {{#eq ../promotionType "purl"}}
+                    <div class="recipNameWrap">
+                        <a class="pubRecRecipient" href="{{../purlUrl}}">{{single.firstName}} {{single.lastName}}
+                        </a>
+                    </div>
+
+                    <span class="celebrate">celebrated</span>
+
+                    <span class="purlPromoName">{{../promotionName}}</span>
+                {{/eq}}
+
+            {{else}}
+
+                {{#eq promotionType "recognition"}}
+                <div {{#if badgeImg}}class="topWrapper"{{/if}}>
+                    <div class="recipNameWrap">
+                        {{#each recipients}}
+                            <a class="pubRecRecipient" href="{{../publicRecognitionPageDetailUrl}}">{{firstName}} {{trimString lastName 0 1}}.</a>
+                        {{/each}}
+
+                        <a class="othersWrap" style="display:none">and <span class="othersCount"></span> others</a>
+                    </div>
+
+                    <span class="recAction">were recognized by</span>
+
+                    <a class="pubRecRecognizer" href="{{../publicRecognitionPageDetailUrl}}">{{recognizer.firstName}} {{recognizer.lastName}}</a>
+                </div>
+
+                {{/eq}}
+
+                {{#eq promotionType "nomination"}}
+                    <div class="recipNameWrap">
+
+                        <a class="pubRecRecipient" href="{{../publicRecognitionPageDetailUrl}}">{{teamName}}</a>
+
+                    </div>
+
+                    <span>won the</span>
+
+                    <span class="pubRecNomPromoName">{{promotionName}}</span>
+
+                {{/eq}}
+
+            {{/isSingle}}
+
+
+            {{#if badgeImg}}
+                <span class="badgeWrap">
+                    <img src="{{badgeImg}}" alt="" class="badgeImg" rel="tooltip" data-placement="top" data-original-title="{{badgeName}}" data-trigger="click" />
+
+                    {{#if additionalBadges}}
+                       <span class="additionalBadges">+{{additionalBadges}}</span>
+                    {{/if}}
+                </span>
+            {{/if}}
+            <span class="timeStamp">{{time}}</span>
+        </div>
+
+        
+            {{#eq promotionType "recognition"}}
+				<div class="commentBody">
+                {{#if allowTranslate}}
+                    <span class="translateCont">
+                        <a href="#" class="translatePubRec">Translate</a>
+                    </span>
+                {{/if}}
+
+                {{#if comment}}
+                    <div class="recognition-comment readMore {{#unless eCardImg}}noEcard{{/unless}}"
+                        data-read-more-num-lines="5" data-msg-read-more="more">
+                        {{{comment}}}
+                    </div>
+                {{/if}}
+
+                {{#if eCardImg}}
+                    <img src="{{eCardImg}}" alt="" class="recEcard" />
+                {{/if}}
+
+                {{#if videoUrl}}
+                    <div class="videoPlayerWrap">
+                         <video id="recognitionVideo" class="video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls preload="auto" data-setup="{}">
+                            <source src="{{videoUrl}}" type="">
+                        </video>
+                    </div>
+                {{/if}}
+				</div>
+            {{/eq}}
+
+            {{#if purlUrl}}
+                <a href="{{purlUrl}}" class="btn btn-inverse btn-fullmobile">Check it Out!</a>
+            {{/if}}
+
+            {{#eq promotionType "nomination"}}
+                <a href="{{publicRecognitionPageDetailUrl}}" class="btn btn-inverse btn-fullmobile">Check it Out!</a>
+            {{/eq}}
+
+
+        
+
+        {{#eq promotionType "recognition"}}
+        <div>
+
+            <ul class="recognition-props">
+                {{#if isMine}}
+                    <li class="propLineTop">
+                        {{#if isHidden}}
+                            Hidden
+                        {{else}}
+                            <a href="#" class="hidePublicRecognitionLnk">Hide</a>
+                            <span class="publicRecognitionHiddenLinkText" style="display:none;">
+                                Hidden
+                            </span>
+                        {{/if}}
+                    </li>
+                {{/if}}
+
+                {{#unless isMine}}
+                    {{#if allowAddPoints}}
+                        <li class="pubRecPoints propLineTop"><a href="#" class="showAddPointsFormBtn">Add Points</a></li>
+                    {{/if}}
+                {{/unless}}
+                <li>
+                    {{#if isLiked}}
+                        <a href="#" class="likePubRecBtn liked mylike" data-like="Like" data-unlike="Unlike"><i class="icon-star"></i>Unlike</a>
+                        {{#gte numLikers 2}}
+                            <a class="profile-popover likeCountStatus" href="#" data-recognition-id="{{id}}" data-participant-info-type="likers"> <span class="badge">{{numLikers}}</span></a>
+                        {{else}}
+                            <span class="likeCountStatus" ><span class="badge">{{numLikers}}</span></span>
+                        {{/gte}}
+                    {{else}}
+                        <a href="#" class="likePubRecBtn" data-like="Like" data-unlike="Unlike"><i class="icon-star"></i>Like</a>
+                        {{#gte numLikers 1}}
+                            <a class="profile-popover likeCountStatus" href="#" data-recognition-id="{{id}}" data-participant-info-type="likers"> <span class="badge">{{numLikers}}</span></a>
+                        {{else}}
+                            <span class="likeCountStatus" ><span class="badge">{{numLikers}}</span></span>
+                        {{/gte}}
+                    {{/if}}
+
+
+                </li>
+                <li>|</li>
+                <li>
+                    <a href="#" class="viewAllCommentsBtn showCommentFormBtn"><i class="icon-message-2"></i>Comment</a>
+                    {{#gte comments.length 1}}
+                         <a href="#" class="viewAllCommentsBtn commentCountStatus" data-comment="Comment" data-comments="Comments"> <span class="badge">{{comments.length}}</span></a>
+                    {{else}}
+                        <span class="commentCountStatus" ><span class="badge">{{comments.length}}</span></span>
+                    {{/gte}}
+                </li>
+                <!--Cheers Customization - Celebrating you wip-62128 - Added cheers link which will display popup with eligible points - starts -->
+                <!-- Java need to bring the data-cheers-promotion-id from system variable. There will be one cheers recognition promotion will be setup in admin side. That can be mapped in system variable. That can be brought into this attribute -->
+                <li>|</li>
+                <li>                 
+                   <a href="#" data-cheers-promotion-id="12345" data-participant-ids="{{#each recipients}}{{id}},{{#if @last }}{{id}}{{/if}}{{/each}}" class="cheers-popover"><i class="icon-cheers"></i> Cheers</a>
+                </li>
+                <!--Cheers Customization - Celebrating you wip-62128 - Added cheers link which will display popup with eligible points - ends -->
+
+            </ul>
+        </div>
+        {{/eq}}
+
+    </div><!-- /.recognition-block -->
+
+    <div class="hidePublicRecognitionQTip" style="display:none">
+        <p>
+            This will permanently remove this comment. Are you sure you want to hide this comment?
+        </p>
+        <p class="tc">
+            <button type="submit" class="btn btn-primary publicRecognitionHideRecognitionConfirm">Yes</button>
+            <button type="submit" class="btn publicRecognitionHideRecognitionCancel">No</button>
+        </p>
+    </div>
+    {{/if}}    
+    <!--Cheers Customization - Celebrating you wip-62128 - Added non cheers promocheck - ends -->
+
+</div><!-- /.detail-row -->
+
+
+{{/if}}<!-- END isDetail ELSE...IF -->
+
+
+<!-- START isPublicClaim -->
+{{#if isPublicClaim}}
+
+    <!-- COMMENTS -->
+
+    <!-- list of comments -->
+    <div class="pubRecComments" style="display:none">
+        <!-- dynamic - populated by view -->
+    </div><!-- /.pubRecComments -->
+
+    <!-- add comment form -->
+    <div class="app-row comment-block">
+        <div class="app-col  commentInputWrapper" style="display:none">
+            <!-- DEVELOPER NOTE: the form action attr below will be used as the URL to get JSON
+                - make sure the class 'publicRecognitionCommentForm' stays on the form element
+            -->
+            <form class="form-inline publicRecognitionCommentForm" action="ajax/publicRecognitionSaveComment.json">
+
+                <!-- hidden inputs -->
+                <input type="hidden" name="recognitionId" value="{{id}}" />
+
+                <!-- data-recognition-id will be passed to JSON url along with any other data-* attrs -->
+                <textarea name="comment" class="comment-input commentInputTxt" placeholder="Leave A Comment" maxlength="300"></textarea>
+
+            </form>
+        </div><!-- /.commentInputWrapper -->
+    </div><!-- /.comment-block -->
+    <!-- EOF COMMENTS -->
+
+
+    {{#if allowAddPoints}}
+    <!-- add points form -->
+    <div class="app-row comment-block">
+        <div class="app-col  addPointsWrapper clearfix" style="display:none">
+
+            <div class="alert alert-success msgAddPointsSuccess" style="display:none">
+                    <!--a class="close" data-dismiss="alert" href="#"><i class="icon-close"></i></a-->
+                    <h4 class="alert-heading">Success</h4>
+                    Points have been added.
+            </div>
+
+            <!-- DEVELOPER NOTE: the form action attr below will be used as the URL to get JSON
+                - make sure the class 'publicRecognitionAddPointsForm' stays on the form element
+                - MUST HAVE CLASS publicRecognitionAddPointsForm
+                - 'name' attributes may be set to match java params
+            -->
+            <form class="form-inline publicRecognitionAddPointsForm" action="ajax/publicRecognitionAddPoints.json">
+
+                <!-- hidden inputs -->
+                <input type="hidden" name="recognitionId" value="{{id}}" />
+
+                <div>
+                    <div class="control-group budgetSelectWrapper">
+                        <select name="budgetId" class="budgetSelect dropdown-toggle">
+                            <option value="-1">Select a budget</option>
+                            <!-- dynamic -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <!-- MUST HAVE CLASS pointsInputTxt -->
+                    <input type="text" name="points" class="input-mini pointsInputTxt" placeholder="Points"
+
+                        {{#if awardAmountFixed}}
+                            value="{{awardAmountFixed}}"
+                            readonly="readonly"
+                            data-tooltip="Award amount is fixed."
+                        {{/if}}
+
+                        {{#if awardAmountMax}}
+                            data-tooltip="Range: {{awardAmountMin}} - {{awardAmountMax}}"
+                        {{/if}}
+                    />
+
+                    <span class="help-inline">Points</span>
+
+                    <button class="btn btn-primary addPointsBtn"
+                        data-msg-err-out-of-range = "Points entered are out of range."
+                        data-msg-err-over-budget = "Over budget, please adjust."
+                        data-msg-err-no-comment = "Please enter a comment."
+                        data-msg-err-no-points = "Please enter some points."
+                        data-msg-err-no-budg-sel = "Please select a budget."
+                    >Submit</button>
+
+
+                    <span class="help-inline budgetInfo">
+                        <a href="#" class="budgetPopoverTrigger">
+                            <span class="budgetRemaining">{{budget}}</span>
+                            Budget Remaining
+                            <i class="icon-info"></i>
+                        </a>
+                    </span>
+
+                    <div style="display:none"><!-- this hides stuff, that is all -->
+                        <!-- popover table starts life here -->
+                        <table class='table budgetPopover'>
+                            <tr>
+                                <td>Available Budget</td>
+                                <td class="budgetAvailable">{{budget}}</td>
+                            </tr>
+                            <tr>
+                                <td>Calculated Budget Deduction</td>
+                                <td class="budgetDeduction">0</td>
+                            </tr>
+                            <tr>
+                                <td>Remaining Budget</td>
+                                <td class="budgetRemaining">{{budget}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div><!-- /.control-group -->
+
+                <div>
+                    <textarea name="comment"
+                        class="comment-input addPointsCommentInputTxt" maxlength="300"
+                        placeholder="REQUIRED - Leave A Comment"></textarea>
+                </div>
+
+            </form>
+        </div><!-- /.addPointsWrapper -->
+    </div><!-- /.comment-block -->
+    <!-- EOF ADD POINTS -->
+    {{/if}}
+
+<!-- EOF IS PUBLIC CLAIM -->
+{{/if}}
+
+
+<!-- /publicRecognitionItem TPL -->

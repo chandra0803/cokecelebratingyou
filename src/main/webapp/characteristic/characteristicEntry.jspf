@@ -1,0 +1,224 @@
+<%--UI REFACTORED--%>
+<%@ include file="/include/taglib.jspf" %>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+
+
+
+
+  <% // Note - need the hidden parms in a style of display:none or they will render as extra white space %>
+  <span style="display:none">
+        <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="nameCmKey"
+                       indexed="true" />
+           <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="cmAssetCode"
+                       indexed="true" />
+           <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="rosterId"
+                       indexed="true" />                       
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="characteristicName"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="joinTableId"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="characteristicId"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="createdBy"
+                     indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="dateCreated"
+                     indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="version"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="domainId"
+                     indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="characteristicDataType"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="maxSize"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="maxValue"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="minValue"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="dateStart"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="dateEnd"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+                       property="isRequired"
+                       indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo"
+               property="isUnique"
+               indexed="true" /> 
+               
+    <% // Set Required Atttribute %>
+    <c:set var="requiredAttribute" value="false" />
+    <c:if test="${(empty pageScope.displayStyle) && (valueInfo.isRequired == 'true')}">
+      <c:set var="requiredAttribute" value="true" />
+    </c:if>
+    <c:set var="removeAttribute" value="false" />
+    <c:if test="${!empty pageScope.displayAudienceExclusion && pageScope.displayAudienceExclusion =='true' }">
+      <c:set var="removeAttribute" value="true" />
+    </c:if>
+  </span>
+
+  <tr class="form-row-spacer">
+    <c:choose>
+
+      <c:when test="${valueInfo.characteristicDataType == 'single_select'}">
+        <beacon:label property="characteristicValue" required="${requiredAttribute}">
+          <c:out value="${valueInfo.characteristicName}"/>
+        </beacon:label>
+        <td class="content-field">
+          <html:select name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" indexed="true" styleClass="content-field">
+            <c:if test="${pageScope.displayStyle == 'query'}">
+              <html:option value='<%=com.biperf.core.ui.constants.ViewAttributeNames.SEARCH_ALL_OPTION %>'>
+                <cms:contentText key="ALL" code="system.general" />
+              </html:option>
+            </c:if>
+            <html:option value="${userCharacteristicForm.deleteOption }">
+            	<cms:contentText key="SELECT_ONE" code="system.general" />
+            </html:option>
+            <html:options collection="${valueInfo.plName}" property="code" labelProperty="name" />
+          </html:select>
+        </td>
+         <c:if test="${removeAttribute == 'true'}">
+         <td><a class="removeRow" style="cursor:pointer;">X</a></td>
+         </c:if>
+      </c:when>
+
+      <c:when test="${valueInfo.characteristicDataType == 'multi_select'}">
+        <c:choose>
+          <c:when test="${pageScope.displayStyle == 'query'}">
+            <beacon:label property="characteristicValue" required="${requiredAttribute}">
+              <c:out value="${valueInfo.characteristicName}"/>
+            </beacon:label>
+            <td class="content-field">
+              <html:select name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" indexed="true" styleClass="content-field">
+                <html:option value='<%=com.biperf.core.ui.constants.ViewAttributeNames.SEARCH_ALL_OPTION %>'>
+                  <cms:contentText key="ALL" code="system.general" />
+                </html:option>
+                <html:option value="${userCharacteristicForm.deleteOption }">
+            		<cms:contentText key="SELECT_ONE" code="system.general" />
+            	</html:option>
+                <html:options collection="${valueInfo.plName}" property="code" labelProperty="name" />
+              </html:select>
+            </td>
+            <c:if test="${removeAttribute == 'true'}">
+         	<td><a class="removeRow" style="cursor:pointer;">X</a></td>
+           </c:if>
+          </c:when>
+
+          <c:otherwise>
+            <beacon:label property="characteristicValue" required="${requiredAttribute}" styleClass="content-field-label-top">
+              <c:out value="${valueInfo.characteristicName}"/>
+            </beacon:label>
+            <td class="content-field">
+              <html:select name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValues" indexed="true" multiple="true" size="5" styleClass="content-field">
+                <html:option value="${userCharacteristicForm.deleteOption }">
+            		<cms:contentText key="SELECT_ONE" code="system.general" />
+            	</html:option>
+                <html:options collection="${valueInfo.plName}" property="code" labelProperty="name" />
+              </html:select>
+            </td>
+            <c:if test="${removeAttribute == 'true'}">
+         	  <td><a class="removeRow" style="cursor:pointer;">X</a></td>
+           </c:if>
+          </c:otherwise>
+        </c:choose>
+      </c:when>
+
+      <c:when test="${valueInfo.characteristicDataType == 'boolean'}">
+        <c:choose>
+          <c:when test="${pageScope.displayStyle == 'query'}">
+            <beacon:label property="characteristicValue" required="${requiredAttribute}">
+              <c:out value="${valueInfo.characteristicName}"/>
+            </beacon:label>
+            <td class="content-field">
+              <html:select name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" indexed="true" styleClass="content-field">
+                <html:option value='<%=com.biperf.core.ui.constants.ViewAttributeNames.SEARCH_ALL_OPTION %>'>
+                  <cms:contentText key="ALL" code="system.general" />
+                </html:option>
+                <html:option value="true" >
+                  <cms:contentText key="TRUE" code="system.boolean.values" />
+                </html:option>
+                <html:option value="false" >
+                  <cms:contentText key="FALSE" code="system.boolean.values" />
+                </html:option>
+              </html:select>
+            </td>
+            <c:if test="${removeAttribute == 'true'}">
+         	  <td><a class="removeRow" style="cursor:pointer;">X</a></td>
+           </c:if>
+          </c:when>
+
+          <c:otherwise>
+            <beacon:label property="characteristicValue" required="${requiredAttribute}"  styleClass="content-field-label-top">
+              <c:out value="${valueInfo.characteristicName}"/>
+            </beacon:label>
+            <td class="content-field">
+              <html:radio name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" value="true" indexed="true" onclick="unSelectRadio(this)"/>&nbsp;&nbsp;
+              <cms:contentText key="TRUE" code="system.common.labels"/><br/>
+              <html:radio name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" value="false" indexed="true" onclick="unSelectRadio(this)"/>&nbsp;&nbsp;
+              <cms:contentText key="FALSE" code="system.common.labels"/>
+            </td>
+            <c:if test="${removeAttribute == 'true'}">
+         	  <td><a class="removeRow" style="cursor:pointer;">X</a></td>
+         	</c:if>
+          </c:otherwise>
+        </c:choose>
+      </c:when>
+
+      <c:when test="${valueInfo.characteristicDataType == 'date'}">
+        <beacon:label property="characteristicValue" required="${requiredAttribute}">
+          <c:out value="${valueInfo.characteristicName}"/>
+        </beacon:label>
+        <td class="content-field">
+                    <html:text name="${pageScope.characteristicType}CharacteristicValueInfo" styleId="${pageScope.characteristicType}characteristicValue${status.count}"
+                               styleClass="content-field"
+                               property="characteristicValue" readonly="true" onfocus="clearDateMask(this);"
+                               indexed="true"  size="10" maxlength="10" />&nbsp;&nbsp;
+                    <img id="<c:out value="${pageScope.characteristicType}characteristicValue${status.count}Trigger"/>" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/images/calendar_icon.gif" class="calendar-icon"/>
+                  </td>
+                  <script type="text/javascript">
+                      Calendar.setup(
+                        {
+                          inputField  : "<c:out value="${pageScope.characteristicType}characteristicValue${status.count}"/>",         // ID of the input field
+                          ifFormat    : "${TinyMceDatePattern}",    // the date format
+                          button      : "<c:out value="${pageScope.characteristicType}characteristicValue${status.count}Trigger"/>"       // ID of the button
+                        }
+                      );
+                  </script>
+                  <c:if test="${removeAttribute == 'true'}">
+         		   <td><a class="removeRow" style="cursor:pointer;">X</a></td>
+                  </c:if>
+      </c:when>
+
+      <c:otherwise>
+                <beacon:label property="characteristicValue" required="${requiredAttribute}">
+          <c:out value="${valueInfo.characteristicName}"/>
+        </beacon:label>
+        <td class="content-field">
+                    <html:text name="${pageScope.characteristicType}CharacteristicValueInfo"
+                               property="characteristicValue"
+                               maxlength="${valueInfo.maxSize}"
+                               styleClass="content-field"
+                               indexed="true" />
+                  </td>
+                  <c:if test="${removeAttribute == 'true'}">
+         			<td><a class="removeRow" style="cursor:pointer;">X</a></td>
+         		</c:if>
+      </c:otherwise>
+    </c:choose>
+  </tr>

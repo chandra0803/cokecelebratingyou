@@ -1,0 +1,874 @@
+<!-- ======== GOALQUEST PAGE EDIT ======== -->
+
+<!--
+    Create and Edit GQs and CPs
+    - struts powered
+    FED NOTES:
+    All of the elements with "ua-add-*" classes have that class without the "ua-add-" prefix already in the JSP using back-end logic. For FED purposes we are reading the hidden input "showUAStepInput" as true or false to decide if this page should have the UA decorator elements and styles. The GoalquestPageEditView.js file has logic for adding the proper classes inside initView
+-->
+
+<div id="goalquestPageEditView" class="goalquest page-content ua-add-ua-page"><!--UA-add ua-page class-->
+
+
+
+    <div class="ua-add-ua-decoration"><!--UA-add entire div-->
+    </div>
+
+    <div class="row-fluid ua-add-ua-page-content ua-widget-container"><!--UA-add ua-page-content class-->
+        <div class="span12 logo-container">
+            <h2>
+                <img src="img/goalquest/goalquest.svg" alt="GoalQuest" class="gqtitlelogo">
+                <!-- OR -->
+                <img src="img/goalquest/challengepoint.svg" alt="Challengepoint" class="gqtitlelogo">
+            </h2>
+            <div class="ua-logo">
+                <div class="ua-widget connected">
+                    <div class="ua-dot" data-title-connect-status="Connected">
+                            <i class="icon icon-link-2"></i>
+                    </div>
+                </div>
+            </div><!--UA-add ua-logo div-->
+            <ul class="export-tools fr">
+                <li><a class="pageView_print btn btn-small" href="#">Print <i class="icon-printer"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row-fluid ua-add-ua-page-content ua-tab-container"><!--UA-add ua-page-content class-->
+        <div class="span12">
+            <h3>[Promotion Name 1]</h3>
+
+            <!-- WizardTabsView -->
+            <ul class="wizardTabsView" data-content=".wizardTabsContent" style="visibility:hidden">
+                <!-- generated using json+tpl by WizardTabsView -->
+            </ul><!-- /.wizardTabsView -->
+        </div>
+    </div>
+    <div class="row-fluid ua-add-ua-page-content">
+        <div class="span12">
+
+            <!-- tab contents -->
+            <div class="wizardTabsContent">
+
+                <form class="gqEditForm" action="path/to/submit/create/edit">
+
+                    <!-- JAVA NOTE: value = promotionId -->
+                    <input type="hidden" class="promotionIdInput" name="someStrutsNameForPromoId" value="1">
+
+                    <!-- JAVA NOTE: value = goalId -->
+                    <input type="hidden" class="goalIdInput" name="someStrutsNameForGoalId" value="123">
+
+                    <!-- JAVA NOTE: value = stepOverview|stepRules|stepGoal|stepPartner|stepSubmit (set active step) -->
+                    <input type="hidden" class="activeStepInput" name="someStrutsNameForActiveStep" value="stepOverview">
+
+                    <!-- JAVA NOTE: value = true|false (showing the select partner step)-->
+                    <input type="hidden" class="showPartnerStepInput" name="someStrutsNameForShowPartnerStep" value="true">
+
+                    <!-- JAVA NOTE: value = true|false (showing the UA Connect step and special intro content)-->
+                    <input type="hidden" class="showUAStepInput" name="someStrutsNameForUAStep" value="false">
+
+                    <!-- JAVA NOTE: value = maximum allowed partners (pre-populated may exceed, but user will be asked to remove extras) -->
+                    <input type="hidden" class="maxPartnersInput" name="someStrutsNameForMaxPartners" value="5">
+
+                    <!-- JAVA NOTE: selected partners (please see Send a Recognition for example) -->
+                    <input type="hidden" name="partnersCount" value="2" />
+
+                    <input type="hidden" name="partners[0].id" value="123777" />
+                    <input type="hidden" name="partners[0].countryCode" value="de" />
+                    <input type="hidden" name="partners[0].countryName" value="Germany" />
+                    <input type="hidden" name="partners[0].firstName" value="Billy" />
+                    <input type="hidden" name="partners[0].lastName" value="Jo Bobby Sox" />
+                    <input type="hidden" name="partners[0].orgName" value="Org Name" />
+                    <input type="hidden" name="partners[0].departmentName" value="Department Name" />
+                    <input type="hidden" name="partners[0].jobName" value="Job Name" />
+
+                    <input type="hidden" name="partners[1].id" value="456777" />
+                    <input type="hidden" name="partners[1].countryCode" value="us" />
+                    <input type="hidden" name="partners[1].countryName" value="United States" />
+                    <input type="hidden" name="partners[1].firstName" value="Bradley" />
+                    <input type="hidden" name="partners[1].lastName" value="Smithson" />
+                    <input type="hidden" name="partners[1].orgName" value="Org Name" />
+                    <input type="hidden" name="partners[1].departmentName" value="Department Name" />
+                    <input type="hidden" name="partners[1].jobName" value="Job Name" />
+
+                    <!-- JAVA NOTE:  value = points|plateau -->
+                    <input type="hidden" class="awardTypeInput" name="someStrutsNameForAwardType" value="points">
+
+                    <!-- JAVA NOTE:  value = true|false (plateau type only) -->
+                    <input type="hidden" class="isSelectablePlateauAwardInput" name="someStrutsNameIsSelPlatAwd" value="true">
+
+                    <!-- JAVA NOTE:  value = true|false (plateau type only/selectable only) -->
+                    <input type="hidden" class="isPlateauAwardRequiredInput" name="someStrutsNameIsPlatAwdReq" value="true">
+
+
+
+                    <!-- **************************************************************
+                        OVERVIEW
+                     ***************************************************************** -->
+                    <div class="stepOverviewContent stepContent" style="display:none">
+                        <div id="ua-intro"><!--this is only here in the HTML, not the JSP-->
+                        <!--UA-add content until ending comment-->
+                        <h4>What is this?</h4>
+                        <p>
+                            This is a way for you to <strong>earn points</strong> simply by being active and <strong>taking steps</strong>.
+                        </p>
+                        <hr />
+                        <h4>What does Under Armour have to do with it?</h4>
+                        <section class="ua-partners">
+                            <p>This program uses <strong>Under Armour ConnectedFitness</strong> to aggregate your activity data. UACF supports dozens of fitness trackers from numerous manufacturers, including of course UA-branded devices.</p>
+                            <p class="partner-logos">
+                                <img src="/g/src/fe/core/base/img/underarmour/ua-device-nike.png" alt="">
+                                <img src="/g/src/fe/core/base/img/underarmour/ua-device-fitbit.png" alt="">
+                                <img src="/g/src/fe/core/base/img/underarmour/ua-device-jawbone.png" alt="">
+                                <img src="/g/src/fe/core/base/img/underarmour/ua-device-myfitnesspal.png" alt="">
+                                <img src="/g/src/fe/core/base/img/underarmour/ua-device-wego.png" alt="">
+                            </p>
+                        </section>
+                        <hr />
+                        <h4>What do I have to do?</h4>
+                        <p><h5>1. Connect your program account to a new or existing UA account.</h5></p>
+                        <p>
+                            This step will be completed in your browser, and it takes just a few minutes.
+                        </p>
+                        <p><h5>2. Link your fitness tracker to your UA account.</h5></p>
+                        <p>
+                            This happens in any one of UA's mobile applications on your iOS or Android device.  Here is a smaple of the apps you can use -- some of which you may already have!
+                        </p>
+                        <p class="partner-apps">
+                            <img src="/g/src/fe/core/base/img/underarmour/ua-app-record.png" alt="">
+                            <img src="/g/src/fe/core/base/img/underarmour/ua-app-39.png" alt="">
+                            <img src="/g/src/fe/core/base/img/underarmour/ua-app-mapmy.png" alt="">
+                            <img src="/g/src/fe/core/base/img/underarmour/ua-app-myfitnesspal.png" alt="">
+                        </p>
+                        <h4>Ready to go?</h4>
+                    </div><!-- /#ua-intro --> 
+                        <!--UA-add end content for step-->
+
+                        <!-- NOTE:
+                        In the corresponding JSP there is logic for which content appears on the Overview step.
+
+                        - For UnderArmour it is the above content.
+                          It is currently in one giant HTML block, not broken into individual elements.
+
+                        - For non-UA, it is standard Goalquest CM-driven stuff.
+                        -->
+                        <div id="normal-intro"><!-- this div only exists in the FED version-->
+                            <h4>Actual GQ Overview....</h4>
+                            <p>actual overview copy...</p>
+                        </div><!-- /#normal-intro -->
+
+                        <div class="stepContentControls form-actions pullBottomUp">
+                            <button class="btn btn-primary nextBtn">
+                                Next &raquo;
+                            </button>
+                        </div><!-- /.stepContentControls -->
+
+                    </div><!-- /.stepOverviewContent -->
+
+
+
+
+                    <!-- **************************************************************
+                        RULES
+                     ***************************************************************** -->
+                    <div class="stepRulesContent stepContent" style="display:none">
+
+                        <!-- START: from goalquestPageRules.html ************************************* -->
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <dl class="dl-horizontal dl-h1">
+                                    <dt>Goal:</dt>
+                                    <dd>Increase Sales of G-Plastic products in the 4th quarter</dd>
+                                    <dt>Program Period:</dt>
+                                    <dd>Month, DD, YYYY through Month, DD, YYYY</dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <!-- NOTE: PDF VERSION -->
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <a class="fileLink" href="path/to/rules.pdf">
+                                    PDF lorem ipsum <i class="icon-file-pdf btn btn-icon invert-btn btn-export-pdf"></i>
+                                </a>
+                            </div>
+                        </div><!-- /NOTE: PDF VERSION -->
+
+                        <!-- NOTE: CONTENT MANAGED VERSION -->
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <h4>How it Works</h4>
+                                <ul>
+                                    <li>ABC Corporation will assign each Sales Representative a base objective (the "Base Objective") for eligible sales during the program period (June 1 through August 31, 2010).</li>
+                                    <li>Each Sales Representative will have the option to select one goal from among three different Goal Levels based on the Base Objective. Each Goal Level will have a different percent of sales objective attainment, and a different reward payout after attainment of the required level of sales.</li>
+                                    <li>Goal Level must be chosen and entered on or before midnight on Friday May 28, 2010.</li>
+                                    <li>No changes to individual goal selections can be made after May 28, 2010.</li>
+                                    <li>At program end Sales Representatives who attain the required percentage achievement over objective, based on the previously selected Goal Level, will earn Points® rewards based on that Goal Level. If a Sales Representative does not achieve the required sales based on the selected Goal Level, that Agent will not receive any payout.</li>
+                                    <li>If a Sales Representative achieves a higher level of sales than the Goal Level selected, awards will be paid only for the level selected, not the higher level achieved.</li>
+                                </ul>
+                                <h4>ABC Corporation's GoalQuest® Goal Level Grid</h4>
+                                <p>The following grid represents the GoalQuest Goal Levels for Direct Sales Representatives in this program:</p>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td>Level</td>
+                                            <td>Description</td>
+                                            <td>Award</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>103% of your adjusted Q3 sales results</td>
+                                            <td>250 Points</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>103% of your adjusted Q3 sales results</td>
+                                            <td>250 Points</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>103% of your adjusted Q3 sales results</td>
+                                            <td><a href="#">View Available Rewards</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <h4>How to Earn Awards—An Example</h4>
+                                <ul>
+                                    <li>If Sales Representative A selects Goal Level 1 from the grid above, he or she must achieve an adjusted Q3 2010 sales baseline plus 3% to qualify for any payout. If during the program period the Sales Representativeʼs total sales are at least 3% more than their adjusted Q3 2010 sales baseline the Sales Representative will be awarded 250 Points® at the conclusion of the program.</li>
+                                    <li>If Sales Representative A selects Goal Level 2 from the grid above, he or she must achieve an adjusted Q3 2010 sales baseline plus 5% to qualify for any payout. If the Sales Representativeʼs total sales are at least 5% more than their adjusted Q3 2010 baseline the Sales Representative will be awarded 750 Points® at the conclusion of the program.</li>
+                                </ul>
+                            </div>
+                        </div><!-- /NOTE: CONTENT MANAGED VERSION -->
+                        <!-- END: from goalquestPageRules.html ************************************* -->
+
+                        <div class="stepContentControls form-actions pullBottomUp">
+                            <button class="btn backBtn">
+                                &laquo; Back
+                            </button>
+                            <button class="btn btn-primary nextBtn">
+                                Next &raquo;
+                            </button>
+                        </div><!-- /.stepContentControls -->
+
+                    </div><!-- /.stepRulesContent -->
+
+
+
+
+
+                    <!-- **************************************************************
+                        GOAL
+                     ***************************************************************** -->
+                    <div class="stepGoalContent stepContent" style="display:none">
+
+                        <h4>Base Program</h4>
+                        <dl class="dl-horizontal dl-h1">
+                            <dt>Description:</dt>
+                            <dd>Earn 10 Points for every 1 Model 110 units sold above your threshold.</dd>
+                            <dt>Your Baseline:</dt>
+                            <dd>0 Model 110 units</dd>
+                        </dl>
+
+                        <h4>Select Your Goal</h4>
+                        <p class="goalDesc">Earn additional points by achieving your selected goal.</p>
+                        <p class="selectBy">Select Goal by MM/DD/YYYY</p>
+
+                        <div class="form-horizontal levelsWrapper">
+                            <fieldset>
+
+                                <!-- JAVA NOTE: selected plateauAward item data (edit AND plateau type only) -->
+                                <input type="hidden" class="selectedPlateauAwardIdInput" name="someStrutsNameForPlatAwdId" value="98">
+                                <input type="hidden" class="selectedPlateauAwardNameInput" name="someStrutsNameForPlatAwdName" value="Pleateau Award Item Name">
+                                <input type="hidden" class="selectedPlateauAwardImgUrlInput" name="someStrutsNameForPlatAwdImgUrl" value="http://placehold.it/280x280">
+
+                                <!--
+                                    JAVA NOTE: loop through and render the levels
+                                    - JAVA should produce a checked radio input on a selected level (for edit gq)
+                                    - all DOM elements should be included within each .levelItem, JS will manipulate
+                                -->
+                                <label class="radio levelItem">
+                                    <input type="radio" class="levelIdInput" name="someStrutsNameForLevelId" value="4" checked>
+                                    <p class="levelName">Level 1</p>
+                                    <p class="levelDesc">103% of your adjusted Q3 Sales Results</p>
+                                    <div class="levelDeets">
+                                        <!-- JAVA NOTE: CP Only (this will be displayed on Submit Step) -->
+                                        <div class="baseProgramDeets" style="display:none">
+                                            <div class="span12">
+                                                <h4>Base Program</h4>
+                                                <p>Earn 10 points for every 1 Model 110 units sold above your baseline.</p>
+                                                <dl class="dl-horizontal dl-h1">
+                                                    <dt>Your Baseline:</dt>
+                                                    <dd >110</dd>
+                                                    <dt>Your Activity:</dt>
+                                                    <dd>48</dd>
+                                                    <dt>Base Program Points Earned</dt>
+                                                    <dd>119</dd>
+                                                    <dt>Base Program Points Deposited</dt>
+                                                    <dd>1,600 Points&reg;</dd>
+                                                </dl>
+                                            </div>
+                                        </div><!-- /.baseProgramDeets -->
+                                        <!-- /CP Only -->
+                                        <div class="deetLabels">
+                                            <span>Your Baseline:</span>
+                                            <span>Your Goal:</span>
+                                            <span>Award:</span>
+                                        </div>
+                                        <div class="deetValues">
+                                            <span class="baselineValue">101</span>
+                                            <span class="goalValue">105</span>
+                                            <!-- points award -->
+                                            <span class="awardValue wideValue">10 Points&reg; for unit and 5 Points&reg; for every unit over unit up to 300 Points&reg;</span>
+                                            <!-- selected award name -->
+                                            <span class="awardName wideValue">
+                                                <!-- dynamic JS -->
+                                            </span>
+                                            <!-- browse award -->
+                                            <span class="awardBrowse awardBtn">
+                                                <button class="btn btn-small">Browse Awards</button>
+                                            </span>
+                                            <!-- set award -->
+                                            <span class="awardSet awardBtn">
+                                                <button class="btn btn-small btn-primary">Select Award</button>
+                                            </span>
+                                            <!-- edit award -->
+                                            <span class="awardEdit awardBtn">
+                                                <button class="btn btn-small">Change Award</button>
+                                            </span>
+                                        </div><!-- /.deetValues -->
+                                    </div><!-- /.levelDeets -->
+                                </label><!-- /.radio -->
+
+                                <label class="radio levelItem">
+                                    <input type="radio" class="levelIdInput" name="someStrutsNameForLevelId" value="10">
+                                    <p class="levelName">Level 2</p>
+                                    <p class="levelDesc">105% of your adjusted Q3 Sales Results</p>
+                                    <div class="levelDeets">
+                                        <!-- JAVA NOTE: CP Only (this will be displayed on Submit Step) -->
+                                        <div class="baseProgramDeets" style="display:none">
+                                            <div class="span12">
+                                                <h4>Base Program</h4>
+                                                <p>Earn 10 points for every 1 Model 110 units sold above your baseline.</p>
+                                                <dl class="dl-horizontal dl-h1">
+                                                    <dt>Your Baseline:</dt>
+                                                    <dd >110</dd>
+                                                    <dt>Your Activity:</dt>
+                                                    <dd>48</dd>
+                                                    <dt>Base Program Points Earned</dt>
+                                                    <dd>119</dd>
+                                                    <dt>Base Program Points Deposited</dt>
+                                                    <dd>1,600 Points&reg;</dd>
+                                                </dl>
+                                            </div>
+                                        </div><!-- /.baseProgramDeets -->
+                                        <!-- /CP Only -->
+                                        <div class="deetLabels">
+                                            <span>Your Baseline:</span>
+                                            <span>Your Goal:</span>
+                                            <span>Award:</span>
+                                        </div>
+                                        <div class="deetValues">
+                                            <span class="baselineValue">110</span>
+                                            <span class="goalValue">113</span>
+                                            <!-- points award -->
+                                            <span class="awardValue wideValue">250 Points&reg;</span>
+                                            <!-- selected award name -->
+                                            <span class="awardName wideValue">
+                                                <!-- dynamic JS -->
+                                            </span>
+                                            <!-- browse award -->
+                                            <span class="awardBrowse awardBtn">
+                                                <button class="btn btn-small">Browse Awards</button>
+                                            </span>
+                                            <!-- set award -->
+                                            <span class="awardSet awardBtn">
+                                                <button class="btn btn-small btn-primary">Select Award</button>
+                                            </span>
+                                            <!-- edit award -->
+                                            <span class="awardEdit awardBtn">
+                                                <button class="btn btn-small">Change Award</button>
+                                            </span>
+                                        </div><!-- /.deetValues -->
+                                    </div><!-- /.levelDeets -->
+                                </label><!-- /.radio -->
+
+                                <label class="radio levelItem">
+                                    <input type="radio" class="levelIdInput" name="someStrutsNameForLevelId" value="32">
+                                    <p class="levelName">Level 3</p>
+                                    <p class="levelDesc">108% of your adjusted Q3 Sales Results</p>
+                                    <div class="levelDeets">
+                                        <!-- JAVA NOTE: CP Only (this will be displayed on Submit Step) -->
+                                        <div class="baseProgramDeets" style="display:none">
+                                            <div class="span12">
+                                                <h4>Base Program</h4>
+                                                <p>Earn 10 points for every 1 Model 110 units sold above your baseline.</p>
+                                                <dl class="dl-horizontal dl-h1">
+                                                    <dt>Your Baseline:</dt>
+                                                    <dd >110</dd>
+                                                    <dt>Your Activity:</dt>
+                                                    <dd>48</dd>
+                                                    <dt>Base Program Points Earned</dt>
+                                                    <dd>119</dd>
+                                                    <dt>Base Program Points Deposited</dt>
+                                                    <dd>1,600 Points&reg;</dd>
+                                                </dl>
+                                            </div>
+                                        </div><!-- /.baseProgramDeets -->
+                                        <!-- /CP Only -->
+                                        <div class="deetLabels">
+                                            <span>Your Baseline:</span>
+                                            <span>Your Goal:</span>
+                                            <span>Award:</span>
+                                        </div>
+                                        <div class="deetValues">
+                                            <span class="baselineValue">110</span>
+                                            <span class="goalValue">113</span>
+                                            <!-- points award -->
+                                            <span class="awardValue wideValue">250 Points&reg;</span>
+                                            <!-- selected award name -->
+                                            <span class="awardName wideValue">
+                                                <!-- dynamic JS -->
+                                            </span>
+                                            <!-- browse award -->
+                                            <span class="awardBrowse awardBtn">
+                                                <button class="btn btn-small">Browse Awards</button>
+                                            </span>
+                                            <!-- set award -->
+                                            <span class="awardSet awardBtn">
+                                                <button class="btn btn-small btn-primary">Select Award</button>
+                                            </span>
+                                            <!-- edit award -->
+                                            <span class="awardEdit awardBtn">
+                                                <button class="btn btn-small">Change Award</button>
+                                            </span>
+                                        </div><!-- /.deetValues-->
+                                    </div><!-- /.levelDeets -->
+                                </label><!-- /.radio -->
+
+
+                            </fieldset>
+
+                            <!-- this gets dumped into a qtip and shows currently selected plat. aw. -->
+                            <div class="selectedPlateauAwardWrapper" style="display:none">
+                                <div class="selectedPlateauAward">
+                                    <div class="hasAwardContent">
+                                        <div class="paImg">
+                                            <!-- js fills this in -->
+                                        </div>
+                                        <h5 class="paTitle">
+                                            <!-- js fills this in -->
+                                        </h5>
+                                    </div>
+                                    <div class="noAwardContent">
+                                        <i class="icon-picture"></i>
+                                        <br><br>
+                                        No award selected.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div><!-- /.levelsWrapper -->
+
+
+                        <div class="stepContentControls form-actions pullBottomUp">
+                            <button class="btn backBtn">
+                                &laquo; Back
+                            </button>
+                            <button class="btn btn-primary nextBtn">
+                                Next &raquo;
+                            </button>
+                        </div><!-- /.stepContentControls -->
+
+                    </div><!-- /.stepGoalContent -->
+
+
+
+                    <!-- **************************************************************
+                        CONNECT TO UA
+                    ***************************************************************** -->
+                    <div class="uaConnectContent stepContent" style="display:none">
+
+                        <h4>Excellent!</h4>
+                        <p>You hace successfully connected your UnderArmour account to this site.  Your activity will get automatically synced daily.  Check back regularly to track progress toward your goal.</p>
+
+                        <hr />
+
+                        <h4>Remember!</h4>
+                        <h5>Link your fitness tracker to your UA account.</h5>
+                        <p>This happens in any one of UA's mobile applications on your iOS or Android device.  Here is a sample of the apps you can use, some of which you may already have!</p>
+                        <p class="partner-apps">
+                            <img src="/g/src/fe/core/base/img/underarmour/ua-app-record.png" alt="">
+                            <img src="/g/src/fe/core/base/img/underarmour/ua-app-39.png" alt="">
+                            <img src="/g/src/fe/core/base/img/underarmour/ua-app-mapmy.png" alt="">
+                            <img src="/g/src/fe/core/base/img/underarmour/ua-app-myfitnesspal.png" alt="">
+                        </p>
+
+                        <h4>Connect your account to Under Armour</h4>
+                        <p>
+                            You will be taken to the UA site to log in or create an account. When done, you will be returned here where you can choose your goal.
+                        </p>
+                        <p class="ua-connect-button">
+                            <a href="#" class="btn btn-primary btn-uaconnect">
+                                LOG IN WITH <strong>UNDER ARMOUR</strong>
+                                <!--<img src="/g/src/fe/core/base/img/underarmour/ua-fitness-connect-button.png" alt="">-->
+                            </a>
+                        </p>
+
+                        <div class="stepContentControls form-actions pullBottomUp">
+                            <button class="btn backBtn">
+                                &laquo; Back
+                            </button>
+                            <!-- NOTE:
+                            The below NEXT button only appears for FED purposes to be able to skip this step.
+                            Users are sent to the next step automatically in real environment with a successful external UA connection from the big red button.
+                            -->
+                            <button class="btn btn-primary nextBtn">
+                                Next &raquo;
+                            </button>
+                        </div><!-- /.stepContentControls -->
+
+                    </div>
+
+                    <!-- **************************************************************
+                        PARTNER SELECTION
+                    ***************************************************************** -->
+                    <div class="stepPartnerContent stepContent" style="display:none">
+
+                        <label class="radio">
+                            <input type="radio" class="selectPartnerYesInput" name="someStrutsNameForSelectPartnerYes" value="false">
+                            No, I do not want to select a partner.
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" class="selectPartnerYesInput" name="someStrutsNameForSelectPartnerYes" value="true">
+                            Yes, I would like to select a partner(s).
+                        </label>
+
+                        <div class="partnerSearchSlidingWrapper" style="display:none">
+                            <h3>Find Partners</h3>
+                            <div class="paxSearchStartView" ></div><!-- /.paxSearchStartView -->
+                            <!-- pax search for Partners -->
+                            <!--
+                                Participant search view Element
+                                - data-search-types: defines the dropdowns and autocompletes
+                                - data-search-params: defines extra static parameters to send with autocomp and participant requests
+                                - data-search-url: override search json provider (usually needed)
+                                ...
+                            -->
+                            <!--<div class="partnerSearchView"
+                                data-search-types='[{"id":"lastName","name":"Last Name"},{"id":"firstName","name":"First Name"},{"id":"location","name":"Location"},{"id":"jobTitle","name":"Job Title"},{"id":"department","name":"Department"}]'
+                                data-search-params='{"extraKey":"extraValue","anotherKey":"some value"}'
+                                data-autocomp-delay="500"
+                                data-autocomp-min-chars="2"
+                                data-autocomp-url="ajax/participantSearch_autocomp_firstName.json"
+                                data-search-url="ajax/participantSearchResults_sendRecognition.json"
+                                data-select-mode="multiple"
+                                data-msg-select-txt="add"
+                                data-msg-selected-txt="<i class='icon icon-ok'></i>"
+                                data-msg-validation="You must add a partner."
+                                data-visibility-controls="hideOnly" >
+                            </div>-->
+
+                            <p class="preselectedPartnersMsg">
+                                The manager's team members have been pre-selected to receive invitations to contribute to the PURL and are listed below. Please remove anyone you feel should not receive an invitation.
+                            </p>
+
+                            <div class="container-splitter participantCollectionViewWrapper">
+
+                                <!-- this name is set by the JS View, the name must be set after the struts value is parsed -->
+                                <input type="hidden" name="xCount" value="0" class="participantCount" />
+
+                                <h3>Selected Partners</h3>
+
+                                <table class="table table-condensed table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="participant">Partner</th>
+                                            <th class="remove">Remove</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="partnerView participantCollectionView"
+                                        data-msg-empty="You have not added anyone."
+                                        data-hide-on-empty="false">
+                                    </tbody>
+                                </table>
+
+                                <!-- client side template for each partner in the table -->
+                                <script id="partnerRowTpl" type="text/x-handlebars-template">
+                                    <tr class="participant-item"
+                                            data-participant-cid="{{cid}}"
+                                            data-participant-id="{{id}}">
+
+                                        <td class="participant">
+                                            <input type="hidden" name="{{partnerPrefix}}[{{autoIndex}}].userId" value="{{id}}" />
+                                            <input type="hidden" name="{{partnerPrefix}}[{{autoIndex}}].firstName" value="{{firstName}}" />
+                                            <input type="hidden" name="{{partnerPrefix}}[{{autoIndex}}].lastName" value="{{lastName}}" />
+
+                                            <a class="participant-popover" href="#" data-participant-ids="[{{id}}]">
+                                                {{#if avatarUrl}}<img alt="{{firstName}} {{lastName}}" class="participant-list-avatar avatar" src="{{avatarUrl}}">{{/if}}
+                                                {{firstName}}
+                                                {{lastName}}
+                                                {{#if countryCode}}<img src="img/flags/{{countryCode}}.png" alt="{{countryCode}}" class="countryFlag" title="{{countryName}}" />{{/if}}
+                                            </a>
+                                            <span class="org">{{orgName}} {{#if departmentName}}{{#if orgName}}&bull;{{/if}} {{departmentName}}{{/if}} {{#if jobName}}{{#if departmentName}}&bull;{{else}}{{#if orgName}}&bull;{{/if}}{{/if}} {{jobName}}{{/if}}</span>
+                                        </td>
+                                        <td class="remove">
+                                            <a class="remParticipantControl" title="remove this participant"><i class="icon-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </script>
+
+                            </div><!-- /.partnerCollectionViewWrapper -->
+
+                        </div><!-- /.partnerSearchSlidingWrapper -->
+
+
+                        <div class="stepContentControls form-actions pullBottomUp">
+                            <button class="btn backBtn">
+                                &laquo; Back
+                            </button>
+                            <button class="btn btn-primary nextBtn">
+                                Next &raquo;
+                            </button>
+                        </div><!-- /.stepContentControls -->
+
+                    </div><!-- /.stepPartnerContent -->
+
+
+
+
+                    <!-- **************************************************************
+                        SUBMIT
+                     ***************************************************************** -->
+                    <div class="stepSubmitContent stepContent" style="display:none">
+
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <dl class="dl-horizontal dl-h1">
+                                    <dt>Goal:</dt>
+                                    <dd>Increase Sales of G-Plastic products in the 4th quarter</dd>
+                                    <dt>Program Period:</dt>
+                                    <dd>Month, DD, YYYY through Month, DD, YYYY</dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <div class="row-fluid submitBaseProgramDeets dyn dyn_showIfCont">
+                            <!-- populated if assoc. level has .baseProgramDeets element -->
+                        </div>
+
+                        <div class="row-fluid">
+                            <div class="span6">
+
+                                <h4>Your Goal</h4>
+                                <p class="selectBy">Select Goal by MM/DD/YYYY</p>
+                                <div class="submitLevelName dyn">
+                                    <!-- dynamic - JS -->
+                                </div>
+                                <div class="submitLevelDesc dyn">
+                                    <!-- dynamic - JS -->
+                                </div>
+                                <dl class="dl-horizontal dl-h1">
+                                    <dt>Your Baseline:</dt>
+                                    <dd class="submitBaselineValue dyn"><!-- dynamic - JS --></dd>
+                                    <dt>Your Goal:</dt>
+                                    <dd class="submitGoalValue dyn"><!-- dynamic - JS --></dd>
+                                    <dt>Award:</dt>
+                                    <dd class="submitAwardValue dyn"><!-- dynamic - JS --></dd>
+                                    <dd class="submitAwardName dyn"><!-- dynamic - JS --></dd>
+                                    <dt class="partnerOnly">Partners:</dt>
+                                    <dd class="submitPartners partnerOnly"><!-- dynamic - JS --></dd>
+                                </dl>
+                            </div>
+                            <div class="span6">
+                                <div class="submitPlateauAwardImageContent">
+                                    <div class="paImg"><!-- dynamid - JS --></div>
+                                    <div class="paTitle"><!-- dynamid - JS --></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stepContentControls form-actions pullBottomUp">
+                            <button class="btn backBtn">
+                                &laquo; Back
+                            </button>
+                            <button class="btn btn-primary submitBtn">
+                                Submit
+                            </button>
+                        </div><!-- /.stepContentControls -->
+
+                    </div><!-- /.stepSubmitContent -->
+
+
+
+
+                </form><!-- /.gqEditForm -->
+
+
+                <!-- informational tooltip for validation -->
+                <div class="nextBtnTipWrapper" style="display:none">
+                    <div class="nextBtnTip">
+                        <div class="nextBtnMsg msgNoPlatAw">
+                            <i class="icon-exclamation-sign"></i>
+                            Please select a Pleateau Award Item.
+                        </div>
+                        <div class="nextBtnMsg msgNoLevel">
+                            <i class="icon-exclamation-sign"></i>
+                            Please select a level.
+                        </div>
+                        <div class="nextBtnMsg msgNoPartnerYesPref">
+                            <i class="icon-exclamation-sign"></i>
+                            Please select 'yes', or 'no'.
+                        </div>
+                        <div class="nextBtnMsg msgNoPartners">
+                            <i class="icon-exclamation-sign"></i>
+                            Please add one or more partners, or select 'no'.
+                        </div>
+                        <div class="nextBtnMsg msgMaxPartners">
+                            <i class="icon-exclamation-sign"></i>
+                            The maximum partner count of {count} has been exceeded.
+                            Please remove {removeCount} partner(s).
+                        </div>
+                    </div>
+                </div>
+
+
+            </div><!-- /.wizardTabsContent -->
+
+
+
+
+        </div><!-- /.span12 -->
+    </div><!-- /.row-fluid -->
+
+
+    <div id="levelMerchModal" class="modal modal-stack hide fade" data-y-offset="adjust">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button"><i class="icon-close"></i></button>
+            <h3>Select Award</h3>
+        </div>
+        <div class="modal-body">
+            <!-- dynamic -->
+        </div>
+    </div><!-- /.levelMerchModal -->
+
+
+</div><!-- /#goalquestPageRulesView -->
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+
+    $(document).ready(function(){
+
+        // JAVA NOTE: you should only have to i18n the "wtName" field in
+        //            this set, no need to create a class for this or anything
+        // json for WizardTabs -- easier to read/maintain than HTML setup
+        var tabsJson = [
+            {
+                "id" : 1,
+                "name" : "stepOverview",
+                "isActive" : false,
+                "state" : "unlocked",
+                "contentSel" : ".wizardTabsContent .stepOverviewContent",
+                "wtNumber" : "",
+                "wtName" : "Overview",
+                "hideDeedle" : false
+            },
+            {
+                "id" : 2,
+                "name" : "stepRules",
+                "isActive" : false,
+                "state" : "locked",
+                "contentSel" : ".wizardTabsContent .stepRulesContent",
+                "wtNumber" : "",
+                "wtName" : "Read Rules",
+                "hideDeedle" : false
+            },
+            {
+                "id" : 3,
+                "name" : "stepUAConnect",
+                "isActive" : false,
+                "state" : "locked",
+                "contentSel" : ".wizardTabsContent .uaConnectContent",
+                "wtNumber" : "",
+                "wtName" : "Connect to UA",
+                "hideDeedle" : false
+            },
+            {
+                "id" : 4,
+                "name" : "stepGoal",
+                "isActive" : false,
+                "state" : "locked",
+                "contentSel" : ".wizardTabsContent .stepGoalContent",
+                "wtNumber" : "",
+                "wtName" : "Goal Selection",
+                "hideDeedle" : false
+            },
+            {
+                "id" : 5,
+                "name" : "stepPartner",
+                "isActive" : false,
+                "state" : "locked",
+                "contentSel" : ".wizardTabsContent .stepPartnerContent",
+                "wtNumber" : "",
+                "wtName" : "Partner Selection",
+                "hideDeedle" : false
+            },
+            {
+                "id" : 6,
+                "name" : "stepSubmit",
+                "isActive" : false,
+                "state" : "locked",
+                "contentSel" : ".wizardTabsContent .stepSubmitContent",
+                "wtNumber" : "",
+                "wtName" : "Submit Goal",
+                "hideDeedle" : false
+            }
+        ];
+
+        //attach the view to an existing DOM element
+        window.pageView = new GoalquestPageEditView({
+            el:$('#goalquestPageEditView'),
+            pageNav : {
+                back : {
+                    text : 'Back',
+                    url : 'layout.html'
+                },
+                home : {
+                    text : 'Home',
+                    url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+                }
+            },
+            pageTitle : 'GoalQuest Create/Edit',
+            tabsJson: tabsJson
+        });
+
+    });
+    //front-end UA check -- ONLY FOR HTML VERSION OF PAGE, NOT TO BE USED IN JSP
+    var $isItUA = $( '.showUAStepInput' ).attr( 'value' );
+    if ( $isItUA === 'true' ) {
+        console.log( 'UA: ' + $isItUA );
+        $( '.ua-add-ua-page' ).addClass( 'ua-page' );
+        $( '.ua-add-ua-decoration' ).addClass( 'ua-decoration' );
+        $( '.ua-add-ua-page-content' ).addClass( 'ua-page-content' );
+        $( '#normal-intro' ).hide();
+    }
+    if ( $isItUA === 'false' ) {
+        console.log( 'UA: ' + $isItUA );
+        $( '.ua-add-ua-page' ).removeClass( 'ua-page' );
+        $( '.ua-add-ua-decoration' ).hide();
+        $( '.ua-add-ua-page-content' ).removeClass( 'ua-page-content' );
+        $( '.ua-logo' ).hide();
+        $( '#ua-intro' ).hide();
+    }
+
+</script>
+
+<!-- wizardTab template (relative to core/base) -->
+<script type="text/template" id="wizardTabTpl">
+    <jsp:include page="../../../base/tpl/wizardTab.html"></jsp:include>
+    <?php include("base/tpl/wizardTab.html"); ?>
+</script>

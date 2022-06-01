@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- generation date:11/06/2007 12:21:00 -->
+  <cm_data importType="diff">
+    <application_entry code="beacon" name="Beacon Default" desc="Beacon Default Application" action="nop">
+      <asset_type_entry name="_Hierarchy_Data" desc="Hierarchy Data" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="HIERARCHY_NAME" name="Hierarchy Name" desc="Hierarchy Name" order="1" required="F" unique="T" translatable="T" type="STRING"/>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="hierarchy_data.hierarchy.bonfireuber" name="Bonfire Uber Corp Hierarchy" desc="Bonfire Uber Corp Hierarchy" publik="T" section="hierarchy_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7b92">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="HIERARCHY_NAME">
+                <value><![CDATA[Bonfire Uber Corp]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+      <asset_type_entry name="_NodeTypeData" desc="Node Type Data" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="NODE_TYPE_NAME" name="Node Type Name" desc="Node Type Name" order="1" required="F" unique="T" translatable="T" type="STRING"/>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.branch" name="Branch Node Type" desc="Branch Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7b48">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[Branch]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.corporate" name="Corporate Node Type" desc="Corporate Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7b46">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[Corporate]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.district" name="District Node Type" desc="District Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7b44">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[District]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.division" name="Division Node Type" desc="Division Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7b42">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[Division]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.region" name="Region Node Type" desc="Region Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7b40">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[Region]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.zone" name="Zone Node Type" desc="Zone Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="-26b94075:13c62f716e7:-8000">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[Zone]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.10000938" name="Country Node Type" desc="Country Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:105894a3f0c:-7b9d">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[Country]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.10000939" name="State Node Type" desc="State Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:105894a3f0c:-7b8d">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[State]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="node_type_data.nodetype.10000940" name="City Node Type" desc="City Node Type" publik="T" section="node_type_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:105894a3f0c:-7b7d">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="NODE_TYPE_NAME">
+                <value><![CDATA[City]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+      <asset_type_entry name="_UserCharacteristicData" desc="Characteristic Data" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="CHARACTERISTIC_NAME" name="Characteristic Name" desc="Characteristic Name" order="1" required="F" unique="T" translatable="T" type="STRING"/>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.user.data.age" name="Age Characteristic" desc="Age Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7ab0">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Age]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.user.data.certifieddate" name="Certified Date Characteristic" desc="Certified Date Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7aaa">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Certified Date]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.user.data.gender" name="Gender Characteristic" desc="Gender Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7aa6">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Gender]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.user.data.interests" name="Interests Characteristic" desc="Interests Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7aa2">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Interests]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.user.data.trainingcertifications" name="Training Certifications Characteristic" desc="Training Certifications Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7aa0">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Training Certifications]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+      <asset_type_entry name="_NodeTypeCharacteristicData" desc="Characteristic Data" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="CHARACTERISTIC_NAME" name="Characteristic Name" desc="Characteristic Name" order="1" required="F" unique="F" translatable="T" type="STRING"/>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.nodetype.data.customdesigners" name="Custom Designers Characteristic" desc="Custom Designers Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7a9c">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Custom Designers]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.nodetype.data.employeecount" name="Employee count Characteristic" desc="Employee count Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7a9a">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Employee count]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.nodetype.data.storetype" name="Store type Characteristic" desc="Store type Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7a96">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Store type]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+         <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.nodetype.data.10000941" name="Cost Center Characteristic" desc="Cost Center Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-8a56">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Cost Center]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+         <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.nodetype.data.10000942" name="Business Group Characteristic" desc="Business Group Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-8b75">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Business Group]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+         <asset_entry module="core" paxOrAdmin="B" productVersion="4.1.2" code="characteristic_data.nodetype.data.10000943" name="Location Characteristic" desc="Location Characteristic" publik="T" section="characteristic_data" previewPage="homepage.do" action="add">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-872">
+            <content_entry contentVersion="1" status="Live" locale="en_US">
+              <content_data_entry key="CHARACTERISTIC_NAME">
+                <value><![CDATA[Location]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+    </application_entry>
+  </cm_data>

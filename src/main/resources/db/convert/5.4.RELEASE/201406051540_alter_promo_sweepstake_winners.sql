@@ -1,0 +1,2 @@
+ALTER TABLE promo_sweepstake_winners ADD PARTICIPANT_BADGE_ID NUMBER(18,0)
+/

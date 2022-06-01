@@ -1,0 +1,16 @@
+CREATE TABLE promo_wellness
+(promotion_id                   NUMBER(18,0) NOT NULL,
+ award_active                   NUMBER(1) NOT NULL,
+ award_amount_type_fixed        NUMBER(1) NOT NULL,
+ award_amount_fixed             NUMBER(14,2),
+ award_amount_min               NUMBER(14,2),
+ award_amount_max               NUMBER(14,2) 
+ )
+/
+ALTER TABLE promo_wellness
+ADD CONSTRAINT promo_wellness_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promo_wellness ADD CONSTRAINT promo_wellness_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/

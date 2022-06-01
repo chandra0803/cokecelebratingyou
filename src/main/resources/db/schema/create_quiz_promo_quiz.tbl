@@ -1,0 +1,24 @@
+CREATE TABLE promo_quiz
+    (promotion_id                   NUMBER(18,0) NOT NULL,
+     quiz_id                        NUMBER(18,0),
+     allow_unlimited_attempts       NUMBER(1,0) NOT NULL,
+     maximum_attempts               NUMBER(4,0),
+     include_pass_quiz_certificate  NUMBER(1,0) NOT NULL,
+     award_active                   NUMBER(1,0) NOT NULL,
+     award_amount                   NUMBER(14,2)
+     )
+/
+ALTER TABLE promo_quiz
+ADD CONSTRAINT promo_quiz_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promo_quiz ADD CONSTRAINT promo_quiz_promotion_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/
+ALTER TABLE promo_quiz ADD CONSTRAINT promo_quiz_quiz_fk
+  FOREIGN KEY (quiz_id) REFERENCES quiz (quiz_id)
+/
+CREATE INDEX PROMO_QUIZ_QUIZ_FK_idx ON PROMO_QUIZ
+  (QUIZ_ID)
+/
+

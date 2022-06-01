@@ -1,0 +1,19 @@
+CREATE TABLE promo_engagement
+(
+	promotion_id           		   NUMBER(18) NOT NULL,
+	is_score_active                NUMBER(1) DEFAULT 0 NOT NULL,
+	display_target                 NUMBER(1) DEFAULT 0 NOT NULL,
+ 	company_goal			       NUMBER(3,0),
+ 	score_preference               VARCHAR2(40),
+ 	selected_benchmarks    		   NUMBER(18),
+ 	prev_process_date      		   DATE,
+ 	as_of_date					   DATE
+)
+/
+ALTER TABLE promo_engagement
+ADD CONSTRAINT promo_engagement_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promo_engagement ADD CONSTRAINT promo_engagement_promotion_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/

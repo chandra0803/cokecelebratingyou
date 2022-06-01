@@ -1,0 +1,9 @@
+CREATE TABLE quiz_claim_item (
+ claim_item_id    NUMBER(18) NOT NULL, 
+ DATE_TAKEN        DATE
+ ) 
+/
+ALTER TABLE quiz_claim_item
+ADD CONSTRAINT quiz_claim_item_pk PRIMARY KEY (claim_item_id)
+USING INDEX
+/

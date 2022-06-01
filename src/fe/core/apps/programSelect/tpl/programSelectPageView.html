@@ -1,0 +1,385 @@
+
+<div id="programSelectPageView" class="page-content">
+    <div id="programSelectWrapper">
+        <div class="row-fluid">
+            <div class="span12">
+                <h2>Page Title</h2>
+            </div>
+        </div>
+        <h3 class="findRecipientTitle" data-purl-title="Find Recipient">Find Recipients</h3>
+            <div id="paxSearchStartView" ></div><!-- /.paxSearchStartView -->
+            <div id="purlTooManyRecips" style="display:none" class="alert-danger">
+                <p>
+                    <b>PURLs can only have one recipient. Please deselect some people.</b>
+                </p>
+            </div>
+            <div id="invalidRecips" style="display:none" class="alert-danger">
+                <p>
+                    <b>One or more of your selected participants are ineligible for the selected promotion.</b>
+                </p>
+            </div>
+            <div id="PaxSelectedPaxView2"  data-save-group='true' class="full-width-neg-margin"></div>
+
+        <div class="promotionWrapper">
+
+            <h3>Selected Promotion</h3>
+            <div class="promotionList control-group">
+                <!-- Generated content from promotionsListTpl -->
+            </div>
+
+
+        </div><!-- /.approvalPromotionWrapper.row-->
+
+        <form id="dataForm" class="recognitionDataForm" action="layout.html?tplPath=apps/recognition/tpl/&amp;tpl=recognitionPagePreviewPoints.html" method="post">
+
+            <!-- method -->
+            <input type="hidden" name="method" value="prepareForward" />
+
+            <!-- promotion id and node id -->
+            <input type="hidden" name="promotionId" value="123477777" />
+            <input type="hidden" name="nodeId" value="23456" />
+
+            <!-- team name (for Nomination only) -->
+            <input type="hidden" name="teamName" value="I am a team name from struts!" />
+
+            <!-- RECIPIENT(S) beans -->
+            <input type="hidden" name="claimRecipientFormBeansCount" value="2" />
+
+            <input type="hidden" name="claimRecipientFormBeans[1].id" value="456777" />
+            <input type="hidden" name="claimRecipientFormBeans[1].awardQuantity" value="25" />
+            <input type="hidden" name="claimRecipientFormBeans[1].awardLevel" value="23" />
+            <input type="hidden" name="claimRecipientFormBeans[1].countryCode" value="us" />
+            <input type="hidden" name="claimRecipientFormBeans[1].countryRatio" value="1" />
+            <input type="hidden" name="claimRecipientFormBeans[1].countryName" value="United States" />
+            <input type="hidden" name="claimRecipientFormBeans[1].firstName" value="Bradley" />
+            <input type="hidden" name="claimRecipientFormBeans[1].lastName" value="Smithson" />
+            <input type="hidden" name="claimRecipientFormBeans[1].departmentName" value="Department Name" />
+            <!-- Custom for coco cola wip#42701 added currency in formbean-->
+            <input type="hidden" name="claimRecipientFormBeans[1].currency" value="USD" />
+            <input type="hidden" name="claimRecipientFormBeans[1].jobName" value="Job Name" />
+            <input type="hidden" name="claimRecipientFormBeans[1].emailAddr" value="katie.desmet@biworldwide.com" />
+            <input type="hidden" name="claimRecipientFormBeans[1].calculatorResultBeans[0].criteriaId" value="12347">
+            <input type="hidden" name="claimRecipientFormBeans[1].calculatorResultBeans[0].ratingId" value="9">
+            <input type="hidden" name="claimRecipientFormBeans[1].calculatorResultBeans[1].criteriaId" value="12346">
+            <input type="hidden" name="claimRecipientFormBeans[1].calculatorResultBeans[1].ratingId" value="6">
+            <input type="hidden" name="claimRecipientFormBeans[1].calculatorResultBeans[2].criteriaId" value="12345">
+            <input type="hidden" name="claimRecipientFormBeans[1].calculatorResultBeans[2].ratingId" value="2">
+            <input type="hidden" name="claimRecipientFormBeans[1].nodeId" value="12377" />
+            <input type="hidden" name="claimRecipientFormBeans[1].optOutAwards" value="false" />
+            <input type="hidden" name="claimRecipientFormBeans[1].purlAllowOutsideDomains" value="false" />
+
+            <textarea name="claimRecipientFormBeans[1].nodes" style="display:none">
+                [{"id":12377,"name":"ORG NODE NAME"}]
+            </textarea>
+
+            <input type="hidden" name="claimRecipientFormBeans[0].id" value="123777" />
+            <input type="hidden" name="claimRecipientFormBeans[0].awardQuantity" value="50" />
+            <input type="hidden" name="claimRecipientFormBeans[0].awardLevelId" value="123" />
+            <input type="hidden" name="claimRecipientFormBeans[0].countryCode" value="de" />
+            <input type="hidden" name="claimRecipientFormBeans[0].countryRatio" value="0.5" />
+            <input type="hidden" name="claimRecipientFormBeans[0].countryName" value="Germany" />
+            <input type="hidden" name="claimRecipientFormBeans[0].firstName" value="Billy" />
+            <input type="hidden" name="claimRecipientFormBeans[0].lastName" value="Smith" />
+            <input type="hidden" name="claimRecipientFormBeans[0].departmentName" value="Department Name" />
+            <!-- Custom for coco cola wip#42701 added currency in formbean-->
+            <input type="hidden" name="claimRecipientFormBeans[0].currency" value="USD" />
+            <input type="hidden" name="claimRecipientFormBeans[0].jobName" value="Job Name" />
+            <input type="hidden" name="claimRecipientFormBeans[0].emailAddr" value="billy.smith@biworldwide.com" />
+            <input type="hidden" name="claimRecipientFormBeans[0].calculatorResultBeans[0].criteriaId" value="12347">
+            <input type="hidden" name="claimRecipientFormBeans[0].calculatorResultBeans[0].ratingId" value="8">
+            <input type="hidden" name="claimRecipientFormBeans[0].calculatorResultBeans[1].criteriaId" value="12346">
+            <input type="hidden" name="claimRecipientFormBeans[0].calculatorResultBeans[1].ratingId" value="5">
+            <input type="hidden" name="claimRecipientFormBeans[0].calculatorResultBeans[2].criteriaId" value="12345">
+            <input type="hidden" name="claimRecipientFormBeans[0].calculatorResultBeans[2].ratingId" value="1">
+            <input type="hidden" name="claimRecipientFormBeans[0].nodeId" value="1234" />
+            <input type="hidden" name="claimRecipientFormBeans[0].optOutAwards" value="false" />
+            <input type="hidden" name="claimRecipientFormBeans[0].purlAllowOutsideDomains" value="false" />
+            <textarea name="claimRecipientFormBeans[0].nodes" style="display:none">
+                [{"id":1231,"name":"Super long org name that never stops"},{"id":1232,"name":"Org/Node B"},{"id":1233,"name":"Yet another Org/Node"},{"id":1234,"name":"Last Org/Node"}]
+            </textarea>
+
+                <!-- PURL contributor beans (PURL ONLY) -->
+                <input type="hidden" name="claimContributorFormBeansCount" value="4" />
+
+                <input type="hidden" name="claimContributorFormBeans[0].id" value="999" />
+                <input type="hidden" name="claimContributorFormBeans[0].countryCode" value="de" />
+                <input type="hidden" name="claimContributorFormBeans[0].countryName" value="Germany" />
+                <input type="hidden" name="claimContributorFormBeans[0].firstName" value="Billy" />
+                <input type="hidden" name="claimContributorFormBeans[0].lastName" value="Smith" />
+                <input type="hidden" name="claimContributorFormBeans[0].orgName" value="Organific Org." />
+                <input type="hidden" name="claimContributorFormBeans[0].departmentName" value="Departific Dept." />
+                <input type="hidden" name="claimContributorFormBeans[0].jobName" value="Jobtastic Job" />
+                <input type="hidden" name="claimContributorFormBeans[0].contribType" value="additional" />
+                <input type="hidden" name="claimContributorFormBeans[0].sourceType" value="team" />
+                <input type="hidden" name="claimContributorFormBeans[0].invitationSentDate" value="03/30/2013" />
+                <input type="hidden" name="claimContributorFormBeans[0].invitationSentDateSort" value="20130330" />
+                 <input type="hidden" name="claimContributorFormBeans[0].optOutAwards" value="true" />
+
+                <input type="hidden" name="claimContributorFormBeans[1].id" value="888" />
+                <input type="hidden" name="claimContributorFormBeans[1].countryCode" value="us" />
+                <input type="hidden" name="claimContributorFormBeans[1].countryName" value="United States" />
+                <input type="hidden" name="claimContributorFormBeans[1].firstName" value="Bradley" />
+                <input type="hidden" name="claimContributorFormBeans[1].lastName" value="Smithson" />
+                <input type="hidden" name="claimContributorFormBeans[1].orgName" value="Some Org." />
+                <input type="hidden" name="claimContributorFormBeans[1].departmentName" value="Some Dept." />
+                <input type="hidden" name="claimContributorFormBeans[1].jobName" value="Some Job" />
+                <input type="hidden" name="claimContributorFormBeans[1].contribType" value="preselected" />
+                <input type="hidden" name="claimContributorFormBeans[1].sourceType" value="social" />
+                <input type="hidden" name="claimContributorFormBeans[1].invitationSentDate" value="02/30/2013" />
+                <input type="hidden" name="claimContributorFormBeans[1].invitationSentDateSort" value="20130230" />
+                <input type="hidden" name="claimContributorFormBeans[1].optOutAwards" value="false" />
+
+                <input type="hidden" name="claimContributorFormBeans[2].id" value="boomer.bunson@gmail.com" />
+                <input type="hidden" name="claimContributorFormBeans[2].email" value="boomer.bunson@gmail.com" />
+                <input type="hidden" name="claimContributorFormBeans[2].firstName" value="Boomerang" />
+                <input type="hidden" name="claimContributorFormBeans[2].lastName" value="Bunson" />
+                <input type="hidden" name="claimContributorFormBeans[2].contribType" value="other" />
+                <input type="hidden" name="claimContributorFormBeans[2].sourceType" value="other" />
+                <input type="hidden" name="claimContributorFormBeans[2].invitationSentDate" value="" />
+                <input type="hidden" name="claimContributorFormBeans[2].invitationSentDateSort" value="" />
+
+                <input type="hidden" name="claimContributorFormBeans[3].id" value="666" />
+                <input type="hidden" name="claimContributorFormBeans[3].countryCode" value="us" />
+                <input type="hidden" name="claimContributorFormBeans[3].countryName" value="United States" />
+                <input type="hidden" name="claimContributorFormBeans[3].firstName" value="Zed" />
+                <input type="hidden" name="claimContributorFormBeans[3].lastName" value="Zoot" />
+                <input type="hidden" name="claimContributorFormBeans[3].orgName" value="Some Org." />
+                <input type="hidden" name="claimContributorFormBeans[3].departmentName" value="Some Dept." />
+                <input type="hidden" name="claimContributorFormBeans[3].jobName" value="Some Job" />
+                <input type="hidden" name="claimContributorFormBeans[3].contribType" value="preselected" />
+                <input type="hidden" name="claimContributorFormBeans[3].sourceType" value="team" />
+
+
+                <!-- PURL only, the set of pre-selected filters (Teams) -->
+                <textarea name="contributorTeamsSearchFilters" style="display:none"></textarea>
+        </form>
+
+
+        <!-- tk test -->
+        <!-- this outside of search fieldset below for css reasons atm -->
+
+        <!-- promotions name view template -->
+        <script id="promotionNameTpl" type="text/x-handlebars-template">
+            <div class="controls promoChangeWrapper">
+                <span class="nominationPromotionName headline_5">
+                    {{name}}
+                </span>
+
+                {{#gte totalPromotionCount 2}}
+                <button type="button" id="nominationChangePromoBtn" class="btn btn-inverse btn-primary popoverTrigger" data-popover-content="promoChange">Change</button>
+                {{/gte}}
+
+                {{#if rulesText}}
+                <a href="#" class="doViewRules">View Rules</a>
+                {{/if}}
+				<div class="raPromo fr" style="display:none"><a class="promoRa">Which program apply towards RA</a></div>
+            </div><!-- /.promoChangeWrapper -->
+        </script><!-- /#promotionsListTpl -->
+
+        <!-- promotions list client side template -->
+        <script id="promotionsListTpl" type="text/x-handlebars-template">
+            <div class="controls promoWrapper">
+                <select id="promotionId" name="promotionId" data-msg-instructions="Start the recognition process by selecting a promotion. This page will populate.">
+                <option class="defaultOption" value="">Please select a Promotion</option>
+                    {{#each this}}
+                        <option value="{{promoId}}" data-type="{{type}}" data-purl="{{isPurl}}"{{#if selected}}selected="selected"{{/if}}>
+                            {{name}}
+                        </option>
+                    {{/each}}
+                </select>
+				<div class="raPromo fr" style="display:none"><a class="promoRa">Which program apply towards RA</a></div>
+            </div><!-- /.promoWrapper -->
+        </script><!-- /#promotionsListTpl -->
+        <div class="nominationOrgSection">
+            <div class="orgUnitList">
+                <!-- Generated content from orgUnitListTpl -->
+            </div>
+
+			<div class="approvalSearchWrapper"><!--nominationsApprovalPageTpl.html--></div>
+		</div><!-- /#pendingNominationsWrapper-->
+		<div class="raInsights insightSection" style="display:none"> 
+			<div>
+					<div class="raInsightsLogoPosition">
+						<div class="raInsightsLogo"></div>
+					</div>
+				<div class="raInsightsBackgrondImg"></div>
+				<div class="raInsightsGradgient"></div>
+			</div>
+			<div class="raInsightsBodyContent">
+				<h4>Recognition Insights</h4>
+				<p>Employees who are recognized regularly are more likely to perform better and stay in a position longer!</p>
+				<div class="clear"></div>
+			</div>
+		</div>
+    <div id="errorAbove" style="display:none;" class="alert-danger">
+        <p>
+            <b>CM KEY NEEDED - "Please see the above error"</b>
+        </p>
+    </div>
+    <div id="rulesModal" class="modal hide fade">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <i class="icon-close"></i>
+            </button>
+            <h3>Rules</h3>
+        </div>
+        <div class="modal-body">
+            <!-- dynamic -->
+        </div>
+    </div><!-- /#rulesModal -->
+
+    <div id="statusModal" class="modal hide fade">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <i class="icon-close"></i>
+            </button>
+            <h3>Status</h3>
+        </div>
+        <div class="modal-body">
+            Please save your changes before approving more nominations.
+        </div>
+    </div><!-- /#statusModal -->
+
+    <div id="sortModal" class="modal hide fade">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">
+                <i class="icon-close"></i>
+            </button>
+            <h3>Status</h3>
+        </div>
+        <div class="modal-body">
+            Please click "Done" before sorting or your changes will be lost.
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+            <button class="btn btn-primary doTheSort" data-dismiss="modal">Sort Anyway</button>
+        </div>
+    </div><!-- /#sortModal -->
+
+    <div class="promoChangePopover" style="display:none">
+        <p>
+            <b>Change the promotion?</b>
+        </p>
+        <p>
+            Your current selections and entries will be lost.
+        </p>
+        <p class="tc">
+            <button id="nominationChangePromoConfirmBtn" class="btn btn-primary">Yes</button>
+            <button id="nominationChangePromoCancelBtn" class="btn">Cancel</button>
+        </p>
+    </div><!-- /.promoChangeConfirmDialog -->
+
+    <!-- Success Modal -->
+     <div class="modal hide fade approvalSuccessModal" data-backdrop="static">
+        <div class="modal-header">
+            <h3>Your statuses have been updated.</h3>
+        </div>
+        <div class="modal-body">
+            <!-- <p>Your statuses have been updated.</p> -->
+
+            <button class="btn btn-primary updateBtn">Ok</button>
+        </div>
+    </div><!-- /.approvalSuccessModal -->
+
+</div><!-- /#nominationsApprovalPageView. -->
+<div class="modal hide fade certificateModal" id="certificateModal">
+    <div class="modal-body loading">
+        <div class="progress-indicator">
+            <span class="spin">
+            </span>
+            <p>Generating PDF...</p>
+        </div>
+        <div class="pdf-wrapper" style="height: 500px;">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</a>
+    </div>
+</div>
+<script id="badgeBtnTpl" type="text/x-handlebars-template">
+    <span class="badgeBtnContent {{contClass}}">
+        {{#if img}}<img src="{{img}}" alt="{{name}}">{{/if}}
+        {{#if iconClass}}<i class="{{iconClass}}"></i>{{/if}}
+        <span class="badgeName">{{name}}</span>
+    </span>
+    <i class="icon-arrow-1-down badgeBtnCaret"></i>
+</script><!-- /#badgeBtnTpl -->
+
+<script id="badgeItemTpl" type="text/x-handlebars-template">
+    <li class="badgeItem">
+        <a href="#" data-badge-id="{{id}}">
+            {{#if img}}<img src="{{img}}" alt="{{name}}">{{/if}}
+            {{#if iconClass}}<i class="{{iconClass}}"></i>{{/if}}
+            {{name}}
+        </a>
+    </li>
+</script><!-- /#badgeItemTpl -->
+    <!-- promotions list client side template -->
+    <script id="orgUnitListTpl" type="text/x-handlebars-template">
+        {{#unless this.[1]}}
+            <select id="nodeId" class="singleNodeId" name="nodeId" style="display: none;" data-msg-instructions="A node selection is also necessary for this page to populate">
+                {{#each this}}
+                    <option value="{{id}}" {{#if selected}}selected="selected"{{/if}}>
+                        {{name}}
+                    </option>
+                {{/each}}
+            </select>
+        {{else}}
+        <div class="control-group validateme"
+            data-validate-flags="nonempty"
+            data-validate-fail-msgs='{"nonempty" : "You must select an org unit for reporting"}'>
+            <div class="controls orgUnitWrapper">
+                <h3 for="nodeId">Select Org Unit for Reporting</h3>
+                <select id="nodeId" name="nodeId" data-msg-instructions="A node selection is also necessary for this page to populate">
+                    <option class="defaultOption" value="" disabled="disabled" selected="selected">Choose one</option>
+                    {{#each this}}
+                        <option value="{{id}}" {{#if selected}}selected="selected"{{/if}}>
+                            {{name}}
+                        </option>
+                    {{/each}}
+                </select>
+            </div><!-- /.orgUnitWrapper -->
+        </div>
+        {{/unless}}
+    </script><!-- /#promotionsListTpl -->
+    <div id="programContainer">
+        <!--- dynamic recognition/nomination loaded in -->
+    </div>
+<script>
+
+$(document).ready(function() {
+    // Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to
+    var json;
+    // bootstrap json            
+    json = {        
+        // Custom for TCCC - WIP-26532 - Checking for Allowed Domains to send mail invite starts
+        purlAllowOutsideDomains: ["tccc.com","coke.com"]
+    };
+    var idJson = {
+        promotionId: 12345555,
+        claimId: 234,
+        levelNumber: 4,
+        status: "winner"
+    };
+    G5.props.VALID_USERS = './ajax/validUsersforProgram.json';
+    //attach the view to an existing DOM element
+    var napv = new ProgramSelectPageView({
+        el:$('#programSelectPageView'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url : 'layout.html?tpl=approvalsPageIndex&tplPath=apps/approvals/tpl/'
+            },
+            home : {
+                text : 'Home',
+                url : 'layout.html?tplPath=base/tpl/&amp;tpl=layout.html'
+            }
+        },
+        pageTitle : 'Nomination Approvals',
+        idJson: idJson,
+		json: json // Custom for TCCC - WIP-61261
+    });
+
+});
+
+</script>

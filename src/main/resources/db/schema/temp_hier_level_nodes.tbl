@@ -1,0 +1,11 @@
+CREATE GLOBAL TEMPORARY TABLE TEMP_HIER_LEVEL_NODES
+(
+  parent_node_id  NUMBER(18),
+  node_id         NUMBER(18),
+  node_path       VARCHAR2(4000 CHAR),
+  node_type_id    NUMBER(18) ,
+  hier_level      NUMBER(18),
+  user_id         NUMBER(18)
+)
+ON COMMIT PRESERVE ROWS
+/

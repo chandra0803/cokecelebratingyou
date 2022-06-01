@@ -1,0 +1,30 @@
+-- <ScriptOptions statementTerminator="/" />CREATE SEQUENCE min_qualifier_status_pk_sq INCREMENT BY 1 START WITH  5000
+/
+CREATE TABLE min_qualifier_status
+ (min_qualifier_status_id      NUMBER(12) NOT NULL,
+  submitter_id  NUMBER(18) NOT NULL,
+  promotion_payout_group_id	NUMBER(18) NOT NULL,
+  MIN_QUALIFIER_MET       NUMBER(1) NOT NULL,
+  COMPLETED_QUANTITY       NUMBER(18) NOT NULL,
+  created_by number(18) NOT NULL,
+  date_created  DATE NOT NULL,
+  modified_by number(18),
+  date_modified DATE,
+  version       NUMBER(18) NOT NULL)
+/
+ALTER TABLE min_qualifier_status
+ADD CONSTRAINT min_qualifier_status_pk PRIMARY KEY (min_qualifier_status_id)
+USING INDEX
+/ALTER TABLE activity ADD CONSTRAINT activity_min_qualifier_fk  FOREIGN KEY (min_qualifier_status_id) REFERENCES min_qualifier_status(min_qualifier_status_id)/
+COMMENT ON TABLE min_qualifier_status IS 'The min_qualifier_status table defines the status of a submitter reaching the minimum quantity required before payout will occur.'
+/
+COMMENT ON COLUMN min_qualifier_status.min_qualifier_status_id IS 'System-generated key that identifies a specific status.'
+/
+COMMENT ON COLUMN min_qualifier_status.submitter_id IS 'application_user.user_id of the submitter.'
+/
+COMMENT ON COLUMN min_qualifier_status.promotion_payout_group_id IS 'the promotion payout group (which holds minimum qualifier).'
+/
+COMMENT ON COLUMN min_qualifier_status.MIN_QUALIFIER_MET IS 'boolean - true when the minimum qualifer amount has been met.'
+/
+COMMENT ON COLUMN min_qualifier_status.COMPLETED_QUANTITY IS 'boolean - true when the minimum qualifer amount has been met.'
+/

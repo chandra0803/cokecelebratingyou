@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.AbstractGoalLevel" table="GOALQUEST_GOALLEVEL">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="GOALLEVEL_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">GOALQUEST_GOALLEVEL_PK_SQ</param>
+			</generator>
+		</id>
+
+    	<discriminator type="java.lang.String" column="GOALLEVEL_DISCRIM" force="true"/>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+	    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo"
+	      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED" />
+	      <column name="MODIFIED_BY" />
+	    </property>
+
+		<property name="sequenceNumber" type="int" column="SEQUENCE_NUM" not-null="true"/>
+		<property name="goalLevelcmAssetCode" type="java.lang.String" column="GOAL_LEVEL_CM_ASSET_CODE"/>
+	    <property name="goalLevelNameKey" column="GOAL_LEVEL_NAME_KEY" type="java.lang.String" />
+	    <property name="goalLevelDescriptionKey" column="GOAL_LEVEL_DESC_KEY" type="java.lang.String" />
+	    <property name="managerAward" column="MANAGER_AWARD" type="java.math.BigDecimal" />
+    	<many-to-one name="promotion" column="PROMOTION_ID" not-null="false" lazy="proxy" insert="false" update="false"/>
+
+	<subclass name="com.biperf.core.domain.promotion.ManagerOverrideGoalLevel" extends="com.biperf.core.domain.promotion.AbstractGoalLevel" discriminator-value="mo">
+	    <property name="teamAchievementPercent" column="TEAM_ACHIEVEMENT_PCT" type="java.math.BigDecimal" />
+	    <property name="moStartRank" type="java.lang.Long" column="START_RANK" />
+		<property name="moEndRank" type="java.lang.Long" column="END_RANK"/>
+		<property name="moAwards" type="java.lang.Long" column="RANK_PAYOUT"/>
+    </subclass>
+  
+  <subclass name="com.biperf.core.domain.promotion.PromotionPartnerPayout" extends="com.biperf.core.domain.promotion.AbstractGoalLevel" discriminator-value="pgl">
+	    <property name="partnerAwardAmount" column="PARTNER_AWARD_AMOUNT" type="java.math.BigDecimal" />
+  </subclass>
+  
+	<subclass name="com.biperf.core.domain.promotion.GoalLevel" extends="com.biperf.core.domain.promotion.AbstractGoalLevel" discriminator-value="goal">
+	    <property name="achievementAmount" column="ACHIEVEMENT_AMOUNT" type="java.math.BigDecimal" />
+	    <property name="minimumQualifier" column="MINIMUM_QUALIFIER" type="java.math.BigDecimal" />
+	    <property name="incrementalQuantity" column="INCREMENTAL_QUANTITY" type="java.math.BigDecimal" />
+	    <property name="maximumPoints" column="MAXIMUM_POINTS" type="java.lang.Integer" />
+	    <property name="bonusAward" column="BONUS_AWARD" type="java.lang.Integer" />
+	    <property name="award" column="AWARD" type="java.math.BigDecimal" />
+ </subclass>  
+    
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.promotion.MaxSequence">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+    SELECT max(sequence_num) as result
+      FROM GOALQUEST_GOALLEVEL gl, PROMOTION promo
+     WHERE gl.promotion_id = promo.PROMOTION_ID
+       AND promotion_status = 'live'
+       AND is_deleted = 0
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.MaxSequenceGoalSelectionStarted">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+    SELECT max(sequence_num) as result
+      FROM GOALQUEST_GOALLEVEL gl, PROMOTION promo, PROMO_GOALQUEST pg
+     WHERE gl.promotion_id = promo.PROMOTION_ID
+       AND gl.promotion_id = pg.PROMOTION_ID
+       AND SYSDATE >= pg.GOAL_SELECTION_START_DATE
+       AND promotion_status = 'live'
+       AND is_deleted = 0
+    ]]>
+	</sql-query>
+
+ <sql-query name="com.biperf.core.domain.promotion.getGoalLevelsByPromotionId">
+    <return alias="abstractGoalLevel" class="com.biperf.core.domain.promotion.AbstractGoalLevel" />
+    <![CDATA[
+		SELECT {abstractGoalLevel.*} 
+		FROM GOALQUEST_GOALLEVEL abstractGoalLevel
+		WHERE abstractGoalLevel.PROMOTION_ID = :promotionId
+		]]>
+  </sql-query> 	
+	
+	<sql-query name="com.biperf.core.domain.promotion.MaxSequenceIssueAwardsRun">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+    SELECT max(sequence_num) as result
+      FROM GOALQUEST_GOALLEVEL gl, PROMOTION promo, PROMO_GOALQUEST pg
+     WHERE gl.promotion_id = promo.PROMOTION_ID
+       AND gl.promotion_id = pg.PROMOTION_ID
+       AND ISSUE_AWARDS_RUN=1
+       AND promotion_status = 'live'
+       AND is_deleted = 0
+    ]]>
+	</sql-query>		
+		<sql-query name="com.biperf.core.domain.promotion.GetPartnerAwardAmountBySeqNoAndPromotion">
+		<return-scalar column="result" type="java.math.BigDecimal" />
+		<![CDATA[
+    SELECT gl.PARTNER_AWARD_AMOUNT as result
+      FROM GOALQUEST_GOALLEVEL gl
+       WHERE gl.GOALLEVEL_DISCRIM='pgl' AND gl.promotion_id = :promotionId AND gl.SEQUENCE_NUM = :sequenceNo   
+      
+    ]]>
+	</sql-query>	
+  	
+</hibernate-mapping>

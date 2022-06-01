@@ -1,0 +1,38 @@
+CREATE SEQUENCE quiz_pk_sq INCREMENT BY 1   START WITH 5000
+/
+
+CREATE TABLE quiz
+   (quiz_id 	   NUMBER(18) NOT NULL,
+   	name      	   VARCHAR2(200) NOT NULL,
+   	description	   VARCHAR2(400),
+   	number_asked   NUMBER(10),
+   	passing_score  NUMBER(9) NOT NULL,
+    quiz_type	   VARCHAR2(30) NOT NULL,
+    status_type	   VARCHAR2(30) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created   DATE NOT NULL,
+    modified_by number(18),
+    date_modified  DATE,
+    version        NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE quiz
+ADD CONSTRAINT quiz_id_pk PRIMARY KEY (quiz_id)
+USING INDEX
+/
+
+COMMENT ON TABLE quiz IS 'The QUIZ table defines a specific quiz.'
+/
+
+COMMENT ON COLUMN quiz.number_asked IS 'The number of questions asked if this quiz type isn''t random.'
+/
+
+COMMENT ON COLUMN quiz.passing_score IS 'The score which indicates a passing score for this quiz.'
+/
+
+COMMENT ON COLUMN quiz.quiz_id IS 'System-generated key that identifies a specific quiz.'
+/
+
+CREATE UNIQUE INDEX quiz_name_udk ON quiz
+(upper(name) ASC  )
+/

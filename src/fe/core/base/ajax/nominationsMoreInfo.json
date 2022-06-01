@@ -1,0 +1,81 @@
+{
+	"nominationName": "[Nomination Short Name]",
+	"approversMessage": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis malesuada rutrum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris et fermentum purus. Donec elementum pharetra fringilla.",
+	"attachmentName":null,
+	"minDocsAllowed" : 1,
+    "maxDocsAllowed" : 2,
+    "updatedDocCount" : 2,
+    "nominationLinks" : [
+        {
+            "nominationLink": "Testing.pdf",
+            "nominationUrl": null,
+            "fileName": "My PDF Doc",
+            "linkid" : 1
+        },
+        {
+            "nominationLink": "Testing.doc",
+            "nominationUrl": null,
+            "fileName": "My WORD Doc",
+            "linkid" : 2
+        }
+    ],
+    "claimId" : 1234,
+    "promotionId":3244,
+    "nominationsMoreInfo":[
+		{
+			"nomineeInfo" : [
+				{
+					"id":45,
+					"name": "Smith, Ron",
+					"title":"Position/Title",
+					"countryCode":"us",
+					"countryName":"United States",
+					"orgName": "12345 - Org",
+                    "departmentName": "HR"
+				}
+			],
+            "originalSubmission": [
+                {
+					"badges":[
+							{
+								"id":               "23",
+								"behavior":         "Earned Badge",
+								"badgeUrl":         "img/badges/above_beyond_sm.png"
+							},
+							{
+								"id":              "25",
+								"behavior":        "Earned Badge",
+								"badgeUrl":        "img/badges/bronze_sm.png"
+							}
+
+					],
+					"certificates": [
+						{
+							"id": "19",
+							"name": "8bit01 Certificate",
+							"img": "img/certificates/8bit01-thumb.jpg",
+							"imgLg": "img/certificates/8bit01-preview.jpg"
+						}
+					],
+
+					"videoImg": "img/nomination/video_poster.jpg",
+					"videoUrl": "//www.youtube.com/embed/q1dpQKntj_w?wmode=transparent",
+					"dateSubmitted": "12/01/15",
+					"ecardImg": "img/cards/congrats1_lg.jpg",
+					"certificateUrl": "www.google.com",
+					"reason":  "Thanks for the extra work. Culpa brooklyn cardigan, delectus quis eu nulla. Viral bespoke semiotics single-origin coffee nesciunt echo park.",
+					"allowTranslate": true,
+					"customFields":[
+                        {
+                                "sequenceNumber": 1,
+                                "type": "text",
+                                "fieldId": 124,
+                                "label": "CustomField",
+                                "value": "some text 123"
+                        }
+                    ]
+                }
+            ]
+		}
+	]
+}

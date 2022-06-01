@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.promotion.PostProcessJobs"
+		table="post_process_jobs">
+
+		<!-- This is the surrogate primary key. Make sure the column and sequence 
+			names are correct. -->
+		<id name="id" column="POST_PROCESS_JOBS_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">post_process_job_id_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" /> 
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />  
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="processBeanName" type="java.lang.String" column="PROCESS_BEAN_NAME" not-null="true" />
+		<property name="promotionType" type="java.lang.String" column="PROMOTION_TYPE" />
+		<property name="claimId" type="java.lang.Long" column="CLAIM_ID" />	
+		<property name="journalId" type="java.lang.Long" column="JOURNAL_ID" />	
+  		<property name="triggerName" type="java.lang.String" column="TRIGGER_NAME" />
+		<property name="fired" type="boolean" column="IS_FIRED" />
+		<property name="firedDate" type="java.util.Date" column="FIRED_DATE" />
+		<property name="retryCount" type="java.lang.Integer" column="RETRY_COUNT" />	
+		<property name="retryCountChangeDate" type="java.util.Date" column="RETRY_COUNT_CHANGE_DATE" />
+
+   		 <set name="payOutCalculationResult" table="post_process_payout_calc" inverse="true" cascade="all-delete-orphan">
+     		 <key column="POST_PROCESS_JOBS_ID" />
+      		<one-to-many class="com.biperf.core.domain.promotion.PostProcessPayoutCalculation" />
+   		 </set>
+   		 
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PostProcessJobs.GetPostProcessJobsIdByBeanName">
+	  <return-scalar column="post_process_jobs_id" type="long"/>
+		<![CDATA[
+    		SELECT post_process_jobs_id
+    		FROM post_process_jobs
+			WHERE date_created <= sysdate - 1/24
+			AND retry_count < :retryAttempts  
+			AND is_fired = 0
+			AND trigger_name not in (SELECT q.trigger_name FROM qrtz_triggers q 
+									 WHERE q.trigger_state = 'WAITING'
+                         			 UNION
+                         			 SELECT f.trigger_name FROM qrtz_fired_triggers f)
+
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PostProcessJobs.GetPostProcessJobsStuckJournals">
+	  <return-scalar column="stuckJournalCount" type="long"/>
+		<![CDATA[
+    		select count(1) stuckJournalCount
+			from journal j, promotion p
+			where p.promotion_id = j.promotion_id
+			and j.status_type = 'approve'
+			and p.award_type = 'points'
+			and TRUNC(j.date_created) = TRUNC(SYSDATE) -1			    
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PostProcessJobs.GetPostProcessJobsDelayedJobs">
+	  <return-scalar column="delayedJobsCount" type="long"/>
+		<![CDATA[
+    		select count(1) delayedJobsCount
+			from scheduled_recognition
+			where TRUNC(delivery_date) = TRUNC(SYSDATE) -1
+			and is_fired = 0
+	    
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PostProcessJobs.GetQrtzSchedulerStateCount">
+	  <return-scalar column="qrtz_scheduler_state" type="long"/>
+		<![CDATA[
+    		select count(1) qrtz_scheduler_state
+			from qrtz_scheduler_state
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PostProcessJobs.GetUnsentMailingsCount">
+	  <return-scalar column="qrtzUnsentMailingCount" type="long"/>
+		<![CDATA[
+    		SELECT COUNT(DISTINCT recip.mailing_id) qrtzUnsentMailingCount
+		  	FROM mailing_recipient recip, mailing m, user_email_address email
+		  	WHERE recip.mailing_id = m.mailing_id
+		   	AND recip.user_id = email.user_id
+		   	AND email.is_primary = 1
+		   	AND TRUNC(recip.date_created) = TRUNC(SYSDATE) -1
+		   	AND m.sender <> 'Deposit Mailbox'
+		   	AND recip.date_sent is null
+		   	AND recip.user_id is not null
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PostProcessJobs.GetMaxAttemptsReachedCount">
+	  <return-scalar column="recordReachedMaxCount" type="long"/>
+		<![CDATA[
+    		SELECT count(1) recordReachedMaxCount
+			FROM post_process_jobs
+			WHERE is_fired = 0
+			AND retry_count >= :retryAttempts
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PostProcessJobs.IsJournalIdExists">
+	  <return-scalar column="isJournalIdExists" type="long"/>
+		<![CDATA[
+    		SELECT count(1) isJournalIdExists
+			FROM post_process_jobs
+			WHERE journal_id = :journalId
+		]]>
+	</sql-query>
+	
+</hibernate-mapping>

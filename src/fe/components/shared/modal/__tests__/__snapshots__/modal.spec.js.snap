@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div>
+  <div
+    className="modal-wrapper"
+  >
+    <div
+      className="modal-backdrop fade in"
+    />
+    <div
+      className="modal"
+      id="Modal"
+    >
+      <div
+        className="modal-header"
+        id="ModalHeader"
+      >
+        <h3>
+          ???system.general.HELP_TITLE???
+        </h3>
+        <button
+          className="close"
+          data-dismiss="modal"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            className="icon-close"
+          />
+        </button>
+      </div>
+      <div
+        className="modal-body"
+        id="ModalBody"
+      >
+        ???system.general.HELP_TEXT???
+      </div>
+      <div
+        className="modal-footer"
+        id="ModalFooter"
+      >
+        <a
+          className="btn btn-block btn-primary"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the dom like the snapshot when the props have default values. 2`] = `
+<div>
+  <div
+    className="modal-wrapper"
+  >
+    <div
+      className="modal-backdrop fade in"
+    />
+    <div
+      className="modal privacy"
+      id="Modal"
+    >
+      <div
+        className="modal-header"
+        id="ModalHeader"
+      >
+        <h3 />
+        <button
+          className="close"
+          data-dismiss="modal"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            className="icon-close"
+          />
+        </button>
+      </div>
+      <div
+        className="modal-body"
+        id="ModalBody"
+      >
+        <p
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": undefined,
+            }
+          }
+        />
+      </div>
+      <div
+        className="modal-footer"
+        id="ModalFooter"
+      >
+        <a
+          className="btn btn-block btn-primary"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the dom like the snapshot when the props have default values. 3`] = `
+<div>
+  <div
+    className="modal-wrapper"
+  >
+    <div
+      className="modal-backdrop fade in"
+    />
+    <div
+      className="modal"
+      id="Modal"
+    >
+      <div
+        className="modal-header"
+        id="ModalHeader"
+      >
+        <h3 />
+        <button
+          className="close"
+          data-dismiss="modal"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            className="icon-close"
+          />
+        </button>
+      </div>
+      <div
+        className="modal-body"
+        id="ModalBody"
+      >
+        <div>
+          <span />
+          <h4 />
+          <span />
+        </div>
+      </div>
+      <div
+        className="modal-footer"
+        id="ModalFooter"
+      >
+        <a
+          className="btn btn-block btn-primary"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders the dom like the snapshot when the props have default values. 4`] = `
+<div>
+  <div
+    className="modal-wrapper"
+  >
+    <div
+      className="modal-backdrop fade in"
+    />
+    <div
+      className="modal"
+      id="Modal"
+    >
+      <div
+        className="modal-header"
+        id="ModalHeader"
+      >
+        <h3 />
+        <button
+          className="close"
+          data-dismiss="modal"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            className="icon-close"
+          />
+        </button>
+      </div>
+      <div
+        className="modal-body"
+        id="ModalBody"
+      >
+        <div>
+          <label
+            htmlFor="formToken"
+          />
+          <input
+            autoFocus={true}
+            className="gq-input"
+            id="formToken"
+            name="token"
+            onChange={[Function]}
+            onKeyPress={[Function]}
+            tabIndex={1}
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        className="modal-footer"
+        id="ModalFooter"
+      >
+        <button
+          className="gq-btn disabled btn btn-block btn-primary register"
+          onClick={[Function]}
+          tabIndex=""
+          type="button"
+        />
+        <a
+          className="btn btn-block"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

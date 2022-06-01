@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders differently based on the "altText" prop 1`] = `
+<div>
+  <header
+    className="site-header"
+    id="header"
+  >
+    <h1
+      className="logo"
+    >
+      <a
+        href="homePage.do"
+      >
+        <img
+          alt="one alt text"
+          src="assets/skins/undefined/img/logo-primary.png"
+        />
+      </a>
+    </h1>
+  </header>
+  <header
+    className="site-header"
+    id="header"
+  >
+    <h1
+      className="logo"
+    >
+      <a
+        href="homePage.do"
+      >
+        <img
+          alt="another alt text"
+          src="assets/skins/undefined/img/logo-primary.png"
+        />
+      </a>
+    </h1>
+  </header>
+</div>
+`;

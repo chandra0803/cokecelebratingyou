@@ -1,0 +1,33 @@
+CREATE SEQUENCE mailing_msg_attach_info_pk_sq start with 250 increment by 1
+/
+CREATE TABLE mailing_attachment_info
+    (mailing_attachment_info_id  NUMBER(18) NOT NULL,     
+     mailing_id      			NUMBER(18) NOT NULL,     
+     filename  					VARCHAR2(200) NOT NULL,  
+     attachment_filename		VARCHAR2(200) NOT NULL,  
+     created_by 				number(18) NOT NULL,
+     date_created  				DATE NOT NULL,
+     modified_by 				number(18),
+     date_modified 				DATE,
+     version       				NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE mailing_attachment_info
+ADD CONSTRAINT mailing_attachment_info_pk PRIMARY KEY (mailing_attachment_info_id)
+USING INDEX
+/
+ALTER TABLE mailing_attachment_info
+ADD CONSTRAINT mailing_attachment_info_uk UNIQUE (mailing_id)
+/
+ALTER TABLE mailing_attachment_info ADD CONSTRAINT mai_mailing_fk
+  FOREIGN KEY (mailing_id) REFERENCES mailing(mailing_id) 
+/
+COMMENT ON TABLE mailing_attachment_info IS 'The mailing_attachment_info table defines the attachment information for the message.'
+/
+COMMENT ON COLUMN mailing_attachment_info.mailing_attachment_info_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN mailing_attachment_info.mailing_id IS 'The mailing the attachment is attached to.'
+/
+COMMENT ON COLUMN mailing_attachment_info.filename IS 'The full abosulate fileName of the attachment used for processing.'
+/
+COMMENT ON COLUMN mailing_attachment_info.attachment_filename IS 'The fileName of the attachment attached to the mailing.'
+/

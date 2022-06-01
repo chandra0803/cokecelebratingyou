@@ -1,0 +1,1827 @@
+.launchModule.ssi {
+    // .spin {
+    //     background: none;
+    // }
+    .currencySymbol {
+        color: inherit;
+        font-size: 85%;
+        vertical-align: top;
+    }
+    .narrowModule,
+    .shortAndWideModule,
+    .wideModule {
+        display: none;
+    }
+    .wideModule {
+        display: block;
+    }
+    .wide-view {
+        .createcontest-icon-text {
+            text-align: center;
+            font-family: $ssi_primaryFontFamily;
+            font-weight: $fontWeightLight;
+            text-transform: uppercase;
+            color: $brand_color_black;
+            font-size: 12px;
+        }
+    }//.title-icon-view, .wide-view
+
+    /***
+     *     .d8888b.                           888                     .d8888b.                    888                     888
+     *    d88P  Y88b                          888                    d88P  Y88b                   888                     888
+     *    888    888                          888                    888    888                   888                     888
+     *    888        888d888 .d88b.   8888b.  888888 .d88b.  888d888 888         .d88b.  88888b.  888888 .d88b.  .d8888b  888888 .d8888b
+     *    888        888P"  d8P  Y8b     "88b 888   d88""88b 888P"   888        d88""88b 888 "88b 888   d8P  Y8b 88K      888    88K
+     *    888    888 888    88888888 .d888888 888   888  888 888     888    888 888  888 888  888 888   88888888 "Y8888b. 888    "Y8888b.
+     *    Y88b  d88P 888    Y8b.     888  888 Y88b. Y88..88P 888     Y88b  d88P Y88..88P 888  888 Y88b. Y8b.          X88 Y88b.       X88
+     *     "Y8888P"  888     "Y8888  "Y888888  "Y888 "Y88P"  888      "Y8888P"   "Y88P"  888  888  "Y888 "Y8888   88888P'  "Y888  88888P'
+     *
+     *
+     *
+     */
+    /* * * * * *
+    *
+    *    Create A Contest Tile
+    *
+    * * * * * */
+
+    &.SSICreatorContests {
+        font-family: $ssi_primaryFontFamily;
+        color: $brand_color_black;
+
+        .card-icon {
+            font-weight: $fontWeightBold;
+        }
+
+        .module-liner {
+            height: 100%;
+        }
+
+        .module-content {
+            .showContestQtip,
+            .hideContestQtip {
+                display: inline-block;
+                float: right;
+                margin: 0 0 ($headline5fontSize_mobile * $headlineMarginY) 0;
+            }
+            .hideContestQtip {
+                display: none;
+            }
+
+            @media (min-width: $breakpoint_mobileMini_min) {
+                .showContestQtip {
+                    display: none;
+                }
+            }
+
+            .contestCreate {
+                margin-bottom: 0;
+            }
+        }//.module-content
+
+        &.showingDetails {
+            .showContestQtip {
+                display: none;
+            }
+            .hideContestQtip {
+                display: inline-block;
+            }
+        }
+
+        .selectWrap {
+            @include clearfix();
+        }
+
+        .card {
+            margin-bottom: nth($card_margin, 1);
+            width: auto;
+            cursor: pointer;
+
+            .card-details {
+                text-align: left;
+            }
+
+            .selectedOverlay {
+                text-align: center;
+            }
+            //flip icon to face correct direction
+            .icon-g5-ssi-stepItUp:before {
+                @include scale(-1, 1);
+            }
+        }
+
+        @media (min-width: $breakpoint_mobileMini_min){
+            .card {
+                .contestDescriptionText {
+                    height: auto;
+                    overflow: visible;
+                }
+            }
+        }
+        @media (min-width: $breakpoint_tablet_min) {
+            .selectWrap {
+                margin-right: -1 * nth($card_margin_tablet, 2);
+            }
+            .card {
+                float: left;
+                margin-right: nth($card_margin_tablet, 2);
+                margin-bottom: nth($card_margin_tablet, 1);
+                width: calc(33.3% - #{nth($card_margin_tablet, 2)});
+
+                &:nth-of-type(3n+1) {
+                    clear: left;
+                }
+                .submitForm {
+                    position: relative;
+                    top: 50%;
+                    margin-top: 40px; // height of .card-select-icon in _cards.scss
+                    //margin-left: -$card_avatarSize_mini;
+                }
+            }
+        } // /@media
+        @media (min-width: $breakpoint_desktop_min) {
+            @if nth($card_margin_desktop, 2) != nth($card_margin_tablet, 2) {
+                .selectWrap {
+                    margin-right: -1 * nth($card_margin_desktop, 2);
+                }
+                .card {
+                    margin-right: nth($card_margin_desktop, 2);
+                    margin-bottom: nth($card_margin_desktop, 1);
+                    width: calc(33.3% - #{nth($card_margin_desktop, 2)});
+                }
+            } // /@if
+        } // /@media
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if nth($card_margin_desktopLarge, 2) != nth($card_margin_desktop, 2) {
+                .selectWrap {
+                    margin-right: -1 * nth($card_margin_desktopLarge, 2);
+                }
+                .card {
+                    margin-right: nth($card_margin_desktopLarge, 2);
+                    margin-bottom: nth($card_margin_desktopLarge, 1);
+                    width: calc(33.3% - #{nth($card_margin_desktopLarge, 2)});
+                }
+            } // /@if
+        } // /@media
+
+        .selectText {
+            display: inline-block;
+            font-weight: $fontWeightSemiBold;
+            margin-bottom: 10px;
+
+            @media (min-width: $breakpoint_mobileMini_min) {
+                display: block;
+            }
+        }
+
+        .contestNameLabel {
+            font-weight: $fontWeightSemiBold;
+            margin-bottom: 0;
+            padding: 10px 0;
+        }
+
+        .contestStatus {
+            position: relative;
+            width: 100%;
+
+            .iconWrap {
+                position: absolute;
+                right: 12px;
+                top: 7px;
+            }
+
+            i {
+                font-size: $baseFontSize * 2.071;
+                font-weight: $fontWeightBold;
+                display: none;
+                position: relative;
+                text-align: center;
+            }
+
+            &.valid i.valid {
+                color: $brand_color_success;
+                display: block;
+            }
+
+            &.invalid i.invalid {
+                color: $brand_color_warning;
+                display: block;
+            }
+
+            .pending {
+                background-color: transparent;
+                height: 30px;
+                margin: 0;
+                padding: 0;
+                position: absolute;
+                right: 12px;
+                top: 8px;
+                vertical-align: middle;
+                width: 30px;
+            }
+
+            @media (min-width: $breakpoint_mobileMini_min) {
+                width: 51%;
+            }
+        }//.contestStatus
+
+        .contestName {
+            @include placeholder($brand_color_dark);
+            box-sizing: border-box;
+            height: 43px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .myContestsLink {
+            font-weight: bold;
+        }
+
+        .selectSubmitWrap {
+            .submitWrap {
+                text-align: left;
+            }
+
+            .submitForm {
+                width: 100%;
+                @media(max-width: $breakpoint_mobile_max){
+                    width: auto;
+                    top: calc(50% - 18px);
+                    margin-top: 0;
+                    position: absolute;
+                    margin-left: -$card_avatarSize_mini;
+                }
+            }
+
+            .icon-stairs-up::before {
+                @include scale(-1, 1);
+            }
+
+            @media (min-width: $breakpoint_mobileMini_min) {
+                .submitForm {
+                    width: auto;
+                }
+            }
+        }
+
+        .contestDescriptionText {
+            display: none;
+            font-size: $baseFontSize * 0.857;
+            height: auto;
+            line-height: $baseLineHeight * 0.857;
+            overflow: hidden;
+
+            @media (min-width: $breakpoint_mobileMini_min) {
+                display: block;
+                height: 100px;
+            }
+        }
+
+        .contestTypeName {
+            display: block;
+            line-height: 30px;
+            vertical-align: middle;
+
+            @media (min-width: $breakpoint_mobileMini_min) {
+                line-height: 1;
+            }
+        }
+    }
+
+    /***
+     *     .d8888b.                           888                        d88P 888b     d888                      d88P 8888888b.
+     *    d88P  Y88b                          888                       d88P  8888b   d8888                     d88P  888   Y88b
+     *    888    888                          888                      d88P   88888b.d88888                    d88P   888    888
+     *    888        888d888 .d88b.   8888b.  888888 .d88b.  888d888  d88P    888Y88888P888  .d88b.  888d888  d88P    888   d88P 8888b.  888  888
+     *    888        888P"  d8P  Y8b     "88b 888   d88""88b 888P"   d88P     888 Y888P 888 d88P"88b 888P"   d88P     8888888P"     "88b `Y8bd8P'
+     *    888    888 888    88888888 .d888888 888   888  888 888    d88P      888  Y8P  888 888  888 888    d88P      888       .d888888   X88K
+     *    Y88b  d88P 888    Y8b.     888  888 Y88b. Y88..88P 888   d88P       888   "   888 Y88b 888 888   d88P       888       888  888 .d8""8b.
+     *     "Y8888P"  888     "Y8888  "Y888888  "Y888 "Y88P"  888  d88P        888       888  "Y88888 888  d88P        888       "Y888888 888  888
+     *                                                                                           888
+     *                                                                                      Y8b d88P
+     *                                                                                       "Y88P"
+     */
+    /* * * * * *
+    *
+    *    Creator, Manager and Participant Tiles
+    *
+    * * * * * */
+
+    $ssiModule_extraBreakpoint_tabletBig_min: $breakpoint_tablet_min + (($breakpoint_tablet_max - $breakpoint_tablet_min) / 2);
+    $ssiModule_extraBreakpoint_desktopBig_min: $breakpoint_desktop_min + ($global_sidebar_width_desktop / 2);
+    $ssiModule_extraBreakpoint_desktopBigger_min: $breakpoint_desktop_min + $global_sidebar_width_desktop;
+
+    &.SSICreator,
+    &.SSIParticipant,
+    &.SSIManager,
+    &.SSISuperViewer {
+        .ssiContestViews {
+            margin: 0 0 (-1 * nth($card_margin, 1)) 0;
+            @include clearfix();
+
+            &.single {
+                .card:not(.list) {
+                    display: block;
+                    width: auto;
+                    float: none;
+                }
+            }
+        }
+        .card {
+            margin: 0 0 nth($card_margin, 1) 0;
+            width: auto;
+            vertical-align: top;
+        }
+
+        @media (min-width: $breakpoint_tablet_min) and (max-width: $breakpoint_tablet_max),
+               (min-width: $ssiModule_extraBreakpoint_desktopBig_min) {
+
+            .ssiContestViews {
+                margin-right: -1 * nth($card_margin_tablet, 2);
+                margin-bottom: -1 * nth($card_margin_tablet, 1);
+
+                .card {
+                    margin-right: nth($card_margin_tablet, 2);
+                    margin-bottom: nth($card_margin_tablet, 1);
+                }
+                .card:not(.list) {
+                    display: inline-block;
+                    width: calc(50% - #{nth($card_margin_tablet, 2)});
+                }
+            }
+        } // /@media
+
+        @media (min-width: $breakpoint_desktop_min) {
+            @if nth($card_margin_desktop, 2) != nth($card_margin_tablet, 2) {
+                .ssiContestViews {
+                    margin-right: -1 * nth($card_margin_desktop, 2);
+                    margin-bottom: -1 * nth($card_margin_desktop, 1);
+
+                    .card {
+                        margin-right: nth($card_margin_desktop, 2);
+                        margin-bottom: nth($card_margin_desktop, 1);
+                    }
+                    .card:not(.list) {
+                        width: calc(50% - #{nth($card_margin_desktop, 2)});
+                    }
+                }
+            } // /@if
+        } // /@media
+
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if nth($card_margin_desktopLarge, 2) != nth($card_margin_desktop, 2) {
+                .ssiContestViews {
+                    margin-right: -1 * nth($card_margin_desktopLarge, 2);
+                    margin-bottom: -1 * nth($card_margin_desktopLarge, 1);
+
+                    .card {
+                        margin-right: nth($card_margin_desktopLarge, 2);
+                        margin-bottom: nth($card_margin_desktopLarge, 1);
+                    }
+                    .card:not(.list) {
+                        width: calc(50% - #{nth($card_margin_desktopLarge, 2)});
+                    }
+                }
+            } // /@if
+        } // /@media
+
+        .type-icon {
+            display: inline-block;
+            margin-right: 12px; // magic numbers (used in math below in .SSIManager)
+            width: 30px; // magic numbers (used in math below in .SSIManager)
+            height: 30px; // magic numbers (used in math below in .SSIManager)
+            line-height: 30px; // magic numbers (used in math below in .SSIManager)
+            text-align: center;
+            color: $brand_color_avatarTextColor;
+            font-weight: $fontWeightBold;
+            background: $brand_color_avatarBkg;
+            @include border-radius(50%);
+        }
+
+        .contestListItem {
+            &:nth-of-type(odd) {
+                background: $ssiModule_contestList_listItemBgOdd;
+            }
+            &:nth-of-type(even) {
+                background: $ssiModule_contestList_listItemBgEven;
+            }
+        }
+
+        .moduleHeader {
+            position: relative;
+            // text-align: right;
+            @include clearfix();
+            @if $ssiModule_contest_headerTextColor {
+                color: $ssiModule_contest_headerTextColor;
+            }
+            @if $ssiModule_contest_headerBgColor {
+                background: $ssiModule_contest_headerBgColor;
+            }
+            @if $ssiModule_contest_headerBorderColor {
+                border-bottom: 1px solid $ssiModule_contest_headerBorderColor;
+                margin-bottom: nth($card_margin, 1);
+            }
+            padding-bottom: nth($card_padding, 1);
+            @include border-radius($card_borderRadius $card_borderRadius 0 0);
+
+            @media (min-width: $breakpoint_tablet_min) {
+                margin-bottom: nth($card_margin_tablet, 1);
+                padding-bottom: nth($card_padding_tablet, 1);
+            } // /@media
+
+            @media (min-width: $breakpoint_desktop_min) {
+                @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+                    margin-bottom: nth($card_margin_desktop, 1);
+                    padding-bottom: nth($card_padding_desktop, 1);
+                } // /@if
+            } // /@media
+
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                @if nth($card_padding_desktop, 2) != nth($card_padding_desktopLarge, 2) {
+                    margin-bottom: nth($card_margin_desktopLarge, 1);
+                    padding-bottom: nth($card_padding_desktopLarge, 1);
+                } // /@if
+            } // /@media
+
+            @if $ssiModule_contest_headerBgColor != false and $ssiModule_contest_headerBgColor != transparent {
+                margin: (-1 * nth($card_margin, 1)) (-1 * nth($card_margin, 2)) nth($card_margin, 1);
+                padding: $card_padding;
+
+                @media (min-width: $breakpoint_tablet_min) {
+                    margin: (-1 * nth($card_margin_tablet, 1)) (-1 * nth($card_margin_tablet, 2)) nth($card_margin_tablet, 1);
+                    padding: $card_padding_tablet;
+                } // /@media
+
+                @media (min-width: $breakpoint_desktop_min) {
+                    @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+                        margin: (-1 * nth($card_margin_desktop, 1)) (-1 * nth($card_margin_desktop, 2)) nth($card_margin_desktop, 1);
+                        padding: $card_padding_desktop;
+                    } // /@if
+                } // /@media
+
+                @media (min-width: $breakpoint_desktopLarge_min) {
+                    @if nth($card_padding_desktop, 2) != nth($card_padding_desktopLarge, 2) {
+                        margin: (-1 * nth($card_margin_desktopLarge, 1)) (-1 * nth($card_margin_desktopLarge, 2)) nth($card_margin_desktopLarge, 1);
+                        padding: $card_padding_desktopLarge;
+                    } // /@if
+                } // /@media
+            }
+
+            h4 {
+                margin: 0;
+                margin-left: 8px + $ssiModule_contest_headerTypeIconSize;
+
+                .type-icon {
+                    float: left;
+                    margin-right: 8px;
+                    margin-left: -1 * (8px + $ssiModule_contest_headerTypeIconSize);
+                    width: $ssiModule_contest_headerTypeIconSize;
+                    height: $ssiModule_contest_headerTypeIconSize;
+                    font-size: $ssiModule_contest_headerTypeIconSize * 0.6;
+                    line-height: $ssiModule_contest_headerTypeIconSize;
+                }
+            }
+
+            .meta {
+                margin: 0;
+                margin-left: 8px + $ssiModule_contest_headerTypeIconSize;
+                font-size: $fontSizeSmall;
+                line-height: $lineHeightSmall;
+                color: $ssiModule_asOf_daysRemaining_textColor;
+            }
+        }
+
+        .daysToEnd {
+            display: inline;
+            float: right;
+
+            i {
+                margin-right: 5px;
+            }
+
+            p {
+                clear: none;
+                text-align: right;
+                font-weight: $fontWeightBold;
+            }
+        }
+        .daysRemaining {
+            display: inline;
+            float: right;
+            margin-left: 12px;
+        }
+
+        .moduleSubHeader {
+        }
+        .chartWrapper{
+            position:relative;
+            height: $ssiModule_objectives_chartHeight_small + 20px;
+        }
+        .chartWrapper,
+        .contestDataWrapper {
+            float: left;
+            width: 50%;
+            margin: 0;
+            text-align: center;
+        }
+        .chartHolder{
+            position:relative;
+            margin: -10px auto;
+            width: $ssiModule_objectives_chartHeight_small + 20px;
+            height: 100%;
+            line-height: $ssiModule_objectives_chartHeight_small;
+        }
+        .chartPercentProgress {
+            margin: 0 auto;
+            width:auto;
+            height: 100%;
+            font-size: $ssiModule_objectives_chartHeight_small / 4;
+            left:20%;
+            right:20%;
+            line-height: 1;
+            strong{
+
+                    line-height: 1;
+                    @include vertical-align();
+                }
+        }
+        .contestDataWrapper {
+            float: right;
+            height: $ssiModule_objectives_chartHeight_small;
+            line-height: $ssiModule_objectives_chartHeight_small;
+            font-size: 20px;
+
+            > div {
+                display: inline-block;
+                line-height: 32px;
+                vertical-align: middle;
+            }
+        }
+
+        @media (min-width: $breakpoint_mobileMini_min) and (max-width: $breakpoint_mobile_max),
+               (min-width: $ssiModule_extraBreakpoint_tabletBig_min) and (max-width: ($ssiModule_extraBreakpoint_desktopBig_min - 1)),
+               (min-width: $ssiModule_extraBreakpoint_desktopBigger_min) {
+            .chartWrapper{
+                height: $ssiModule_objectives_chartHeight_large + 20px;
+            }
+            .chartHolder{
+                //width: $ssiModule_objectives_chartHeight_large + 20px;
+                line-height: $ssiModule_objectives_chartHeight_large;
+
+            }
+            .chartPercentProgress {
+                //width: 50%;
+                font-size: $ssiModule_objectives_chartHeight_large / 4;
+            }
+            .contestDataWrapper {
+                height: $ssiModule_objectives_chartHeight_large;
+                line-height: $ssiModule_objectives_chartHeight_large;
+            }
+        } // /@media
+
+        .activityDescription {
+            margin: 0;
+        }
+
+        .rankDescription {
+            margin: (-1 * nth($card_margin, 1)) 0 nth($card_margin, 1);
+            padding: (nth($card_padding, 1) / 2) 0;
+            text-align: center;
+            font-size: $fontSizeLarge;
+            font-weight: $fontWeightBold;
+            color: $ssiModule_accentColor;
+            border-bottom: $ssiModule_defaultBorder;
+        }
+
+        .dataSection {
+            text-align: center;
+        }
+
+        .contestModuleFooter {
+            @if $ssiModule_contest_footerBorderColor {
+                border-top: 1px solid $ssiModule_contest_footerBorderColor;
+                margin-top: nth($card_margin, 1);
+            }
+            padding-top: nth($card_padding, 1);
+            @include border-radius(0 0 $card_borderRadius $card_borderRadius);
+
+            @media (min-width: $breakpoint_tablet_min) {
+                margin-top: nth($card_margin_tablet, 1);
+                padding-top: nth($card_padding_tablet, 1);
+            } // /@media
+
+            @media (min-width: $breakpoint_desktop_min) {
+                @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+                    margin-top: nth($card_margin_desktop, 1);
+                    padding-top: nth($card_padding_desktop, 1);
+                } // /@if
+            } // /@media
+
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                @if nth($card_padding_desktop, 2) != nth($card_padding_desktopLarge, 2) {
+                    margin-top: nth($card_margin_desktopLarge, 1);
+                    padding-top: nth($card_padding_desktopLarge, 1);
+                } // /@if
+            } // /@media
+
+            .span6 {
+                float: left;
+                width: 50%;
+                margin: 0;
+            }
+
+            .resultsPending {
+                display: block;
+                text-transform: uppercase;
+            }
+
+            .payoutIssued,
+            .participantPayoutIssued {
+                color: $ssiModule_accentColor;
+                line-height: ($btnLineHeight + (nth($btnPadding, 1) * 2) + ($btnBorderWidth * 2));
+
+                .payoutWrap {
+                    display: inline-block;
+                    line-height: ($btnLineHeight + (nth($btnPadding, 1) * 2) + ($btnBorderWidth * 2)) / 2;
+                    vertical-align: middle;
+                }
+
+                .payoutAmount,
+                .payoutType {
+                    display: inline-block;
+                    margin-right: 4px;
+                }
+                .payoutAmount {
+                    font-size: 1.5em;
+                }
+            }
+        }
+
+        .complete {
+            .contestModuleFooter {
+                @if $ssiModule_contestComplete_footerTextColor {
+                    color: $ssiModule_contestComplete_footerTextColor;
+                }
+                @if $ssiModule_contestComplete_footerBgColor {
+                    background: $ssiModule_contestComplete_footerBgColor;
+                }
+
+                @if $ssiModule_contestComplete_footerBgColor != false and $ssiModule_contestComplete_footerBgColor != transparent {
+                    margin: nth($card_margin, 1) (-1 * nth($card_margin, 2)) (-1 * nth($card_margin, 1));
+                    padding: $card_padding;
+                    @include border-radius(0 0 $card_borderRadius $card_borderRadius);
+
+                    @media (min-width: $breakpoint_tablet_min) {
+                        margin: nth($card_margin_tablet, 1) (-1 * nth($card_margin_tablet, 2)) (-1 * nth($card_margin_tablet, 1));
+                        padding: $card_padding_tablet;
+                    } // /@media
+
+                    @media (min-width: $breakpoint_desktop_min) {
+                        @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+                            margin: nth($card_margin_desktop, 1) (-1 * nth($card_margin_desktop, 2)) (-1 * nth($card_margin_desktop, 1));
+                            padding: $card_padding_desktop;
+                        } // /@if
+                    } // /@media
+
+                    @media (min-width: $breakpoint_desktopLarge_min) {
+                        @if nth($card_padding_desktop, 2) != nth($card_padding_desktopLarge, 2) {
+                            margin: nth($card_margin_desktopLarge, 1) (-1 * nth($card_margin_desktopLarge, 2)) (-1 * nth($card_margin_desktopLarge, 1));
+                            padding: $card_padding_desktopLarge;
+                        } // /@if
+                    } // /@media
+                }
+            }
+            .rankDescription {
+                // color: $ssiModule_rankCompleteColor;
+            }
+        }//.complete
+
+
+        /***
+         *    dP oo            dP
+         *    88               88
+         *    88 dP .d8888b. d8888P
+         *    88 88 Y8ooooo.   88
+         *    88 88       88   88
+         *    dP dP `88888P'   dP
+         *
+         *
+         */
+        .list {
+            padding: 0;
+            clear: both;
+
+            .module-topper {
+                @if $ssiModule_contestList_topperTextColor {
+                    color: $ssiModule_contestList_topperTextColor;
+                }
+                @if $ssiModule_contestList_topperBgColor {
+                    background: $ssiModule_contestList_topperBgColor;
+                }
+
+                padding: $card_padding;
+                @include border-radius($card_borderRadius $card_borderRadius 0 0);
+
+                @media (min-width: $breakpoint_tablet_min) {
+                    padding: $card_padding_tablet;
+                } // /@media
+
+                @media (min-width: $breakpoint_desktop_min) {
+                    @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+                        padding: $card_padding_desktop;
+                    } // /@if
+                } // /@media
+
+                @media (min-width: $breakpoint_desktopLarge_min) {
+                    @if nth($card_padding_desktop, 2) != nth($card_padding_desktopLarge, 2) {
+                        padding: $card_padding_desktopLarge;
+                    } // /@if
+                } // /@media
+
+                h4 {
+                    margin: 0;
+
+                    .type-icon {
+                        float: left;
+                        margin-right: 8px;
+                        margin-top: -1 * ($ssiModule_contest_headerTypeIconSize - $headline4fontSize_mobile * $headlineLineHeight) / 2;
+                        margin-bottom: -1 * ($ssiModule_contest_headerTypeIconSize - $headline4fontSize_mobile * $headlineLineHeight) / 2;
+                        width: $ssiModule_contest_headerTypeIconSize;
+                        height: $ssiModule_contest_headerTypeIconSize;
+                        font-size: $ssiModule_contest_headerTypeIconSize * 0.6;
+                        line-height: $ssiModule_contest_headerTypeIconSize;
+
+                        @media (min-width: $breakpoint_desktop_min) {
+                            margin-top: -1 * ($ssiModule_contest_headerTypeIconSize - $headline4fontSize * $headlineLineHeight) / 2;
+                            margin-bottom: -1 * ($ssiModule_contest_headerTypeIconSize - $headline4fontSize * $headlineLineHeight) / 2;
+                        }
+                    }
+                }
+            } // /.module-topper
+
+            .contestList {
+                margin-bottom: 0;
+            }
+            .contestListItem {
+                padding: $card_padding;
+
+                @media (min-width: $breakpoint_tablet_min) {
+                    padding: $card_padding_tablet;
+                } // /@media
+
+                @media (min-width: $breakpoint_desktop_min) {
+                    @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+                        padding: $card_padding_desktop;
+                    } // /@if
+                } // /@media
+
+                @media (min-width: $breakpoint_desktopLarge_min) {
+                    @if nth($card_padding_desktop, 2) != nth($card_padding_desktopLarge, 2) {
+                        padding: $card_padding_desktopLarge;
+                    } // /@if
+                } // /@media
+
+                &:last-child {
+                    @include border-radius(0 0 $card_borderRadius $card_borderRadius);
+                }
+
+                .contestName {
+                    margin: 0;
+                }
+
+                .contestAsOf {
+                    color: $ssiModule_contestList_asOfColor;
+                }
+
+                .activityAchieved {
+                    font-size: 1.25em;
+
+                    strong {
+                        font-size: 0.8em;
+                    }
+
+                    span {
+                        display: block;
+                    }
+
+                    @media (max-width: $breakpoint_mobile_max) {
+                        float: left;
+                        width: auto;
+                    }
+                }
+
+                .stackRankLeader {
+                    margin: ($baseLineHeight / 2) 0 0;
+                    padding: 6px 12px;
+                    min-height: 0;
+                    line-height: 30px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
+                    b {
+                        display: inline-block;
+                        float: left;
+                        width: 18px;
+                        text-align: right;
+                        font-weight: $fontWeightNormal;
+                    }
+                     @include avatarSizing(30px);
+                        .avatarwrap {
+                            float: left;
+                            margin: 0 12px;
+
+                        display: inline;
+                        float: left;
+                        margin: 0 12px;
+
+                    }
+
+                    .leaderName {
+                        font-weight: $fontWeightBold;
+                    }
+
+                    .score {
+                        float: right;
+                        font-weight: $fontWeightBold;
+                        padding-left: 6px;
+                    }
+                }
+                &:nth-of-type(odd) {
+                    .stackRankLeader {
+                        background: $ssiModule_contestList_listItemBgEven;
+                    }
+                }
+                &:nth-of-type(even) {
+                    .stackRankLeader {
+                        background: $ssiModule_contestList_listItemBgOdd;
+                    }
+                }
+            } //.contestListItem
+        } // /.list
+
+
+
+
+        /***
+         *                dP       oo                     dP   oo
+         *                88                              88
+         *       .d8888b. 88d888b. dP .d8888b. .d8888b. d8888P dP dP   .dP .d8888b. .d8888b.
+         *       88'  `88 88'  `88 88 88ooood8 88'  `""   88   88 88   d8' 88ooood8 Y8ooooo.
+         *    dP 88.  .88 88.  .88 88 88.  ... 88.  ...   88   88 88 .88'  88.  ...       88
+         *    88 `88888P' 88Y8888' 88 `88888P' `88888P'   dP   dP 8888P'   `88888P' `88888P'
+         *                         88
+         *                         dP
+         */
+        .objectives {
+
+            .contestListItem {
+                .narrowModule,
+                .wideModule {
+                    border: none;
+                    height: auto;
+                }
+            }
+
+            .wideModule {
+                position: relative;
+            }
+
+            .contestDataWrapper {
+                .span12 {
+                    margin: 0;
+                    min-height: 0;
+
+                    span {
+                        padding: 0 8px;
+                    }
+                }
+
+                .multiGoalAchieved {
+                    font-size: $baseFontSize;
+                    padding: 0;
+                    text-transform: capitalize;
+                }
+
+                .objectiveProgress {
+                    color: $ssiModule_accentColor;
+                }
+
+                .objectiveGoal {
+                    span {
+                        border-top: $ssiModule_defaultBorder;
+                    }
+                }
+                .hasMultipleObjAchieved {
+                	margin-top: 16px;
+                	text-align: left;
+                }
+            }//.contestDataWrapper
+
+            .objectiveMeta {
+                clear: both;
+                padding-top: $baseLineHeight;
+                text-align: center;
+
+                .span12 {
+                    margin: 0;
+                }
+            }
+
+            .multiGoalToGo,
+            .multiGoalAchieved,
+            .msg-achieved,
+            .msg-bonus {
+                display: inline-block;
+                font-size: $fontSizeLarge * 1.25;
+                line-height: $lineHeightLarge * 1.25;
+
+                strong {
+                    font-size: $fontSizeExtraLarge * 1.25;
+                }
+            }
+
+            .multiGoalAchieved {
+                font-size: $fontSizeExtraLarge * 1.25;
+            }
+
+            .multiGoalAchieved,
+            .msg-achieved,
+            .msg-bonus {
+                font-weight: $fontWeightBold;
+                color: $brand_color_success;
+
+                i {
+                    font-weight: $fontWeightBold;
+                }
+            }
+            .msg-bonus {
+                // color: ;
+            }
+
+            .noStackRanking {
+                .moduleSubHeader {
+                    display: none;
+                }
+            }
+        }//.objectives
+
+        /***
+         *             dP          d888888P dP       oo           .88888.             dP   d888888P dP                  dP
+         *             88             88    88                   d8'   `88            88      88    88                  88
+         *       .d888b88 .d8888b.    88    88d888b. dP .d8888b. 88        .d8888b. d8888P    88    88d888b. .d8888b. d8888P
+         *       88'  `88 88'  `88    88    88'  `88 88 Y8ooooo. 88   YP88 88ooood8   88      88    88'  `88 88'  `88   88
+         *    dP 88.  .88 88.  .88    88    88    88 88       88 Y8.   .88 88.  ...   88      88    88    88 88.  .88   88
+         *    88 `88888P8 `88888P'    dP    dP    dP dP `88888P'  `88888'  `88888P'   dP      dP    dP    dP `88888P8   dP
+         *
+         *
+         */
+        .doThisGetThat {
+
+            &:not(.list) .scrollArea {
+                margin: (-1 * nth($card_margin, 1)) 0;
+
+                @media (min-width: $breakpoint_tablet_min) {
+                    margin: (-1 * nth($card_margin_tablet, 1)) 0;
+                } // /@media
+                @media (min-width: $breakpoint_desktop_min) {
+                    @if nth($card_margin_desktop, 2) != nth($card_margin_tablet, 2) {
+                        margin: (-1 * nth($card_margin_desktop, 1)) 0;
+                    } // /@if
+                } // /@media
+                @media (min-width: $breakpoint_desktopLarge_min) {
+                    @if nth($card_margin_desktop, 2) != nth($card_margin_desktopLarge, 2) {
+                        margin: (-1 * nth($card_margin_desktop, 1)) 0;
+                    } // /@if
+                } // /@media
+            }
+
+            .dtgtActivity {
+                text-align: center;
+                padding: (nth($card_padding, 1) / 2) (nth($card_padding, 2) / 2);
+
+                &:nth-of-type(odd) {
+                    background: $ssiModule_contestList_listItemBgOdd;
+                }
+                &:nth-of-type(even) {
+                    background: $ssiModule_contestList_listItemBgEven;
+                }
+
+                .activityDescription {
+                    text-align: left;
+                    padding: 0 (nth($card_padding, 2) / 2);
+                }
+
+                @media (min-width: $breakpoint_tablet_min) {
+                    padding: (nth($card_padding_tablet, 1) / 2) (nth($card_padding_tablet, 2) / 2);
+
+                    .activityDescription {
+                        padding: 0 (nth($card_padding_tablet, 2) / 2);
+                    }
+                } // /@media
+                @media (min-width: $breakpoint_desktop_min) {
+                    @if nth($card_padding_desktop, 2) != nth($card_padding_tablet, 2) {
+                        padding: (nth($card_padding_desktop, 1) / 2) (nth($card_padding_desktop, 2) / 2);
+
+                        .activityDescription {
+                            padding: 0 (nth($card_padding_desktop, 2) / 2);
+                        }
+                    } // /@if
+                } // /@media
+                @media (min-width: $breakpoint_desktopLarge_min) {
+                    @if nth($card_padding_desktop, 2) != nth($card_padding_desktopLarge, 2) {
+                        padding: (nth($card_padding_desktopLarge, 1) / 2) (nth($card_padding_desktopLarge, 2) / 2);
+
+                        .activityDescription {
+                            padding: 0 (nth($card_padding_desktopLarge, 2) / 2);
+                        }
+                    } // /@if
+                } // /@media
+
+                .dataSection {
+                    display: inline-block;
+                    float: none;
+                    margin: 0;
+                    width: 48%;
+                    vertical-align: top;
+
+                    // only show two by default
+                    &:nth-of-type(n+3) {
+                        display: none;
+                    }
+
+                    @media (min-width: $breakpoint_mobileMini_min) {
+                        // show the third one above 480px
+                        &.span4 {
+                            display: inline-block;
+                            width: 32%;
+                        }
+                    }
+                    @media (max-width: $breakpoint_tablet_max) {
+                        &.span4 {
+                            width: 96%;
+                        }
+                    }
+
+                    h5 {
+                        margin: 0;
+                        font-weight: $fontWeightBold;
+
+                        i {
+                            font-weight: inherit;
+                        }
+                    }
+
+                    .activityGoalAchieved {
+                        color: $brand_color_success;
+                    }
+                }
+            }//.dtgtActivity
+
+            .complete {
+                .dataSection {
+                    h5,
+                    span {
+                        // color: $ssiModule_dtgt_dataCompleteColor;
+                    }
+                }
+            }//.complete
+        }//.doThisGetThat
+
+        /***
+         *                  dP                     dP   dP   dP     dP
+         *                  88                     88   88   88     88
+         *       .d8888b. d8888P .d8888b. 88d888b. 88 d8888P 88     88 88d888b.
+         *       Y8ooooo.   88   88ooood8 88'  `88 88   88   88     88 88'  `88
+         *    dP       88   88   88.  ... 88.  .88 88   88   Y8.   .8P 88.  .88
+         *    88 `88888P'   dP   `88888P' 88Y888P' dP   dP   `Y88888P' 88Y888P'
+         *                                88                           88
+         *                                dP                           dP
+         */
+        .stepItUp {
+
+            .contestDataWrapper {
+                float: none;
+                padding-bottom: $baseLineHeight;
+                width: auto;
+                height: auto;
+                line-height: normal;
+                border-bottom: $ssiModule_defaultBorder;
+            }
+            .dataSection {
+                display: inline-block;
+                float: none;
+                margin: 0;
+                width: 48%;
+                vertical-align: top;
+
+                h5 {
+                    margin: 0;
+                    font-weight: $fontWeightBold;
+
+                    i {
+                        font-weight: inherit;
+                    }
+                }
+
+                span {
+
+                }
+            }
+
+            .complete {
+                .shortAndWideModule {
+                    .objectiveData h5,
+                    .objectiveData span {
+                        color: $ssiModule_siu_dataCompleteColor;
+                    }
+                }
+            }
+
+            // .barChartContainer {
+            //     margin-top: $baseLineHeight;
+
+            //     svg tspan {
+            //         font-size: $fontSizeMid;//17px
+            //     }
+
+            //     .barChartWrapper {
+            //         // height: 100%;
+            //         // width: 100%;
+            //     }
+            // }
+
+            .noStackRanking {
+                .moduleSubHeader {
+                    display: none;
+                }
+
+                .moduleHeader {
+                    // border-bottom: $ssiModule_defaultBorder;
+                }
+
+                .wideModule {
+                    .activityDescription {
+                        display: block;
+                    }
+                }
+            }
+        }//.stepItUp
+
+        /***
+         *                  dP                     dP        888888ba                    dP
+         *                  88                     88        88    `8b                   88
+         *       .d8888b. d8888P .d8888b. .d8888b. 88  .dP  a88aaaa8P' .d8888b. 88d888b. 88  .dP
+         *       Y8ooooo.   88   88'  `88 88'  `"" 88888"    88   `8b. 88'  `88 88'  `88 88888"
+         *    dP       88   88   88.  .88 88.  ... 88  `8b.  88     88 88.  .88 88    88 88  `8b.
+         *    88 `88888P'   dP   `88888P8 `88888P' dP   `YP  dP     dP `88888P8 dP    dP dP   `YP
+         *
+         *
+         */
+        .stackRank {
+
+            .splitColWrap {
+                .splitCol {
+                    list-style: none;
+                    margin: 0;
+
+                    li {
+                        padding: 4px 0;
+                        line-height: $ssiModule_stackRank_avatarHeight;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        vertical-align: middle;
+
+                        b {
+                            display: inline-block;
+                            float: left;
+                            width: 24px;
+                            text-align: right;
+                            font-weight: $fontWeightNormal;
+                        }
+                        &.tied b {
+                            color: transparent;
+                        }
+                        @include avatarSizing($ssiModule_stackRank_avatarHeight);
+                        .avatarwrap {
+                            float: left;
+                            margin: 0 12px;
+                        }
+
+                        .leaderName {
+                            font-size: $fontSizeSmall;
+                            font-weight: $fontWeightBold;
+                            vertical-align: top;
+                        }
+
+                        .score {
+                            display: block;
+                            float: right;
+                            margin-right: 12px;
+                            padding-left: 6px;
+                        }
+
+                        &:nth-of-type(odd) {
+                            background: $ssiModule_contestList_listItemBgOdd;
+                        }
+                        &:nth-of-type(even) {
+                            background: $ssiModule_contestList_listItemBgEven;
+                        }
+                        &.you {
+                            background: $ssiModule_stackRank_leaderBgYou;
+                            color: $ssiModule_stackRank_leaderTxtYou;
+
+                            a {
+                                color: inherit;
+                            }
+
+                            @if $ssiModule_stackRank_leaderBgYou == $brand_color_avatarBkg {
+                                .avatarwrap {
+                                    color: $brand_color_avatarBkg;
+                                    background: $brand_color_avatarTextColor;
+                                }
+                            }
+                        }
+                    }
+                }//.splitCol
+
+                .splitColB {
+                    display: none;
+                }
+
+                @media (min-width: $breakpoint_mobileMini_min) and (max-width: $breakpoint_mobile_max),
+                       (min-width: $ssiModule_extraBreakpoint_tabletBig_min) and (max-width: ($ssiModule_extraBreakpoint_desktopBig_min - 1)),
+                       (min-width: $ssiModule_extraBreakpoint_desktopBigger_min) {
+
+                    .splitCol {
+                        float: left;
+                        width: 48%;
+                    }
+                    .splitColA {
+                        &.splitColBEmpty {
+                            width: 100%;
+
+                            li span.leaderName {
+                                float: none;
+                            }
+                        }
+                    }
+                    .splitColB {
+                        display: block;
+                        float: right;
+                    }
+                }
+            } //.splitColWrap
+
+            .complete {
+                .activityProgress {
+                    color: $ssiModule_stackRank_activityProgressCompleteColor;
+                }
+            }
+
+            .progressNotLoaded {
+                text-align: center;
+
+                .alert {
+                    display: inline-block;
+                    margin-bottom: 0;
+                    font-size: $fontSizeLarge;
+                }
+            }
+        }//.stackRank
+
+    }//.SSICreator, .SSIParticipant, .SSIManager
+
+
+    /***
+     *     .d8888b.   .d8888b. 8888888 .d8888b.                           888
+     *    d88P  Y88b d88P  Y88b  888  d88P  Y88b                          888
+     *    Y88b.      Y88b.       888  888    888                          888
+     *     "Y888b.    "Y888b.    888  888        888d888 .d88b.   8888b.  888888 .d88b.  888d888
+     *        "Y88b.     "Y88b.  888  888        888P"  d8P  Y8b     "88b 888   d88""88b 888P"
+     *          "888       "888  888  888    888 888    88888888 .d888888 888   888  888 888
+     *    Y88b  d88P Y88b  d88P  888  Y88b  d88P 888    Y8b.     888  888 Y88b. Y88..88P 888
+     *     "Y8888P"   "Y8888P" 8888888 "Y8888P"  888     "Y8888  "Y888888  "Y888 "Y88P"  888
+     *
+     *
+     *
+     */
+    /* * * * * *
+    *
+    *    Creator Tiles
+    *
+    * * * * * */
+
+    &.SSICreator {
+        /***
+         *                  dP                     dP   dP   dP     dP
+         *                  88                     88   88   88     88
+         *       .d8888b. d8888P .d8888b. 88d888b. 88 d8888P 88     88 88d888b.
+         *       Y8ooooo.   88   88ooood8 88'  `88 88   88   88     88 88'  `88
+         *    dP       88   88   88.  ... 88.  .88 88   88   Y8.   .8P 88.  .88
+         *    88 `88888P'   dP   `88888P' 88Y888P' dP   dP   `Y88888P' 88Y888P'
+         *                                88                           88
+         *                                dP                           dP
+         */
+        .stepItUp {
+            .barChart {
+                font-size: $fontSizeSmall;
+                margin: ($baseLineHeight + $baseLineHeight) 0 0 0; // $baseLineHeight = .value .label line-height
+                height: $ssiModule_siu_barChart_chartHeight + ($ssiModule_siu_barChart_chartAxisHeight * 2);
+            }
+            .ssiBarChart {
+                bottom: $ssiModule_siu_barChart_chartAxisHeight * 2;
+                left: $ssiModule_siu_barChart_chartAxisHeight;
+            }
+            .pax-per-level {
+                border-bottom-color: $ssiModule_siu_barChart_axisBorderColor;
+                border-left-color: $ssiModule_siu_barChart_axisBorderColor;
+            }
+            dt, dd {
+            }
+            .x-axis,
+            .y-axis {
+            }
+            .x-axis {
+                bottom: -1 * $ssiModule_siu_barChart_chartAxisHeight * 2;
+                left: -1 * $ssiModule_siu_barChart_chartAxisHeight;
+                padding-left: $ssiModule_siu_barChart_chartAxisHeight;
+                line-height: $ssiModule_siu_barChart_chartAxisHeight;
+            }
+            .y-axis {
+                left: -1 * $ssiModule_siu_barChart_chartAxisHeight / 2;
+                margin-top: -1 * $ssiModule_siu_barChart_chartAxisHeight / 2;
+                margin-left: -1 * $ssiModule_siu_barChart_chartHeight / 2;
+                width: $ssiModule_siu_barChart_chartHeight;
+                line-height: $ssiModule_siu_barChart_chartAxisHeight;
+            }
+
+            .key,
+            .value {
+            }
+            .key {
+                margin-top: $ssiModule_siu_barChart_chartHeight;
+
+                .label {
+                    line-height: $ssiModule_siu_barChart_chartAxisHeight;
+                }
+            }
+            .value {
+                width: $ssiModule_siu_barChart_chartBarWidth;
+                height: $ssiModule_siu_barChart_chartHeight;
+
+                .bar {
+                    background: $ssi_SIU_barChart_moduleBarColor;
+                }
+
+                .label {
+                }
+            }
+
+            @mixin barLevelWidths($width) {
+                .key {
+                    width: $width;
+
+                    &:last-child {
+                        width: calc(#{$width} - 1px);//adding 1px to account for the chart border misbehaving in IE11
+                    }
+                }
+                .value {
+                    margin-right: calc((#{$width} - #{$ssiModule_siu_barChart_chartBarWidth}) / 2);
+                    margin-left: calc((#{$width} - #{$ssiModule_siu_barChart_chartBarWidth}) / 2);
+
+                    &:last-child {
+                        margin-right: calc((#{$width} - (#{$ssiModule_siu_barChart_chartBarWidth} + 1px)) / 2); //adding 1px to account for the chart border misbehaving in IE11
+                        margin-left: calc((#{$width} - (#{$ssiModule_siu_barChart_chartBarWidth} + 1px)) / 2);
+                    }
+                }
+            }
+
+            .levels1 {
+                @include barLevelWidths((100% / 1));
+            }
+            .levels1.withBonus,
+            .levels2 {
+                @include barLevelWidths((100% / 2));
+            }
+            .levels2.withBonus,
+            .levels3 {
+                @include barLevelWidths((100% / 3));
+            }
+            .levels3.withBonus,
+            .levels4 {
+                @include barLevelWidths((100% / 4));
+            }
+            .levels4.withBonus,
+            .levels5 {
+                @include barLevelWidths((100% / 5));
+            }
+            .levels5.withBonus {
+                @include barLevelWidths((100% / 6));
+            }
+        }
+    }
+
+    /***
+     *     .d8888b.   .d8888b. 8888888 8888888b.                  888    d8b          d8b                            888
+     *    d88P  Y88b d88P  Y88b  888   888   Y88b                 888    Y8P          Y8P                            888
+     *    Y88b.      Y88b.       888   888    888                 888                                                888
+     *     "Y888b.    "Y888b.    888   888   d88P 8888b.  888d888 888888 888  .d8888b 888 88888b.   8888b.  88888b.  888888
+     *        "Y88b.     "Y88b.  888   8888888P"     "88b 888P"   888    888 d88P"    888 888 "88b     "88b 888 "88b 888
+     *          "888       "888  888   888       .d888888 888     888    888 888      888 888  888 .d888888 888  888 888
+     *    Y88b  d88P Y88b  d88P  888   888       888  888 888     Y88b.  888 Y88b.    888 888 d88P 888  888 888  888 Y88b.
+     *     "Y8888P"   "Y8888P" 8888888 888       "Y888888 888      "Y888 888  "Y8888P 888 88888P"  "Y888888 888  888  "Y888
+     *                                                                                    888
+     *                                                                                    888
+     *                                                                                    888
+     */
+    /* * * * * *
+    *
+    *    Participant Tiles
+    *
+    * * * * * */
+
+    &.SSIParticipant {
+        .rankDescription {
+            // font-size: $baseFontSize * 1.7857;//25px
+        }
+
+        /***
+         *                dP       oo                     dP   oo
+         *                88                              88
+         *       .d8888b. 88d888b. dP .d8888b. .d8888b. d8888P dP dP   .dP .d8888b. .d8888b.
+         *       88'  `88 88'  `88 88 88ooood8 88'  `""   88   88 88   d8' 88ooood8 Y8ooooo.
+         *    dP 88.  .88 88.  .88 88 88.  ... 88.  ...   88   88 88 .88'  88.  ...       88
+         *    88 `88888P' 88Y8888' 88 `88888P' `88888P'   dP   dP 8888P'   `88888P' `88888P'
+         *                         88
+         *                         dP
+         */
+
+        /***
+         *                  dP                     dP   dP   dP     dP
+         *                  88                     88   88   88     88
+         *       .d8888b. d8888P .d8888b. 88d888b. 88 d8888P 88     88 88d888b.
+         *       Y8ooooo.   88   88ooood8 88'  `88 88   88   88     88 88'  `88
+         *    dP       88   88   88.  ... 88.  .88 88   88   Y8.   .8P 88.  .88
+         *    88 `88888P'   dP   `88888P' 88Y888P' dP   dP   `Y88888P' 88Y888P'
+         *                                88                           88
+         *                                dP                           dP
+         */
+        .stepItUp {
+            // background: red;
+            // @media (min-width: $breakpoint_mobileMini_min) {
+            //     background: orange;
+            // }
+            // @media (min-width: $breakpoint_tablet_min) {
+            //     background: yellow;
+            // }
+            // @media (min-width: $ssiModule_extraBreakpoint_tabletBig_min) {
+            //     background: green;
+            // }
+            // @media (min-width: $breakpoint_desktop_min) {
+            //     background: blue;
+            // }
+            // @media (min-width: $ssiModule_extraBreakpoint_desktopBig_min) {
+            //     background: purple;
+            // }
+            // @media (min-width: $ssiModule_extraBreakpoint_desktopBigger_min) {
+            //     background: brown;
+            // }
+
+            .wideModule {
+                // position: relative;
+                // height: 350px;
+                // margin-top: 70px;
+            }
+
+            .levelChartWrapper {
+                $colMinWidth: $ssiModule_siu_circleChart_chartStepHeight_large * 1.5;
+                $colMaxWidth: $ssiModule_siu_circleChart_chartHeight_large;
+
+                position: relative;
+                text-align: center;
+
+                .levelChartTrack {
+                    position: relative;
+                    z-index: 1;
+                    margin: 0 auto;
+                }
+
+                .levelChartFades {
+                    display: block;
+                    position: absolute;
+                    z-index: 0;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0) 80%, rgba(255,255,255,1) 100%);
+                    @include opacity(0);
+                    @include transition-property(opacity);
+                    @include transition-duration($global_sidebar_transition_speed);
+                }
+
+                .levelCol {
+                    float: left;
+                    display: inline-block;
+                    margin: 0;
+                    position: relative;
+                    width: 15%;
+                    min-width: $colMinWidth;
+                    max-width: $colMaxWidth;
+                    text-align: center;
+                    vertical-align: middle;
+
+                    &.currentLevelCol {
+                        width: $ssiModule_siu_circleChart_chartHeight_large;
+                    }
+                }//.levelCol
+
+                &.numLevels1 .levelChartTrack {
+                    max-width: $ssiModule_siu_circleChart_chartHeight_large;
+                }
+                &.numLevels2 .levelChartTrack {
+                    min-width: $ssiModule_siu_circleChart_chartHeight_large + ($colMinWidth * 1);
+                    max-width: $ssiModule_siu_circleChart_chartHeight_large + ($colMaxWidth * 1);
+
+                    .levelCol:not(.currentLevelCol) {
+                        width: calc((100% - #{$ssiModule_siu_circleChart_chartHeight_large}) / 1);
+                    }
+                }
+                &.numLevels3 .levelChartTrack {
+                    min-width: $ssiModule_siu_circleChart_chartHeight_large + ($colMinWidth * 2);
+                    max-width: $ssiModule_siu_circleChart_chartHeight_large + ($colMaxWidth * 2);
+
+                    .levelCol:not(.currentLevelCol) {
+                        width: calc((100% - #{$ssiModule_siu_circleChart_chartHeight_large}) / 2);
+                    }
+                }
+                &.numLevels4 .levelChartTrack {
+                    min-width: $ssiModule_siu_circleChart_chartHeight_large + ($colMinWidth * 3);
+                    max-width: $ssiModule_siu_circleChart_chartHeight_large + ($colMaxWidth * 3);
+
+                    .levelCol:not(.currentLevelCol) {
+                        width: calc((100% - #{$ssiModule_siu_circleChart_chartHeight_large}) / 3);
+                    }
+                }
+                &.numLevels5 .levelChartTrack {
+                    min-width: $ssiModule_siu_circleChart_chartHeight_large + ($colMinWidth * 4);
+                    max-width: $ssiModule_siu_circleChart_chartHeight_large + ($colMaxWidth * 4);
+
+                    .levelCol:not(.currentLevelCol) {
+                        width: calc((100% - #{$ssiModule_siu_circleChart_chartHeight_large}) / 4);
+                    }
+                }
+
+                &.overflowing {
+                    overflow: hidden;
+                    //      .levelChartTrack height + .levelName line-height + .levelName span line-height
+                    height: $ssiModule_siu_circleChart_chartHeight_large + $baseLineHeight + $lineHeightExtraLarge;
+
+                    .levelChartTrack {
+                        position: absolute;
+                        left: 50%;
+                    }
+                    .levelChartFades {
+                        z-index: 2;
+                        @include opacity(1);
+                    }
+
+                    &.curLev1 {
+                        .levelChartTrack {
+                            margin-left: 0;
+                        }
+                    }
+                    &.curLev2 {
+                        .levelChartTrack {
+                            margin-left: -1 * (($colMinWidth * 1) + ($ssiModule_siu_circleChart_chartHeight_large / 2));
+                        }
+                    }
+                    &.curLev3 {
+                        .levelChartTrack {
+                            margin-left: -1 * (($colMinWidth * 2) + ($ssiModule_siu_circleChart_chartHeight_large / 2));
+                        }
+                    }
+                    &.curLev4 {
+                        .levelChartTrack {
+                            margin-left: -1 * (($colMinWidth * 3) + ($ssiModule_siu_circleChart_chartHeight_large / 2));
+                        }
+                    }
+                    &.curLev5 {
+                        .levelChartTrack {
+                            margin-left: -1 * (($colMinWidth * 4) + ($ssiModule_siu_circleChart_chartHeight_large / 2));
+                        }
+                    }
+
+                    &.curIsFirst {
+                        .levelChartTrack {
+                            left: 0;
+                            margin-left: 0;
+                        }
+                        .levelChartFades {
+                            background: linear-gradient(to right, rgba(255,255,255,0) 80%, rgba(255,255,255,1) 100%);
+                        }
+                    }
+                    &.curIsLast {
+                        .levelChartTrack {
+                            left: auto;
+                            right: 0;
+                            margin-left: 0;
+                        }
+                        .levelChartFades {
+                            background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 20%);
+                        }
+                    }
+                }
+            }//.levelChartWrapper
+
+            .levelCircles {
+                width: 100%;
+                height: $ssiModule_siu_circleChart_chartHeight_large;
+                line-height: $ssiModule_siu_circleChart_chartHeight_large;
+                vertical-align: middle;
+                overflow: hidden;
+            }
+            .circleData {
+                width: $ssiModule_siu_circleChart_chartStepHeight_large;
+                height: $ssiModule_siu_circleChart_chartStepHeight_large;
+                line-height: $ssiModule_siu_circleChart_chartStepHeight_large;
+
+                i {
+                    font-size: $ssiModule_siu_circleChart_chartStepHeight_large;
+                }
+            }
+
+            .chartHolder {
+                position: relative;
+                z-index: 2;
+                margin: 0;
+                height: $ssiModule_siu_circleChart_chartHeight_large;
+                width: $ssiModule_siu_circleChart_chartHeight_large;
+                font-size: $ssiModule_siu_circleChart_arcWidth;
+                color: $ssi_SIU_circleChart_ovArcColor;
+                outline-color: $ssi_SIU_circleChart_fgArcColor;
+                border-top-color: $ssi_SIU_circleChart_bgArcColor;
+            }
+            .chartDataWrapper{
+                height: $ssiModule_siu_circleChart_chartHeight_large - ($ssiModule_siu_circleChart_arcWidth * 4);
+                width: $ssiModule_siu_circleChart_chartHeight_large - ($ssiModule_siu_circleChart_arcWidth * 4);
+                left: $ssiModule_siu_circleChart_arcWidth * 2;
+                top: $ssiModule_siu_circleChart_arcWidth * 2;
+                background:$brand_color_white;
+                position:absolute;
+                }
+            .chartData {
+                //height: $ssiModule_siu_circleChart_chartHeight_large - ($ssiModule_siu_circleChart_arcWidth * 4);
+                //width: $ssiModule_siu_circleChart_chartHeight_large - ($ssiModule_siu_circleChart_arcWidth * 4);
+                //left: $ssiModule_siu_circleChart_arcWidth * 2;
+                //top: $ssiModule_siu_circleChart_arcWidth * 2;
+                z-index: 0;
+                right:10%;
+                left:10%;
+                border-width: 0;
+                @include vertical-align(absolute);
+                border-radius:0;
+
+            }
+
+            .levelProgress,
+            .levelGoal {
+                line-height: ($ssiModule_siu_circleChart_chartHeight_large - ($ssiModule_siu_circleChart_arcWidth * 4)) / 2;
+            }
+            .levelProgress ,
+            .levelGoal  {
+                //display: inline-block;
+                padding: 0;
+                width: 100%;
+                font-size: $fontSizeExtraLarge;
+                line-height: $lineHeightExtraLarge;
+                font-weight: $fontWeightBold;
+                //vertical-align: bottom;
+            }
+            .levelGoal  {
+                //vertical-align: top;
+            }
+
+            .levelMeta {
+                width: 100%;
+                height: $baseLineHeight + $lineHeightExtraLarge;
+                overflow: hidden;
+            }
+            .levelName {
+                display: block;
+                margin-left: 0;
+                text-align: center;
+
+                span {
+                    display: block;
+                    font-size: $fontSizeExtraLarge;
+                    font-weight: $fontWeightBold;
+                    line-height: $lineHeightExtraLarge;
+                    // margin-top: 20px;
+                }
+            }
+
+            .levelRemaining {
+                margin-top: $baseLineHeight;
+                border-top: $ssiModule_defaultBorder;
+
+                span {
+                    display: block;
+                    font-size: $fontSizeLarge;
+                    line-height: $lineHeightLarge;
+                    margin: ($baseLineHeight / 2) 0 0 0;
+
+                    strong {
+                        font-size: 1.25em;
+                    }
+                }
+            }//.levelRemaining
+
+            .bonusLabel {
+                text-align: center;
+                font-size: $fontSizeMid;
+                line-height: $lineHeightMid;
+                font-weight: $fontWeightBold;
+                color: $ssiDetails_chartProgressTextColor;
+
+                i {
+                    font-weight: $fontWeightBold;
+                }
+            }
+
+        }//.stepItUp
+
+
+    }//.SSIParticipant
+
+    /***
+     *     .d8888b.   .d8888b. 8888888 888b     d888
+     *    d88P  Y88b d88P  Y88b  888   8888b   d8888
+     *    Y88b.      Y88b.       888   88888b.d88888
+     *     "Y888b.    "Y888b.    888   888Y88888P888  8888b.  88888b.   8888b.   .d88b.   .d88b.  888d888
+     *        "Y88b.     "Y88b.  888   888 Y888P 888     "88b 888 "88b     "88b d88P"88b d8P  Y8b 888P"
+     *          "888       "888  888   888  Y8P  888 .d888888 888  888 .d888888 888  888 88888888 888
+     *    Y88b  d88P Y88b  d88P  888   888   "   888 888  888 888  888 888  888 Y88b 888 Y8b.     888
+     *     "Y8888P"   "Y8888P" 8888888 888       888 "Y888888 888  888 "Y888888  "Y88888  "Y8888  888
+     *                                                                               888
+     *                                                                          Y8b d88P
+     *                                                                           "Y88P"
+     */
+    /* * * * * *
+    *
+    *    Manager Tiles
+    *
+    * * * * * */
+
+    &.SSIManager,
+    &.SSISuperViewer {
+        .contestListWrap {
+            margin-top: $baseLineHeight / 2;
+
+            .ssi-a {
+                padding-left: 30px + 12px; // magic numbers borrowed from .type-icon above
+                display: inline-block;
+                line-height: $baseLineHeight * 2;
+                @include ignoreGlobalLinkStyles();
+            }
+            .ssi-iconwrap {
+                display: inline-block;
+                margin-right: -4px; // erases gap between inline-block elements
+                margin-left: -1 * (30px + 12px); // magic numbers borrowed from .type-icon above
+                vertical-align: middle;
+            }
+            .ssi-textwrap {
+                display: inline-block;
+                vertical-align: middle;
+                line-height: $baseLineHeight;
+                @include applyGlobalLinkStyles();
+            }
+        }
+
+        .contestListItem {
+            padding: 5px 10px;
+
+            div.span8, div.span4 {
+                @media (max-width: $breakpoint_mobile_max) {
+                    text-align: center;
+                }
+            }
+        }
+    }//.SSIManager, &.SSISuperViewer
+
+    &.ssiQtipIsShownModule {
+        z-index: 1;
+        overflow: visible;
+
+        .module-liner {
+            overflow: visible;
+        }
+    }//.ssiQtipIsShownModule
+}//.launchModule.ssi
+
+// add a low z-index to all modules when the qtip is shown to prevent overlap
+.ssiQtipIsShown .launchModule {
+    z-index: 0;
+}

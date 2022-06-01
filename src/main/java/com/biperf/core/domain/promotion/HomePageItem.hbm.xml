@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.HomePageItem" table="PROMO_HOME_PAGE_ITEM">
+
+    <id name="id" column="PROMO_HOME_PAGE_ITEM_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PROMO_HOME_PAGE_ITEM_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long" />
+    
+    <property name="productId" column="PRODUCT_ID" type="java.lang.String"/>
+    <property name="catalogId" column="CATALOG_ID" type="java.lang.String"/>
+    <property name="productSetId" column="PRODUCT_SET_ID" type="java.lang.String"/>
+    <property name="copy" column="COPY" type="java.lang.String"/>
+    <property name="description" column="DESCRIPTION" type="java.lang.String"/>
+    <property name="detailImgUrl" column="DTL_IMG_URL" type="java.lang.String"/>
+    <property name="tmbImageUrl" column="TMB_IMG_URL" type="java.lang.String"/>
+
+    <many-to-one name="promotion" update="false" insert="false" class="com.biperf.core.domain.promotion.RecognitionPromotion" lazy="false">
+      <column name="PROMOTION_ID"/>
+    </many-to-one>
+
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+  
+  <query name="com.biperf.core.domain.promotion.HomePageItemByPromotionId">
+		<![CDATA[
+		from item in class com.biperf.core.domain.promotion.HomePageItem
+      		where item.promotion.id = :promotionId
+		]]>
+	</query>
+  
+</hibernate-mapping>

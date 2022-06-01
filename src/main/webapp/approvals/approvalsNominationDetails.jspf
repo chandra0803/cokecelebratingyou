@@ -1,0 +1,31 @@
+<%--UI REFACTORED--%>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<%@ include file="/include/taglib.jspf"%>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">    
+  <tr>          
+    <%-- c:if test="${ !approvable.promotion.cumulative and !param.isPrinterFriendly}" --%>
+    <c:if test="${ !approvable.promotion.cumulative}">
+      <c:if test="${ approvable.card.class.name == 'com.biperf.core.domain.multimedia.ECard' }">
+        <td class="content" width="400">
+            <img id="largeImage" width='280' height='280' 
+            src='<%=RequestUtils.getBaseURI(request)%>/<cms:contentText code="recognition.ecards.imgSrc.prefix" key="IMG_SRC_PREFIX"/><c:out value='${approvable.card.largeImageName}'/>'/>
+        </td>
+      </c:if>            
+    </c:if>             
+    <td class="content">
+      <c:if test="${ !approvable.promotion.cumulative }">
+        <c:set var="claim" value="${approvable}"/>
+        <%@ include file="approvalsNominationClaimDetails.jspf"%>
+      </c:if>
+      <c:if test="${ approvable.promotion.cumulative }">
+        <c:forEach var="claim" items="${approvable.claims}"  varStatus="claimStatus">
+          <c:if test="${!claimStatus.first}">
+            <br/>
+          </c:if>
+          <%@ include file="approvalsNominationClaimDetails.jspf"%>
+        </c:forEach>
+      </c:if>
+    </td>
+  </tr>
+</table>

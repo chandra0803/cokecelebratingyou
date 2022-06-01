@@ -1,0 +1,68 @@
+CREATE SEQUENCE GOALQUEST_PAXGOAL_PK_SQ START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE goalquest_paxgoal
+(pax_goal_id  					NUMBER(18) NOT NULL,
+ user_id                        NUMBER(18) NOT NULL,
+ promotion_id                   NUMBER(18) NOT NULL, 
+ goallevel_id					NUMBER(18),
+ current_value					NUMBER(30,4),
+ override_quantity				NUMBER(18,2),
+ base_quantity                  NUMBER(18,4),
+ submission_date               	DATE,
+ catalog_id						VARCHAR2(20),
+ prod_set_id					VARCHAR2(20),
+ created_by                   	NUMBER(18) NOT NULL,
+ date_created                 	DATE NOT NULL,
+ modified_by 					NUMBER(18),
+ date_modified                	DATE,
+ version                      	NUMBER(18) NOT NULL
+ )
+/
+ALTER TABLE goalquest_paxgoal
+ADD CONSTRAINT goalquest_paxgoal_pk PRIMARY KEY (pax_goal_id)
+USING INDEX
+/
+ALTER TABLE goalquest_paxgoal ADD CONSTRAINT goalquest_paxgoal_pax_fk
+  FOREIGN KEY (user_id) REFERENCES participant (user_id)
+/
+CREATE INDEX goalquest_paxgoal_pax_fk_idx ON goalquest_paxgoal
+  (USER_ID)
+/
+ALTER TABLE goalquest_paxgoal ADD CONSTRAINT goalquest_paxgoal_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promo_goalquest (promotion_id)
+/
+CREATE INDEX goalquest_paxgoal_promo_fk_idx ON goalquest_paxgoal
+  (PROMOTION_ID)
+/
+ALTER TABLE goalquest_paxgoal
+ADD CONSTRAINT goalquest_paxgoal_Uk UNIQUE (user_id, promotion_id)
+USING INDEX
+/
+ALTER TABLE goalquest_paxgoal ADD CONSTRAINT goalquest_paxgoal_goallevel_fk
+  FOREIGN KEY (goallevel_id) REFERENCES goalquest_goallevel (goallevel_id)
+/
+CREATE INDEX goalquest_paxgoal_goallevel_fk ON goalquest_paxgoal
+  (GOALLEVEL_ID)
+/
+COMMENT ON TABLE goalquest_paxgoal IS 'The goalquest_paxgoal table stores the goal level a participant has been assigned to and the current/base quantity for achieving the goal.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.pax_goal_id IS 'System-generated key that identifies a specific participant for a goalquest promotion.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.promotion_id IS 'FK to the promo_goalquest table.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.user_id IS 'FK to participant.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.goallevel_id IS 'FK to goalquest_goallevel. Nullable because business requirement says you could do a progress load on a pax without having the goallevel selected first.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.current_value IS 'The up-todate performance amount the participant maintains towards acheiving the goalquest goal.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.override_quantity IS 'The discretionary make-up amount used in conjuction with the current_value to calculate whether a pax has achieved his/her goal.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.base_quantity IS 'The performance amount used to calculate goal on a goal structure of % of base goal quest promotion.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.catalog_id IS 'Catalog id for selected merch or travel award.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.prod_set_id IS 'Product Set id for selected merch or travel award.'
+/
+COMMENT ON COLUMN goalquest_paxgoal.submission_date IS 'Date when the current value is last modified'
+/

@@ -1,0 +1,66 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+$login_bgColor: #E1C4B2;
+$login_bgImg: "login-bg.jpg" "login-bg_lowres.jpg"; // this variable can take a list of images that will stack front to back. Handy if you want to see a low-res image quickly while the high-res downloads
+// $login_bgImgUrlPath: $appImagesPath; // setting this to $appImagesPath points at core/base/img. Leave blank to use images in this skin
+$login_bgImgPosition: 100% 0%; // default 50% 0%
+// $login_bgImgRepeat: ;
+// $login_bgImgSize: ;
+// $login_bgImgAttachment: ;
+
+// false for any of these Mobile values will cause them not to apply and inherit desktop rules instead
+$login_bgImgMobile: "login-bg_mobile.jpg" "login-bg_mobile_lowres.jpg"; // this variable can take a list of images that will stack front to back. Handy if you want to see a low-res image quickly while the high-res downloads
+// $login_bgImgUrlPathMobile: ;
+// $login_bgImgPositionMobile: ;
+// $login_bgImgRepeatMobile: ;
+// $login_bgImgSizeMobile: ;
+// $login_bgImgAttachmentMobile: ; // except this one. 'scroll' by default because touch
+
+// false for any of these SiteMax values will cause them not to apply and inherit desktop rules instead
+// $login_bgImgSiteMax: ; // this variable can take a list of images that will stack front to back. Handy if you want to see a low-res image quickly while the high-res downloads
+// $login_bgImgUrlPathSiteMax: ;
+// $login_bgImgPositionSiteMax: ;
+// $login_bgImgRepeatSiteMax: ;
+// $login_bgImgSizeSiteMax: ;
+// $login_bgImgAttachmentSiteMax: ;
+
+// $login_logo_height_mobile: ; // must be one of 'mobile', 'tablet', 'desktop', 'desktopLarge'
+
+// $login_contentsMaxWidth: ;
+// $login_contentsBgColor: ;
+
+// $login_headlineColor: ;
+// $login_textColor: ;
+
+// setting these is only necessary if the login footer needs to be different from the global footer
+// note that this is *highly* unlikely, as the login page is currently the only one with the footer
+// $login_footer_bgColor: ;
+// $login_footer_gradMeta: ; // top would be an ideal value // only applies when a background color has been set
+// $login_footer_gradStops: ;
+// $login_footer_borderTopWidth: ;
+// $login_footer_borderTopColor: ;
+// $login_footer_borderBottomWidth: ;
+// $login_footer_borderBottomColor: ;
+
+// $login_footer_linksColor: ;
+// $login_footer_linksFontWeight: ;
+// $login_footer_linksFontStyle: ;
+// $login_footer_linksTextDecoration: ;
+// $login_footer_linksTextTransform: ;
+// $login_footer_linksDisabledColor: ;
+
+// $login_footer_copyrightFontStyle: ;
+// $login_footer_copyrightFontWeight: ;
+// $login_footer_copyrightTextTransform: ;
+// $login_footer_copyrightTextColor: ;
+
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/login";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

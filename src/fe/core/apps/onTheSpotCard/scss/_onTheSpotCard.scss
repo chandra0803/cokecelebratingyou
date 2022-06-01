@@ -1,0 +1,61 @@
+// App-specific variables
+// =========================
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.onTheSpotCard {
+
+} /* /.onTheSpotCard */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.onTheSpotCard {
+    .OTSfieldText {
+        display: none;
+    }
+    form { margin: 0; }
+
+    .instruction {
+        margin-bottom: 8px;
+
+        .bottom-text {
+        }
+    }
+
+
+    // input cert num width
+    .onTheSpotCertForm {
+        input.inputCertNum {
+            text-align: center;
+            display: inline-block;
+            margin-bottom: 6px; // copied from _buttons.scss/$btnSpacingY
+            margin-right: 8px; // copied from _buttons.scss/$btnSpacingX
+
+            @media(min-width: $breakpoint_tablet_min) {
+                width: 308px;
+            }
+
+            @media(min-width: $breakpoint_mobile_max) {
+                width: 57%;
+
+            }
+            @media(max-width: $breakpoint_mobile_max) {
+                width: 56%;
+            }
+        }
+
+        #btnSendCert {
+            margin-bottom: 6px; // copied from _buttons.scss/$btnSpacingY
+        }
+    }
+
+    /* ----- SET THE MODULE GRADIENT ----- */
+
+} /* /.launchModule.onTheSpotCard */
+
+/* ----- PAGE STYLES ----- */
+.page.onTheSpotCard {
+
+} /* /.page.onTheSpotCard */

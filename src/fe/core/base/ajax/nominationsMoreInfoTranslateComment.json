@@ -1,0 +1,18 @@
+{
+	"translation": {
+        "fields": [
+            {
+                "name" : "comment",
+                "text" : "Translated text will replace initial text here. Ooh schau ich ubersetzt. Hier sind einige ubersetzte Inhalte zu zeigen, ersetzen wir die alten Sachen."
+            },
+            {   "fieldId": 124,
+                "name" : "CustomField2",
+                "text" : "Hier ist etwas."
+            },
+            {   "fieldId": null,
+                "name" : "approverComment",
+                "text" : "Translated text will replace initial text here for the approver message. Ooh schau ich ubersetzt. Hier sind einige ubersetzte Inhalte zu zeigen, ersetzen wir die alten Sachen."
+            }
+        ]
+    }
+}

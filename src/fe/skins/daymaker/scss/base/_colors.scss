@@ -1,0 +1,212 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// BRAND COLORS
+// ============
+$brand_color_primary: #1ab2ff;
+// $brand_color_secondary: ;
+// $brand_color_tertiary: ;
+
+// MESSAGING COLORS
+// ============
+// $brand_color_success: ; // green
+// $brand_color_warning: ; // yellow
+// $brand_color_alert: ; // red
+
+// GRASCALE STACK
+// ============
+// $brand_color_black: ;
+// $brand_color_darker: ;
+// $brand_color_dark: ;
+// $brand_color_mid: ;
+// $brand_color_light: ;
+// $brand_color_lighter: ;
+// $brand_color_white: ;
+
+// OTHER COLORS
+// ============
+// $brand_color_stripe: ;
+// $brand_color_border: ;
+
+// $brand_color_export_csv: ; // same as XLS for now. Try #CD8042 to match the brown/gold we had in G5
+// $brand_color_export_doc: ;
+// $brand_color_export_pdf: ;
+// $brand_color_export_xls: ;
+
+// LINKS
+// ============
+$brand_color_link: #0d5980;
+$brand_color_link_hover: #09415d;
+// $brand_color_link_active: ;
+$brand_color_link_disabled: #5f97b4;
+
+// SPINNERS
+// ============
+// $brand_color_spinner_fg: ;
+// $brand_color_spinner_bg: ;
+
+// FUSIONCHARTS
+// ============
+// note: clients can submit a list of hex values for their charts. Set to false to use the FC default palette
+// sample color stack commented out below
+// $brand_chartColors: ;
+/*
+$brand_chartColors: $brand_color_primary,
+                     $brand_color_secondary,
+                     $brand_color_tertiary,
+                     scale-color($brand_color_primary, $lightness: 50%, $saturation: -50%),
+                     scale-color($brand_color_secondary, $lightness: 50%, $saturation: -50%),
+                     scale-color($brand_color_tertiary, $lightness: 50%, $saturation: -50%);
+*/
+
+// AVATAR
+// ============
+// $brand_color_avatarTextColor: ;
+// $brand_color_avatarBkg: ;
+
+
+
+// overwritting twitter default colors - should slowly move away from these and use brand colors
+// and don't add below styles to new scss G6 2016 - if needed move above or to respective file
+// TODO: clean up what is not used
+
+// Grays
+// -------------------------
+// $black: ;
+// $grayDarker: ;
+// $grayDark: ;
+// $gray: ;
+// $grayLight: ;
+// $grayLighter: ;
+// $white: ;
+
+
+// Scaffolding
+// -------------------------
+// $bodyBackground: ;
+// $textColor: ;
+
+
+// Links
+// -------------------------
+// $linkColor: ;
+// $linkColorHover: ;
+
+
+// Form states and alerts
+// -------------------------
+// $warningText: ;
+// $warningBackground: ;
+// $warningBorder: ;
+
+// $errorText: ;
+// $errorBackground: ;
+// $errorBorder: ;
+
+// $successText: ;
+// $successBackground: ;
+// $successBorder: ;
+
+// $infoText: ;
+// $infoBackground: ;
+// $infoBorder: ;
+
+// $placeholderText: ;
+
+
+// Pagination
+// -------------------------
+// $paginationBackground: ;
+// $paginationBorder: ;
+// $paginationActiveBackground: ;
+
+
+// Tables
+// -------------------------
+// set in _variables.scss
+
+
+// Buttons
+// -------------------------
+// button variables that get passed into Bootstrap's _buttons.scss go in this file
+    // note: *Highlight background colors are used for hover state
+// button variables that are used to override Bootstrap's styles go in G6's _buttons.scss
+// $buttonLinkColor: ;
+// $buttonLinkColorHover: ;
+
+// $btnTxtColor: ;
+// $btnBackground: ;
+// $btnBackgroundHighlight: ;
+// $btnBorder: ;
+
+// $btnPrimaryTxtColor: ;
+// $btnPrimaryBackground: ;
+// $btnPrimaryBackgroundHighlight: ;
+
+// $btnInfoTxtColor: ;
+$btnInfoBackground: #29c3d2;
+// $btnInfoBackgroundHighlight: ;
+
+// $btnSuccessTxtColor: ;
+// $btnSuccessBackground: ;
+// $btnSuccessBackgroundHighlight: ;
+
+// $btnWarningTxtColor: ;
+// $btnWarningBackground: ;
+// $btnWarningBackgroundHighlight: ;
+
+// $btnDangerTxtColor: ;
+// $btnDangerBackground: ;
+// $btnDangerBackgroundHighlight: ;
+
+// $btnInverseBackground: ;
+// $btnInverseBackgroundHighlight: ;
+
+// $invertBtnTxtColor: ;
+// $invertBtnBackground: ;
+// $invertBtnBackgroundHighlight: ;
+
+
+// Forms
+// -------------------------
+// $inputTextColor: ;
+// $inputBackground: ;
+// $inputBorder: ;
+// $inputSearchIconColor: ;
+
+
+// Dropdowns
+// -------------------------
+// $dropdownBackground: ;
+// $dropdownBorder: ;
+// $dropdownDividerTop: ;
+// $dropdownDividerBottom: ;
+
+// $dropdownLinkColor: ;
+// $dropdownLinkColorHover: ;
+// $dropdownLinkColorActive: ;
+
+// $dropdownLinkBackgroundActive: ;
+// $dropdownLinkBackgroundHover: ;
+
+
+
+// COMPONENT VARIABLES
+// --------------------------------------------------
+
+
+// Tooltips and popovers
+// -------------------------
+// $tooltipColor: ;
+// $tooltipBackground: ;
+// $tooltipArrowColor: ;
+
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/colors";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

@@ -1,0 +1,358 @@
+
+
+
+
+
+
+.btn.tplLoader,
+.btn.tplGroup {
+    margin-left: 0;
+    margin-right: 10px;
+    margin-bottom: 13px;
+}
+.styleGuideContainer{
+    width: 100%;
+    h1.headline_1 {
+        padding-left: 1em;//sorry, this was driving me nuts --dave
+    }
+
+    section{
+        border-bottom: 1px solid $brand_color_primary;
+        padding: 1% 5%;
+        display: inline-block;
+        width: inherit;
+        position: relative;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+
+        // nested section
+        section{
+            border:none;
+            padding: 2%;
+
+        }// end nested section
+
+        .avatar-examples{
+            .withnowrap{
+                @include avatarSizingNoWrap(140px);
+            }
+            .withwrap{
+                @include avatarSizing(40px);
+            }
+
+        }
+
+        .styleGuideSectionHeader{
+            font-weight: bold;
+            font-size: 18px;
+            margin:20px 0 10px;
+            color: $brand_color_primary;
+            a:after{
+                font-family: 'FontAwesome';
+                content: "\f078";
+                float: right;
+            }
+        }
+        .styleGuideSubSectionHeader{
+            font-weight: Light;
+            font-size: 24px;
+            margin:0 0 10px 0;
+            color: $brand_color_secondary;
+        }
+        .styleGuideColorBlock{
+            width: 200px;
+            height: 100px;
+            float:left;
+            margin:3%;
+            position:relative;
+            &:after{
+                color:#FFF;
+                background-color:#666;
+                width: 100%;
+                display: block;
+                text-align: center;
+                font-size:11px;
+                position:absolute;
+                bottom:0;
+            }
+            &.sg_primary{
+                background: $brand_color_primary;
+                &:after {
+                    content: "$brand_color_primary : " quote($brand_color_primary) ;
+                }
+            }
+            &.sg_disabled{
+                // background: $brand_color_disabled;
+                &:after {
+                    // content: "$brand_color_disabled : " quote($brand_color_disabled) ;
+                }
+            }
+            &.sg_active{
+                // background: $brand_color_active;
+                &:after {
+                    // content: "$brand_color_active : " quote($brand_color_active) ;
+                }
+            }
+
+            &.sg_secondary{
+                background: $brand_color_secondary;
+                &:after {
+                    content: "$brand_color_secondary : " quote($brand_color_secondary) ;
+                }
+            }
+            &.sg_tertiary{
+                background: $brand_color_tertiary;
+                &:after {
+                    content: "$brand_color_tertiary : " quote($brand_color_tertiary) ;
+                }
+            }
+
+
+            &.sg_black{
+                background: $brand_color_black;
+                &:after {
+                    content: "$brand_color_black : " quote($brand_color_black) ;
+                }
+            }
+            &.sg_darker{
+                background: $brand_color_darker;
+                &:after {
+                    content: "$brand_color_darker : " quote($brand_color_darker) ;
+                }
+            }
+            &.sg_dark{
+                background: $brand_color_dark;
+                &:after {
+                    content: "$brand_color_dark : " quote($brand_color_dark) ;
+                }
+            }
+            &.sg_mid{
+                background: $brand_color_mid;
+                &:after {
+                    content: "$brand_color_mid : " quote($brand_color_mid) ;
+                }
+            }
+            &.sg_light{
+                background: $brand_color_light;
+                &:after {
+                    content: "$brand_color_light : " quote($brand_color_light) ;
+                }
+            }
+            &.sg_lighter{
+                background: $brand_color_lighter;
+                &:after {
+                    content: "$brand_color_lighter : " quote($brand_color_lighter) ;
+                }
+            }
+            &.sg_white{
+                background: $brand_color_white;
+                &:after {
+                    content: "$brand_color_white : " quote($brand_color_white) ;
+                }
+            }
+
+             &.sg_alert{
+                background: $brand_color_alert;
+                &:after {
+                    content: "$brand_color_alert : " quote($brand_color_alert) ;
+                }
+            }
+             &.sg_warning{
+                background: $brand_color_warning;
+                &:after {
+                    content: "$brand_color_warning : " quote($brand_color_warning) ;
+                }
+            }
+
+             &.sg_linkColor{
+                background: $brand_color_link;
+                &:after {
+                    content: "$brand_color_link : " quote($brand_color_link) ;
+                }
+            }
+
+             &.sg_linkHover{
+                background: $brand_color_link_hover;
+                &:after {
+                    content: "$brand_color_link_hover : " quote($brand_color_link_hover) ;
+                }
+            }
+
+             &.sg_linkDisabled{
+                // background: $brand_color_link_disabled;
+                &:after {
+                    // content: "$brand_color_link_disabled : " quote($brand_color_link_disabled) ;
+                }
+            }
+            &.sg_linkActive{
+                background: $brand_color_link_active;
+                &:after {
+                    content: "$brand_color_link_active : " quote($brand_color_link_active) ;
+                }
+            }
+        }// end styleGuideColorBlock
+
+
+        // FONT FAMILYs
+        .sg_fontFamilySans{
+            &:after {
+                    content: "Sans Font Family : $sansFontFamily : " quote($sansFontFamily);
+                    font-family: $sansFontFamily;
+                }
+        }
+        .sg_fontFamilySerif{
+            &:after {
+                    content: "Serif Font Family : $serifFontFamily : " quote($serifFontFamily);
+                    font-family: $serifFontFamily;
+                }
+        }
+        .sg_fontFamilyMono{
+            &:after {
+                    content: "Mono Font Family : $monoFontFamily : " quote($monoFontFamily);
+                    font-family: $monoFontFamily;
+                }
+        }
+        .sg_fontFamilyBase{
+            &:after {
+                    content: "Base Font Family : $baseFontFamily : " quote($baseFontFamily);
+                    font-family: $baseFontFamily;
+                }
+        }
+        .sg_fontFamilyTitle{
+            &:after {
+                    content: "Title Font Family : $titleFont : " quote($titleFont);
+                    font-family: $titleFont;
+                }
+        }
+        .sg_fontFamilyBody{
+            &:after {
+                    content: "Body Font Family : $bodyFont : " quote($bodyFont);
+                    font-family: $bodyFont;
+                }
+        }
+
+
+        // FONT WEIGHTS
+        .fontWeight{
+
+            &.fontWeightExBold{
+                &:after {
+                    content: "Extra Bold : $fontWeightExBold : .font-weight-exbold : " quote($fontWeightExBold);
+                    font-weight: $fontWeightExBold;
+                }
+            }
+            &.fontWeightBold{
+                &:after {
+                    content: "Bold : $fontWeightBold : .font-weight-bold : " quote($fontWeightBold);
+                    font-weight: $fontWeightBold;
+                }
+            }
+            &.fontWeightSemiBold{
+                &:after {
+                    content: "SemiBold : $fontWeightSemiBold : .font-weight-semibold : " quote($fontWeightSemiBold);
+                    font-weight: $fontWeightSemiBold;
+                }
+            }
+            &.fontWeightNormal{
+                &:after {
+                    content: "Normal : $fontWeightNormal : .font-weight-normal : " quote($fontWeightNormal);
+                    font-weight: $fontWeightNormal;
+                }
+            }
+            &.fontWeightLight{
+                &:after {
+                    content: "Light : $fontWeightLight : .font-weight-light : " quote($fontWeightLight);
+                    font-weight: $fontWeightLight;
+                }
+            }
+        }
+
+
+        // FONT SIZES and LINE HEIGHTS
+        .fontSize {
+            &.baseFont{
+                &:after {
+                    content: "Base : $baseFontSize / $baseLineHeight : " quote($baseFontSize) " / " quote($baseLineHeight);
+                    font-size: $baseFontSize;
+                    line-height: $baseLineHeight;
+                }
+            }
+            &.fontSizeExtraLarge{
+                &:after {
+                    content: "Extra Large : $fontSizeExtraLarge / $lineHeightExtraLarge : " quote($fontSizeExtraLarge) " / " quote($lineHeightExtraLarge);
+                    font-size: $fontSizeExtraLarge;
+                    line-height: $lineHeightExtraLarge;
+                }
+            }
+            &.fontSizeLarge{
+                &:after {
+                    content: "Large : $fontSizeLarge / $lineHeightLarge : " quote($fontSizeLarge) " / " quote($lineHeightLarge);
+                    font-size: $fontSizeLarge;
+                    line-height: $lineHeightLarge;
+                }
+            }
+            &.fontSizeMid{
+                &:after {
+                    content: "Mid : $fontSizeMid / $lineHeightMid : " quote($fontSizeMid) " / " quote($lineHeightMid);
+                    font-size: $fontSizeMid;
+                    line-height: $lineHeightMid;
+                }
+            }
+            &.fontSizeSmall{
+                &:after {
+                    content: "Small : $fontSizeSmall / $lineHeightSmall : " quote($fontSizeSmall) " / " quote($lineHeightSmall);
+                    font-size: $fontSizeSmall;
+                    line-height: $lineHeightSmall;
+                }
+            }
+            &.fontSizeMini{
+                &:after {
+                    content: "Mini : $fontSizeMini / $lineHeightMini : " quote($fontSizeMini) " / " quote($lineHeightMini);
+                    font-size: $fontSizeMini;
+                    line-height: $lineHeightMini;
+                }
+            }
+        }
+
+        .icon-container{
+            float:left;
+            margin:20px 10px;
+            font-size: 18px;
+            width:300px;
+        }
+        .icon-container span:nth-child(1){
+            color:$brand_color_primary;
+            font-size: 38px;
+        }
+
+
+        // HEADINGS
+        .headingTable{
+            width: 100%;
+        }
+
+        &.buttonsSection{
+            button{
+                // margin:15px !important;
+            }
+
+            .csv {
+                color: $brand_color_export_csv;
+            }
+            .doc {
+                color: $brand_color_export_doc;
+            }
+            .pdf {
+                color: $brand_color_export_pdf;
+            }
+            .xls {
+                color: $brand_color_export_xls;
+            }
+        }
+
+
+    }// end section
+
+}// end styleGuideContainer

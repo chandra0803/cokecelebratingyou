@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- generation date:2012-07-09 14:23:48.456 -->
+  <cm_data importType="diff">
+    <application_entry code="beacon" name="Beacon Default" desc="Beacon Default Application" action="nop">
+      <asset_type_entry name="Picklist Item" desc="Picklist Item" action="nop">
+        <asset_entry paxOrAdmin="B" productVersion="4.1.2" code="default.locale.items" name="Locale Picklist Items" desc="Locale Picklist Items" publik="T" section="default" parent="default.locale" action="nop">
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7f5c" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="en_GB" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_CA" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="de_DE" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_ES" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_FR" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_MX" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="zh_CN" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7f60" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="en_GB" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_CA" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="de_DE" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_ES" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_FR" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_MX" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="zh_CN" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+          <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7f62" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="en_GB" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_CA" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="de_DE" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_ES" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_FR" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_MX" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="zh_CN" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+          <content_key_entry audiences="Default Audience" order="0" guid="4a1fad93:134d02bfce5:-7f8a" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="en_GB" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_CA" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="de_DE" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_ES" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_FR" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_MX" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="zh_CN" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+          <content_key_entry audiences="Default Audience" order="0" guid="4a1fad93:134d02bfce5:-7fae" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="en_GB" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_CA" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="de_DE" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_ES" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_FR" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_MX" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="zh_CN" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+          <content_key_entry audiences="Default Audience" order="1" guid="4a1fad93:134d02bfce5:-7fb1" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="en_GB" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_CA" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="de_DE" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_ES" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_FR" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_MX" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="zh_CN" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+          <content_key_entry audiences="Default Audience" order="1" guid="4a1fad93:134d02bfce5:-7fb2" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="en_GB" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_CA" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="de_DE" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_ES" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_FR" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_MX" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="zh_CN" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+          <content_key_entry audiences="Default Audience" order="1" guid="4a1fad93:134d02bfce5:-7fb3" action="nop">
+            <content_entry contentVersion="1" status="Live" locale="en_US" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="en_GB" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_CA" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="de_DE" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_ES" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="fr_FR" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="es_MX" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+            <content_entry contentVersion="1" status="Live" locale="zh_CN" action="nop">
+              <content_data_entry key="STATUS" action="update">
+                <value><![CDATA[true]]></value>
+                <oldValue><![CDATA[false]]></oldValue>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+    </application_entry>
+  </cm_data>

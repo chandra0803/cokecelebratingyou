@@ -1,0 +1,48 @@
+CREATE TABLE nomination_claim
+ (claim_id                NUMBER(12) NOT NULL,
+  source                  VARCHAR2(200 char) DEFAULT 'UNKNOWN' NOT NULL,
+  card_id                 NUMBER(12),
+  copy_sender             NUMBER(1,0),
+  submitter_comments      VARCHAR2(4000),
+  MORE_INFO_COMMENTS      VARCHAR2(4000),  
+  SUBMITTER_COMMENTS_LANG_ID VARCHAR2(10),
+  team_name               VARCHAR2(50),
+  OWN_CARD_NAME			  VARCHAR2(200),
+  hide_public_recognition NUMBER(1,0) DEFAULT 0 NOT NULL,
+  team_id          NUMBER(12),
+  status  VARCHAR2(30 CHAR),
+  NOMINATION_TIME_PERIOD_ID NUMBER(18,0), 
+  STEP_NUMBER                NUMBER(2),
+  CERTIFICATE_ID          NUMBER(12),
+  IS_REVERSE              NUMBER(1,0) default 0,
+  WHY_ATTACHMENT_URL       VARCHAR2(400 char),
+  WHY_ATTACHMENT_NAME      VARCHAR2(400 char),
+  CARD_VIDEO_URL           VARCHAR2(400 char),
+  CARD_VIDEO_IMAGE_URL     VARCHAR2(400 char),
+  DRAWING_DATA_URL		   VARCHAR2(400 char),
+  CARD_TYPE				   VARCHAR2(20),
+  AWARD_GROUP_TYPE		   VARCHAR2 (40 CHAR)  
+  )
+/
+ALTER TABLE nomination_claim
+ADD CONSTRAINT nomination_claim_id_pk PRIMARY KEY (claim_id)
+USING INDEX
+/
+ALTER TABLE nomination_claim ADD CONSTRAINT nomination_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES claim (claim_id)
+/
+COMMENT ON COLUMN nomination_claim.hide_public_recognition IS 'Flag dictating whether or not this claim should show up on public recognition'
+/
+CREATE INDEX NOMINATION_CLAIM_CARD_FK_IDX ON NOMINATION_CLAIM (CARD_ID)
+/
+ALTER TABLE NOMINATION_CLAIM ADD (
+CONSTRAINT NOMINATION_CLAIM_CARD_FK 
+FOREIGN KEY (CARD_ID) 
+REFERENCES CARD (CARD_ID)
+ENABLE VALIDATE)
+/
+CREATE INDEX nom_claim_idx ON nomination_claim(team_id,hide_public_recognition,claim_id)
+/
+ALTER TABLE nomination_claim ADD CONSTRAINT promo_nom_time_period_fk
+  FOREIGN KEY (NOMINATION_TIME_PERIOD_ID) REFERENCES PROMO_NOMINATION_TIME_PERIOD (NOMINATION_TIME_PERIOD_ID)
+/

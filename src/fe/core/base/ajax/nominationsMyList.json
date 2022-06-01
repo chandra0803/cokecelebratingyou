@@ -1,0 +1,59 @@
+{
+    "tabularData": {
+        "meta":
+            {
+            "columns": [
+                {
+                    "id": "1",
+                    "name": "promotionName",
+                    "displayName": "Nomination Name",
+                    "sortable": true
+                },
+                {
+                    "id": "2",
+                    "name": "dateWon",
+                    "displayName": "Date Won",
+                    "sortable": true
+                },
+                {
+                    "id": "3",
+                    "name": "detailUrl",
+                    "displayName": "Detail Page",
+                    "sortable": false
+                }
+            ]
+        },
+        "results": [
+            {
+                "promotionName": "Nomination Name",
+                "dateWon": "06/15/2016",
+                "detailUrl": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsWinnersDetailPage.html"
+            },
+            {
+                "promotionName": "Nomination Name",
+                "dateWon": "07/25/2016",
+                "detailUrl": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsWinnersDetailPage.html"
+            },
+            {
+                "promotionName": "Nomination Name",
+                "dateWon": "08/05/2016",
+                "detailUrl": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsWinnersDetailPage.html"
+            },
+            {
+                "promotionName": "Nomination Name",
+                "dateWon": "06/15/2016",
+                "detailUrl": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsWinnersDetailPage.html"
+            },
+            {
+                "promotionName": "Nomination Name",
+                "dateWon": "06/15/2016",
+                "detailUrl": "layout.html?tplPath=apps/nominations/tpl/&tpl=nominationsWinnersDetailPage.html"
+            }
+        ]
+    },
+    "total": 20,
+    "perPage": 10,
+    "currentPage": 1,
+    "sortedOn": "promotionName",
+    "sortedBy": "asc"
+}

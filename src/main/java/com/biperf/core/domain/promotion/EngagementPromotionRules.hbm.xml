@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.promotion.EngagementPromotionRules" table="PROMO_ENGAGEMENT_RULES">
+        <id name="id" column="ID" type="java.lang.Long">
+          <generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">PROMO_ENGAGEMENT_RULES_PK_SQ</param>
+		  </generator>
+        </id>
+
+        <!-- Using version number optimistic locking -->
+	    <version name="version" column="VERSION" type="java.lang.Long" />
+	
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+        
+        <many-to-one name="promotion" class="com.biperf.core.domain.promotion.Promotion" not-null="false" lazy="false" >
+            <column name="PROMOTION_ID" />
+        </many-to-one>
+        
+	    <set name="engagementPromotionRulesAudiences" table="PROMO_ENG_RULES_AUDIENCE" inverse="true" cascade="all-delete-orphan" lazy="false">
+   			<key column="RULES_ID" />
+   			<one-to-many class="com.biperf.core.domain.promotion.EngagementPromotionRulesAudience" />
+   		</set>
+        
+        <property name="receivedTarget" type="java.lang.Long" column="RECEIVED_TARGET" />
+        
+		<property name="sentTarget" type="java.lang.Long" column="SENT_TARGET" />
+		
+		<property name="connectedTarget" type="java.lang.Long" column="CONNECTED_TARGET" />
+
+		<property name="connectedFromTarget" type="java.lang.Long" column="CONNECTED_FROM_TARGET" />
+
+		<property name="loginActivityTarget" type="java.lang.Long" column="LOGIN_ACTIVITY_TARGET" />
+
+        <property name="receivedIntTarget" type="java.lang.Long" column="RECEIVED_INT_TARGET" />
+        
+		<property name="sentIntTarget" type="java.lang.Long" column="SENT_INT_TARGET" />
+		
+		<property name="connectedIntTarget" type="java.lang.Long" column="CONNECTED_INT_TARGET" />
+
+		<property name="connectedFromIntTarget" type="java.lang.Long" column="CONNECTED_FROM_INT_TARGET" />
+
+		<property name="loginActivityIntTarget" type="java.lang.Long" column="LOGIN_ACTIVITY_INT_TARGET" />
+
+        <property name="receivedAdvTarget" type="java.lang.Long" column="RECEIVED_ADV_TARGET" />
+        
+		<property name="sentAdvTarget" type="java.lang.Long" column="SENT_ADV_TARGET" />
+		
+		<property name="connectedAdvTarget" type="java.lang.Long" column="CONNECTED_ADV_TARGET" />
+
+		<property name="connectedFromAdvTarget" type="java.lang.Long" column="CONNECTED_FROM_ADV_TARGET" />
+
+		<property name="loginActivityAdvTarget" type="java.lang.Long" column="LOGIN_ACTIVITY_ADV_TARGET" />
+		
+		<property name="receivedWeight" type="java.lang.Long" column="RECEIVED_WEIGHT" />
+
+		<property name="sentWeight" type="java.lang.Long" column="SENT_WEIGHT" />
+
+		<property name="connectedWeight" type="java.lang.Long" column="CONNECTED_WEIGHT" />
+
+		<property name="connectedFromWeight" type="java.lang.Long" column="CONNECTED_FROM_WEIGHT" />
+
+		<property name="loginActivityWeight" type="java.lang.Long" column="LOGIN_ACTIVITY_WEIGHT" />
+
+    </class>
+</hibernate-mapping>

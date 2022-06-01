@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.promotion.PostProcessPayoutCalculation"
+		table="post_process_payout_calc">
+
+		<!-- This is the surrogate primary key. Make sure the column and sequence 
+			names are correct. -->
+		<id name="id" column="POST_PROCESS_PAYOUT_CALC_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">post_process_calc_id_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" /> 
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />  
+		</property> 
+
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property> 
+		
+		<property name="journalId" type="java.lang.Long" column="JOURNAL_ID" />	
+  		<property name="promotionPayoutGroupId" type="java.lang.Long" column="PROMOTION_PAYOUT_GROUP_ID" />
+  		<property name="minimumQualifierStatusId" type="java.lang.Long" column="MINIMUM_QUALIFIER_STATUS_ID" />
+		<property name="payoutCalculationAuditId" type="java.lang.Long" column="PAYOUT_CALCULATION_AUDIT_ID" />
+		<property name="promoMerchProgramLevelId" type="java.lang.Long" column="PROMO_MERCH_PROGRAM_LEVEL_ID" />
+		<property name="calculatedPayout" type="java.lang.Long" column="CALCULATED_PAYOUT" />
+		<property name="calculatedCashPayout" column="CALCULATED_CASH_PAYOUT" type="java.math.BigDecimal" />
+		
+		<many-to-one name="postProcessJobs" column="POST_PROCESS_JOBS_ID" class="com.biperf.core.domain.promotion.PostProcessJobs" not-null="true" lazy="false"/>
+		
+	</class>
+		
+</hibernate-mapping>

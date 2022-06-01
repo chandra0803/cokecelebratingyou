@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <cm_data importType="diff">
+    <application_entry code="beacon" name="Beacon Default" desc="Beacon Default Application" action="nop">
+	  <asset_type_entry name="_PROMOTION_NAME_DATA" desc="_PROMOTION_NAME_DATA" multi="F" previewable="T" publik="T">
+        <asset_type_item_entry key="PROMOTION_NAME_" name="Promotion Name" desc="Promotion Name" order="1" required="F" unique="F" translatable="T" type="HTML"/>
+        <asset_entry code="promotion_name.testname" name="Promotion Name" desc="Promotion Name" publik="T" section="promotion_name" productVersion="1.0.0">
+          <content_key_entry audiences="Default Audience" order="1" guid="-83fcc0c:13dcfd8d4ad:-7fe3">
+            <content_entry status="Live" locale="en_US" contentVersion="0.1">
+              <content_data_entry key="PROMOTION_NAME_">
+                <value><![CDATA[Goal Quest Promotion - Template]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_type_item_entry key="PROMOTION_NAME_" name="Promotion Name" desc="Promotion Name" order="1" required="F" unique="F" translatable="T" type="HTML"/>
+        <asset_entry code="promotion_name.cptestname" name="Promotion Name" desc="Promotion Name" publik="T" section="promotion_name" productVersion="1.0.0">
+          <content_key_entry audiences="Default Audience" order="1" guid="2be29284:13dd3e72f1b:-7fe6">
+            <content_entry status="Live" locale="en_US" contentVersion="0.1">
+              <content_data_entry key="PROMOTION_NAME_">
+                <value><![CDATA[ChallengePoint Promotion - Template]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+      <asset_type_entry name="_GOAL_QUEST_CP_PROMO_OBJECTIVE_DATA" desc="_GOAL_QUEST_CP_PROMO_OBJECTIVE_DATA" multi="F" previewable="T" publik="T">
+        <asset_type_item_entry key="GOAL_QUEST_CP_PROMO_OBJECTIVE_" name="Goal Quest Promotion Obejctive" desc="Goal Quest Promotion Obejctive" order="1" required="F" unique="F" translatable="T" type="HTML"/>
+        <asset_entry code="goal_quest_cp_promo_objective.testobjv" name="Goal Quest and Challenge Point Promotion Obejctive" desc="Goal Quest and Challenge Point Promotion Obejctive" publik="T" section="goal_quest_cp_promo_objective" productVersion="1.0.0">
+          <content_key_entry audiences="Default Audience" order="1" guid="2163f9e8:13dd01d08b3:-7fe3">
+            <content_entry status="Live" locale="en_US" contentVersion="0.1">
+              <content_data_entry key="GOAL_QUEST_CP_PROMO_OBJECTIVE_">
+                <value><![CDATA[Test GQ Objective]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_type_item_entry key="GOAL_QUEST_CP_PROMO_OBJECTIVE_" name="Goal Quest Promotion Obejctive" desc="Goal Quest Promotion Obejctive" order="1" required="F" unique="F" translatable="T" type="HTML"/>
+        <asset_entry code="goal_quest_cp_promo_objective.cptestobjv" name="Goal Quest and Challenge Point Promotion Obejctive" desc="Goal Quest and Challenge Point Promotion Obejctive" publik="T" section="goal_quest_cp_promo_objective" productVersion="1.0.0">
+          <content_key_entry audiences="Default Audience" order="1" guid="2be29284:13dd3e72f1b:-7fe4">
+            <content_entry status="Live" locale="en_US" contentVersion="0.1">
+              <content_data_entry key="GOAL_QUEST_CP_PROMO_OBJECTIVE_">
+                <value><![CDATA[Test CP Objective]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+      <asset_type_entry name="_PROMO_OVERVIEW" desc="_PROMO_OVERVIEW" multi="F" previewable="T" publik="T">
+        <asset_type_item_entry key="PROMO_OVERVIEW" name="Save Promotion Overview" desc="Save Promotion Overview" order="1" required="F" unique="F" translatable="T" type="HTML"/>
+        <asset_entry code="promo_overview.testgqoverview" name="Promotion Overview" desc="Promotion Overview" publik="T" section="promo_overview" productVersion="1.2.0">
+          <content_key_entry audiences="Default Audience" order="1" guid="5791efe:1412b46dc55:-7fe1">
+            <content_entry status="Live" locale="en_US" contentVersion="0.1">
+              <content_data_entry key="PROMO_OVERVIEW">
+                <value><![CDATA[Test GQ Overview]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_type_item_entry key="PROMO_OVERVIEW" name="Save Promotion Overview" desc="Save Promotion Overview" order="1" required="F" unique="F" translatable="T" type="HTML"/>
+        <asset_entry code="promo_overview.testcpoverview" name="Promotion Overview" desc="Promotion Overview" publik="T" section="promo_overview" productVersion="1.2.0">
+          <content_key_entry audiences="Default Audience" order="1" guid="5791efe:1412b46dc55:-7fdb">
+            <content_entry status="Live" locale="en_US" contentVersion="0.1">
+              <content_data_entry key="PROMO_OVERVIEW">
+                <value><![CDATA[Test cp Overview]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+    </application_entry>
+  </cm_data>
+    

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.journal.Journal" table="JOURNAL">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="JOURNAL_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">JOURNAL_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="guid" column="GUID" type="java.lang.String" />    
+    <property name="accountNumber" column="AWARDBANQ_NBR" access="field" type="string"/>
+    <property name="accountNumberDecrypted" formula="FNC_JAVA_DECRYPT(AWARDBANQ_NBR)" type="java.lang.String" access="field" />    
+    <property name="transactionDate" column="TRANSACTION_DATE" type="date"/>
+    <property name="transactionType" column="TRANSACTION_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.JournalTransactionType</param>
+      </type>
+    </property>
+
+    <property name="journalStatusType" column="STATUS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.JournalStatusType</param>
+      </type>
+    </property>
+    
+     <property name="reasonType" column="REASON_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.PromotionApprovalOptionReasonType</param>
+      </type>
+    </property>
+    
+    <property name="transactionAmount" column="TRANSACTION_AMT" type="long"/>
+    <property name="budgetValue" column="BUDGET_VALUE" type="java.math.BigDecimal" />         
+    <property name="transactionDescription" column="TRANSACTION_DESCRIPTION" type="string"/>
+
+	<property name="comments" column="COMMENTS" type="string"/>
+    <property name="journalType" column="JOURNAL_TYPE" type="string"/>
+    <property name="userCurrency" column="USER_CURRENCY" type="java.lang.String"/>
+    
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+              type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+              type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+    
+    <!-- Cascade set to save-update so participant is reattached to the session when the journal is updated and attached. -->
+    <many-to-one name="participant" column="USER_ID" not-null="true" lazy="false" cascade="save-update" />
+    <many-to-one name="promotion" column="PROMOTION_ID" not-null="false" lazy="false"/>
+    
+    <many-to-one name="budget" column="BUDGET_ID" not-null="false" lazy="false"/>
+
+    <set name="activityJournals" table="ACTIVITY_JOURNAL" cascade="all-delete-orphan" lazy="true">
+      <key column="JOURNAL_ID"/>
+      <composite-element class="com.biperf.core.domain.journal.ActivityJournal">
+        <parent name="journal"/>
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+        <many-to-one name="activity" lazy="false" class="com.biperf.core.domain.activity.Activity" column="ACTIVITY_ID"/>
+      </composite-element>
+    </set>
+    
+    <set name="billCodes" table="JOURNAL_BILL_CODE" lazy="false" inverse="false" cascade="all-delete-orphan">
+      <key column="JOURNAL_ID" not-null="true" />
+	   <one-to-many class="com.biperf.core.domain.journal.JournalBillCode"/>
+	</set>
+	
+	<property name="isReversal" column="IS_REVERSE" type="boolean"  access="field"/>
+	<property name="transactionCashAmount" column="TRANSACTION_CASH_AMT" type="java.math.BigDecimal" />  
+	<property name="awardPayoutType" column="AWARD_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.PromotionAwardsType</param>
+			</type>
+    </property>
+    	<!-- Client customizations for WIP #43735 starts -->
+    <property name="cashAwardQty" column="ADIH_CASH_AWARD_QTY" type="java.lang.Long"/>
+    <property name="cashCurrency" column="ADIH_CASH_CURRENCY" type="java.lang.String"/>
+    <property name="cashExtractedDate" column="ADIH_CASH_DATE_EXTRACTED" type="java.util.Date"/>
+    <!-- Client customizations for WIP #43735 ends -->
+    <!-- Custom Insert and Update - awardbanq nbr Encrypt -->
+    <sql-insert>
+    <![CDATA[
+	insert into JOURNAL (VERSION, GUID, AWARDBANQ_NBR, TRANSACTION_DATE,TRANSACTION_TYPE,
+	STATUS_TYPE,REASON_TYPE,TRANSACTION_AMT,BUDGET_VALUE,TRANSACTION_DESCRIPTION, COMMENTS,
+	JOURNAL_TYPE,USER_CURRENCY, DATE_CREATED, CREATED_BY,
+	DATE_MODIFIED, MODIFIED_BY,USER_ID,PROMOTION_ID,BUDGET_ID,IS_REVERSE,TRANSACTION_CASH_AMT,AWARD_TYPE,ADIH_CASH_AWARD_QTY, ADIH_CASH_CURRENCY, ADIH_CASH_DATE_EXTRACTED, JOURNAL_ID  ) values 
+	(?, ?, FNC_JAVA_ENCRYPT(?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+	]]>
+    </sql-insert>
+    
+    <sql-update>
+    <![CDATA[
+	update JOURNAL set VERSION =?, GUID =?, AWARDBANQ_NBR=FNC_JAVA_ENCRYPT(?), TRANSACTION_DATE=?, TRANSACTION_TYPE=?, STATUS_TYPE =?, 
+	REASON_TYPE =?, TRANSACTION_AMT =?, BUDGET_VALUE =?, TRANSACTION_DESCRIPTION =?, COMMENTS =?, JOURNAL_TYPE =?, USER_CURRENCY =?, DATE_CREATED=?,
+	CREATED_BY=?, DATE_MODIFIED =?,	MODIFIED_BY=?, USER_ID=?, PROMOTION_ID=?, BUDGET_ID=? , IS_REVERSE =?, TRANSACTION_CASH_AMT =?, AWARD_TYPE =?, ADIH_CASH_AWARD_QTY=?, ADIH_CASH_CURRENCY=?, ADIH_CASH_DATE_EXTRACTED=? 
+	where JOURNAL_ID=? and VERSION=?
+	]]>
+    </sql-update> 
+
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.journal.TotalEarningsByMediaTypeAndUserId">
+    <return-scalar column="result" type="long"/>
+      <![CDATA[          
+        select sum(j.transaction_amt) as result 
+		   from journal j, promotion p
+		   where j.status_type = 'post'
+             and j.user_id = :userId
+		     and j.promotion_id = p.promotion_id 
+		     and p.award_type = :mediaType
+		     and j.is_reverse = 0     
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.journal.ParticipantPayoutComplete">
+    <return-scalar column="result" type="boolean"/>
+      <![CDATA[          
+        select distinct 1 as result 
+		   from journal j
+		   where j.status_type = 'post'
+             and j.user_id = :userId
+		     and j.promotion_id = :promotionId
+		     and j.is_reverse = 0     
+    ]]>
+  </sql-query>
+  
+  
+  <!-- fix 21289 display quiz perqs in quiz history display -->
+  <sql-query name="com.biperf.core.domain.journal.JournalsByClaimIdAndUserId">
+	<return alias="journal" class="com.biperf.core.domain.journal.Journal"/>
+		<![CDATA[
+			SELECT distinct {journal.*} 
+			FROM activity, activity_journal, journal
+			WHERE activity.CLAIM_ID = :claimId
+			AND activity.USER_ID = :userId
+			AND activity.ACTIVITY_ID = activity_journal.ACTIVITY_ID
+			AND activity_journal.JOURNAL_ID = journal.JOURNAL_ID order by journal.journal_id
+		]]>
+</sql-query>
+
+  <sql-query name="com.biperf.core.domain.journal.JournalUserIdsByAwardTypeForTimePeriod">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+       SELECT distinct j.USER_ID 
+       FROM journal j, promotion p 
+       WHERE j.promotion_id = p.promotion_id
+       AND NVL(p.award_type, j.award_type) = :awardType 
+       AND j.transaction_date BETWEEN TO_DATE(:startDate, 'MM/DD/RRRR') AND TO_DATE(:endDate, 'MM/DD/RRRR')
+    ]]>			
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.journal.JournalsByPromotionIdClaimIdAndUserId">
+	<return-scalar column="result" type="long"/>
+	<![CDATA[
+		select sum(transaction_amt) as result 
+		from journal
+		where user_id = :userId
+		   	and promotion_id = :promotionId
+		    and journal_id in ( select distinct( journal_id ) 
+		                        from activity_journal, activity
+		                        where activity.claim_id = :claimId
+		                            and activity_journal.activity_id = activity.activity_id 
+		                            and NVL(activity.is_carryover,0) = 0)
+	]]>
+  </sql-query> 
+  
+  <sql-query name="com.biperf.core.domain.journal.JournalsByClaimId">
+	<return alias="journal" class="com.biperf.core.domain.journal.Journal"/>
+	<![CDATA[
+		SELECT distinct {journal.*} 
+		FROM activity, activity_journal, journal
+		WHERE activity.CLAIM_ID = :claimId
+		AND activity.ACTIVITY_ID = activity_journal.ACTIVITY_ID
+		AND activity_journal.JOURNAL_ID = journal.JOURNAL_ID order by journal.journal_id
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.journal.AwardAmountByClaimIdByUserId">
+	<return-scalar column="result" type="long"/>
+	<![CDATA[
+          SELECT  journal.transaction_amt as result
+          FROM activity, activity_journal, journal
+          WHERE activity.CLAIM_ID = :claimId
+          AND activity.USER_ID = :userId
+          AND activity.ACTIVITY_ID = activity_journal.ACTIVITY_ID
+          AND activity_journal.JOURNAL_ID = journal.JOURNAL_ID 
+          AND journal.STATUS_TYPE = 'post'
+	]]>
+  </sql-query>  
+  
+  <sql-query name="com.biperf.core.domain.journal.JournalIDForReversedClaim">
+	<return-scalar column="result" type="long"/>
+	<![CDATA[
+          SELECT DISTINCT j.journal_id as result
+          FROM activity a, activity_journal aj, journal j
+          WHERE a.CLAIM_ID = :claimId
+          AND a.ACTIVITY_ID = aj.ACTIVITY_ID
+          AND j.TRANSACTION_DESCRIPTION LIKE '%'||aj.JOURNAL_ID
+          AND nvl(A.APPROVAL_ROUND, -1) = nvl(:approvalRound, -1)
+          AND j.TRANSACTION_TYPE = 'reverse'
+          AND j.STATUS_TYPE = 'post'
+          AND j.USER_ID = :userId
+	]]>
+  </sql-query>
+  
+</hibernate-mapping>

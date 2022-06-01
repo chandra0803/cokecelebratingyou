@@ -1,0 +1,86 @@
+CREATE SEQUENCE journal_pk_sq INCREMENT BY 1 START WITH 5000
+/
+CREATE TABLE journal
+   (journal_id               NUMBER(12) NOT NULL,
+   	user_id             	 NUMBER(12) NOT NULL,
+   	budget_id             	 NUMBER(12) ,
+   	promotion_id             NUMBER(12) ,
+    transaction_date         DATE NOT NULL,
+    transaction_type         VARCHAR2(30),
+    transaction_amt          NUMBER(12,2),
+    budget_value             NUMBER(16,8),
+    transaction_description  VARCHAR2(250),
+    awardbanq_nbr            VARCHAR2(100),
+    account_balance          NUMBER(12,2),
+    comments				 VARCHAR2(60),
+    journal_type			 VARCHAR2(15),
+    guid                     VARCHAR2(80) NOT NULL,
+    STATUS_TYPE				 VARCHAR2(30),	
+    REASON_TYPE				 VARCHAR2(30),	
+    created_by number(18) NOT NULL,
+    date_created             DATE NOT NULL,
+    modified_by              number(18),
+    date_modified            DATE,
+    version                  NUMBER(18,0) NOT NULL,
+    is_reverse               NUMBER default 0,
+    user_currency			 VARCHAR2(8),
+	award_type				 VARCHAR2(40) default 'points' NOT NULL,
+	transaction_cash_amt     NUMBER(18,4)
+   )
+/
+ALTER TABLE journal
+ADD CONSTRAINT journal_pk PRIMARY KEY (journal_id)
+USING INDEX
+/
+ALTER TABLE journal ADD CONSTRAINT journal_user_fk
+  FOREIGN KEY (user_id) REFERENCES application_user(user_id)
+/
+ALTER TABLE journal ADD CONSTRAINT journal_budget_fk
+  FOREIGN KEY (budget_id) REFERENCES budget(budget_id)
+/
+ALTER TABLE journal ADD CONSTRAINT journal_promotion_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion(promotion_id)
+/
+CREATE INDEX JOURNAL_BUDGET_FK_idx ON JOURNAL
+  (BUDGET_ID)
+/
+CREATE INDEX JOURNAL_PROMOTION_FK_idx ON JOURNAL
+  (PROMOTION_ID)
+/
+CREATE INDEX JOURNAL_USER_FK_idx ON JOURNAL
+  (USER_ID)
+/
+COMMENT ON TABLE journal IS 'The JOURNAL table stores data related to rewards and fulfillments since it provides an accounting of all rewards and payouts issued to a participant.  Transactions include activities for promotions, redemption of currency, transfer of currency, and deposits (which can be regular deposits or reversals).  Currency balances are calculated based on all credits and debits that are posted to the participant account.  '
+/
+COMMENT ON COLUMN journal.journal_id IS 'System generated PK. Unique code that identifies the journal record.'
+/
+COMMENT ON COLUMN journal.user_id IS 'FK to participant(application_user)'
+/
+COMMENT ON COLUMN journal.budget_id IS 'FK to budget(budget).  Represents which budget this journal is taken from, if any.'
+/
+COMMENT ON COLUMN journal.promotion_id IS 'FK to promotion(promotion).  Represents which promotion this journal was created against, if any.'
+/
+COMMENT ON COLUMN journal.account_balance IS 'Account balance.'
+/
+COMMENT ON COLUMN journal.awardbanq_nbr IS 'The BI bank account number of the participant.'
+/
+COMMENT ON COLUMN journal.transaction_amt IS 'The amount of this transaction'
+/
+COMMENT ON COLUMN journal.transaction_date IS 'The date the transaction is recorded.'
+/
+COMMENT ON COLUMN journal.transaction_description IS 'A text explanation of the account transaction.'
+/
+COMMENT ON COLUMN journal.transaction_type IS 'The type of journal transaction. Can be deposit, withdrawl, pending or adjustment'
+/
+COMMENT ON COLUMN journal.budget_value IS 'Calculated Budget Amount'
+/
+COMMENT ON COLUMN journal.STATUS_TYPE IS 'The status of the journal transaction.'
+/
+COMMENT ON COLUMN journal.REASON_TYPE IS 'The reason of the journal transaction.'
+/
+COMMENT ON column journal.comments IS 'This column is used to hold comments for discretionary awards.'
+/
+COMMENT ON column journal.journal_type IS 'This column indicates the type of journal entry which can be award or discretionary.'
+/
+COMMENT ON column journal.guid IS 'This column is used to generate the unique business key for equals and hash in java.'
+/

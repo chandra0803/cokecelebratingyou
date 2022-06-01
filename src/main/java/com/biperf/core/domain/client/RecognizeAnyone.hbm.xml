@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping >
+	<class name="com.biperf.core.domain.client.RecognizeAnyone" table="ADIH_RECOGNIZE_ANYONE">
+		<id name="id" type="java.lang.Long" column="RECOGNIZE_ID">
+      		<generator class="seqhilo">
+        		<param name="max_lo">0</param> <param name="sequence">ADIH_RECOGNIZE_ID_SQ</param>
+      		</generator>
+    	</id>
+    
+    	<!-- Using version number optimistic locking -->
+    	<version name="version" column="VERSION" type="java.lang.Long" />
+
+    	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      		<column name="DATE_CREATED" />
+      		<column name="CREATED_BY" />
+    	</property>
+
+    	<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    	<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      		<column name="DATE_MODIFIED" />
+      		<column name="MODIFIED_BY" />
+    	</property>
+    
+		 <property name="userId" type="java.lang.Long" column="USER_ID" />
+    	 <property name="receiverFirstName" type="java.lang.String" column="RECEIVER_FIRST_NAME" />
+   		 <property name="receiverLastName" type="java.lang.String" column="RECEIVER_LAST_NAME" />
+   		 <property name="receiverEmail" type="java.lang.String" column="RECEIVER_EMAIL" />
+   		 <property name="comments" type="java.lang.String" column="COMMENTS" />
+   		 <property name="cardId" type="java.lang.Long" column="CARD_ID" />
+    	 <property name="cardImageURL" type="java.lang.String" column="CARD_IMAGE_URL" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+CREATE GLOBAL TEMPORARY TABLE TMP_NOMINATION_WINDOW_MODAL_DL
+(
+  claim_item_id                     NUMBER(18),
+  claim_group_id                    NUMBER(18),
+  approval_round                    NUMBER(18),
+  time_period_name                  VARCHAR2(4000),
+  promotion_name                    VARCHAR2(4000),
+  win_count                         NUMBER(10),
+  points_won                        NUMBER(18,4) ,
+  currency_code                     VARCHAR2(3),
+  cash_won                          NUMBER(18,4) ,
+  team_id                           NUMBER(18),
+  approver_user_id                  NUMBER(18),
+  activity_id                       NUMBER(18),
+  payout_description_asset_code     VARCHAR2(4000)
+  )
+ ON COMMIT PRESERVE  ROWS
+/

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- generation date:2017-05-19 13:33:13.478 -->
+  <cm_data importType="diff">
+    <application_entry code="beacon" name="Beacon Default" desc="Beacon Default Application" action="nop">
+      <asset_type_entry name="Picklist Item" desc="Picklist Item" multi="T" previewable="T" publik="T" action="nop">
+        <asset_entry code="picklist.language.items" name="Language List Items" desc="DESC - Language List Items" publik="T" section="picklist" parent="picklist.language" module="core" paxOrAdmin="A" productVersion="4.1.2" action="nop">
+          <content_key_entry audiences="Default Audience" order="0" guid="b6c91786b2c7f69f:45dd6fec:-8000" action="add">
+            <content_entry status="Live" locale="en_US" contentVersion="0.1" action="add">
+              <content_data_entry key="STATUS">
+                <value><![CDATA[true]]></value>
+              </content_data_entry>
+              <content_data_entry key="CODE">
+                <value><![CDATA[ar_AE]]></value>
+              </content_data_entry>
+              <content_data_entry key="DESC">
+                <value><![CDATA[klingon]]></value>
+              </content_data_entry>
+              <content_data_entry key="NAME">
+                <value><![CDATA[Klingon]]></value>
+              </content_data_entry>
+            </content_entry>
+			<content_entry status="Live" locale="ar_AE" contentVersion="0.1" action="add">
+              <content_data_entry key="STATUS">
+                <value><![CDATA[true]]></value>
+              </content_data_entry>
+              <content_data_entry key="CODE">
+                <value><![CDATA[ar_AE]]></value>
+              </content_data_entry>
+              <content_data_entry key="DESC">
+                <value><![CDATA[klingon]]></value>
+              </content_data_entry>
+              <content_data_entry key="NAME">
+                <value><![CDATA[CM-Klingon-CM]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+		<asset_entry code="default.locale.items" name="Locale Picklist Items" desc="Locale Picklist Items" publik="T" section="default" parent="default.locale" module="core" paxOrAdmin="B" productVersion="4.1.2" action="nop">
+          <content_key_entry audiences="Default Audience" order="0" guid="c8430dd:15c1d71a166:-3bc7" action="add">
+            <content_entry status="Live" locale="en_US" contentVersion="0.1" action="add">
+              <content_data_entry key="STATUS">
+                <value><![CDATA[true]]></value>
+              </content_data_entry>
+              <content_data_entry key="CODE">
+                <value><![CDATA[ar_AE]]></value>
+              </content_data_entry>
+              <content_data_entry key="DESC">
+                <value><![CDATA[klingon]]></value>
+              </content_data_entry>
+              <content_data_entry key="NAME">
+                <value><![CDATA[Klingon]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+    </application_entry>
+  </cm_data>

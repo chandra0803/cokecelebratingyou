@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- generation date:2014-06-28 10:44:06.84 -->
+<cm_data importType="diff">
+  <application_entry code="beacon" name="Beacon Default" desc="Beacon Default Application" action="nop">
+    <asset_type_entry name="Public Recognition" desc="Public Recognition" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="BUDGET_TYPE" name="Budget Type" desc="Budget Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AMOUNT_AND" name="Amount And" desc="Amount And" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_MASTER_NAME" name="Budget Master Name" desc="Budget Master Name" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_MASTER" name="Budget Master" desc="Budget Master" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="VIEW_LIST" name="View List" desc="View List" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CAP_TYPE_HARD" name="Cap Type Hard" desc="Cap Type Hard" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="HAS_BUDGET" name="Has Budget" desc="Has Budget" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NO_BUDGET" name="No Budget" desc="No Budget" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CAP_APPROVER" name="Cap Approver" desc="Cap Approver" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_TYPE_PAX" name="Pax Budget" desc="Pax Budget" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AMOUNT_BETWEEN" name="Amount Between" desc="Amount Between" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="IN_ACTIVE" name="Inactive" desc="Inactive" order="5" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_EXISTING" name="Budget Existing" desc="Budget Existing" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="LIST_BUILDER_LABEL" name="List Builder Label" desc="List Builder Label" order="12" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AMOUNT_RANGE" name="Amount Range" desc="Amount Range" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CREATE_AUDIENCE" name="Create Audience" desc="Create Audience" order="9" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AMOUNT" name="Amount" desc="Amount" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET" name="Budget" desc="Budget" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ACTIVE" name="Active" desc="Active" order="4" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TITLE" name="Title" desc="Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="IS_ACTIVE" name="Is Active" desc="Is Active" order="3" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SFA_ALL_CLAIMS" name="All Claims" desc="All Claims" order="2" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SAME_FOR_ALL" name="Same For All" desc="Same For All" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PUBLIC_RECOGNITION_STATUS" name="Public Recognition Status" desc="Public Recognition Status" order="6" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CRUD_REMOVE_LABEL" name="Curd Remove Label" desc="Curd Remove Label" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CREATE_AUDIENCE_LABEL" name="Create Audience Label" desc="Create Audience Label" order="11" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ALL_PAX" name="All Participants" desc="All Participants" order="8" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CREATE_BUDGET" name="Create Budget" desc="Create Budget" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AUDIENCE_LIST_LABEL" name="Audience List Label" desc="Audience List Label" order="10" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CAP_TYPE" name="Cap Type" desc="Cap Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_GIVER_AND_OWNER" name="Budget Giver and Owner" desc="Budget Giver and Owner" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AMOUNT_FIXED" name="Amount Fixed" desc="Amount Fixed" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_TYPE_CENTRAL" name="Central Budget" desc="Central Budget" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AUDIENCE" name="Audience" desc="Audience" order="7" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SFA_THIS_CLAIM" name="This Claim" desc="This Claim" order="2" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_TYPE_NODE" name="Node Budget" desc="Node Budget" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CENTRAL_BUDGET_AMOUNT" name="Central Budget Amount" desc="Central Budget Amount" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="INSTRUCTIONS" name="Instructions" desc="Instructions" order="2" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_entry code="promotion.public.recognition" name="Public Recognition" publik="T" section="promotion" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="-66b4c1a0:1396b599cb3:-7e43" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="INSTRUCTIONS" action="update">
+              <value><![CDATA[Activating this functionality will display the "Add Points" link on the Public\n                Recognition tile for the Givers that are defined below. This functionality\n                cannot be activated unless Public Recognition is set to 'Yes' on the Basics page.]]></value>
+              <oldValue><![CDATA[Instructions]]></oldValue>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+
+    <asset_type_entry name="_Message" desc="_Message" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="STRONGMAIL_MSG" name="StrongMail Message" desc="StrongMail Message" order="1" required="F" unique="T" translatable="T" type="TEMPHTML" action="nop"/>
+      <asset_type_item_entry key="PLAIN_TEXT_MSG" name="Plain Text Message" desc="Plain Text Message" order="1" required="F" unique="F" translatable="T" type="TEMPSTR" action="nop"/>
+      <asset_type_item_entry key="TEXT_MSG" name="Text Message" desc="Text Message" order="1" required="F" unique="F" translatable="T" type="TEMPSTR" action="nop"/>
+      <asset_type_item_entry key="SUBJECT" name="Subject" desc="Subject" order="1" required="F" unique="F" translatable="T" type="TEMPSTR" action="nop"/>
+      <asset_type_item_entry key="HTML_MSG" name="HTML Message" desc="HTML Message" order="1" required="F" unique="F" translatable="T" type="TEMPHTML" action="nop"/>
+      <asset_type_item_entry key="STRONGMAIL_SUBJECT" name="StrongMail Subject" desc="StrongMail Subject" order="1" required="F" unique="T" translatable="T" type="TEMPHTML" action="nop"/>
+      <asset_entry code="message_data.message.128004" name="Challengepoint partner Goal Achieved Message" publik="T" section="message_data" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="-4c12ac8d:13df22c3452:-7fe2" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="TEXT_MSG" action="update">
+              <value><![CDATA[You have received an award in the Challengepoint promotion! Txt STOP 2end]]></value>
+              <oldValue><![CDATA[You have received an award in the Challengepoint promotion! Txt STOP 2end#end]]></oldValue>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+
+    <asset_type_entry name="Plateau Awards Reminder" desc="Plateau Awards Reminder" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="CONFIRMATION_SEND_ANOTHER" name="Confirmation Send Another" desc="Confirmation Send Another" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="OUTSTANDING_AWARDS_TITLE" name="Outstanding Awards Title" desc="Outstanding Awards Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARDS_HEADER_NAME" name="Awards Header Name" desc="Awards Header Name" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CANCEL_TEXT" name="Cancel Box Text" desc="Cancel Box Text" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PAGE_TITLE" name="Page Title" desc="Page Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MESSAGE_PREVIEW_AWARD_LEVEL" name="Message Preview Award Level" desc="Message Preview Award Level" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="EMAIL_COMMENTS" name="Reminder Email Comments" desc="Reminder Email Comments" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARDS_HEADER_DATE_REMINDED" name="Awards Header Date Reminded" desc="Awards Header Date Reminded" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CANCEL_INSTRUCTIONS" name="Cancel Box Instructions" desc="Cancel Box Instructions" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARDS_RECIPIENT_NO_EMAIL" name="Awards Recipient No Email on File" desc="Awards Recipient No Email on File" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MESSAGE_PREVIEW_RECIPIENT_NAME" name="Message Preview Recipient Name" desc="Message Preview Recipient Name" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARDS_HEADER_DATE_ISSUED" name="Awards Header Date Issued" desc="Awards Header Date Issued" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MESSAGE_PREVIEW_PROMO_NAME" name="Message Preview Promotion Name" desc="Message Preview Promotion Name" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CONFIRMATION_TEXT" name="Confirmation Text" desc="Confirmation Text" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARDS_HEADER_AWARD_LEVEL" name="Awards Header Award Level" desc="Awards Header Award Level" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="EMAIL_TITLE" name="Reminder Email Title" desc="Reminder Email Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MESSAGE_PREVIEW_COMMENTS" name="Message Preview Comments" desc="Message Preview Comments" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARDS_HEADER_PROMO_NAME" name="Awards Header Promotion Name" desc="recognitionSubmit.page" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="EMAIL_SUBJECT" name="Reminder Email Subject" desc="Reminder Email Subject" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CANCEL_TITLE" name="Cancel Box Title" desc="Cancel Box Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_entry code="manager.plateauawardsreminder" name="Plateau Awards Reminder" publik="T" section="manager" module="goalquest" paxOrAdmin="P" productVersion="5.3.4" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="1d3c0ed4:13e8e5dc3b9:-7fd6" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6" action="nop">
+            <content_data_entry key="MESSAGE_PREVIEW_AWARD_LEVEL" action="update">
+              <oldValue><![CDATA[{Award Level}]]></oldValue>
+              <value><![CDATA[${Award Level}]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+	
+	 <asset_type_entry name="_Message" desc="_Message" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="STRONGMAIL_MSG" name="StrongMail Message" desc="StrongMail Message" order="1" required="F" unique="T" translatable="T" type="TEMPHTML" action="add"/>
+        <asset_type_item_entry key="PLAIN_TEXT_MSG" name="Plain Text Message" desc="Plain Text Message" order="1" required="F" unique="F" translatable="T" type="TEMPSTR"  action="nop"/>
+        <asset_type_item_entry key="TEXT_MSG" name="Text Message" desc="Text Message" order="1" required="F" unique="F" translatable="T" type="TEMPSTR" action="nop"/>
+        <asset_type_item_entry key="SUBJECT" name="Subject" desc="Subject" order="1" required="F" unique="F" translatable="T" type="TEMPSTR" action="nop"/>
+        <asset_type_item_entry key="HTML_MSG" name="HTML Message" desc="HTML Message" order="1" required="F" unique="F" translatable="T" type="TEMPHTML" action="nop"/>
+        <asset_type_item_entry key="STRONGMAIL_SUBJECT" name="StrongMail Subject" desc="StrongMail Subject" order="1" required="F" unique="T" translatable="T" type="TEMPHTML"  action="add"/>        
+        <asset_entry code="message_data.message.15567" name="Welcome Login Message" desc="Welcome Login Message" publik="T" section="message_data" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="1" guid="425162:1084eda157a:-7943" action="nop">
+            <content_entry status="Live" locale="en_US" contentVersion="6" >
+              <content_data_entry key="STRONGMAIL_MSG">
+                <value><![CDATA[Welcome to the ##company## program, ##first_name## ##last_name##. <br /><br />You are now enrolled in the program and can view program information via the program Web site. <br /><br />To access the web site you will need to enter your unique Login and Password. Your unique Login ID and program web site address are listed below. For security purposes, your Password will be emailed to you separately. Please contact the Program Administrator if you do not receive your Password after one (1) business day. <br /><br />Your Login ID is: ##user_name##. <br /><br />You can access the site using the following URL: ##website_url## Please retain this information in a secure place for future use. If you have any questions, please use the following URL to contact Program Administration ##contact_url##.]]></value>
+              </content_data_entry>
+              <content_data_entry key="STRONGMAIL_SUBJECT">
+                <value><![CDATA[##notice##Announcing the ##company## Program!]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry code="message_data.message.12556" name="Welcome Message" desc="Welcome Message" publik="T" section="message_data" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="1" guid="792260:107dc4bb378:-796f" action="nop">
+            <content_entry status="Live" locale="en_US" contentVersion="6">
+              <content_data_entry key="STRONGMAIL_MSG">
+                <value><![CDATA[Welcome to the ##company## program, ##first_name## ##last_name##. <br /><br />You are now enrolled and can view your program information via the program web site. To access the web site you will need to enter your unique Login ID and Password listed below: <br /><br />Your Login ID is: ##user_name##. <br />Your Password is: ##password##. <br /><br />You can access the site using the following URL: ##websiteUrl## Please retain this information in a secure place for future use. If you have any questions, please use the following URL to contact Program Administration ##contact_url##.]]></value>
+              </content_data_entry>
+              <content_data_entry key="STRONGMAIL_SUBJECT">
+                <value><![CDATA[##notice## Announcing the ##company## Program!]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+        <asset_entry code="message_data.message.15571" name="Welcome Password Message" desc="Welcome Password Message" publik="T" section="message_data" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="1" guid="425162:1084eda157a:-7941" action="nop">
+            <content_entry status="Live" locale="en_US" contentVersion="6" >
+              <content_data_entry key="STRONGMAIL_MSG">
+                <value><![CDATA[##first_name## ##last_name##, <br /><br />Here is your Password to access the ##company## program web site. To access the Web site, you will need to enter your unique Login ID and Password. For security purposes, your unique Login ID has been emailed to you separately. Please contact the Program Administrator if you do not receive your unique Login ID after one (1) business day. <br /><br />Your Password is: ##password##. <br /><br />You can access the site using the following URL: ##website_url##. Please retain this information in a secure place for future use. If you have any questions, please use the following URL to contact Program Administration ##contact_url##.]]></value>
+              </content_data_entry>
+              <content_data_entry key="STRONGMAIL_SUBJECT">
+                <value><![CDATA[##notice##Your Password is here!]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+	</asset_type_entry>
+	
+    <asset_type_entry name="Submit Promotion" desc="Submit Promotion" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="IMAGE_SIZE" name="Image Size Error" desc="Image Size Error" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="DONE" name="Done" desc="Done" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="COMMENTS" name="Comments" desc="Comments" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="INVALID_EXT" name="Invalid Extension Error" desc="Invalid Extension Error" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="COPY_TO_ME" name="Copy to Me" desc="Copy to Me" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SPELL_CHECK" name="Check Spelling" desc="Check Spelling" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="DRAWING_DISABLED" name="Drawing is disabled" desc="Drawing is disabled" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MORE_RECIPIENTS" name="More Recipients" desc="More Recipients" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ADD_RECIPIENTS" name="Add Recipients" desc="Add Recipients" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="DELIVER_ON" name="Deliver on" desc="Deliver on" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MORE_OPTIONS_INSTRUCTION" name="More Options Instructions" desc="More Options Instructions" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ECARD_SELECTED" name="eCard Selected" desc="eCard Selected" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="VIEW_RULES" name="View Rules" desc="View Rules" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="IMAGE_UPLOAD_SUCCESS" name="Image Upload Success" desc="Image Upload Success" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NOMINATION_MODULE" name="Nomination Module Title" desc="Nomination Module Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NEW_SECTION" name="New Section" desc="New Section" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NO_PROMOTIONS_COMMON" name="No Promotion Common" desc="No Promotion Common" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SELECTED_RECIPIENTS" name="Selected Recipients" desc="Selected Recipients" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MORE_POINTS" name="More Points" desc="More Points" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CLEAR" name="Clear Data" desc="Clear Data" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="COPY_TO_OTH" name="Copy to Others" desc="Copy to Others" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="EDIT" name="Edit" desc="Edit" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NO_BEHAVIOR" name="No Behavior" desc="No Behavior" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARD_LEVEL" name="Award Level" desc="Award Level" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SELECT_BEHAVIOUR" name="Select Behaviour" desc="Select Behaviour" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SEND_COPY" name="Send Copy" desc="Send Copy" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TYPE" name="Type" desc="Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PURL_TITLE" name="PURL Title" desc="PURL Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ADD" name="Add" desc="Add" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ECARD" name="Ecard" desc="Ecard" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CHAR_LIMIT" name="Character Limitation" desc="Character Limitation" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BASED_ON_TIMEZONE" name="Based on timezone" desc="Based on timezone" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_DISCREPANCY" name="Budget Discrepancy Msg" desc="Budget Discrepancy Module" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CHANGE_RECIPIENT" name="Change Recipient" desc="Change Recipient" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CHARACTERS" name="Characters" desc="Characters" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ORG_AND_PROMO" name="Org and promotion" desc="Org and promotion" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CONTINUE" name="Continue" desc="Continue" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SEND_ECARDS" name="Send Ecards" desc="Send Ecards" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="IMAGE_UPLOAD_FAILURE" name="Image Upload Failure" desc="Image Upload Failure" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SELECT_ORG_UNIT" name="Select Org Unit" desc="Select Org Unit" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NO_BEHAVIOR_SELECTED" name="No Behavior Selected" desc="No Behavior Selected" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="RECOGNIZE" name="Recognize" desc="Recognize" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CLICK_TO_ADD" name="Click to Add" desc="Click to Add" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="COPY_TO_MGR" name="Copy to Manager" desc="Copy to Manager" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="WARNING" name="Warning" desc="Warning" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TITLE" name="Title" desc="Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ADD_ECARD" name="Add eCard" desc="Add eCard" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NOM_TITLE" name="Nomination Title" desc="Nomination Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="RECOG_SENT" name="Recognition Sent" desc="Recognition Sent" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SELECT_CARD" name="Select Card" desc="Select Card" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SELECT_PROMO" name="Select A Promotion" desc="Select A Promotion" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PREVIEW" name="Preview" desc="Preview" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MORE_OPTIONS" name="More Options" desc="More Options" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ADVANCED" name="Advanced" desc="Advanced" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="OF" name="Of" desc="of" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NO_RESULTS" name="No Results" desc="No Results" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_entry code="recognition.submit" name="Submit Promotion" publik="T" section="recognition" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="5314781d:13ad92b648e:-7f92" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="CHANGE_RECIPIENT" action="update">
+              <value><![CDATA[Add Recipient]]></value>
+              <oldValue><![CDATA[Change Recipient]]></oldValue>
+            </content_data_entry>
+            <content_data_entry key="ORG_AND_PROMO" action="update">
+              <value><![CDATA[Select an Org Unit]]></value>
+              <oldValue><![CDATA[Select an Org Unit and a Promotion]]></oldValue>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+
+    <asset_type_entry name="Common Labels" desc="Common Labels" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="END_DATE_LABEL" name="End Date Label" desc="End Date Label" order="9" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NO" name="No Label" desc="No Label" order="2" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="START_DATE_LABEL" name="Start Date Label" desc="Start Date Label" order="8" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="REQUIRED" name="Required" desc="Required" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="YES" name="Yes Label" desc="Yes Label" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="OPTIONAL" name="Optional" desc="Optional" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="WHATS_THIS" name="What is This Label" desc="What is This Label" order="3" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TRUE" name="True Label" desc="True Label" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="FALSE" name="False Label" desc="False Label" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TRUE_CAPS" name="True Label Caps" desc="True Label Caps" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="FALSE_CAPS" name="False Label Caps" desc="False Label Caps" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NONE" name="None Label" desc="None Label" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="LOADING" name="Loading Label" desc="Loading Label" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SSN_FORMAT" name="SSN FORMAT" desc="SSN FORMAT" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+      <asset_entry code="system.common.labels" name="Common Labels" desc="Common Labels" publik="T" section="system" previewPage="homePage.do" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+        <content_key_entry audiences="Default Audience" order="1" guid="194e776:106324a3f0c:-7ace" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="SSN_FORMAT">
+              <value><![CDATA[(xxx-xx-xxxx or xxxxxxxxx)]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+
+    <asset_type_entry name="Report Parameters" desc="ReportParameters" multi="F" previewable="T" publik="T" action="nop">
+      <asset_type_item_entry key="QUIZ_ANALYSIS_INFO" name="Quiz Analysis Info" desc="Quiz Analysis Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BETWEEN" name="Between" desc="Between" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="COUNTRY_FIELD" name="Country Field" desc="Country Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="LAST_NAME" name="Last Name" desc="Last Name" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="EXPORT_SELECTION" name="Export Selection" desc="Export Selection" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PRODUCT_CLAIM_BREADCRUMB" name="Product Claim Breadcrumb" desc="Product Claim 2nd Level Breadcrumb" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MEDIA_RATIO_FIELD" name="Media Ratio Field" desc="Media Ratio Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="START_FIELD" name="Timeframe Start Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="GENERATE_EXTRACT_BUTTON" name="GENERATE_EXTRACT_BUTTON" desc="Generate Extract Button" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BEHAVIOR_FIELD" name="Behavior Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="RECOGNITION_ACTIVITY_INFO" name="Recognition Activity Info" desc="Recognition Activity Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="END_FIELD" name="Timeframe End Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NOMINATION_BEHAVIOR_INFO" name="Nomination Behaviors Info" desc="Nomination Behaviors Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="LOCATION" name="Location" desc="Location" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="GIVEN" name="Given Type" desc="Given Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="RECOGNITION_BEHAVIOR_INFO" name="Recognition Behavior Info" desc="Recognition Behavior Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_STATUS_FIELD" name="Budget Status Field" desc="Budget Status Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SHOW_ALL" name="Show All" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="RECEIVED" name="Received Type" desc="Received Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="QUIZ_RESULT" name="Quiz Result" desc="Quiz Result" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PROMOTION_FIELD" name="Promotion Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="VIEW_AS_COUNTRY_FIELD" name="View As Country Field" desc="View As Country Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AUTO_UPDATE" name="Auto Update" desc="Auto Update" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CLAIM_SUBMITTED_INFO" name="Claim Submitted Info" desc="Claim Submitted Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TITLE" name="Title" desc="Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARD_ITEM_ACTIVITY_INFO" name="Award Item Activity Info" desc="Award Item Activity Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="FROM_FIELD" name="From Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="HIERARCHY_EXPORT" name="Hierarchy Export" desc="Hierarchy Export" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="QUIZ_ACTIVITY_INFO" name="Quiz Activity Info" desc="Quiz Activity Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PARTICIPANT_EXPORT" name="Participant Export" desc="Participant Export" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ENROLLMENT_DATE_FIELD" name="Enrollment Date Field" desc="Enrollment Date Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_EQUIVALENCE_FIELD" name="Budget Equivalence Field" desc="Budget Equivalence Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_TIME_FRAME" name="Budget Only Time Frame" desc="Budget Only Time Frame" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ALL_LEVELS" name="All Levels" desc="All Levels" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_MASTER_FIELD" name="Budget Master Field" desc="Budget Master Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CP_LEVEL_FIELD" name="CP Level field" desc="CP Level field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ZERO_SUPPRESSION" name="ZERO SUPPRESSION" desc="Zero Suppression" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TIMEFRAME" name="Timeframe Title" desc="Timeframe Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ENROLLMENT_INFO" name="Enrollment Info" desc="Enrollment Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CHARACTERISTICS" name="Characteristics" desc="Characteristics" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="GIVEN_FIELD" name="Given Field" desc="Given Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BASICS" name="Basics Title" desc="Basics Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ACHIEVEMENT_STATUS_FIELD" name="Achievement Status Field" desc="Achievement Status Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PROMOTION_STATUS_FIELD" name="Promotion Status Field" desc="Promotion Status Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SUBMITTED" name="Submitted" desc="Submitted" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ITEM_LEVEL_FIELD" name="Item Level Field" desc="Item Level Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SELECT_PROMOTION" name="Select Promotion" desc="Select Promotion" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_INFO" name="Budget Info" desc="Budget Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PARTICIPANTS" name="Participants Title" desc="Participants Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AND" name="and" desc="and" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MEDIA_TYPE_FIELD" name="Media Type Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_DISTRIBUTION_FIELD" name="Budget Distribution Field" desc="Budget Distribution Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PROGRAM_PERIOD" name="Program Period" desc="Program Period" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="DEPARTMENT" name="Department" desc="Department" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CLOSED" name="Closed" desc="Closed" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="INCLUDE_INVALID" name="Include Invalid" desc="Include Invalid" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="LOOKUP_NAME" name="Lookup Name" desc="Lookup Name" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_STATUS" name="Budget Status" desc="Budget Status" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="REPORT_FIELD" name="Report Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="EXPORT_ONLY_FILTER_MSG" name="Export Only Filter Message" desc="Export Only Filter Message" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="DEPARTMENT_FIELD" name="Department Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CANCEL" name="Cancel" desc="Cancel" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PRODUCT_CATEGORY" name="Product Category" desc="Product Category" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MINIMUM" name="Minimum" desc="Minimum" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PRODUCT_SUBCATEGORY" name="Product Subcategory" desc="Product Subcategory" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="CLAIM_STATUS" name="Claim Status" desc="Claim Status" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TO_FIELD" name="To Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PARTICIPANT_STATUS_FIELD" name="Participant Status Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="REPORT_PARAMETERS_INFO" name="Report Parameters Info" desc="Report Parameters Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SHOW_REPORT_BUTTON" name="Show Report Button" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="LOGGED_IN_FIELD" name="Logged In Field" desc="Logged In Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BACK_BUTTON" name="Back Button" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="DISPLAY_TYPE" name="Display Type" desc="Display Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="BUDGET_MASTER_STATUS" name="Budget Master Status" desc="Budget Master Status" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="GRAPH_BY_PRODUCT" name="Graph By Product Type" desc="Graph By Product Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PERIOD_FIELD" name="Timeframe Period Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="JOB_TITLE" name="Job Title" desc="Job Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="TIME_FRAME" name="Time Frame" desc="Time Frame" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ROLE" name="Role" desc="Role" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="UPDATE_REPORT" name="Update Report" desc="Update Report" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="SUBMTED_RCVD_FIELD" name="Submitted Received Field" desc="Submitted Received Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PRODUCT" name="Product" desc="Product" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PRODUCT_CLAIMS_INFO" name="Product Claims Info" desc="Product Claims Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NAME" name="NAME" desc="NAME" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="GRAPH_BY_BEHAVIOR" name="Graph By Behavior Type" desc="Graph By Behavior Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="PARENT_NODE_ID_FIELD" name="Root Node" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="RECEIVED_FIELD" name="Received Field" desc="Received Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARD_ISSUANCE_INFO" name="Award Issuance Info" desc="Award Issuance Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="FIRST_NAME" name="First Name" desc="First Name" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="MULTI_SELECTION_ALLOWED" name="Multi Selection Allowed" desc="Multi Selection Allowed" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="LEVEL" name="Level" desc="Level" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="JOB_POSITION_FIELD" name="Job Position Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="GIVER_RCVR_FIELD" name="Giver Receiver Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="HIERARCHY" name="Hierarchy Title" desc="Hierarchy Title" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="RECOGNITIONS_TO_SHOW" name="Recognitions to show" desc="Recognitions to show" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="GOAL_LEVEL_FIELD" name="Goal Level Field" desc="Goal Level Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NOMINATION_ACTIVITY_INFO" name="Nomination Activity Info" desc="Nomination Activity Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ORG_NAME" name="Organization Field" desc="Organization Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="OVERALL_ACTIVITY_INFO" name="Overall Activity Info" desc="Overall Activity Info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="RECOGNITION_PROGRAM_REFERENCE_INFO" name="RECOGNITION_PROGRAM_REFERENCE_INFO" desc="Recognition program reference report info" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARD_LEVEL" name="Award Level" desc="Award Level" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AWARD_STATUS" name="Award Status" desc="Award Status" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="DATES" name="Dates" desc="Dates" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="AUTO_UPDATE_INFO" name="Auto Update Instructions" desc="Auto Update Instructions" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="ROUND_FIELD" name="Round Number Field" desc="Round Number Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+      <asset_type_item_entry key="NOMINATED_FIELD" name="Nominated Field" desc="Nominated Field" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+      <asset_entry code="report.parameters" name="Report Parameters" desc="Report Parameters" publik="T" section="report" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+        <content_key_entry audiences="Default Audience" order="0" guid="1fbbd2d:107516dc3fc:-7f91" action="nop">
+          <content_entry status="Live" locale="en_US" contentVersion="6">
+            <content_data_entry key="NOMINATED_FIELD">
+              <value><![CDATA[Nominated]]></value>
+            </content_data_entry>
+          </content_entry>
+        </content_key_entry>
+      </asset_entry>
+    </asset_type_entry>
+    <asset_type_entry name="_Message" desc="_Message" action="nop">
+       <asset_entry code="message_data.message.13054" name="Delayed Approvals Process Message" desc="Delayed Approvals Process Message" publik="T" section="message_data" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+         <content_key_entry audiences="Default Audience" order="1" guid="14dc894:107ebe4cdee:-7d6b" action="nop">
+           <content_entry status="Live" locale="en_US" contentVersion="6" action="nop">
+             <content_data_entry key="HTML_MSG" action="update">
+               <value><![CDATA[<font size="2"><div>[ ${clientPrefix} ] - [ ${clientName} ]</div><br /><div><br />${firstName} ${lastName}</div><br /></font>${firstName} ${lastName}<div>The <strong>${processName}</strong> has completed. The results of this process are below. Review the Error Logs for the reason(s) for any failures.</div><br /><div>${errorMessage}<br />Total Attempted: ${totalAttempted}<br />Total Successful Approvals: ${totalSuccess}<br /></div><br />]]></value>
+               <oldValue><![CDATA[<font size="2"><div>[ ${clientPrefix} ] - [ ${clientName} ]</div><br /><div><br />${firstName} ${lastName}</div><br /></font>${firstName} ${lastName}<div>The <strong>${processName}</strong> has completed. The results of this process are below. Review the Error Logs for the reason(s) for any failures.</div><br /><div>Total Attempted: ${totalAttempted}<br />Total Successful Approvals: ${totalSuccess}<br /></div><br />]]></oldValue>
+             </content_data_entry>
+             <content_data_entry key="PLAIN_TEXT_MSG" action="update">
+               <value><![CDATA[[ ${clientPrefix} ] - [ ${clientName} ]\r\n${firstName} ${lastName}\r\n\r\nThe ${processName} has completed. The results of this process are\r\nbelow. Review the Error Logs for the reason(s) for any failures.\r\n\r\n${errorMessage}\r\nTotal Attempted: ${totalAttempted}\r\nTotal Successful Approvals: ${totalSuccess}]]></value>
+               <oldValue><![CDATA[[ ${clientPrefix} ] - [ ${clientName} ]\r\n${firstName} ${lastName}\r\n\r\nThe ${processName} has completed. The results of this process are\r\nbelow. Review the Error Logs for the reason(s) for any failures.\r\n\r\nTotal Attempted: ${totalAttempted}\r\nTotal Successful Approvals: ${totalSuccess}]]></oldValue>               
+             </content_data_entry>
+           </content_entry>
+         </content_key_entry>
+       </asset_entry>
+    </asset_type_entry>
+	<asset_type_entry name="Message Details" desc="Message Details" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="PLAIN_TEXT_MSG" name="Plain Text Message" desc="Plain Text Message" order="9" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="SMSGROUP" name="SMS GROUP" desc="SMS GROUP" order="6" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="INSTRUCTIONAL_COPY" name="Instructional Copy" desc="Instructional Copy" order="2" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="INSERT_FIELD" name="Insert Field" desc="Insert Field" order="12" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="KEY" name="Key" desc="Key" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PREVIEW_MESSAGE" name="Preview Message" desc="Preview Message" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MSG_DETAILS" name="Message Details" desc="Message Details" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="INSERT_FIELD_INSTRUCTIONS" name="Insert Field Instructions" desc="Insert Field Instructions" order="13" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="SUBJECT" name="Subject" desc="Subject" order="6" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="HTML_MSG" name="Html Message" desc="Html Message" order="8" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="STRONGMAIL_MSG" name="StrongMail Message" desc="StrongMail Message" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_type_item_entry key="INSERT_FIELD_BUTTON" name="Insert Field Button" desc="Insert Field Button" order="14" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="TEXT" name="Text" desc="Text" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MSG_NAME" name="Message Name" desc="Message Name" order="3" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="TEXT_MSG" name="Text Message" desc="Text Message" order="10" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="TRANSLATIONS" name="Translations" desc="Translations" order="11" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MODULE" name="Module" desc="Module" order="4" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MESSAGE" name="Message" desc="Message" order="7" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="STATUS" name="Status" desc="Status" order="5" required="F" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="STRONGMAIL_SUBJECT" name="StrongMail Subject" desc="StrongMail Subject" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_type_item_entry key="STRONGMAIL_FORMATTING" name="StrongMail Formatting" desc="StrongMail Formatting" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_type_item_entry key="MESSAGE_TYPE" name="Message Type" desc="Message Type" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_entry code="admin.message.details" name="Message Details" desc="Message Details" publik="T" section="admin" previewPage="homepage.do" module="core" paxOrAdmin="A" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="0" guid="75725e:1064fcde7d2:-7ffc" action="nop">
+            <content_entry status="Live" locale="en_US" contentVersion="6">
+              <content_data_entry key="STRONGMAIL_MSG">
+                <value><![CDATA[StrongMail Message]]></value>
+              </content_data_entry>
+              <content_data_entry key="STRONGMAIL_SUBJECT">
+                <value><![CDATA[StrongMail Subject]]></value>
+              </content_data_entry>
+              <content_data_entry key="STRONGMAIL_FORMATTING">
+                <value><![CDATA[(Must be in StrongMail format)]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+       <asset_type_entry name="Report Login Extract" desc="Report Login Extract" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="USER_NAME" name="User Name" desc="User Name" order="4" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="FIRST_NAME" name="First Name" desc="First Name" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MIDDLE_NAME" name="Middle Name" desc="Middle Name" order="2" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="LAST_NAME" name="Last Name" desc="Last Name" order="3" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ROLE" name="Role" desc="Role" order="7" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="JOB_POSITION" name="Job Position" desc="Job Position" order="8" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="DEPARTMENT" name="Department" desc="Department" order="9" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="COUNTRY" name="Country" desc="Country" order="5" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="LAST_LOGIN" name="Last Login" desc="Last Login" order="10" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="TOTAL_VISITS" name="Total Visits" desc="Total Visits" order="11" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MGR_FIRST_NAME" name="Mgr First Name" desc="Mgr First Name" order="12" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MGR_MIDDLE_NAME" name="Mgr Middle Name" desc="Mgr Middle Name" order="13" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MGR_LAST_NAME" name="Mgr Last Name" desc="Mgr Last Name" order="14" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MGR_COUNTRY" name="Mgr Country" desc="Mgr Country" order="15" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_1" name="Pax Char 1" desc="Pax Char 1" order="16" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_2" name="Pax Char 2" desc="Pax Char 2" order="17" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_3" name="Pax Char 3" desc="Pax Char 3" order="18" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_4" name="Pax Char 4" desc="Pax Char 4" order="19" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_5" name="Pax Char 5" desc="Pax Char 5" order="20" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_6" name="Pax Char 6" desc="Pax Char 6" order="16" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_7" name="Pax Char 7" desc="Pax Char 7" order="17" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_8" name="Pax Char 8" desc="Pax Char 8" order="18" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_9" name="Pax Char 9" desc="Pax Char 9" order="19" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_10" name="Pax Char 10" desc="Pax Char 10" order="20" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="PAX_CHAR_11" name="Participant Char 11" desc="Participant Char 11" order="27" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="PAX_CHAR_12" name="Participant Char 12" desc="Participant Char 12" order="28" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="PAX_CHAR_13" name="Participant Char 13" desc="Participant Char 13" order="29" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="PAX_CHAR_14" name="Participant Char 14" desc="Participant Char 14" order="30" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="PAX_CHAR_15" name="Participant Char 15" desc="Participant Char 15" order="31" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="ORG_NAME" name="Org Name" desc="Org Name" order="6" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_1" name="Org Char 1" desc="Org Char 1" order="21" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_2" name="Org Char 2" desc="Org Char 2" order="22" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_3" name="Org Char 3" desc="Org Char 3" order="23" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_4" name="Org Char 4" desc="Org Char 4" order="24" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_5" name="Org Char 5" desc="Org Char 5" order="25" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_6" name="Org Char 6" desc="Org Char 6" order="21" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_7" name="Org Char 7" desc="Org Char 7" order="22" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_8" name="Org Char 8" desc="Org Char 8" order="23" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_9" name="Org Char 9" desc="Org Char 9" order="24" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_10" name="Org Char 10" desc="Org Char 10" order="25" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ORG_CHAR_11" name="Org Char 11" desc="Org Char 11" order="21" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="ORG_CHAR_12" name="Org Char 12" desc="Org Char 12" order="22" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="ORG_CHAR_13" name="Org Char 13" desc="Org Char 13" order="23" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="ORG_CHAR_14" name="Org Char 14" desc="Org Char 14" order="24" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_type_item_entry key="ORG_CHAR_15" name="Org Char 15" desc="Org Char 15" order="25" required="T" unique="F" translatable="T" type="HTML"/>
+        <asset_entry code="report.login.extract" name="Report Login Extract" desc="Report Login Extract" publik="T" section="report" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="0" guid="615597:107dc4bb470:-7ecb" action="nop">
+            <content_entry status="Live" locale="en_US" contentVersion="6" action="nop">
+              <content_data_entry key="PAX_CHAR_14">
+                <value><![CDATA[Participant Char 14]]></value>
+              </content_data_entry>
+              <content_data_entry key="PAX_CHAR_15">
+                <value><![CDATA[Participant Char 15]]></value>
+              </content_data_entry>
+              <content_data_entry key="PAX_CHAR_12">
+                <value><![CDATA[Participant Char 12]]></value>
+              </content_data_entry>
+              <content_data_entry key="PAX_CHAR_13">
+                <value><![CDATA[Participant Char 13]]></value>
+              </content_data_entry>
+              <content_data_entry key="PAX_CHAR_11">
+                <value><![CDATA[Participant Char 11]]></value>
+              </content_data_entry>
+              <content_data_entry key="ORG_CHAR_11">
+                <value><![CDATA[ORG Char 11]]></value>
+              </content_data_entry>
+              <content_data_entry key="ORG_CHAR_12">
+                <value><![CDATA[ORG Char 12]]></value>
+              </content_data_entry>
+              <content_data_entry key="ORG_CHAR_14">
+                <value><![CDATA[ORG Char 14]]></value>
+              </content_data_entry>
+              <content_data_entry key="ORG_CHAR_13">
+                <value><![CDATA[ORG Char 13]]></value>
+              </content_data_entry>
+              <content_data_entry key="ORG_CHAR_15">
+                <value><![CDATA[ORG Char 15]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+
+      <asset_type_entry name="_Message" desc="_Message" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="STRONGMAIL_MSG" name="StrongMail Message" desc="StrongMail Message" order="1" required="F" unique="T" translatable="T" type="TEMPHTML" action="nop"/>
+        <asset_type_item_entry key="PLAIN_TEXT_MSG" name="Plain Text Message" desc="Plain Text Message" order="1" required="F" unique="F" translatable="T" type="TEMPSTR" action="nop"/>
+        <asset_type_item_entry key="TEXT_MSG" name="Text Message" desc="Text Message" order="1" required="F" unique="F" translatable="T" type="TEMPSTR" action="nop"/>
+        <asset_type_item_entry key="SUBJECT" name="Subject" desc="Subject" order="1" required="F" unique="F" translatable="T" type="TEMPSTR" action="nop"/>
+        <asset_type_item_entry key="HTML_MSG" name="HTML Message" desc="HTML Message" order="1" required="F" unique="F" translatable="T" type="TEMPHTML" action="nop"/>
+        <asset_type_item_entry key="STRONGMAIL_SUBJECT" name="StrongMail Subject" desc="StrongMail Subject" order="1" required="F" unique="T" translatable="T" type="TEMPHTML" action="nop"/>
+        <asset_entry code="message_data.message.13050" name="Welcome Email Process Message" desc="Welcome Email Process Message" publik="T" section="message_data" module="core" paxOrAdmin="B" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="1" guid="14dc894:107ebe4cdee:-7d6d" action="nop">
+            <content_entry status="Live" locale="en_US" contentVersion="6">
+              <content_data_entry key="HTML_MSG" action="update">
+                <value><![CDATA[[ ${clientPrefix} ] - [&nbsp; ${clientName} ] <br /><br />${firstName} ${lastName}&nbsp; The <strong>${processName}</strong> has completed. The results of this process are below. Review the Error Logs for the reason(s) for any failures. <br /><br /> Total ${messageName}: ${successCount} <br />#if($hasSecondaryMessage)Total ${secondaryMessageName}: ${secondarySuccessCount}#end<br /><br /> Failed User Names (if any): ${failedUserNames}<br /><br />]]></value>
+              </content_data_entry>
+              <content_data_entry key="PLAIN_TEXT_MSG" action="update">
+                <value><![CDATA[[ ${clientPrefix} ] - [ ${clientName} ] ${firstName} ${lastName} ${clientName} The ${processName} has completed. The results of this process are below. Review the Error Logs for the reason(s) for any failures. Total ${messageName}: ${successCount} #if($hasSecondaryMessage)Total ${secondaryMessageName}: ${secondarySuccessCount}#end Failed User Names (if any): ${failedUserNames}]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+
+      <asset_type_entry name="Welcome Message Process" desc="Welcome Message Process" multi="F" previewable="T" publik="T" action="nop">
+        <asset_type_item_entry key="NOTIFICATION_DATE_ERROR" name="Notification Error" desc="Notification Error" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="WELCOME_MESSAGE" name="Welcome Message" desc="Welcome Message" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="WELCOME" name="welcome" desc="welcome" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="NOTIFICATION_DATE" name="Notification Date" desc="Notification Date" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MESSAGE" name="Message" desc="Message" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="LIST_INSTRUCTION" name="List Instruction" desc="List Instruction" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ADD_INSTRUCTION" name="Add Instruction" desc="Add Instruction" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="MESSAGE_SELECTED" name="Message Selected" desc="Message Selected" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="ADD_WELCOME_MESSAGE" name="Add Welcome Message" desc="Add Welcome Message" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="AUDIENCE_SELECTED" name="Audience Selected" desc="Audience Selected" order="1" required="T" unique="F" translatable="T" type="HTML" action="nop"/>
+        <asset_type_item_entry key="SECONDARY_MESSAGE" name="Secondary Message" desc="Secondary Messae" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_type_item_entry key="SAME_MESSAGE_ERROR" name="Same Message Error" desc="Same Message Error" order="1" required="T" unique="F" translatable="T" type="HTML" action="add"/>
+        <asset_entry code="admin.welcomemessage" name="welcome message" publik="T" section="admin" module="core" paxOrAdmin="A" productVersion="5.3.4" action="nop">
+          <content_key_entry audiences="Default Audience" order="0" guid="1f504b4:123c6af98a4:-7fdc" action="nop">
+            <content_entry status="Live" locale="en_US" contentVersion="6">
+              <content_data_entry key="SAME_MESSAGE_ERROR">
+                <value><![CDATA[Messages must be different]]></value>
+              </content_data_entry>
+              <content_data_entry key="SECONDARY_MESSAGE">
+                <value><![CDATA[Secondary Message]]></value>
+              </content_data_entry>
+            </content_entry>
+          </content_key_entry>
+        </asset_entry>
+      </asset_type_entry>
+
+  </application_entry>
+</cm_data>

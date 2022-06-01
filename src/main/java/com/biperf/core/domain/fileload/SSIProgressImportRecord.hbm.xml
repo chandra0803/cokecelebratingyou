@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.fileload.SSIProgressImportRecord" table="STAGE_SSI_PAX_PROGRESS_LOAD">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="IMPORT_RECORD_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">IMPORT_RECORD_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID"/>
+    <property name="userName" type="java.lang.String" column="USER_NAME"/>
+    <property name="firstName" type="java.lang.String" column="FIRST_NAME"/>
+    <property name="lastName" type="java.lang.String" column="LAST_NAME"/>
+    <property name="nodeName" type="java.lang.String" column="NODE_NAME"/>
+    
+    <property name="progress" type="java.lang.Long" column="PROGRESS"/>
+    <property name="emailAddress" type="java.lang.String" column="EMAIL_ADDRESS"/>
+    <property name="activityDescription" type="java.lang.String" column="ACTIVITY_DESCRIPTION"/>
+    <property name="ssiContestId" type="java.lang.Long" column="SSI_CONTEST_ID"/>
+    <property name="activityDate" type="java.util.Date" column="ACTIVITY_DATE"/>
+    <property name="userId" type="java.lang.Long" column="USER_ID"/>
+    <property name="ssiContestActivityId" type="java.lang.Long" column="SSI_CONTEST_ACTIVITY_ID"/>
+
+    <set name="importRecordErrors" table="IMPORT_RECORD_ERROR" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_RECORD_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ImportRecordError"/>
+    </set>
+
+  </class>
+
+  <query name="com.biperf.core.domain.import.file.SSIProgressRecordsByPage">
+    <![CDATA[
+		from com.biperf.core.domain.fileload.SSIProgressImportRecord ssiProgressRecord
+	   where ssiProgressRecord.importFileId = :importFileId order by ssiProgressRecord.firstName asc
+    ]]>
+  </query>
+  
+  	<sql-query name="com.biperf.core.domain.import.file.SSIProgressRecordsByPageWithoutError">
+	<return alias="s" class="com.biperf.core.domain.fileload.SSIProgressImportRecord"/>
+	    <![CDATA[
+	      select {s.*}  from STAGE_SSI_PAX_PROGRESS_LOAD s
+	      where s.import_file_id = :importFileId 
+	      and NOT EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = s.import_record_id
+                      AND ire.import_file_id = s.import_file_id)
+	      order by s.first_name asc
+	    ]]>
+	 </sql-query>
+  
+	<sql-query name="com.biperf.core.domain.import.file.SSIProgressRecordsByPageWithError">
+	<return alias="s" class="com.biperf.core.domain.fileload.SSIProgressImportRecord"/>
+	    <![CDATA[
+	     select {s.*} from STAGE_SSI_PAX_PROGRESS_LOAD s
+       	 where s.import_file_id = :importFileId 
+         and EXISTS(SELECT import_record_id
+       				FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = s.import_record_id
+                      AND ire.import_file_id = s.import_file_id)
+	     order by s.first_name asc
+	    ]]>
+	  </sql-query>
+</hibernate-mapping>

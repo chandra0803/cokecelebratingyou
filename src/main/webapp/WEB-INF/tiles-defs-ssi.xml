@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+	<definition name="ssi.contest.create" extends="g5.default">
+       	<put name="content" value="/ssi/ssiContestPageEdit.jsp" />
+		<put name='trackingTitle' value='SSI_Create_Contest' />
+	</definition>
+	
+	<definition name="ssi.contest.create.ssiadmin" extends="g5.homepage">
+       	<put name="content" value="/ssi/ssiContestPageEdit.jsp" />
+		<put name='trackingTitle' value='SSI_Create_Contest' />
+	</definition>	
+	
+	<definition name="ssi.paxContest.list" extends="g5.default">
+       	<put name="content" value="/ssi/ssiParticipantPage.jsp" />
+		<put name='trackingTitle' value='SSI_Pax_Contest_List' />
+	</definition>
+	
+ 	<definition name="ssi.paxContest.list.report" path="/ssi/ssiParticipantPage.jsp" />
+	
+	<definition name="ssi.paxContest.submitClaim" extends="g5.default">
+       	<put name="content" value="/ssi/ssiParticipantSubmitClaimPageView.jsp" />
+		<put name='trackingTitle' value='SSI_Pax_Submit_Claim' />
+	</definition>
+	
+	<definition name="ssi.contest.approveClaim" extends="g5.default">
+       	<put name="content" value="/ssi/ssiApproveClaimsPage.jsp" />
+		<put name='trackingTitle' value='SSI_Approve_Contest_Claim' />
+	</definition>
+	
+	<definition name="ssi.contest.approveClaimDetail" extends="g5.default">
+       	<put name="content" value="/ssi/ssiApproveClaimsDetailPage.jsp" />
+		<put name='trackingTitle' value='SSI_Approve_Contest_Claim_Detail' />
+	</definition>
+	
+	<definition name="ssi.contest.viewClaimDetail" extends="g5.default">
+       	<put name="content" value="/ssi/ssiApproveClaimsDetailPage.jsp" />
+		<put name='trackingTitle' value='SSI_Contest_Claim_Detail' />
+	</definition>
+	
+	<definition name="ssi.managerContest.list" extends="g5.default">
+       	<put name="content" value="/ssi/ssiManagerPage.jsp" />
+		<put name='trackingTitle' value='SSI_Manager_Contest_List' />
+	</definition>	
+	
+	<definition name="ssi.creatorContest.list" extends="g5.default">
+       	<put name="content" value="/ssi/ssiCreatorPage.jsp" />
+		<put name='trackingTitle' value='SSI_Creator_Contest_List' />
+	</definition>	
+	
+	<definition name="ssi.creatorContest.updateResults" extends="g5.default">
+       	<put name="content" value="/ssi/ssiUpdateResultsPageView.jsp" />
+		<put name='trackingTitle' value='SSI_Creator_Contest_UpdateResults' />
+	</definition>
+	
+	<definition name="ssi.contest.load.approval" extends="g5.default">
+       	<put name="content" value="/ssi/ssiApproveContestPage.jsp" />
+		<put name='trackingTitle' value='SSI_Contest_Approval' />
+	</definition>
+	
+	<definition name="ssi.contest.load.issuance.approval" extends="g5.default">
+       	<put name="content" value="/ssi/ssiApproveContestPageATN.jsp" />
+		<put name='trackingTitle' value='SSI_Contest_Approval' />
+	</definition>
+	
+	<definition name="ssi.contest.atn.summary" extends="g5.default">
+       	<put name="content" value="/ssi/ssiContestSummaryAwardThemNow.jsp" />
+		<put name='trackingTitle' value='SSI_Contest_ATN_Summary' />
+	</definition>
+	
+	<definition name="ssi.contest.atn.payout.history" extends="g5.default">
+       	<put name="content" value="/ssi/ssiContestPayoutDetailsATN.jsp" />
+		<put name='trackingTitle' value='SSI_Contest_ATN_Summary' />
+	</definition>
+	
+	
+	<definition name="ssi.creatorContest.approvePayouts" extends="g5.default">
+       	<put name="content" value="/ssi/ssiApprovePayout.jsp" />
+		<put name='trackingTitle' value='SSI_Contest_Approve_Payout' />
+	</definition>
+</tiles-definitions>

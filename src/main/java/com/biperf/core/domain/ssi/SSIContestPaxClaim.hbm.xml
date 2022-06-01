@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.ssi.SSIContestPaxClaim"
+		table="SSI_CONTEST_PAX_CLAIM">
+		<id name="id" type="long" column="SSI_CONTEST_PAX_CLAIM_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">SSI_CONTEST_PAX_CLAIM_PK_SQ</param>
+			</generator>
+		</id>
+		<version name="version" type="long" column="VERSION" />
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<property name="contestId" column="SSI_CONTEST_ID" type="long" not-null="true"  />
+		<property name="submitterId" column="SUBMITTER_ID" type="long" not-null="true" />
+		<property name="claimNumber" column="CLAIM_NUMBER" type="string" />
+
+		<property name="status" column="STATUS">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.SSIClaimStatus</param>
+			</type>
+		</property>
+
+		<property name="submissionDate" column="SUBMISSION_DATE" type="java.util.Date" />
+		<property name="deniedReason" column="DENIED_REASON" type="string" />
+		<property name="approverId" column="APPROVER_ID" type="long" />
+		<property name="approveDenyDate" column="APPROVE_DENY_DATE" type="java.util.Date" />
+		<property name="dateResultsPosted" column="DATE_RESULTS_POSTED" type="java.util.Date" />
+		<property name="claimAmountQuantity" column="CLAIM_AMOUNT_QUANTITY" type="double"/>
+		<property name="activitiesAmountQuantity" column="ACTIVITIES_AMOUNT_QUANTITY" type="string" />
+
+		<set name="paxClaimFields" table="SSI_CONTEST_PAX_CLAIM_FIELD"
+			lazy="true" inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write" />
+			<key column="SSI_CONTEST_PAX_CLAIM_ID" />
+			<one-to-many class="com.biperf.core.domain.ssi.SSIContestPaxClaimField" />
+		</set>
+
+	</class>
+
+	<sql-query name="com.biperf.core.domain.contest.getPaxClaimsByApproverId">
+		<return-scalar column="SSI_CONTEST_PAX_CLAIM_ID" type="long" />
+		<return-scalar column="SSI_CONTEST_ID" type="long" />
+		<return-scalar column="SUBMITTER_ID" type="long" />
+		<return-scalar column="CLAIM_NUMBER" type="string" />
+		<return-scalar column="STATUS" type="string" />
+		<return-scalar column="SUBMISSION_DATE" type="date" />
+		<return-scalar column="DENIED_REASON" type="string" />
+		<return-scalar column="APPROVER_ID" type="long" />
+		<return-scalar column="APPROVE_DENY_DATE" type="date" />
+		<return-scalar column="DATE_RESULTS_POSTED" type="date" />
+	  	
+		<![CDATA[
+			select c.ssi_contest_pax_claim_id, c.ssi_contest_id, c.submitter_id, c.claim_number, c.status, c.submission_date, c.denied_reason, c.approver_id, c.approve_deny_date, c.date_results_posted 
+			from ssi_contest_pax_claim c where c.approver_id=:approverId and c.ssi_contest_id=:contestId and c.status in (:claimStatuses)
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getPaxClaimsCountByApproverId">
+		<return-scalar column="SUBMITTED_COUNT" type="int" />
+		<return-scalar column="APPROVED_COUNT" type="int" />
+		<return-scalar column="WAITING_FOR_APPROVAL_COUNT" type="int" />
+		<return-scalar column="DENIED_COUNT" type="int" />
+	  	
+		<![CDATA[
+			select count(*) as submitted_count, sum(case when status = 'approved' then 1 else 0 end) as approved_count, 
+			sum(case when status = 'waiting_for_approval' then 1 else 0 end) as waiting_for_approval_count, sum(case when status = 'denied' then 1 else 0 end) as denied_count from ssi_contest_pax_claim 
+			where ssi_contest_id=:contestId
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getPaxClaimsWaitingForApproverByApproverId">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="CLAIM_SUBMISSION_LAST_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			SELECT SC.SSI_CONTEST_ID, SCPC.STATUS, SC.CM_ASSET_CODE AS NAME, SC.CONTEST_START_DATE, SC.CONTEST_END_DATE, SC.CLAIM_SUBMISSION_LAST_DATE, SC.CONTEST_TYPE 
+            FROM SSI_CONTEST_PAX_CLAIM SCPC , SSI_CONTEST SC 
+            WHERE SCPC.SSI_CONTEST_ID = SC.SSI_CONTEST_ID 
+            AND SCPC.STATUS = 'waiting_for_approval' 
+            AND SC.DATA_COLLECTION_TYPE = 'claimSubmission'
+            AND SC.CREATED_BY = :createdBy      
+		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.contest.getPaxClaimsViewAllByApproverId">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="CLAIM_SUBMISSION_LAST_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			SELECT SC.SSI_CONTEST_ID, SCPC.STATUS, SC.CM_ASSET_CODE AS NAME, SC.CONTEST_START_DATE, SC.CONTEST_END_DATE, SC.CLAIM_SUBMISSION_LAST_DATE, SC.CONTEST_TYPE 
+            FROM SSI_CONTEST_PAX_CLAIM SCPC , SSI_CONTEST SC 
+            WHERE SCPC.SSI_CONTEST_ID = SC.SSI_CONTEST_ID  
+            AND SC.DATA_COLLECTION_TYPE = 'claimSubmission'
+            AND SC.CREATED_BY = :createdBy      
+		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.contest.getPaxClaimsByContestIdAndApproveDenyDate">
+	<return alias="c" class="com.biperf.core.domain.ssi.SSIContestPaxClaim" />
+		<![CDATA[
+			select {c.*} from ssi_contest_pax_claim c
+            where c.ssi_contest_id = :contestId
+            and c.approve_deny_date = to_date(:approveDenyDate,'MM/dd/yyyy hh24:mi:ss')
+		]]>
+	</sql-query>
+
+</hibernate-mapping>  

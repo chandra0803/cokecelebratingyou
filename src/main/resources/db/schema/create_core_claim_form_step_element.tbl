@@ -1,0 +1,72 @@
+CREATE SEQUENCE CLAIM_FORM_STEP_ELEMENT_PK_SQ INCREMENT BY 1 START WITH 5000
+/
+
+CREATE TABLE CLAIM_FORM_STEP_ELEMENT (
+CLAIM_FORM_STEP_ELEMENT_ID     NUMBER(18) NOT NULL,
+CLAIM_FORM_STEP_ID             NUMBER(18) NOT NULL,
+CM_KEY_FRAGMENT				   VARCHAR(255) NOT NULL,
+DESCRIPTION                    VARCHAR2(1000),
+IS_REQUIRED                    NUMBER(1) NOT NULL,
+CLAIM_FORM_ELEMENT_TYPE_CODE   VARCHAR2(30) NOT NULL,
+NUMBER_OF_DECIMALS             NUMBER(9),
+NBR_INPUT_FORMAT_TYPE_CODE     VARCHAR2(30),
+MASKED_ON_ENTRY                NUMBER(1) NOT NULL,
+CUSTOMER_INFORMATION_BLOCK_ID  NUMBER(18),
+UNIQUENESS                     VARCHAR2(30),
+SHOULD_ENCRYPT                 NUMBER(1) NOT NULL,
+MAX_SIZE_TEXT_FIELD            NUMBER(10),
+TEXT_INPUT_FORMAT_TYPE_CODE    VARCHAR2(30),
+LINK_URL                       VARCHAR2(1000),
+DATE_START                     DATE,
+DATE_END                       DATE,
+SEQUENCE_NUM                   NUMBER(10),
+SELECTION_PICK_LIST_NAME       VARCHAR2(500),
+FILE_TYPE                      VARCHAR2(50),
+FILE_INSTRUCTIONS              VARCHAR2(50),
+FILE_MAX_SIZE                  NUMBER(10),
+WHY_FIELD                      NUMBER(1) NOT NULL,
+created_by number(18) NOT NULL,
+DATE_CREATED                   DATE NOT NULL,
+modified_by number(18),
+DATE_MODIFIED                  DATE,
+VERSION                        NUMBER(18) NOT NULL,
+CONSTRAINT CLAIM_FORM_STEP_ELEMENT_PK PRIMARY KEY (CLAIM_FORM_STEP_ELEMENT_ID))
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.CLAIM_FORM_STEP_ELEMENT_ID IS 'System-generated key that identifies a specific claim form step element.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.CLAIM_FORM_STEP_ID IS 'FK to CLAIM_FORM_STEP, Id to the form step association for this element.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.CM_KEY_FRAGMENT IS 'Unique key fragment to be used when creating CM Keys for this Claim Form Step Element.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.DESCRIPTION IS 'Description seen only on the admin screens.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.IS_REQUIRED IS 'Is this a required input field.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.SEQUENCE_NUM IS 'The order of elements within the step.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.CLAIM_FORM_ELEMENT_TYPE_CODE IS 'Data type of this element. Comes out of a picklist.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.NUMBER_OF_DECIMALS IS 'For a decimal type, how many numbers are allowed after the decimal place.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.NBR_INPUT_FORMAT_TYPE_CODE IS 'What type of number, if this is a number type element. Values from pick list  eg  INTEGER, CURRENCY ,DECIMAL'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.MASKED_ON_ENTRY IS 'Should this be a masked value. eg password displayed with * '
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.CUSTOMER_INFORMATION_BLOCK_ID IS 'Customer Informaction Block ID.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.UNIQUENESS IS 'Value of an enum defined in java. This will determine if the element must be unique within the node, node type, etc.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.SHOULD_ENCRYPT IS 'This value should be encrypted in the database (two-way).'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.MAX_SIZE_TEXT_FIELD IS 'Restriction on input text size, if this is a text field type element.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.TEXT_INPUT_FORMAT_TYPE_CODE IS 'Text field input type from CM, if this is a text field type element.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.LINK_URL IS 'URL, if this is a link element.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.DATE_START IS 'Start of the valid date range, if this is a date element.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.DATE_END IS 'End of the valid date range, if this is a date element.'
+/
+COMMENT ON COLUMN CLAIM_FORM_STEP_ELEMENT.SELECTION_PICK_LIST_NAME IS 'Name of the picklist, if this is a picklist type element.'
+/

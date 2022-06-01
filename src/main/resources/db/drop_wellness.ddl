@@ -1,0 +1,2 @@
+DROP TABLE promo_wellness CASCADE CONSTRAINTS
+/

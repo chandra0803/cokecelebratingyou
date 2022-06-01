@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders the dom like the snapshot when the props have default values. 1`] = `
+<div>
+  <div
+    className="modal-header"
+    id="ModalHeader"
+  >
+    <button
+      className="close"
+      data-dismiss="modal"
+      onClick={[Function]}
+      type="button"
+    >
+      <i
+        className="icon-close"
+      />
+    </button>
+    <h2
+      className="module-title"
+    />
+    <p>
+      <b />
+    </p>
+  </div>
+</div>
+`;

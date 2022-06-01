@@ -1,0 +1,286 @@
+// App-specific variables
+// =========================
+$throwdownNewsPage_bgColor: $g5ModuleBgColor !default;
+$throwdownNewsPage_gradType: $g5ModuleGradType !default;
+$throwdownNewsPage_gradMeta: $g5ModuleGradMeta !default;
+$throwdownNewsPage_gradStops: $g5ModuleGradStops !default;
+$throwdownNewsPage_titleColor: $throwdown_secondaryAccentColor !default;
+$throwdownNewsPage_pageTimeStampColor: $brand_color_light !default;
+
+$throwdownNewsPage_storyBoxBkg: transparentize($brand_color_dark,0.2) !default;
+$throwdownNewsPage_storyBoxBkgSafe: $brand_color_dark !default;
+$throwdownNewsPage_storyBoxTextSize: false !default;
+$throwdownNewsPage_storyBoxTitleSize: false !default;
+$throwdownNewsPage_storyBoxTextColor: $brand_color_light !default;
+$throwdownNewsPage_storyBoxTitleColor: $brand_color_white !default;
+$throwdownNewsPage_storyBoxLinkColor: false !default;
+$throwdownNewsPage_storyBoxLinkHoverColor: false !default;
+
+
+// SLICK CAROUSEL colors and sizing for left right arrows, and navigation dots -
+$throwdown-slick-dot-color: transparent !default;
+$throwdown-slick-dot-color-border: $brand_color_primary !default;
+$throwdown-slick-dot-color-active: $brand_color_primary !default;
+$throwdown-slick-dot-character: "\2022" !default;
+$throwdown-slick-dot-size: 8px !default;
+$throwdown-slick-opacity-default: 1 !default;
+$throwdown-slick-opacity-on-hover: 1 !default;
+$throwdown-slick-opacity-not-active: 1 !default;
+$throwdown-slick_pagerTextColor: $brand_color_white !default;
+$throwdown-slick_pagerTextColorHover: $brand_color_primary !default;
+$throwdown-slick_pagerBgColor: black !default;
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.throwdownNews {
+
+} /* /.throwdownNews */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.throwdownNews {
+    .module-liner {
+        @include module_moduleLinerBackground(
+            $bgColor: $throwdownNewsPage_bgColor,
+            $gradType: $throwdownNewsPage_gradType,
+            $gradMeta: $throwdownNewsPage_gradMeta,
+            $gradStops: $throwdownNewsPage_gradStops
+        );
+    }
+    .title-icon-view {
+        @include module_titleIconView(
+            $iconColor: $throwdown_iconColor,
+            $titleColor: $throwdownNewsPage_titleColor,
+            $titleFontFamily: $throwdown_primaryFontFamily
+        );
+
+        h3 {
+            font-size: 37px;
+			font-weight: $throwdown_secondaryFontWeight;
+			padding: 0 0 0 48%;
+            margin-right: 3%;
+            text-align: center;
+            text-transform: uppercase;
+            word-spacing: 150px;
+
+        }
+        [class^="icon-g5-"],
+        [class*=" icon-g5-"] {
+            @include g5HomeAppIconBoxReflect(-56px);
+        }
+    }
+
+
+    .title-icon-view {
+        display: none;
+    }
+    .wide-view {
+		height: 100%;
+        padding: 0;
+    }
+
+    .carousel{
+        width: 100%;
+        margin: 0 auto;
+        position:relative;
+        //overflow: hidden;
+        .slick-list {
+            margin: 0;
+            overflow: hidden;
+        }
+        .slick-dotted.slick-slider {
+            margin-bottom: 30px;
+        }
+
+        .slick-dots {
+            position: absolute;
+            bottom: -25px;
+            list-style: none;
+            display: block;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            li {
+                position: relative;
+                display: inline-block;
+                height: $throwdown-slick-dot-size * 2 ;
+                width: $throwdown-slick-dot-size * 2;
+                margin: 0 5px;
+                padding: 0;
+                cursor: pointer;
+                button {
+                    border: 0;
+                    background: transparent;
+                    display: block;
+                    height: $throwdown-slick-dot-size * 2;
+                    width: $throwdown-slick-dot-size * 2;
+                    outline: none;
+                    line-height: 0px;
+                    font-size: 0px;
+                    color: transparent;
+                    padding: 5px;
+                    cursor: pointer;
+                    &:hover, &:focus {
+                        outline: none;
+                        &:before {
+                            opacity: $throwdown-slick-opacity-on-hover;
+                        }
+                    }
+                    &:before {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        content: $throwdown-slick-dot-character;
+                        width: $throwdown-slick-dot-size;
+                        height: $throwdown-slick-dot-size;
+                        display: block;
+                        border-radius:50%;
+                        border: 1px solid $throwdown-slick-dot-color-border;
+                        background: $throwdown-slick-dot-color;
+                        opacity: $throwdown-slick-opacity-not-active;
+                        -webkit-font-smoothing: antialiased;
+                        -moz-osx-font-smoothing: grayscale;
+                    }
+                }
+                &.slick-active button:before {
+                    background: $throwdown-slick-dot-color-active;
+                    opacity: $throwdown-slick-opacity-default;
+                }
+            }
+        }
+
+        .slick-arrow {
+            position: absolute;
+            top: 0;
+            font-size: 36px;
+            z-index: 200;
+            color: $brand_color_white;
+            @include vertical-align(absolute);
+
+            &.slick-prev {
+                left: 0;
+            }
+
+            &.slick-next {
+                right: 0;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &.slick-disabled {
+                visibility: hidden;
+            }
+        }
+        .slick-arrow.withbg {
+             margin-top: -1em;
+            padding: 0.5em;
+            font-size: 25px;
+            border-radius: 50%;
+            text-shadow: 0px 1px 6px transparentize($throwdown-slick_pagerBgColor, 0.67);
+            @include ignoreGlobalLinkStyles(
+                $color: $throwdown-slick_pagerTextColor $throwdown-slick_pagerTextColorHover,
+                $fontWeight: $fontWeightBold
+            );
+            background: transparentize($throwdown-slick_pagerBgColor, 0.85);
+            @media (max-width: $breakpoint_mobile_max) {
+                display: none !important;
+            }
+             &.slick-prev {
+                left: 2%;
+            }
+
+            &.slick-next {
+                right: 2%;
+            }
+        }
+        .item {
+            display: inline-block;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            outline: none;
+
+            background-position: left bottom;
+            height: 100%;
+            position: relative;
+            width: 100%;
+
+            .comm-story {
+                @include module_moduleLiner(0, 1);
+                @include safeBkgs($throwdownNewsPage_storyBoxBkg, $property: 'background-color');
+                backgroun-size: cover;
+                background-position:center;
+                color: $throwdownNewsPage_storyBoxTextColor;
+                padding: 5% 10%;
+                width: 100%;
+                box-sizing: border-box;
+
+                @if $throwdownNewsPage_storyBoxTextSize {
+                    font-size: $throwdownNewsPage_storyBoxTextSize;
+                }
+                h3 {
+                    color: $throwdownNewsPage_storyBoxTitleColor;
+                    margin: 0;
+                    overflow: hidden;
+                    padding: $g5ModulePadding $g5ModulePadding 0 $g5ModulePadding;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+
+                    @if $throwdownNewsPage_storyBoxTitleSize {
+                        font-size: $throwdownNewsPage_storyBoxTitleSize;
+                    }
+                }
+                .story-content-short {
+                    padding: 0 $g5ModulePadding;
+                    white-space: nowrap;
+
+                    p {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+                .read-more {
+                    padding: 0 $g5ModulePadding $g5ModulePadding $g5ModulePadding;
+
+                    @if $throwdownNewsPage_storyBoxLinkColor {
+                        a {
+                            color: $throwdownNewsPage_storyBoxLinkColor;
+                        }
+                    }
+                    @if $throwdownNewsPage_storyBoxLinkHoverColor {
+                        &:hover {
+                            color: $throwdownNewsPage_storyBoxLinkHoverColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+/* ----- PAGE STYLES ----- */
+.page.commissionerNews {
+    h3 {
+        margin: 0;
+        line-height: 1.1;
+    }
+    .timeStamp {
+        color: $throwdownNewsPage_pageTimeStampColor;
+    }
+    #collectionOfStories {
+        .row {
+            margin-bottom: 20px;
+        }
+    }
+    .spin {
+        display: block;
+        margin: 0 auto;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+    }
+}

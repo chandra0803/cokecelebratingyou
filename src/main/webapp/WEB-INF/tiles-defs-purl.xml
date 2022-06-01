@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+
+  <!-- START : Purl Admin screens  -->
+
+  <definition name="purl.maintenance.list" extends="g5.default">
+    <put name="content" value="/purl/purlManagePurlList.jsp" />
+    <put name='trackingTitle' value='Purl_Maintenance_list'/>
+    <put name='insertPurlStyle' value='true' />  
+  </definition>
+  
+  <definition name="purl.contribution.list" extends="g5.default">
+    <put name="content" value="/purl/purlContributePurlList.jsp" />
+    <put name='trackingTitle' value='Purl_Contribution_list'/>
+  </definition>
+  <!-- New SA screens  -->
+  <definition name="sa.contribution.list" extends="g5.default">
+    <put name="content" value="/newserviceanniversary/saContributeList.jsp" />
+    <put name='trackingTitle' value='SA_Contribution_list'/>
+  </definition>
+  <!-- END : Purl Admin screens  -->
+
+  <!-- START : Purl Layout screens  -->
+
+  <definition name="purl.tnc" extends="g5.default" controllerClass="com.biperf.core.ui.purl.PurlTNCController">
+    <put name="content" value="/purl/purlContributeTermsAndConditions.jsp" />
+    <put name='bodyClass' value='termsconditions' />
+    <put name='trackingTitle' value='Purl_TermsAndConditions'/>
+  </definition>
+
+  <definition name="purl.contribution" extends="g5.default">
+    <put name="content" value="/purl/purlPage.jsp" />
+    <put name='bodyClass' value='contributor' />
+    <put name='trackingTitle' value='Purl_Contribution'/>
+  </definition>
+
+  <definition name="purl.contribution.invalid" extends="g5.default">
+    <put name="content" value="/purl/purlContributionInvalid.jsp" />
+    <put name='bodyClass' value='invalidexpired' />
+    <put name='trackingTitle' value='Purl_Contribution_Invalid'/>
+  </definition>
+  
+  <definition name="purl.recipient" extends="g5.default">
+    <put name="content" value="/purl/purlPage.jsp" />
+    <put name='bodyClass' value='recipient' />
+    <put name='trackingTitle' value='Purl_Recipient'/>
+  </definition>
+  
+  <definition name="purl.recipient.invalid" extends="g5.default">
+    <put name="content" value="/purl/purlRecipientInvalid.jsp" />
+    <put name='bodyClass' value='invalidexpired' />
+    <put name='trackingTitle' value='Purl_Recipient_Invalid'/>
+  </definition>
+  
+  <definition name="purl.recipient.expired" extends="g5.default">
+    <put name="content" value="/purl/purlRecipientInvalid.jsp" />
+    <put name='bodyClass' value='invalidexpired' />
+    <put name='trackingTitle' value='Purl_Recipient_Expired'/>
+  </definition>
+  <!-- END : Purl Layout screens  -->
+
+  <!-- START : Purl JSON Ajax Response  -->
+  
+  <definition name="purl.name.update.ajax.json.response" path="/purl/ajax/json/purlNameUpdate.jsp" />
+
+
+  <definition name="purl.avatar.delete.ajax.json.response" path="/purl/ajax/json/purlAvatarDelete.jsp" />
+
+  <definition name="purl.invite.delete.confirm.ajax.response" path="/purl/ajax/json/purlInviteDeleteConfirm.jsp" />
+
+  <definition name="purl.photo.process.ajax.json.response" path="/purl/ajax/json/purlPhotoProcess.jsp" />
+
+  <definition name="purl.photo.delete.confirm.ajax.response" path="/purl/ajax/json/purlPhotoDeleteConfirm.jsp" />
+
+  <definition name="purl.photo.post.ajax.json.response" path="/purl/ajax/json/purlPhotoPost.jsp" />
+
+  <definition name="purl.video.process.ajax.json.response" path="/purl/ajax/json/purlVideoProcess.jsp" />
+  
+  <definition name="purl.video.delete.confirm.ajax.response" path="/purl/ajax/json/purlVideoDeleteConfirm.jsp" />
+
+  <definition name="purl.video.post.ajax.json.response" path="/purl/ajax/json/purlVideoPost.jsp" />
+
+  <definition name="purl.pax.search.ajax" path="/participant/participantSearchAjax.jsp"/>
+  <definition name="purl.node.search.ajax" path="/participant/participantSearchAjaxNodes.jsp"/>
+  <definition name="purl.picklist.search.ajax" path="/participant/participantSearchAjaxPickListItems.jsp"/>
+
+  <definition name="purl.pax.search.ajax_jq" path="/purl/ajax/json/purlAjaxSearchPax.jsp"/>
+  <definition name="purl.node.search.ajax_jq" path="/purl/ajax/json/purlAjaxSearchNode.jsp"/>
+  <definition name="purl.picklist.search.ajax_jq" path="/purl/ajax/json/purlAjaxSearchPicklist.jsp"/>
+  
+  <definition name="purl.load.activity.feed.ajax.json.response" path="/purl/ajax/json/purlActivityFeedCollection.jsp"/>
+  <definition name="purl.comment.post.ajax.json.response" path="/purl/ajax/json/purlContributeCommentPost.jsp"/>
+  <definition name="purl.photo.upload.ajax.json.response" path="/purl/ajax/json/purlContributeCommentPhotoUpload.jsp"/>
+  <definition name="purl.contributor.info.update.ajax.json.response" path="/purl/ajax/json/purlEmailInviteInfoCollection.jsp"/>
+  <definition name="purl.avatar.upload.ajax.json.response" path="/purl/ajax/json/purlModalMemberProfilePic.jsp" />
+  <definition name="purl.invite.confirm.ajax.json.response" path="/purl/ajax/json/purlContributeInvitesCollection.jsp" />
+  <definition name="purl.thankyou.confirm.ajax.response" path="/purl/ajax/json/purlSendThankYou.jsp"/>
+  
+  <definition name="purl.awarddate.update.ajax.json.response" path="/purl/ajax/json/purlAwardDateCollection.jsp"/>
+  
+  <!-- END : Purl JSON Ajax Response  -->
+  
+  <!--  Purl Celebrate Module -->
+  <definition name="purl.celebrate.page" extends="g5.default" controllerClass="com.biperf.core.ui.purl.PurlCelebratePageController">
+		<put name="content" value="/purl/purlCelebratePage.jsp" />
+  </definition>
+  <!-- Customization for WIP 32479 starts here -->
+  
+    <definition name="external.user.unsubscribe.display" path="/purl/client/externalUserUnsubscribeDisplay.jsp" />
+    <definition name="external.user.unsubscribe.success" path="/purl/client/externalUserUnsubscribeSuccess.jsp" />
+    <definition name="external.user.unsubscribe.failure" path="/purl/client/externalUserUnsubscribeDisplay.jsp" />
+    
+  <!-- Customization for WIP 32479 ends here -->
+</tiles-definitions>

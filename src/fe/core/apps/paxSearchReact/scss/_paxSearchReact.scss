@@ -1,0 +1,16 @@
+// App-specific variables
+// =========================
+
+
+// App-specific code
+// ==================================================
+
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.paxSearchReact {
+    .searchWrap {
+        top: 100px;
+        position: relative;
+    }
+}

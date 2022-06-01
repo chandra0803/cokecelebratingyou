@@ -1,0 +1,65 @@
+<!-- ======== GOALQUEST PAGE MANAGER LIST ======== -->
+
+<!-- go back + title -->
+<div id="goalquestPageView" class="goalquest page-content">
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>
+                <img src="img/goalquest/goalquest.svg" alt="GoalQuest" class="gqtitlelogo">
+                <!-- OR -->
+                <img src="img/goalquest/challengepoint.svg" alt="Challengepoint" class="gqtitlelogo">
+            </h2>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Rules</th>
+                        <th>Promotion Dates</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="layout.html?tplPath=apps/goalquest/tpl/&tpl=goalquestPageRules.html" class="rulesLink">Promotion Name</a></td>
+                        <td>MM/DD/YYYY through MM/DD/YYYY</td>
+                    </tr>
+                    <tr>
+                        <td><a href="layout.html?tplPath=apps/goalquest/tpl/&tpl=goalquestPageRules.html" class="rulesLink">Promotion Name</a></td>
+                        <td>MM/DD/YYYY through MM/DD/YYYY</td>
+                    </tr>
+                    <tr>
+                        <td><a href="layout.html?tplPath=apps/goalquest/tpl/&tpl=goalquestPageRules.html" class="rulesLink">Promotion Name</a></td>
+                        <td>MM/DD/YYYY through MM/DD/YYYY</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+
+    $(document).ready(function(){
+
+        //attach the view to an existing DOM element
+        window.pageView = new GoalquestPageListView({
+            el:$('#goalquestPageView'),
+            pageNav : {
+                back : {
+                    text : 'Back',
+                    url : 'layout.html'
+                },
+                home : {
+                    text : 'Home',
+                    url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+                }
+            },
+            pageTitle : 'GoalQuest Manager List',
+            mode: 'manager'
+        });
+
+    });
+
+</script>

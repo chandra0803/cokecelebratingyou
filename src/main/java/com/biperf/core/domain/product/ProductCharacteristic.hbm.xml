@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.product.ProductCharacteristic" table="PRODUCT_CHARACTERISTIC">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="PRODUCT_CHARACTERISTIC_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PRODUCT_CHARACTERISTIC_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+		
+		<many-to-one name="product" column="PRODUCT_ID" class="com.biperf.core.domain.product.Product" not-null="true" lazy="false"/>
+	    
+	    <!-- Set Cascade to all so it is possible to add new Characteristic through the product characteristic -->
+	    <many-to-one name="productCharacteristicType" cascade="save-update" column="CHARACTERISTIC_ID" class="com.biperf.core.domain.product.ProductCharacteristicType" not-null="true" lazy="false"/>
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+	</class>	
+  
+	<sql-query name="com.biperf.core.domain.product.ActiveProductsWithCharacteristicCount">
+    <return-scalar column="result" type="integer"/>
+      <![CDATA[
+        SELECT count(*) as result
+          FROM product_characteristic pc
+         WHERE characteristic_id = :characteristicId
+        ]]>
+    </sql-query>
+  
+</hibernate-mapping>

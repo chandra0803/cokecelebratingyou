@@ -1,0 +1,44 @@
+CREATE SEQUENCE participant_badge_pk_sq start with 250 increment by 1
+/
+create table participant_badge
+(
+  participant_badge_id        NUMBER(18) NOT NULL,
+  promotion_id                    NUMBER(18) NOT NULL,
+  participant_id              NUMBER(18) NOT NULL,
+  is_earned                   NUMBER(1) NOT NULL,
+  earned_date                 DATE,
+  sent_count                  NUMBER(12),
+  received_count              NUMBER(12),
+  badge_rule_id               NUMBER(18) NOT NULL,--Bug # 60781
+  status                      VARCHAR2(1),
+  is_earned_All_Behavior_points    NUMBER(1) default 0,
+  is_earned_badge_points		   NUMBER(1) default 0,
+  ssi_contest_id              NUMBER(18),
+  claim_id              	  NUMBER(12),
+  created_by                  number(18) NOT NULL,
+  date_created                DATE NOT NULL,
+  modified_by                 number(18),
+  date_modified               DATE,
+  version                     NUMBER(18) NOT NULL
+ )
+/
+
+ALTER TABLE participant_badge
+ADD CONSTRAINT  participant_badge_pk PRIMARY KEY (participant_badge_id)
+USING INDEX
+/
+ALTER TABLE participant_badge
+ADD CONSTRAINT participant_badge__promoId_fk FOREIGN KEY (promotion_id)
+REFERENCES badge (promotion_id)
+/
+ALTER TABLE participant_badge
+ADD CONSTRAINT participant_badge__paxId_fk FOREIGN KEY (participant_id)
+REFERENCES participant (user_id)
+/
+ALTER TABLE participant_badge
+ADD CONSTRAINT participant_badge__RuleId_fk FOREIGN KEY (badge_rule_id)
+REFERENCES badge_rule (badge_rule_id)
+/
+CREATE INDEX IDX_PARTICIPANT_BADGE_PAX ON PARTICIPANT_BADGE
+(PARTICIPANT_ID)
+/

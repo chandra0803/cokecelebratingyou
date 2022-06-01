@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.claim.ClaimGroup" table="CLAIM_GROUP">
+
+    <id name="id" type="java.lang.Long" column="CLAIM_GROUP_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CLAIM_GROUP_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <property name="open" column="IS_OPEN" type="boolean" />
+
+    <property name="approverComments" column="APPROVER_COMMENTS" type="string" />
+
+    <property name="approvalRound" column="APPROVAL_ROUND" type="java.lang.Long" />
+
+    <many-to-one name="lastApprovalNode" column="LAST_APPROVAL_NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" lazy="false"/>
+
+    <many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.promotion.Promotion" not-null="true" lazy="false"/>
+
+    <property name="approvalStatusType" column="APPROVAL_STATUS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ApprovalStatusType</param>
+      </type>
+    </property>
+
+    <property name="promotionApprovalOptionReasonType" column="APPROVAL_OPTION_REASON_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.PromotionApprovalOptionReasonType</param>
+      </type>
+    </property>
+
+    <property name="dateApproved" column="DATE_APPROVED" type="timestamp" />
+        
+    <property name="awardQuantity" type="java.lang.Long" column="AWARD_QTY"/>
+    <property name="cashAwardQuantity" type="java.math.BigDecimal" column="CASH_AWARD_QTY"/>
+    <property name="notificationDate" type="java.util.Date" column="NOTIFICATION_DATE"/>
+    <property name="modalWindowViewed" type="boolean" column="WINNER_MODAL_VIEWED"/>
+    <set name="approvableItemApprovers" table="CLAIM_ITEM_APPROVER"  inverse="true" cascade="all-delete-orphan,merge" >
+      <key column="CLAIM_GROUP_ID" not-null="true" />
+      <one-to-many class="com.biperf.core.domain.claim.ClaimGroupApprover"/>
+    </set>
+        
+    <set name="claims" table="CLAIM"  inverse="true" cascade="all-delete-orphan,merge" lazy="false">
+      <key column="CLAIM_GROUP_ID" not-null="true" />
+      <one-to-many class="com.biperf.core.domain.claim.Claim"/>
+    </set>
+    
+    <property name="serialId" type="string" column="SERIAL_ID" />
+    
+    <many-to-one name="participant" column="PARTICIPANT_ID" class="com.biperf.core.domain.participant.Participant" not-null="true" lazy="false"/>
+
+    <many-to-one name="node" column="NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" lazy="false"/>
+    
+        
+  </class>
+  
+  <query name="com.biperf.core.domain.claim.OpenClaimGroupsWithNoMatchingNodeInApproverHierarchy">
+    <![CDATA[
+      select claimGroup from ClaimGroup claimGroup  
+        where  
+        claimGroup.open = java.lang.Boolean.TRUE 
+        and 
+        claimGroup.promotion.approverType = :approverType 
+        and 
+        claimGroup.node.name 
+         not in 
+         (select node.name 
+           from com.biperf.core.domain.hierarchy.Node node 
+             where 
+             node.hierarchy = claimGroup.promotion.approvalHierarchy
+         )
+    ]]>
+  </query>  
+  
+	<sql-query name="com.biperf.core.domain.claim.JournalForClaimGroup">
+	<return alias="j" class="com.biperf.core.domain.journal.Journal" />
+	<![CDATA[
+	  select {j.*}
+	  from activity a, activity_journal aj, journal j
+	  where a.claim_group_id = :claimGroupId and a.activity_id=aj.activity_id and aj.journal_id=j.journal_id
+	]]>		
+	</sql-query>
+
+</hibernate-mapping>

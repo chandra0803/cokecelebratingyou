@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <joined-subclass name="com.biperf.core.domain.claim.ClaimProduct" extends="com.biperf.core.domain.claim.ClaimItem"
+    table="CLAIM_PRODUCT">
+
+    <key column="CLAIM_ITEM_ID" not-null="true" />
+
+    <property name="quantity" type="int" column="PRODUCT_QTY" />
+    <many-to-one name="product" column="PRODUCT_ID" class="com.biperf.core.domain.product.Product" not-null="true" lazy="false" />
+    <property name="comments" column="COMMENTS" type="string" />
+    <property name="primary" column="IS_PRIMARY" type="boolean" />
+
+    <set name="claimProductCharacteristics" lazy="false" table="CLAIM_PRODUCT_CHARACTERISTIC" inverse="true"
+      cascade="all-delete-orphan,merge">
+      <key column="CLAIM_PRODUCT_ID" />
+      <one-to-many class="com.biperf.core.domain.claim.ClaimProductCharacteristic" />
+    </set>
+
+  </joined-subclass>
+</hibernate-mapping>

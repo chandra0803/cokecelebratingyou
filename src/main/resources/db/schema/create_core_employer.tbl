@@ -1,0 +1,73 @@
+CREATE SEQUENCE EMPLOYER_PK_SQ INCREMENT BY 1 START WITH 5020
+/
+CREATE TABLE employer
+ (employer_id    NUMBER(18) NOT NULL,
+  name			     VARCHAR2(255) NOT NULL,
+  is_active      NUMBER(1),
+  status_reason  VARCHAR2(4000),
+  federal_tax_id VARCHAR2(9),
+  state_tax_id   VARCHAR2(20),
+  country_id     NUMBER(12),
+	addr1 			   VARCHAR2(4000),
+	addr2 			   VARCHAR2(4000),
+	addr3 			   VARCHAR2(4000),
+	addr4 			   VARCHAR2(4000),
+	addr5 			   VARCHAR2(4000),
+	addr6 			   VARCHAR2(4000),
+	city 			     VARCHAR2(40),
+	state 			   VARCHAR2(4000),
+	postal_code 	 VARCHAR2(4000),
+	phone_nbr      VARCHAR2(4000),
+	PHONE_EXT   VARCHAR2(4000),
+    COUNTRY_PHONE_CODE  VARCHAR2(4000),
+    created_by number(18) NOT NULL,
+  date_created   DATE NOT NULL,
+  modified_by number(18),
+  date_modified	 DATE,
+	version			   NUMBER (18) NOT NULL,
+	CONSTRAINT employer_pk PRIMARY KEY (employer_id))
+/
+ALTER TABLE employer
+  ADD CONSTRAINT employer_country_fk
+  FOREIGN KEY (country_id) REFERENCES country(country_id)
+/
+CREATE INDEX EMPLOYER_COUNTRY_FK_idx ON EMPLOYER
+  (COUNTRY_ID)
+/
+COMMENT ON TABLE employer IS 'The EMPLOYER table stores the various employers.'
+/
+COMMENT ON COLUMN employer.created_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN employer.date_created IS '- Retrofitted'
+/
+COMMENT ON COLUMN employer.date_modified IS '- Retrofitted'
+/
+COMMENT ON COLUMN employer.modified_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN employer.employer_id IS 'Unique identifier that identifies the employer.'
+/
+COMMENT ON COLUMN employer.name IS 'A unique name which identified this employer by name.'
+/
+COMMENT ON COLUMN employer.country_id IS 'Address country.'
+/
+COMMENT ON COLUMN employer.addr1 IS 'Address 1 identifier.'
+/
+COMMENT ON COLUMN employer.addr2 IS 'Address 2 identifier.'
+/
+COMMENT ON COLUMN employer.addr3 IS 'Address 3 identifier.'
+/
+COMMENT ON COLUMN employer.addr4 IS 'Address 4 identifier.'
+/
+COMMENT ON COLUMN employer.addr5 IS 'Address 5 identifier.'
+/
+COMMENT ON COLUMN employer.addr6 IS 'Address 6 identifier.'
+/
+COMMENT ON COLUMN employer.city IS 'City identifier.'
+/
+COMMENT ON COLUMN employer.state IS 'State identifier.'
+/
+COMMENT ON COLUMN employer.postal_code IS 'Postal Code identifier.'
+/
+CREATE UNIQUE INDEX employer_udk ON employer
+(upper( name)       ASC  )
+/

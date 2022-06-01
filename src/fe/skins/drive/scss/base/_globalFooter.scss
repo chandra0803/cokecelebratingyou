@@ -1,0 +1,24 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $global_footer_linksColor: ;
+// $global_footer_linksFontWeight: ;
+// $global_footer_linksFontStyle: ;
+// $global_footer_linksTextDecoration: ;
+// $global_footer_linksTextTransform: ;
+// $global_footer_linksDisabledColor: ;
+
+// $global_footer_copyrightFontStyle: ;
+// $global_footer_copyrightFontWeight: ;
+// $global_footer_copyrightTextTransform: ;
+// $global_footer_copyrightTextColor: ;
+
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/globalFooter";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

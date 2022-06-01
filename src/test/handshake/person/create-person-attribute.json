@@ -1,0 +1,68 @@
+{
+  "description": "Create a Person Attribute",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "attributeName": "age",
+    "attributeValue": "43"
+  },
+  "steps": [
+  	{
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttribute",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "${ref:params.attributeName}",
+  			"value": "${ref:params.attributeValue}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.data}",
+          "compare": "to.not.be.empty"
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.name}",
+          "compare": "to.equal",
+          "b": "${ref:params.attributeName}"
+        }
+        ,
+        {
+          "a": "${ref:createPersonAttribute.res.body.value}",
+          "compare": "to.equal",
+          "b": "${ref:params.attributeValue}"
+        }
+      ]
+    }
+  ]
+}

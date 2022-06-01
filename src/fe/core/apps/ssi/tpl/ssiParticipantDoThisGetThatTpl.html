@@ -1,0 +1,76 @@
+{{! NOTE: isCreator variable is set by JavaScript }}
+
+{{#each activities}}
+	<div class="row-fluid contestData card">
+		<div class="span12">
+			<div class="row-fluid paxActivityData">
+				<h3 class="activityDescription">{{name}}</h3>
+
+				<div class="paxActivityInfo">
+					<p>
+					    For every <strong class="forEvery">{{forEvery}}</strong>
+				        Earn <strong class="forEvery">{{willEarn}} {{#eq extraJSON.payoutType "other"}}{{payoutDescription}}{{/eq}}{{#eq extraJSON.payoutType "points"}}Points{{/eq}}</strong>
+					</p>
+					<p class="minQualifier"><i class="icon icon-info"></i> Minimum Qualifier: <strong>{{minQualifier}}</strong></p>
+				</div>
+
+				<div class="dataSectionWrap">
+					<div class="dataSection activityPayout">
+						{{#eq extraJSON.payoutType "points"}}
+							<h4>{{payout}}</h4>
+							<p>{{#eq ../status "finalize_results"}}final points {{else}}potential points{{/eq}}</p>
+						{{/eq}}
+						{{#eq extraJSON.payoutType "other"}}
+							<h4 class="payoutGift">
+								<i class="icon-gift"></i>
+								{{#ueq payout "0"}}
+								<div class="giftCount">
+								{{payout}}
+								</div>
+								{{/ueq}}
+							</h4>
+							<p>{{#eq ../status "finalize_results"}}award {{else}} potential award{{/eq}}</p>
+						{{/eq}}
+					</div>
+
+					<div class="dataSection activityProgress">
+						<h4>{{submitted}}</h4>
+						<p>Activity</p>
+					</div>
+				</div><!-- /.dataSectionWrap -->
+			</div><!-- /.paxActivityData -->
+
+			{{#if extraJSON.includeStackRanking}}
+			{{#with stackRank}}
+				<div class="paxBottomData">
+					<div class="row-fluid">
+						<div class="rankData">
+							<h4 class="sectionTitle">Stack Rank</h4>
+							<span class="avatar">
+							    {{#if thumbnailUrl}}
+							        <img alt="{{firstName}} {{lastName}}" class="avatar" src="{{thumbnailUrl}}" />
+							    <!-- we don't appear to have name data in the stackRank object at this time -->
+							    {{else}}
+							        <!-- <span class="avatar-initials">{{trimString firstName 0 1}}{{trimString lastName 0 1}}</span> -->
+							    {{/if}}
+							</span>
+							<div class="rankDataMeta">
+								<strong class="yourRank">#{{rank}} of {{participantsCount}}</strong>
+							</div>
+							<a href="#" data-stackrank-activityid="{{../activityId}}" class="viewAll viewAllStackRank btn btn-small btn-primary btn-inverse">View Stack Ranking</a>
+						</div>
+					</div>
+				</div>
+			{{/with}}
+			{{/if}}
+		</div>
+	</div>
+{{/each}}
+
+<div class="ssiMinQualifierPopover" style="display: none">
+    <p>Your contest performance does not start counting until you meet the minimum
+qualifier. The minimum qualifier is deducted from your total when calculating
+your payout.</p>
+  	<p>Totaling your activity begins after the min. qualifier has been met. Min
+qualifier activity does not count towards your activity payout amount.</p>
+</div>

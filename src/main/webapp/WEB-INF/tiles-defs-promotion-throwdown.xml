@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+  <!-- Tiles Definitions for ThrowDown Promotion Module -->
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+  <!--  Promotion Header Definition -->
+  <definition name="promo.header"
+	      	  path="/promotion/throwdown/promotionHeader.jsp">
+  </definition>
+  
+  <!--  Promotion Footer Definition -->
+  <definition name="promo.footer"
+	      	  path="/promotion/promotionFooter.jsp">
+  </definition>
+  
+  <!--  Promotion Basics Definition -->
+  <definition name="promo.basics.widget"
+	      	  path="/promotion/promotionBasics.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotionBasicsMiddle" value="/promotion/throwdown/promotionBasicsMiddle.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.basics" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionBasicsController">
+    <put name='content' value="promo.basics.widget" />
+    <put name='trackingTitle' value='TD_Promotion_Basics' />
+  </definition>  
+  
+  <!--  Promotion Audience Definition -->
+  <definition name="promo.audience.widget"
+	      	  path="/promotion/promotionAudienceShell.jsp"
+              controllerClass="com.biperf.core.ui.promotion.PromotionAudienceController">
+	<put name="promotion.header" value="promo.header" />
+	<put name="audiencePageTop" value="/promotion/promotionAudienceTop.jsp" />
+	<put name="audiencePageBottom" value="/promotion/throwdown/promotionAudienceBottom.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>  
+  
+  <definition name="promotion.audience" extends="beacon.default">
+    <put name="content" value="promo.audience.widget" />
+    <put name='trackingTitle' value='TD_Promotion_Audience' />
+  </definition>  
+  
+  <definition name="promotion.audience.paxlist" extends="beacon.printerFriendly">
+    <put name="content" value="/promotion/promotionAudiencePaxList.jsp" />
+    <put name='trackingTitle' value='TD_Promotion_Audiece_PaxList' />
+  </definition>  
+  
+  <!--  Promotion Payout Definition -->
+  <definition name="promo.payout.widget"
+	      	  path="/promotion/throwdown/promotionThrowdownPayout.jsp"
+	      	  controllerClass="com.biperf.core.ui.promotion.PromotionThrowdownPayoutController">
+	<put name="promotion.header" value="promo.header" />
+    <put name="payoutTable" value="" />
+	<put name="promotion.footer" value="promo.footer" />	
+  </definition>  
+  
+  <definition name="promotion.payout" extends="beacon.default">
+    <put name='content' value="promo.payout.widget" />
+    <put name='trackingTitle' value='TD_Promotion_Payout' />
+  </definition>  
+  
+  <!--  Promotion Notification Definition -->
+  <definition name="promo.notification.widget"
+	      	  path="/promotion/promotionNotification.jsp">
+	<put name="promotion.header" value="promo.header" />
+  	<put name="promotionNotificationMiddle" value="/empty.jsp" />  
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.notification" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionNotificationController">
+    <put name='content' value="promo.notification.widget" />
+    <put name='trackingTitle' value='TD_Promotion_Notification' />
+  </definition>
+  
+ 
+   <!--  Promotion Web Rules Definition -->
+  <definition name="promo.webrules.widget"
+	      	  path="/promotion/promotionWebRules.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotion.footer" value="promo.footer" />	
+  </definition>
+  
+  <definition name="promotion.webrules" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionWebRulesController">
+    <put name='content' value="promo.webrules.widget" />
+    <put name='trackingTitle' value='TD_Promotion_WebRules' />
+  </definition>
+  
+  <!--  Promotion Translation Definition -->
+  <definition name="promotion.translations" extends="beacon.default"
+  			controllerClass="com.biperf.core.ui.promotion.PromotionTranslationsController">
+    <put name='content' value="promo.translations.widget" />
+    <put name='trackingTitle' value='TD_Promotion_Translations' />
+  </definition>
+  
+   <definition name="promo.translations.widget"
+            path="/promotion/promotionTranslations.jsp">
+  	<put name="promotion.header" value="promo.header" />
+  	<put name="promotion.footer" value="promo.footer" />  
+  </definition>
+  
+  	<!--  Promotion Payout and award calculation Definition -->
+  	<definition name="promotion.throwdown.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.promotion.ThrowdownPayoutPromotionListController">
+		<put name="content" value="/promotion/throwdown/payoutPromotionList.jsp" />
+		<put name='trackingTitle' value='Throwdown_List' />
+	</definition>
+	
+  <definition name="promotion.throwdown.summary" extends="beacon.default">
+    <put name="content" value="/promotion/throwdown/throwdownAwardSummary.jsp"/>
+    <put name='trackingTitle' value='Promotion_Throwdown_Summary' /> 
+  </definition>  
+  
+  <definition name="promotion.throwdown.extract.details" extends="beacon.default"
+    		  controllerClass="com.biperf.core.ui.promotion.ThrowdownDetailExtractController">
+    <put name="content" value="/promotion/throwdown/throwdownDetailExtractConfirmation.jsp"/>
+    <put name='trackingTitle' value='Throwdown_Extract_Details' /> 
+  </definition>  
+  
+    <definition name="promotion.throwdown.confirmation" extends="beacon.default"
+    		  controllerClass="com.biperf.core.ui.promotion.ThrowdownProcessConfirmationController">
+    <put name="content" value="/promotion/throwdown/throwdownProcessConfirmation.jsp"/>
+    <put name='trackingTitle' value='Throwdown_Process_Confirmation' /> 
+  </definition>
+  
+</tiles-definitions>

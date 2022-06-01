@@ -1,0 +1,168 @@
+// Partial-specific variables
+// =========================
+$launchModule_zebraOddBkg: $brand_color_lighter !default;
+
+$allModules_spinnerColor: $brand_color_spinner_fg !default;
+$allModules_spinnerBkgColor: $brand_color_spinner_bg !default;
+$allModules_spinnerBkgBorderRadius: $spinner_bgBorderRadius !default;
+
+$allModules_visitAppBtnColor: $brand_color_white !default;
+$allModules_visitAppBtnBorderColor: $brand_color_white !default;
+$allModules_visitAppBtnColorInvert: $brand_color_mid !default;
+$allModules_visitAppBtnBorderColorInvert: $brand_color_mid !default;
+
+$allModules_cycleDotWidth: 8px !default;
+$allModules_cycleDotBkg: transparent !default;
+$allModules_cycleDotBorder: 1px solid $brand_color_white !default;
+$allModules_cycleDotBkgHover: transparentize($brand_color_white, .5) !default;
+$allModules_cycleDotBorderHover: 1px solid $brand_color_white !default;
+$allModules_cycleDotBkgActive: $brand_color_white !default;
+$allModules_cycleDotBorderActive: 1px solid $brand_color_white !default;
+$allModules_cycleDotBorderRadius: $allModules_cycleDotWidth !default;
+
+
+// Partial-specific code
+// ==================================================
+
+/***
+ *    888                                     888      888b     d888               888          888
+ *    888                                     888      8888b   d8888               888          888
+ *    888                                     888      88888b.d88888               888          888
+ *    888  8888b.  888  888 88888b.   .d8888b 88888b.  888Y88888P888  .d88b.   .d88888 888  888 888  .d88b.
+ *    888     "88b 888  888 888 "88b d88P"    888 "88b 888 Y888P 888 d88""88b d88" 888 888  888 888 d8P  Y8b
+ *    888 .d888888 888  888 888  888 888      888  888 888  Y8P  888 888  888 888  888 888  888 888 88888888
+ *    888 888  888 Y88b 888 888  888 Y88b.    888  888 888   "   888 Y88..88P Y88b 888 Y88b 888 888 Y8b.
+ *    888 "Y888888  "Y88888 888  888  "Y8888P 888  888 888       888  "Y88P"   "Y88888  "Y88888 888  "Y8888
+ *
+ *
+ *
+ */
+// TODO: move this or figure out a better way to override the base styling for modules loaded on launchModuleView through ModuleView
+
+.modules-slept{
+  height: 0 !important;
+  width: 0 !important;
+  display: none !important;
+}
+
+.launchApp .module-liner {
+    // height: initial !important;
+    // margin:0 !important;
+    min-height: $spinner_widthHeight * 2;
+}
+
+.moduleContainerViewElement {
+    .launchModule {
+        @include opacity(0);
+
+        &.woke {
+            @include opacity(1);
+        }
+
+        & .launchModule {
+            @include opacity(1);
+        }
+    }
+}
+
+.launchModule {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    // width: 100%;
+
+    // attempting to do some automatic zebra-striping
+    .moduleContainerViewElement &:nth-of-type(odd) {
+        background: $launchModule_zebraOddBkg;
+    }
+
+    // START module-liner
+    .module-liner {
+        position: relative;
+        overflow: hidden;
+        padding: $g6ModulePaddingY $g6ModulePaddingX;
+
+        @media (min-width: $breakpoint_tablet_min) {
+            padding: $g6ModulePaddingY_tablet $g6ModulePaddingX_tablet;
+        }
+        @media (min-width: $breakpoint_desktop_min) {
+            padding: $g6ModulePaddingY_desktop $g6ModulePaddingX_desktop;
+        }
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            padding: $g6ModulePaddingY_desktopLarge $g6ModulePaddingX_desktopLarge;
+        }
+    }
+
+    .module-content {
+        position: relative;
+    }
+    // END module-liner
+
+    // START spin
+    .spin {
+        position: absolute;
+        z-index: 100;
+        top: 50%;
+        left: 50%;
+        margin: (-1 * $spinner_widthHeight / 2 - 10) 0 0 (-1 * $spinner_widthHeight / 2 - 10);
+        padding: 10px;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+        color: $allModules_spinnerColor;
+        @include safeBkgs($allModules_spinnerBkgColor);
+        @include borderRadiusSlim($allModules_spinnerBkgBorderRadius);
+    }
+    .spinner {
+        top: 50% !important;
+        left: 50% !important;
+
+        .lt-ie8 & {
+            margin-top: -10px;
+            margin-left: -10px;
+        }
+    }
+    .spincover {
+        position: absolute;
+        z-index: 100;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: transparentize($g5ModuleBgColor, 0.5);
+    }
+    // END spin
+
+    .module-title {
+        margin-top: 0;
+    }
+
+    .module-actions {
+        margin-top: $baseLineHeight / 2;
+
+        @media (min-width: $breakpoint_tablet_min) {
+            // increase the line height to better align this text with the headline text
+            $lineHeight_tablet: ($headline3fontSize_mobile * $headlineLineHeight * 2) - $baseLineHeight;
+
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-top: 0;
+            line-height: $lineHeight_tablet;
+
+            // pull buttons up a little bit to counter the incresed line-height
+            .btn {
+                margin-top: -1 * ($lineHeight_tablet - ($headline3fontSize_mobile * $headlineLineHeight));
+            }
+        }
+
+        @media (min-width: $breakpoint_desktop_min) {
+            $lineHeight_desktop: ($headline3fontSize * $headlineLineHeight * 2) - $baseLineHeight;
+
+            line-height: $lineHeight_desktop;
+
+            .btn {
+                margin-top: -1 * ($lineHeight_desktop - ($headline3fontSize * $headlineLineHeight));
+            }
+        }
+    }
+}

@@ -1,0 +1,116 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+
+// Main Celebration Styles
+// ------------------------
+$celebration_bgColor: #92A2AF;
+
+// $celebration_bgColor: ;
+// $slick-dot-color: ;
+// $slick-dot-color-border: ;
+// $slick-dot-color-active: ;
+// $slick-prev-character: ;
+// $slick-next-character: ;
+// $slick-dot-character: ;
+// $slick-dot-size: ;
+// $slick-opacity-default: ;
+// $slick-opacity-on-hover: ;
+// $slick-opacity-not-active: ;
+// $slick_pagerTextColor: ;
+// $slick_pagerTextColorHover: ;
+// $slick_pagerBgColor: ;
+
+
+// Anniversary Facts Module
+// ------------------------
+// $baseColor:;
+// $baseColorOpacity: ;
+// $celebrationAnniversaryFacts_yearTitleColor: rgba($baseColor, $baseColorOpacity);
+// $celebrationAnniversaryFacts_yearBgColor: rgba($baseColor, $baseColorOpacity);
+// $celebrationAnniversaryFacts_yearTextColor: ;
+
+
+// Browse Awards Module
+// ------------------------
+// $celebrationBrowseAwards_bgColor: ;
+// $celebrationBrowseAwards_arrowColor : ;
+// $celebrationBrowseAwards_headerFontColor: ;
+
+
+// Choose Award Module
+// ------------------------
+// $celebrationChooseAward_bgColor: ;
+// $celebrationChooseAward_gradType: ;
+// $celebrationChooseAward_gradMeta: ;
+// $celebrationChooseAward_gradStops: ;
+// $celebrationChooseAward_ImgUrlPath: ; // uses $appImagesPath by default. change to "false" or some other path to use the skin img folder
+// $celebrationChooseAward_ImgUrl: ;
+
+// $celebrationChooseAward_headerColor: ;
+// $celebrationChooseAward_fontColor: ;
+// $celebrationChooseAward_numberColor: ;
+// $celebrationChooseAward_pointsColor: ;
+
+
+// Company Timeline Module
+// $celebrationTimeline_ImgUrlPath: ;
+// $celebrationTimeline_ImgUrl: ;
+
+// Congrats Module
+// ------------------------
+// $celebrationCongrats_bgColor: ;
+// $celebrationCongrats_bgAlpha: ;
+// $celebrationCongrats_VideoUrl: // THIS SHOULD BE WRITTEN AS PATH and FILE NAME no extension path/myvideo with myvideo.ogg myvideo.webm and myvideo.mp4 existing on server
+// $celebrationCongrats_VidPosterUrl ; // uses $appImagesPath by default. change to "false" or some other path to use the skin img folder
+// $celebrationCongrats_ImgUrlPath: ; // uses $appImagesPath by default. change to "false" or some other path to use the skin img folder
+// $celebrationCongrats_ImgUrl: ; // send as null for color overlay for video  // null is default
+// $celebrationCongrats_fontColor: ;
+// $celebrationCongrats_nameFontColor: ;
+
+
+// Corporate Video Module
+// ------------------------
+// $celebrationCorporateVideo_playBtnColor: ;
+// $celebrationCorporateVideo_playBtnBg: ;
+// $celebrationCorporateVideo_closeBtnColor: ;
+
+
+// Manager Message Module
+// ------------------------
+// $celebrationManagerMessage_bgColor: ;
+// $celebrationManagerMessage_gradType: ;
+// $celebrationManagerMessage_gradMeta: ;
+// $celebrationManagerMessage_gradStops: ;
+// $celebrationManagerMessage_bgNoGrad: ;
+
+// $celebrationManagerMessage_commentTitleLargeColor: ;
+// $celebrationManagerMessage_commenterMetaColor: ;
+// $celebrationManagerMessage_commenterNameColor: ;
+
+
+// Recognition PURL Module
+// ------------------------
+// $celebrationRecognitionPurl_bgColor: ;
+// $celebrationRecognitionPurl_gradType: ;
+// $celebrationRecognitionPurl_gradMeta: ;
+// $celebrationRecognitionPurl_gradStops: ;
+
+// $celebrationRecognitionPurl_headerLinkHoverColor: ;
+// $celebrationRecognitionPurl_headlineColor: ;
+
+// $celebrationRecognitionPurl_commentBg: ;
+// $celebrationRecognitionPurl_commenterNameColor: ;
+// $celebrationRecognitionPurl_commenterTextColor: ;
+// $celebrationRecognitionPurl_commentLinkColor: ;
+// $celebrationRecognitionPurl_commentLinkHoverColor: ;
+
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "celebration/scss/celebration";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.ssi.SSIContest" table="SSI_CONTEST">
+		<!--  <cache usage="read-write"/>--> <!-- TODO: need to review the cache work flow -->
+			<id name="id" type="long" column="SSI_CONTEST_ID">
+				<generator class="seqhilo">
+					<param name="max_lo">0</param><param name="sequence">SSI_CONTEST_PK_SQ</param>
+				</generator>
+			</id>
+			<version    name="version" type="long" column="VERSION" />
+			<property   name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+				<column name="DATE_CREATED" />
+				<column name="CREATED_BY" />
+			</property>
+			<property   name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+				<column name="DATE_MODIFIED" />
+				<column name="MODIFIED_BY" />
+			</property>
+			<many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.ssi.SSIPromotion" not-null="true" lazy="false" cascade="none"/>
+			<property name="contestOwnerId" column="CONTEST_OWNER_ID" type="long"/>
+			<property   name="contestType" column="CONTEST_TYPE">
+				<type   name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.SSIContestType</param>
+				</type>
+			</property>
+			<property name="status" column="STATUS">
+				<type name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.SSIContestStatus</param>
+				</type>
+			</property>
+			<property name="startDate" column="CONTEST_START_DATE" type="java.util.Date"/>
+			<property name="endDate" column="CONTEST_END_DATE" type="java.util.Date"/>
+			<property name="payoutIssuedDate" column="PAYOUT_ISSUE_DATE" type="java.util.Date"/>
+			<property name="displayStartDate" column="DISPLAY_START_DATE" type="java.util.Date"/>
+			<property name="lastProgressUpdateDate" column="LAST_PROGRESS_UPDATE_DATE" type="java.util.Date"/>
+			<property name="uploadInProgress" column="UPLOAD_IN_PROGRESS" type="java.lang.Boolean"/>
+			<property name="updateInProgress" column="UPDATE_IN_PROGRESS" type="java.lang.Boolean"/>
+			<property name="cmAssetCode" column="CM_ASSET_CODE" type="string"/>
+			<property name="includePersonalMessage" column="INCLUDE_PERSONAL_MESSAGE" type="java.lang.Boolean"/>
+
+			<property name="activityMeasureType" column="ACTIVITY_MEASURE_TYPE">
+				<type name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.SSIActivityMeasureType</param>
+				</type>
+			</property>
+			<property name="activityMeasureCurrencyCode" column="ACTIVITY_MEASURE_CUR_CODE" type="string"/>
+			<property name="payoutType" column="PAYOUT_TYPE">
+				<type name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.SSIPayoutType</param>
+				</type>
+			</property>
+			<property name="individualBaselineType" column="SIT_INDV_BASELINE_TYPE">
+				<type name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.SSIIndividualBaselineType</param>
+				</type>
+			</property>
+			<property name="sameObjectiveDescription" column="IS_SAME_OBJ_DESCRIPTION" type="java.lang.Boolean"/>
+			<property name="claimSubmissionLastDate" column="CLAIM_SUBMISSION_LAST_DATE" type="java.util.Date"/>
+			<property name="claimApprovalNeeded" column="IS_CLAIM_APPROVAL_NEEDED" type="java.lang.Boolean"/>
+  			<property name="includeStackRank" column="INCLUDE_STACK_RANK" type="boolean"/>
+  			<property name="includeBonus" column="INCLUDE_BONUS" type="boolean"/>
+  			<property name="stackRankOrder" column="STACK_RANK_ORDER" type="string"/>
+  			<property name="payoutOtherCurrencyCode" column="PAYOUT_OTHER_CUR_CODE" type="string"/>
+  			<property name="activityDescription" column="ACTIVITY_DESCRIPTION" type="string"/>
+  			<property name="dataCollectionType" column="DATA_COLLECTION_TYPE" type="string"/>
+  			<property name="contestGoal" column="CONTEST_GOAL" type="double"/>
+  			<property name="approvedByLevel1" column="APPROVED_BY_LEVEL1" type="long"/>
+  			<property name="dateApprovedLevel1" column="DATE_APPROVED_LEVEL1" type="java.util.Date"/>
+  			<property name="approvedByLevel2" column="APPROVED_BY_LEVEL2" type="long"/>
+  			<property name="dateApprovedLevel2" column="DATE_APPROVED_LEVEL2" type="java.util.Date"/>
+  			<property name="denialReason" column="DENIED_REASON" type="string"/>
+  			<property name="levelApproved" column="APPROVAL_LEVEL_ACTION_TAKEN" type="int"/>
+  			<property name="stepItUpBonusCap" column="SIT_BONUS_CAP" type="long"/>
+  			<property name="stepItUpBonusPayout" column="SIT_BONUS_PAYOUT" type="long"/>
+  			<property name="stepItUpBonusIncrement" column="SIT_BONUS_INCREMENT" type="double"/>
+  			<property name="includeStackRankQualifier" column="INCLUDE_STACK_RANK_QUALIFIER" type="java.lang.Boolean"/>
+  			<property name="stackRankQualifierAmount" column="STACK_RANK_QUALIFIER_AMOUNT" type="double"/>
+  			<property name="awardIssuanceNumber" column="AWARD_ISSUANCE_NUMBER" type="java.lang.Short"/>
+  			<property name="launchNotificationSent" column="IS_LAUNCH_NOTIFICATION_SENT" type="boolean"/>
+  			<property name="dateLaunched" column="DATE_LAUNCHED" type="java.util.Date"/>
+  			<property name="saveAndSendProgressUpdate" column="SAVE_AND_SEND_PROGRESS_UPDATE" type="string"/>  			
+  			<many-to-one name="badgeRule" column="BADGE_RULE_ID" class="com.biperf.core.domain.gamification.BadgeRule" lazy="false" cascade="none" />
+  			<property name="activitysubmissionType" column="ACTIVITY_SUBMISSION_TYPE">
+				<type name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.SSIContestActivitySubmissionType</param>
+				</type>
+			</property>
+			<set name="contestDocuments" table="SSI_CONTEST_DOCUMENT" lazy="true" inverse="true" cascade="all-delete-orphan">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestDocument" />
+			</set>			
+			<set name="contestLevel1Approvers" table="SSI_CONTEST_APPROVER" lazy="true" inverse="true" cascade="all-delete-orphan" where="SSI_APPROVER_TYPE='contest_level1_approver'">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestApprover" />
+			</set>
+			<set name="contestLevel2Approvers" table="SSI_CONTEST_APPROVER" lazy="true" inverse="true" cascade="all-delete-orphan" where="SSI_APPROVER_TYPE='contest_level2_approver'">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestApprover" />
+			</set>
+			<set name="claimApprovers" table="SSI_CONTEST_APPROVER" lazy="true" inverse="true" cascade="all-delete-orphan" where="SSI_APPROVER_TYPE='claim_approver'">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestApprover" />
+			</set>
+			<set name="contestManagers" table="SSI_CONTEST_MANAGER" lazy="true" inverse="true" cascade="all-delete-orphan">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestManager" />
+			</set>
+			<set name="contestSuperViewers" table="SSI_CONTEST_SUPERVIEWER" lazy="true" inverse="true" cascade="all-delete-orphan">
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestSuperViewer" />
+			</set>			
+			<set name="contestParticipants" table="SSI_CONTEST_PARTICIPANT" lazy="true" inverse="true" cascade="all-delete-orphan">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestParticipant"  />
+			</set>
+			<set name="contestActivities" table="SSI_CONTEST_ACTIVITY" lazy="true" inverse="true" cascade="all-delete-orphan" order-by="sequence_number asc">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestActivity" />
+			</set>
+
+			<set name="contestLevels" table="SSI_CONTEST_LEVEL" lazy="true" inverse="true" cascade="all-delete-orphan" order-by="sequence_number asc">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestLevel" />
+			</set>
+			<set name="stackRankPayouts" table="SSI_CONTEST_SR_PAYOUT" lazy="true" inverse="true" cascade="all-delete-orphan" order-by="rank_position asc">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestStackRankPayout" />
+			</set>
+			<set name="claimFields" table="SSI_CONTEST_CLAIM_FIELD" lazy="true" inverse="true" cascade="all-delete-orphan" order-by="sequence_number asc">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestClaimField" />
+			</set>
+			<set name="contestAtns" table="SSI_CONTEST_ATN" lazy="true" inverse="true" cascade="all-delete-orphan">
+				<cache usage="nonstrict-read-write"/>
+				<key column="SSI_CONTEST_ID" />
+				<one-to-many class="com.biperf.core.domain.ssi.SSIContestAwardThemNow" />
+			</set>			
+			<list name="contestBillCodes" table="ssi_contest_bill_code" lazy="true" inverse="true" cascade="all-delete-orphan" >
+			<cache usage="nonstrict-read-write"/>
+			<key column="ssi_contest_id" not-null="true" />
+			<list-index column="sort_order" />
+			<one-to-many class="com.biperf.core.domain.ssi.SSIContestBillCode" />
+		</list>
+			
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.contest.ContestNameExistsCount">
+	<return-scalar column="result" type="integer" />
+		<![CDATA[
+        select count(1) as result
+        from (
+        select (SELECT cms_value FROM vw_cms_asset_value 
+        WHERE locale  =:locale AND KEY ='CONTEST_NAME'
+        AND asset_code = CM_ASSET_CODE) as cmValueContestName
+        from ssi_contest 
+        where ssi_contest_id != NVL(:contestId, ssi_contest_id)) 
+        where lower(cmValueContestName) = lower(:contestName)
+    ]]>
+	</sql-query>
+		
+	<sql-query name="com.biperf.core.domain.contest.getAllContestNames">
+		<return-scalar column="CM_ASSET_CODE" type="string"/>
+		<![CDATA[
+         SELECT CM_ASSET_CODE from ssi_contest
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.ContestTranslationsCounts">
+	<return-scalar column="count" type="integer" />
+	<return-scalar column="key" type="string" />
+		<![CDATA[
+			SELECT COUNT(1) AS COUNT,
+			  c.KEY         AS KEY
+			FROM vw_cms_asset_value c
+			WHERE c.asset_code =:assetCode
+			AND c.cms_value   IS NOT NULL
+			GROUP BY c.KEY
+    	]]>
+	</sql-query>
+		
+	<sql-query name="com.biperf.core.domain.contest.getTranslatedContestValues">
+		<return-scalar column="locale" type="string"/>
+	  	<return-scalar column="text" type="string"/>
+		<![CDATA[
+			SELECT c.locale as locale, c.cms_value as text
+			FROM vw_cms_asset_value c
+			WHERE c.asset_code = :assetCode
+			AND c.key = :key
+			AND c.cms_value is not null
+			ORDER BY c.locale asc
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getParticipantLiveContestsValueBean">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED 
+			from ssi_contest c, ssi_contest_participant cp 
+			where c.ssi_contest_id=cp.ssi_contest_id 
+			and cp.user_id=:participantId 
+			and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate		
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getParticipantLiveContests">
+	<return alias="c" class="com.biperf.core.domain.ssi.SSIContest" />
+		<![CDATA[
+			select {c.*} from ssi_contest c, ssi_contest_participant cp 
+			where c.ssi_contest_id = cp.ssi_contest_id 
+			and cp.user_id = :participantId
+			and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate 
+			order by fnc_cms_asset_code_value(c.cm_asset_code) asc 
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getParticipantArchivedContests">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED 
+			from ssi_contest c, ssi_contest_participant cp 
+			where c.ssi_contest_id=cp.ssi_contest_id 
+			and cp.user_id=:participantId 
+			and c.status=:closedStatus
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getManagerArchivedContests">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED , c.CONTEST_TYPE
+			from ssi_contest c, ssi_contest_manager cm 
+			where c.ssi_contest_id=cm.ssi_contest_id 
+			and cm.user_id=:managerId  
+			and c.status=:closedStatus
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getManagerLiveContests">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED , c.CONTEST_TYPE
+			from ssi_contest c, ssi_contest_manager cm 
+			where c.ssi_contest_id=cm.ssi_contest_id 
+			and cm.user_id=:managerId 
+			and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getContestListByCreator">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED , c.CONTEST_TYPE
+			from ssi_contest c 
+			where c.CONTEST_OWNER_ID=:creatorId 
+			and c.status in (:liveStatus, :pendingStatus, :pendingApprovalStatus, :incompleteStatus, :finalize_results)
+			and c.contest_type !=:contestType
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+			UNION
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED , c.CONTEST_TYPE
+			from ssi_contest c, SSI_CONTEST_SUPERVIEWER scsv 
+			where c.ssi_contest_id = scsv.ssi_contest_id 
+			and scsv.user_id = :creatorId
+			and c.status in (:liveStatus, :pendingStatus, :pendingApprovalStatus, :incompleteStatus, :finalize_results)
+			and c.contest_type !=:contestType
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')			
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getAwardThemNowContest">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED , c.CONTEST_TYPE
+			from ssi_contest c 
+			where c.CONTEST_OWNER_ID=:creatorId 
+			and c.status=:status 
+			and c.contest_type=:contestType
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+			UNION
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED , c.CONTEST_TYPE
+			from ssi_contest c, SSI_CONTEST_SUPERVIEWER scsv 
+			where c.ssi_contest_id = scsv.ssi_contest_id 
+			and scsv.user_id = :creatorId 
+			and c.status=:status 
+			and c.contest_type=:contestType
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getArchivedContestListByCreator">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED, c.CONTEST_TYPE 
+			from ssi_contest c 
+			where c.CONTEST_OWNER_ID=:creatorId  
+			and c.status=:closedStatus
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getArchivedContestListBySuperViewer"> 
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED, c.CONTEST_TYPE 
+			from ssi_contest c,SSI_CONTEST_SUPERVIEWER scsv
+			where c.ssi_contest_id = scsv.ssi_contest_id 
+			and scsv.user_id = :creatorId  
+			and c.status=:closedStatus
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getDeniedContestListByCreator">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+	  	<return-scalar column="DENIED_REASON" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED, c.CONTEST_TYPE, c.DENIED_REASON 
+			from ssi_contest c 
+			where c.CONTEST_OWNER_ID=:creatorId  
+			and c.status=:closedStatus
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.contest.getCreatorLiveContests">
+		<return alias="c" class="com.biperf.core.domain.ssi.SSIContest" />
+		<![CDATA[
+			select {c.*} from ssi_contest c 
+			where c.CONTEST_OWNER_ID=:creatorId  
+			and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate 
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+			order by fnc_cms_asset_code_value(c.cm_asset_code) asc
+    ]]>
+	</sql-query>
+	
+  <sql-query name="com.biperf.core.domain.contest.getDeniedContestListBySuperViewer">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+	  	<return-scalar column="DENIED_REASON" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED, c.CONTEST_TYPE, c.DENIED_REASON 
+			from ssi_contest c ,SSI_CONTEST_SUPERVIEWER scsv
+			where c.ssi_contest_id = scsv.ssi_contest_id 
+			and scsv.user_id = :creatorId  
+			and c.status=:closedStatus
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getSuperViewerLiveContests">
+		<return alias="c" class="com.biperf.core.domain.ssi.SSIContest" />
+		<![CDATA[
+			select {c.*} 
+			from ssi_contest c,SSI_CONTEST_SUPERVIEWER scsv
+			where c.ssi_contest_id = scsv.ssi_contest_id 
+			and scsv.user_id = :creatorId  
+			and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate 
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+			order by fnc_cms_asset_code_value(c.cm_asset_code) asc
+    ]]>
+	</sql-query>
+
+	
+	<sql-query name="com.biperf.core.domain.contest.contestCreatorTeamSummary">
+	  	<![CDATA[
+           select  sc.contest_goal as goal, 
+           sum(SCPP.ACTIVITY_AMT) as teamActivity,
+           ( sc.contest_goal -  sum(SCPP.ACTIVITY_AMT) ) as remaining,
+           round((( sum(SCPP.ACTIVITY_AMT)  / sc.contest_goal)  * 100 ), 0) as progress,
+           scPax.paxCount as totalPax,   
+           CASE WHEN  scp.objective_amount <= (select sum(SCPP.ACTIVITY_AMT) from ssi_contest_participant scp, ssi_contest_pax_progress scpp where scpp.ssi_contest_id = :contestId   and scp.user_id = scpp.user_id)
+           THEN  count(scp.user_id) 
+           END 
+           AS totalPaxAchieved,
+           sum(SCP.OBJECTIVE_PAYOUT) as totalPayout,
+           sum(SCP.OBJECTIVE_BONUS_PAYOUT) as totalBonus,
+           (sum(SCP.OBJECTIVE_PAYOUT) + sum(SCP.OBJECTIVE_BONUS_PAYOUT)) as totalPayoutWithBonus,
+           CASE WHEN scp.objective_amount <= (select sum(SCPP.ACTIVITY_AMT) from ssi_contest_participant scp, ssi_contest_pax_progress scpp where scpp.ssi_contest_id = :contestId   and scp.user_id = scpp.user_id)
+           THEN  SUM(SCP.OBJECTIVE_PAYOUT) 
+           END
+           as payoutProgress
+           from ssi_contest sc,
+           ssi_contest_participant scp,
+           ssi_contest_pax_progress scpp,
+           (select count(*) as paxCount 
+           from ssi_contest_participant
+           where ssi_contest_id = :contestId) scPax
+           where sc.ssi_contest_id = :contestId
+           and sc.CONTEST_OWNER_ID = :userId
+           and sc.ssi_contest_id = SCP.SSI_CONTEST_ID
+           and sc.ssi_contest_id = SCPP.SSI_CONTEST_ID
+          and SCP.USER_ID = scpp.user_id
+          group by  sc.contest_goal, scp.objective_amount, scPax.paxCount
+	    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getExistingContestParticipantIds">
+		<return-scalar column="USER_ID" type="long"/>
+		<![CDATA[
+			select USER_ID from SSI_CONTEST_PARTICIPANT where SSI_CONTEST_ID=:contestId and USER_ID in (:paxIds)
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getExistingContestManagerIds">
+		<return-scalar column="USER_ID" type="long"/>
+		<![CDATA[
+			select USER_ID from SSI_CONTEST_MANAGER where SSI_CONTEST_ID=:contestId and USER_ID in (:managerIds)
+		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.contest.getExistingContestSuperViewerIds">
+		<return-scalar column="USER_ID" type="long"/>
+		<![CDATA[
+			select USER_ID from SSI_CONTEST_SUPERVIEWER where SSI_CONTEST_ID=:contestId and USER_ID in (:superViewerIds)
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getLiveContests">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			select c.SSI_CONTEST_ID, c.STATUS, c.cm_asset_code as NAME, c.CONTEST_START_DATE, c.CONTEST_END_DATE, c.DATE_MODIFIED ,c.CONTEST_TYPE
+			from ssi_contest c 
+			where (c.status=:liveStatus or (c.status=:pendingStatus and c.display_start_date=:tileStartDate))  
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getContestWaitingForApprovalByUserId">
+		<return-scalar column="SSI_CONTEST_ID" type="long"/>
+	  	<return-scalar column="STATUS" type="string"/>
+	  	<return-scalar column="NAME" type="string"/>
+	  	<return-scalar column="CONTEST_START_DATE" type="date"/>
+	  	<return-scalar column="CONTEST_END_DATE" type="date"/>
+	  	<return-scalar column="DATE_MODIFIED" type="date"/>
+	  	<return-scalar column="CONTEST_TYPE" type="string"/>
+		<![CDATA[
+			(
+			SELECT distinct sc.SSI_CONTEST_ID, sc.STATUS, sc.cm_asset_code as NAME, sc.CONTEST_START_DATE, sc.CONTEST_END_DATE, sc.DATE_MODIFIED ,sc.CONTEST_TYPE  FROM ssi_contest_approver sca, ssi_contest sc
+			WHERE sca.ssi_contest_id = sc.ssi_contest_id AND sca.user_id = :userId AND sc.status =:status
+       		AND ((sc.approval_level_action_taken = 0 AND sca.ssi_approver_type =:level1Approver) OR (sc.approval_level_action_taken = 1 AND sca.ssi_approver_type =:level2Approver
+       		AND sc.approved_by_level1 <>:userId ))
+			UNION
+			SELECT distinct sc.SSI_CONTEST_ID, atn.ISSUANCE_STATUS, sc.cm_asset_code as NAME, sc.CONTEST_START_DATE, sc.CONTEST_END_DATE, sc.DATE_MODIFIED , sc.CONTEST_TYPE FROM ssi_contest_approver sca, ssi_contest sc , ssi_contest_atn atn
+			WHERE sca.ssi_contest_id = sc.ssi_contest_id AND sc.ssi_contest_id = atn.ssi_contest_id AND sca.user_id = :userId AND atn.ISSUANCE_STATUS =:status
+       		AND ((atn.approval_level_action_taken = 0 AND sca.ssi_approver_type =:level1Approver) OR (atn.approval_level_action_taken = 1 AND sca.ssi_approver_type =:level2Approver
+       		AND atn.approved_by_level1 <>:userId ))			
+			)
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getContestNames">
+		<return-scalar column="CONTEST_ID" type="long"/>
+	  	<return-scalar column="CONTEST_NAME" type="string"/>
+		<![CDATA[
+		    select ssi_contest_id as contest_id, fnc_cms_asset_code_val_extr(cm_asset_code,'CONTEST_NAME',:locale) as contest_name from ssi_contest where ssi_contest_id in(:contestIds)
+    ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.calculateBaseLineTotalsForStepItUp">
+	<return-scalar column="enteredBaseLineForAllPax" type="java.lang.Boolean" />
+	<return-scalar column="baselineTotal" type="java.lang.Double" />
+		<![CDATA[
+			SELECT DECODE(COUNT,0,1,0) AS enteredBaseLineForAllPax,
+			  b.total AS baselineTotal
+			FROM
+			  (SELECT COUNT(1) AS COUNT
+			  FROM ssi_contest_participant
+			  WHERE SIU_BASELINE_AMOUNT IS NULL
+			  AND ssi_contest_id         =:contestId
+			  ) a,
+			  (SELECT SUM(NVL(cp.SIU_BASELINE_AMOUNT,0)) AS total
+			  FROM ssi_contest_participant cp
+			  WHERE cp.ssi_contest_id =:contestId
+			  GROUP BY cp.ssi_contest_id
+			  ) b 
+    	]]>
+	</sql-query>
+
+	
+	<sql-query name="com.biperf.core.domain.contest.isPaxContestCreator">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+			select count(1) as result 
+			from ssi_contest c 
+			where c.CONTEST_OWNER_ID = :participantId  
+			and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate
+			and 0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+   		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.isPaxContestSuperViewer">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+			select count(1) as result 
+			from ssi_contest c, SSI_CONTEST_SUPERVIEWER scsv 
+			where c.ssi_contest_id = scsv.ssi_contest_id 
+			and scsv.user_id = :participantId
+			and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+   		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.isPaxInContestPaxAudience">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+	        select count(1) as result
+            from ssi_contest c, ssi_contest_participant cp 
+            where c.ssi_contest_id = cp.ssi_contest_id 
+            and cp.user_id = :participantId
+            and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate
+            and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+               	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.isPaxInContestManagerAudience">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+			select count(1) as result 
+			from ssi_contest c, ssi_contest_manager cm 
+			where c.ssi_contest_id = cm.ssi_contest_id 
+			and cm.user_id = :participantId
+			and c.status in (:liveStatus, :pendingStatus, :finalize_results) 
+			and c.display_start_date <= :referenceDate
+			and  0 < (select count(*) from Promotion where promotion_type = 'self_serv_incentives' and promotion_status='live')
+    ]]>
+	</sql-query>	
+	
+	<sql-query name="com.biperf.core.domain.contest.OpenContestCount">
+	<return-scalar column="count" type="integer" />
+		<![CDATA[
+			select count(*) as count  
+			from ssi_contest where promotion_id=:promotionId  and contest_type=:contestType and 
+			(status='draft' or status='waiting_for_approval' or status='pending' or status='live')
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.calculateTotalsForStackRank">
+	<return-scalar column="totalRanks" type="java.lang.Long" />
+	<return-scalar column="totalPayout" type="java.lang.Long" />
+		<![CDATA[
+			select count(*) as totalRanks,sum(payout_amount) as totalPayout from ssi_contest_sr_payout where ssi_contest_id=:contestId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.HighestLevelPayout">
+	<return-scalar column="goal_amount" type="java.lang.Long" />
+		<![CDATA[
+			select goal_amount from ssi_contest_level scl where ssi_contest_id=:contestId and sequence_number= (select max(sequence_number) from ssi_contest_level where ssi_contest_id=scl.ssi_contest_id)
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.isBadgeInSsiContest">
+	<return-scalar column="count" type="integer" />
+		<![CDATA[
+        select count(1) as count 
+        from ssi_contest sc
+        where SC.PROMOTION_ID = :promotionId
+        and sc.badge_rule_id = :badgeRuleId
+	   ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getRequireContentApproval">
+	<return-scalar column="count" type="integer" />
+		<![CDATA[
+        select require_contest_approval as count 
+        from ssi_contest sc,
+		PROMO_SSI ps
+		where  ps.promotion_id=sc.promotion_id
+		and sc.ssi_contest_id=:ssiContestId        
+	   ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.contest.getContestListForSSIContestFileLoad">
+		<return-scalar column="id" type="long" />
+		<return-scalar column="name" type="string" />				
+		<![CDATA[
+		Select sc.ssi_contest_id as id, fnc_cms_asset_code_val_extr(sc.cm_asset_code,'CONTEST_NAME','en_US') as name 
+		From ssi_contest sc 
+		Where sc.contest_type=:contestType and sc.status in ('live','pending','draft','contest_over','finalize_results','payout_rewards' ) 
+        Order by 2
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.ui.getConetstBillCodesByContestId">
+		<return-scalar column="sort_order" type="integer"/>
+		<return-scalar column="bill_code" type="string"/>
+		<return-scalar column="track_bills_by" type="string"/>
+		<return-scalar column="custom_value" type="string"/>
+		<return-scalar column="CM_ASSET_CODE" type="string"/>
+		<return-scalar column="CM_KEY" type="string"/>	
+	<![CDATA[	
+		 SELECT ssi.sort_order,
+			         ssi.bill_code,
+			         ssi.track_bills_by,
+			         ssi.custom_value,
+			         NVL(c.cm_asset_code,'promotion.bill.code') AS CM_ASSET_CODE, 
+			         NVL(c.name_cm_key,  
+			            case ssi.bill_code
+			            when 'department' then 'DEPT_NAME'
+			            when 'orgUnitName' then 'ORG_UNIT_NAME'
+			            when 'userName' then 'LOGIN_ID'
+			            when 'countryCode' then 'COUNTRY_CODE' 
+			            when 'customValue' then 'CUSTOM_VALUE'
+			            end
+			          ) AS CM_KEY 		           
+			    FROM ssi_contest_bill_code ssi, characteristic c
+			   WHERE ssi.ssi_contest_id=:contestId 
+			         AND ssi.bill_code = TO_CHAR (c.characteristic_id(+))
+			ORDER BY 1	
+	]]>
+  </sql-query>
+    
+  <sql-query name="com.biperf.core.ui.ssi.getBillCodesByPromoId">
+	<return-scalar column="sort_order" type="integer"/>
+	<return-scalar column="bill_code" type="string"/>
+	<return-scalar column="track_bills_by" type="string"/>
+	<return-scalar column="custom_value" type="string"/>
+	<return-scalar column="CM_ASSET_CODE" type="string"/>
+	<return-scalar column="CM_KEY" type="string"/>	
+	<![CDATA[	
+	 SELECT pb.sort_order,
+		         pb.bill_code,
+		         pb.track_bills_by,
+		         pb.custom_value,
+		         NVL(c.cm_asset_code,'promotion.bill.code') AS CM_ASSET_CODE, 
+		         NVL(c.name_cm_key,  
+		            case pb.bill_code
+		            when 'department' then 'DEPT_NAME'
+		            when 'orgUnitName' then 'ORG_UNIT_NAME'
+		            when 'userName' then 'LOGIN_ID'
+		            when 'countryCode' then 'COUNTRY_CODE'
+		            when 'customValue' then 'CUSTOM_VALUE'
+		            end
+		          ) AS CM_KEY
+		    FROM promo_bill_code pb, characteristic c
+		   WHERE     pb.promotion_id=:promoId
+		         AND pb.bill_code = TO_CHAR (c.characteristic_id(+))
+		ORDER BY 1	
+	]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.contest.isParticipantInSsiContest">
+	<return-scalar column="count" type="integer" />
+		<![CDATA[
+        select count(1) as count 
+        from ssi_contest_participant
+        where ssi_contest_id = :contestId
+        and user_id = :userId
+	   ]]>
+  </sql-query>
+</hibernate-mapping>  

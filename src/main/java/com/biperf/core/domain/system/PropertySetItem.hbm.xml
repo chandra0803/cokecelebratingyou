@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.system.PropertySetItem" table="OS_PROPERTYSET">
+        <cache usage="nonstrict-read-write"/>
+        <id name="entityName" type="java.lang.String" column="entity_name"></id>
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+  		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+  		<property name="entityId" type="long" column="entity_id" />
+        <property name="key" column="entity_key" />
+        <property name="type" column="key_type">
+	        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+                <param name="lookupClass">com.biperf.core.domain.enums.SystemVariableType</param>
+                <param name="dbType">Integer</param>
+            </type>
+        </property>
+        <property name="booleanVal" column="boolean_val" />
+        <property name="doubleVal" column="double_val" />
+        <property name="stringVal" column="string_val" />
+        <property name="longVal" column="long_val" />
+        <property name="intVal" column="int_val" />
+        <property name="dateVal" type="date" column="date_val" />
+        <property name="editable" column="is_editable"/>
+        <property name="viewable" column="is_viewable"/>
+        <property name="groupName" column="group_name"/>
+    </class>
+	
+	<query name="all_properties"><![CDATA[
+		from item in class com.biperf.core.domain.system.PropertySetItem where item.viewable = 1
+	]]></query>
+	<query name="property_by_name" ><![CDATA[
+		from item in class com.biperf.core.domain.system.PropertySetItem
+		where item.entityName = :entityName
+	]]></query>
+	<query name="all_keys"><![CDATA[
+		select item.key from item in class com.biperf.core.domain.system.PropertySetItem
+		where item.entityName = :entityName and item.entityId = :entityId
+	]]></query>
+	<query name="all_keys_with_type"><![CDATA[
+		select item.key from item in class com.biperf.core.domain.system.PropertySetItem
+		where item.entityName = :entityName and item.entityId = :entityId and item.type = :type
+	]]></query>
+	<query name="all_keys_like"><![CDATA[
+		select item.key from item in class com.biperf.core.domain.system.PropertySetItem
+		where item.entityName = :entityName and item.entityId = :entityId and item.key LIKE :like
+	]]></query>
+	<query name="all_keys_with_type_like"><![CDATA[
+		select item.key from item in class com.biperf.core.domain.system.PropertySetItem
+		where item.entityName = :entityName and item.entityId = :entityId
+		and item.type = :type and item.key LIKE :like
+	]]></query>
+
+</hibernate-mapping>

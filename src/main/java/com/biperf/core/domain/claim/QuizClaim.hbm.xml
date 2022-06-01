@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <joined-subclass name="com.biperf.core.domain.claim.QuizClaim" extends="com.biperf.core.domain.claim.Claim" table="QUIZ_CLAIM" >
+    <key column="CLAIM_ID" not-null="true" />
+
+    <set name="quizResponses" table="QUIZ_RESPONSE" inverse="true" cascade="all-delete-orphan" order-by="sequence_num">
+      <key column="CLAIM_ID" not-null="true"/>
+      <one-to-many class="com.biperf.core.domain.claim.QuizResponse"/>
+    </set>
+
+    <many-to-one name="quiz" class="com.biperf.core.domain.quiz.Quiz" column="QUIZ_ID" lazy="false"/>
+    <property name="pass" type="boolean" column="pass"/>
+    <property name="passingScore" type="int" column="passing_score" not-null="true"/>
+    <property name="score" type="int" column="score" not-null="true"/>
+    <property name="questionCount" type="int" column="question_count" not-null="true"/>
+
+    <many-to-one name="currentQuizQuestion" class="com.biperf.core.domain.quiz.QuizQuestion" not-null="true" column="current_question_id" lazy="false"/>
+    
+   <set name="quizClaimItems" lazy="false" table="QUIZ_CLAIM_ITEM" inverse="true" cascade="all-delete-orphan">
+      <key column="CLAIM_ID" />
+      <one-to-many class="com.biperf.core.domain.claim.ClaimItem" />
+    </set>
+
+  </joined-subclass>
+
+</hibernate-mapping>

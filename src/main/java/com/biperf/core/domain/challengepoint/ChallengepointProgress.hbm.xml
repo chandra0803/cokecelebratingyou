@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.challengepoint.ChallengepointProgress" table="CHALLENGEPOINT_PROGRESS">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="CHALLENGEPOINT_PROGRESS_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">CHALLENGEPOINT_PROGRESS_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" type="java.lang.Long" column="VERSION" />	
+				 		
+		<!-- participant -->
+		<many-to-one name="participant" column="USER_ID" not-null="true" 
+			class="com.biperf.core.domain.participant.Participant" lazy="no-proxy">
+		</many-to-one>
+		
+		<!-- promotion -->
+		<many-to-one name="challengePointPromotion" column="PROMOTION_ID" not-null="true" 
+			class="com.biperf.core.domain.promotion.ChallengePointPromotion" lazy="false">
+		</many-to-one>
+				
+		<!-- add/replace -->
+		<property name="type" column="type" type="java.lang.String" />
+
+		<!-- progress quantity -->
+	    <property name="quantity" column="QUANTITY" type="java.math.BigDecimal" />
+		
+		<!-- as of date for progress quantity -->
+		<property name="submissionDate" column="SUBMISSION_DATE" type="java.util.Date" />
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+ </class>
+ <query name="com.biperf.core.domain.challengepoint.ChallengepointPromotionByUserIdAndPromotionId">
+		<![CDATA[
+      from item in class com.biperf.core.domain.challengepoint.ChallengepointProgress
+      where item.participant.id = :userId and item.challengePointPromotion.id = :promotionId
+      order by item.id asc
+    ]]>
+	</query> 
+	
+	 <query name="com.biperf.core.domain.challengepoint.ChallengepointPromotionByPromotionId">
+		<![CDATA[
+      from item in class com.biperf.core.domain.challengepoint.ChallengepointProgress
+      where  item.challengePointPromotion.id = :promotionId
+      order by item.submissionDate desc, item.id desc
+    ]]>
+	</query> 
+</hibernate-mapping>
+

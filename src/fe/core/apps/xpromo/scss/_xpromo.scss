@@ -1,0 +1,135 @@
+// App-specific variables
+// =========================
+$xpromo_pageStoryImageTextColor: $brand_color_white !default;
+$xpromo_pageStoryImageBgColor: black !default; // real black instead of brand black on purpose
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.xpromo {
+} /* /.xpromo */
+
+/* ----- MODULE STYLES ----- */
+.launchModule.xpromo {
+    .module-liner {
+        padding: 0;
+        padding-top: calc(#{1 / 4.7 * 100%} - #{$spinner_widthHeight * 2}); // 4.7:1 ratio - min-height (borrwed from _allModules.scss)
+        min-height: $spinner_widthHeight * 2;
+        max-height: 300px;
+
+        @media (max-width: $breakpoint_mobileMini_max) {
+            padding-top: calc(#{2 / 2.35 * 100%} - 288px); // 2.35:2 ratio - min-height
+            min-height: 288px;
+            max-height: none;
+        }
+    }
+
+    .xpromo-inner {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        // height: 100%;
+        @include clearfix();
+
+        .xpromo-story {
+            height: 100%;
+            width: 50%;
+            float: left;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+
+            .comm-story {
+                height: 100%;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: 50% 50%;
+            }
+            &.news {
+                color: $xpromo_pageStoryImageTextColor;
+                position: relative;
+                height: 100%;
+
+                @media (max-width: $breakpoint_mobileMini_max) {
+                    height: 50%;
+                }
+
+                a {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    @include ignoreGlobalLinkStyles(
+                        $color: $xpromo_pageStoryImageTextColor
+                    );
+                }
+
+                .story {
+                    height: 100%;
+                    position: relative;
+                    opacity: 1;
+                    @include transition(opacity 1s);
+
+                    h3 {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        margin: 0;
+                        padding: 1em 0.75em 0.5em 0.75em;
+                        font-weight: $fontWeightNormal;
+                        // font-size: $headline4fontSize;
+                        // line-height: $headlineLineHeight;
+                        background: linear-gradient(to bottom, transparentize($xpromo_pageStoryImageBgColor, 1) 0%, transparentize($xpromo_pageStoryImageBgColor, 0.25) 100%); // used in _news.scss and _banners.scss and _communications.scss
+                    }
+                }
+            }
+
+            &.banner {
+                position: relative;
+
+                .comm-story {
+
+                    a {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        @include ignoreGlobalLinkStyles();
+                    }
+                }
+            }
+
+            @media (max-width: $breakpoint_mobileMini_max) {
+                height: 50%;
+                width: 100%;
+            }
+        }
+    }
+
+    &.single-story {
+        .module-liner {
+            @media (max-width: $breakpoint_mobileMini_max) {
+                padding-top: calc(#{1 / 2.35 * 100%} - 144px); // 2.35:1 ratio - min-height
+                min-height: 144px;
+            }
+        }
+        .xpromo-inner {
+            .xpromo-story {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
+/* /.xpromo */
+
+/* /.launchModule.xpromo */
+
+/* ----- PAGE STYLES ----- */
+.page.xpromo {
+} /* /.page.xpromo */

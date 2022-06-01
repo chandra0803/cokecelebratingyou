@@ -1,0 +1,72 @@
+<!-- ======== APPROVALS: APPROVALS INDEX ======== -->
+
+
+<div id="participantsPageIndexView" class="approvalSearchWrapper page-content">
+	<div id="approvalsTableWrapper">
+	    <div class="row">
+	    	<div class="span12">
+				<div class="wide-view">
+				    <div class="recognition-module-wrapper">
+
+			            <form id="nameFilter" style="text-align: center;">
+
+			                <label for="paxNameInput">I'd like to recognize</label>
+
+			                <div class="control-group validateme input-append searchWrap"
+			                    data-validate-fail-msgs='{"minlength":"Enter at least 2 characters to start"}'
+			                    data-validate-flags='minlength'
+			                    data-validate-min-length="2">
+
+			                    <input class="paxNameInput" id="recognitionNameInput" type="text" placeholder="Whom?"
+			                        data-autocomp-delay="500"
+			                        data-autocomp-min-chars="2">
+			                    <button class="btn searchBtn"><i class="icon-search"></i></button>
+			                    <div class="spinnerWrap"></div>
+			                </div>
+
+			            </form>
+
+			        </div>
+
+
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script id="claimIndex-Template" type="text/x-handlebars-template">
+	<tr>
+		<td>{{name}}</td>
+		<td>{{alertMessage}}</td>
+		<td>
+	</tr>
+</script>
+
+<script id="claimIndex-NoAlertsTemplate" type="text/x-handlebars-template">
+	<tr>
+		<td>You do not have any approvals to review</td>
+	</tr>
+</script>
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+	$(document).ready(function(){
+	    //attach the view to an existing DOM element
+	    var aimlp = new PaxSearchReactModelView({
+	    	el:$('#participantsPageIndexView'),
+	        pageNav : {
+	            back : {
+	                text : 'Back',
+	                url : 'layout.html'
+	            },
+	            home : {
+	                text : 'Home',
+	                url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+	            }
+	        },
+	        pageTitle : 'Participant Search'
+	    });
+	});
+
+</script>

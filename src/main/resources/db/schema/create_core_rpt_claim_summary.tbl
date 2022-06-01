@@ -1,0 +1,23 @@
+CREATE SEQUENCE rpt_claim_summary_pk_sq start with 1 increment by 1
+/
+CREATE TABLE rpt_claim_summary
+   (record_type                    VARCHAR2(49),
+    header_node_id                 NUMBER(18,0),
+    detail_node_id                 NUMBER(18),
+    status                         VARCHAR2(30),
+    claim_count                    NUMBER(12),
+    date_submitted                 DATE,
+    award_amount                   NUMBER(12,0),
+    promotion_id                   NUMBER(18,0),
+    award_type                     VARCHAR2(40),
+    pax_status                     VARCHAR2(30),
+    job_position                   VARCHAR2(100),
+    department                     VARCHAR2(100),
+    hier_level                     NUMBER,
+    is_leaf                        NUMBER(1,0),
+    rpt_claim_summary_id           NUMBER(18,0),
+    date_created                   DATE NOT NULL,
+    created_by                     NUMBER(18,0) NOT NULL,    
+    submitter_sweepstakes_won      NUMBER,
+    submitter_badges_earned        NUMBER)
+/

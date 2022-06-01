@@ -1,0 +1,211 @@
+// Partial-specific variables
+// =========================
+$cheers_ImgUrl: "celebration/coke_confetti.gif" !default;
+$cheers_ImgUrlPath: $appImagesPath !default;
+// Partial-specific code
+// ==================================================
+.cofettiPopBody {    
+    .modal-backdrop, .modal-backdrop.fade.in {
+        opacity: 0.9;
+        @include safeImgUrls($cheers_ImgUrl, $cheers_ImgUrlPath, $property: 'background-image');        
+    }
+}
+.cofettiPop {
+    width:80%; 
+    height:100%;
+    position: fixed; 
+    top:0px;    
+    img {
+        width: 100%;
+    }    
+}
+
+.ezCheersModal {
+    .cheersProfileContainer {
+        margin: 0px 0px 10px 0px;
+        float:left;
+        .cheers-top {
+            float:left;
+            .avatarwrap {
+                height: 60px;
+                width: 60px;
+                float:left;
+                img {
+                    width: auto;
+                    height:100%;
+                }
+                .avatar-initials {
+                    border-radius: 50%;
+                    min-height: 100%;
+                    line-height: 60px;
+                }
+            }
+            .profileWrapper {
+                float:left;
+                padding: 10px 0px 0px 10px;
+            }
+        }        
+    }  
+    .formContainer {
+        width: 100%;
+        float:left;
+        #ezCheersCommentBox {
+            .comment-label {
+                float: left;
+                margin-top: 2px;
+                margin-bottom: 10px;
+            }
+            .recognition-comment {
+                width: 100%;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                min-height: 86px;
+            }
+            .commentTools {
+                float: right;
+                text-align: right;
+                font-size: .9em;
+            }
+        }
+        
+    }
+}
+
+
+.cheers-popover {
+    font-size: $fontSizeSmall;
+    line-height: $lineHeightSmall;
+    display: inline-block;  
+}
+
+.icon-cheers {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'cheers' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;            
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-right: 5px;
+}
+
+.icon-cheers:before {
+  content: "\e900";
+  color: $brand_color_black;  
+}
+
+.cheersPaxQtip {
+    max-width: 280px !important; // make the qtip allow wider than default 280px
+    min-width: 0px;
+    border-radius: 4px;
+    padding: 0px;
+    margin-top:10px;
+    .spinnerBox {
+        width: 60px;
+        height: 60px;
+        padding: 20px;
+    }
+
+    .ui-tooltip-content {
+        padding:10px 0px;
+    }
+    .othersWrap {
+        span {
+            padding:5px;
+            display:flex;
+        }
+    }
+}
+
+.cheersPopoverQtip {
+    max-width: 150px !important; // make the qtip allow wider than default 280px
+    min-width: 0px;
+    border-radius: 4px;
+    padding: 0px;
+    margin-top:10px;
+    .spinnerBox {
+        width: 60px;
+        height: 60px;
+        padding: 20px;
+    }
+
+    &.elevate {
+        z-index: 999999999 !important;
+    }
+
+    .ui-tooltip-content {
+        padding:10px 0px;
+    }
+}
+
+
+.cheersPopover {
+    margin: 5px 0px;
+    max-height: 300px;
+    // min-width:300px;
+    min-width: 150px;    
+    overflow-y: auto;
+
+    .row {
+        margin: 0;
+    }
+
+    
+    .closePopoverBtn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        opacity: 0.6;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    .cheers-popover-list {
+        ul {
+            padding:0px;
+            margin: 0px;
+            list-style : none;
+            li {
+                padding:5px;
+                text-align:center;                
+                a {
+                    display: block;
+                    span {
+                        display:inline-block;
+                        &.signPoints {
+                            margin-right: 5px;
+                        }
+                        &.lblPoints {
+                            margin-left: 5px;
+                        }
+                    }
+                    span.signPoints {
+                        margin-right: 5px;
+                    
+                    }
+                } 
+            }
+        }
+        
+    }
+
+    .cheers-popover-wrapper
+     {
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        color: $brand_color_link;        
+        margin-bottom: 1px; // this fixes bug #3143. Don't know why Chrome/Win shows a scrollbar whereas Chrome/Mac doesn't
+        padding-bottom: 1px;
+        p {
+            border-bottom: 1px solid $brand_color_mid;
+            padding: 0px 0px 10px 0px;
+        }
+    }
+
+}

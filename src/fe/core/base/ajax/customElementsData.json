@@ -1,0 +1,235 @@
+{
+    "_comment": "type can be date| text| number| selection| multi_selection| text_box| link| sect_head| bool_checkbox| copy",
+    "customElements": {
+        "formId": 123,
+        "stepId": 234,
+        "customWhyId": 67890,
+        "customWhyCharCount": 1000,
+        "fields": [
+            {
+                "id": 234,
+                "sequenceNumber": 0,
+                "label": "Activity Date",
+                "name": "activityDate",
+                "type": "date",
+                "value": "03/10/16",
+                "isRequired": false
+            },
+            {
+                "id": 345,
+                "sequenceNumber": 1,
+                "label": "Customer Name",
+                "name": "customerName",
+                "type": "text",
+                "size": 0,
+                "mask": false,
+                "format": "alphaNumeric",
+                "value": "some text 123",
+                "isRequired": true
+            },
+            {
+                "id": 700,
+                "sequenceNumber": 2,
+                "label": "Number Field",
+                "name": "numberField",
+                "type": "number",
+                "maxDecimal": 2,
+                "mask": false,
+                "value": "123",
+                "isRequired": true
+            },
+            {
+                "id": 7000,
+                "sequenceNumber": 3,
+                "label": "Country",
+                "name": "country",
+                "type": "selection",
+                "fieldGroup": "address",
+                "subType": "country",
+                "value": "us",
+                "isRequired": true,
+                "selectList": [
+                    {
+                        "name": "United States",
+                        "id": "us"
+                    },
+                    {
+                        "name": "Canada",
+                        "id": "ca"
+                    },
+                    {
+                        "name": "United Kingdom",
+                        "id": "gb"
+                    },
+                    {
+                        "name": "Mexico",
+                        "id": "mx"
+                    }
+                ]
+            },
+            {
+                "id": 7000,
+                "sequenceNumber": 3,
+                "label": "Address 1",
+                "name": "address1",
+                "type": "text",
+                "fieldGroup": "address",
+                "subType": "address1",
+                "value": "1234 N.some st.",
+                "isRequired": true
+            },
+            {
+                "id": 7000,
+                "sequenceNumber": 3,
+                "label": "Address 2",
+                "name": "address2",
+                "type": "text",
+                "fieldGroup": "address",
+                "subType": "address2",
+                "value": "",
+                "isRequired": false
+            },
+            {
+                "id": 7000,
+                "sequenceNumber": 3,
+                "label": "Address 3",
+                "name": "address3",
+                "type": "text",
+                "fieldGroup": "address",
+                "subType": "address3",
+                "value": "",
+                "isRequired": false
+            },
+            {
+                "id": 7000,
+                "sequenceNumber": 3,
+                "label": "City",
+                "name": "city",
+                "type": "text",
+                "fieldGroup": "address",
+                "subType": "city",
+                "value": "",
+                "isRequired": true
+            },
+            {
+                "id": 7000,
+                "sequenceNumber": 3,
+                "label": "State/Providence",
+                "name": "state",
+                "type": "selection",
+                "fieldGroup": "address",
+                "subType": "state",
+                "value": "",
+                "isRequired": true,
+                "selectList": [
+                    {
+                        "name": "Alabama",
+                        "id": "AL",
+                        "countryCode": "us"
+                    },
+                    {
+                        "name": "Alaska",
+                        "id": "AK",
+                        "countryCode": "us"
+                    },
+                    {
+                        "name": "Arizona",
+                        "id": "AZ",
+                        "countryCode": "us"
+                    },
+                    {
+                        "name": "British Columbia",
+                        "id": "BC",
+                        "countryCode": "ca"
+                    },
+                    {
+                        "name": "Onterio",
+                        "id": "ON",
+                        "countryCode": "ca"
+                    },
+                    {
+                        "name": "Sonora",
+                        "id": "SO",
+                        "countryCode": "mx"
+                    }
+                ]
+            },
+            {
+                "id": 7000,
+                "sequenceNumber": 3,
+                "label": "Zip Code/Postal Code",
+                "name": "postalCode",
+                "type": "text",
+                "fieldGroup": "address",
+                "subType": "postalCode",
+                "value": "23453",
+                "isRequired": true
+            },
+            {
+                "id": 3435,
+                "sequenceNumber": 4,
+                "label": "Multi Select Field",
+                "name": "multiSelectField",
+                "type": "multi_selection",
+                "value": "am",
+                "isRequired": false,
+                "selectList": [
+                    {
+                        "name": "AM",
+                        "id": "am"
+                    },
+                    {
+                        "name": "PM",
+                        "id": "pm"
+                    }
+                ]
+            },
+            {
+                "id": 67890,
+                "sequenceNumber": 5,
+                "label":"Custom Why",
+                "name": "notes",
+                "type": "text_box",
+                "value": "",
+                "isRequired": false
+            },
+            {
+                "id": 678,
+                "sequenceNumber": 6,
+                "label":"Link Field",
+                "name": "linkField",
+                "type": "link",
+                "linkName": "my link",
+                "linkUrl": "http://www.google.com",
+                "value": "",
+                "isRequired": false
+            },
+            {
+                "id": 65678,
+                "sequenceNumber": 7,
+                "label":"My Header",
+                "name": "headerField",
+                "type": "sect_head"
+            },
+            {
+                "id": 3678,
+                "sequenceNumber": 8,
+                "label": "Radio Field",
+                "name": "radioField",
+                "type": "boolean",
+                "value": "true",
+                "trueLabel": "option 1",
+                "falseLabel": "option 2",
+                "isRequired": false
+            },
+            {
+                "id": 23678,
+                "sequenceNumber": 9,
+                "label": "Copy Block",
+                "name": "copyBlock",
+                "type": "copy",
+                "copy": "some text"
+            }
+        ]
+    }
+}

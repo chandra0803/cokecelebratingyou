@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.supplier.Supplier" table="SUPPLIER">
+
+        <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="SUPPLIER_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">SUPPLIER_PK_SQ</param>
+	        </generator>
+	    </id>
+
+        <!-- Using version number optimistic locking -->
+       <version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+	    
+	    <property name="supplierName" type="java.lang.String" column="SUPPLIER_NAME"/>
+		<property name="supplierType" type="java.lang.String" column="SUPPLIER_TYPE" />
+		<property name="description" type="java.lang.String" column="DESCRIPTION" />
+        <property name="status" column="STATUS">
+        	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+                <param name="lookupClass">com.biperf.core.domain.enums.SupplierStatusType</param>
+            </type>
+        </property>
+        <property name="catalogUrl" type="java.lang.String" column="CATALOG_URL" />
+        <property name="catalogTargetId" type="java.lang.String" column="CATALOG_TARGET_ID" />
+        <property name="statementUrl" type="java.lang.String" column="STATEMENT_URL" />
+        <property name="statementTargetId" type="java.lang.String" column="STATEMENT_TARGET_ID" />        
+   		<property name="allowPartnerSso" type="java.lang.Boolean" column="ALLOW_PARTNER_SSO" />
+   		        
+        <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE"/>
+        <property name="imageCmKey" type="java.lang.String" column="IMAGE_CM_KEY"/>
+        <property name="titleCmKey" type="java.lang.String" column="TITLE_CM_KEY"/>
+        <property name="descCmKey" type="java.lang.String" column="DESC_CM_KEY"/>
+        <property name="buttonCmKey" type="java.lang.String" column="BUTTON_CM_KEY"/>            
+        
+    </class>
+    
+    <sql-query
+		name="com.biperf.core.domain.supplier.getNumberOfAssociationsForSupplier">
+		<return-scalar column="result" type="long" />
+		<![CDATA[
+      		SELECT count(1) as result FROM COUNTRY_SUPPLIERS
+       			WHERE SUPPLIER_ID = :supplierCode
+    	]]>
+	</sql-query>
+	
+    <query name="com.biperf.core.domain.supplier.SupplierByName">
+		<![CDATA[
+		from item in class com.biperf.core.domain.supplier.Supplier 
+		where upper(item.supplierName) = upper(:supplierName)
+		]]>
+	</query>
+    
+    <query name="com.biperf.core.domain.supplier.AllSupplierList">
+		<![CDATA[
+		from com.biperf.core.domain.supplier.Supplier
+		]]>
+	</query>
+	
+    <query name="com.biperf.core.domain.supplier.AllActiveSupplierList">
+		<![CDATA[
+		from item in class com.biperf.core.domain.supplier.Supplier
+		where item.status = 'active'
+		]]> 
+	</query>	
+	
+</hibernate-mapping>

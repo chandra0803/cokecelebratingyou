@@ -1,0 +1,14 @@
+CREATE TABLE product_claim
+ (claim_id      NUMBER(12) NOT NULL)
+/
+ALTER TABLE product_claim
+ADD CONSTRAINT product_claim_id_pk PRIMARY KEY (claim_id)
+USING INDEX
+/
+ALTER TABLE product_claim ADD CONSTRAINT product_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES claim (claim_id)
+/
+COMMENT ON TABLE product_claim IS 'The CLAIM table defines a instance of product claim form.'
+/
+COMMENT ON COLUMN product_claim.claim_id IS 'System-generated key that identifies a specific claim.'
+/

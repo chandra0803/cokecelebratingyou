@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.report.ReportDashboardItemParam" table="REPORT_DASHBOARD_ITEM_PARAM">
+
+        <id name="id" type="java.lang.Long" column="RPT_DASHBOARD_ITEM_PARAM_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">RPT_DASHBOARD_ITEM_PARAM_PK_SQ</param>
+            </generator>
+        </id>
+             
+        <!-- Using version number optimistic locking -->
+        <version name="version" column="VERSION" type="java.lang.Long"/>
+
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+          <column name="DATE_MODIFIED"/>
+          <column name="MODIFIED_BY"/>
+        </property>
+        
+        <many-to-one name="reportDashboardItem" class="com.biperf.core.domain.report.ReportDashboardItem" lazy="false" insert="false" update="false" not-null="true" column="REPORT_DASHBOARD_ITEM_ID"/>
+        
+        <!-- tuning of saving dashboard - Changing insert and update to true so that it can be updated/saved without parent.
+         It is erroring out when report parameter is added without child items -->
+        <many-to-one name="reportParameter" class="com.biperf.core.domain.report.ReportParameter" lazy="false" insert="true" update="true" not-null="false" column="REPORT_PARAMETER_ID" />
+        
+        <property name="value" type="java.lang.String" column="VALUE"/>
+        <property name="autoUpdate" type="java.lang.Boolean" column="AUTO_UPDATE" />
+        
+    </class>
+   
+   
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $globalHeaderView_pointsLabel_color: ;
+
+// $globalHeaderView_pointsLabel_fontFamily: ;
+// $globalHeaderView_pointsPoints_fontFamily: ;
+// $globalHeaderView_shopLinks_fontFamily: ;
+
+// $globalHeaderView_pointsSize_mobile: ;
+// $globalHeaderView_pointsSize_tablet: ;
+// $globalHeaderView_pointsSize_desktop: ;
+// $globalHeaderView_pointsSize_desktopLarge: ;
+// $globalHeaderView_redeemMenu_arrowToken_fontSize: $fontSizeMid;
+// $globalHeaderView_redeemMenu_width_desktop : 400px;
+// $globalHeaderView_redeemMenu_width_tablet : 400px;
+// $globalHeaderView_redeemMenu_width_mobile : $globalHeaderView_redeemMenu_width_tablet / 2;
+// $globalHeaderView_redeemMenu_flexbasis : $globalHeaderView_redeemMenu_width_tablet / 2; 
+// $globalHeaderView_redeemMenu_image_width : $globalHeaderView_redeemMenu_flexbasis;
+// $globalHeaderView_redeemMenu_icon_width : 35px;
+// $globalHeaderView_redeemMenu_icon_height : 25px;
+// $globalHeaderView_redeemMenu_arrowIcon_height : 10px;
+// $globalHeaderView_redeemMenu_hover_color : $brand_color_white;
+// $globalHeaderView_redeemMenu_svg_hover_color: #206e75;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/globalHeader";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

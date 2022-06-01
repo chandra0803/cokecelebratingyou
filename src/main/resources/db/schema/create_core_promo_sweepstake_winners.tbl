@@ -1,0 +1,40 @@
+CREATE SEQUENCE promo_sweepstake_winner_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE promo_sweepstake_winners
+(
+ winner_id						NUMBER(18,0) NOT NULL,
+ sweepstake_drawing_id        	NUMBER(18,0) NOT NULL,
+ participant_id                 NUMBER(18,0),
+ consumer_id                 	NUMBER(18,0),
+ is_removed						NUMBER(1) DEFAULT 0 NOT NULL,
+ winner_type					VARCHAR2(10),
+ guid							VARCHAR2(80) NOT NULL,
+ PARTICIPANT_BADGE_ID			NUMBER(18,0),
+ created_by 					NUMBER(18) NOT NULL,
+ date_created                   DATE NOT NULL,
+ version                        NUMBER(18,0) NOT NULL
+)
+/
+ALTER TABLE promo_sweepstake_winners
+ADD CONSTRAINT promo_sweepstake_winner_pk PRIMARY KEY (winner_id)
+USING INDEX
+/
+ALTER TABLE promo_sweepstake_winners 
+ADD CONSTRAINT sweeps_winner_drawing_fk
+FOREIGN KEY (sweepstake_drawing_id) REFERENCES promo_sweepstake_drawing (sweepstake_drawing_id)
+/
+ALTER TABLE promo_sweepstake_winners 
+ADD CONSTRAINT sweepstake_winner_fk
+FOREIGN KEY (participant_id) REFERENCES participant (user_id)
+/
+CREATE INDEX PROMO_SWEEPS_WINNER_PAX_FK_idx 
+ON PROMO_SWEEPSTAKE_WINNERS (PARTICIPANT_ID)
+/
+CREATE INDEX PROMO_SWEEP_WIN_SWP_DRW_FK_idx 
+ON PROMO_SWEEPSTAKE_WINNERS (SWEEPSTAKE_DRAWING_ID)
+/
+CREATE INDEX PROMO_SWEEP_WIN_CONSUMER_idx 
+ON PROMO_SWEEPSTAKE_WINNERS (CONSUMER_ID)
+/
+COMMENT ON TABLE PROMO_SWEEPSTAKE_WINNERS IS 'The PROMO SWEEPSTAKE WINNERS table stores the winning participants of given sweepstakes.'
+/

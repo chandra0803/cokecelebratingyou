@@ -1,0 +1,605 @@
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
+// Calls DiffCmsData class and has it generate the diff file
+task cmdiff(type: JavaExec) {
+  group cmGroup
+  description "Generate cmdiff file"
+  dependsOn classes
+  doFirst {
+    // Prompt the user for the filenames
+    def newFilename = promptForInput("Enter NEW cmData filepath")
+    def oldFilename = promptForInput("Enter OLD cmData filepath")
+    def diffFilename = promptForInput("Enter DIFF filepath")
+    
+    // Add the filenames as arguments to the executable
+    args "${config.cmdiff.projDir}/${newFilename}"
+    args "${config.cmdiff.projDir}/${oldFilename}"
+    args "${config.cmdiff.projDir}/${diffFilename}"
+  }
+  classpath = sourceSets.main.runtimeClasspath
+  classpath config.envResourceDir
+  main = "com.objectpartners.cms.util.DiffCmsData"
+  systemProperty "log4j.configuration", "dev.log4j-config.xml"
+  systemProperty "svr", "local"
+  
+  // JVM memory amounts for cmdiff
+  minHeapSize "2048M"
+  maxHeapSize "2048M"
+}
+
+
+task cmdiff_cmdata_export(type: JavaExec) {
+  group cmGroup
+  description "Exports cmdata from selected database into cmdiff file"
+  dependsOn classes
+  doFirst {
+    // Database / locale dialog. Sets up DB variables, too.
+    String[] selections = promptForEnvAndLocale()
+    
+    // A second dialog for the name of the export file (We'll see if two dialogs is annoying, but for now re-use code)
+    String exportFilename = promptForInput("Export filename")
+    
+    // Create a temporary db.properties file to put on the CM class's classpath
+    File tempDir = getTemporaryDir()
+    File dbPropsFile = new File(tempDir, 'db.properties')
+    createDbProperties(dbPropsFile)
+  
+    // Add the db properties and language choice to the execution configuration
+    classpath tempDir
+    args "${config.cmdiff.projDir}/${exportFilename}"
+    if(selections[1] == "English-only") {
+      println "Exporting only English"
+      args "en_US"
+    }
+  }
+  // Task configuration (technically, this happens before the stuff above)
+  classpath = sourceSets.main.runtimeClasspath
+  classpath config.envResourceDir
+  main = "com.objectpartners.cms.util.CMDataExporter"
+  systemProperty "log4j.configuration", "dev.log4j-config.xml"
+  systemProperty "applicationContextConfiguration", "db.properties"
+  systemProperty "svr", "local"
+  
+  // JVM memory amounts for CM data export
+//  minHeapSize "2048M"
+//  maxHeapSize "2048M"
+}
+
+
+task cmdiff_copy_cmdata(type: Copy) {
+  group cmGroup
+  description "Copy cmdata.xml into cmdiff environment folders"
+  
+  // Append version to filename
+  rename { return "cmData${version}.xml" }
+  
+  // The root folder to copy into
+  into config.cmdiff.projDir
+  from config.cmdiff.importExportFilePath
+  
+  // Subfolder/file
+  into ('qa') {
+    from config.cmdiff.importExportFilePath
+  }
+  into ('pprd') {
+    from config.cmdiff.importExportFilePath
+  }
+  into ('prod') {
+    from config.cmdiff.importExportFilePath
+  }
+}
+
+
+task cm_data_export(type: JavaExec) {
+  group cmGroup
+  description "Exports CM from selected database into project's cmdata file"
+  dependsOn classes
+  doFirst {
+    // Database / locale dialog. Sets up DB variables, too.
+    String[] selections = promptForEnvAndLocale()
+    
+    // Create a temporary db.properties file to put on the CM class's classpath
+    File tempDir = getTemporaryDir()
+    File dbPropsFile = new File(tempDir, 'db.properties')
+    createDbProperties(dbPropsFile)
+  
+    // Add the db properties and language choice to the execution configuration
+    classpath tempDir
+    args "${config.cmdiff.importExportFilePath}"
+    if(selections[1] == "English-only") {
+      println "Exporting only English"
+      args "en_US"
+    }
+  }
+  // Task configuration (technically, this happens before the stuff above)
+  classpath = sourceSets.main.runtimeClasspath
+  classpath config.envResourceDir
+  main = "com.objectpartners.cms.util.CMDataExporter"
+  systemProperty "log4j.configuration", "dev.log4j-config.xml"
+  systemProperty "applicationContextConfiguration", "db.properties"
+  systemProperty "svr", "local"
+  
+  // JVM memory amounts for CM data export
+//  minHeapSize "2048M"
+//  maxHeapSize "2048M"
+}
+
+
+task cm_data_import {
+  group cmGroup
+  description "Imports cmdata.xml to the selected database"
+  dependsOn classes
+  doFirst {
+    // Database dialog. Sets up DB variables, too.
+    String selection = promptForEnv()
+    
+    doCmDataImport()
+  }
+}
+task cm_data_import_diff {
+  group cmGroup
+  description "Promts for filename, and imports CM to selected database"
+  dependsOn classes
+  doFirst {
+    // Database dialog. Sets up DB variables, too.
+    String selection = promptForEnv()
+    
+    def diffFilename = promptForInput("Enter cmdiff filepath")
+    
+    doCmDataImport(diffFilename)
+  }
+}
+// Method for cm data import.
+// Does not prompt for environment, assumes that has already been done
+void doCmDataImport(String importFilePath = "${config.cmdiff.importExportFilePath}") {
+  println "Importing CM data"
+  
+  // Create a temporary db.properties file to put on the CM class's classpath
+  File tempDir = tasks.cm_data_import.getTemporaryDir()
+  File dbPropsFile = new File(tempDir, 'db.properties')
+  createDbProperties(dbPropsFile)
+  
+  javaexec {
+    // Java command configuration
+    classpath = sourceSets.main.runtimeClasspath
+    classpath tempDir
+    classpath config.envResourceDir
+    main = "com.objectpartners.cms.util.ImportCmsDataLoader"
+    args importFilePath
+    args "${config.cmdiff.importLogError}"
+    systemProperty "log4j.configuration", "dev.log4j-config.xml"
+    systemProperty "applicationContextConfiguration", "db.properties"
+    
+    // JVM memory amounts for CM data import
+    minHeapSize "2048M"
+    maxHeapSize "2048M"
+  }
+}
+ext { doCmDataImport = this.&doCmDataImport }
+
+
+task goldcopy_cm_data_export(type: JavaExec) {
+  group cmGroup
+  description "Exports Gold Copy CM data from QA database into a .xml file"
+  dependsOn classes
+  doFirst {
+    doGoldcopyCmDataExport()
+  }
+}
+// Method for goldcopy cm data export
+// Does not ask for environment. Assumes it is already setup.
+void doGoldcopyCmDataExport() {
+  println "Exporting GoldCopy CM data"
+  
+  configureDBPropertiesGoldcopy()
+  
+  // Create a temporary db.properties file to put on the CM class's classpath
+  File tempDir = tasks.goldcopy_cm_data_export.getTemporaryDir()
+  File dbPropsFile = new File(tempDir, 'goldcopydb.properties')
+  Map dbPropsMap = [
+    'DB_DRIVER': project.db.gc_driver,
+    'DB_URL': project.db.gc_url,
+    'DB_USERNAME': project.db.gc_username,
+    'DB_PASSWORD': project.db.gc_password,
+    'DB_DIALECT': project.db.gc_dialect
+  ]
+  CreatePropertiesTask.createFile(dbPropsMap, dbPropsFile)
+  
+  javaexec {
+    // Command configuration
+    classpath = sourceSets.main.runtimeClasspath
+    classpath tempDir
+    classpath config.envResourceDir
+    main = "com.objectpartners.cms.util.CMDataExporter"
+    args "${config.cmdiff.goldcopyImportExportFilePath}"
+    args "${config.installation.data.languages}"
+    systemProperty "log4j.configuration", "dev.log4j-config.xml"
+    systemProperty "applicationContextConfiguration", "goldcopydb.properties"
+    systemProperty "svr", "local"
+    
+    // JVM memory amounts for goldcopy CM data export
+    minHeapSize "2048M"
+    maxHeapSize "2048M"
+  }
+}
+ext { doGoldcopyCmDataExport = this.&doGoldcopyCmDataExport }
+
+
+task goldcopy_cm_data_import {
+  group zapGroup
+  description "Imports goldcopy cmdata.xml to the selected database"
+  dependsOn classes
+  doFirst {
+    // Database dialog. Sets up DB variables, too.
+    String selection = promptForEnv()
+    
+    doGoldcopyCmDataImport()
+  }
+}
+// Method for goldcopy cm data import
+// Does not ask for environment. Assumes it is already setup.
+void doGoldcopyCmDataImport() {
+  println "Importing GoldCopy CM data"
+  
+  // Create a temporary db.properties file to put on the CM class's classpath
+  File tempDir = tasks.goldcopy_cm_data_import.getTemporaryDir()
+  File dbPropsFile = new File(tempDir, 'db.properties')
+  createDbProperties(dbPropsFile)
+  
+  javaexec {
+    // Command configuration
+    classpath = sourceSets.main.runtimeClasspath
+    classpath tempDir
+    classpath config.envResourceDir
+    main = "com.objectpartners.cms.util.ImportCmsDataLoader"
+    args "${config.cmdiff.goldcopyImportExportFilePath}"
+    systemProperty "log4j.configuration", "dev.log4j-config.xml"
+    systemProperty "applicationContextConfiguration", "db.properties"
+    
+    // JVM memory amounts for goldcopy CM data import
+    minHeapSize "2048M"
+    maxHeapSize "2048M"
+  }
+}
+ext { doGoldcopyCmDataImport = this.&doGoldcopyCmDataImport }
+
+
+task create_goldcopy_cmdiff {
+  group zapGroup
+  description "Creates diff from project cmData and goldcopy"
+  dependsOn classes
+  doFirst {
+    // Database dialog. Sets up DB variables, too.
+    String selection = promptForEnv()
+    
+    doCreateGoldcopyCmDiff()
+  }
+}
+// Method for create goldcopy cmdiff
+// Does not ask for environment. Assumes it is already setup.
+void doCreateGoldcopyCmDiff() {
+  println "Creating Goldcopy CM diff"
+  
+  javaexec {
+    // Command configuration
+    classpath = sourceSets.main.runtimeClasspath
+    classpath config.envResourceDir
+    main = "com.objectpartners.cms.util.DiffCmsData"
+    args "${config.cmdiff.importExportFilePath}"
+    args "${config.cmdiff.goldcopyImportExportFilePath}"
+    args "${config.cmdiff.goldcopyDifftFilePath}"
+    systemProperty "log4j.configuration", "dev.log4j-config.xml"
+    systemProperty "svr", "local"
+    systemProperty "file.encoding", "UTF-8"
+    
+    // JVM memory amounts for create goldcopy CM diff
+    minHeapSize "2048M"
+    maxHeapSize "2048M"
+  }
+}
+ext { doCreateGoldcopyCmDiff = this.&doCreateGoldcopyCmDiff }
+
+
+task goldcopy_cmdiff_import {
+  group zapGroup
+  description "Imports goldcopy cmdiff xml to the selected database"
+  dependsOn classes
+  doFirst {
+    // Database dialog. Sets up DB variables, too.
+    String selection = promptForEnv()
+    
+    doGoldcopyCmDiff()
+  }
+}
+// Method for goldcopy cmdiff import
+// Does not ask for environment. Assumes it is already setup.
+void doGoldcopyCmDiff() {
+  println "Importing Goldcopy CM diff"
+  // Create a temporary db.properties file to put on the CM class's classpath
+  File tempDir = tasks.goldcopy_cmdiff_import.getTemporaryDir()
+  File dbPropsFile = new File(tempDir, 'db.properties')
+  createDbProperties(dbPropsFile)
+  
+  javaexec {
+    // Command configuration
+    classpath = sourceSets.main.runtimeClasspath
+    classpath tempDir
+    classpath config.envResourceDir
+    main = "com.objectpartners.cms.util.ImportCmsDataLoader"
+    args "${config.cmdiff.goldcopyDifftFilePath}"
+    systemProperty "log4j.configuration", "dev.log4j-config.xml"
+    systemProperty "applicationContextConfiguration", "db.properties"
+    
+    // JVM memory amounts for goldcopy CM diff import
+    minHeapSize "2048M"
+    maxHeapSize "2048M"
+  }
+}
+ext { doGoldcopyCmDiff = this.&doGoldcopyCmDiff }
+
+
+task cm_bonfire_data_import {
+  group zapGroup
+  description "Imports bonfire cmdata to the selected database"
+  doFirst {
+    // Database dialog. Sets up DB variables, too.
+    String selection = promptForEnv()
+    
+    doCmBonfireImport()
+  }
+}
+// Method for bonfire cmdata import
+// Does not ask for environment. Assumes it is already setup.
+void doCmBonfireImport() {
+  if( isProductTeam() ) {
+    println "Importing Bonfire CM data"
+    // Create a temporary db.properties file to put on the CM class's classpath
+    File tempDir = tasks.cm_bonfire_data_import.getTemporaryDir()
+    File dbPropsFile = new File(tempDir, 'db.properties')
+    createDbProperties(dbPropsFile)
+    
+    javaexec {
+      // Command configuration
+      classpath = sourceSets.main.runtimeClasspath
+      classpath tempDir
+      classpath config.envResourceDir
+      main = "com.objectpartners.cms.util.ImportCmsDataLoader"
+      args "${config.dbResourceDir}/data/bonfire/cm-bonfire-hierarchy.xml"
+      systemProperty "log4j.configuration", "dev.log4j-config.xml"
+      systemProperty "applicationContextConfiguration", "db.properties"
+      
+      // JVM memory amounts for bonfire CM data import
+//      minHeapSize "2048M"
+//      maxHeapSize "2048M"
+    }
+    
+    javaexec {
+      // Command configuration
+      classpath = sourceSets.main.runtimeClasspath
+      classpath tempDir
+      classpath config.envResourceDir
+      main = "com.objectpartners.cms.util.ImportCmsDataLoader"
+      args "${config.dbResourceDir}/data/bonfire/cm-bonfire-languages.xml"
+      systemProperty "log4j.configuration", "dev.log4j-config.xml"
+      systemProperty "applicationContextConfiguration", "db.properties"
+      
+      // JVM memory amounts for bonfire CM data import
+//      minHeapSize "2048M"
+//      maxHeapSize "2048M"
+    }
+  }
+}
+ext { doCmBonfireImport = this.&doCmBonfireImport }
+
+
+
+//*****************************************************//
+//************ Dev Team CM diff maintenance ***********//
+//*****************************************************//
+
+// Takes the project's cmdata file and copies it to a shared location, so others can pick up the correct previous version
+task cpd_cmdata_share() {
+  group cmGroup
+  description "Copies the current cmData to the shared CPD cmData folder"
+  doLast {
+    doCpdCmdataShare()
+  }
+}
+void doCpdCmdataShare() {
+  def filenameDateFormat = DateTimeFormatter.ofPattern("yyyyMMdd_HHmm")
+  copy {
+    into "${config.cmdiff.cpdBaseDir}/${version}-${config.installation.data.name}"
+    from "${config.cmdiff.importExportFilePath}"
+    rename { String filename ->
+      LocalDateTime.now(ZoneId.of("America/Chicago")).format(filenameDateFormat) + "_" + filename
+    }
+  }
+  println "CPD: cmdata.xml copied to ${config.cmdiff.cpdBaseDir}/${version}"
+}
+ext { doCpdCmdataShare = this.&doCpdCmdataShare }
+
+// Runs the cmdiff task, using the shared folder as the working directory
+task cpd_cmdata_diff(type: JavaExec) {
+  group cmGroup
+  description "Generate cmdiff file - Using dev team shared location"
+  dependsOn classes
+  doFirst {
+    // Prompt the user for the filenames
+    def newFilename = promptForInput("Enter NEW cmData filepath")
+    def oldFilename = promptForInput("Enter OLD cmData filepath")
+    
+    // Generate diff filename. Make sure filename matches expected format. (Groovy regex matching is pretty cool)
+    if(!(newFilename ==~ /\d{8}_\d{4}_cmData\.xml/ && oldFilename ==~ /\d{8}_\d{4}_cmData\.xml/)) {
+      throw new Exception("Filename(s) did not fit the expected format: yyyymmdd_hhmm_cmData.xml")
+    }
+    String toTimestamp = newFilename.substring(0, newFilename.indexOf( "_cmData" ) )
+    def diffFilename = toTimestamp + "_cmDiff.xml"
+    
+    // Add the filenames as arguments to the executable
+    args "${config.cmdiff.cpdBaseDir}/${version}-${config.installation.data.name}/${newFilename}"
+    args "${config.cmdiff.cpdBaseDir}/${version}-${config.installation.data.name}/${oldFilename}"
+    args "${config.cmdiff.cpdBaseDir}/${version}-${config.installation.data.name}/${diffFilename}"
+  }
+  classpath = sourceSets.main.runtimeClasspath
+  classpath config.envResourceDir
+  main = "com.objectpartners.cms.util.DiffCmsData"
+  systemProperty "log4j.configuration", "dev.log4j-config.xml"
+  systemProperty "svr", "local"
+  
+  // JVM memory amounts for cmdiff
+  minHeapSize "2048M"
+  maxHeapSize "2048M"
+}
+
+
+
+//*****************************************************//
+//************ Dev Team CM diff maintenance ***********//
+//*****************************************************//
+
+
+
+//*****************************************************//
+//************ Importing 'Klingon' language ***********//
+//*****************************************************//
+task import_klingon {
+  group cmGroup
+  description "Generates and imports Klingon language for translation testing. Clear cache aftewards."
+  doLast {
+    promptForEnv()
+    
+    // Import Locale and Language picklist items
+    doCmDataImport("${config.dbResourceDir}/klingon_locale_items.xml")
+    
+    // Taken from cm-translation steps 2 and 3, process the cmData file to get it ready-to-import
+    def cmDataDocument = readDom( new FileReader( file( "src/main/resources/db/a.xml" ) ) ) // TODO actual file
+    
+    removeNodes( cmDataDocument, "//audience_entry" )
+    removeNodes( cmDataDocument, "//section_entry" )
+    removeNodes( cmDataDocument, "//asset_type_item_entry" )
+    
+    removeNodesOrphan( cmDataDocument, "//content_key_entry", "content_entry" )
+    removeNodesOrphan( cmDataDocument, "//asset_entry", "content_key_entry" )
+    removeNodesOrphan( cmDataDocument, "//asset_type_entry", "asset_entry" )
+    
+    addAttribute( cmDataDocument, "//cm_data", "importType", "diff" )
+    addAttribute( cmDataDocument, "//application_entry", "action", "nop" )
+    addAttribute( cmDataDocument, "//asset_type_entry", "action", "nop" )
+    addAttribute( cmDataDocument, "//asset_entry", "action", "nop" )
+    addAttribute( cmDataDocument, "//content_key_entry", "action", "nop" )
+    
+    updateAttribute( cmDataDocument, "//content_entry", "locale", "ar_AE" )
+    
+    StringWriter stringWriter = new StringWriter( 15*1024*1024 )
+    writeDom( cmDataDocument, stringWriter )
+
+    // Replace string content to get our fake language in place,
+    // and restore some necessary pieces like codes and URIs
+    String content = stringWriter.toString()
+    content = content.replace( /locale="en_US"/, 'locale="ar_AE"' )
+    content = content.replaceAll( /CDATA\[(.*?)\]/, 'CDATA[CM-$1-CM]' )
+    content = content.replaceAll( /(<content_data_entry key="CODE">\s*?\r?\n(.*?)<value><\!\[CDATA\[)CM-(.*?)-CM(\]\]><\/value>)/, '$1$3$4' )
+    content = content.replaceAll( /(<content_data_entry key="STATUS">\s*?\r?\n(.*?)<value><\!\[CDATA\[)CM-(.*?)-CM(\]\]><\/value>)/, '$1$3$4' )
+    content = content.replace( /<value><![CDATA[Status]]><\/value>/, '<value><![CDATA[CM-Status-CM]]></value>' )
+    content = content.replaceAll( /(\[CDATA\[)CM-((.*?)assets\/(.*?))-CM(\]\])/, '$1$2$5' )
+    content = content.replaceAll( /(\[CDATA\[)CM-((.*?)\.jpg)-CM(\]\])/, '$1$2$4' )
+    content = content.replaceAll( /(\[CDATA\[)CM-((.*?)\.jpeg)-CM(\]\])/, '$1$2$4' )
+    content = content.replaceAll( /(\[CDATA\[)CM-((.*?)\.png)-CM(\]\])/, '$1$2$4' )
+    content = content.replaceAll( /(\[CDATA\[)CM-((.*?)\.gif)-CM(\]\])/, '$1$2$4' )
+    content = content.replaceAll( /(\[CDATA\[)CM-((.*?)docs\/(.*?))-CM(\]\])/, '$1$2$5' )
+    content = content.replaceAll( /(\[CDATA\[)CM-((.*?)companyTimeline\/(.*?))-CM(\]\])/, '$1$2$5' )
+    content = content.replaceAll( /(<content_data_entry key="DESIGN_THEME">\s*?\r?\n(.*?)<value><\!\[CDATA\[)CM-(.*?)-CM(\]\]><\/value>)/, '$1$3$4' )
+    
+    // Write 'Klingon' cmData import file to temporary location
+    File klingonFile = new File( getTemporaryDir(), 'klingonImport.xml' )
+    klingonFile.text = content
+    
+    // Import the full 'Klingon' language
+    doCmDataImport( klingonFile.getAbsolutePath() )
+    
+    println "\r\n\r\n Klingon test language imported!"
+    println "Remember to clear the caches"
+  }
+}
+//*****************************************************//
+//************ Importing 'Klingon' language ***********//
+//*****************************************************//
+
+
+//*****************************************************//
+//************   CM Publishing tasks        ***********//
+//*****************************************************//
+publishing {
+  // Keeping this commented out but ready-to-use
+//  repositories {
+//    maven {
+//      url "http://maven.bius.bi.corp:8081/artifactory/g-repo"
+//      credentials {
+//        username ''
+//        password ''
+//      }
+//    }
+//  }
+  
+  // Publications are half defined here, half defined at runtime in task 'configureCmPublications'
+  publications {
+    cmsWar(MavenPublication) {
+      groupId 'cms'
+      artifactId 'cms'
+    }
+    cmsClient(MavenPublication) {
+      groupId 'cmsclient'
+      artifactId 'cmsclient'
+    }
+    cmsClientConfig(MavenPublication) {
+      groupId 'cmsclient-config'
+      artifactId 'cmsclient-config'
+    }
+    cmsSource(MavenPublication) {
+      groupId 'cms-src'
+      artifactId 'cms-src'
+    }
+  }
+}
+task configureCmPublications {
+  group zapGroup
+  doFirst {
+    def version = promptForInput("Enter version number to publish")
+    
+    publishing.publications.cmsWar.version = version
+    publishing.publications.cmsClient.version = version
+    publishing.publications.cmsClientConfig.version = version
+    publishing.publications.cmsSource.version = version
+    
+    publishing.publications.cmsWar.artifact file("//ss3/ndstat/java/CM/Tomcat/${version}/cms.war")
+    publishing.publications.cmsClient.artifact file("//ss3/ndstat/java/CM/Tomcat/${version}/cmsclient-${version}.jar")
+    publishing.publications.cmsClientConfig.artifact file("//ss3/ndstat/java/CM/Tomcat/${version}/cmsclient-config-${version}.jar")
+    publishing.publications.cmsSource.artifact file("//ss3/ndstat/java/CM/Tomcat/${version}/cms-src-${version}.zip")
+  }
+}
+task publishCmToMavenLocal {
+  group cmGroup
+  description "Publish all CM artifacts to local maven repository (for CM developer testing)"
+}
+task publishCmToArtifactory {
+  group cmGroup
+  description "Publish all CM artifacts to artifactory"
+}
+afterEvaluate { 
+  publishCmToMavenLocal.dependsOn 'configureCmPublications', 'publishCmsWarPublicationToMavenLocal', 'publishCmsClientPublicationToMavenLocal', 'publishCmsClientConfigPublicationToMavenLocal', 'publishCmsSourcePublicationToMavenLocal' 
+  publishCmToArtifactory.dependsOn 'configureCmPublications', 'publishCmsWarPublicationToMavenRepository', 'publishCmsClientPublicationToMavenRepository', 'publishCmsClientConfigPublicationToMavenRepository', 'publishCmsSourcePublicationToMavenRepository' 
+}
+tasks.whenTaskAdded { task ->
+  if(task.name in ['publishCmsWarPublicationToMavenLocal', 'publishCmsClientPublicationToMavenLocal', 'publishCmsClientConfigPublicationToMavenLocal', 'publishCmsSourcePublicationToMavenLocal']) {
+    task.mustRunAfter configureCmPublications
+  }
+  if(task.name in ['publishCmsWarPublicationToMavenRepository', 'publishCmsClientPublicationToMavenRepository', 'publishCmsClientConfigPublicationToMavenRepository', 'publishCmsSourcePublicationToMavenRepository']) {
+    task.mustRunAfter configureCmPublications
+  }
+}
+//*****************************************************//
+//************   CM Publishing tasks        ***********//
+//*****************************************************//
+

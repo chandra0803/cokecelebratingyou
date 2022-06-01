@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form renders 1`] = `
+<div>
+  <div
+    className="narrow-form-page undefined"
+  >
+    <form
+      action={undefined}
+      className="narrow-form"
+      method={undefined}
+    />
+    <div
+      className="theme-image"
+    />
+  </div>
+</div>
+`;

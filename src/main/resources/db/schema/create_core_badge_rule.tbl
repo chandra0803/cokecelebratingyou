@@ -1,0 +1,34 @@
+CREATE SEQUENCE badge_rule_pk_sq start with 250 increment by 1
+/
+create table badge_rule
+(
+  badge_rule_id               NUMBER(18) NOT NULL,
+  promotion_id                NUMBER(18),
+  cm_asset_key                VARCHAR2(250) NOT NULL,
+  badge_name                  VARCHAR2(250),
+  badge_description           VARCHAR2(1000),
+  minimum_qualifier           NUMBER(12),
+  maximum_qualifier           NUMBER(12),
+  country_id                  NUMBER(12),
+  level_name                  VARCHAR2(255),
+  behavior_name               VARCHAR2(255),
+  participant_type			  VARCHAR2(255),
+  level_type                  VARCHAR2(255), 
+  BADGE_POINTS				  NUMBER(30),
+  ELIGIBLE_FOR_SWEEPSTAKE     NUMBER(1) DEFAULT 0,
+  created_by                  number(18)       NOT NULL,
+  date_created                DATE NOT NULL,
+  modified_by                 number(18),
+  date_modified               DATE,
+  version                     NUMBER(18) NOT NULL
+ )
+/
+
+ALTER TABLE badge_rule
+ADD CONSTRAINT badge_rule_pk PRIMARY KEY (badge_rule_id)
+USING INDEX
+/
+ALTER TABLE badge_rule
+ADD CONSTRAINT badge_rule_promoId_fk FOREIGN KEY (promotion_id)
+REFERENCES badge (promotion_id)
+/

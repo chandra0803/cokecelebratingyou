@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+  	<form-bean name="productForm" type="com.biperf.core.ui.product.ProductForm" />
+	<form-bean name="productCategoryForm" type="com.biperf.core.ui.product.ProductCategoryForm" />
+	<form-bean name="productCategorySearchForm" type="com.biperf.core.ui.product.ProductCategorySearchForm"/>
+	<form-bean name="productSearchForm" type="com.biperf.core.ui.product.ProductSearchForm"/>	
+	<form-bean name="productLibraryForm" type="com.biperf.core.ui.product.ProductLibraryForm" />
+	<form-bean name="characteristicForm" type="com.biperf.core.ui.characteristic.CharacteristicForm"/>
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite"
+             redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+
+    <!-- ============================================= -->
+    <!-- PRODUCT MAINTENANCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- ============================================= -->
+    
+    <!--TODO: change productViewDisplay to point to productMaintainDisplay when it exists-->
+	<action path="/productViewDisplay" 
+			name="characteristicForm"
+	        parameter="method" 
+	        type="com.biperf.core.ui.product.ProductMaintainAction" 
+	        validate="false" 
+	        scope="request">
+	        <forward name="success" path="product.view" redirect="false"/>
+	</action>
+
+	<action path="/productAdd" 
+			name="productForm" 
+			parameter="method" 
+			type="com.biperf.core.ui.product.ProductMaintainAction"
+    		scope="request" 
+    		validate="false"
+    		input="/productLibrary.do">
+        <forward name="create" path="product.add" redirect="false"/>
+        <forward name="failure" path="product.library" redirect="false"/>             
+	</action>        
+	
+	<action path="/productEdit" 
+			name="productForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductMaintainAction"
+    		scope="request" 
+    		validate="false"
+    		input="/productLibrary.do">
+        <forward name="edit" path="product.edit" redirect="false"/>
+        <forward name="failure" path="product.library" redirect="false"/>             
+	</action>  
+	
+	<action path="/productAddSave" 
+			name="productForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductMaintainAction"
+    		scope="request" 
+    		validate="true"
+    		input="product.add" cancellable="true">
+        <forward name="success" path="/productViewDisplay.do" redirect="true"/>
+        <forward name="cancel" path="/productLibrary.do?method=displayPage" redirect="true"/>
+        <forward name="failure" path="product.add" redirect="false"/>             
+	</action>  
+	
+	<action path="/productEditSave" 
+			name="productForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductMaintainAction"
+    		scope="request" 
+    		validate="true"
+    		input="product.edit" cancellable="true">
+        <forward name="success" path="/productViewDisplay.do" redirect="true"/>
+        <forward name="cancel" path="/productLibrary.do?method=displayPage" redirect="false"/>
+        <forward name="failure" path="/productLibrary.do" redirect="false"/>             
+	</action>  
+	
+	<action path="/productAddCharacteristicSave" 
+			name="productForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductMaintainAction"
+    		scope="request"
+    		validate="false"
+    		input="product.view" cancellable="true">
+        <forward name="success" path="/productViewDisplay.do" redirect="true"/>
+        <forward name="cancel" path="/productLibrary.do?method=displayPage" redirect="false"/>
+        <forward name="failure" path="/productLibrary.do" redirect="false"/>             
+	</action>  
+	        	        
+    <!-- ====================================================== -->
+    <!-- PRODUCT CATEGORY MAINTENANCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- ====================================================== -->
+    <action path="/productCategoryListDisplay" name="productCategoryForm" parameter="product.category.list" type="org.apache.struts.actions.ForwardAction" validate="false" scope="request"/>
+
+	<action path="/productCategoryListMaintain" 
+			name="productCategoryForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductCategoryMaintainAction"
+    		scope="request" 
+    		validate="false"
+    		input="/productCategoryListMaintain.do">
+        <forward name="success_delete" path="product.category.list" redirect="false"/>
+        <forward name="failure_delete" path="product.category.list" redirect="false"/>             
+	</action>
+
+    <action path="/productCategoryDisplay" name="productCategoryForm" parameter="product.category.view" type="org.apache.struts.actions.ForwardAction" validate="false" scope="request"/>
+
+	<action path="/productCategoryMaintainDisplay" 
+			name="productCategoryForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductCategoryMaintainAction"
+    		scope="request" 
+    		validate="false"
+    		input="product.category.add">
+        <forward name="create" path="product.category.add" redirect="false"/>
+        <forward name="update" path="product.category.add" redirect="false"/> 
+	</action>
+	            		
+	<action path="/productCategoryMaintain" 
+			name="productCategoryForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductCategoryMaintainAction"
+    		scope="request" 
+    		validate="true"
+    		input="product.category.add">
+    		<!--
+        <forward name="success_create" path="/productCategoryDisplay.do" redirect="true"/>
+        -->
+        <forward name="success_create" path="product.category.view"/>
+        <forward name="failure_create" path="product.category.add" redirect="false"/>            
+        <forward name="success_update" path="/productCategoryDisplay.do" redirect="true"/> 
+        <forward name="failure_update" path="product.category.add" redirect="false"/>  
+        <forward name="success_delete" path="/productCategoryDisplay.do" redirect="true"/>
+        <forward name="failure_delete" path="product.category.list" redirect="false"/>                      
+	</action>
+
+	<action path="/productSubCategoryListMaintain" 
+			name="productCategoryForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductCategoryMaintainAction"
+    		scope="request" 
+    		validate="false"
+    		input="/productCategoryDisplay.do">
+        <forward name="success_delete" path="product.category.view" redirect="false"/>
+        <forward name="failure_delete" path="product.category.view" redirect="false"/>             
+	</action>	
+
+    <action path="/productSubCategoryDisplay" name="productCategoryForm" parameter="product.subcategory.view" type="org.apache.struts.actions.ForwardAction" validate="false" scope="request"/>
+
+	<action path="/productSubCategoryMaintainDisplay" 
+			name="productCategoryForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductCategoryMaintainAction"
+    		scope="request" 
+    		validate="false"
+    		input="product.subcategory.add">
+        <forward name="create" path="product.subcategory.add" redirect="false"/>
+        <forward name="update" path="product.subcategory.add" redirect="false"/> 
+	</action>
+	            		
+	<action path="/productSubCategoryMaintain" 
+			name="productCategoryForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductCategoryMaintainAction"
+    		scope="request" 
+    		validate="true"
+    		input="product.subcategory.add">
+        <forward name="success_create" path="product.subcategory.view"/>
+        <forward name="failure_create" path="product.subcategory.add" redirect="false"/>            
+        <forward name="success_update" path="product.subcategory.view"/> 
+        <forward name="failure_update" path="product.subcategory.add" redirect="false"/>  
+	</action>	
+	
+	<action path="/productLibrary" 
+			name="productLibraryForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductLibraryAction"
+    		scope="request" 
+    		validate="true"
+    		input="product.library">
+        <forward name="search" path="product.library" redirect="false"/>
+        <forward name="success_search" path="product.library" redirect="false"/>            
+        <forward name="success_delete" path="product.library" redirect="false"/>
+        <forward name="failure_delete" path="product.library" redirect="false"/>            
+
+	</action>	
+
+   
+    <action path="/productSubCategoryList" 
+			name="productLibraryForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductLibraryAction"
+    		scope="request" 
+    		validate="true"
+    		input="product.library">
+        <forward name="success_search" path="product.library.subcategory" redirect="false"/>                        
+	</action>
+	
+        <!--  Characteristic Mappings -->
+        
+        <action path="/characteristicListDisplayProduct"
+                name="characteristicForm"
+                type="com.biperf.core.ui.product.ProductCharacteristicTypeAction"
+                parameter="method"
+                scope="request"
+                validate="false">
+          <forward name="success" path="characteristic.list.product" redirect="false"/>
+          <forward name="failure" path="characteristic.list.product" redirect="false"/>
+        </action>
+        
+        <action path="/characteristicDisplayProduct" 
+        		name="characteristicForm" 
+        		parameter="method"
+            	type="com.biperf.core.ui.product.ProductCharacteristicTypeAction" 
+            	scope="request" 
+            	validate="false">
+            <forward name="edit" path="characteristic.update.product" redirect="false" />
+            <forward name="create" path="characteristic.create.product" redirect="false" />
+            <forward name="success_delete" path="/productViewDisplay.do?method=display" redirect="false" />
+            <forward name="success_delete_no_product" path="/characteristicListDisplayProduct.do?method=displayList" redirect="false" />
+            <forward name="failure" path="/productViewDisplay.do?method=display" redirect="false" />
+            <forward name="failure_no_product" path="/characteristicListDisplayProduct.do?method=displayList" redirect="false" />
+        </action>
+
+        <action path="/characteristicMaintainUpdateProduct" 
+        		name="characteristicForm" 
+        		parameter="method"
+            	type="com.biperf.core.ui.product.ProductCharacteristicTypeAction" 
+            	scope="request" 
+            	validate="true"
+            	input="characteristic.update.product" cancellable="true">
+            <forward name="success" path="/productViewDisplay.do?method=display" redirect="false" />
+            <forward name="success_no_product" path="/characteristicListDisplayProduct.do?method=displayList" redirect="false" />
+            <forward name="cancel" path="/productViewDisplay.do?method=display" redirect="false" />
+            <forward name="cancel_no_product" path="/characteristicListDisplayProduct.do?method=displayList" redirect="false" />
+            <forward name="failure" path="characteristic.update.product" redirect="false" />
+        </action>
+
+        <action path="/characteristicMaintainCreateProduct" 
+        		name="characteristicForm" 
+        		parameter="method"
+            	type="com.biperf.core.ui.product.ProductCharacteristicTypeAction" 
+            	scope="request" 
+            	validate="true"
+	            input="characteristic.create.product" cancellable="true">
+            <forward name="success" path="/productViewDisplay.do?method=display" redirect="false" />
+            <forward name="success_no_product" path="/characteristicListDisplayProduct.do?method=displayList" redirect="false" />
+            <forward name="cancel" path="/productViewDisplay.do?method=display" redirect="false" />
+            <forward name="cancel_no_product" path="/characteristicListDisplayProduct.do?method=displayList" redirect="false" />
+            <forward name="failure" path="characteristic.create.product" redirect="false" />
+        </action>
+    
+	    <action path="/productCategorySearch"
+	         	name="productCategorySearchForm"
+            	type="com.biperf.core.ui.product.ProductCategorySearchAction"
+       			parameter="method"
+       			scope="request"
+	       		validate="false">
+      	  <forward name="search" path="prod.category.search" redirect="false"/>
+      	  <forward name="failure" path="prod.category.search" redirect="false"/>
+		</action>
+		
+		<action path="/productSearch" 
+			name="productSearchForm" 
+			parameter="method"
+			type="com.biperf.core.ui.product.ProductSearchAction"
+    		scope="request" 
+    		validate="false"
+    		input="product.search">
+        <forward name="search" path="product.search" redirect="false"/>
+        <forward name="success_search" path="product.search" redirect="false"/>            
+	</action>
+    
+    </action-mappings>
+    
+    
+
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+                  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-product.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-product.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

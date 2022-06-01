@@ -1,0 +1,51 @@
+CREATE SEQUENCE ENGAGEMENT_LOG_ID_SEQ INCREMENT BY 1 START WITH 1 MAXVALUE 99999999999999999999999999 MINVALUE 1
+/
+create table engagement_log
+(
+  engagement_log_id		NUMBER(18) NOT NULL,
+  sender_user_id		NUMBER(18),
+  receiver_user_id		NUMBER(18),
+  promotion_id          NUMBER(18) NOT NULL,
+  sender_node_id		NUMBER(18),
+  receiver_node_id		NUMBER(18),
+  behavior				VARCHAR2(40),
+  created_by			number(18) NOT NULL,
+  date_created  		DATE NOT NULL,
+  modified_by			number(18),
+  date_modified  		DATE,
+  version				number(18) NOT NULL
+)
+/
+ALTER TABLE engagement_log ADD CONSTRAINT engagement_log_pk 
+  PRIMARY KEY (engagement_log_id) USING INDEX
+/
+ALTER TABLE engagement_log ADD CONSTRAINT engagement_log_sender_fk
+  FOREIGN KEY (sender_user_id) REFERENCES PARTICIPANT (user_id) 
+/
+ALTER TABLE engagement_log ADD CONSTRAINT engagement_log_receiver_fk
+  FOREIGN KEY (receiver_user_id) REFERENCES PARTICIPANT (user_id) 
+/
+ALTER TABLE engagement_log ADD CONSTRAINT engagement_log_promotion_fk
+  FOREIGN KEY (promotion_id) REFERENCES PROMOTION (promotion_id)
+/
+ALTER TABLE engagement_log ADD CONSTRAINT engagement_log_sender_node_fk
+  FOREIGN KEY (sender_node_id) REFERENCES NODE (node_id)
+/
+ALTER TABLE engagement_log ADD CONSTRAINT engagement_log_recvr_node_fk
+  FOREIGN KEY (receiver_node_id) REFERENCES NODE (node_id)
+/
+
+COMMENT ON COLUMN engagement_log.sender_user_id IS 'The recognition sender user id.'
+/
+
+COMMENT ON COLUMN engagement_log.receiver_user_id IS 'The recognition receiver user id.'
+/
+
+COMMENT ON COLUMN engagement_log.behavior IS 'The recognition behavior code.'
+/
+
+COMMENT ON COLUMN engagement_log.sender_node_id IS 'The node id of the sender.'
+/
+
+COMMENT ON COLUMN engagement_log.receiver_node_id IS 'The node id of the receiver.'
+/

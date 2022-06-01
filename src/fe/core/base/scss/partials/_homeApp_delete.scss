@@ -1,0 +1,158 @@
+// Partial-specific variables
+// =========================
+//$homeApp_spacing_horiz: 24px !default;
+
+
+
+// Partial-specific code
+// ==================================================
+
+/* HOME APP STYLES
+    - basic module settings for grid height and width
+    - basic home styles
+*/
+
+// .homeApp {
+//     #contents {
+//         .container {
+//             max-width: $g5ModuleUnit * 2;
+
+//             @media (min-width: $g5ModuleUnit * 4 + (2 * $homeApp_spacing_horiz)) {
+//                 /* @media (min-width: $g5ModuleUnit * 4) { */
+//                 max-width: $g5ModuleUnit * 4;
+//             }
+//             @media (min-width: $g5ModuleUnit * 4 + (2 * $homeApp_spacing_horiz) + $global_sidebar_width_desktop) {
+//                 /* @media (min-width: $g5ModuleUnit * 4 + $global_sidebar_width_desktop) { */
+//                 max-width: $g5ModuleUnit * 4;
+//             }
+//             @media (min-width: $g5ModuleUnit * 6 + (2 * $homeApp_spacing_horiz) + $global_sidebar_width_desktop) {
+//                 @media (min-width: $g5ModuleUnit * 6 + $global_sidebar_width_desktop) {
+//                 max-width: $g5ModuleUnit * 6;
+//             }
+//             @media (min-width: $g5ModuleUnit * 6 + (2 * $homeApp_spacing_horiz) + $global_sidebar_width_desktopLarge) {
+//                 /* @media (min-width: $g5ModuleUnit * 6 + $global_sidebar_width_desktopLarge) { */
+//                 max-width: $g5ModuleUnit * 6;
+//             }
+//             @media (min-width: $g5ModuleUnit * 8 + (2 * $homeApp_spacing_horiz) + $global_sidebar_width_desktopLarge) {
+//                 /* @media (min-width: $g5ModuleUnit * 8 + $global_sidebar_width_desktopLarge) { */
+//                 max-width: $g5ModuleUnit * 8;
+//             }
+//         }
+//     }
+
+//     .moduleContainerViewElement {
+//         position: relative;
+//         margin: 0 auto;
+//     }
+// }
+
+// // GENERAL HOMEAPP CONTAINER STYLING
+// // default 6 module columns
+// .homeApp .container {
+//     padding: 0;
+//     width: homeAppContainer(6);
+// }
+// // 8 module columns
+// // this is 1301 instead of 1281 because the browser window at 1280 falls right on a division point between columns of modules, resulting in some confusion to the script when a scrollbar pops up and changes the effective size of the window
+// @media (min-width: 1301px) {
+//     .homeApp .container {
+//         width: homeAppContainer(8);
+//     }
+// }
+// // override default grid
+// // this is 1300 instead of 1280 due to the reasons outlined in the long comment above on or around line 13
+// @media (min-width: 980px) and (max-width: 1300px) {
+//     .homeApp .container {
+//         width: homeAppContainer(6);
+//     }
+// }
+// // 4 module columns
+// @media (min-width: 640px) and (max-width: 979px) {
+//     .homeApp .container {
+//         width: homeAppContainer(4);
+//     }
+// }
+// // auto columns
+// @media (max-width: 639px) {
+//     .homeApp .container {
+//         width: auto;
+//     }
+// }
+
+// we have to make additional rules for when the restrictWidth flag is on
+// @if $global_outerWrapper_restrictWidth {
+//     $breakPoint8: homeAppContainer(8) + 2 * (($g5PageContentPaddingHoriz1200 * 2 / 3) - $global_outerWrapper_borderWidth);
+//     $breakPoint6: homeAppContainer(6) + 2 * (($g5PageContentPaddingHoriz * 2 / 3) - $global_outerWrapper_borderWidth);
+//     $breakPoint4: homeAppContainer(4) + 2 * (($g5PageContentPaddingHoriz768 * 2 / 3) - $global_outerWrapper_borderWidth);
+
+//     // resetting these two so they don't interfere
+//     @media (min-width: 1301px) {
+//         .homeApp .container {
+//             width: homeAppContainer(6);
+//         }
+//     }
+//     @media (min-width: 1200px) {
+//         .homeApp #wrapper_outer {
+//             width: ($gridColumnWidth * $gridColumns) + ($gridGutterWidth * ($gridColumns - 1)) + 2 * (($g5PageContentPaddingHoriz * 2 / 3) - $global_outerWrapper_borderWidth);
+//         }
+//     }
+
+//     // show 8 columns
+//     @media (min-width: $breakPoint4 + 20px) and (max-width: $breakPoint6 + 20px) {
+//         .homeApp .container {
+//             width: homeAppContainer(4);
+//         }
+//         .homeApp #wrapper_outer {
+//             width: $breakPoint4;
+//         }
+//     }
+
+//     // show 4 columns
+//     @media (min-width: $breakPoint8 + 20px) {
+//         .homeApp .container {
+//             width: homeAppContainer(8);
+//         }
+//         .homeApp #wrapper_outer {
+//             width: $breakPoint8;
+//         }
+//     }
+
+//     // auto columns
+//     @media (max-width: 767px) {
+//         .homeApp #wrapper_outer {
+//             width: auto;
+//         }
+//     }
+
+// }
+
+// /* BOOTSTRAP OVERRIDES */
+
+// //_responsive-767px-max.scss
+// @media (max-width: $breakpoint_mobile_max) {
+//     #homeAppPageView {
+//         @include gridCoreInnerNegMargin(0);
+
+//         .subnav {
+//             @include gridCoreInnerPadding($g5PageContentPaddingHorizMobile);
+//         }
+//     }
+// }
+
+
+// // NAVIGATION
+// .appPageContainerViewElement {
+//     position:relative;
+// }
+
+// .appPageContainerViewElement .goBackBtn {
+//     margin-bottom:20px;
+// }
+
+// .appPageContainerDynamicContent {
+//     position:relative;
+//     min-height:600px;
+//     //@include box-shadow(#eeeeee 0px 0px 9px 2px);
+//     border:1px solid #ccc;
+// }
+

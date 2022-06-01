@@ -1,0 +1,146 @@
+<h2>About Me</h2>
+
+<div class="row-fluid">
+    <div class="span4 profilePictureUploadContainer">
+        <div class="avatarwrap profilePageAvatar">
+            <img alt="User Profile Picture"  id="personalInformationAvatar" src="../../skins/default/img/celebration/placeholder-avatar3.jpg">
+            <!--<span class="avatar-initials" id="personalInformationAvatar">MM</span>-->
+            </div>
+            <a href="#" id="personalInformationUploadImageLink" >
+                <span id="edit-avatar-icon">
+                  <i class="icon-camera"></i>
+                </span>
+            </a>
+            <div id="personalInformationUploadImageForm" style="display:none;">
+                    <div class="arrow-up"></div>
+                    <form id="personalInformationFormUploadImage">
+                        <div class="fileUpload ">
+                            <div class="btn btn-primary uploadButton">Upload</div>
+                            <input type="file" name="profileImage" class="upload" id="personalInformationButtonUploadImage" />
+                        </div>
+                        <p class="">File size limit 10mb. Supports Jpeg, PNG and GIF</p>
+                        <p class="alert alert-info hide no-fileinput">Sorry! Your device does not support file uploads. Please use a desktop browser to complete this upload.</p>
+                    </form>
+                </div>
+        </div>
+
+    <div id="imageResult">
+    </div>
+
+    <div class="span4">
+        <dl class="dl-h1">
+            <dt>Name</dt>
+            <dd>Christian Smith</dd>
+
+            <dt>Org Name</dt>
+                <dd>Title1 - Org Name 1</dd>
+                <dd>Title2 - Org Name 2</dd>
+
+            <dt>Department</dt>
+            <dd>Department Name</dd>
+
+            <dt>Job Title</dt>
+            <dd>Job Title</dd>
+
+            <dt>Hire Date</dt>
+            <dd>MM/DD/YYYY</dd>
+
+            <dt>Birth Date</dt>
+            <dd>Month DD</dd>
+        </dl>
+    </div>
+
+    <div class="span4">
+        <dl>
+            <dt>Address</dt>
+                <dd>123 Fake Street</dd>
+                <dd>FakeTown, Georgia 12345</dd>
+
+            <dt>Country</dt>
+            <dd><img src="img/flags/us.png"> USA</dd>
+
+            <dt>Phone</dt>
+            <dd>1-555-555-5555 x5555</dd>
+
+            <dt>Email Address</dt>
+            <dd>myEmail@home.com</dd>
+
+        </dl>
+    </div>
+</div>
+<!--
+<h2>About Me</h2> -->
+<!-- Custom for Coke - Added comments and likesections -->
+<div class="row-fluid profileQuestionWrapper">
+    <div class="span12">
+        <form id="personalInformationFormUpdateAnswers">
+            <input type="hidden" id="currentPaxId" value="12345" />
+            <fieldset id="personalInformationFieldsetAnswers">
+                <div class="row-fluid">
+                    <div class="span4">
+                        <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter an answer to this question."}'>
+                            <label class="control-label" for="answer1">I am</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" class="answerField span6" name="iam1" value="Here is an example answer">
+                                </div>
+                                <div class="likeWrap">
+                                    <i class="icon-star"></i><span>Likes (100)</span>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter an answer to this question."}'>
+                            <label class="control-label" for="answer1">I am </label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" class="answerField span6" name="iam2" value="Here is an example answer">
+                                </div>
+                                <div class="likeWrap">
+                                        <i class="icon-star"></i><span>Likes (100)</span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter an answer to this question."}'>
+                            <label class="control-label" for="answer1">I am</label>
+                            <div class="controls">
+                                <div class="row-fluid">
+                                    <input type="text" class="answerField span6" name="iam3" value="Here is an example answer">
+                                </div>
+                                <div class="likeWrap">
+                                        <i class="icon-star"></i><span>Likes (100)</span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>    
+
+                        
+                    </div>
+                </div>
+                
+                <div id="publicProfileWrapper">
+                    <div class="careerMomentsCommentsSection">
+                            <div class="commentsWrapper">
+                                    <div class="commentsListWrapper">
+                                        <!-- dyn -->
+                                    </div>
+                            </div>
+                    </div>
+                </div>
+                <!-- Custom for Coke - Added comments and likesections -->
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="form-actions">
+                            <button class="btn btn-primary" id="personalInformationButtonSaveAnswers">Submit</button>
+                            <input type="reset" value="Reset" id="personalInfoTabResetButton" class="btn resetButton">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

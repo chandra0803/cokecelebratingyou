@@ -1,0 +1,21 @@
+CREATE SEQUENCE mailing_batch_pk_sq start with 250 increment by 1
+/
+CREATE TABLE mailing_batch
+    (batch_id        				NUMBER(18) NOT NULL,     
+     description							VARCHAR2(250),
+     created_by number(18) NOT NULL,
+     date_created     				DATE NOT NULL,
+     modified_by number(18),
+     date_modified    				DATE,
+     version          				NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE mailing_batch
+ADD CONSTRAINT mailing_batch_pk PRIMARY KEY (batch_id)
+USING INDEX
+/
+COMMENT ON TABLE mailing_batch IS 'The mailing batch table encompasses all emails generated from process that support batches.'
+/
+COMMENT ON COLUMN mailing_batch.batch_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN mailing_batch.description IS 'The batch descriptions'
+/

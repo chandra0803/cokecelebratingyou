@@ -1,0 +1,52 @@
+CREATE SEQUENCE CHALLENGEPOINT_AWARD_PK_SQ START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE challengepoint_award
+(challengepoint_award_id            NUMBER(18) NOT NULL,
+ promotion_id                        NUMBER(18) NOT NULL,
+ user_id                            NUMBER(18) NOT NULL,
+ result                              NUMBER(18,2),
+ award_type                          VARCHAR2(30),  
+ award_earned                       NUMBER(12),
+ award_issued                       NUMBER(12),
+ total_award_issued                 NUMBER(12),
+ journal_id                         NUMBER(12),
+ created_by                           NUMBER(18) NOT NULL,
+ date_created                         DATE NOT NULL,
+ modified_by                         NUMBER(18),
+ date_modified                        DATE,
+ version                              NUMBER(18,0) NOT NULL
+ )
+/
+ALTER TABLE challengepoint_award
+ADD CONSTRAINT challengepoint_award_pk PRIMARY KEY (challengepoint_award_id)
+USING INDEX
+/
+ALTER TABLE challengepoint_award ADD CONSTRAINT cp_award_promo_id_fk
+  FOREIGN KEY (promotion_id) REFERENCES promo_challengepoint (promotion_id)
+/
+ALTER TABLE challengepoint_award ADD CONSTRAINT cp_award_pax_fk
+  FOREIGN KEY (user_id) REFERENCES participant (user_id)
+/
+
+ALTER TABLE challengepoint_award ADD CONSTRAINT cp_award_jornal_fk
+  FOREIGN KEY (journal_id) REFERENCES journal (journal_id)
+/
+COMMENT ON TABLE challengepoint_award IS 'Challenge point award issuance table.'
+/
+COMMENT ON COLUMN challengepoint_award.challengepoint_award_id IS 'System-generated key that identifies a specific award deposit.'
+/
+COMMENT ON COLUMN challengepoint_award.promotion_id IS 'Id of challengepoint promotion.'
+/
+COMMENT ON COLUMN challengepoint_award.user_id IS 'Users id.'
+/
+COMMENT ON COLUMN challengepoint_award.result IS 'Progress Result'
+/
+COMMENT ON COLUMN challengepoint_award.award_earned IS 'Cumulative Awards earned in Points.'
+/
+COMMENT ON COLUMN challengepoint_award.award_issued IS 'Awards issued on basic program. This is not cumulative'
+/
+COMMENT ON COLUMN challengepoint_award.total_award_issued IS 'Cumulative Awards earned in Points on both baisc and challengepoint.'
+/
+COMMENT ON COLUMN challengepoint_award.award_type IS 'To distinguish base and challengepoint award types.'
+/
+COMMENT ON COLUMN challengepoint_award.journal_id IS 'Jounal Id associated with this award entry'

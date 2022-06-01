@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.StackStandingNode" table="THROWDOWN_STACKRANK_NODE">
+
+    <id name="id" column="STACKRANK_NODE_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="sequence">td_stackrank_node_pk_sq</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <many-to-one name="stackStanding" class="com.biperf.core.domain.promotion.StackStanding" lazy="false">
+      <column name="STACKRANK_ID"/>
+    </many-to-one>
+
+    <many-to-one name="node" class="com.biperf.core.domain.hierarchy.Node" lazy="false">
+      <column name="NODE_ID"/>
+    </many-to-one>
+
+    <set name="stackStandingParticipants" table="THROWDOWN_STACKRANK_PAX" cascade="all-delete-orphan" inverse="true" lazy="true" order-by="RANK">
+      <key column="STACKRANK_NODE_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.StackStandingParticipant"/>
+    </set>
+
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+
+  <query name="com.biperf.core.domain.throwdown.getStackStandingByNode">
+    <![CDATA[      
+        from StackStandingNode stackStandingNode
+          where stackStandingNode.stackStanding.id = :stackStandingId
+          and   stackStandingNode.node.id = :nodeId
+    ]]>
+  </query> 
+  
+  <query name="com.biperf.core.domain.throwdown.getStackStandingByHierarchy">
+    <![CDATA[      
+        from StackStandingNode stackStandingNode
+          where stackStandingNode.stackStanding.id = :stackStandingId
+          and   stackStandingNode.node.id is null
+    ]]>
+  </query>   
+
+</hibernate-mapping>

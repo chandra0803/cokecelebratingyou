@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Quiz Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+   <!--  Quiz learning ajax responses JSON-->
+   
+   <definition name="quiz.photo.process.ajax.json.response" path="/quiz/quizPhotoProcess.jsp" />
+
+  <definition name="quiz.photo.delete.confirm.ajax.response" path="/purl/ajax/json/purlPhotoDeleteConfirm.jsp" />
+
+  <definition name="quiz.photo.post.ajax.json.response" path="/purl/ajax/json/purlPhotoPost.jsp" />
+
+  <definition name="quiz.video.process.ajax.json.response" path="/quiz/quizVideoProcess.jsp" />
+  
+  <definition name="quiz.video.delete.confirm.ajax.response" path="/purl/ajax/json/purlVideoDeleteConfirm.jsp" />
+
+  <definition name="quiz.video.post.ajax.json.response" path="/purl/ajax/json/purlVideoPost.jsp" />
+   
+    <!-- End Quiz learning ajax responses JSON-->
+
+  <definition name="quiz.library" extends="beacon.default" controllerClass="com.biperf.core.ui.quiz.QuizFormListController">
+    <put name="content" value="/quiz/quizFormList.jsp" />
+    <put name='trackingTitle' value='Quiz_Library'/>
+  </definition>
+  
+  <definition name="quizform.details" extends="beacon.default" controllerClass="com.biperf.core.ui.quiz.QuizFormController">
+    <put name="content" value="/quiz/quizForm.jsp" />
+    <put name='trackingTitle' value='Quiz_Form_Details'/>
+  </definition>
+  
+  <definition name="quiz.question.details" extends="beacon.default" controllerClass="com.biperf.core.ui.quiz.QuizQuestionController">
+    <put name="content" value="/quiz/quizQuestion.jsp" />
+    <put name='trackingTitle' value='Quiz_Question_Details'/>
+  </definition>
+  
+  <definition name="quiz.question.view" extends="beacon.default" controllerClass="com.biperf.core.ui.quiz.QuizQuestionController">
+    <put name="content" value="/quiz/viewQuizQuestion.jsp" />
+    <put name='trackingTitle' value='Quiz_Question_View'/>
+  </definition>
+
+  <definition name="quizform.view" extends="beacon.default">
+    <put name="content" value="/quiz/viewQuizForm.jsp" />
+    <put name='trackingTitle' value='Quiz_Form_View'/>
+  </definition>
+  
+   <definition name="quiz.learning.display" extends="beacon.default">
+    <put name="content" value="/quiz/quizLearningObject.jsp" />
+    <put name='trackingTitle' value='Quiz_Form_View'/>
+  </definition>
+  <definition name="quiz.learning.edit" extends="beacon.default">
+    <put name="content" value="/quiz/quizLearningEdit.jsp" />
+    <put name='trackingTitle' value='Quiz_Learning_Edit_View'/>
+  </definition>
+  
+  <definition name="quizform.copy" extends="beacon.default">
+    <put name="content" value="/quiz/copyQuizForm.jsp" />
+    <put name='trackingTitle' value='Quiz_Form_Copy'/>
+  </definition>
+  
+  <definition name="quiz.question.answer.details" extends="beacon.default">
+    <put name="content" value="/quiz/quizQuestionAnswer.jsp" />
+    <put name='trackingTitle' value='Quiz_Question_Answer_Details'/>
+  </definition>
+
+  <definition name="quiz.promotions" extends="beacon.default" controllerClass="com.biperf.core.ui.quiz.QuizPromotionListController">
+    <put name="content" value="/quiz/viewPromotions.jsp" />
+    <put name='trackingTitle' value='Quiz_Promotions'/>
+  </definition>
+  
+	<definition name="quiz.page"
+	 			extends="g5.default"
+              	controllerClass="com.biperf.core.ui.quiz.QuizPageController">
+       	<put name="content" value="/quiz/quizPage.jsp" />
+		<put name='trackingTitle' value='Quiz_Page' />
+	</definition>
+	 
+	<definition name="quiz.page.take" extends="g5.default">
+       	<put name="content" value="/quiz/quizPageTake.jsp" />
+		<put name='trackingTitle' value='Quiz_Page_Take' />
+	</definition>
+	   
+	<definition name="quiz.manage" extends="g5.default">
+		<put name="content" value="/diyquiz/quizPageManage.jsp" />
+  	</definition>
+  	
+  	<definition name="quiz.manage.table" path="/diyquiz/quizPageManage_tableResponse.jsp" />
+
+	<definition name="diyquiz.create" extends="g5.default">
+              <put name="content" value="/diyquiz/quizPageEdit.jsp" />
+              <put name='trackingTitle' value='DIY_Create_Quiz' />
+    </definition>
+   
+</tiles-definitions>

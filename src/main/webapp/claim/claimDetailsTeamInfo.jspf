@@ -1,0 +1,69 @@
+<%--UI REFACTORED--%>
+<%@ include file="/include/taglib.jspf" %>
+
+<c:if test="${claimDetails.promotion.promotionType.productClaimPromotion && claimDetails.promotion.teamUsed}">
+
+  <tr class="form-blank-row">
+    <td></td>
+  </tr>
+
+    <tr class="form-row-spacer">
+      <td class="subheadline" >
+        <cms:contentText code="claims.submission" key="TEAM_INFORMATION" />
+      </td>
+    </tr>
+
+	<%-- Bug 13965 add submitter's name in Team Info section --%>
+	<c:if test="${not empty claimDetails.submitter.lastName}">
+		<tr class="form-row-spacer">
+			<td class="content-field-label">
+		    	<cms:contentText code="claims.submission" key="SUBMITTER"/>
+		    </td>
+		    <td class="content-field-review">	    
+		    	<c:out value="${claimDetails.submitter.firstName}"/>&nbsp;<c:out value="${claimDetails.submitter.lastName}"/>
+		    </td>
+		</tr>
+	</c:if>
+	
+    <c:if test="${claimDetails.promotion.teamCollectedAsGroup}">    
+      <c:forEach items="${claimDetails.claimParticipants}" var="productClaimParticipant">
+        <tr class="form-row-spacer">
+	      <td class="content-field-label">
+	            <cms:contentText code="claims.submission" key="TEAM_MEMBER"/>
+	      </td>
+	      <td class="content-field-review">
+			<c:if test="${not empty productClaimParticipant.participant.lastName}">
+				<c:out value="${productClaimParticipant.participant.firstName}"/>&nbsp;<c:out value="${productClaimParticipant.participant.lastName}"/>
+			</c:if>
+			<c:if test="${empty productClaimParticipant.participant.lastName}">
+				<cms:contentText key="NOT_ASSIGNED" code="claims.submission"/>
+			</c:if>
+      	  </td>
+      	</tr>
+      </c:forEach>
+    </c:if>
+
+
+    <c:if test="${not claimDetails.promotion.teamCollectedAsGroup}">
+     <c:forEach items="${claimParticipantList}" var="productClaimParticipant">
+       <tr class="form-row-spacer">
+         <td class="content-field-label">
+	            <cms:contentText code="claims.submission" key="TEAM_MEMBER"/>
+	     </td>
+     	 <td class="content-field-review">
+     	 	<c:if test="${productClaimParticipant.participant != null}">
+	           <c:out value="${productClaimParticipant.participant.firstName}"/>&nbsp;<c:out value="${productClaimParticipant.participant.lastName}"/>
+	        </c:if>
+	        <c:if test="${productClaimParticipant.participant == null}">
+	           <cms:contentText key="NOT_ASSIGNED" code="claims.submission"/>
+	        </c:if>
+     	 </td>
+     	 <td class="content-field-review">
+     	   <c:out value="${productClaimParticipant.promotionTeamPosition.promotionJobPositionType.name}"/>
+     	 </td>
+       </tr>
+     </c:forEach>
+    </c:if>
+
+</c:if>
+<%-- END TEAM INFORMATION --%>

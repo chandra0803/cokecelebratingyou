@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.multimedia.OddCastCategory" table="ODD_CAST_CATEGORY">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="CATEGORY_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">ODD_CAST_CATEGORY_PK_SQ</param>
+			</generator>
+		</id>
+
+        <!-- Using version number optimistic locking -->
+	   <version name="version" column="VERSION" type="java.lang.Long" />
+
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo"
+          type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED" />
+          <column name="CREATED_BY" />
+        </property>
+    
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo"
+          type="com.biperf.core.utils.hibernate.AuditUpdateType">
+          <column name="DATE_MODIFIED" />
+          <column name="MODIFIED_BY" />
+        </property>
+        
+        <property name="active" column="IS_ACTIVE" type="boolean" />
+    
+        <property name="name" column="CATEGORY_NAME" type="java.lang.String" not-null="true" />
+        <property name="smallImageName" column="CATEGORY_SMALL_IMAGE_NAME" type="java.lang.String" not-null="true" />
+        <property name="largeImageName" column="CATEGORY_LARGE_IMAGE_NAME" type="java.lang.String"/>
+         
+    </class>
+
+  	<query name="com.biperf.core.domain.multimedia.AllActiveOddCastCategories">
+		<![CDATA[
+			from com.biperf.core.domain.multimedia.OddCastCategory category
+			where category.active = 1
+			order by category.name
+		]]>
+	</query>
+
+</hibernate-mapping>

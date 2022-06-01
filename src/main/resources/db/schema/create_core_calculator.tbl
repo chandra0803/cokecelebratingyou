@@ -1,0 +1,29 @@
+CREATE SEQUENCE calculator_pk_sq INCREMENT BY 1   START WITH 5000
+/
+
+CREATE TABLE calculator
+   (calculator_id           NUMBER(18) NOT NULL,
+   	name      	            VARCHAR2(200) NOT NULL,
+   	description	            VARCHAR2(400),
+   	status_type	            VARCHAR2(30) NOT NULL,
+   	weighted_score          NUMBER(1) NOT NULL,
+   	display_weights         NUMBER(1) NOT NULL,
+    weight_cm_asset_name    VARCHAR2(255),
+    display_scores          NUMBER(1) NOT NULL,
+    score_cm_asset_name     VARCHAR2(255),
+   	award_type	            VARCHAR2(30) NOT NULL,
+    created_by              NUMBER(18) NOT NULL,
+    date_created            DATE NOT NULL,
+    modified_by             NUMBER(18),
+    date_modified           DATE,
+    version                 NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE calculator
+ADD CONSTRAINT calculator_id_pk PRIMARY KEY (calculator_id)
+USING INDEX
+/
+
+CREATE UNIQUE INDEX calculator_name_udk ON calculator
+(upper(name) ASC  )
+/

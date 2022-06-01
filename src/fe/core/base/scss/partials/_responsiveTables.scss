@@ -1,0 +1,59 @@
+// Partial-specific variables
+// =========================
+$responsiveTables_pinLeftBgColor: $brand_color_white !default; // should match $pages_pageContentBgColor
+
+// Partial-specific code
+// ==================================================
+
+.rT-wrapper {
+    margin-bottom: $baseLineHeight;
+
+    table {
+        max-width: none;
+    }
+    .table {
+        margin-bottom: 0;
+    }
+    .rT-innerWrapper {
+        position : static;
+        width : 100%;
+        overflow : auto;
+        padding-bottom: $baseLineHeight / 2;
+        min-height: 0%; // http://stackoverflow.com/a/10002755
+        opacity: 1; // IE9 scrollbar not working (bugzilla #56789)
+    }
+    .rT-pinLeft-wrap {
+        position : absolute;
+        left : 0;
+        top : 0;
+        z-index : 1000;
+        overflow : hidden;
+        background-color: $responsiveTables_pinLeftBgColor;
+        // @include box-shadow(2px 0px 8px rgba(0,0,0,.125));
+        border-right: 1px dashed $brand_color_border !important;
+
+        .rT-pinLeft {
+            th, td {
+                visibility : hidden;
+            }
+            .visible {
+                visibility : visible;
+            }
+        }
+    }
+
+    .pagination ~ &,
+    & ~ .pagination {
+        margin-top: -1 * $baseLineHeight / 2;
+        clear: both;
+    }
+
+    .invisible {
+        visibility: visible;
+        color: transparent;
+
+        > * {
+            visibility: hidden;
+        }
+    }
+}

@@ -1,0 +1,116 @@
+{
+  "description": "Update a Person Phone",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "newPersonName": "Updated ${faker:hacker.adjective} Person Phone"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+   {
+      "id": "createPersonPhone",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/phone-numbers",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/phone-numbers",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"countryPhoneCode": "USA",
+  			"label": "bus",
+  			"phoneNumber":"6513990000"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonPhone.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonPhone.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonPhone.res.body.label}",
+          "compare": "to.equal",
+          "b": "Business"
+        },
+        {
+          "a": "${ref:createPersonPhone.res.body.phoneNumber}",
+          "compare": "to.equal",
+          "b": "6513990000"
+        }
+      ]
+    },
+    {
+      "id": "deletePersonPhone",
+      "description": "DELETE /persons/${ref:createPerson.export.newPersonId}/phone-numbers/${ref:createPersonPhone.res.body.id}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/phone-numbers/${ref:createPersonPhone.res.body.id}",
+        "options": {
+          "method": "delete",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {}
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:deletePersonPhone.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:deletePersonPhone.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    },
+    {
+      "id": "getPersonPhone",
+      "description": "GET /persons/${ref:createPerson.export.newPersonId}/phone-numbers",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/phone-numbers",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getPersonPhone.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getPersonPhone.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    }
+  ]
+}

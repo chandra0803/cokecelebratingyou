@@ -1,0 +1,35 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+
+// $balloon1-color: ;
+// $balloon2-color: ;
+// $balloon3-color: ;
+// $balloon4-color: ;
+// $balloon5-color: ;
+// $balloon6-color: ;
+// $balloonNumFontSize: ;
+// $balloonNum-color: ;
+// $balloonWidth:;
+// $balloonHeight:;
+// $balloonNotFontSize: ;
+// $balloonAnimationTime:;
+// $balloonAnimationHeight: ;
+// $balloonLowerHeight: ;
+
+// $badgeAnimationHeight: ;
+// $badgeAnimationTime: ;
+// $badgeAnimationTimeDelay: ;
+// $sparkleAnimationTime: ;
+// $sparkle1AnimationTimeDelay: ;
+// $sparkle2AnimationTimeDelay: ;
+// $sparkleFontSize: ;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/animations";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

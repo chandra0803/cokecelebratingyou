@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->    
+   <form-beans>
+    <form-bean name="startForm" type="com.biperf.core.ui.recognition.StartForm"/>
+    <form-bean name="sendRecognitionForm" type="com.biperf.core.ui.recognition.SendRecognitionForm"/>
+    
+    <form-bean name="ecardUploadForm" type="com.biperf.core.ui.recognition.EcardUploadForm"/>
+    <form-bean name="previewForm" type="com.biperf.core.ui.recognition.PreviewForm"/>
+    <form-bean name="calculatorInfoForm" type="com.biperf.core.ui.recognition.calculator.CalculatorInfoForm"/>
+    <form-bean name="publicRecognitionLikeForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionLikeForm" />
+    <form-bean name="publicRecognitionHideForm" type="com.biperf.core.ui.publicrecognition.PublicRecognitionHideForm" />    
+  </form-beans>   
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+  <global-exceptions>
+    <exception type="java.lang.SecurityException"
+      key=""
+      handler="com.biperf.core.ui.utils.G5ExceptionHandler"
+      path="/login.do"/>
+
+    <exception type="java.lang.Exception"
+      key=""
+      handler="com.biperf.core.ui.utils.G5ExceptionHandler"
+      path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+  <global-forwards>
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite" redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+  <action-mappings>
+
+    <action path="/startRecognition"
+      type="com.biperf.core.ui.recognition.StartAction"
+      scope="request"
+      name="sendRecognitionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="recognition.start" redirect="true"/>
+    </action>
+    
+    <action path="/sendRecognitionBudget"
+      type="com.biperf.core.ui.recognition.StartAction"
+      scope="request"
+      name="sendRecognitionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="recognition.start" redirect="true"/>
+    </action>
+
+    <action path="/promotionNodeCheck"
+      type="com.biperf.core.ui.recognition.PromotionNodeCheckAction"
+      parameter="method"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>
+
+    <action path="/participantPopoverView"     type="org.apache.struts.actions.ForwardAction"     parameter="recognition.tpl.participantpopoverview" />
+    
+
+    <action path="/recipientSearch"
+      type="com.biperf.core.ui.recognition.RecipientSearchAction"
+      parameter="method"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>
+
+	<action path="/contributorsView"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="recognition.tpl.contributorsview"
+      scope="request"
+      validate="false"/>
+
+    <action path="/contributorViewItem"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="recognition.tpl.contributorviewitem"
+      scope="request"
+      validate="false"/>
+      
+    <action path="/participantSearchView"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="recognition.tpl.participantsearchview"
+      scope="request"
+      validate="false"/>
+      
+    <action path="/participantSearchTableRow"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="recognition.tpl.participantsearchtablerow"
+      scope="request"
+      validate="false"/>
+
+
+    <action path="/preselectedContributors"
+      type="com.biperf.core.ui.recognition.purl.PreSelectedContributorsAction"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>
+
+      <action path="/purlContributorSearch"
+      type="com.biperf.core.ui.recognition.purl.ContributorSearchAction"
+      parameter="method"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>
+
+    <action path="/ecardUpload"
+      type="com.biperf.core.ui.recognition.EcardUploadAction"
+      scope="request"
+      name="ecardUploadForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="recognition.ecardupload" redirect="true"/>
+    </action>
+
+    <action path="/preview"
+      type="com.biperf.core.ui.recognition.PreviewAction"
+      scope="request"
+      name="previewForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="recognition.preview" redirect="true"/>
+    </action>
+
+    <action path="/validate"
+      type="com.biperf.core.ui.recognition.ValidateAction"
+      scope="request"
+      name="sendRecognitionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="/preview.do" redirect="true"/>
+      <forward name="submit" path="/submit.do"/>
+      <forward name="failure" path="/sendRecognitionDisplay.do" />
+    </action>
+
+    <action path="/submit"
+      type="com.biperf.core.ui.recognition.SubmitAction"
+      scope="request"
+      name="sendRecognitionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" module="" path="/homePage.do" redirect="true"/>
+      <forward name="failure" path="/sendRecognitionDisplay.do?mode=edit" />
+    </action>
+
+    <action path="/easyRecognitionRecipientSearch"
+      type="com.biperf.core.ui.recognition.easy.RecipientSearchAction"
+      parameter="method"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>
+
+   <action path="/publicRecognitionResult"
+            type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"
+            parameter="method"/>
+            
+     <action path="/publicRecognitionPage"
+             type="org.apache.struts.actions.ForwardAction"
+             parameter="public.recognition.page"/>
+             
+     <action path="/publicRecognitionLikeAction" scope="request"
+             name="publicRecognitionLikeForm"  parameter="method"
+             type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"/>
+     
+     <action path="/publicRecognitionHideAction" scope="request"
+             name="publicRecognitionHideForm" parameter="method"
+             type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"/>
+     
+     <action path="/publicRecognitionTranslate" scope="request"
+             parameter="method"
+             type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction"/>
+     
+     <action path="/publicRecognitionFollowingPaxList" parameter="method"
+			 type="com.biperf.core.ui.publicrecognition.PublicRecognitionAction" />
+             
+     <action path="/publicRecognitionFolloweeSearch"
+			type="com.biperf.core.ui.publicrecognition.PublicRecognitionFolloweeSearchAction"
+			parameter="method" scope="request" />             
+         
+    <action path="/memberInfo"
+      type="com.biperf.core.ui.recognition.easy.DisplayAction"
+      parameter="method"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>
+
+   <!--  <action path="/forwardToSendRecognition"
+      type="com.biperf.core.ui.recognition.easy.ForwardToSendRecognitionAction"
+      scope="request"
+      name="sendRecognitionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="/sendRecognitionDisplay.do" redirect="true"/>
+    </action> -->
+    
+    <action path="/prepopulatePromotionRecognition"
+      type="com.biperf.core.ui.recognition.easy.PrepopulatePromotionSendRecognitionAction"
+      scope="request"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="/sendRecognitionDisplay.do?mode=isBudgetAlert" redirect="true"/>
+    </action>
+
+    <action path="/submitEasyRecognition"
+      type="com.biperf.core.ui.recognition.easy.SubmitEasyRecognitionAction"
+      scope="request"
+      name="sendRecognitionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="recognition.easy.submit.success" redirect="true"/>
+    </action>
+
+    <action path="/sendRecognitionDisplay"
+      type="com.biperf.core.ui.recognition.SendRecognitionDisplayAction"
+      scope="request"
+      name="sendRecognitionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="recognition.start" />
+    </action>
+    
+    <action path="/sendNominationDisplay"
+      type="com.biperf.core.ui.recognition.SendNominationDisplayAction"
+      scope="request"
+      name="sendRecognitionForm"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="recognition.start" redirect="true"/>
+    </action>
+      
+    <action path="/drawToolTemplate"
+    	type="org.apache.struts.actions.ForwardAction"
+    	parameter="draw.tool.tpl" />
+    	
+    <action path="/nominationsWizardTabVertical"
+    	type="org.apache.struts.actions.ForwardAction"
+    	parameter="nomination.submit.tabs.tpl" />
+    
+    <action path="/purlInviteContributors"
+      type="com.biperf.core.ui.recognition.purl.PurlInviteContributorsAction"
+      scope="request"
+      name="sendRecognitionForm"
+      parameter="method"
+      validate="false"
+      cancellable="true">
+      <forward name="success" path="purl.invite.contributors" redirect="false"/>
+      <forward name="failure_no_invites" path="purl.invite.contributors" redirect="false"/>
+      <forward name="success_invites_sent" module="" path="/homePage.do" redirect="true"/>
+      <forward name="invalid" path="purl.invite.invalid" redirect="false"/>
+    </action>
+
+<!--
+    <action path="/calculatorTemplate"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="recognition.tpl.calculatorTemplate"
+      scope="request"
+      validate="false"/>
+
+    <action path="/recognitionCalculatorPayoutGridTemplate"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="recognition.tpl.calculatorPayoutGridTemplate"
+      scope="request"
+      validate="false"/>
+-->
+    <action path="/sendRecognitionCalculatorInfo"
+      type="com.biperf.core.ui.recognition.calculator.CalculatorInfoAction"
+      name="calculatorInfoForm"
+      parameter="method"
+      scope="request"
+      validate="false"
+      cancellable="true">
+    </action>
+
+<!--
+    <action path="/recognitionCalculatorScoreWrapperTemplate"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="recognition.tpl.calculatorScoreWrapperTemplate"
+      scope="request"
+      validate="false"/>
+
+-->
+    <action path="/participantPopoverView"
+      type="org.apache.struts.actions.ForwardAction"
+      parameter="recognition.tpl.participantpopoverview"
+      scope="request"
+      validate="false"/>
+      
+      <action path="/plateauAwardsPage"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="submit.recognition.awards.view"/>
+            
+      <action path="/paxData"
+			type="com.biperf.core.ui.recognition.ParticipantDataServiceAction"
+			parameter="method">
+		</action>
+		
+		<!-- Client Customization for WIP #39189 starts -->
+	<action path="/startUploadFiles" type="com.biperf.core.ui.client.TcccClaimFileAction" 
+		parameter="method" scope="request" name="tcccClaimFileUploadForm" validate="false"/>
+    <!-- Client Customization for WIP #39189 ends -->
+    
+</action-mappings>
+
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" tempDir="@FILE_UPLOAD_TEMP_DIR@" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" /> 
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+  <message-resources null="true"
+    parameter="BeaconResources_en"
+    factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+      value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-recognition.xml"/>
+    <set-property property="stopOnFirstError"
+      value="false"/>
+  </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-recognition-wizard.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

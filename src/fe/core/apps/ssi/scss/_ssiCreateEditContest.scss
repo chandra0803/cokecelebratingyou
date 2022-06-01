@@ -1,0 +1,1596 @@
+
+.ssiContestPageEdit {
+    //overflow-y: auto;
+    position:relative;
+
+    .table td.tr {
+        text-align: right;
+    }
+
+    .ssiContestPageEditViewLockPage {
+        @include safeBkgs(transparentize($pages_pageContentBgColor,0.333));
+        @include opacity(0.0);
+        @include transition-property(opacity);
+        @include transition-duration(300ms);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2000;
+
+        .spin {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -$spinner_widthHeight/2;
+            margin-left: -$spinner_widthHeight/2;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+        }
+    }//.ssiContestPageEditViewLockPage
+
+    .personalMessageWrapper,
+    .messagesTranslationsView {
+        .jHtmlArea,
+        .jHtmlArea .ToolBar {
+            width: 540px !important;
+
+            @media (min-width: 1200px) {
+                width: 540px !important;
+            }
+
+            @media (min-width: 538px) and (max-width: 979px) {
+                width: 360px !important;
+            }
+
+            @media (max-width: 767px) {
+                width: 240px !important;
+            }
+            .langs{
+                left:0;
+                right:auto;
+                margin-left:0;
+            }
+            .spellchecker .dropdown-menu::before{
+                left:8px;
+                margin-left:0;
+            }
+            .spellchecker .dropdown-menu::after{
+                left:9px;
+                margin-left:0;
+            }
+        }
+
+        textarea.richtext,
+        .jHtmlArea iframe {
+            width: 526px !important; // 14px less than the wrapper due to padding + border
+            height: 100px !important;
+
+            @media (min-width: 1200px) {
+                width: 526px !important; // 14px less than the wrapper due to padding + border
+                height: 100px !important;
+            }
+
+            @media (min-width: 538px) and (max-width: 979px) {
+                width: 346px !important; // 14px less than the wrapper due to padding + border
+            }
+
+            @media (max-width: 767px) {
+                width: 206px !important; // Bootstrap default
+            }
+        }
+
+    }//.personalMessageWrapper, .messagesTranslationsView
+
+    .remDocBtn {
+        cursor: pointer;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .ssiContestPageEditViewLockPageAfter {
+        @include opacity(0.667);
+        position: absolute;
+        z-index: 2000;
+        width: 100%;
+        left: 0;
+        background: transparent;
+        background: $pages_pageContentBgColor;
+        overflow: hidden;
+
+        .msg {
+            @include box-shadow(0 0 4px $brand_color_black);
+            top: -500px;
+            position: absolute;
+            background: $brand_color_lighter;
+            padding: 5px;
+        }
+    }//.ssiContestPageEditViewLockPageAfter
+    .datepickerTrigger{
+        height: 36px;
+        box-sizing:border-box;
+        input{
+            height: 100%;
+            box-sizing:border-box;
+        }
+        .btn{
+            height: 100%;
+        }
+    }
+
+    .alert {
+        margin-top: 10px;
+    }
+
+    .stepContent {
+        margin-top: 20px;
+		.defLangNameTrans {
+			position: relative;
+			padding: 10px 0px;
+			width: 300px;
+			.contestNameInput {
+			  width: 100%;
+			}
+			.iconWrap {
+			  position: absolute;
+			  right: -10px;
+			  top: 17px;
+			}
+		}
+		@media (max-width: 767px) {
+			.defLangNameTrans {
+			  .iconWrap {
+				  right: 5px;
+			  }
+			}
+		}
+		@media (max-width: $breakpoint_mobileMini_max) {
+			.defLangNameTrans {
+			  width: 230px;
+			}
+  			.approversWrapper {
+  				.optional {
+  					color: $brand_color_black;
+  					display: block;
+					margin: 8px 0px;
+  				}
+  			}
+			.contestSpecificView {
+			   min-height: 350px;
+			}
+  		}
+    }
+	
+    .stepContentControls {
+        margin-top: 20px;
+		@media (max-width: $breakpoint_mobileMini_max) { 
+			.saveDraftBtn {
+				margin-bottom: 8px;
+			}
+		}
+    }
+
+    .createAsSearchWrapper {
+        padding-bottom: 20px;
+    }
+
+    .tmlSpin {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+    }
+
+    .selectedLangsControlGroup {
+        margin-top: -14px;
+    }
+
+    .selLangsList {
+        max-width: 250px; // keep clicks on far right from sel/desel lang
+    }
+
+    .selLangItem {
+        cursor: pointer;
+
+        &:hover {
+            cursor: pointer;
+            background: $brand_color_lighter;
+        }
+
+        &.defLang {
+            cursor: default;
+
+            i {
+                color: $brand_color_mid;
+            }
+
+            small {
+                color: $brand_color_dark;
+            }
+
+            &:hover {
+                background: inherit;
+            }
+        }
+
+        &.disabled {
+            cursor: default;
+            color: $brand_color_mid;
+
+            &:hover {
+                background: inherit;
+            }
+        }
+    }//.selLangItem
+    .datepickerTrigger {
+        .btn {
+            padding-bottom: 9px;
+        }
+    }
+    .transItemListHeaders {
+        .transItemLangTitle,
+        .transItemTransTitle,
+        .transItemTransDocName {
+            float: left;
+            font-weight: $fontWeightBold;
+        }
+    }
+
+    .transItemLangTitle,
+    .transItemLangName {
+        width: 95px;
+        float: left;
+    }
+
+    .spreadsheetImportWrapper .paxSelectWrap.paxSelectWrapForParticipants {
+        overflow: hidden;
+
+        .alert-danger {
+           padding:15px;
+           margin-bottom:15px;
+           float:left;
+        }
+
+        .ssiUploadFormActions {
+            clear: both;
+        }
+    }
+
+    .documentTransWrapper {
+        .transItemTransTitle,
+        .fileInputCell {
+            width: 250px;
+        }
+
+        .transItem .docOrigName {
+            display: inline-block;
+            max-width: 222px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .transItem .remDocBtn {
+            display: inline-block;
+            overflow:hidden;
+            height: 17px;
+        }
+
+        .transItem .uploadingIndicator .progress {
+            width: 123px;
+        }
+
+        .docDispNameInput {
+            margin-top: 8px;
+        }
+    }
+
+    .fileInputCell {
+        float: left;
+    }
+
+    .contestNameCheckingSpinnner,
+    .uniqueTranslationCheckSpinner {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        vertical-align: top;
+    }
+
+    .contestNameValid,
+    .contestNameInvalid {
+        font-size: 24px;
+    }
+
+    .contestNameValid {
+        color: $brand_color_success;
+    }
+
+    .contestNameInvalid,
+    .contestNameInvalidMsg {
+        color: $brand_color_alert;
+    }
+
+    .contestDescription {
+        .control-label {
+            display: inline;
+            float: left;
+        }
+
+        .charCount {
+            &.warning {
+                color: $brand_color_warning;
+            }
+
+            padding: 0 0 0 14px; // 6px textarea padding + 1px textarea border * 2 for both sides
+        }
+
+        .controls {
+            clear: both;
+        }
+    }
+
+    .translationsWrapper {
+        margin-bottom: $baseLineHeight;
+    }
+
+    .control-group + .translationsWrapper {
+        margin-top: -1 * $baseLineHeight / 2;
+    }
+
+    .translationsSummary {
+        display: inline-block;
+        padding: 2px 6px;
+        background: $ssiContest_pageEdit_translations_bgColor;
+        color: $ssiContest_pageEdit_translations_textColor;
+
+        @if $pages_splitterBorderTopBottomWidth and $pages_splitterBorderTopBottomColor {
+            border-top: $pages_splitterBorderTopBottomWidth solid $pages_splitterBorderTopBottomColor;
+        }
+    }
+
+    .translationsCountMsg {
+        display: inline-block;
+    }
+
+    // styled file input
+    .fileInputWrapper {
+        position: relative;
+        margin: 8px 0;
+
+        input {
+            position: relative;
+            z-index: 2;
+            text-align: right;
+
+            // note, every browser is a bit different (set opacity to 100 to see)
+            // but IE requires a click on the button portion of the input or else it will
+            // not pop open the file open dialog, setting the width does a pretty good job
+            // of overlaying the button portion of the control onto the .btn
+            @include opacity(0);
+            width: 100px;
+
+            &:hover {
+                cursor: pointer !important;
+            }
+        }
+
+        .uploadDocBtn {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+
+            &:hover {
+                cursor: pointer !important;
+            }
+        }
+
+        .removeUpload {
+            margin-left: 4px;
+            font-size: $baseLineHeight;
+            text-decoration: none;
+            vertical-align: middle;
+            color: $brand_color_mid;
+        }
+    }//.fileInputWrapper
+
+    .uploadingIndicator {
+        & * {
+            vertical-align: middle;
+        }
+
+        .progress {
+            width: 240px;
+            height: 18px;
+            display: inline-block;
+            margin: 0;
+        }
+    }//.uploadingIndicator
+
+    .uploadingSpinner {
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+    }
+
+    .uploadError {
+        margin-left: 20px;
+    }
+
+    .uploadError span {
+        font-weight: normal;
+    }
+
+    // for on the fly loading ajaxy stuff
+    .ajaxSpinner,
+    .paxManLoadSpinner,
+    .paxManSearchSpinner {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        line-height: 30px;
+        vertical-align: top;
+    }
+
+    .scrollTable {
+        height: 100%;
+        max-height: 300px;
+        width: 100%;
+        overflow-y: auto;
+        margin-bottom: 20px;
+    }
+
+    .spincover,
+    .spinnover {
+        position:absolute;
+        width:100%;
+        height:100%;
+        z-index: 10;
+
+        .spin {
+            position: relative;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+            left: 50%;
+            top: 50%;
+            margin-top: -$spinner_widthHeight / 2;
+            margin-left: -$spinner_widthHeight / 2;
+        }
+    }
+
+    .recurranceGuts {
+        input.recurringAmount {
+            width: 50px;
+        }
+    }
+
+    .paxSelectWrap {
+        position: relative;
+        // padding: ($baseLineHeight/2 - $ssiContest_pageEdit_paxSelectWrapBorderWidth) ($baseLineHeight - $ssiContest_pageEdit_paxSelectWrapBorderWidth) ($baseLineHeight - $ssiContest_pageEdit_paxSelectWrapBorderWidth);
+        // @if $ssiContest_pageEdit_paxSelectWrapBorderWidth {
+        //     border: $ssiContest_pageEdit_paxSelectWrapBorderWidth solid $ssiContest_pageEdit_paxSelectWrapBorderColor;
+        // }
+
+        // @media (max-width: 479px) {
+        //     margin: 0 (-1 * $baseLineHeight / 2);
+        //     padding: ($baseLineHeight / 2) - $ssiContest_pageEdit_paxSelectWrapBorderWidth;
+        // }
+
+        .filterCreationModeSelectWrapper {
+            overflow: hidden;
+            width: auto;
+            float: none;
+        }
+
+        .participantSearchTableWrapper {
+            margin-left: 0;
+
+            @media (min-width: 1200px) {
+                margin-left: 30px - $baseLineHeight; // 30px is a magic number for the existing left margin
+            }
+        }
+
+        .spincover {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            @include safeBkgs(rgba(0,0,0,0.2));
+        }
+
+        #ssiParticipants,
+        #ssiManagers,
+        #ssiSuperViewers {
+            // margin-right: -1 * ($baseLineHeight - $ssiContest_pageEdit_paxSelectWrapBorderWidth);
+            // margin-left: -1 * ($baseLineHeight - $ssiContest_pageEdit_paxSelectWrapBorderWidth);
+            // padding-right: ($baseLineHeight - $ssiContest_pageEdit_paxSelectWrapBorderWidth);
+            // padding-left: ($baseLineHeight - $ssiContest_pageEdit_paxSelectWrapBorderWidth);
+            // overflow: hidden;
+        }
+
+        #ssiParticipants .participantCollectionViewWrapper {
+            // margin-bottom: 0;
+        }
+    }//.paxSelectWrap
+
+    .participantsWrapper .paxSelectWrapForParticipants {
+        padding-bottom: 0;
+
+        .filterLabel {
+            display: inline-block;
+            line-height: 35px;
+            margin-top: 10px;
+            vertical-align: middle;
+        }
+
+        //keep dropdown from hitting the bottom of the page when it's really long
+        .dropdown-menu {
+            margin-bottom: 20px;
+        }
+    }
+
+    #ssiParticipants,
+    #ssiManagers,
+    #ssiSuperViewers,
+    #ssiParticipants_objectives,
+    #ssiParticipantsSiU,
+    #ssiParticipants_atn {
+        table {
+            width: 100%;
+        }
+
+        .participant {
+            text-align: left;
+            padding-left: 6px;
+            width: 33%; // overriding the default 50% width
+        }
+
+        .remove {
+            width: 1%;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .bonus {
+            border-left: 1px solid transparentize($ssiContest_pageEdit_objectiveBonusDividerBorderColor, 0.75);
+        }
+    }
+
+
+    #ssiParticipants .manMode,
+    #ssiParticipants .superViewerMode,
+    #ssiManagers .paxMode,
+    #ssiManagers .superViewerMode,
+    #ssiSuperViewers .manMode,
+    #ssiSuperViewers .paxMode {
+        display: none;
+    }
+
+    // NOTE: this shouldn't be a rich text editor,
+    // but changing it to a plain textarea with spellcheck and character counting on the day we want to cut the release is silly
+    // so I'm going to move the spellcheck button to the right with CSS and we should fix this eventually
+    // TODO: fix this eventually :)
+    .ssiPersonalMessage_atn {
+        .btn-group {
+            float: right;
+            margin-left: 8px;
+        }
+    }
+
+    // inside bootstrap dropdown
+    .badgeItem {
+        line-height: 36px;
+
+        a {
+            padding-right: 56px; // bootstrap 20px default + 36px from above
+            line-height: 36px;
+            vertical-align: middle;
+        }
+
+        img,
+        i {
+            line-height: 36px;
+            height: 36px;
+            vertical-align: middle;
+        }
+    }
+
+    .stackRankingOrderWrapper {
+        padding-left: 20px;
+    }
+
+    .ssiBillCodes {
+        display: block;
+    }
+
+    // pax payout data table styles
+    .paxPayoutTable {
+        .paxDatTextInput {
+            width: 50px;
+        }
+
+        .paxDatActivityDesc {
+            width: 150px;
+        }
+
+        .paxDatObjPayoutDesc {
+            width: 150px;
+        }
+
+        .hasError {
+            border-color: $ssi_textInputErrorBorderColor;
+        }
+
+        .textInputCell {
+            position: relative;
+            padding-left: 3px;
+            padding-right: 3px;
+            text-align: center;
+        }
+
+        .sameForAllWrapper {
+            position: absolute;
+            z-index: 10;
+            width: 50px;
+            height: 40px;
+            background: white;
+        }
+
+        tfoot td {
+            font-weight: $fontWeightBold;
+
+            &.totalDisp {
+                text-align: center;
+            }
+
+            .calculateTotalsBtn {
+                margin-right: 6px; // same as left padding on on the .participant cells
+            }
+        }
+
+        .levelTD {
+            text-align: center;
+        }
+    }//.paxPayoutTable
+
+    .stale {
+        color: $ssi_staleColor;
+    }
+
+    .maxPayoutSection {
+        margin: 1em 0;
+        min-height: 40px;
+
+        // scroll bar was appearing in IE
+        overflow: hidden;
+    }
+
+    .contestGoalWrapper {
+        position: relative;
+
+        .goalPercent {
+            position: absolute;
+            top: 22px;
+            @media(max-width: $breakpoint_mobile_max){
+                display: inline-block;
+                position: relative;
+				top: 32px;
+                right: 16px;
+            }
+        }
+    }
+
+    .contestGoalWrapper,
+    .maxPayoutWrapper,
+    .maxPayoutWithBonusWrapper {
+        padding-right: 40px;
+    }
+
+    .currLabel {
+        font-weight: $fontWeightBold;
+    }
+
+    .contestGoalInput {
+        margin: 0;
+    }
+
+    .contestEstimatorWrapper {
+        padding: $baseLineHeight;
+        // margin: 0 (-1 * $baseLineHeight) $baseLineHeight;
+        background-color: $ssiContest_pageEdit_estimator_bgColor;
+        @include border-radius($ssiContest_pageEdit_estimator_borderRadius);
+
+        .contestEstimator {
+
+            .slider-track {
+                background: $brand_color_white;
+            }
+
+            .sliderContainer {
+                position: relative;
+                padding-bottom: $baseLineHeight;
+                margin-bottom: $baseLineHeight / 2;
+            }
+
+            .sliderMin,
+            .sliderMax {
+                position: absolute;
+                bottom: 0;
+                font-size: 80%;
+            }
+
+            .sliderMin {
+                left: 0;
+            }
+
+            .sliderMax {
+                right: 50%; // slider is only 50% of its container's width
+                margin-right: -1 * 7px * 2; // slider-track has 7px padding on each end
+
+                @media (max-width: 479px) {
+                    right: 0;
+                    margin-right: 0;
+                }
+            }
+
+            .sliderCurr {
+                display: inline-block;
+                margin-left: 8px;
+                width: 40px;
+                font-weight: $fontWeightBold;
+                vertical-align: middle;
+                text-align: right;
+
+                @media (max-width: 479px) {
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    margin-left: -20px;
+                }
+            }
+        }//.contestEstimator
+
+        // hide the handle so it cannot be set
+        .estimatorWrapper.disabled {
+            .slider-selection {
+                background-color: $brand_color_mid;
+            }
+
+            .slider-handle {
+                display: none;
+            }
+
+            .tooltip-arrow {
+                border-top-color: $ssiContest_pageEdit_estimatorSliderDisabled_tipBgColor;
+            }
+
+            .tooltip-inner {
+                background: $ssiContest_pageEdit_estimatorSliderDisabled_tipBgColor;
+
+                @if $ssiContest_pageEdit_estimatorSliderDisabled_tipTextColor {
+                    color: $ssiContest_pageEdit_estimatorSliderDisabled_tipTextColor;
+                }
+            }
+        }//.estimatorWrapper.disabled
+
+        .slider-track {
+            .noLevPctLabel {
+                font-size: 0.8em;
+                line-height: 1.6em;
+                text-indent: 4px;
+                font-weight: $fontWeightBold;
+            }
+        }
+    }//.contestEstimatorWrapper
+
+    .ssiPreviewSection {
+        .levelTitle {
+            font-size: $baseFontSize * 1.0714;
+            font-weight: $fontWeightBold;
+        }
+
+        .editStepBtn {
+            float: right;
+        }
+
+        .dl-horizontal {
+            dt {
+                width: 240px;
+            }
+
+            dd {
+                margin-left: 260px;
+                word-wrap: break-word;
+            }
+
+            // borrowed from the bootstrap responsive files
+            @media (max-width: 767px) {
+                dt {
+                    width: auto;
+                }
+
+                dd {
+                    margin-left: 0;
+                }
+            }
+        }
+    }//.ssiPreviewSection
+
+    h5 {
+        small {
+            display: block;
+            color: $brand_color_dark;
+            margin-top: 10px;
+        }
+    }
+
+    // ********************************************************
+    // ssiDtgtActivityCollectionView
+    // ********************************************************
+    .ssiDtgtActivityCollectionView {
+        position: relative;
+
+        .activities.well.container-splitter {
+            margin-bottom: $baseLineHeight !important; // ugh. // I know, sorry
+            position: relative; // so .lockUI positions properly
+        }
+
+        .lockUI {
+            @include opacity(0.667);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: $pages_pageContentBgColor;
+            z-index: 9998;
+        }
+
+        .activityItem {
+            @include clearfix();
+            overflow: hidden;
+            padding: 10px;
+            background: $ssiContest_pageEdit_activityItem_bgColor;
+            border-bottom: $ssiContest_pageEdit_activityItem_borderBottom;
+
+            @if $ssiContest_pageEdit_activityItem_textColor {
+                color: $ssiContest_pageEdit_activityItem_textColor;
+            }
+
+            &:hover {
+                @if $ssiContest_pageEdit_activityItemHover_textColor {
+                    color: $ssiContest_pageEdit_activityItemHover_textColor;
+                }
+                background: $ssiContest_pageEdit_activityItemHover_bgColor;
+            }
+
+        }// .activityItem
+
+        .noActivities {
+            @if $ssiContest_pageEdit_noActivitiesFontColor {
+                color: $ssiContest_pageEdit_noActivitiesFontColor;
+            }
+
+            font-size: 1.2em;
+
+            &:hover {
+                background: $ssiContest_pageEdit_activityItem_bgColor;
+            }
+        }// .noActivities
+
+        .headerDescriptions {
+            padding: 0 1% 4px 1%;
+
+            &:hover {
+                background: inherit;
+            }
+
+            .activityHeader {
+                font-size: $tables_theadFontSize;
+                line-height: $lineHeightMini;
+                font-weight: $tables_theadFontWeight;
+                text-transform: $tables_theadTextTrans;
+                color: $tables_theadTextColor;
+            }
+        }
+
+        .isActiveNew,
+        .isEdit {
+            color: $ssiContest_pageEdit_activityItemActive_textColor;
+            background-color: $ssiContest_pageEdit_activityItemActive_bgColor;
+
+            .activityItem {
+                color: inherit;
+            }
+
+            &:hover,
+            .activityItem:hover {
+                background: $ssiContest_pageEdit_activityItemActive_bgColor;
+            }
+
+            i {
+                color: $ssiContest_pageEdit_activityItemActive_iconColor;
+            }
+        }//.isActiveNew, .isEdit
+
+        .mask {
+            @include opacity(0.667);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: $pages_pageContentBgColor;
+            z-index: 9998;
+        }
+
+        .maskOn {
+            position: relative;
+            z-index: 9999;
+        }
+
+        .activityHeader {
+            text-align: center;
+            float: left;
+            font-size: 87.5%;
+
+            @if $ssiContest_pageEdit_activityHeaderFontColor {
+                color: $ssiContest_pageEdit_activityHeaderFontColor;
+            }
+            @if $ssiContest_pageEdit_activityHeaderBgColor {
+                background: $ssiContest_pageEdit_activityHeaderBgColor;
+            }
+
+            i { // icons
+                // font-size: 22px;
+
+                &.editControl,
+                &.removeControl {
+                    @include transition-property(opacity);
+                    @include transition-duration(0.25s);
+                    @include opacity(0.5);
+                    font-size: $fontSizeLarge;
+                    line-height: $fontSizeLarge;
+                    @include applyGlobalLinkStyles();
+                }
+
+                &:hover {
+                    @include opacity(1);
+                    cursor: pointer;
+                }
+            }
+        }// .activityHeader
+
+        .activityList .activityHeader {
+            font-weight: normal;
+            font-size: 1em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .footer {
+            border-bottom: 0;
+
+            & > div {
+                float: left;
+                font-weight: $fontWeightBold;
+                font-size: 0.9em;
+
+                &.activityMaxActPay {
+                    text-align: center;
+                }
+            }
+
+            &:hover {
+                background: $ssiContest_pageEdit_activityItem_bgColor;
+            }
+        }// .footer
+
+
+        .background-flash {
+            background-color: $ssiContest_pageEdit_activityItem_backgroundFlash;
+        }
+
+        // columnar shizzo
+        .activityDesc {
+            width: 19%;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .activityForEvery,
+        .activityEarn,
+        .activityMinQual,
+        .activityIndPayCap,
+        .activityMaxActPay,
+        .activityActGoal,
+        .activityMaxActPot,
+        .activityEdit,
+        .activityRemove {
+            margin: 0 0.5%;
+            width: 8%;
+            word-wrap: break-word;
+        }
+
+        @media (max-width: 979px) {
+            .activityDesc {
+                width: 40%;
+            }
+
+            .activityForEvery,
+            .activityEarn,
+            .activityEdit,
+            .activityRemove {
+                width: 15%;
+            }
+
+            .activityMinQual,
+            .activityIndPayCap,
+            .activityMaxActPay,
+            .activityActGoal,
+            .activityMaxActPot {
+                display: none;
+            }
+        }
+
+        .activityDetailItemActions {
+            margin-top: 10px;
+        }
+
+        .bottomControls {
+            padding: 10px 0 10px;
+        }
+
+        .activityDetails {
+            padding: 10px;
+
+            h5 {
+                margin-top: 0
+            }
+
+            label {
+                width: 200px;
+                text-align: right;
+                display: inline-block;
+
+            }
+
+            input {
+                width: 100px;
+            }
+
+            span {
+                font-weight: $fontWeightBold;
+
+                &.sliderMin,
+                &.sliderMax {
+                    font-weight: normal;
+                }
+            }
+
+            .activityDetailDesc input,
+            .activityDetailValueDesc input {
+                width: 200px;
+            }
+
+            .activityDetailActGoal {
+                position: relative;
+                margin: 8px 20px 10px 0;
+
+                label {
+                    width: auto;
+                }
+                .goalPercent {
+                    // position: absolute;
+					position: inherit;
+                    top: 22px;
+                }
+            }
+
+
+        }// .activityDetails
+
+        .hasError {
+            border-color: $ssi_textInputErrorBorderColor;
+        }
+
+    }// .ssiDtgtActivityCollectionView
+
+    // ********************************************************
+    // ssiSiuLevelCollectionView
+    // ********************************************************
+    .ssiSiuLevelCollectionView {
+        position: relative;
+
+        .levels.well.container-splitter {
+            margin-bottom: $baseLineHeight !important; // ugh. // I know, sorry
+            position: relative; // so .lockUI positions properly
+        }
+
+        .lockUI {
+            @include opacity(0.667);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: $pages_pageContentBgColor;
+            z-index: 9998;
+        }
+
+        .levelDrag {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .levelItem {
+            @include clearfix();
+            overflow: visible;
+            padding: 10px;
+
+            @if $ssiContest_pageEdit_activityItem_textColor {
+                color: $ssiContest_pageEdit_activityItem_textColor;
+            }
+            background: $ssiContest_pageEdit_activityItem_bgColor;
+            border-bottom: $ssiContest_pageEdit_activityItem_borderBottom;
+        }// .levelItem
+
+        .noLevels {
+            @if $ssiContest_pageEdit_noActivitiesFontColor {
+                color: $ssiContest_pageEdit_noActivitiesFontColor;
+            }
+
+            font-size: 1.2em;
+
+            &:hover {
+                background: $ssiContest_pageEdit_activityItem_bgColor;
+            }
+        }// .noLevels
+
+        .headerDescriptions {
+            padding: 0 10px 4px 10px;
+
+            &:hover {
+                background: inherit;
+            }
+
+            .levelHeader {
+                font-size: $tables_theadFontSize;
+                line-height: $lineHeightMini;
+                font-weight: $tables_theadFontWeight;
+                text-transform: $tables_theadTextTrans;
+                color: $tables_theadTextColor;
+            }
+        }
+
+        .isActiveNew,
+        .isEdit {
+            color: $ssiContest_pageEdit_activityItemActive_textColor;
+            background-color: $ssiContest_pageEdit_activityItemActive_bgColor;
+
+            .levelItem {
+                color: inherit;
+            }
+
+            &:hover,
+            .levelItem:hover {
+                background: $ssiContest_pageEdit_activityItemActive_bgColor;
+            }
+
+            i {
+                color: $ssiContest_pageEdit_activityItemActive_iconColor;
+            }
+        }
+
+        .mask {
+            @include opacity(0.667);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: $pages_pageContentBgColor;
+            z-index: 9998;
+        }
+
+        .maskOn {
+            position: relative;
+            z-index: 9999;
+        }
+
+        .levelHeader {
+            text-align: center;
+            float: left;
+            font-size: 87.5%;
+            font-weight: $fontWeightBold;
+            min-height: 1em; // keep it from collapsing when empty
+            @if $ssiContest_pageEdit_activityHeaderFontColor {
+                color: $ssiContest_pageEdit_activityHeaderFontColor;
+            }
+            @if $ssiContest_pageEdit_activityHeaderBgColor {
+                background: $ssiContest_pageEdit_activityHeaderBgColor;
+            }
+
+            i { // icons
+                // font-size: 22px;
+
+                &.pageView_help {
+                    font-size: 12px;
+                }
+
+                &.editControl,
+                &.removeControl {
+                    @include transition-property(opacity);
+                    @include transition-duration(0.25s);
+                    @include opacity(0.5);
+                    font-size: $fontSizeLarge;
+                    line-height: $fontSizeLarge;
+                    @include applyGlobalLinkStyles();
+                }
+
+                &:hover {
+                    @include opacity(1);
+                    cursor: pointer;
+                }
+            }
+        }// .levelHeader
+
+        .levelList .levelHeader {
+            font-weight: normal;
+            font-size: 1em;
+        }
+
+        .footer {
+            border-bottom: 0;
+
+            & > div {
+                float: left;
+                font-weight: $fontWeightBold;
+                font-size: 0.9em;
+
+                &.levelMaxActPay {
+                    text-align: center;
+                }
+            }
+
+            &:hover {
+                background: $ssiContest_pageEdit_activityItem_bgColor;
+            }
+        }// .footer
+
+        .background-flash {
+            background-color: $ssiContest_pageEdit_activityItem_backgroundFlash;
+        }
+
+        // columnar shizzo
+        .levelSequenceNumber {
+            font-weight: $fontWeightBold;
+            width: 14%;
+
+            .levelCaption {
+                font-size: 0.8em;
+            }
+        }
+
+        .levelAmount,
+        .levelPayout {
+            width: 14%;
+        }
+
+        .levelPayoutDesc {
+            width: 14%;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .levelBadge {
+            width: 14%;
+
+            img {
+                width: 36px;
+                height: auto;
+            }
+        }
+
+        .levelEdit {
+            width: 14%;
+
+            // experiemental
+            position: absolute;
+            right: 14%; // width of .levelRemove
+        }
+
+        .levelRemove {
+            width: 14%;
+
+            // experiemental
+            position: absolute;
+            right: 0;
+        }
+
+        .levelDetailItemActions {
+            margin-top: 10px;
+        }
+
+        .bottomControls {
+            padding: 10px 0 10px;
+        }
+
+        .levelDetails {
+            padding: 10px;
+
+            h5 {
+                margin-top: 0
+            }
+
+            label {
+                width: 200px;
+                text-align: right;
+                display: inline-block;
+
+
+                @media (max-width: 480px) {
+                    width: auto;
+                }
+            }
+
+            input {
+                width: 80px;
+            }
+
+            .currSymb {
+                font-weight: $fontWeightBold;
+            }
+
+            .levelDetailPayoutDesc input{
+                width: 200px;
+            }
+
+            .measureLabel {
+                font-weight: normal;
+            }
+        }// .levelDetails
+
+        .hasError {
+            border-color: $ssi_textInputErrorBorderColor;
+        }
+
+        .levelPlaceholder { // for .sortable()
+            height: 50px;
+            background: $ssiContest_pageEdit_activityItemSortHelper_bgColor;
+            border-bottom: $ssiContest_pageEdit_activityItem_borderBottom;
+        }
+
+    }// .ssiSiuLevelCollectionView
+
+    // Stack Rank contest type
+    .ranksWrapper {
+        .rankNum,
+        .remove {
+            text-align: center;
+        }
+
+        thead th {
+            font-size: 87.5%;
+        }
+
+        tbody td {
+            vertical-align: middle;
+
+            .badgesSelector {
+                margin: -4px 0; // half of the table cell padding
+                text-align: left;
+
+                .btn-group {
+                    white-space: normal;
+                }
+
+            }
+
+            &.rankNum {
+                font-weight: $fontWeightBold;
+                font-size: 1.2em;
+            }
+
+            input {
+                margin-bottom: 0;
+            }
+        }
+
+        // badges view image size
+        .badgeBtnContent img{
+            width: $baseLineHeight; // 36px is ideal, but we need smaller for wrapping purposes
+        }
+
+        // remove icon
+        i {
+            &.removeControl {
+                @include transition-property(opacity);
+                @include transition-duration(0.25s);
+                @include opacity(0.5);
+                font-size: $fontSizeLarge;
+                line-height: $fontSizeLarge;
+                @include applyGlobalLinkStyles();
+
+                &:hover {
+                    @include opacity(1);
+                    cursor: pointer;
+                }
+            }
+        }
+    }// .ranksWrapper
+
+    // lives in SIU and DTGT
+    .transEmbed {
+        padding: $baseLineHeight;
+        margin: 0 (-1 * $baseLineHeight) $baseLineHeight;
+        background-color: $ssiContest_pageEdit_estimator_bgColor;
+        @include border-radius($ssiContest_pageEdit_estimator_borderRadius);
+
+        label {
+            padding-right: 10px;
+        }
+
+        .transHeadEmbed {
+            label {
+                font-weight: $fontWeightBold;
+            }
+        }
+    }
+
+    #contestEditTabDataCollectionView {
+        label p {
+            font-size: 85%;
+            line-height: 1.1em;
+            max-width: 480px;
+        }
+
+        .approversSection {
+            table {
+                width: 100%;
+            }
+
+            th {
+                text-align: left;
+            }
+
+            th.remove {
+                text-align: center;
+            }
+        }
+
+        .fieldItemList {
+            border-bottom: 1px solid $brand_color_border;
+            margin-bottom: 10px;
+            max-width: 510px;
+
+            &.additionalFields .fieldItem {
+                cursor: pointer;
+            }
+
+            .fieldItem {
+                &.background-flash {
+                    background-color: $ssiContest_pageEdit_activityItem_backgroundFlash;
+                }
+
+                &.selected {
+                    &.background-flash {
+                        background-color: $ssiContest_pageEdit_activityItem_backgroundFlash;
+                    }
+
+                    background: $brand_color_lighter;
+                }
+
+                border-top: 1px solid $brand_color_border;
+            }
+
+            .fieldCell {
+                display: inline-block;
+                height: 40px;
+                vertical-align: top;
+            }
+
+            .selectBtn,
+            .dragHandle {
+                @include transition-property(opacity);
+                @include transition-duration(0.25s);
+                @include opacity(.7);
+                cursor: pointer;
+
+                &:hover {
+                    @include opacity(1);
+                }
+            }
+
+            .cellSort,
+            .cellSelect {
+                width: 40px;
+                text-align: center;
+
+                i {
+                    line-height: 40px;
+                    font-size: 24px;
+                }
+
+                a {
+                    line-height: 40px;
+                }
+            }
+
+            .cellName {
+                width: 300px;
+                padding-left: 10px;
+                padding-top: 6px;
+                height: 34px;
+                line-height: 1em;
+
+                small {
+                    color: $brand_color_darker;
+                }
+            }
+
+            .cellRequired {
+                width: 100px;
+
+                label {
+                    padding-top: 10px; // eww
+                }
+            }
+
+            .fieldPlaceholder {// for .sortable()
+                height: 40px;
+                background: $brand_color_dark;
+            }
+        }//.fieldItemList
+
+        .addNewFieldWrapper {
+            max-width: 510px;
+
+            .fieldEditor {
+                padding: 10px;
+                border: 1px solid $brand_color_border;
+            }
+        }
+
+        .hasError {
+            border-color: $ssi_textInputErrorBorderColor;
+        }
+    }//#contestEditTabDataCollectionView
+
+	.wizardTabsView {
+		&.compactMode {
+			li.wtTab {
+				width: 20%;
+			}
+		}
+	}
+	
+    // #previewClaimFormModal .modal-body {
+    //     padding: 30px;
+    // }
+}// .ssiContestPageEdit
+
+.ssiErrorQTip {
+    max-width: 180px;
+
+    .errorMsg {
+        display: none;
+        margin-left: 16px;
+
+        i.icon-warning-circle {
+            margin-left: -20px;
+            font-size: 18px;
+            float: left;
+            padding: 0 4px 0 0;
+        }
+    }
+}// .ssiErrorQTip

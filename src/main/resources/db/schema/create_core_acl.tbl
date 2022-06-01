@@ -1,0 +1,19 @@
+CREATE TABLE acl (
+	acl_id			NUMBER (18) NOT NULL, 
+    name			VARCHAR2(40) NOT NULL,
+    code			VARCHAR2(40) NOT NULL,
+    help_text		VARCHAR2(255) NOT NULL,
+    class_name		VARCHAR2(255) NOT NULL,
+    is_active		NUMBER(1) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created    DATE NOT NULL,
+    modified_by number(18),
+    date_modified	DATE,
+	version			NUMBER (18) NOT NULL,
+	CONSTRAINT ACL_PK PRIMARY KEY (acl_id),
+	CONSTRAINT acl_udk UNIQUE (code),
+	CONSTRAINT acl_udk_2 UNIQUE (name))
+/
+
+CREATE SEQUENCE ACL_PK_SQ INCREMENT BY 1 START WITH 5000
+/

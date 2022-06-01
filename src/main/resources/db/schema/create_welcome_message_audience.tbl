@@ -1,0 +1,12 @@
+CREATE TABLE WELCOME_MESSAGE_AUDIENCE
+(welcome_message_id   NUMBER(18,0) NOT NULL,
+ audience_id          NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE welcome_message_audience ADD CONSTRAINT welcome_message_audience_fk
+  FOREIGN KEY (audience_id) REFERENCES audience (audience_id)
+/
+ALTER TABLE welcome_message_audience ADD CONSTRAINT welcome_message_fk
+  FOREIGN KEY (welcome_message_id) REFERENCES welcome_message  (welcome_message_id)
+/
+COMMENT ON COLUMN welcome_message_audience.AUDIENCE_ID IS 'FK to audience.'
+/

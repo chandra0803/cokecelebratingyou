@@ -1,0 +1,1459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.user.User" table="APPLICATION_USER">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="USER_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">USER_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <property name="userName" type="java.lang.String" column="USER_NAME" />
+    <property name="userType" column="USER_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.UserType</param>
+      </type>
+    </property>
+    <property name="forcePasswordChange" type="boolean" column="FORCE_PASSWORD_CHANGE" />
+
+    <property name="titleType" column="TITLE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">        <param name="lookupClass">com.biperf.core.domain.enums.TitleType</param>
+      </type>
+    </property>
+    <property name="firstName" type="java.lang.String" column="FIRST_NAME" />
+    <property name="middleName" type="java.lang.String" column="MIDDLE_NAME" />
+    <property name="lastName" type="java.lang.String" column="LAST_NAME" />
+    <property name="suffixType" column="SUFFIX">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.SuffixType</param>
+      </type>
+    </property>
+    <property name="ssn" type="java.lang.String" access="field" column="SSN" />
+    <property name="ssnDecrypted" formula="FNC_JAVA_DECRYPT(SSN)" type="java.lang.String" access="field" />
+    <property name="birthDate" type="java.util.Date" column="BIRTH_DATE" />
+    <property name="genderType" column="GENDER">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.GenderType</param>
+      </type>
+    </property>
+    <property name="password" column="PASSWORD">
+    <!-- START MD5 to SHA256 conversion code: TO BE UPDATED LATER -->
+    <!-- type name="com.biperf.core.utils.crypto.MD5UserType" /-->
+      <type name="com.biperf.core.utils.crypto.SHA256UserType" />
+    <!-- END MD5 to SHA256 conversion code: TO BE UPDATED LATER -->
+    </property>
+    <property name="loginToken" column="LOGIN_TOKEN">
+    <!-- START MD5 to SHA256 conversion code: TO BE UPDATED LATER -->
+      <!-- type name="com.biperf.core.utils.crypto.MD5UserType" /-->
+      <type name="com.biperf.core.utils.crypto.SHA256UserType" />
+    <!-- END MD5 to SHA256 conversion code: TO BE UPDATED LATER -->
+    </property>
+    <property name="active" type="java.lang.Boolean" column="IS_ACTIVE" />
+    <property name="welcomeEmailSent" type="java.lang.Boolean" column="IS_WELCOME_EMAIL_SENT" />    
+    <property name="acceptedCmsTerms" type="java.lang.Boolean" column="IS_CMS_TERMS_ACCEPTED" />
+    <property name="masterUserId" type="java.lang.Long" column="MASTER_USER_ID" />
+
+    <property name="secretQuestionType" column="SECRET_QUESTION">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.SecretQuestionType</param>
+      </type>
+    </property>
+
+    <property name="secretAnswer" type="java.lang.String" access="field" column="SECRET_ANSWER" />
+    <property name="secretAnswerDecrypted" formula="FNC_JAVA_DECRYPT(SECRET_ANSWER)" type="java.lang.String" access="field" />
+    <property name="loginFailuresCount" column="LOGIN_FAILURES_COUNT" />
+    <property name="lastResetDate" type="java.util.Date" column="LAST_RESET_DATE" />
+ 	<!-- #28250 customization start -->
+    <property name="svcVideoURL" type="java.lang.String" access="field" column="ADIH_SVC_VIDEO_URL" />
+	<!-- #28250  customization end -->
+    <property name="languageType" column="LANGUAGE_ID">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.LanguageType</param>
+      </type>
+    </property>
+
+    <property name="enrollmentSource" column="ENROLLMENT_SOURCE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.ParticipantEnrollmentSource</param>
+      </type>
+    </property>
+
+    <property name="enrollmentDate" type="java.util.Date" column="ENROLLMENT_DATE" />
+    
+    <property name="acceptTermsOnTextMessages" type="boolean" column="IS_TEXT_MESSAGES_TERMS_ACCEPT" />
+    
+    <property name="profileSetupDone" type="boolean" column="IS_PROFILE_SETUP_DONE" />
+    
+    <property name="oneTimePassword" type="java.lang.Boolean" column="IS_OTP" />
+    
+    <property name="oneTimePasswordDate" type="java.util.Date" column="OTP_DATE" />
+    
+    <property name="accountLocked" type="boolean" column="IS_ACCOUNT_LOCKED" />
+    
+    <property name="lockTimeoutExpireDate" type="java.util.Date" column="LOCK_TIMEOUT_EXPIRE" />
+    
+    <property name="raWelcomeEmailSent" type="boolean" column="IS_RA_WELCOME_EMAIL_SENT" />
+    
+    <property name="rosterUserId" type="uuid-char" column="ROSTER_USER_ID" />
+    
+    <set name="userRoles" lazy="false" table="USER_ROLE" cascade="all-delete-orphan">
+      <key column="USER_ID" />
+      <composite-element class="com.biperf.core.domain.user.UserRole">
+        <parent name="user" />
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED" />
+          <column name="CREATED_BY" />
+        </property>
+        <many-to-one name="role" class="com.biperf.core.domain.user.Role" column="ROLE_ID" lazy="false" />
+      </composite-element>
+    </set>
+
+    <set name="userEmailAddresses" table="USER_EMAIL_ADDRESS" inverse="true" cascade="all-delete-orphan">
+      <key column="USER_ID" />
+      <one-to-many class="com.biperf.core.domain.user.UserEmailAddress" />
+    </set>
+
+    <set name="userAddresses" table="USER_ADDRESS" inverse="true" cascade="all-delete-orphan">
+      <key column="USER_ID" />
+      <one-to-many class="com.biperf.core.domain.user.UserAddress" />
+    </set>
+
+    <set name="userPhones" table="USER_PHONE" inverse="true" cascade="all-delete-orphan">
+      <key column="USER_ID" />
+      <one-to-many class="com.biperf.core.domain.user.UserPhone" />
+    </set>
+
+    <set name="userCharacteristics" table="USER_CHARACTERISTIC" inverse="true" cascade="all-delete-orphan">
+      <key column="USER_ID" />
+      <one-to-many class="com.biperf.core.domain.user.UserCharacteristic" />
+    </set>
+
+    <set name="userAcls" lazy="false" table="USER_ACL" cascade="all-delete-orphan">
+      <key column="USER_ID" />
+      <composite-element class="com.biperf.core.domain.user.UserAcl">
+        <parent name="user" />
+        <property name="target" type="java.lang.String" column="TARGET" />
+        <property name="guid" type="java.lang.String" column="GUID" />
+        <property name="permission" type="java.lang.String" column="PERMISSION" />
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED" />
+          <column name="CREATED_BY" />
+        </property>
+        <many-to-one name="acl" class="com.biperf.core.domain.user.Acl" column="ACL_ID" lazy="false" />
+      </composite-element>
+    </set>
+
+    <set name="userNodes" lazy="false" inverse="true" table="USER_NODE" cascade="all-delete-orphan">
+      <key column="USER_ID" not-null="true" />
+      <one-to-many class="com.biperf.core.domain.user.UserNode" />
+    </set>
+    
+    <set name="userPasswords" lazy="false" inverse="true" table="USER_PASSWORD_HISTORY" cascade="all-delete-orphan">
+      <key column="USER_ID" not-null="true" />
+      <one-to-many class="com.biperf.core.domain.user.UserPasswordHistory" />
+    </set>
+ 
+     
+    <joined-subclass name="com.biperf.core.domain.participant.Participant" table="PARTICIPANT">
+
+      <key column="USER_ID" />
+
+      <property name="awardBanqNumber" type="java.lang.String"  access="field" column="AWARDBANQ_NBR" />
+      <property name="awardBanqNumberDecrypted" formula="FNC_JAVA_DECRYPT(AWARDBANQ_NBR)" type="java.lang.String" access="field" />
+      <property name="awardBanqExtractDate" type="java.util.Date" column="DATE_AWARDBANQ_EXTRACT" />
+      <property name="centraxId" type="java.lang.String"  access="field" column="CENTRAX_ID" />
+      <property name="centraxIdDecrypted" formula="FNC_JAVA_DECRYPT(CENTRAX_ID)" type="java.lang.String" access="field" />
+      <property name="avatarOriginal" type="java.lang.String" column="AVATAR_ORIGINAL" />
+      <property name="avatarSmall" type="java.lang.String" column="AVATAR_SMALL" />
+
+      <property name="status" column="STATUS">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.ParticipantStatus</param>
+        </type>
+      </property>
+
+      <property name="statusChangeDate" type="java.util.Date" column="DATE_STATUS_CHANGE" />
+
+      <property name="relationshipType" column="RELATIONSHIP_TYPE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.ParticipantRelationshipType</param>
+        </type>
+      </property>
+
+      <property name="suspensionStatus" column="SUSPENSION_STATUS">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.ParticipantSuspensionStatus</param>
+        </type>
+      </property>      
+      
+     <property name="termsAcceptance" column="TERMS_ACCEPTANCE">
+       <type name="com.biperf.core.utils.hibernate.PickListUserType">
+         <param name="lookupClass">com.biperf.core.domain.enums.ParticipantTermsAcceptance</param>
+       </type>
+     </property>      
+     <property name="userIDAcceptedTerms" type="java.lang.String" column="USER_ID_ACCEPTED" />
+     
+     <property name="termsAcceptedDate" type="java.util.Date" column="DATE_TERMS_ACCEPTED" />
+     
+     <many-to-one class="com.biperf.core.domain.user.UserFacebook" column="FACEBOOK_ID" name="userFacebook" cascade="all" />
+
+     <many-to-one class="com.biperf.core.domain.user.UserTwitter" column="TWITTER_ID" name="userTwitter" cascade="all" />     
+     
+     <property name="allowPublicRecognition" type="boolean" column="ALLOW_PUBLIC_RECOGNITION" not-null="true"/>
+     
+     <property name="allowPublicInformation" type="boolean" column="ALLOW_PUBLIC_INFORMATION" not-null="true"/>
+     
+     <property name="allowPublicBirthDate" type="boolean" column="ALLOW_PUBLIC_BIRTH_DATE" not-null="true"/>
+     
+     <property name="allowPublicHireDate" type="boolean" column="ALLOW_PUBLIC_HIRE_DATE" not-null="true"/>
+     
+     <property name="giftCodeOnly" column="GIFTCODE_ONLY" type="boolean" />
+     
+     <property name="ssoId" type="java.lang.String" column="SSO_ID" />   
+	 
+	<property name="optOutAwards" type="java.lang.Boolean" column="IS_OPT_OUT_OF_AWARDS" />
+     
+     <property name="optOutOfProgram" type="java.lang.Boolean" column="IS_OPT_OUT_OF_PROGRAM" />
+     
+	 <property name="uaAuthorizedDate" type="java.util.Date" column="UA_AUTHORIZED" />     
+	 
+	 <property name="terminationDate" type="java.util.Date" column="TERMINATION_DATE" />
+	 
+	 <property name="optOutOfAwardsDate" type="java.util.Date" column="DATE_OPT_OUT_OF_AWARDS" />
+	 
+	 <property name="optOutOfProgramDate" type="java.util.Date" column="DATE_OPT_OUT_OF_PROGRAM" />
+	 
+	 <property name="honeycombUserId" type="java.lang.Long" column="HONEYCOMB_USER_ID" />
+	   <!-- Client customizations for wip #26532 starts -->
+     <property name="allowSharePurlToOutsiders" column="ALLOW_EXT_PURL_INVITE" type="boolean" />
+     <!-- Client customizations for wip #26532 ends -->
+     <!-- tccc customization start -->
+     <property name="allowPurlContributionsToSeeOthers" column="ALLOW_PUBLIC_PURL_RECOGNITION" type="boolean" />
+     <property name="termsAndConditionsdeclined" column="DECLINE_TERMS_FLAG" type="boolean" />
+     <!-- tccc customization end -->
+    
+      <property name="positionType" type="java.lang.String" lazy="false">
+        <formula>
+          <![CDATA[
+             ( SELECT pe.position_type
+                 FROM participant_employer pe
+                WHERE pe.user_id = USER_ID
+                  AND pe.termination_date is null
+                  AND ROWNUM = 1
+             )
+          ]]>
+        </formula>
+      </property>
+
+      <property name="departmentType" type="java.lang.String" lazy="false">
+        <formula>
+          <![CDATA[
+             ( SELECT pe.department_type
+                 FROM participant_employer pe
+                WHERE pe.user_id = USER_ID
+                  AND pe.termination_date is null
+                  AND ROWNUM = 1
+             )
+          ]]>
+        </formula>
+      </property>
+
+      <set name="participantContactMethods" lazy="false" table="PARTICIPANT_CONTACT_METHOD" cascade="all-delete-orphan">
+        <key column="USER_ID" />
+        <composite-element class="com.biperf.core.domain.participant.ParticipantContactMethod">
+          <parent name="participant" />
+          <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED" />
+            <column name="CREATED_BY" />
+          </property>
+          <property name="primary" type="java.lang.Boolean" column="IS_PRIMARY" />
+          <property name="contactMethodCode" column="CONTACT_METHOD_CODE">
+            <type name="com.biperf.core.utils.hibernate.PickListUserType">
+              <param name="lookupClass">com.biperf.core.domain.enums.ContactMethod</param>
+            </type>
+          </property>
+        </composite-element>
+      </set>
+
+      <set name="participantCommunicationPreferences" lazy="false" table="PARTICIPANT_COMM_PREFERENCE" inverse="true" cascade="all-delete-orphan">
+        <key column="USER_ID" />
+        <one-to-many class="com.biperf.core.domain.participant.ParticipantCommunicationPreference" />
+      </set>
+      
+      <set name="participantAddressBooks" lazy="true" table="PARTICIPANT_ADDRESS_BOOK" cascade="all-delete-orphan">
+        <key column="USER_ID" />
+        <one-to-many class="com.biperf.core.domain.participant.ParticipantAddressBook" />
+      </set>
+
+      <list name="participantEmployers" lazy="extra" table="PARTICIPANT_EMPLOYER" cascade="all-delete-orphan">
+        <key column="USER_ID" />
+        <list-index column="participant_employer_index" />
+        <composite-element class="com.biperf.core.domain.participant.ParticipantEmployer">
+          <parent name="participant" />
+          <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED" />
+            <column name="CREATED_BY" />
+          </property>
+          <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+            <column name="DATE_MODIFIED" />
+            <column name="MODIFIED_BY" />
+          </property>
+
+          <property name="positionType" type="java.lang.String" column="POSITION_TYPE" />
+          <property name="departmentType" type="java.lang.String" column="DEPARTMENT_TYPE" />
+          
+          <property name="hireDate" column="HIRE_DATE" type="java.util.Date" />
+          <property name="terminationDate" column="TERMINATION_DATE" type="java.util.Date" />
+          <many-to-one name="employer" class="com.biperf.core.domain.employer.Employer" column="EMPLOYER_ID" />
+        </composite-element>
+      </list>
+
+        <!-- Custom Insert and Update - using awardbanq and centrax Encrypt -->
+        <sql-insert>
+          <![CDATA[
+            insert into PARTICIPANT (AWARDBANQ_NBR, DATE_AWARDBANQ_EXTRACT, CENTRAX_ID,AVATAR_ORIGINAL,AVATAR_SMALL, STATUS, DATE_STATUS_CHANGE, 
+                                     RELATIONSHIP_TYPE, SUSPENSION_STATUS, TERMS_ACCEPTANCE, USER_ID_ACCEPTED, 
+                                     DATE_TERMS_ACCEPTED,FACEBOOK_ID,TWITTER_ID,ALLOW_PUBLIC_RECOGNITION, ALLOW_PUBLIC_INFORMATION,ALLOW_PUBLIC_BIRTH_DATE,ALLOW_PUBLIC_HIRE_DATE,GIFTCODE_ONLY, SSO_ID,
+                                     IS_OPT_OUT_OF_AWARDS, IS_OPT_OUT_OF_PROGRAM, UA_AUTHORIZED, TERMINATION_DATE,DATE_OPT_OUT_OF_AWARDS,DATE_OPT_OUT_OF_PROGRAM, HONEYCOMB_USER_ID, USER_ID )
+            values (FNC_JAVA_ENCRYPT(?), ?, FNC_JAVA_ENCRYPT(?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?)
+            ]]>
+        </sql-insert>
+    
+        <sql-update>
+          <![CDATA[
+            update PARTICIPANT
+               set  AWARDBANQ_NBR=FNC_JAVA_ENCRYPT(?), DATE_AWARDBANQ_EXTRACT=?, CENTRAX_ID=FNC_JAVA_ENCRYPT(?),AVATAR_ORIGINAL=?,AVATAR_SMALL=?, STATUS=?, DATE_STATUS_CHANGE=?,
+                    RELATIONSHIP_TYPE=?, SUSPENSION_STATUS=?, TERMS_ACCEPTANCE=?, USER_ID_ACCEPTED=?, 
+                    DATE_TERMS_ACCEPTED=?,FACEBOOK_ID=?,TWITTER_ID=?,ALLOW_PUBLIC_RECOGNITION=?,ALLOW_PUBLIC_INFORMATION=?,ALLOW_PUBLIC_BIRTH_DATE=?,ALLOW_PUBLIC_HIRE_DATE=?,GIFTCODE_ONLY=?,SSO_ID=?,
+                    IS_OPT_OUT_OF_AWARDS=?, IS_OPT_OUT_OF_PROGRAM=?, UA_AUTHORIZED=?, TERMINATION_DATE=?, DATE_OPT_OUT_OF_AWARDS=?, DATE_OPT_OUT_OF_PROGRAM=?, HONEYCOMB_USER_ID=?, ALLOW_EXT_PURL_INVITE=?, ALLOW_PUBLIC_PURL_RECOGNITION=?, DECLINE_TERMS_FLAG=?
+            where USER_ID=? 
+            ]]>
+        </sql-update>
+
+    </joined-subclass>
+
+    <!-- Custom Insert and Update - using password MD5 and secretAnswer Encrypt -->
+    <sql-insert>
+      <![CDATA[
+	    insert into APPLICATION_USER (VERSION, DATE_CREATED, CREATED_BY, DATE_MODIFIED, MODIFIED_BY,
+	    USER_NAME, USER_TYPE, FORCE_PASSWORD_CHANGE,TITLE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, SSN, BIRTH_DATE,
+	    GENDER, PASSWORD, LOGIN_TOKEN, IS_ACTIVE, IS_WELCOME_EMAIL_SENT, IS_CMS_TERMS_ACCEPTED, MASTER_USER_ID,
+	    SECRET_QUESTION, SECRET_ANSWER, LOGIN_FAILURES_COUNT, LAST_RESET_DATE, ADIH_SVC_VIDEO_URL, LANGUAGE_ID, ENROLLMENT_SOURCE, ENROLLMENT_DATE,
+            IS_TEXT_MESSAGES_TERMS_ACCEPT,IS_PROFILE_SETUP_DONE,IS_OTP,OTP_DATE, IS_ACCOUNT_LOCKED, LOCK_TIMEOUT_EXPIRE,IS_RA_WELCOME_EMAIL_SENT,ROSTER_USER_ID,USER_ID )
+	    values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,FNC_JAVA_ENCRYPT(?), ?, ?, ?, ?, ?, ?, ?, ?, ?, FNC_JAVA_ENCRYPT(?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		]]>
+    </sql-insert>
+
+    <sql-update>
+      <![CDATA[
+	    update APPLICATION_USER
+	       set 	VERSION=?,DATE_CREATED=?, CREATED_BY=?, DATE_MODIFIED=?, MODIFIED_BY=?,
+	    	   	USER_NAME=?, USER_TYPE=?, FORCE_PASSWORD_CHANGE=?, TITLE=?, FIRST_NAME=?, MIDDLE_NAME=?, LAST_NAME=?, SUFFIX=?,
+    	   	 	SSN=FNC_JAVA_ENCRYPT(?), BIRTH_DATE=?, GENDER=?, PASSWORD=?, LOGIN_TOKEN=?,
+	    	   	IS_ACTIVE=?, IS_WELCOME_EMAIL_SENT=?, IS_CMS_TERMS_ACCEPTED=?, MASTER_USER_ID=?, SECRET_QUESTION=?,
+	    	   	SECRET_ANSWER=FNC_JAVA_ENCRYPT(?), LOGIN_FAILURES_COUNT=?, LAST_RESET_DATE=?, ADIH_SVC_VIDEO_URL=?,
+	    	   	LANGUAGE_ID=?, ENROLLMENT_SOURCE=?, ENROLLMENT_DATE=?,IS_TEXT_MESSAGES_TERMS_ACCEPT=?,IS_PROFILE_SETUP_DONE=?, IS_OTP=?, OTP_DATE=?,IS_ACCOUNT_LOCKED=?, LOCK_TIMEOUT_EXPIRE=?, IS_RA_WELCOME_EMAIL_SENT=?,ROSTER_USER_ID=?
+	    where USER_ID=? 
+	      and VERSION=?
+		]]>
+    </sql-update>
+  </class>
+
+  <query name="com.biperf.core.domain.user.UserLookupByUserName">
+    <![CDATA[
+		from com.biperf.core.domain.user.User as user where user.userName = :userName
+		]]>
+  </query>
+      
+  <query name="com.biperf.core.domain.user.ParticipantLookupBySSN">
+    <![CDATA[
+		from com.biperf.core.domain.participant.Participant as participant where participant.ssn = FNC_JAVA_ENCRYPT(:ssn)
+		]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.user.UserLookupBySSOId">
+    <![CDATA[
+		from com.biperf.core.domain.participant.Participant as participant where upper(participant.ssoId) = upper(:ssoId)
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.user.ParticipantLookupByUserName">
+    <![CDATA[
+		from com.biperf.core.domain.participant.Participant as participant where participant.userName = :userName
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.user.AllUsers">
+    <![CDATA[
+		from com.biperf.core.domain.user.User user
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.user.AllUsersNonParticipant">
+    <![CDATA[
+		from com.biperf.core.domain.user.User user
+		where user.id not in ( select pax.id 
+								 from com.biperf.core.domain.participant.Participant pax )
+		order by upper(user.lastName)
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.user.ValidatePassword">
+    <![CDATA[
+		select user.userName
+		from com.biperf.core.domain.user.User user
+		where user.userName = :userName
+		  and user.password = :password
+		]]>
+  </query>
+
+  <query name="com.biperf.core.domain.user.ValidateLoginToken">
+    <![CDATA[
+		select user.userName
+		from com.biperf.core.domain.user.User user
+		where user.userName = :userName
+		and user.loginToken = :loginToken
+		]]>
+  </query>
+<!--
+-->  
+
+  <sql-query name="com.biperf.core.domain.user.AvailableRoles">
+    <return alias="role" class="com.biperf.core.domain.user.Role" />
+    <![CDATA[
+    	SELECT {role.*} 
+	      FROM ROLE role
+	     WHERE role.ROLE_ID IN (SELECT ROLE_ID
+			   		              FROM ROLE
+   		                         WHERE IS_ACTIVE = 1      
+                		        MINUS        
+                   				SELECT ROLE_ID
+		   		             	  FROM USER_ROLE
+	    	            		 WHERE USER_ID = :userId)
+		]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.user.GetUnassignedNodes">
+    <return alias="node" class="com.biperf.core.domain.hierarchy.Node" />
+    <![CDATA[
+		SELECT {node.*} 
+		FROM NODE node
+		WHERE node.NODE_ID NOT IN (
+			SELECT NODE_ID
+			FROM USER_NODE
+			WHERE USER_ID = :userId) and IS_DELETED = 0 order by  node.name asc			
+		]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.user.GetAssignedNodes">
+    <return alias="node" class="com.biperf.core.domain.hierarchy.Node" />
+    <![CDATA[
+		SELECT {node.*} 
+		FROM NODE node
+		WHERE node.NODE_ID IN (
+			SELECT NODE_ID
+			FROM USER_NODE
+			WHERE USER_ID = :userId)
+		]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.user.getOwnerForNode">
+    <![CDATA[
+    select user
+    from com.biperf.core.domain.user.User user
+    join user.userNodes userNode
+    where user.active = java.lang.Boolean.TRUE
+      and userNode.active = java.lang.Boolean.TRUE
+      and userNode.hierarchyRoleType = com.biperf.core.domain.enums.HierarchyRoleType.OWNER
+      and userNode.node.id = :nodeId
+    ]]>
+  </query>
+    
+  <query name="com.biperf.core.domain.user.getManagerForNode">
+    <![CDATA[
+    select user
+    from com.biperf.core.domain.user.User user
+    join user.userNodes userNode
+    where user.active = java.lang.Boolean.TRUE
+      and userNode.active = java.lang.Boolean.TRUE
+      and userNode.hierarchyRoleType = :roleType
+      and userNode.node.id = :nodeId
+    ]]>
+  </query>
+  
+   <query name="com.biperf.core.domain.user.getUserNode">
+    <![CDATA[
+    select userNode
+    from com.biperf.core.domain.user.UserNode userNode    
+    where  userNode.user.id = :userId
+       and userNode.node.id = :nodeId
+    ]]>
+  </query>
+    
+  <query name="com.biperf.core.domain.user.GetAssignedNodeIds">
+    <![CDATA[
+    select new com.biperf.core.value.FormattedValueBean(node.id, node.name )
+     from com.biperf.core.domain.hierarchy.Node node
+     join node.userNodes userNode
+    where userNode.active = java.lang.Boolean.TRUE
+      and userNode.user.id = :userId
+    ]]>
+  </query>
+
+  
+
+  <sql-query name="com.biperf.core.domain.user.GetAvailableAcls">
+    <return alias="acl" class="com.biperf.core.domain.user.Acl" />
+    <![CDATA[
+		SELECT {acl.*} 
+		FROM ACL acl
+		WHERE acl.ACL_ID IN (
+			SELECT ACL_ID
+			FROM USER_ACL
+			WHERE USER_ID = :userId)
+		]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.user.activeParticipantsNotInBanq">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+    select USER_ID from PARTICIPANT 
+    where STATUS = 'active' and (CENTRAX_ID is null or CENTRAX_ID = '{AES}')
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.getAllActivePaxIds">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+    select USER_ID from PARTICIPANT 
+    where STATUS = 'active'
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.getAllPaxIds">
+    <return-scalar column="USER_ID" type="long"/>
+    <![CDATA[
+    select USER_ID from PARTICIPANT 
+    ]]>
+  </sql-query>
+
+  <query name="com.biperf.core.domain.user.AllParticipants">
+    <![CDATA[
+    from com.biperf.core.domain.participant.Participant participant
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.user.AllActiveParticipants">
+    <![CDATA[
+    from com.biperf.core.domain.participant.Participant participant
+    where participant.active = java.lang.Boolean.TRUE
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.user.AllActiveParticipantsWelcomeEmailNotSent">
+    <![CDATA[
+    from com.biperf.core.domain.participant.Participant participant
+    where participant.active = java.lang.Boolean.TRUE
+    and   participant.welcomeEmailSent = java.lang.Boolean.FALSE
+    ]]>
+  </query>
+
+  <sql-query name="com.biperf.core.domain.user.GetAllUsersForWelcomeEmail">
+    <![CDATA[
+       SELECT b.user_id, b.last_name, b.first_name,
+                  b.middle_name, b.email_Addr, b.user_name, CASE WHEN duplicat_email_addr = b.email_Addr 
+                           AND  duplicat_email_cnt > 1 
+                        THEN 1 ELSE 0 END is_email_duplicate
+		FROM 
+		(select distinct email_addr duplicat_email_addr, COUNT(1) over(partition by email_addr) duplicat_email_cnt from user_email_address) duplication,
+		(SELECT user1.user_id, user1.last_name, user1.first_name,
+		                  user1.middle_name, userEmailAddress.email_Addr, user1.user_name
+		              FROM application_user user1, user_Email_Address userEmailAddress, participant pax
+		             WHERE user1.is_active =
+		          DECODE ( (SELECT boolean_val
+		                      FROM os_propertyset
+		                     WHERE entity_name = 'termsAndConditions.used'),
+		                  1, 0,
+		                  0, 1)
+		       AND pax.TERMS_ACCEPTANCE = 'notaccepted'
+		       AND user1.IS_WELCOME_EMAIL_SENT = 0
+		       AND userEmailAddress.IS_PRIMARY = 1
+		       AND user1.LAST_RESET_DATE IS NULL
+		       AND NOT EXISTS  (SELECT 1
+		                          FROM vw_curr_pax_employer pe
+		                         WHERE termination_date IS NOT NULL
+		                           AND pe.user_id = user1.user_id )
+		       AND user1.user_id = userEmailAddress.USER_ID
+		       AND user1.user_id = pax.user_id) b
+		       WHERE b.email_addr = duplication.duplicat_email_addr(+)
+     ]]>
+  </sql-query>
+
+  <query name="com.biperf.core.domain.user.activeParticipantsWithCommunicationPreferenceInCampaign">
+    <![CDATA[
+    select participant from com.biperf.core.domain.participant.Participant participant 
+      join participant.participantCommunicationPreferences participantCommunicationPreference
+      join participant.userAddresses userAddress
+        where participantCommunicationPreference.participantPreferenceCommunicationsType = :participantPreferenceCommunicationsType
+    	and participant.active = java.lang.Boolean.TRUE
+    	and userAddress.isPrimary = java.lang.Boolean.TRUE
+    	and userAddress.address.country.campaignNbr = :campaignNumber
+    ]]>
+  </query>
+
+<sql-query name="com.biperf.core.domain.user.getAllActivePaxIdsInCampaignForEstatements">
+    <return-scalar column="userId" type="long"/>
+      <![CDATA[
+		select DISTINCT p.user_id as userId
+		from participant p, 
+     		 participant_comm_preference pref, 
+     		 user_address ua,
+     		 country c,
+             user_email_address uea
+		where p.user_id = pref.user_id
+		and p.user_id = ua.user_id
+		and ua.country_id = c.country_id
+		and ua.is_primary = 1
+		and p.status = 'active'
+		and pref.communication_code = 'estatements'
+		and c.campaign_nbr = :campaignNumber
+		and c.status = 'active'
+		and p.user_id = uea.user_id
+        and uea.is_primary = 1
+		and p.user_id >= :startingUserId
+		ORDER BY 1
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.getAllActivePaxIdsEnrolledInCampaignForEstatements">
+    <return-scalar column="userId" type="long"/>
+      <![CDATA[
+		select DISTINCT p.user_id as userId
+		from participant p, 
+     		 participant_comm_preference pref, 
+     		 user_address ua,
+     		 country c,
+             user_email_address uea
+		where p.user_id = pref.user_id
+		and p.user_id = ua.user_id
+		and ua.country_id = c.country_id
+		and ua.is_primary = 1
+		and p.status = 'active'
+		and pref.communication_code = 'estatements'
+		and c.campaign_nbr = :campaignNumber
+		and c.status = 'active'
+		and REPLACE(p.awardbanq_nbr,'{AES}') IS NOT NULL
+		and p.user_id = uea.user_id
+        and uea.is_primary = 1
+		and p.user_id >= :startingUserId
+		ORDER BY 1
+    ]]>
+  </sql-query>
+  <query name="com.biperf.core.domain.user.GetAllUsersOnNode">
+    <![CDATA[
+     select user
+     from com.biperf.core.domain.user.User user
+     join user.userNodes userNode
+    where userNode.node.id = :nodeId
+    ]]>
+  </query>
+  
+    <query name="com.biperf.core.domain.user.GetAllUsersBasedOnCharacteristics">
+    <![CDATA[
+     select user
+     from com.biperf.core.domain.user.User user
+     join user.userCharacteristics userCharacteristic
+    where userCharacteristic.userCharacteristicType.id = :characteristicId
+    ]]>
+  </query>
+  
+  <query name="com.biperf.core.domain.user.GetAllParticipantsOnNode">
+    <![CDATA[
+     select participant
+     from  com.biperf.core.domain.participant.Participant participant
+     join participant.userNodes userNode
+    where userNode.node.id = :nodeId
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.user.GetAllUsersOnNodeHavingRole">
+    <![CDATA[
+     select user
+     from com.biperf.core.domain.user.User user
+     join user.userNodes userNode
+    where userNode.node.id = :nodeId
+    and userNode.hierarchyRoleType = :hierarchyRoleTypeCode
+    ]]>
+  </query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.pax_lastname">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(1) as result
+        FROM participant p,
+             application_user au
+       WHERE p.user_id = au.user_id
+         AND ( (:value is not null and lower(au.last_name) like :value)
+               or (:value is null and au.last_name is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.pax_email">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(distinct p.user_id) as result
+        FROM participant p,
+             user_email_address uea
+       WHERE p.user_id = uea.user_id
+         AND uea.is_primary = 1
+         AND uea.email_type <> 'rec'
+         AND ( (:value is not null and lower(uea.email_addr) like :value)
+               or (:value is null and uea.email_addr is not null) )
+    ]]>
+  </sql-query>
+
+  <query name="com.biperf.core.domain.user.AllParticipantsInBanqSystemByBatch">
+    <![CDATA[
+        from com.biperf.core.domain.participant.Participant participant
+        where REPLACE(participant.centraxId,'{AES}') is not null
+        order by participant.id
+    ]]>
+  </query>
+    
+  <query name="com.biperf.core.domain.user.AllParticipantsInBanqSystemByBatchFromId">
+    <![CDATA[
+        from com.biperf.core.domain.participant.Participant participant
+        where REPLACE(participant.centraxId,'{AES}') is not null
+        and participant.id > :lastId
+        order by participant.id
+    ]]>
+  </query>  
+
+  <!-- Using concat() since state is actually stored like 'us_wi' and we only are given 'wi' to search for  -->
+  <sql-query name="com.biperf.core.quicksearch.size.pax_state">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(distinct p.user_id) as result
+        FROM participant p,
+             user_address ua
+       WHERE p.user_id = ua.user_id
+         AND ( (:value is not null and lower(ua.state) like concat('%_',:value))
+               or(:value is null and ua.state is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.pax_nodename">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(distinct p.user_id) as result
+        FROM participant p,
+             user_node un,
+             node n
+       WHERE p.user_id = un.user_id
+         AND un.node_id = n.node_id
+         AND ( (:value is not null and lower(n.name) like :value)
+               or (:value is null and n.name is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.pax_banqnum">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(1) as result
+        FROM participant p
+       WHERE p.awardbanq_nbr = FNC_JAVA_ENCRYPT(:value)
+    ]]>
+  </sql-query>
+  
+   <sql-query name="com.biperf.core.domain.user.CurrentParticipantEmployerTermDate">
+	  <return-scalar column="termination_date" type="date"/>
+	  <![CDATA[
+		SELECT pe.termination_date termination_date
+		FROM participant_employer pe, employer e
+		WHERE pe.employer_id = e.employer_id
+		AND pe.user_id = :userId
+		AND pe.participant_employer_index = (SELECT MAX(participant_employer_index)
+                                     		 FROM participant_employer
+                                     		 WHERE user_id = pe.user_id)
+		]]>
+    </sql-query>
+  
+    <sql-query name="com.biperf.core.quicksearch.size.pax_user_id">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(1) as result
+        FROM participant p
+       WHERE p.user_id = :value
+    ]]>
+  </sql-query>
+  
+
+  <sql-query name="com.biperf.core.quicksearch.size.pax_ssn">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(1) as result
+        FROM participant p,
+             application_user au
+       WHERE p.user_id = au.user_id
+         AND au.ssn = FNC_JAVA_ENCRYPT(:value)
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.pax_userid">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(1) as result
+        FROM participant p,
+             application_user au
+       WHERE p.user_id = au.user_id
+         AND ( (:value is not null and lower(au.user_name) like :value)
+               or (:value is null and au.user_name is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.quicksearch.size.pax_postalcode">
+     <return-scalar column="result" type="integer"/>
+      <![CDATA[
+      SELECT count(distinct p.user_id) as result
+        FROM participant p,
+             user_address ua
+       WHERE p.user_id = ua.user_id
+         AND ( (:value is not null and lower(ua.postal_code) like :value)
+               or (:value is null and ua.postal_code is not null) )
+    ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.user.GetUserDetailsForWelcomeMail">
+    <![CDATA[
+    SELECT b.user_id, 
+              b.last_Name, 
+              b.first_Name, 
+              b.middle_Name,  
+              b.email_Addr,
+              b.user_Name,
+              CASE WHEN duplicat_email_addr = b.email_Addr 
+                           AND  duplicat_email_cnt > 1 
+                        THEN 1 ELSE 0 END is_email_duplicate
+	FROM 
+	(select distinct email_addr duplicat_email_addr, COUNT(1) over(partition by email_addr) duplicat_email_cnt from user_email_address) duplication,
+	(select users.user_id, users.last_Name, users.first_Name, users.middle_Name,  users.user_Name , uea.email_Addr
+	     from application_user users
+	     join user_email_address  uea      
+	     on(uea.user_id = users.user_id)     
+	     where 
+	       uea.is_Primary = 1
+	      and users.user_id = :userId) b
+	WHERE b.email_addr = duplication.duplicat_email_addr(+)
+    ]]>
+  </sql-query>
+
+  <query name="com.biperf.core.domain.participant.rosterSearchByNodeAndStatus">
+    <![CDATA[
+    select new com.biperf.core.value.ParticipantRosterSearchValueBean( participant.id, participant.lastName, participant.firstName, participant.middleName, emailAddress.emailAddr, participant.userName,participant.enrollmentDate, participant, userNode )
+     from com.biperf.core.domain.participant.Participant participant 
+     	  left join participant.userEmailAddresses emailAddress 
+     	  join participant.userNodes userNode
+    where userNode.node.id = :nodeId
+      and participant.status = :participantStatus
+      and participant.id != :excludeUserId
+      and (emailAddress.isPrimary = 1 or emailAddress.isPrimary is null) 
+    ]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.participant.rosterSearchByNodeAndStatusCount">
+	<return-scalar column="count" type="long"/>
+    <![CDATA[
+       SELECT COUNT (*) AS COUNT
+  			FROM participant p,user_node emailAddress, user_node un
+	   WHERE     p.status = :participantStatus
+       AND p.user_id != :excludeUserId
+       AND p.user_id = emailaddress.user_id(+)
+       AND (emailAddress.is_primary = 1 OR emailAddress.is_primary IS NULL)
+       AND un.node_id = :nodeId
+       AND p.user_id = un.user_id
+    ]]>
+  	</sql-query>
+  	
+  <sql-query name="com.biperf.core.domain.user.GetUserTimeZoneid">
+	  <return-scalar column="timezoneid" type="string"/>
+	  <![CDATA[
+		select c.TIMEZONE_ID timezoneid
+		from country c , user_address ua 
+		where UA.IS_PRIMARY=1 and UA.USER_ID=:userId 
+		and UA.COUNTRY_ID=C.COUNTRY_ID
+		]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.user.GetUserTimeZoneidForAdmin">
+	  <return-scalar column="timezoneid" type="string"/>
+	  <![CDATA[
+		select c.TIMEZONE_ID timezoneid
+		from country c
+		where c.country_code = (select string_val from os_propertyset where  entity_name = 'default.country')
+		]]>
+    </sql-query>
+    
+  <sql-query name="com.biperf.core.domain.participant.getPaxCountBasedOnCriteria">
+    <return-scalar column="COUNT" type="long"/>
+    <![CDATA[
+    	SELECT COUNT(*) AS count FROM participant p,
+			application_user ap,
+			user_address ua,
+			participant_employer pe,
+			user_node un 
+		WHERE ap.user_id = p.user_id 
+			AND UPPER(ap.last_name) = NVL(UPPER(:lastName),UPPER(ap.last_name))
+			AND UPPER(ap.first_name) = NVL(UPPER(:firstName),UPPER(ap.first_name))
+			AND p.user_id = ua.user_id 
+			AND ua.country_id = NVL(:countryCode,ua.country_id)
+			AND p.user_id = pe.user_id(+) 
+			AND ( pe.termination_date IS NULL OR pe.termination_date > SYSDATE )
+			AND NVL(pe.department_type,'xyz')= NVL(:department,NVL(pe.department_type,'xyz')) 
+			AND NVL(pe.position_type,'xyz')= NVL(:position,NVL(pe.position_type,'xyz')) 
+			AND un.user_id = p.user_id 
+			AND un.node_id = NVL(:nodeId,un.node_id)
+			AND un.is_primary = 1
+			AND ua.is_primary = 1
+			AND ap.is_active = 1
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.participant.getCountryBasedOnParticipantIDs">
+    <![CDATA[
+    select au.user_id,c.country_code,c.cm_asset_code,budget_media_value from application_user au,user_address ua,country c
+	where au.user_id = ua.user_id(+) and ua.is_primary=1
+	and ua.country_id = c.country_id
+	and au.user_id in  (:ids)
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.ParticipantFollowerByUserId">
+	<return-scalar column="userId" type="long"/>
+	<![CDATA[
+		SELECT pf.participant_id userId
+		FROM participant_followers pf 
+		WHERE pf.participant_id = :loggedinUserId 
+		  AND pf.follower_id = :userId
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.getLNameFNameByPaxId">
+	<return-scalar column="name" type="string"/>
+	<![CDATA[
+		select au.first_name ||' '|| au.last_name as name from application_user au where au.user_id=:participantId
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.getLNameFNameByPaxIdWithComma">
+	<return-scalar column="name" type="string"/>
+	<![CDATA[
+		select au.last_name ||', '|| au.first_name as name from application_user au where au.user_id=:participantId
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.getActiveHireDate">
+	<return-scalar column="hireDate" type="date"/>
+	<![CDATA[
+		SELECT pe.hire_date hireDate
+		FROM participant_employer pe 
+		WHERE pe.user_id = :userId 
+		  and termination_date is null
+	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.GetAssignedNodesIdList">
+	<return-scalar column="nodeId" type="long" />
+	<![CDATA[
+		SELECT Node_Id nodeId from Node where Node_Id in (select Node_Id from User_Node where User_Id=:userId)
+	]]>
+</sql-query>
+
+<query name="com.biperf.core.domain.participant.findPaxIdsWhoDisabledPublicProfile">
+    <![CDATA[
+   			 select new java.lang.Long(p.id) from com.biperf.core.domain.participant.Participant p where p.allowPublicInformation=:flag and p.id in(:forPaxIds) 
+    ]]>
+  </query>
+   
+  <sql-query name="com.biperf.core.domain.user.isPaxOptedOutOfAwards">
+	<return-scalar column="IS_OPT_OUT_OF_AWARDS" type="integer" />
+      <![CDATA[
+      SELECT IS_OPT_OUT_OF_AWARDS from Participant where user_Id=:paxId
+      ]]>
+ </sql-query>
+		
+  <sql-query name="com.biperf.core.domain.participant.isParticipantRecoveryOptionsAvailable">
+    <return-scalar column="COUNT" type="int"/>
+	<![CDATA[
+      SELECT COUNT(1) AS COUNT
+  		FROM (SELECT 1 FROM user_email_address WHERE user_id = :paxId AND email_type = 'rec'
+        UNION ALL
+        SELECT 1
+          FROM user_phone
+         WHERE user_id = :paxId AND phone_type = 'rec') 
+      ]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.user.UserIdsByEmail">
+    <![CDATA[
+        select distinct new java.lang.Long(participant.id)
+		from com.biperf.core.domain.participant.Participant participant 
+		join participant.userEmailAddresses userEmailAddress
+		where UPPER(userEmailAddress.emailAddr) = UPPER(:emailAddress)
+		]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.participant.findHeroModuleAppAudienceTypeByUserId">
+    <![CDATA[
+   		SELECT ma.app_audience_type
+   			FROM module_app ma
+ 	    WHERE ma.app_audience_type ='heroModule'
+        AND EXISTS(SELECT 1 
+                 FROM module_app_audience maa, participant_audience pu  
+                WHERE maa.module_app_id = ma.module_app_id                     
+                  AND pu.user_id = :pax_user_id
+                  AND pu.audience_id = maa.audience_id) 
+       UNION ALL   
+         SELECT ma.app_audience_type
+           FROM module_app ma
+         WHERE ma.app_audience_type ='heroModule'
+              AND ma.audience_type = 'allactivepaxaudience'
+    ]]>
+  </sql-query>
+    
+  <sql-query name="com.biperf.core.domain.participant.findEngagementManagerModuleAppAudienceTypeByUserId">
+    <![CDATA[
+   		SELECT ma.app_audience_type
+   			FROM module_app ma
+ 	    WHERE ma.app_audience_type ='engagementManagerModule'
+        AND EXISTS(SELECT 1 
+                 FROM module_app_audience maa, participant_audience pu  
+                WHERE maa.module_app_id = ma.module_app_id                     
+                  AND pu.user_id = :pax_user_id
+                  AND pu.audience_id = maa.audience_id) 
+       UNION ALL   
+         SELECT ma.app_audience_type
+           FROM module_app ma
+         WHERE ma.app_audience_type ='engagementManagerModule'
+              AND ma.audience_type = 'allactivepaxaudience'
+    ]]>
+  </sql-query>
+  
+  <!-- Facility for the termed user to do the account activation, to redeem his/her points. -->
+  <!-- Anything going wrong these queries has been used to delete the contacts from system.-->
+  
+  <sql-query name="com.biperf.core.domain.user.UserEmailAddress.deleteuseremailaddress">
+	<![CDATA[
+		DELETE FROM USER_EMAIL_ADDRESS where user_id= :userId and IS_PRIMARY != 1
+	]]>
+  </sql-query>
+
+	<sql-query name="com.biperf.core.domain.user.UserPhone.deleteuserphones">
+	<![CDATA[
+		DELETE FROM USER_PHONE where user_id= :userId and IS_PRIMARY != 1
+	]]>
+	</sql-query>	
+	 
+ 	<sql-query name="com.biperf.core.domain.audience.getPickListValuesForBean">
+		<return-scalar column="code" type="string"/> 
+		<return-scalar column="name" type="string"/> 
+	  	<![CDATA[
+		   select cms_code as code, cms_name as name
+		   from VW_CMS_CODE_VALUE 
+		   where asset_code = :assetCode 
+		   and locale = :locale 
+		   and cms_status = 'true'
+		   order by cms_code
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getNotMigratedPaxAvatarData">
+	  	<return-scalar column="userId" type="long"/> 
+	  	<return-scalar column="rosterUserId" type="uuid-char"/>
+		<return-scalar column="avatarOriginal" type="string"/>
+		<return-scalar column="avatarSmall" type="string"/> 	 		
+		<![CDATA[
+			 SELECT P.USER_ID userId, AU.ROSTER_USER_ID rosterUserId, AVATAR_ORIGINAL avatarOriginal, AVATAR_SMALL avatarSmall 
+			 FROM PARTICIPANT P, APPLICATION_USER AU
+			 WHERE P.USER_ID = AU.USER_ID AND AU.ROSTER_USER_ID IS NOT NULL AND AVATAR_ORIGINAL IS NOT NULL AND AVATAR_ORIGINAL NOT LIKE '%biw.cloud/v1/profile/public/avatars%'
+		]]>
+	</sql-query>
+	
+  <sql-query name="com.biperf.core.domain.user.getPickListValueFromCMView">
+		<return-scalar column="code" type="string"/> 
+		<return-scalar column="name" type="string"/> 
+	  	<![CDATA[
+		   select cms_code as code, cms_name as name
+		   from VW_CMS_CODE_VALUE 
+		   where asset_code = :assetCode 
+		   and locale = :locale 
+		   and cms_status = 'true'
+		   and cms_code = :code		   
+		]]>
+  </sql-query>
+  
+  	<sql-query name="com.biperf.core.domain.user.isHavingMembers">
+	  <return-scalar column="userId" type="long" />
+	  <![CDATA[
+			SELECT distinct au.user_id as userId
+			FROM user_node un,
+			  application_user au,
+			  node n
+			WHERE un.node_id NOT IN
+			  (SELECT node_id FROM user_node WHERE role='mbr'
+			  )
+			AND un.role='own'
+			AND un.node_id NOT IN
+			  (SELECT parent_node_id FROM node WHERE parent_node_id IS NOT NULL
+			  )
+			AND un.node_id  =n.node_id
+			AND n.is_deleted=0
+			AND un.user_id  =au.user_id
+			AND au.is_active=1
+			AND au.user_id=:userId
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.IsUserinOrgUnitorBelow">
+	<return-scalar column="count" type="integer" />
+      <![CDATA[
+      SELECT   count(*) count
+        FROM                        (SELECT np.node_id,
+                                       p.column_value AS path_node_id
+                                  FROM ( -- get node hierarchy path
+                                         SELECT h.node_id,
+                                                level AS hier_level,
+                                                sys_connect_by_path(node_id, '/') || '/' AS node_path
+                                           FROM node h
+                                          START WITH h.parent_node_id IS NULL
+                                        CONNECT BY PRIOR h.node_id = h.parent_node_id
+                                       ) np,
+                                       -- parse node path into individual nodes
+                                       -- pivoting the node path into separate records
+                                      TABLE( CAST( MULTISET(
+                                          SELECT TO_NUMBER(
+                                                    SUBSTR(np.node_path,
+                                                           INSTR(np.node_path, '/', 1, LEVEL)+1, 
+                                                           INSTR(np.node_path, '/', 1, LEVEL+1) - INSTR(np.node_path, '/', 1, LEVEL)-1 
+                                                    )
+                                                 )
+                                            FROM dual
+                                         CONNECT BY LEVEL <= np.hier_level 
+                                       ) AS sys.odcinumberlist ) ) p) npn,
+                                       (SELECT node_id,NAME as node_name,parent_node_id,path      
+                                        FROM node n
+                                        START WITH parent_node_id IS NULL
+                                        CONNECT BY PRIOR node_id = parent_node_id) ip
+                                        ,(select node_id,user_id from user_node) un
+                                        ,application_user au
+        where ip.node_id = npn.path_node_id
+              AND npn.node_id = un.node_id
+              AND un.user_id = au.user_id
+              AND ip.node_id in (select node_id from user_node where user_id=:p_in_logged_in_user_id)  
+              AND au.user_id = :p_in_searched_user_id
+              AND au.is_active = 1
+              AND au.user_type = 'pax'
+      ]]>
+ </sql-query>
+ 
+ 	<sql-query name="com.biperf.core.domain.user.getUpdatedRosterUserIdPaxAvatarData">
+		<return-scalar column="userId" type="long"/>
+		<return-scalar column="rosterUserId" type="uuid-char"/>
+		<return-scalar column="avatarOriginal" type="string"/>
+		<return-scalar column="avatarSmall" type="string"/>
+		<![CDATA[
+			SELECT P.USER_ID userId, AU.ROSTER_USER_ID rosterUserId, AVATAR_ORIGINAL avatarOriginal, AVATAR_SMALL avatarSmall 
+			FROM PARTICIPANT P, APPLICATION_USER AU
+			WHERE P.USER_ID = AU.USER_ID AND AU.ROSTER_USER_ID IS NOT NULL AND AVATAR_ORIGINAL IS NOT NULL AND AVATAR_ORIGINAL LIKE '%biw.cloud/v1/profile/public/avatars%' AND NOT REGEXP_LIKE (lower(P.AVATAR_ORIGINAL), lower(AU.ROSTER_USER_ID))]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getUserIdByRosterUserId">
+		<return-scalar column="user_id" type="long"/>
+		<![CDATA[
+     	 	select user_id from application_user where roster_user_id=:rosterUserId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getRosterUserIdByUserId">
+		<return-scalar column="roster_user_id" type="uuid-char"/>
+		<![CDATA[
+     	 	select roster_user_id from application_user where user_id=:userId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getEmailDetailsByUserId">
+		<return-scalar column="userId" type="long"/> 
+		<return-scalar column="emailAddress" type="string"/> 
+		<return-scalar column="emailType" type="string"/> 
+		<![CDATA[
+			SELECT USER_ID userId, EMAIL_ADDR emailAddress, EMAIL_TYPE emailType 
+			FROM USER_EMAIL_ADDRESS where USER_ID = :userId
+		]]>
+	</sql-query>
+
+	<sql-query name="com.biperf.core.domain.user.getPhoneDetailsByUserId">
+		<return-scalar column="userId" type="long"/> 
+		<return-scalar column="phoneNumber" type="string"/> 
+		<return-scalar column="phoneExtn" type="string"/>
+		<return-scalar column="phoneType" type="string"/>
+		<return-scalar column="countryPhoneCode" type="string"/> 
+		<![CDATA[
+			SELECT USER_ID userId, PHONE_NBR phoneNumber, PHONE_EXT phoneExtn, PHONE_TYPE phoneType, COUNTRY_PHONE_CODE countryPhoneCode 
+			FROM USER_PHONE where USER_ID = :userId
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getUserAddressDetailsByUserId">
+		<return-scalar column="userAddressId" type="long"/>
+		<return-scalar column="addressType" type="string"/> 
+		<![CDATA[
+			SELECT USER_ADDRESS_ID userAddressId, ADDRESS_TYPE addressType 
+			FROM USER_ADDRESS WHERE USER_ID = :userId AND ADDRESS_TYPE IS NOT NULL
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getUserPhoneIdByRosterPhoneId">
+		<return-scalar column="user_phone_id" type="long"/>
+		<![CDATA[
+     	 	select user_phone_id from user_phone where roster_phone_id=:rosterPhoneId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getRosterPhoneIdByUserPhoneId">
+		<return-scalar column="roster_phone_id" type="uuid-char"/>
+		<![CDATA[
+     	 	select roster_phone_id from user_phone where user_phone_id=:userPhoneId
+    	]]>
+	</sql-query>
+		
+	<sql-query name="com.biperf.core.domain.user.getEmailAddressIdByRosterEmailId">
+		<return-scalar column="email_address_id" type="long"/>
+		<![CDATA[
+     	 	select email_address_id from user_email_address where roster_email_id=:rosterEmailId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getRosterEmailIdByEmailAddressId">
+		<return-scalar column="roster_email_id" type="uuid-char"/>
+		<![CDATA[
+     	 	select roster_email_id from user_email_address where email_address_id=:emailAddressId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getUserAddressIdByRosterAddressId">
+		<return-scalar column="user_address_id" type="long"/>
+		<![CDATA[
+     	 	select user_address_id from user_address where roster_address_id=:rosterAddressId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.user.getRosterAddressIdByUserAddressId">
+		<return-scalar column="roster_address_id" type="uuid-char"/>
+		<![CDATA[
+     	 	select roster_address_id from user_address where user_address_id=:userAddressId
+    	]]>
+	</sql-query>	
+	  
+	<sql-query name="com.biperf.core.domain.user.updateUserUUID">
+	<![CDATA[UPDATE APPLICATION_USER SET ROSTERPERSONID = :rosterPersonId, DATE_MODIFIED = sysdate WHERE USER_ID = :userId]]>
+	</sql-query>  
+	
+	  <!--  WIP 20160 customization start --> 
+  <sql-query name="com.biperf.core.domain.user.GetUserIdByUserName">
+	  <return-scalar column="userid" type="long"/>
+	  <![CDATA[
+		select au.USER_ID userid
+		from application_user au
+		where au.user_name = :userName
+		]]>
+    </sql-query>
+  <!-- WIP 20160 customization end -->
+  
+  <!-- Client customization for WIP #26597 starts  -->
+  <sql-query name="com.biperf.core.domain.user.getCharacteristicValueByUserIdAndCharacteristicDescription">
+	<return-scalar column="characteristic_value" type="string"/>
+	<![CDATA[
+		SELECT characteristic_value 
+  		  FROM USER_CHARACTERISTIC uc,  
+       		   CHARACTERISTIC c
+		WHERE  uc.USER_ID = :userId
+   		  AND c.CHARACTERISTIC_ID = uc.CHARACTERISTIC_ID
+   		  AND UPPER(c.DESCRIPTION) = UPPER(:characteristicDescription)			
+	]]>
+  </sql-query>  
+  <!-- Client customization for WIP #26597 ends  -->
+  <!-- coke customization start -->
+  <sql-query name="com.biperf.core.domain.user.IsOptedOut">
+	  <return-scalar column="CHARACTERISTIC_VALUE" type="string"/>
+	  <![CDATA[
+		SELECT characteristic_value 
+		FROM user_characteristic 
+		WHERE characteristic_id  IN ( select long_val from os_propertyset where entity_name='coke.opt.out.char.id' ) 
+		AND user_id = :userId
+	  ]]>
+    </sql-query>
+  <!-- coke customization end -->
+  
+  <!-- client customizations for wip #26532 starts -->
+  <sql-query name="com.biperf.core.domain.participant.IsAllowedOutsideInvites">
+	  <return-scalar column="ALLOW_EXT_PURL_INVITE" type="integer"/>
+	  <![CDATA[
+		SELECT ALLOW_EXT_PURL_INVITE FROM participant where user_id = :participantId
+	  ]]>
+    </sql-query>
+  <!-- client customziations for wip #39735 starts -->
+  
+    <!-- client customizations for wip #26532 starts -->
+  <sql-query name="com.biperf.core.domain.participant.getNodeMemberForPurlMgrRecipient">
+	  <![CDATA[
+	  select au.user_id as userId, au.first_Name as firstName,au.last_Name as lastName, au.user_name as userName                                                          
+                 from participant p,
+                      user_Node userNode,
+                      application_user au
+                            where p.user_id = au.user_id
+                            and au.is_active  = 1
+                            and au.user_id<> (select user_id from purl_recipient where purl_recipient_id = :purlRecipientId)
+                            and userNode.STATUS = 1
+                            and userNode.user_id =  p.user_id 
+                            and userNode.node_id  in (
+                                SELECT node.NODE_ID
+                                  FROM USER_NODE userNode, NODE node
+                                 WHERE node.NODE_ID = userNode.NODE_ID
+                                   AND node.IS_DELETED = 0
+                                   AND userNode.STATUS = 1
+                                       AND userNode.USER_ID = (select user_id  from purl_recipient   where purl_recipient_id = :purlRecipientId))
+	  ]]>
+    </sql-query>
+    <!-- client customziations for wip #39735 ends -->
+    
+    
+        <!-- client customizations for wip #52159 starts -->
+  <sql-query name="com.biperf.core.domain.participant.getUsersByCharacteristicIdAndValue">
+	  <![CDATA[
+	     select distinct au.user_id as id,
+       		au.first_name   AS firstName,
+			au.last_name    AS lastName,			 
+       		 au.user_name    AS userName  
+       		from USER_CHARACTERISTIC uc, application_user au, user_email_address ue
+       			where au.USER_ID = uc.USER_ID
+       			and ue.USER_ID = uc.USER_ID
+       			and au.is_active  = 1
+       			and ue.IS_PRIMARY = 1
+        		and uc.CHARACTERISTIC_ID = :charId
+        		and uc.CHARACTERISTIC_VALUE = :charValue
+	  ]]>
+    </sql-query>	  
+    <!-- client customziations for wip #52159 ends -->
+	
+  <sql-query name="com.biperf.core.domain.user.getUserCurrencyCharValue">
+	  <return-scalar column="characteristic_value" type="string"/>
+	  <![CDATA[
+		select characteristic_value from user_characteristic where characteristic_id 
+			in(SELECT LONG_VAL FROM OS_PROPERTYSET WHERE ENTITY_NAME='coke.user.char.currency') and user_id=:userId
+	  ]]>
+  </sql-query>	
+
+  <sql-query name="com.biperf.core.domain.user.getUserDivisionKeyCharValue">
+	  <return-scalar column="characteristic_value" type="string"/>
+	  <![CDATA[
+		select characteristic_value from user_characteristic where characteristic_id 
+			in(SELECT LONG_VAL FROM OS_PROPERTYSET WHERE ENTITY_NAME='coke.user.char.division.key') and user_id=:userId
+	  ]]>
+  </sql-query>	
+
+  <sql-query name="com.biperf.core.domain.user.getUserJobGradeCharValue">
+	  <return-scalar column="characteristic_value" type="string"/>
+	  <![CDATA[
+		select characteristic_value from user_characteristic where characteristic_id 
+			in(SELECT INT_VAL FROM OS_PROPERTYSET WHERE ENTITY_NAME='coke.user.char.job.grade') and user_id=:userId
+	  ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.getUserCountryCharValue">
+	  <return-scalar column="characteristic_value" type="string"/>
+	  <![CDATA[
+		select characteristic_value from user_characteristic where characteristic_id 
+			in(SELECT INT_VAL FROM OS_PROPERTYSET WHERE ENTITY_NAME='coke.user.char.work.country') and user_id=:userId
+	  ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.user.getUserServiceCharValue">
+	  <return-scalar column="characteristic_value" type="string"/>
+	  <![CDATA[
+		select characteristic_value from user_characteristic where characteristic_id 
+			in(SELECT INT_VAL FROM OS_PROPERTYSET WHERE ENTITY_NAME='coke.service.pax.char.id') and user_id=:userId
+	  ]]>
+  </sql-query>
+
+  <sql-query name="com.biperf.core.domain.user.getUserDivisionKey">
+   	  <return-scalar column="user_id" type="long"/>
+	  <return-scalar column="division" type="long"/>
+	  <return-scalar column="characteristic_id" type="long"/>
+	  <![CDATA[
+		SELECT puc.user_id, puc.characteristic_value division, puc.characteristic_id
+		FROM USER_CHARACTERISTIC uc, USER_CHARACTERISTIC puc
+		WHERE puc.characteristic_value = uc.characteristic_value
+		AND puc.characteristic_id = uc.characteristic_id
+		AND uc.user_id =:userId
+		AND uc.characteristic_id IN
+		(SELECT LONG_VAL
+		FROM OS_PROPERTYSET
+		WHERE entity_name = 'coke.user.char.division.key')
+	  ]]>
+  </sql-query>
+  
+   <sql-query name="com.biperf.core.domain.participant.getAllActiveDepartmentsForPublicRecognition">
+	<return-scalar column="dept" type="string" />
+      <![CDATA[ 
+ 		select DISTINCT pe.department_type dept
+		from participant_employer pe, application_user au
+		where pe.user_id = au.user_id
+		and au.is_active = 1
+		and pe.termination_date is null
+		order by 1
+      ]]>
+ 	</sql-query>
+ 	
+ 	<sql-query name="com.biperf.core.domain.participant.getByPositionTypeForAutoComplete">
+	<return-scalar column="position" type="string" />
+      <![CDATA[
+		select DISTINCT pe.position_type position
+		from participant_employer pe, application_user au
+		where pe.user_id = au.user_id
+		and au.is_active = 1
+		and lower(pe.position_type) like concat(:startsWith,'%')
+		and pe.termination_date is null
+      ]]>
+ </sql-query>  
+ 
+ <sql-query name="com.biperf.core.domain.participant.getByDepartmentTypeForAutoComplete">
+	<return-scalar column="dept" type="string" />
+      <![CDATA[
+		select DISTINCT pe.department_type dept
+		from participant_employer pe, application_user au
+		where pe.user_id = au.user_id
+		and au.is_active = 1
+		and lower(pe.department_type) like concat(:startsWith,'%')
+		and pe.termination_date is null
+      ]]>
+ </sql-query>
+</hibernate-mapping>

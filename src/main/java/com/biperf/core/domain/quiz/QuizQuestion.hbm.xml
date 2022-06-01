@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.quiz.QuizQuestion" table="QUIZ_QUESTION">
+
+    <id name="id" type="java.lang.Long" column="QUIZ_QUESTION_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">QUIZ_QUESTION_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <many-to-one name="quiz" class="com.biperf.core.domain.quiz.Quiz" lazy="false" insert="false" update="false" not-null="true" column="QUIZ_ID"/>
+
+    <property name="statusType" column="STATUS_TYPE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.QuizQuestionStatusType</param>
+      </type>
+    </property>
+
+    <property name="required" type="boolean" column="IS_REQUIRED"/>
+	<property name="cmAssetName" type="java.lang.String" column="CM_ASSET_NAME"/>
+	<property name="sequenceNum" type="int" column="SEQUENCE_NUM" insert="false" update="false"/>
+
+    <list name="quizQuestionAnswers" table="QUIZ_QUESTION_ANSWER" inverse="false" lazy="extra" cascade="all-delete-orphan, merge">
+      <key column="QUIZ_QUESTION_ID" not-null="true"/>
+      <list-index column="sequence_num"/>
+      <one-to-many class="com.biperf.core.domain.quiz.QuizQuestionAnswer"/>
+    </list>
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,51 @@
+create sequence COMM_LOG_PK_SQ start with 5000
+/
+CREATE TABLE comm_log
+(comm_log_id          NUMBER(18) NOT NULL,
+ user_id               NUMBER(18),
+ date_initiated       DATE NOT NULL,
+ date_escalated       DATE,
+ status_type_code     VARCHAR2(40) NOT NULL,
+ source_type_code     VARCHAR2(40) NOT NULL,
+ category_type_code   VARCHAR2(40) NOT NULL,
+ reason_type_code     VARCHAR2(40) NOT NULL,
+ urgency_type_code    VARCHAR2(40),
+ message_type         VARCHAR2(8)  DEFAULT 'email' NOT NULL,
+ assigned_to_user_id  NUMBER(18),
+ assigned_by_user_id  NUMBER(18),
+ mailing_id           NUMBER(18),
+ guid                 VARCHAR2(80) NOT NULL,
+ message							CLOB,
+ plain_message		  CLOB,
+ subject							CLOB,
+ date_created         DATE NOT NULL,
+ created_by           number(18) NOT NULL,
+ date_modified        DATE,
+ modified_by          number(18),
+ version		          NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE comm_log
+ADD CONSTRAINT comm_log_pk PRIMARY KEY (comm_log_id)
+USING INDEX
+/
+ALTER TABLE comm_log ADD CONSTRAINT comm_log_user_fk
+  FOREIGN KEY (user_id) REFERENCES APPLICATION_USER (user_id)
+/
+ALTER TABLE comm_log ADD CONSTRAINT assigned_to_user_fk
+  FOREIGN KEY (assigned_to_user_id) REFERENCES APPLICATION_USER (user_id)
+/
+ALTER TABLE comm_log ADD CONSTRAINT assigned_by_user_fk
+  FOREIGN KEY (assigned_by_user_id) REFERENCES APPLICATION_USER (user_id)
+/
+CREATE INDEX COMM_LOG_ASGNED_BY_USER_FK_idx ON COMM_LOG
+  (ASSIGNED_BY_USER_ID)
+/
+CREATE INDEX COMM_LOG_ASGNED_TO_USER_FK_idx ON COMM_LOG
+  (ASSIGNED_TO_USER_ID)
+/
+CREATE INDEX COMM_LOG_USER_FK_idx ON COMM_LOG
+  (USER_ID)
+/
+COMMENT ON COLUMN comm_log.comm_log_id IS 'System generated PK.'
+/

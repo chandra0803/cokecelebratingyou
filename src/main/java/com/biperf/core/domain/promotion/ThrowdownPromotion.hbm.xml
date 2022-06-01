@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- ThrowDown Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.ThrowdownPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_THROWDOWN" >
+  
+  <key column="PROMOTION_ID" not-null="true" />	
+  
+  <property name="lengthOfRound" type="int" column="LENGTH_OF_ROUND" />
+  <property name="numberOfRounds" type="int" column="NUMBER_OF_ROUNDS" />
+  <property name="daysPriorToRoundStartSchedule" type="int" column="DAYS_PRIOR_ROUND_START" />
+  <property name="headToHeadStartDate" type="java.util.Date" column="H2H_START_DATE" />
+  <property name="baseUnit" type="java.lang.String" column="BASEUNIT" />
+  <property name="displayTeamProgress" type="boolean" column="DISPLAY_TEAM_PROGRESS" />
+  <property name="smackTalkAvailable" type="boolean" column="SMACK_TALK_AVAILABLE" />
+   
+  
+  <property name="baseUnitPosition" column="BASEUNIT_POSITION">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.BaseUnitPosition</param>
+    </type>
+  </property>
+    
+  <property name="throwdownPromotionType" column="PROMOTION_TYPE">
+	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+		<param name="lookupClass">com.biperf.core.domain.enums.ThrowdownPromotionType</param>
+	</type>
+  </property>
+  
+  <property name="teamUnavailableResolverType" column="TEAM_UNAVAILABLE_RESOLVE_TYPE">
+	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+		<param name="lookupClass">com.biperf.core.domain.enums.TeamUnavailableResolverType</param>
+	</type>
+  </property>
+  
+  <property name="roundingMethod" column="ROUNDING_METHOD">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.ThrowdownRoundingMethod</param>
+    </type>
+  </property>
+  
+  <property name="achievementPrecision" column="ACHIEVEMENT_PRECISION">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.ThrowdownAchievementPrecision</param>
+    </type>
+  </property>
+  
+  <set name="divisions" table="THROWDOWN_DIVISION" lazy="true" inverse="true" cascade="all-delete-orphan">
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.Division"/>
+  </set>
+  
+  <set name="stackStandingPayoutGroups" table="THROWDOWN_STACKRANK_PAYGROUP" lazy="true" inverse="true" cascade="all-delete-orphan">
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.StackStandingPayoutGroup"/>
+  </set>  
+  	
+</joined-subclass>
+
+</hibernate-mapping>

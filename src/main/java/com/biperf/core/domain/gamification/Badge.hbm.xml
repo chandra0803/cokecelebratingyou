@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+     
+     <joined-subclass name="com.biperf.core.domain.gamification.Badge" extends="com.biperf.core.domain.promotion.Promotion" table="BADGE">
+     	    <key column="PROMOTION_ID" not-null="true" />
+	
+	        <property name="displayEndDays" column="display_end_days" type="java.lang.Long" />
+	        <property name="tileHighlightPeriod" column="tile_highlight_period" type="java.lang.Long" />
+	        <property name="notificationMessageId" column="notification_message_id" type="java.lang.Long" />
+	        <property name="status" column="status" type="string" />
+			<property name="allBehaviorPoints" column="ALL_BEHAVIOR_POINTS" type="java.lang.Long" />
+		
+	         <property name="displayEndDate" type="date" lazy="true" >
+    		  <formula>(select max(decode(p.promotion_end_date,null,to_date('31-DEC-9999','dd-MON-yyyy'),p.promotion_end_date+b.display_end_days))
+      					from promotion p,badge b,badge_promotion bp
+						where bp.eligible_promotion_id=p.promotion_id and b.promotion_id=bp.promotion_id and b.promotion_id=PROMOTION_ID)
+      		</formula>
+   			 </property>
+	        <property name="badgeType" column="badge_type">
+				<type name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.BadgeType</param>
+				</type>
+			</property>
+			
+			<property name="badgeCountType" column="badge_count_type">
+				<type name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.BadgeCountType</param>
+				</type>
+			</property>
+			
+			 <set name="badgePromotions" table="badge_promotion" inverse="true" cascade="all-delete-orphan" lazy="false" order-by="promotion_id">
+		      <key column="PROMOTION_ID" />
+		      <one-to-many class="com.biperf.core.domain.gamification.BadgePromotion" />
+		     </set>
+		    
+		     <set name="badgeRules" table="BADGE_RULE" cascade="all-delete-orphan" inverse="true" lazy="false" order-by="badge_rule_id">
+      			<key column="PROMOTION_ID" />
+      			<one-to-many class="com.biperf.core.domain.gamification.BadgeRule" />
+    		</set>
+    		
+    		<set name="badgeParticipants" table="PARTICIPANT_BADGE" inverse="true" cascade="all-delete-orphan">
+      			<key column="PROMOTION_ID" />
+      			<one-to-many class="com.biperf.core.domain.gamification.ParticipantBadge" />
+    		</set>
+       	    
+	 </joined-subclass>
+	 
+	 <sql-query name="com.biperf.core.domain.gamfication.getBadgenameCount">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+	    SELECT count(1) as result
+	      FROM badge b, promotion p
+	       WHERE lower(p.promotion_name) = :badgeSetupName  
+             AND p.promotion_id = b.promotion_id
+	         AND b.promotion_id  != nvl(:badgeId, b.promotion_id)
+    ]]>
+	</sql-query> 
+	
+	<sql-query name="com.biperf.core.domain.gamification.getBadgeBehaviors">
+		<return alias="a" class="com.biperf.core.domain.gamification.BadgeRule">
+	        <return-property name="levelName" column="levelName"/>
+	        <return-property name="behaviorName" column="behaviorName"/>
+    	</return>
+	
+				<![CDATA[
+				    select a.cms_code AS levelName,a.CMS_NAME AS behaviorName
+					from vw_cms_code_value a, promo_behavior b 
+					 where  a.asset_code like 'picklist.promo.recognition.behavior.items' 
+					 and a.CMS_code = b.BEHAVIOR_TYPE
+					and b.promotion_id in(:promotionIds)
+		   		 ]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.gamification.getBadgeRuleByBadgeName">
+		<return alias="br" class="com.biperf.core.domain.gamification.BadgeRule" />
+		<![CDATA[
+		      SELECT {br.*}
+              from badge b,badge_rule br,vw_cms_asset_value vw
+              where b.promotion_id=br.promotion_id and b.status='A' and b.badge_type='fileload'
+               and  br.badge_name = vw.asset_code
+        	   and UPPER(vw.cms_value)=UPPER(:badgeName)
+               and b.promotion_id = :badePromotionId
+   		 ]]>
+   		 
+	</sql-query>	
+	
+		<sql-query name="com.biperf.core.domain.gamification.getBadgeNotificationList">
+		<return-scalar column="MESSAGE_ID" type="long"/>
+		<![CDATA[
+		     select message_id from message where message_type_code='badge_received'
+   		 ]]>
+	</sql-query>	
+   
+    <sql-query name="com.biperf.core.domain.gamification.processParameterValueChoices.allNonExpiredPromotions">
+	  <return-scalar column="id" type="long"/>
+	  <return-scalar column="value" type="string"/>
+	  <![CDATA[
+	  	 SELECT promotion_id as id, promotion_name as value
+	  	 FROM promotion
+	  	 WHERE promotion_type = 'badge'
+	  	 AND promotion_status != 'expired'
+	  	 ORDER BY promotion_name
+	  ]]>
+    </sql-query>
+
+   
+</hibernate-mapping>    
+    
+   

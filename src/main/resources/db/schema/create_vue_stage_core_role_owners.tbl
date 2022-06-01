@@ -1,0 +1,49 @@
+--These views are used in import file load
+--To enforce the rule that only one owner is allowed per node.
+create or replace view vue_core_user_node_role as
+(select a.user_id,a.user_name ,node.node_id, role node_role from application_user a,user_node, node where user_node.node_id = node.node_id and a.user_id = user_node.user_id and user_node.status = 1)
+/
+create  or replace view vue_stage_user_node_role as
+(select import_file_id, import_record_id, user_id,user_name,node_id1 node_id,NODE_RELATIONSHIP1 node_role
+ from STAGE_PAX_IMPORT_RECORD
+union
+select import_file_id, import_record_id, user_id,user_name,node_id2,NODE_RELATIONSHIP2
+ from STAGE_PAX_IMPORT_RECORD
+ where node_id2  is not null
+ and NODE_RELATIONSHIP2 is not null
+union
+select import_file_id, import_record_id, user_id,user_name,node_id3,NODE_RELATIONSHIP3
+ from STAGE_PAX_IMPORT_RECORD
+ where node_id3  is not null
+ and NODE_RELATIONSHIP3 is not null
+union
+select import_file_id, import_record_id, user_id,user_name,node_id4,NODE_RELATIONSHIP4
+ from STAGE_PAX_IMPORT_RECORD
+ where node_id4  is not null
+ and NODE_RELATIONSHIP4 is not null
+union
+select import_file_id, import_record_id, user_id,user_name,node_id5,NODE_RELATIONSHIP5
+ from STAGE_PAX_IMPORT_RECORD
+ where node_id5  is not null
+ and NODE_RELATIONSHIP5 is not null
+)
+/
+create or replace view vue_stage_core_role_owners
+as
+(
+select ROWNUM as id, import_file_id, import_record_id,user_id,user_name,node_id,node_role from
+(
+select import_file_id, import_record_id,user_id,user_name,node_id,node_role
+  from vue_stage_user_node_role
+union
+( select null as import_file_id, null as import_record_id,user_id,user_name,node_id,node_role from vue_core_user_node_role
+  where (user_name,node_id) in
+  (select user_name,node_id
+     from vue_core_user_node_role
+    minus
+   select user_name,node_id
+     from vue_stage_user_node_role)
+)
+) where node_role = 'own'
+)
+/

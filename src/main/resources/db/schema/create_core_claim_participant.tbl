@@ -1,0 +1,52 @@
+create sequence CLAIM_PARTICIPANT_PK_SQ start with 5000
+/
+CREATE TABLE claim_participant
+(claim_participant_id       NUMBER(18) NOT NULL,
+ claim_id                   NUMBER(18) NOT NULL,
+ participant_id             NUMBER(18) NOT NULL,
+ node_id                    NUMBER(18),
+ promo_team_position_id     NUMBER(18),
+ award_qty					NUMBER(18,4),
+ date_created               DATE  NOT NULL,
+ created_by                 NUMBER(18) NOT NULL,
+ date_modified              DATE,
+ modified_by                NUMBER(18),
+ version                    NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE claim_participant
+ADD CONSTRAINT claim_participant_pk PRIMARY KEY (claim_participant_id)
+USING INDEX
+/
+ALTER TABLE claim_participant
+ADD CONSTRAINT claim_participant_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES CLAIM (claim_id)
+/
+ALTER TABLE claim_participant
+ADD CONSTRAINT claim_pax_pax_fk
+  FOREIGN KEY (participant_id) REFERENCES PARTICIPANT (user_id)
+/
+ALTER TABLE claim_participant
+ADD CONSTRAINT claim_pax_node_fk
+  FOREIGN KEY (node_id) REFERENCES NODE (node_id)
+/
+--ALTER TABLE claim_participant
+--ADD CONSTRAINT claim_pax_team_pos_fk
+--  FOREIGN KEY (promo_team_position_id) REFERENCES PROMO_TEAM_POSITION (promo_team_position_id)
+--/
+CREATE INDEX CLAIM_PARTICIPANT_CLAIM_FK_idx ON CLAIM_PARTICIPANT
+  (CLAIM_ID)
+/
+CREATE INDEX CLAIM_PARTICIPANT_PAX_FK_idx ON CLAIM_PARTICIPANT
+  (PARTICIPANT_ID)
+/
+COMMENT ON TABLE claim_participant IS 'Association table'
+/
+COMMENT ON COLUMN claim_participant.claim_participant_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN claim_participant.claim_id IS 'FK to Claim.'
+/
+COMMENT ON COLUMN claim_participant.participant_id IS 'FK to Participant.'
+/
+COMMENT ON COLUMN claim_participant.promo_team_position_id IS 'The team position of the participant if the claim requires team positions'
+/

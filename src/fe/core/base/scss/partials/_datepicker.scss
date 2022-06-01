@@ -1,0 +1,257 @@
+// Partial-specific variables
+// =========================
+$datepicker_color_light: $brand_color_mid !default;
+$datepicker_color_lighter: $brand_color_lighter !default;
+
+
+// Partial-specific code
+// ==================================================
+/*!
+ * Datepicker for Bootstrap
+ *
+ * Copyright 2012 Stefan Petre
+ * Improvements by Andrew Rowls
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+.datepicker {
+    // padding: 4px;
+    // margin-top: 1px;
+    // @include border-radius(4px);
+
+    &.datepicker-inline {
+        width: 220px;
+    }
+
+    &.datepicker-dropdown {
+        background: $brand_color_white;
+        top: 0;
+        left: 0;
+        margin-top: 4px;
+        padding: 10px;
+
+        // &:before {
+        //     content: '';
+        //     display: inline-block;
+        //     border-left:   7px solid transparent;
+        //     border-right:  7px solid transparent;
+        //     border-bottom: 7px solid $brand_color_mid;
+        //     border-bottom-color: rgba(0,0,0,.2);
+        //     position: absolute;
+        //     top: -7px;
+        //     left: 6px;
+        // }
+
+        // &:after {
+        //     content: '';
+        //     display: inline-block;
+        //     border-left:   6px solid transparent;
+        //     border-right:  6px solid transparent;
+        //     border-bottom: 6px solid $brand_color_white;
+        //     position: absolute;
+        //     top: -6px;
+        //     left: 7px;
+        // }
+    }
+
+    >div {
+        display: none;
+    }
+
+    &.days div.datepicker-days {
+        display: block;
+    }
+
+    &.months div.datepicker-months {
+        display: block;
+    }
+
+    &.years div.datepicker-years {
+        display: block;
+    }
+
+    table {
+        margin: 0;
+    }
+
+    td,
+    th {
+        text-align: center;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        @include border-radius($btnBorderRadius);
+        border: none;
+
+        &.today {
+            cursor: pointer;
+        }
+    }
+
+    table tr th {
+        padding: 6px;
+    }
+    table tr td {
+        padding: 6px;
+
+        &.day {
+            @include border-radius(50%);
+
+            &:hover {
+                background: $datepicker_color_lighter;
+                cursor: pointer;
+            }
+        }
+
+        &.old,
+        &.new {
+            color: $datepicker_color_light;
+        }
+
+        &.disabled,
+        &.disabled:hover {
+            background: none;
+            color: $datepicker_color_light;
+            cursor: default;
+        }
+
+        &.today,
+        &.today:hover,
+        &.today.disabled,
+        &.today.disabled:hover {
+            color: $brand_color_black;
+            background: $datepicker_color_light;
+
+            &.old,
+            &.new {
+                color: $brand_color_dark;
+                background: $datepicker_color_lighter;
+
+                &.active {
+                    color: $invertBtnTxtColor;
+                    text-shadow: none;
+                }
+            }
+        }
+
+        // &.today:hover,
+        // &.today:hover:hover,
+        // &.today.disabled:hover,
+        // &.today.disabled:hover:hover,
+        // &.today:active,
+        // &.today:hover:active,
+        // &.today.disabled:active,
+        // &.today.disabled:hover:active,
+        // &.today.active,
+        // &.today:hover.active,
+        // &.today.disabled.active,
+        // &.today.disabled:hover.active,
+        // &.today.disabled,
+        // &.today:hover.disabled,
+        // &.today.disabled.disabled,
+        // &.today.disabled:hover.disabled,
+        // &.today[disabled],
+        // &.today:hover[disabled],
+        // &.today.disabled[disabled],
+        // &.today.disabled:hover[disabled] {
+        //     // background-color: #fdf59a;
+        // }
+
+        // &.today:active,
+        // &.today:hover:active,
+        // &.today.disabled:active,
+        // &.today.disabled:hover:active,
+        // &.today.active,
+        // &.today:hover.active,
+        // &.today.disabled.active,
+        // &.today.disabled:hover.active {
+        //     // background-color: #fbf069 \9;
+        // }
+
+        &.active,
+        &.active:hover,
+        &.active.disabled,
+        &.active.disabled:hover {
+            //@include buttonBackground($btnPrimaryBackground, adjust-hue($btnPrimaryBackground, 20));
+            color: $btnPrimaryTxtColor;
+            text-shadow: none;
+            background-color: $btnPrimaryBackground;
+
+            &.old,
+            &.new {
+                background-color: lighten($btnPrimaryBackground, 50%);
+
+                &.active {
+                    color: $datepicker_color_light;
+                    text-shadow: none;
+                }
+            }
+        }
+        span {
+            display: block;
+            width: 23%;
+            height: 54px;
+            line-height: 54px;
+            float: left;
+            margin: 1%;
+            cursor: pointer;
+            @include border-radius($btnBorderRadius);
+
+            &:hover {
+                background: $datepicker_color_lighter;
+            }
+
+            &.disabled,
+            &.disabled:hover {
+                background: none;
+                color: $datepicker_color_light;
+                cursor: default;
+            }
+
+            &.active,
+            &.active:hover,
+            &.active.disabled,
+            &.active.disabled:hover {
+                color: $btnPrimaryTxtColor;
+                background-color: $btnPrimaryBackground;
+            }
+
+            &.old {
+                color: $datepicker_color_light;
+            }
+        }
+    }
+
+    th.switch {
+        width: 145px;
+    }
+
+    thead tr:first-child th {
+        cursor: pointer;
+
+        &:hover{
+            background: $datepicker_color_lighter;
+        }
+    }
+    /*.dow {
+        border-top: 1px solid #ddd !important;
+    }*/
+}
+
+.input-append,
+.input-prepend {
+    &.date {
+        .add-on i {
+            display: block;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
+.table-striped .datepicker table tr td,
+.table-striped .datepicker table tr th {
+    background-color: transparent;
+}

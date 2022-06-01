@@ -1,0 +1,37 @@
+CREATE SEQUENCE rpt_claim_product_summary_sq
+  INCREMENT BY 1
+  START WITH 801
+  MINVALUE 1
+  MAXVALUE 999999999999999999999999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE TABLE rpt_claim_product_summary
+   (rpt_claim_product_summary_id   NUMBER(18,0) not null,
+    record_type                    VARCHAR2(49),
+    header_node_id                 NUMBER(18,0),
+    detail_node_id                 NUMBER,
+    date_submitted                 DATE,
+    award_amount                   NUMBER(12,0),
+    promotion_id                   NUMBER(18,0),
+    award_type                     VARCHAR2(40),
+    product_category_id            NUMBER(18,0),
+    product_sub_category_id        NUMBER(18,0),
+    total_quantity                 NUMBER(18,4),
+    hier_level                     NUMBER,
+    is_leaf                        NUMBER(1,0),
+    product_id                     NUMBER(18,0),
+    submitter_pax_status           VARCHAR2(30),
+    submitter_job_position         VARCHAR2(100),
+    submitter_department           VARCHAR2(100),
+    product_name                   VARCHAR2(70),
+    product_category_name          VARCHAR2(50),
+    product_subcategory_name       VARCHAR2(50),
+    date_created                   DATE NOT NULL,
+    created_by                     number(18) NOT NULL)
+/
+ALTER TABLE RPT_CLAIM_PRODUCT_SUMMARY ADD CONSTRAINT RPT_CLAIM_PRODUCT_SUMMARY_PK
+  PRIMARY KEY (  RPT_CLAIM_PRODUCT_SUMMARY_ID)
+ USING INDEX 
+/

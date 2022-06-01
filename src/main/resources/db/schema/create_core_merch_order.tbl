@@ -1,0 +1,76 @@
+CREATE SEQUENCE merch_order_pk_sq START WITH 5000
+/
+CREATE TABLE merch_order
+(
+  merch_order_id            NUMBER(18) NOT NULL,
+  gift_code                 VARCHAR2(250),    
+  gift_code_key             VARCHAR2(250),    
+  claim_id                  NUMBER(18),
+  participant_id            NUMBER(18),   
+  order_number              VARCHAR2(250),      
+  is_redeemed               NUMBER(1) NOT NULL, 
+  merch_gift_code_type      VARCHAR2(40),
+  product_id                VARCHAR2(40),
+  product_description       VARCHAR2(256),
+  promo_merch_program_level_id    NUMBER(18),
+  points                    NUMBER(18),
+  REFERENCE_NUMBER 			VARCHAR2(128),
+  EXPIRATION_DATE 			DATE,
+  date_last_reminded        DATE,
+  date_created              DATE NOT NULL,
+  created_by                NUMBER(18) NOT NULL,
+  date_modified             DATE,
+  modified_by               NUMBER(18),
+  version                   NUMBER(18) NOT NULL,
+  order_status              VARCHAR2(30),
+  BATCH_ID					NUMBER(18) 
+)
+/
+ALTER TABLE merch_order
+ADD CONSTRAINT merch_order_id_pk PRIMARY KEY (merch_order_id)
+USING INDEX
+/
+ALTER TABLE merch_order ADD CONSTRAINT mgc_claim_fk
+  FOREIGN KEY (claim_id) REFERENCES claim (claim_id)
+/
+CREATE INDEX mgc_claim_fk_idx ON merch_order (claim_id)
+/
+ALTER TABLE merch_order ADD CONSTRAINT mgc_pax_fk
+  FOREIGN KEY (participant_id) REFERENCES participant (user_id) 
+/
+CREATE INDEX mgc_pax_fk_idx ON merch_order (participant_ID)
+/
+CREATE INDEX mo_gift_code_idx ON merch_order (gift_code, gift_code_key)
+/
+ALTER TABLE merch_order ADD CONSTRAINT mgc_program_level_fk
+  FOREIGN KEY (promo_merch_program_level_id) REFERENCES promo_merch_program_level(promo_merch_program_level_id) 
+/
+COMMENT ON TABLE merch_order IS 'Holds merchandise order information'
+/
+COMMENT ON COLUMN merch_order.merch_order_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN merch_order.claim_id IS 'FK to Claim.'
+/
+COMMENT ON COLUMN merch_order.participant_id IS 'FK to Participant.'
+/
+COMMENT ON COLUMN merch_order.order_number IS 'The Order Number on OM side'
+/
+COMMENT ON COLUMN merch_order.is_redeemed IS '1/true if activated, 0/false if not'
+/
+COMMENT ON COLUMN merch_order.merch_gift_code_type IS 'Can be 2 types, product or level'
+/
+COMMENT ON COLUMN merch_order.product_id IS 'The product id on OM side'
+/
+COMMENT ON COLUMN merch_order.REFERENCE_NUMBER IS 'The gift code reference number in OM'
+/
+COMMENT ON COLUMN merch_order.EXPIRATION_DATE IS 'gift code expiration date, if there is one'
+/
+COMMENT ON COLUMN merch_order.date_last_reminded IS 'The date on which a manager last send a reminder to the participant.'
+/
+-- Foreign Key RI on ACTIVITY added here because MERCH_ORDER table is created as part of recognition module
+-- and therefore RI would fail if recognition module is not installed
+ALTER TABLE activity ADD CONSTRAINT activity_mo_fk
+  FOREIGN KEY (merch_order_id) REFERENCES merch_order(merch_order_id)
+/
+CREATE SEQUENCE batch_id_sq INCREMENT BY 1 START WITH  20000
+/

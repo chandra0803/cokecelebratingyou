@@ -1,0 +1,41 @@
+{
+  "description": "Get a Person's Groups user id: 5590",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "personId": "00000000-0000-0000-0000-0000000015d6"
+  },
+  "steps": [
+    {
+      "id": "getGroupsForPerson",
+      "description": "GET /persons/${ref:params.personId}/groups",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:params.personId}/groups",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getGroupsForPerson.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getGroupsForPerson.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:getGroupsForPerson.res.body.groups}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    }
+  ]
+}

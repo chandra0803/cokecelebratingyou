@@ -1,0 +1,30 @@
+<!-- ======== PUBLIC RECOGNITION CERTIFICATE INTERSTITIAL PAGE (FOR EMAIL LINKS) ======== -->
+
+<div id="publicRecognitionCertificateInterstitialPageView" class="page-content">
+    <div class="spinner-wrapper"></div>
+    <div class="hide errorMsg">
+        <h1>Uh oh, looks like something went wrong.</h1>
+        <p>
+            If you reached this page through an email while trying to view a certificate, it has expired.&nbsp;
+            To view it again, go to the Public Recognition Details page associated with that certificate and click&nbsp;
+            the "View Certificate" link provided there.
+        </p>
+    </div>
+    <form class="hide" id="pdfForm" name="pdfForm" action="/pdf" method="post">
+        <textarea name="html" class="html"></textarea>
+        <select name="orientation" class="orientation">
+            <option value="portrait" selected>Letter Size, Portrait Orientation</option>
+            <option value="landscape">Letter Size, Landscape Orientation</option>
+        </select>
+    </form>
+</div><!-- /#publicRecognitionCertificateInterstitialPageView -->
+
+<script>
+    $(document).ready(function() {
+        new PublicRecognitionCertificateInterstitialPageView({
+            el: $('#publicRecognitionCertificateInterstitialPageView'),
+            recognitionId: G5.props.urlParams.recognitionId || false,
+            recipientId: G5.props.urlParams.recipientId || false
+        });
+    })
+</script>

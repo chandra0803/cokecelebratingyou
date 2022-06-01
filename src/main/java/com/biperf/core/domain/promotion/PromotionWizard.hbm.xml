@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<class name="com.biperf.core.domain.promotion.PromotionWizard" table="PROMO_NOMINATION_WIZARD" >
+
+  <id name="id" type="java.lang.Long" column="PROMOTION_WIZARD_ID">
+	  <generator class="seqhilo">
+		<param name="max_lo">0</param> <param name="sequence">PROMOTION_WIZARD_ID_PK_SQ</param>
+	  </generator>
+  </id>
+  
+  <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+    
+  <many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.promotion.Promotion" lazy="false" not-null="true" />
+  <property name="wizardOrderName" type="java.lang.String" column="WIZARD_ORDER_NAME"/>
+  <property name="wizardOrder" type="java.lang.String" column="WIZARD_ORDER"/>
+</class>
+
+  <sql-query name="com.biperf.core.domain.promotion.getLastStepName">
+	  <return-scalar column="wizard_order_name" type="string"/>
+	  <![CDATA[
+			select pnw.wizard_order_name
+			from (
+			  select wizard_order_name
+			  from promo_nomination_wizard
+			  where promotion_id = :promotionId and wizard_order is not null
+			  order by wizard_order desc) pnw
+			where rownum = 1
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD
+3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.user.PlateauRedemptionTracking"
+		table="PLATEAU_REDEMPTION_TRACKING">
+
+		<!-- This is the surrogate primary key. Make sure the column and sequence 
+			names are correct. -->
+		<id name="id" type="java.lang.Long" column="TRACKING_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">PLATEAU_REDEMPTION_TRACKING_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<property name="userId" type="java.lang.Long" column="USER_ID" />
+		<property name="merchOrderId" type="java.lang.Long" column="MERCH_ORDER_ID" />
+
+		<property name="dateCreated" type="timestamp" column="DATE_CREATED" />
+		<property name="createdBy" type="java.lang.Long" column="CREATED_BY" />
+		<property name="dateModified" type="timestamp" column="DATE_MODIFIED" />
+		<property name="modifiedBy" type="java.lang.Long" column="MODIFIED_BY" />
+
+	</class>
+
+</hibernate-mapping>

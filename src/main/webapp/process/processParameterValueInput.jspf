@@ -1,0 +1,255 @@
+<%--UI REFACTORED--%>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+<%@ include file="/include/taglib.jspf"%>
+
+
+<c:forEach items="${processParameterList}" var="processParameterValue" varStatus="count">
+
+	<tr class="form-row-spacer">
+
+	<%-- Report Extract Process allows optional process parameter --%>
+	<c:choose>
+		<c:when test ="${process.processBeanName == 'reportExtractProcess' &&
+						(processParameterValue.name == 'promotionId' || processParameterValue.name == 'userId' ||
+						 processParameterValue.name == 'recognitionBehavior' || processParameterValue.name == 'paxJobPosition'||
+						 processParameterValue.name == 'paxDepartment' || processParameterValue.name == 'mediaType' ||
+						 processParameterValue.name == 'paxStatus') }">
+		    <beacon:label property="actionCode" required="false">
+		      	<c:out value="${process.processParameters[processParameterValue.name].description}" />
+		    </beacon:label>
+		</c:when>
+		<c:when test = "${process.processBeanName == 'ecardMigrationProcess'}">
+            <beacon:label property="actionCode" required="false">
+		      	<c:out value="${process.processParameters[processParameterValue.name].description}" />
+		    </beacon:label>
+		</c:when>
+		
+		<c:when test = "${process.processBeanName == 'cokeLikesAndCommentsProcess'}">
+            <beacon:label property="actionCode" required="false">
+		      	<c:out value="${process.processParameters[processParameterValue.name].description}" />
+		    </beacon:label>
+		</c:when>
+		
+		<c:when test = "${process.processBeanName == 'eStatementProcess' &&
+		                  (processParameterValue.name == 'startDate' ||
+		                   processParameterValue.name == 'endDate')}">
+            <beacon:label property="actionCode" required="false">
+		      	<c:out value="${process.processParameters[processParameterValue.name].description}" />
+		    </beacon:label>
+		</c:when>
+		<c:when test = "${process.processBeanName == 'eStatementProcess' && processParameterValue.name == 'sendOnlyPaxWithPoints'}">
+			<c:if test="${showSendAllQuestionForEstatmentProcess}">
+				<beacon:label property="actionCode" required="true">
+		      		<c:out value="${process.processParameters[processParameterValue.name].description}" />
+		    	</beacon:label>
+			</c:if>
+		</c:when>
+		<c:otherwise>
+		    <beacon:label property="actionCode" required="true">
+		      <c:out value="${process.processParameters[processParameterValue.name].description}" />
+		    </beacon:label>
+		</c:otherwise>
+	</c:choose>
+
+    <c:choose>
+
+  	<c:when test='${processParameterValue.formatType == "text_field"}'>
+	  	<c:choose>
+  		    <c:when test='${processParameterValue.secret}'>
+	  			<td class="content-field">
+   				<input type="password" name="processParameterValueList[<c:out value="${count.index}"/>].value" value="<c:out value="${processParameterValue.value}"/>" size="30" maxlength="60" class="content-field" autocomplete="<c:choose><c:when test="${allowPasswordFieldAutoComplete}">on</c:when><c:otherwise>off</c:otherwise></c:choose>"/>
+  				</td>
+			</c:when>
+  		    <c:otherwise>
+	  			<td class="content-field">
+   				<input type="text" name="processParameterValueList[<c:out value="${count.index}"/>].value" value="<c:out value="${processParameterValue.value}"/>" size="30" maxlength="-1" class="content-field"/>
+  				</td>
+			</c:otherwise>
+		 </c:choose>
+	</c:when>
+  	<c:when test='${processParameterValue.formatType == "radio"}'>	
+	  	<c:choose>
+			<c:when test="${processParameterValue.name eq 'level' and process.processBeanName eq 'generateBudgetFileProcess' or process.processBeanName eq 'generateBudgetFileWorkdayProcess'}">
+				<td class="content-field"><input type="radio"
+					name="processParameterValueList[<c:out value="${count.index}"/>].value"
+					value="Count only with in the org unit" class="content-field" checked="checked">Count only with in the org unit<br />
+					<input type="radio"
+					name="processParameterValueList[<c:out value="${count.index}"/>].value"
+					value="Count the org unit and below" class="content-field">Count the org unit and below
+				</td>
+			</c:when>
+  		    <c:otherwise>		
+				<td class="content-field"><input type="radio"
+					name="processParameterValueList[<c:out value="${count.index}"/>].value"
+					value="yes" class="content-field" checked="checked">Yes<br />
+					<input type="radio"
+					name="processParameterValueList[<c:out value="${count.index}"/>].value"
+					value="no" class="content-field">No
+				</td>
+			</c:otherwise>
+		 </c:choose>			
+	</c:when>
+	<c:when test='${processParameterValue.formatType == "drop_down"}'>
+  		<c:choose>
+  			<c:when test = "${process.processBeanName == 'eStatementProcess' && processParameterValue.name == 'sendOnlyPaxWithPoints'}">
+  				<c:choose>
+  					<c:when test="${showSendAllQuestionForEstatmentProcess}">
+  						<td class="content-field">
+	  						<SELECT name="processParameterValueList[<c:out value="${count.index}"/>].value" class="content-field killme">
+		          				<option value="yes" ${processParameterValue.value eq 'yes' ? 'selected="selected"' : ''}>Yes<!--TODO: cms key--></option>
+		          				<option value="no"  ${processParameterValue.value eq 'no' ? 'selected="selected"' : ''}>No<!--TODO: cms key--></option>
+	  						</SELECT>
+  	  					</td>
+  	  				</c:when>
+  					<c:otherwise>
+  						<input type="hidden" name="processParameterValueList[<c:out value="${count.index}"/>].value" value="yes" >
+  					</c:otherwise>
+  				</c:choose>
+			</c:when>
+			<c:otherwise>
+  	  <td class="content-field">
+
+	  	<SELECT name="processParameterValueList[<c:out value="${count.index}"/>].value"
+	      selected="<c:out value='${processParameterValue.value}'/>" class="content-field killme">
+
+	      <%-- Report Extract Process allows optional process parameter, "show all" will fetch all possible values of that parameter --%>
+	      <c:if test = "${process.processBeanName == 'reportExtractProcess' }">
+	    	<c:if test = "${processParameterValue.name == 'promotionId' || processParameterValue.name == 'recognitionBehavior' ||
+	    					processParameterValue.name == 'paxJobPosition'|| processParameterValue.name == 'paxDepartment' ||
+	    					processParameterValue.name == 'mediaType' || processParameterValue.name == 'paxStatus' }">
+	    		<OPTION VALUE="<c:out value=""/>"><cms:contentText code="report.extract.parameters" key="SHOW_ALL"/>
+	    	</c:if>
+	      </c:if>
+
+		  	<c:forEach items="${processParameterValue.sourceValueChoices}" var="source">
+
+		      <c:choose>
+		        <c:when test='${processParameterValue.sourceType == "picklist_asset_name"}'>
+		          <c:set var="optionValue" value="${source.code}"/>
+		          <c:set var="optionText" value="${source.name}"/>
+		        </c:when>
+		        <c:otherwise>
+		          <c:set var="optionValue" value="${source.id}"/>
+		          <c:set var="optionText" value="${source.value}"/>
+		        </c:otherwise>
+			  </c:choose>
+
+		      <c:choose>
+		        <c:when test='${processParameterValue.value == optionValue}'>
+		          <OPTION VALUE="<c:out value="${optionValue}"/>" selected><c:out value="${optionText}" />
+		        </c:when>
+		        <c:otherwise>
+		          <OPTION VALUE="<c:out value="${optionValue}"/>"><c:out value="${optionText}" />
+		        </c:otherwise>
+		      </c:choose>
+		    </c:forEach>
+
+	  	</SELECT>
+
+  	  </td>
+			</c:otherwise>
+		</c:choose>
+
+  	  <c:if test = "${process.processBeanName == 'reportExtractProcess' }">
+	    	<c:if test = "${processParameterValue.name == 'giverReceiver' }">
+  	  			<td>
+              		<cms:contentText code="report.extract.parameters" key="GIVER_RECEIVER"/>
+            	</td>
+	    	</c:if>
+	  </c:if>
+
+	</c:when>
+
+		<c:when test='${processParameterValue.formatType == "date"}'>
+
+  		<td class="content-field">
+  			<input type="text" name="processParameterValueList[<c:out value="${count.index}"/>].value" value="<c:out value='${processParameterValue.value}'/>"
+          id="processParameterValueList<c:out value="${count.index}"/>value" size="10" maxlength="10" readonly="true" class="content-field" onfocus="clearDateMask(this);"/>
+        	<img id="processParameterValueList<c:out value="${count.index}"/>valueTrigger" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/images/calendar_icon.gif" class="calendar-icon" alt="<cms:contentText key='START_DATE' code='process.schedule'/>"/>
+        </td>
+
+        <script type="text/javascript">
+	Calendar.setup(
+		{
+				inputField  : "processParameterValueList<c:out value="${count.index}"/>value",       	// ID of the input field
+				ifFormat    : "${TinyMceDatePattern}",    		// the date format
+				button      : "processParameterValueList<c:out value="${count.index}"/>valueTrigger"  // ID of the button
+		});
+	</script>
+
+		</c:when>
+
+		<c:when test='${processParameterValue.formatType == "check_boxes"}'>
+
+  			<td class="content-field">
+
+  		<c:forEach items="${processParameterValue.sourceValueChoices}" var="source">
+
+        <c:choose>
+          <c:when test='${processParameterValue.sourceType == "picklist_asset_name"}'>
+            <c:set var="optionValue" value="${source.code}"/>
+            <c:set var="optionText" value="${source.name}"/>
+          </c:when>
+          <c:otherwise>
+            <c:set var="optionValue" value="${source.id}"/>
+            <c:set var="optionText" value="${source.value}"/>
+          </c:otherwise>
+		  	</c:choose>
+
+  			<c:set var="checked" value="" />
+
+  			<c:forEach items="${processParameterValue.values}" var="checkValue">
+
+  				<c:if test='${optionValue == checkValue}'>
+  					<c:set var="checked" value="checked" />
+  				</c:if>
+
+  			</c:forEach>
+
+  			<INPUT TYPE=CHECKBOX name="processParameterValueList[<c:out value="${count.index}"/>].values"
+          styleClass="content-field" value="<c:out value="${optionValue}"/>" <c:out value="${checked}"/>> <c:out value="${optionText}"/>
+  			<br/>
+  		</c:forEach>
+
+  			</td>
+
+		</c:when>
+
+	</c:choose>
+
+	<INPUT TYPE=HIDDEN NAME="processParameterValueList[<c:out value="${count.index}"/>].value1" value="<c:out value="${processParameterValue.value}"/>">
+	<INPUT TYPE=HIDDEN NAME="processParameterValueList[<c:out value="${count.index}"/>].name" value="<c:out value="${processParameterValue.name}"/>">
+  <INPUT TYPE=HIDDEN NAME="processParameterValueList[<c:out value="${count.index}"/>].dataType" value="<c:out value="${processParameterValue.dataType}"/>">
+  <INPUT TYPE=HIDDEN NAME="processParameterValueList[<c:out value="${count.index}"/>].formatType" value="<c:out value="${processParameterValue.formatType}"/>">
+  <INPUT TYPE=HIDDEN NAME="processParameterValueList[<c:out value="${count.index}"/>].sourceType" value="<c:out value="${processParameterValue.sourceType}"/>">
+	<INPUT TYPE=HIDDEN NAME="processParameterValueList[<c:out value="${count.index}"/>].processBeanName" value="<c:out value="${processParameterValue.processBeanName}"/>">
+
+	</tr>
+
+</c:forEach>
+
+	<%-- Client customizations for wip #23129 starts --%>
+  	  <c:if test = "${process.processBeanName == 'clientGiftCodeSweepProcess' }">
+  	    	  <tr class="form-row-spacer">
+	        <beacon:label property="sweepPromoId" required="true">
+		        <cms:contentText key="SWEEP_PROMO_ID" code="client.gift.code.sweep"/>
+		    </beacon:label>	
+	        <td class="content-field">		  		  	
+				<html:select property="sweepPromoId" styleClass="content-field" onchange="setActionDispatchAndSubmit('processLaunch.do','changeSweepPromotion');" >
+				    <html:option value=''><cms:contentText key="SELECT_ONE" code="system.general"/></html:option>
+					<html:options collection="sweepPromoList" property="id" labelProperty="value"  />
+				</html:select>
+		    </td> 
+		    </tr> 
+  	  		<tr class="form-row-spacer">
+	        <beacon:label property="sweepMonthYear" required="true">
+		        <cms:contentText key="SWEEP_MONTH_YEAR" code="client.gift.code.sweep"/>
+		    </beacon:label>	
+	        <td class="content-field">		  		  	
+				<html:select property="sweepMonthYear" styleClass="content-field" >
+					<html:options collection="sweepMonthYearList" property="monthYear" labelProperty="monthYearDesc"  />
+				</html:select>
+		    </td> 
+		    </tr>   
+  	  </c:if>
+      <%-- Client customizations for wip #23129 ends --%>

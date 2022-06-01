@@ -1,0 +1,33 @@
+CREATE TABLE message
+   (message_id                NUMBER(12) NOT NULL,
+	message_name			  VARCHAR2(80) NOT NULL,
+    cm_asset_code             VARCHAR2(80) NOT NULL,
+    module_code            	  VARCHAR2(30) NOT NULL,
+    message_type_code         VARCHAR2(80) NOT NULL,
+    status_code               VARCHAR2(30) NOT NULL,
+	sms_group_type     		  VARCHAR2(80),
+    date_last_sent	          DATE,
+    created_by number(18)     NOT NULL,
+    date_created              DATE NOT NULL,
+    modified_by number(18),
+    date_modified             DATE,
+    version                   NUMBER(18) NOT NULL)
+/
+ALTER TABLE message
+ADD CONSTRAINT message_pk PRIMARY KEY (message_id)
+USING INDEX
+/
+CREATE UNIQUE INDEX message_messagename_udx ON message(message_name)
+/
+CREATE UNIQUE INDEX message_cm_asset_code_udx ON message(cm_asset_code)
+/
+COMMENT ON COLUMN message.module_code IS '? character code/representation of Module types (Product Claims, Recognition, Nomination)'
+/
+COMMENT ON COLUMN message.status_code IS '1 character code/representation of status types (Active, Inactive)'
+/
+COMMENT ON COLUMN message.message_type_code IS 'character code/representation of message type'
+/
+COMMENT ON COLUMN message.sms_group_type IS 'Category of message name'
+/
+create sequence message_pk_sq start with 7000 
+/

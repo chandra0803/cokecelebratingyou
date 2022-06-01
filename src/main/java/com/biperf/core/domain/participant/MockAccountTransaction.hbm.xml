@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.participant.AccountTransaction" table="mock_account_transaction">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" column="account_transaction_id" type="long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">MOCK_ACCT_XACT_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="accountNumber" column="account_number" type="string"/>
+    <property name="transactionDate" column="transaction_date" type="date"/>
+    <property name="transactionType" column="transaction_type" type="string"/>
+    <property name="transactionAmount" column="transaction_amount" type="long"/>
+    <property name="transactionDescription" column="transaction_description" type="string"/>
+    <property name="balance" column="account_balance" type="long"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+      type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+  </class>
+
+  <!-- Named Queries go here.    -->
+  <query name="com.biperf.core.domain.participant.AccountTransaction.AllXactions">
+        from com.biperf.core.domain.participant.AccountTransaction where account_number = :accountNumber
+          order by transaction_date asc
+  </query>
+
+  <query name="com.biperf.core.domain.participant.AccountTransaction.XactionsWithinRange">
+        from com.biperf.core.domain.participant.AccountTransaction where account_number = :accountNumber
+          and trunc(transaction_date) between trunc(:startDate) AND trunc(:endDate)
+          order by transaction_date asc
+  </query>
+
+  <sql-query name="com.biperf.core.domain.participant.AccountTransaction.MockAccountBalance">
+    <return-scalar column="balance" type="long"/>
+    <![CDATA[
+       select account_balance as balance from
+         ( select * from mock_account_transaction where account_number=:accountNumber
+             order by transaction_date desc )
+       where rownum = 1
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

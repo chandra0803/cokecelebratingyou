@@ -1,0 +1,65 @@
+{
+  "description": "Create a Person Push Notification Subscription",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+  },
+  "export": {
+    "newPersonId": "${ref:createPerson.export.newPersonId}",
+    "newPhoneId": "${ref:createPersonPhone.res.body.id}"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createPersonSubscription",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"label": "IOS",
+  			"token":"mytoken"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonSubscription.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonSubscription.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:createPersonSubscription.res.body.label}",
+          "compare": "to.equal",
+          "b": "IOS"
+        },
+        {
+          "a": "${ref:createPersonSubscription.res.body.token",
+          "compare": "to.equal",
+          "b": "mytoken"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+CREATE SEQUENCE td_stackrank_pax_pk_sq INCREMENT BY 1 START WITH 600
+/
+CREATE TABLE throwdown_stackrank_pax
+  (
+    stackrank_pax_id 			NUMBER(18) NOT NULL,
+    stackrank_node_id     		NUMBER(18) NOT NULL,
+    user_id                   	NUMBER(18) NOT NULL,
+    stackrank_factor         	NUMBER(30,4) NOT NULL,
+    rank                      	NUMBER(6) NOT NULL,
+    tied                      	NUMBER(1) NOT NULL,
+    payout                    	NUMBER(16,4),
+    payouts_issued 				NUMBER(1)  DEFAULT 0 NOT NULL,
+    created_by                	NUMBER(18) NOT NULL,
+    date_created              	DATE NOT NULL,
+    modified_by               	NUMBER(18),
+    date_modified             	DATE,
+    version                   	NUMBER(18) NOT NULL
+  )
+/
+ALTER TABLE throwdown_stackrank_pax
+  ADD CONSTRAINT td_stackrank_pax_pk PRIMARY KEY (stackrank_pax_id)
+  USING INDEX
+/
+ALTER TABLE throwdown_stackrank_pax
+  ADD CONSTRAINT td_stackrank_pax_sr_node_fk FOREIGN KEY (stackrank_node_id)
+  REFERENCES throwdown_stackrank_node (stackrank_node_id)
+/
+ALTER TABLE throwdown_stackrank_pax
+  ADD CONSTRAINT td_stackrank_pax_pax_fk FOREIGN KEY (user_id)
+  REFERENCES participant (user_id)
+/
+ALTER TABLE activity ADD CONSTRAINT activity_stack_standing_fk
+  FOREIGN KEY (stackstanding_pax_id) REFERENCES THROWDOWN_STACKRANK_PAX(stackrank_pax_id) 
+/
+COMMENT ON TABLE throwdown_stackrank_pax IS 'Represents an entry in a stack rank list.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.stackrank_pax_id IS 'Uniquely identifies this entry in a stack rank list.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.stackrank_node_id IS 'The stack rank list that contains this entry.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.user_id IS 'The participant being ranked.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.stackrank_factor IS 'The value on which the participant is ranked.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.rank IS 'The participant''s stack rank.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.tied IS 'If true, then the participant shares his or her rank with one or more participants; if false, then the participant is the only one who holds this rank.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.payout IS 'The amount that the participant receives for holding his or her rank.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.payouts_issued IS 'Identifies if pay out issued for this stack ranking pax.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.created_by IS 'The ID of the user who created this record.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.date_created IS 'The date and time at which this record was created.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.modified_by IS 'The ID of the user who last modified this record.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.date_modified IS 'The date and time at which this record was last modified.'
+/
+COMMENT ON COLUMN throwdown_stackrank_pax.version IS 'The version of this record.'
+/

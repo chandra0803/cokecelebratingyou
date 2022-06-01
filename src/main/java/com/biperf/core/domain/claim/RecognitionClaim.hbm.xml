@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <joined-subclass name="com.biperf.core.domain.claim.RecognitionClaim" extends="com.biperf.core.domain.claim.Claim" table="RECOGNITION_CLAIM" >
+    <key column="CLAIM_ID" not-null="true" />
+
+    <!-- Must leave lazy = false for instance of to work -->
+    <many-to-one name="card" column="CARD_ID" class="com.biperf.core.domain.multimedia.Card" not-null="false" update="true" insert="true" lazy="false"/>
+
+    <property name="source" column="SOURCE">
+        <type name="com.biperf.core.domain.enums.HibernateVarCharEnum">
+            <param name="enumClass">com.biperf.core.domain.claim.RecognitionClaimSource</param>
+        </type>
+    </property>
+
+    <property name="copySender" column="COPY_SENDER" type="boolean" />
+    <property name="submitterComments" column="SUBMITTER_COMMENTS" type="java.lang.String" />
+
+    <property name="submitterCommentsLanguageType" column="SUBMITTER_COMMENTS_LANG_ID">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.LanguageType</param>
+      </type>
+    </property>
+
+    <property name="behavior" column="BEHAVIOR">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.PromoRecognitionBehaviorType</param>
+      </type>
+    </property>
+
+    <property name="copyManager" column="COPY_MANAGER" type="boolean" />
+    <property name="sendCopyToOthers" column="COPY_OTHERS" type="java.lang.String" />
+    <property name="anniversaryNumberOfDays" type="java.lang.Integer" column="ANNIVERSARY_NUM_DAYS"/>
+    <property name="anniversaryNumberOfYears" type="java.lang.Integer" column="ANNIVERSARY_NUM_YEARS"/>
+    
+    <set name="claimRecipients" lazy="true" table="CLAIM_RECIPIENT" inverse="true" cascade="all-delete-orphan">
+      <key column="CLAIM_ID" />
+      <one-to-many class="com.biperf.core.domain.claim.ClaimItem" />
+    </set>
+    
+    <set name="calculatorResponses" table="CALCULATOR_RESPONSE" inverse="true" cascade="all-delete-orphan" order-by="sequence_num">
+      <key column="CLAIM_ID" not-null="true"/>
+      <one-to-many class="com.biperf.core.domain.claim.CalculatorResponse"/>
+    </set>
+    
+    <property name="certificateId" column="CERTIFICATE_ID" type="long" not-null="false"/>
+    
+  	<property name="isReversal" column="IS_REVERSE" type="boolean"  access="field"/>
+    <property name="ownCardName" column="OWN_CARD_NAME" type="java.lang.String" />
+    <property name="hidePublicRecognition" column="HIDE_PUBLIC_RECOGNITION" type="boolean" />
+    <property name="teamId" column="TEAM_ID" type="long" not-null="false"/>   
+    <property name="skipStandardRecognitionEmail" column="SKIP_STANDARD_RECOG_EMAIL" type="boolean" />
+    
+    <many-to-one name="celebrationManagerMessage" column="CELEBRATION_MANAGER_MESSAGE_ID" not-null="false" lazy="proxy" />
+    
+    <property name="cardVideoUrl" column="CARD_VIDEO_URL" type="java.lang.String" />
+    <property name="cardVideoImageUrl" column="CARD_VIDEO_IMAGE_URL" type="java.lang.String" />
+  </joined-subclass>
+      
+    <sql-query name="com.biperf.core.domain.claim.getNextTeamId">
+     	<return-scalar column="teamId" type="long"/>
+		<![CDATA[
+   			SELECT claim_team_id_sq.NEXTVAL AS teamId
+   			FROM DUAL
+   		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getRecognitionCountByCardId">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[	
+		    SELECT  COUNT(1) as result
+	       from recognition_claim where card_id = :cardId
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.claim.getOwnCards">
+		<return-scalar column="id" type="long" />
+		<return-scalar column="ownCardName" type="string" />
+		<![CDATA[	
+		    SELECT CLAIM_ID id, OWN_CARD_NAME ownCardName FROM RECOGNITION_CLAIM WHERE OWN_CARD_NAME IS NOT NULL and OWN_CARD_NAME LIKE '%/cm3dam/ecard/%'
+		]]>
+	</sql-query>
+	
+		
+</hibernate-mapping>

@@ -1,0 +1,87 @@
+CREATE SEQUENCE RPT_QQ_ANALYSIS_SQ_PK START WITH 100 INCREMENT BY 1
+/
+CREATE SEQUENCE RPT_QQA_ANALYSIS_SQ_PK START WITH 100 INCREMENT BY 1
+/
+CREATE SEQUENCE RPT_Q_ATTEMPTS_ANALYSIS_SQ_PK START WITH 100 INCREMENT BY 1
+/
+CREATE SEQUENCE RPT_QUIZ_ANALYSIS_SQ_PK START WITH 100 INCREMENT BY 1
+/
+
+
+CREATE TABLE rpt_quiz_analysis
+    (rpt_quiz_analysis_id           NUMBER(18,0),
+    q_id                           NUMBER(18,0),
+    q_name                         VARCHAR2(200),
+    q_description                  VARCHAR2(400),
+    q_number_asked                 NUMBER(10,0),
+    q_passing_score                NUMBER(9,0),
+    q_type                         VARCHAR2(30),
+    q_status_type                  VARCHAR2(30),
+    date_created                   DATE NOT NULL,
+    created_by                     number(18) NOT NULL,
+    q_in_pool                      NUMBER(18,0),
+    modified_by   		   NUMBER (18),
+    date_modified 		   DATE)
+/
+
+CREATE OR REPLACE TRIGGER trg_before_insert
+ BEFORE
+  INSERT
+ ON rpt_quiz_analysis
+REFERENCING NEW AS NEW OLD AS OLD
+ FOR EACH ROW
+BEGIN
+IF :new.rpt_quiz_analysis_id IS NULL THEN
+  SELECT rpt_quiz_analysis_sq_pk.NEXTVAL
+    into :new.rpt_quiz_analysis_id
+  FROM DUAL;
+END IF;
+END;
+/
+
+CREATE TABLE rpt_quiz_qq_analysis
+    (rpt_quiz_qq_analysis_id        NUMBER(18,0),
+    q_id                           NUMBER(18,0),
+    qq_id                          NUMBER(18,0),
+    promotion_id                   NUMBER(18,0),
+    number_of_times_asked          NUMBER(18,0),
+    number_of_correct_responses    NUMBER(10),
+    date_asked                     DATE,
+    date_created                   DATE NOT NULL,
+    created_by                     number(18) NOT NULL,
+    qq_cm_asset_name               VARCHAR2(255),
+    modified_by   	           NUMBER (18),
+    date_modified 		   DATE)
+/
+
+CREATE TABLE rpt_quiz_qqa_analysis
+    (rpt_quiz_qqa_analysis_id       NUMBER(18,0),
+    qq_id                          NUMBER(18,0),
+    qqa_id                         NUMBER(18,0),
+    promotion_id                   NUMBER(18,0),
+    is_correct                     NUMBER(1,0),
+    number_of_times_selected       NUMBER(10),
+    date_asked                     DATE,
+    date_created                   DATE NOT NULL,
+    created_by                     number(18) NOT NULL,
+    qqa_cm_asset_code              VARCHAR2(255),
+    qqa_answer_cm_key              VARCHAR2(255),
+    modified_by   		   NUMBER (18),
+    date_modified 		   DATE)
+/
+	
+CREATE TABLE rpt_quiz_attempts_analysis
+    (rpt_quiz_attempts_analysis_id  NUMBER(18,0),
+    quiz_id                        NUMBER(18,0),
+    promotion_id                   NUMBER(18,0),
+    number_passed                  NUMBER(18,0),
+    number_failed                  NUMBER(18,0),
+    number_incomplete              NUMBER(18,0),
+    total_attempts                 NUMBER(18,0),
+    submission_date                DATE,
+    date_created                   DATE NOT NULL,
+    created_by                     number(18) NOT NULL,
+    maximum_attempts               NUMBER(4,0),
+    modified_by   		   NUMBER (18),
+    date_modified 	  	   DATE)
+/

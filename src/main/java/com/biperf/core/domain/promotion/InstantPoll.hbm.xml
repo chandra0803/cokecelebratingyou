@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<joined-subclass name="com.biperf.core.domain.promotion.InstantPoll" extends="com.biperf.core.domain.promotion.Survey" table="INSTANT_POLL">
+	
+		<key column="SURVEY_ID" not-null="true" />
+		<property name="submissionStartDate" type="java.util.Date" column="SUBMISSION_START_DATE" />
+		<property name="submissionEndDate" type="java.util.Date" column="SUBMISSION_END_DATE" />
+		<property name="audienceType" type="java.lang.String" column="AUDIENCE_TYPE" />
+		<property name="status" type="java.lang.String" column="STATUS" />
+		<property name="notifyPax" type="java.lang.Boolean" column="NOTIFY_PAX" />
+		<property name="isEmailAlreadySent" type="java.lang.Boolean" column="IS_EMAIL_ALREADY_SENT" />
+
+		<set name="audience" table="INSTANT_POLL_AUDIENCE" inverse="true"
+			lazy="false" cascade="all-delete-orphan">
+			<key>
+				<column name="SURVEY_ID" not-null="true" />
+			</key>
+			<one-to-many class="com.biperf.core.domain.promotion.InstantPollAudience" />
+	   </set>
+	</joined-subclass>
+	
+	<query name="com.biperf.core.domain.promotion.InstantPollByName">
+    <![CDATA[
+		from instantPoll in class com.biperf.core.domain.promotion.InstantPoll
+		where upper(instantPoll.name) = :name
+	]]>
+  </query>
+
+  <sql-query name="com.biperf.core.domain.promotion.InstantPoll.getEligibleInstantPollIds">
+    <return-scalar column="SURVEY_ID" type="long"/>
+    <![CDATA[
+		SELECT survey_id
+		FROM instant_poll
+		WHERE audience_type = 'allactivepaxaudience'
+		AND status          ='active'
+		AND trunc(SYSDATE) BETWEEN submission_start_date AND submission_end_date
+		UNION
+		SELECT pa.survey_id
+		FROM instant_poll pa,
+		  instant_poll_audience ipa,
+		  participant_audience pax
+		WHERE pax.user_id   = :userId
+		AND pax.audience_id = ipa.audience_id
+		AND ipa.survey_id   = pa.survey_id
+		AND pa.status       ='active'
+		AND trunc(SYSDATE) BETWEEN pa.submission_start_date AND pa.submission_end_date
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

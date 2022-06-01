@@ -1,0 +1,227 @@
+//********************************************************************************//
+//****************** Methods/Tasks for setting global DB properties **************//
+//********************************************************************************//
+def configureDBPropertiesLocal() {
+  db.environment = "Local"
+  db.driver = config.database.driver
+  db.url = config.database.jdbcUrl
+  db.port = config.database.port
+  db.username = config.database.userName
+  db.password = config.database.password
+  db.dialect = "com.biperf.core.utils.CustomOracleDialect"
+}
+
+def configureDBPropertiesTest() {
+  db.environment = "Test"
+  db.driver = config.unittest.driver
+  db.url = config.unittest.jdbcUrl
+  db.port = config.unittest.port
+  db.username = config.unittest.userName
+
+  if (project.hasProperty('unittest_password') && unittest_password.length() > 0){
+    db.password = unittest_password
+    println "detected unittest_password project property. setting db.password to this value."
+  } else {
+    db.password = config.unittest.password
+  }
+  db.dialect = "com.biperf.core.utils.CustomOracleDialect"
+}
+
+def configureDBPropertiesQA() {
+  db.environment = "QA"
+  db.driver = "oracle.jdbc.driver.OracleDriver"
+  db.url = "jdbc:oracle:thin:@${config.installation.data.qa.server}:${config.installation.data.qa.db_port}:${config.installation.data.qa.db_instance}"
+  db.port = "${config.installation.data.qa.db_port}"
+  db.username = "${config.installation.data.qa.schema_user}"
+  db.password = "${config.installation.data.qa.db_password}"
+  db.dialect = "com.biperf.core.utils.CustomOracleDialect"
+}
+
+def configureDBPropertiesPRE() {
+  db.environment = "PRE"
+  db.driver = "oracle.jdbc.driver.OracleDriver"
+  db.url = "jdbc:oracle:thin:@${config.installation.data.pre.server}:${config.installation.data.pre.db_port}:${config.installation.data.pre.db_instance}"
+  db.port = "${config.installation.data.pre.db_port}"
+  db.username = "${config.installation.data.pre.schema_user}"
+  db.password = "${config.installation.data.pre.db_password}"
+  db.dialect = "com.biperf.core.utils.CustomOracleDialect"
+}
+
+def configureDBPropertiesPROD() {
+  db.environment = "Prod"
+  db.driver = "oracle.jdbc.driver.OracleDriver"
+  db.url = "jdbc:oracle:thin:@${config.installation.data.prod.server}:${config.installation.data.prod.db_port}:${config.installation.data.prod.db_instance}"
+  db.port = "${config.installation.data.prod.db_port}"
+  db.username = "${config.installation.data.prod.schema_user}"
+  db.dialect = "com.biperf.core.utils.CustomOracleDialect"
+  
+  // Require developer input of production password
+  db.password = promptForInput("Enter database password for production environment")
+  if(db.password != config.installation.data.prod.db_password) {
+    throw new InvalidUserDataException("Wrong database password")
+  }
+}
+
+def configureDBPropertiesGoldcopy() {
+  db.gc_driver = "oracle.jdbc.driver.OracleDriver"
+  db.gc_url = "jdbc:oracle:thin:@${config.installation.data.goldcopy.server}:${config.installation.data.goldcopy.db_port}:${config.installation.data.goldcopy.db_instance}"
+  db.gc_port = "${config.installation.data.goldcopy.db_port}"
+  db.gc_username = "${config.installation.data.goldcopy.schema_user}"
+  db.gc_password = "${config.installation.data.goldcopy.db_password}"
+  db.gc_dialect = "com.biperf.core.utils.CustomOracleDialect"
+}
+
+task configure_db_properties_local {
+  group zapGroup
+  description "Place DB properties into global variables"
+  doLast {
+    configureDBPropertiesLocal()
+  }
+}
+
+task configure_db_properties_test {
+  group zapGroup
+  description "Place DB properties into global variables"
+  doLast {
+    configureDBPropertiesTest()
+  }
+}
+
+task configure_db_properties_qa {
+  group zapGroup
+  description "Place DB properties into global variables"
+  doLast {
+    configureDBPropertiesQA()
+  }
+}
+
+task configure_db_properties_pre {
+  group zapGroup
+  description "Place DB properties into global variables"
+  doLast {
+    configureDBPropertiesPRE()
+  }
+}
+
+task configure_db_properties_prod {
+  group zapGroup
+  description "Place DB properties into global variables"
+  doLast {
+    configureDBPropertiesPROD()
+  }
+}
+
+// This is needed so other scripts can access these methods
+ext {
+  configureDBPropertiesLocal = this.&configureDBPropertiesLocal
+  configureDBPropertiesTest = this.&configureDBPropertiesTest
+  configureDBPropertiesQA = this.&configureDBPropertiesQA
+  configureDBPropertiesPRE = this.&configureDBPropertiesPRE
+  configureDBPropertiesPROD = this.&configureDBPropertiesPROD
+  configureDBPropertiesGoldcopy = this.&configureDBPropertiesGoldcopy
+}
+//********************************************************************************//
+//****************** Methods/Tasks for setting global DB properties **************//
+//********************************************************************************//
+
+
+
+// Creates a db.properties file in a temporary directory. 
+// configureDBPropertiesXXX should be called somehow before this.
+// For method version: Pass a File object to output to. After method returns, file will be created
+// For task version: If the file is needed somewhere else, it should be possible to pipe it (via input, classpath, etc)
+def dbPropsMap() {
+  return [
+    'DB_DRIVER': project.db.driver,
+    'DB_URL': project.db.url,
+    'DB_USERNAME': project.db.username,
+    'DB_PASSWORD': project.db.password,
+    'DB_DIALECT': project.db.dialect
+  ]
+}
+def createDbProperties(File outputFile) {
+  CreatePropertiesTask.createFile(dbPropsMap(), outputFile);
+}
+ext { createDbProperties = this.&createDbProperties }
+
+task create_db_properties(type: CreatePropertiesTask) {
+  group zapGroup
+  description "Create a db.properties file with the current global db configuration"
+  outputFile file("${buildDir}/tmp/dbProps/db.properties")
+  properties = dbPropsMap()
+}
+
+task database_show_params() {
+  group databaseGroup
+  description "Show connection settings for the database selected"
+  doFirst {
+  	promptForEnvNoProd()
+  }
+  doLast {
+    println "**************************"
+    println "Using database properties:"
+    println "Environment: " + project.db.environment
+    println "JDBC URL: " + project.db.url
+    println "Port: " + project.db.port
+    println "User Name: " + project.db.username
+    println "Password: " + project.db.password
+    println "**************************"
+  }
+}
+
+String getHoneycombClientCodeForSelectedEnvironment()
+{
+  // Transform environment selection to match install wizard prefixing. Default to QA.
+  String env = db.environment.toLowerCase()
+  if( !(env in ["qa", "pre", "prod"]) )
+  {
+    env = "qa"
+  }
+  
+  // Get client code from installation properties
+  // If registration isn't done yet, default to 'changeme' so the update can run without waiting for registration
+  def clientCode = project.config.installation.data?.honeycomb?."$env"?.client_code
+  if( clientCode == null )
+  {
+    clientCode = "changeme"
+    System.err.println "Honeycomb regisration not yet done for $env -- default Honeycomb Client Code system variable to 'changeme'"
+  }
+  
+  return clientCode
+}
+
+liquibase {
+  activities {
+    main {
+      changeLogFile 'db/changelog/changelog-master.xml'
+      classpath "${projectDir}/src/main/resources"
+    }
+    runList = 'main'
+  }
+}
+
+tasks.findAll { it.group == 'Liquibase' }.each { task ->
+  task.doFirst {
+    promptForEnv()
+    def clientCode = getHoneycombClientCodeForSelectedEnvironment()
+    liquibase {
+      activities {
+        main {
+          url project.db.url
+          username project.db.username
+          password project.db.password
+          changeLogParameters([
+            honeycombClientCode: clientCode
+          ])
+        }
+      }
+    }
+  }
+}
+
+project.afterEvaluate { p ->
+  p.tasks["update_post_liquibase"].mustRunAfter(p.tasks["update"])
+  p.tasks["update"].mustRunAfter(p.tasks["database_recreate_bonfire"])
+  p.tasks["database_recreate_bonfire"].mustRunAfter(p.tasks["database_recreate_schema"])
+  p.tasks["database_recreate_schema"].mustRunAfter(p.tasks["classes"])
+}

@@ -1,0 +1,122 @@
+<!-- ======== COMMUNICATIONS MANAGE TIPS PAGE ======== -->
+
+<div id="communicationsManageTipsView" class="page-content">
+
+    <div class="page-topper">
+        <div class="row-fluid">
+            <div class="span12 form-inline">
+                <fieldset>
+                    <div class="control-group">
+                        <div class="controls">
+                            <select id="tipsFilterSelect" name="tipsFilter" class="contentFilterSelect" title="Filter Tips Content">
+                                <!-- JAVA NOTE: adjust the list below as necessary (value will be sent to AJAX table request) -->
+                                <option value="active">Active Tips Content</option>
+                                <option value="archived">Archived Tips Content</option>
+                            </select>
+                        </div>
+                    </div><!-- /.control-group -->
+
+                    <div class="control-group addNew">
+                        <!-- JAVA NOTE: set the proper add tip content URL on the HREF attribute below -->
+                        <a href="layout.html?tplPath=apps/communications/tpl/&tpl=communicationsTipsEdit.html" class="addTipsBtn btn btn-primary">
+                        Post a New Tip <i class="icon-plus-circle"></i>
+                        </a>
+                    </div><!-- /.control-group -->
+                </fieldset>
+            </div>
+        </div>
+    </div><!-- /.page-topper -->
+
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>Manage Tips</h2>
+
+            <div class="pagination pagination-right paginationControls first"></div>
+
+            <div class="tipsTableWrapper contentTableWrapper" data-msg-empty="No tips found"></div>
+
+            <script id="communicationsTipsTableTpl" type="text/x-handlebars-template">
+                <table id="communicationsTipsTable" class="table table-striped">
+                    {{#if tabularData.meta.columns}}
+                    <thead>
+                        <tr>
+                        {{#each tabularData.meta.columns}}
+                            <th>
+                                {{name}}
+                            </th>
+                        {{/each}}
+                        </tr>
+                    </thead>
+                    {{/if}}
+
+                    {{#if tabularData.results}}
+                    <tbody>
+                        {{#each tabularData.results}}
+                        <tr>
+                            <td class="nameColumn">
+                                {{name}}
+                            </td>
+                            <td class="startDateColumn">
+                                {{startDate}}
+                            </td>
+                            <td class="endDateColumn">
+                                {{endDate}}
+                            </td>
+                            <td class="editColumn">
+                                <a href="{{url}}">
+                                    <i class="icon-pencil2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                    {{/if}}
+                </table>
+            </script>
+
+            <div class="pagination pagination-right paginationControls first"></div>
+            <!--
+                NOTE: you can safely take the JSP conversion of core/base/tpl/paginationView.html and include it here. Then, remove the "XXX" above and the script will use this child template instead of the remote one
+            -->
+            <!--subTpl.paginationTpl=
+                <?php include("core/base/tpl/paginationView.html"); ?>
+            subTpl-->
+        </div>
+    </div>
+
+    <!-- JAVA NOTE: render the following HTML if the user has just saved a tip -->
+    <div class="modal hide fade autoModal tipsSavedModal manageComModal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+            <h3>Your tip has been saved.</h3>
+        </div>
+        <div class="modal-footer">
+            <a href="layout.html?tplPath=apps/communications/tpl/&tpl=communicationsTipsEdit.html" class="btn btn-primary">Post Another Tip</a>
+            <a href="layout.html?tplPath=apps/communications/tpl/&tpl=communicationsPage.html" class="btn btn-primary">Manage Communications</a>
+        </div>
+    </div>
+</div>
+
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+$(document).ready(function() {
+
+    //attach the view to an existing DOM element
+    var cmtv = new CommunicationsManageView({
+        el:$('#communicationsManageTipsView'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url : 'layout.html'
+            },
+            home : {
+                text : 'Home',
+                url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+            }
+        },
+        mode: 'tips',
+        pageTitle : 'Manage Tips'
+    });
+
+});
+</script>

@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+    <h3>Select A Contest Type</h3>
+</div>
+<div class="modal-body">
+    <p class="text-right">
+        <a href="{{contestGuideUrl}}" title="Contest Guide" target="_blank" class="contestGuide">Contest Guide <span class="btn btn-mini invert-btn btn-export-pdf">PDF <i class="icon-download-2"></i></span></a>
+    </p>
+
+    <ul class="nav nav-tabs">
+        {{#each contestTypes}}
+        <li class="tabNavContent" data-id="{{contestType}}">
+            <a href="#ssi-contest-create-{{contestType}}" data-toggle="tab">
+                {{#eq contestType "objectives"}}
+                    <i class="icon-g5-ssi-objectives"></i>
+                {{/eq}}
+                {{#eq contestType "stepItUp"}}
+                    <i class="icon-g5-ssi-stepItUp"></i>
+                {{/eq}}
+                {{#eq contestType "doThisGetThat"}}
+                    <i class="icon-g5-ssi-doThisGetThat"></i>
+                {{/eq}}
+                {{#eq contestType "stackRank"}}
+                    <i class="icon-g5-ssi-stackRank"></i>
+                {{/eq}}
+                {{#eq contestType "awardThemNow"}}
+                    <i class="icon-g5-ssi-awardThemNow"></i>
+                {{/eq}}
+                <span>{{contestTypeName}}</span>
+            </a>
+        </li>
+        {{/each}}
+    </ul><!-- /.nav.nav-tabs -->
+
+    <div class="tab-content">
+        {{#each contestTypes}}
+        <div class="tabContent tab-pane" id="ssi-contest-create-{{contestType}}">
+            <h4>{{contestTypeName}} Contest</h4>
+            <p>
+                {{description}}
+            </p>
+        </div>
+        {{/each}}
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary qtipSubmit">Create Contest</button>
+</div>

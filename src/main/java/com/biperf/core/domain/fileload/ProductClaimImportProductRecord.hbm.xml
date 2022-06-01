@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.fileload.ProductClaimImportProductRecord" table="stage_prd_claim_imp_prd_record">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="IMPORT_PRODUCT_RECORD_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">prd_claim_imp_prd_record_pk_sq</param>
+      </generator>
+    </id>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="productId" type="java.lang.Long" column="PRODUCT_ID"/>
+    <property name="productName" type="java.lang.String" column="PRODUCT_NAME"/>
+    <property name="soldQuantity" type="int" column="SOLD_QUANTITY"/>
+
+    <property name="productCharacteristicId1" type="java.lang.Long" column="PRODUCT_CHARACTERISTIC_ID1"/>
+    <property name="productCharacteristicName1" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_NAME1"/>
+    <property name="productCharacteristicValue1" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_VALUE1"/>
+
+    <property name="productCharacteristicId2" type="java.lang.Long" column="PRODUCT_CHARACTERISTIC_ID2"/>
+    <property name="productCharacteristicName2" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_NAME2"/>
+    <property name="productCharacteristicValue2" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_VALUE2"/>
+
+    <property name="productCharacteristicId3" type="java.lang.Long" column="PRODUCT_CHARACTERISTIC_ID3"/>
+    <property name="productCharacteristicName3" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_NAME3"/>
+    <property name="productCharacteristicValue3" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_VALUE3"/>
+
+    <property name="productCharacteristicId4" type="java.lang.Long" column="PRODUCT_CHARACTERISTIC_ID4"/>
+    <property name="productCharacteristicName4" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_NAME4"/>
+    <property name="productCharacteristicValue4" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_VALUE4"/>
+
+    <property name="productCharacteristicId5" type="java.lang.Long" column="PRODUCT_CHARACTERISTIC_ID5"/>
+    <property name="productCharacteristicName5" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_NAME5"/>
+    <property name="productCharacteristicValue5" type="java.lang.String" column="PRODUCT_CHARACTERISTIC_VALUE5"/>
+
+    <many-to-one name="productClaimImportRecord" 
+    class="com.biperf.core.domain.fileload.ProductClaimImportRecord" column="IMPORT_RECORD_ID" lazy="false"/>
+
+  </class>
+
+</hibernate-mapping>

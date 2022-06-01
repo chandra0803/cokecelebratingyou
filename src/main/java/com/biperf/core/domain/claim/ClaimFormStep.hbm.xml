@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.claim.ClaimFormStep" table="CLAIM_FORM_STEP">
+
+    <id name="id" type="java.lang.Long" column="CLAIM_FORM_STEP_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">CLAIM_FORM_STEP_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+	<property name="cmKeyFragment" type="java.lang.String" column="CM_KEY_FRAGMENT"/>
+    
+    <property name="salesRequired" type="boolean" column="IS_SALES_REQUIRED"/>
+   
+    <many-to-one name="claimForm" class="com.biperf.core.domain.claim.ClaimForm" lazy="false" insert="false" update="false" not-null="true" column="CLAIM_FORM_ID"/>
+
+    <list name="claimFormStepElements" table="CLAIM_FORM_STEP_ELEMENT" lazy="false" inverse="false" cascade="all-delete-orphan,merge">
+      <key column="CLAIM_FORM_STEP_ID" not-null="true"/>
+      <list-index column="sequence_num"/>
+      <one-to-many class="com.biperf.core.domain.claim.ClaimFormStepElement"/>
+    </list>
+
+	<set name="claimFormStepEmailNotifications" lazy="false" table="CLAIM_FORM_STEP_EMAIL" inverse="true" cascade="all-delete-orphan,merge">
+		<key column="CLAIM_FORM_STEP_ID" not-null="true"/>
+		<one-to-many class="com.biperf.core.domain.claim.ClaimFormStepEmailNotification"/>
+	</set>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+</hibernate-mapping>

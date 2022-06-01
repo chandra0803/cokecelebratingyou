@@ -1,0 +1,104 @@
+<?php sleep(3); ?>
+{
+    "messages":[],
+    "news":[
+        {
+            "id" : "story1230",
+            "sortDate": "2005-02-15",
+            "storyName": "A title, phrased as a question?",
+            "storySlug": "layout.html?tpl=newsPageDetail&tplPath=apps/news/tpl/&messageUniqueId=story1230",
+            "storyDate": "02/15/2005",
+            "storyContent": "<p>This content will either have to be truncated as additional JSON fields for short summary excerpts on the tiles and story list page, or else the truncation will have to happen client-side with javascript.</p>",
+            "storyContentShort": "<p>This content will either have to be truncated as additional JSON fields for short summary excerpts on the tiles and story list page, or else the truncation will have to happen client-side with javascript.</p>",
+            "storyImageUrl": "img/banners/G6_Banner_2017_01_BeFit_Normal.jpg",
+            "storyImageUrl_mobile": "img/banners/G6_Banner_2017_01_BeFit_Mobile.jpg",
+            "storyImageUrl_max": "img/banners/G6_Banner_2017_01_BeFit_Max.jpg",
+            "storyImageUrl_placeholder": "img/banners/G6_Banner_2017_01_BeFit_Mobile.jpg",
+            "storyFormat": "left dark-color-scheme"
+        },
+        {
+            "id" : "story1235",
+            "sortDate": "2012-07-08",
+            "storyName": "Spring Tips for keeping dry!",
+            "storySlug": "layout.html?tpl=newsPageDetail&tplPath=apps/news/tpl/&messageUniqueId=story1235",
+            "storyDate": "07/08/2012",
+            "storyContent": "<p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p>",
+            "storyContentShort": "<p>Escaped HTML short content for this article to be displayed in the module and on the list of stories page.</p>",
+            "storyImageUrl": "img/banners/G6_Banner_2017_01_EZThanks_Normal.jpg",
+            "storyImageUrl_mobile": "img/banners/G6_Banner_2017_01_EZThanks_Mobile.jpg",
+            "storyImageUrl_max": "img/banners/G6_Banner_2017_01_EZThanks_Max.jpg",
+            "storyImageUrl_placeholder": "img/banners/G6_Banner_2017_01_EZThanks_Mobile.jpg",
+            "storyFormat": "top lightbox light-color-scheme"
+        },
+        {
+            "id" : "story1236",
+            "sortDate": "2012-07-09",
+            "storyName": "More Summer Tips for keeping Cool!",
+            "storySlug": "layout.html?tpl=newsPageDetail&tplPath=apps/news/tpl/&messageUniqueId=story1236",
+            "storyDate": "07/09/2012",
+            "storyContent": "<p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying cool during the warm summer season.</p>",
+            "storyContentShort": "<p>Escaped HTML short content for this article to be displayed in the module and on the list of stories page.</p>",
+            "storyImageUrl": "img/banners/G6_Banner_2017_02_Recognition_BeFit_Normal.jpg",
+            "storyImageUrl_mobile": "img/banners/G6_Banner_2017_02_Recognition_BeFit_Mobile.jpg",
+            "storyImageUrl_max": "img/banners/G6_Banner_2017_02_Recognition_BeFit_Max.jpg",
+            "storyImageUrl_placeholder": "img/banners/G6_Banner_2017_02_Recognition_BeFit_Mobile.jpg",
+            "storyFormat": "top lightbox light-color-scheme"
+        },
+        {
+            "id" : "story1237",
+            "sortDate": "2012-07-08",
+            "storyName": "Spring Tips for keeping dry!",
+            "storySlug": "layout.html?tpl=newsPageDetail&tplPath=apps/news/tpl/&messageUniqueId=story1237",
+            "storyDate": "07/08/2012",
+            "storyContent": "<p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p>",
+            "storyContentShort": "<p>Escaped HTML short content for this article to be displayed in the module and on the list of stories page.</p>",
+            "storyImageUrl": "img/banners/G6_Banner_2017_01_BeFit_Normal.jpg",
+            "storyImageUrl_mobile": "img/banners/G6_Banner_2017_01_BeFit_Mobile.jpg",
+            "storyImageUrl_max": "img/banners/G6_Banner_2017_01_BeFit_Max.jpg",
+            "storyImageUrl_placeholder": "img/banners/G6_Banner_2017_01_BeFit_Mobile.jpg",
+            "storyFormat": "top lightbox light-color-scheme"
+        },
+        {
+            "id" : "story1238",
+            "sortDate": "2012-07-08",
+            "storyName": "Spring Tips for keeping dry!",
+            "storySlug": "layout.html?tpl=newsPageDetail&tplPath=apps/news/tpl/&messageUniqueId=story1238",
+            "storyDate": "07/08/2012",
+            "storyContent": "<p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p>",
+            "storyContentShort": "<p>Escaped HTML short content for this article to be displayed in the module and on the list of stories page.</p>",
+            "storyImageUrl": "img/banners/G6_Banner_2017_01_EZThanks_Normal.jpg",
+            "storyImageUrl_mobile": "img/banners/G6_Banner_2017_01_EZThanks_Mobile.jpg",
+            "storyImageUrl_max": "img/banners/G6_Banner_2017_01_EZThanks_Max.jpg",
+            "storyImageUrl_placeholder": "img/banners/G6_Banner_2017_01_EZThanks_Mobile.jpg",
+            "storyFormat": "top lightbox light-color-scheme"
+        },
+        {
+            "id" : "story1239",
+            "sortDate": "2012-07-08",
+            "storyName": "Spring Tips for keeping dry!",
+            "storySlug": "layout.html?tpl=newsPageDetail&tplPath=apps/news/tpl/&messageUniqueId=story1239",
+            "storyDate": "07/08/2012",
+            "storyContent": "<p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p>",
+            "storyContentShort": "<p>Escaped HTML short content for this article to be displayed in the module and on the list of stories page.</p>",
+            "storyImageUrl": "img/banners/G6_Banner_2017_02_Recognition_BeFit_Normal.jpg",
+            "storyImageUrl_mobile": "img/banners/G6_Banner_2017_02_Recognition_BeFit_Mobile.jpg",
+            "storyImageUrl_max": "img/banners/G6_Banner_2017_02_Recognition_BeFit_Max.jpg",
+            "storyImageUrl_placeholder": "img/banners/G6_Banner_2017_02_Recognition_BeFit_Mobile.jpg",
+            "storyFormat": "top lightbox light-color-scheme"
+        },
+        {
+            "id" : "story12310",
+            "sortDate": "2012-07-08",
+            "storyName": "Spring Tips for keeping dry!",
+            "storySlug": "layout.html?tpl=newsPageDetail&tplPath=apps/news/tpl/&messageUniqueId=story12310",
+            "storyDate": "07/08/2012",
+            "storyContent": "<p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p><p>Escaped HTML full content for this article to be displayed on the full detail page. In this example, it would be tips for staying dry during the wet spring season.</p>",
+            "storyContentShort": "<p>Escaped HTML short content for this article to be displayed in the module and on the list of stories page.</p>",
+            "storyImageUrl": "img/banners/G6_Banner_2017_01_BeFit_Normal.jpg",
+            "storyImageUrl_mobile": "img/banners/G6_Banner_2017_01_BeFit_Mobile.jpg",
+            "storyImageUrl_max": "img/banners/G6_Banner_2017_01_BeFit_Max.jpg",
+            "storyImageUrl_placeholder": "img/banners/G6_Banner_2017_01_BeFit_Mobile.jpg",
+            "storyFormat": "top lightbox light-color-scheme"
+        }
+    ]
+}

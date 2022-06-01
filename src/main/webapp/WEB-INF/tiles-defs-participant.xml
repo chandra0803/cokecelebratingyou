@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+
+<tiles-definitions> <!-- Tiles Definitions for Participant Module -->
+	<!--
+   	* Base tiles definiitons (page parts).  Section contains main definitions for:
+	  *
+  	* 1.  title		    - title that appears in Browser header
+	  * 2.  header   	    - header that appears at top of page
+    * 3.  topNav        - display top bar navigation menu
+    * 4.  userInfo		- User Information bar
+	  * 5.  messages		- any messages or errors returned from the struts action
+    * 6.  content       - main content tile
+    * 7.  footer        - page footer
+  -->
+  	<definition name="participant.activation.display" extends="beacon.default">
+		<put name='content' value='/participant/participantIdentifier.jsp' />
+		<put name='trackingTitle' value='PaxIdentifier_Admin' />
+	</definition>
+  
+	<definition name="user.role.create.display" extends="beacon.default" controllerClass="com.biperf.core.ui.user.UserRoleController">
+		<put name='content' value='/user/userRoleCreateDisplay.jsp' />
+		<put name='trackingTitle' value='User_Role_Create' />
+	</definition>
+
+	<definition name="user.acl.create.display" extends="beacon.default" controllerClass="com.biperf.core.ui.user.UserAclController">
+		<put name='content' value='/user/userAclCreateDisplay.jsp' />
+		<put name='trackingTitle' value='User_Acl_Create' />
+	</definition>
+
+	<definition name="user.node.list" extends="beacon.default" controllerClass="com.biperf.core.ui.user.UserNodeListController">
+		<put name='content' value='/user/userNodeList.jsp' />
+		<put name='trackingTitle' value='User_Node_List' />
+	</definition>
+
+	<definition name="user.node.create" extends="beacon.default" controllerClass="com.biperf.core.ui.user.UserNodeListController">
+		<put name='content' value='/user/userNodeCreate.jsp' />
+		<put name='trackingTitle' value='User_Node_Create' />
+	</definition>
+
+	<definition name="user.node.update" extends="beacon.default" controllerClass="com.biperf.core.ui.user.UserNodeListController">
+		<put name='content' value='/user/userNodeUpdate.jsp' />
+		<put name='trackingTitle' value='User_Node_Update' />
+	</definition>
+
+	<definition name="user.security.display"
+				extends="beacon.default">
+		<put name="content" value="/user/userSecurityDisplay.jsp" />
+		<put name='trackingTitle' value='User_Security_Display' />
+    </definition>
+
+	<definition name="participant.list" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantListController">
+	        <put name="content"     value="/participant/participantList.jsp" />
+	        <put name='trackingTitle' value='Participant_List' />
+    </definition>
+
+	<definition name="participant.list" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantListController">
+	        <put name="content"     value="/participant/participantList.jsp" />
+	        <put name='trackingTitle' value='Participant_List' />
+    </definition>
+
+	<definition name="participant.create" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantMaintainController">
+	        <put name="content"     value="/participant/participantCreate.jsp" />
+	        <put name='trackingTitle' value='Participant_Create' />
+    </definition>
+    
+    <definition name="participant.update.personalInfo" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantMaintainController">
+	        <put name="content"     value="/participant/participantUpdatePersonalInfo.jsp" />
+	        <put name='trackingTitle' value='Participant_Update' />
+    </definition>
+	
+    <definition name="participant.display" extends="beacon.default" >
+	        <put name="content"     value="/participant/participantDisplay.jsp" />
+	        <put name='trackingTitle' value='Participant_Display' />
+    </definition>
+    
+    <definition name="participant.balances" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantBalancesController">
+	        <put name="content"     value="/participant/participantBalances.jsp" />
+	        <put name='trackingTitle' value='Participant_Balance' />
+    </definition>
+    
+    <definition name="participant.account.update.preferences" extends="g3redux.default" 
+  				controllerClass="com.biperf.core.ui.participant.ParticipantMaintainController">
+  	   	<put name="pagelayout" value="pagelayout1" />
+  	   	<put name="containerclass" value="prettytop" />          	 
+    	<put name="navselected" value="home.nav.ACCOUNT" />	
+    	<put name="subnav" value="participant.account.subnav" />
+    	<put name="subNavSelected" value="preferences" />	
+	    <put name="content" value="/participant/updatePreferences.jsp" />
+	    <put name='trackingTitle' value='Account_Update_Preferences' />
+    </definition>
+    
+    <definition name="participant.account.view.preferences" extends="g3redux.default" 
+  				controllerClass="com.biperf.core.ui.participant.ParticipantMaintainController">
+  	   	<put name="pagelayout" value="pagelayout1" />
+  	   	<put name="containerclass" value="prettytop" />          	 
+    	<put name="navselected" value="home.nav.ACCOUNT" />	
+    	<put name="subnav" value="participant.account.subnav" />
+    	<put name="subNavSelected" value="preferences" />  	
+	    <put name="content" value="/participant/viewPreferences.jsp" />
+	    <put name='trackingTitle' value='Account_View_Preferences' />
+    </definition>
+    
+    <definition name="participant.search" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantSearchController">
+	        <put name="content"     value="/participant/participantSearch.jsp" />
+	        <put name='trackingTitle' value='Participant_Search' />
+    </definition>	
+
+    <definition name="user.address.list" extends="beacon.default" controllerClass="com.biperf.core.ui.user.UserAddressListController">
+        <put name="content"	value="/participant/userAddressList.jsp" />
+        <put name='trackingTitle' value='User_Address_List' />
+    </definition>
+    
+	<definition name="user.address.create" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.user.UserAddressMaintainController">
+		<put name="content" value="/participant/userAddressAdd.jsp" />
+		<put name='trackingTitle' value='User_Address_Create' />
+	</definition>
+
+    <definition name="user.address.update" extends="beacon.default"
+    	controllerClass="com.biperf.core.ui.user.UserAddressMaintainController">
+  		<put name="content" value="/participant/userAddress.jsp" />
+  		<put name='trackingTitle' value='User_Address_Update' />
+	  </definition>
+
+    <definition name="user.phone.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.user.UserPhoneListController">
+		<put name="content" value="/participant/userPhoneList.jsp" />
+		<put name='trackingTitle' value='User_Phone_List' />
+	</definition>
+
+	<definition name="user.phone.update" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.user.UserPhoneMaintainController">
+		<put name="content" value="/participant/userPhone.jsp" />
+		<put name='trackingTitle' value='User_Phone_Update' />
+	</definition>
+
+	<definition name="user.phone.create" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.user.UserPhoneMaintainController">
+		<put name="content" value="/participant/userPhoneAdd.jsp" />
+		<put name='trackingTitle' value='User_Phone_Add' />
+	</definition>
+
+  <definition name="participant.employment.list" extends="beacon.default"
+     controllerClass="com.biperf.core.ui.participant.ParticipantEmploymentListController">
+    <put name="content" value="/participant/participantEmploymentList.jsp" />
+    <put name='trackingTitle' value='Participant_Employment_List' />
+  </definition>
+
+  <definition name="participant.employment.create" extends="beacon.default"
+      controllerClass="com.biperf.core.ui.participant.ParticipantEmploymentCreateController">
+    <put name="content" value="/participant/participantEmploymentCreate.jsp" />
+    <put name='trackingTitle' value='Participant_Employment_Create' />
+  </definition>
+
+  <definition name="participant.employment.update" extends="beacon.default"
+      controllerClass="com.biperf.core.ui.participant.ParticipantEmploymentMaintainController">
+    <put name="content" value="/participant/participantEmploymentUpdate.jsp" />
+    <put name='trackingTitle' value='Participant_Employment_Update' />
+  </definition>
+  
+  <definition name="participant.throwdown.stats" extends="beacon.default"
+     controllerClass="com.biperf.core.ui.participant.ParticipantThrowdownStatsController">
+    <put name="content" value="/participant/participantThrowdownStats.jsp" />
+    <put name='trackingTitle' value='Participant_Throwdown_Stats' />
+  </definition>
+
+  <definition name="list.builder.internal"
+    controllerClass="com.biperf.core.ui.participant.ListBuilderController"
+    path="/participant/listBuilder.jsp">
+    <!-- all attributes set in the Controller -->
+	<put name="search" value="" />
+	<put name="results" value="" />
+	<put name="save" value="" />
+  </definition>
+    
+  <definition name="list.builder" extends="beacon.default">
+    <put name="content" value="list.builder.internal" />
+    <put name='trackingTitle' value='List_Builder' />
+  </definition>
+  
+  <definition name="audience.exclude.options" extends="beacon.default" 
+  controllerClass="com.biperf.core.ui.participant.AudienceExclusionController">  
+  	  <put name="content" value="/participant/listBuilderExcludeCriteria.jsp" />
+  </definition>              
+  
+  <definition name="audience.list" extends="beacon.default"
+      controllerClass="com.biperf.core.ui.participant.AudienceListController">
+    <put name="content" value="/participant/audienceList.jsp" />
+    <put name='trackingTitle' value='Audience_List' />
+  </definition>
+
+  <definition name="participant.promotions" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantPromotionsController">
+    <put name="content"	value="/participant/participantPromotions.jsp" />
+    <put name='trackingTitle' value='Participant_Promotions' />
+  </definition>
+  
+  <definition name="pax.purl.recipient.list" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantPurlRecipientListController">
+    <put name="content"	value="/participant/participantPurlRecipientList.jsp" />
+    <put name='trackingTitle' value='Pax_Purl_Recipient_List' />
+  </definition>
+  
+  <definition name="purl.admin.maintain" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.PurlAdminMaintainController">
+    <put name="content" value="/participant/purlAdminMaintenance.jsp" />
+    <put name='trackingTitle' value='Purl_Admin_Maintenance'/>
+  </definition>
+  
+  <definition name="pax.goalquest.details" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantGoalQuestPromoDetailsController">
+    <put name="content"	value="/participant/participantGoalQuestPromoDetails.jsp" />
+    <put name='trackingTitle' value='Pax_Goal_Details' />
+  </definition>
+  
+  <definition name="pax.throwdown.details" extends="beacon.default" controllerClass="com.biperf.core.ui.participant.ParticipantThrowdownPromoDetailsController">
+    <put name="content"	value="/participant/participantThrowdownPromoDetails.jsp" />
+    <put name='trackingTitle' value='Pax_Throwdown_Details' />
+  </definition>
+  
+  <definition name="pax.throwdown.progress" extends="beacon.default" 
+  							controllerClass="com.biperf.core.ui.participant.ParticipantThrowdownProgressController">
+    <put name="content"	value="/participant/participantThrowdownProgress.jsp" />
+    <put name='trackingTitle' value='Pax_Throwdown_Progress' />
+  </definition>  
+  
+  <definition name="pax.goalquest.progress" extends="beacon.default" 
+  							controllerClass="com.biperf.core.ui.participant.ParticipantGoalQuestProgressController">
+    <put name="content"	value="/participant/participantGoalQuestProgress.jsp" />
+    <put name='trackingTitle' value='Pax_Goalquest_Progress' />
+  </definition>  
+
+  
+   <definition name="commlog.list" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.commlog.CommLogListController">
+		<put name="content" value="/commlog/userCommLogList.jsp" />
+		<put name='trackingTitle' value='CommLog_List' />
+	</definition>
+
+  <definition name="my.commlog.list" extends="beacon.default"
+    controllerClass="com.biperf.core.ui.commlog.MyCommLogListController">
+    <put name="content" value="/commlog/myCommLogList.jsp" />
+    <put name='trackingTitle' value='My_CommLog_List' />
+  </definition>
+
+	<definition name="user.commlog.create" extends="beacon.default"
+		controllerClass="com.biperf.core.ui.commlog.CommLogMaintainController">
+		<put name="content" value="/commlog/userCommLogAdd.jsp" />
+		<put name='trackingTitle' value='User_CommLog_Create' />
+	</definition>
+	
+	<definition name="user.commlog.update" extends="beacon.default" 
+				controllerClass="com.biperf.core.ui.commlog.CommLogMaintainController">
+		<put name="content" value="/commlog/userCommLogUpdate.jsp" />
+		<put name='trackingTitle' value='User_CommLog_Update' />
+	</definition>
+
+	<definition name="user.commlog.view" extends="beacon.default" 
+				controllerClass="com.biperf.core.ui.commlog.CommLogMaintainController">
+		<put name="content" value="/commlog/userCommLogView.jsp" />
+		<put name='trackingTitle' value='User_CommLog_View' />
+	</definition>
+	
+	<definition name="user.commlog.message" extends="beacon.default" 
+				controllerClass="com.biperf.core.ui.commlog.CommLogMessageController">
+		<put name="content" value="/commlog/userCommLogMessage.jsp" />
+		<put name='trackingTitle' value='User_CommLog_Message' />
+	</definition>
+	
+	<definition name="user.nodehistory.display" extends="beacon.default" 
+				controllerClass="com.biperf.core.ui.user.UserNodeHistoryListController">
+		<put name="content" value="/user/userNodeHistoryList.jsp" />
+		<put name='trackingTitle' value='User_Node_History' />
+	</definition>
+
+  <definition name="characteristic.list.user" extends="beacon.default"
+        controllerClass="com.biperf.core.ui.characteristic.UserCharacteristicTypeController" >
+    <put name='content' value='/user/viewUserCharacteristicTypeList.jsp' />
+    <put name='trackingTitle' value='Characteristic_List' />
+  </definition>
+
+  <definition name="characteristic.create.user" extends="beacon.default"
+        controllerClass="com.biperf.core.ui.characteristic.CharacteristicEditController" >
+    <put name='content' value='/user/createUserCharacteristicType.jsp' />
+    <put name='trackingTitle' value='Characterisitic_Create' />
+  </definition>
+
+  <definition name="characteristic.update.user" extends="beacon.default"
+        controllerClass="com.biperf.core.ui.characteristic.CharacteristicEditController" >
+    <put name='content' value='/user/updateUserCharacteristicType.jsp' />
+    <put name='trackingTitle' value='Characteristic_Update' />
+  </definition>
+  
+  <definition name="audience.copy" extends="beacon.default"
+	      controllerClass="com.biperf.core.ui.participant.AudienceCopyController">
+     <put name='content' value='/participant/audienceCopy.jsp' />
+     <put name='trackingTitle' value='Copy_Audience' />
+  </definition>
+  
+  <definition name="partcipant.resetTwitter" extends="beacon.default">
+    <put name="content" value="/participant/twitter/twitterReset.jsp" />    
+  </definition>
+  
+  <definition name="partcipant.facebookEnabled" extends="beacon.default">
+    <put name="content" value="/participant/facebookEnabledSuccess.jsp" />    
+  </definition>
+  
+  <definition name="partcipant.facebookDisabled" extends="beacon.default">
+    <put name="content" value="/participant/facebookDisabledSuccess.jsp" />    
+  </definition>
+    
+  <definition name="participant.resend.welcome.email" extends="beacon.default">
+    <put name="content" value="/participant/participantResendWelcomeEmail.jsp" />    
+  </definition>
+  
+  <definition name="personal.info.admin" extends="beacon.default">
+    <put name="content" value="/participant/personalInfoAdminMaintain.jsp" />    
+  </definition>
+
+  <definition name="chatter.auth.submit" extends="g5.default">
+    <put name="content" value="/participant/chatter/chatterAuthorization.jsp" />  
+  </definition>  
+  
+  <definition name="chatter.post.confirmation" extends="g5.default">
+    <put name="content" value="/participant/chatter/chatterPostConfirmation.jsp" />  
+  </definition>  
+  
+  <!-- Manage Communications  -->      
+     <definition name="manage.communications.page" extends="g5.default" controllerClass="com.biperf.core.ui.diycommunication.ManageDIYCommunicationsController">
+              <put name="content" value="/diypaxcommunications/communicationsPage.jsp"/> 
+     </definition>
+     
+    <definition name="manage.communications.resource.center" extends="g5.default" controllerClass="com.biperf.core.ui.diycommunication.ManageDIYCommunicationsController"> 
+        <put name="content" value="/diypaxcommunications/communicationsManageResourceCenter.jsp"/>  
+    </definition> 
+    
+    <definition name="manage.communications.resource.center.edit" extends="g5.default" controllerClass="com.biperf.core.ui.diycommunication.ManageDIYCommunicationsController"> 
+        <put name="content" value="/diypaxcommunications/communicationsResourceCenterEdit.jsp"/>  
+    </definition> 
+    
+   <definition name="manage.communications.banners" extends="g5.default">
+    <put name="content" value="/diypaxcommunications/communicationsManageBanners.jsp" />  
+   </definition>      
+    
+   <definition name="diy.banner.create" extends="g5.default" controllerClass="com.biperf.core.ui.diycommunication.ManageDIYCommunicationsController">
+    <put name="content" value="/diypaxcommunications/communicationsBannerEdit.jsp" />  
+   </definition>
+   
+   <definition name="manage.communications.news" extends="g5.default">
+    <put name="content" value="/diypaxcommunications/communicationsManageNews.jsp" />  
+   </definition>      
+    
+   <definition name="diy.news.create" extends="g5.default" controllerClass="com.biperf.core.ui.diycommunication.ManageDIYCommunicationsController">
+    <put name="content" value="/diypaxcommunications/communicationsNewsEdit.jsp" />  
+   </definition>   
+   
+   <definition name="manage.communications.tips" extends="g5.default">
+    <put name="content" value="/diypaxcommunications/communicationsManageTips.jsp" />  
+   </definition>      
+    
+   <definition name="manage.communications.tips.edit" extends="g5.default" controllerClass="com.biperf.core.ui.diycommunication.ManageDIYCommunicationsController">
+    <put name="content" value="/diypaxcommunications/communicationsTipsEdit.jsp" />  
+   </definition>
+    
+</tiles-definitions>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.StackStanding" table="THROWDOWN_STACKRANK">
+
+    <id name="id" column="STACKRANK_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="sequence">td_stackrank_pk_sq</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="guid" column="GUID" type="java.lang.String"/>
+
+	<property name="payoutsIssued" column="PAYOUTS_ISSUED" type="boolean"/>
+	
+	<property name="active" column="IS_ACTIVE" type="boolean"/>
+
+    <many-to-one name="promotion" class="com.biperf.core.domain.promotion.Promotion" lazy="false">
+      <column name="PROMOTION_ID"/>
+    </many-to-one>
+
+	<property name="roundNumber" type="java.lang.Integer" column="ROUND_NUMBER"/>
+
+    <set name="stackStandingNodes" table="THROWDOWN_STACKRANK_NODE" cascade="all-delete-orphan" inverse="true" lazy="true">
+      <key column="STACKRANK_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.StackStandingNode"/>
+    </set>
+
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+  
+   <sql-query name="com.biperf.core.domain.throwdown.StackStanding.isAnyPaxPaidOutForRanking">
+	<return-scalar column="count" type="long"/>
+    <![CDATA[
+		select count(*) as count from throwdown_stackrank_pax pax, throwdown_stackrank_node ranknode, throwdown_stackrank ranking 
+		where ranking.stackrank_id = :rankingId 
+		and pax.payouts_issued = 1
+		and ranking.is_active = 1  
+		and pax.stackrank_node_id = ranknode.stackrank_node_id 
+		and ranknode.stackrank_id = ranking.stackrank_id
+    ]]>   
+	</sql-query>  
+	
+   <sql-query name="com.biperf.core.domain.throwdown.StackStanding.getNodeRankForUser">
+	<return-scalar column="rank" type="int"/>
+    <![CDATA[
+		select rank as rank from throwdown_stackrank_pax pax, throwdown_stackrank_node ranknode, throwdown_stackrank ranking 
+		where ranking.promotion_id = :promotionId
+		and ranking.round_number = :roundNumber
+		and ranking.is_active = 1
+		and ranknode.node_id = :nodeId
+		and pax.user_id = :userId		  
+		and pax.stackrank_node_id = ranknode.stackrank_node_id 
+		and ranknode.stackrank_id = ranking.stackrank_id
+    ]]>   
+	</sql-query>  	
+	
+   <sql-query name="com.biperf.core.domain.throwdown.StackStanding.getHierarchyRankForUser">
+	<return-scalar column="rank" type="int"/>
+    <![CDATA[
+		select rank as rank from throwdown_stackrank_pax pax, throwdown_stackrank_node ranknode, throwdown_stackrank ranking 
+		where ranking.promotion_id = :promotionId
+		and ranking.round_number = :roundNumber
+		and ranking.is_active = 1
+		and ranknode.node_id is null
+		and pax.user_id = :userId		  
+		and pax.stackrank_node_id = ranknode.stackrank_node_id 
+		and ranknode.stackrank_id = ranking.stackrank_id
+    ]]>   
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.throwdown.StackStanding.getTotalUsersInHierarchyRanking">
+    <![CDATA[
+		select count(*) from throwdown_stackrank_pax pax, throwdown_stackrank_node ranknode, throwdown_stackrank ranking 
+        where ranking.promotion_id = :promotionId
+        and ranking.round_number = :roundNumber
+        and ranking.is_active = 1
+        and ranknode.node_id is null
+        and pax.stackrank_node_id = ranknode.stackrank_node_id 
+        and ranknode.stackrank_id = ranking.stackrank_id      
+    ]]>   
+	</sql-query> 	
+	
+</hibernate-mapping>

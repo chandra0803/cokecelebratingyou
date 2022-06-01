@@ -1,0 +1,43 @@
+create sequence CLAIM_ITEM_PK_SQ start with 5000
+/
+CREATE TABLE claim_item
+(claim_item_id 				       NUMBER(18) NOT NULL,
+ claim_id         				   NUMBER(18) NOT NULL,
+ serial_id		  				     VARCHAR2(100) NOT NULL,
+ approval_status_type        VARCHAR2(18),
+ approval_option_reason_type VARCHAR2(18),
+ approver_user_id				     NUMBER(18),
+ date_approved					     DATE,
+ date_created     				   DATE NOT NULL,
+ created_by       				   number(18) NOT NULL,
+ date_modified    				   DATE,
+ modified_by      				   number(18),
+ version		  				       NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE claim_item
+ADD CONSTRAINT claim_item_pk PRIMARY KEY (claim_item_id)
+USING INDEX
+/
+ALTER TABLE claim_item ADD CONSTRAINT claim_item_approver_fk
+  FOREIGN KEY (approver_user_id) REFERENCES APPLICATION_USER (user_id) 
+/
+CREATE INDEX CLAIM_ITEM_CLAIM_FK_idx ON claim_item
+  (CLAIM_ID)
+/
+CREATE INDEX CLAIM_ITEM_APPROVER_FK_idx ON claim_item
+  (APPROVER_USER_ID)
+/
+
+COMMENT ON TABLE claim_item IS 'Association table'
+/
+COMMENT ON COLUMN claim_item.claim_item_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN claim_item.claim_id IS 'FK to Claim.'
+/
+COMMENT ON COLUMN claim_item.serial_id IS 'The unique business key generated upon creating new claim products'
+/
+COMMENT ON COLUMN claim_item.approval_status_type IS 'The approval status code, such as approved or denied'
+/
+COMMENT ON COLUMN claim_item.approval_option_reason_type IS 'The reason code explaining why claim product was denied or held'
+/

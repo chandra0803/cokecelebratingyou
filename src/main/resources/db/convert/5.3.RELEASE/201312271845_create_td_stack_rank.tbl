@@ -1,0 +1,49 @@
+CREATE SEQUENCE td_stackrank_pk_sq INCREMENT BY 1 START WITH 600
+/
+CREATE TABLE throwdown_stackrank
+  (
+    stackrank_id       	NUMBER(18) NOT NULL,
+    promotion_id        NUMBER(18) NOT NULL,    
+    round_number        NUMBER(18) NOT NULL,
+    guid                VARCHAR2(80) NOT NULL,
+ 	payouts_issued 		NUMBER(1)  DEFAULT 0 NOT NULL,
+ 	is_active			NUMBER(1)  DEFAULT 0 NOT NULL,
+    created_by          NUMBER(18) NOT NULL,
+    date_created        DATE NOT NULL,
+    modified_by         NUMBER(18),
+    date_modified       DATE,
+    version             NUMBER(18) NOT NULL
+  )
+/
+ALTER TABLE throwdown_stackrank
+  ADD CONSTRAINT td_stackrank_pk PRIMARY KEY (stackrank_id)
+  USING INDEX
+/
+ALTER TABLE throwdown_stackrank
+  ADD CONSTRAINT td_stackrank_promo_fk FOREIGN KEY (promotion_id)
+  REFERENCES promotion (promotion_id)
+/
+COMMENT ON TABLE throwdown_stackrank IS 'Ranks participants by stack rank factor.'
+/
+COMMENT ON COLUMN throwdown_stackrank.stackrank_id IS 'Uniquely identifies this stack ranking.'
+/
+COMMENT ON COLUMN throwdown_stackrank.promotion_id IS 'The promotion whose sales activity is used to create this stack ranking.'
+/
+COMMENT ON COLUMN throwdown_stackrank.round_number IS 'The round whose sales activity is used to create this stack ranking.'
+/
+COMMENT ON COLUMN throwdown_stackrank.guid IS 'Uniquely identifies this stack ranking.  Acts as a surrogate business key.'
+/
+COMMENT ON COLUMN throwdown_stackrank.payouts_issued IS 'Identifies if pay out issued for this stack ranking.'
+/
+COMMENT ON COLUMN throwdown_stackrank.is_active IS 'Identifies if ranking is active stack ranking.'
+/
+COMMENT ON COLUMN throwdown_stackrank.created_by IS 'The ID of the user who created this record.'
+/
+COMMENT ON COLUMN throwdown_stackrank.date_created IS 'The date and time at which this record was created.'
+/
+COMMENT ON COLUMN throwdown_stackrank.modified_by IS 'The ID of the user who last modified this record.'
+/
+COMMENT ON COLUMN throwdown_stackrank.date_modified IS 'The date and time at which this record was last modified.'
+/
+COMMENT ON COLUMN throwdown_stackrank.version IS 'The version of this record.'
+/

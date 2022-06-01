@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+    <form-bean name="quizFormListForm" type="com.biperf.core.ui.quiz.QuizFormListForm" />
+    <form-bean name="quizFormForm" type="com.biperf.core.ui.quiz.QuizFormForm" />
+    <form-bean name="quizQuestionForm" type="com.biperf.core.ui.quiz.QuizQuestionForm" />
+    <form-bean name="viewQuizFormForm" type="com.biperf.core.ui.quiz.ViewQuizFormForm" />
+    <form-bean name="quizQuestionAnswerForm" type="com.biperf.core.ui.quiz.QuizQuestionAnswerForm" />
+    <form-bean name="quizLearningForm" type="com.biperf.core.ui.quiz.QuizLearningObjectForm"/>
+    <form-bean name="quizClaimSubmissionForm" type="com.biperf.core.ui.quiz.QuizClaimSubmissionForm" />
+    <form-bean name="diyQuizForm" type="com.biperf.core.ui.diyquiz.DIYQuizForm"/>
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite"
+             redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+ 	
+ 	<action path="/quizFormListDisplay"
+	        name="quizFormListForm"
+	        parameter="quiz.library" 
+	        type="org.apache.struts.actions.ForwardAction" 
+	        validate="false" 
+	        scope="request"/>
+
+    <action path="/quizFormDelete" 
+		    name="quizFormListForm" 
+			parameter="method"
+			type="com.biperf.core.ui.quiz.QuizFormListAction"
+        	scope="request" 
+        	validate="false"
+        	input="quiz.library">
+      <forward name="success" path="quiz.library" redirect="false"/>
+      <forward name="failure" path="quiz.library" redirect="false"/>
+  	</action>
+ 	
+ 	<action path="/quizFormDisplay"
+      name="quizFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizFormAction"
+      scope="request"
+      validate="false"
+      input="quizform.details">
+      <forward name="success" path="quizform.details" redirect="false"/>
+      <forward name="failure" path="quizform.details" redirect="false"/>
+    </action>
+
+    <action path="/quizFormSave"
+      name="quizFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizFormAction"
+      scope="request"
+      validate="true"
+      input="quizform.details" cancellable="true">
+      <forward name="failure" path="quizform.details" redirect="false"/>
+      <forward name="cancel" path="quizform.view" redirect="false"/>
+      <forward name="success" path="/quizFormView.do" redirect="true"/>
+      <forward name="quizLearning" path="/quizLearningObjectDisplay.do" redirect="true"/>
+    </action>
+
+    <action path="/quizFormView"
+      name="viewQuizFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizFormAction"
+      scope="request"
+      validate="false"
+      input="quizform.details">
+      <forward name="failure" path="quizform.view" redirect="false"/>
+      <forward name="success" path="quizform.view" redirect="false"/>
+      <forward name="success_update" path="quizFormView.do" redirect="true"/>
+      <forward name="failure_update" path="quizform.view" redirect="false"/>
+      <forward name="success_delete" path="quizform.view" redirect="false"/>
+      <forward name="failure_delete" path="quizform.view" redirect="false"/>
+      <forward name="copy" path="quizform.copy" redirect="false"/>
+    </action>
+	
+	<action path="/quizFormMarkComplete"
+      name="viewQuizFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizFormAction"
+      scope="request"
+      validate="false"
+      input="quizform.details">
+      <forward name="failure" path="quizform.view" redirect="false"/>
+      <forward name="success_update" path="quiz.library" redirect="false"/>
+    </action>
+	
+    <action path="/quizFormCopy"
+      name="quizFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizFormAction"
+      scope="request"
+      validate="true"
+      input="quizform.details">
+      <forward name="failure" path="quizform.copy" redirect="false"/>
+      <forward name="success" path="quiz.library" redirect="false"/>
+    </action>
+    
+    <action path="/quizPromotionListDisplay"
+	        name="quizFormListForm"
+	        parameter="quiz.promotions" 
+	        type="org.apache.struts.actions.ForwardAction" 
+	        validate="false" 
+	        scope="request"/>
+    
+    <!-- Quiz Question Mappings -->
+    <action path="/quizQuestionDisplay"
+      name="quizQuestionForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizQuestionAction"
+      scope="request"
+      validate="false"
+      input="quiz.question.details">
+      <forward name="success" path="quiz.question.details" redirect="false"/>
+      <forward name="failure" path="quiz.question.details" redirect="false"/>
+    </action>
+    
+    <action path="/quizQuestionView"
+      name="quizQuestionForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizQuestionAction"
+      scope="request"
+      validate="false"
+      input="quiz.question.details">
+      <forward name="success" path="quiz.question.view" redirect="false"/>
+      <forward name="failure" path="quiz.question.view" redirect="false"/>
+    </action>
+	
+    <action path="/quizQuestionSave"
+      name="quizQuestionForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizQuestionAction"
+      scope="request"
+      validate="true"
+      input="quiz.question.details" cancellable="true">
+      <forward name="failure" path="quiz.question.details" redirect="false"/>
+      <forward name="cancel" path="quizFormView.do" redirect="true"/>
+      <forward name="success" path="quizFormView.do" redirect="true"/>
+      <forward name="success_update" path="quizQuestionView.do" redirect="true"/>      
+    </action>
+    
+    <!-- End Quiz Question Mappings -->
+
+    <!-- Quiz Question Answer -->
+    <action path="/quizQuestionAnswerDisplay"
+      name="quizQuestionAnswerForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizQuestionAnswerAction"
+      scope="request"
+      validate="false"
+      input="quiz.question.answer.details">
+      <forward name="success" path="quiz.question.answer.details" redirect="false"/>
+      <forward name="failure" path="quiz.question.answer.details" redirect="false"/>
+    </action>
+
+    <action path="/quizQuestionAnswerSave"
+      name="quizQuestionAnswerForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizQuestionAnswerAction"
+      scope="request"
+      validate="true"
+      input="quiz.question.answer.details" cancellable="true">
+      <forward name="failure" path="quiz.question.answer.details" redirect="false"/>
+      <forward name="cancel" path="quizQuestionView.do" redirect="true"/>
+      <forward name="success" path="quizQuestionView.do" redirect="true"/>
+      <forward name="success_create" path="quiz.question.answer.details" redirect="false"/>      
+
+      </action>
+    <!-- End Quiz Question Answer -->
+    
+    <!-- Quiz Learning Object Mappings -->
+	<action path="/quizLearningObjectDisplay"
+      name="quizFormForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizLearningObjectAction"
+      scope="request"
+      validate="false"
+      input="quiz.learning.display">
+      <forward name="success" path="quiz.learning.display" redirect="false"/>
+      <forward name="failure" path="quiz.learning.display" redirect="false"/>
+    </action>
+    
+    <action path="/quizLearningObjectSubmit"
+      name="quizLearningForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizLearningObjectAction"
+      scope="request"
+      validate="false"
+      input="quiz.learning.display">
+      <forward name="success" path="quiz.learning.display" redirect="false"/>
+      <forward name="failure" path="quiz.learning.display" redirect="false"/>
+      <forward name="process_video_ajax_response" path="quiz.video.process.ajax.json.response" redirect="false"/>
+      <forward name="showQuizLibrary" path="quizFormView.do" redirect="true"/>
+      <forward name="showNextSlide" path="/quizLearningObjectDisplay.do" redirect="true"/>
+      <forward name="cancel" path="quizFormView.do" redirect="true"/>
+    </action>
+    
+    <action path="/quizLearningView"
+      name="quizLearningForm"
+      parameter="method"
+      type="com.biperf.core.ui.quiz.QuizLearningObjectAction"
+      scope="request"
+      validate="false"
+      input="quiz.learning.display">
+      <forward name="success" path="quiz.learning.edit" redirect="false"/>
+      <forward name="failure" path="quiz.learning.edit" redirect="false"/>
+    </action>
+    
+ <!-- End Quiz Learning Object Mappings -->
+     
+     <action path="/quizPage"
+			 type="org.apache.struts.actions.ForwardAction"
+       		 parameter="quiz.page"/>
+       		     
+     <action path="/quizPageTakeActiveQuizAction" type="com.biperf.core.ui.quiz.QuizTakeAction"
+     		name="quizClaimSubmissionForm" validate="false"
+			parameter="method" scope="request" />
+				 
+     <action path="/quizPageTake"
+			 type="org.apache.struts.actions.ForwardAction"
+       		 parameter="quiz.page.take"/>
+
+     <!-- New Quiz Pages end -->       		      		 
+     <action path="/diyQuizManage" type="com.biperf.core.ui.diyquiz.DIYQuizAdminAction"
+			parameter="method" scope="request">
+		<forward name="success" path="quiz.manage.table" redirect="false"/>
+		<forward name="manageDIYQuiz" path="quiz.manage" redirect="false"/>
+	 </action> 
+    
+    <action path="/diyQuizSearchParticipant"
+		type="com.biperf.core.ui.diyquiz.DIYQuizParticipantSearchAction"
+		parameter="method" scope="request" />
+     
+    <action path="/quizCourseMaterialsCollectionAction"
+			 type="com.biperf.core.ui.quiz.QuizAction"
+       		 parameter="method" scope="request"/>
+    
+    <action path="/checkQuizEligibilityAction"
+			 type="com.biperf.core.ui.quiz.QuizTakeAction"
+       		 parameter="method" scope="request">
+       <forward name="home" module="" path="/homePage.do" redirect="true"/>
+       <forward name="quiz" path="/quizPage.do" redirect="true"/>		 
+    </action>
+    
+    <action path="/diyQuizOnBehalfSearchParticipant"
+		type="com.biperf.core.ui.diyquiz.DIYQuizAdminOnBehalfParticipantSearchAction"
+		parameter="method" scope="request" />
+			
+  </action-mappings>
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" tempDir="@FILE_UPLOAD_TEMP_DIR@" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn"> 
+		<set-property property="pathnames" 
+					  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-quiz.xml"/>
+	    <set-property property="stopOnFirstError" value="false"/>
+    </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-quiz.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

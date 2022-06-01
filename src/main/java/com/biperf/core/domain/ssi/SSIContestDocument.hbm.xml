@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.ssi.SSIContestDocument" table="SSI_CONTEST_DOCUMENT">
+        <id name="id" column="SSI_CONTEST_DOCUMENT_ID" type="java.lang.Long">
+          <generator class="seqhilo">
+			<param name="max_lo">0</param> <param name="sequence">SSI_CONTEST_DOCUMENT_PK_SQ</param>
+		  </generator>
+        </id>
+
+        <!-- Using version number optimistic locking -->
+	    <version name="version" column="VERSION" type="java.lang.Long" />
+	
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+		  <column name="DATE_MODIFIED" />
+		  <column name="MODIFIED_BY" />
+		</property>	    
+
+		<property name="attachmentName" column="ATTACHMENT_NAME" type="string"/>
+		<property name="attachmentDisplayName" column="ATTACHMENT_DISPLAY_NAME" type="string"/>
+		<property name="locale" column="LOCALE" type="string"/>
+		
+		<many-to-one name="contest" column="SSI_CONTEST_ID" not-null="true" class="com.biperf.core.domain.ssi.SSIContest" lazy="false"/>
+
+	    
+    </class>
+</hibernate-mapping>

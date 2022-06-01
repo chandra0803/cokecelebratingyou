@@ -1,0 +1,58 @@
+{
+  "description": "Get a Person's Emails",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2"
+  },
+  "steps": [
+    {
+      "id": "createPersonEmail",
+      "description": "First create a PersonEmail",
+      "call": {
+        "path": "./create-person-email.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonEmail.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "getPersonEmail",
+      "description": "GET /persons/${ref:createPerson.export.newPersonId}/email-addresses",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPersonEmail.export.newPersonId}/email-addresses",
+        "options": {
+          "method": "get",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:getPersonEmail.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:getPersonEmail.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:getPersonEmail.res.body.emails}",
+          "compare": "to.not.be.empty"
+        },
+        {
+          "a": "${ref:getPersonEmail.res.body.emails}",
+          "compare": "to.containSubset",
+          "b": [ { "label": "Home" }, { "address": "roster@biworldwide.com" } ]
+        }
+      ]
+    }
+  ]
+}

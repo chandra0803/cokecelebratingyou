@@ -1,0 +1,64 @@
+CREATE SEQUENCE purl_contributor_pk_sq INCREMENT BY 1 START WITH 5000
+/
+CREATE TABLE purl_contributor
+(
+	purl_contributor_id     	NUMBER(18) NOT NULL,
+	purl_recipient_id   	    NUMBER(18) NOT NULL,	
+	user_id    		            NUMBER(18),
+    state                       VARCHAR2(30),
+    first_name                  VARCHAR2(40),
+    last_name                   VARCHAR2(40),
+    email_addr                  VARCHAR2(75),
+	invite_contributor_id       NUMBER(18),
+    avatar_url                  VARCHAR2(512),
+    avatar_state                VARCHAR2(30),
+    is_send_later               NUMBER(1) default(0) NOT NULL,
+ 	created_by            		NUMBER(18) NOT NULL,
+	date_created          		DATE NOT NULL,
+  	modified_by           		NUMBER(18),
+  	date_modified         		DATE,
+  	version               		NUMBER(18) NOT NULL,
+	CONSTRAINT purl_contributor_id_pk PRIMARY KEY (purl_contributor_id)
+)
+/
+ALTER TABLE purl_contributor ADD CONSTRAINT purl_contributor_fk1
+  FOREIGN KEY (purl_recipient_id) REFERENCES purl_recipient (purl_recipient_id) 
+/
+ALTER TABLE purl_contributor ADD CONSTRAINT purl_contributor_fk2
+  FOREIGN KEY (user_id) REFERENCES application_user (user_id) 
+/
+ALTER TABLE purl_contributor ADD CONSTRAINT purl_contributor_fk3
+  FOREIGN KEY (invite_contributor_id) REFERENCES purl_contributor (purl_contributor_id) 
+/
+COMMENT ON TABLE purl_contributor IS 'Table purl_contributor'
+/
+COMMENT ON COLUMN purl_contributor.purl_contributor_id IS 'Primary key'
+/
+COMMENT ON COLUMN purl_contributor.purl_recipient_id IS 'Purl recipient reference key'
+/
+COMMENT ON COLUMN purl_contributor.user_id IS 'Contributor user id'
+/
+COMMENT ON COLUMN purl_contributor.state IS 'Contribution state type'
+/
+COMMENT ON COLUMN purl_contributor.first_name IS 'The first name of the contributor.'
+/
+COMMENT ON COLUMN purl_contributor.last_name IS 'The last name of the contributor.'
+/
+COMMENT ON COLUMN purl_contributor.email_addr IS 'Non-PAX contributor email address'
+/
+COMMENT ON COLUMN purl_contributor.invite_contributor_id IS 'Invited by contributor'
+/
+COMMENT ON COLUMN purl_contributor.avatar_url IS 'Avatar url path'
+/
+COMMENT ON COLUMN purl_contributor.avatar_state IS 'Avatar Media state type'
+/
+COMMENT ON COLUMN purl_contributor.created_by IS 'Audit created by'
+/
+COMMENT ON COLUMN purl_contributor.date_created IS 'Audit created date'
+/
+COMMENT ON COLUMN purl_contributor.modified_by IS 'Audit modified by'
+/
+COMMENT ON COLUMN purl_contributor.date_modified IS 'Audit modified date'
+/
+COMMENT ON COLUMN purl_contributor.version IS 'Optimistic concurrency locking'
+/

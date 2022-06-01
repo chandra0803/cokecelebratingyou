@@ -1,0 +1,24 @@
+create table badge_promotion
+(
+  promotion_id                NUMBER(18),
+  eligible_promotion_id       NUMBER(18),
+  created_by                  number(18) NOT NULL,
+  date_created                DATE NOT NULL,
+  modified_by                 number(18),
+  date_modified               DATE,
+  version                     NUMBER(18) NOT NULL
+ )
+/
+
+ALTER TABLE badge_promotion
+ADD CONSTRAINT badge_promotion_pk PRIMARY KEY (promotion_id,eligible_promotion_id)
+USING INDEX
+/
+ALTER TABLE badge_promotion
+ADD CONSTRAINT badge_promo_eligiblePromoId_fk FOREIGN KEY (eligible_promotion_id)
+REFERENCES Promotion ( promotion_id)
+/
+ALTER TABLE badge_promotion
+ADD CONSTRAINT badge_promotion__promoId_fk FOREIGN KEY (promotion_id)
+REFERENCES badge (promotion_id)
+/

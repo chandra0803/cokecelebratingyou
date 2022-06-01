@@ -1,0 +1,71 @@
+CREATE SEQUENCE goalquest_goallevel_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE goalquest_goallevel
+(goallevel_id						NUMBER(18) NOT NULL,
+ promotion_id                   	NUMBER(18,0) NOT NULL,
+ sequence_num				        NUMBER(18) NOT NULL,
+ goallevel_discrim					VARCHAR(10) NOT NULL,
+ GOAL_LEVEL_CM_ASSET_CODE   		VARCHAR2(255),
+ GOAL_LEVEL_NAME_KEY				VARCHAR(80),
+ GOAL_LEVEL_DESC_KEY				VARCHAR(80),
+ achievement_amount					NUMBER(30,4),
+ award								NUMBER(30,2),
+ partner_award_amount				NUMBER(18,2),
+ minimum_qualifier					NUMBER(18,4),
+ incremental_quantity				NUMBER(18,4),
+ bonus_award						NUMBER(18,0),
+ maximum_points						NUMBER(18,0),
+ team_achievement_pct				NUMBER(18,2),
+ manager_award						NUMBER(18,2), 
+ start_rank	   						NUMBER(18,0),
+ end_rank            				NUMBER(18,0),
+ rank_payout              			NUMBER(18,0),
+ created_by                   		number(18) NOT NULL,
+ date_created                 		DATE NOT NULL,
+ modified_by 						number(18),
+ date_modified                		DATE,
+ version                      		NUMBER(18,0) NOT NULL
+ )
+/
+ALTER TABLE goalquest_goallevel
+ADD CONSTRAINT goalquest_goallevel_pk PRIMARY KEY (goallevel_id)
+USING INDEX
+/
+ALTER TABLE goalquest_goallevel ADD CONSTRAINT goalquest_goallevel_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/
+ALTER TABLE goalquest_goallevel ADD CONSTRAINT goalquest_goallevel_u01 
+	UNIQUE (promotion_id, sequence_num, goallevel_discrim)
+/
+CREATE INDEX goalquest_goallevel_fk_idx ON goalquest_goallevel
+  (PROMOTION_ID)
+/
+COMMENT ON TABLE goalquest_goallevel IS 'The promo_goalquest table list of goals for a goalquest promotion.'
+/
+COMMENT ON COLUMN goalquest_goallevel.goallevel_id IS 'System-generated key that identifies a specific goallevel.'
+/
+COMMENT ON COLUMN goalquest_goallevel.promotion_id IS 'System-generated key that identifies the promotion.'
+/
+COMMENT ON COLUMN goalquest_goallevel.sequence_num IS 'The sequence of the goallevel.'
+/
+COMMENT ON COLUMN goalquest_goallevel.goallevel_discrim IS 'A string used as a discriminator.'
+/
+COMMENT ON COLUMN goalquest_goallevel.GOAL_LEVEL_NAME_KEY IS 'Name of goallevel.'
+/
+COMMENT ON COLUMN goalquest_goallevel.GOAL_LEVEL_DESC_KEY IS 'Description of goallevel.'
+/
+COMMENT ON COLUMN goalquest_goallevel.achievement_amount IS 'Amount to reach goal.'
+/
+COMMENT ON COLUMN goalquest_goallevel.award IS 'Award for reaching goal.'
+/
+COMMENT ON COLUMN goalquest_goallevel.minimum_qualifier IS 'Minimum qualifier for bonus.'
+/
+COMMENT ON COLUMN goalquest_goallevel.incremental_quantity IS 'Amount needed for another award.'
+/
+COMMENT ON COLUMN goalquest_goallevel.bonus_award IS 'Amount of bonus award.'
+/
+COMMENT ON COLUMN goalquest_goallevel.maximum_points IS 'Maximum points that can be recieved.'
+/
+COMMENT ON COLUMN goalquest_goallevel.manager_award IS 'Manager award for ammount per achiever override type.'
+/
+

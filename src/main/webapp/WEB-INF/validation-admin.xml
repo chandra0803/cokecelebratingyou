@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN"
+    "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+  <!--
+    <global>
+      <constant>
+        <constant-name>constant-name</constant-name>
+        <constant-value>constant-value</constant-value>
+      </constant>
+    </global>
+  -->
+  <global>
+	<constant>
+	  <constant-name>phone</constant-name>
+	  <constant-value>
+		^\(?\d{3}\)?[-| ]?\d{3}[-| ]?\d{4}$
+	  </constant-value>
+	</constant>
+  </global>
+
+  <formset>
+    <!--
+        <constant>
+          <constant-name>constant-name</constant-name>
+          <constant-value>constant-value</constant-value>
+        </constant>
+    -->
+    <form name="/budgetMaintainCreate">
+      <field property="budgetStatusType" depends="required">
+        <arg0 key="admin.budget.details.BUDGET_STATUS" />
+      </field>
+<!--       <field property="startDate" depends="required">
+        <arg0 key="admin.budget.details.START_DATE" />
+      </field> -->
+      <field property="originalValue" depends="required">
+        <arg0 key="admin.budget.details.AMOUNT" />
+      </field>
+    </form>
+
+    <form name="/budgetMaintainUpdate">
+      <field property="budgetStatusType" depends="required">
+        <arg0 key="admin.budget.details.BUDGET_STATUS" />
+      </field>
+<!--       <field property="startDate" depends="required">
+        <arg0 key="admin.budget.details.START_DATE" />
+      </field> -->
+      <field property="originalValue" depends="required,double">
+        <arg0 key="admin.budget.details.ORIG_AMOUNT" />
+      </field>
+      <field property="availableValue" depends="required,double">
+        <arg0 key="admin.budget.details.AVAILABLE_AMOUNT" />
+      </field>
+      <!-- BugFix 20993.<field property="qtyToAdd" depends="long">
+        <arg0 key="admin.budget.details.ADD_QTY" />
+      </field>-->
+    </form>
+
+    <form name="/budgetMasterMaintain" >
+      <field property="budgetName" depends="required" >
+        <arg0 key="admin.budgetmaster.details.NAME" />
+      </field>
+    </form>
+
+    <form name="roleForm" >
+      <field property="code" depends="required" >
+        <arg0 key="admin.role.ROLE_CODE" />
+      </field>
+      <field property="name" depends="required" >
+        <arg0 key="admin.role.ROLE_NAME" />
+      </field>
+    </form>
+
+    <form name="aclForm" >
+      <field property="code" depends="required" >
+        <arg0 key="admin.acl.ACL_CODE" />
+      </field>
+      <field property="className" depends="required" >
+        <arg0 key="admin.acl.ACL_CLASS_NAME" />
+      </field>
+      <field property="name" depends="required" >
+        <arg0 key="admin.acl.ACL_NAME" />
+      </field>
+      <field property="helpText" depends="required" >
+        <arg0 key="admin.acl.ACL_HELP_TEXT" />
+      </field>
+    </form>
+
+    <form name="characteristicForm" >
+      <field property="characteristicName" depends="required" >
+        <arg0 key="admin.characteristic.edit.CHAR_NAME" />
+      </field>
+    </form>
+
+    <form name="countryForm" >
+      <field property="countryName" depends="required" >
+        <arg0 key="admin.country.details.COUNTRY_NAME" />
+      </field>
+      <field property="status" depends="required" >
+        <arg0 key="admin.country.details.STATUS" />
+      </field>
+      <field property="countryCode" depends="required" >
+        <arg0 key="admin.country.details.COUNTRY_CODE" />
+      </field>
+      <field property="awardbanqAbbrev" depends="required" >
+        <arg0 key="admin.country.details.AWARDBANQ_ABBREV" />
+      </field>
+      <field property="addressMethod" depends="required" >
+        <arg0 key="admin.country.details.ADDRESS_METHOD" />
+      </field>      
+      <field property="campaignNbr" depends="minlength">
+        <arg0 key="admin.country.details.CAMPAIGN" />
+        <arg1 name="minlength" key="${var:minlength}" resource="false"/>
+        <var>
+          <var-name>minlength</var-name>
+          <var-value>1</var-value>
+        </var>
+      </field>
+	  <field property="supportEmailAddr" depends="required,email">
+      	<arg0 key="admin.country.details.SUPPORT_EMAIL_ADDR"/>
+      </field>
+	  <field property="timeZoneId" depends="required">
+      	<arg0 key="admin.country.details.TIME_ZONE_ID"/>
+      </field>        
+    </form>
+
+    <form name="/employerMaintainCreate">
+      <field property="employerName" depends="required">
+        <arg0 key="employer.list.NAME" />
+      </field>
+      <field property="active" depends="required">
+        <arg0 key="employer.list.STATUS" />
+      </field>
+      <field property="phoneNumber" depends="mask">
+        <arg0 key="employer.list.TELEPHONE" />
+        <var>
+          <var-name>mask</var-name>
+          <var-value>${phone}</var-value>
+        </var>
+      </field>
+    </form>
+
+    <form name="/employerMaintainUpdate">
+      <field property="employerName" depends="required">
+        <arg0 key="employer.list.NAME" />
+      </field>
+      <field property="active" depends="required">
+        <arg0 key="employer.list.STATUS" />
+      </field>
+      <field property="phoneNumber" depends="mask">
+        <arg0 key="employer.list.TELEPHONE" />
+        <var>
+          <var-name>mask</var-name>
+          <var-value>${phone}</var-value>
+        </var>
+      </field>
+    </form>
+
+    <form name="importFileForm">
+      <field property="importFileId" depends="required">
+        <arg0 key="importFile.detail.IMPORT_FILE_ID"/>
+      </field>
+    </form>
+
+
+    <form name="messageForm">
+      <field property="name" depends="required">
+        <arg0 key="admin.message.details.MSG_NAME" />
+      </field>
+      <field property="moduleCode" depends="required">
+        <arg0 key="admin.message.details.MODULE" />
+      </field>
+      <field property="messageTypeCode" depends="required">
+        <arg0 key="admin.message.details.MESSAGE_TYPE" />
+      </field>
+      <field property="statusCode" depends="required">
+        <arg0 key="admin.message.details.STATUS" />
+      </field>
+      <field property="subject" depends="required">
+        <arg0 key="admin.message.details.SUBJECT" />
+      </field>
+    </form>
+
+    <form name="sendMessageForm">
+      <field property="subject" depends="required">
+        <arg0 key="admin.send.message.SUBJECT" />
+      </field>
+      <field property="sender" depends="required">
+        <arg0 key="admin.send.message.SENDER" />
+      </field>
+      <field property="messageAudience" depends="required">
+        <arg0 key="admin.send.message.SEND" />
+      </field>
+      <field property="deliveryMethod" depends="required">
+        <arg0 key="admin.send.message.DELIVERY" />
+      </field>
+      <field property="previewEmailAddress1" depends="email">
+        <arg0 key="admin.send.message.PREVIEW_TO" />
+      </field>
+      <field property="previewEmailAddress2" depends="email">
+        <arg0 key="admin.send.message.PREVIEW_TO" />
+      </field>
+      <field property="previewEmailAddress3" depends="email">
+        <arg0 key="admin.send.message.PREVIEW_TO" />
+      </field>
+    </form>
+
+    <form name="supplierForm" >
+      <field property="supplierName" depends="required" >
+        <arg0 key="admin.supplier.details.SUPPLIER_NAME" />
+      </field>
+      <field property="supplierType" depends="required" >
+        <arg0 key="admin.supplier.details.SUPPLIER_TYPE" />
+      </field>
+      <field property="status" depends="required" >
+        <arg0 key="admin.supplier.details.STATUS" />
+      </field>
+    </form>
+
+    <form name="systemVariableForm">
+      <field property="entityName" depends="required">
+        <arg0 key="admin.sys.var.list.VAR_NAME" />
+      </field>
+      <field property="stringVal" depends="required">
+        <arg0 key="admin.sys.var.list.VAR_VALUE" />
+      </field>
+    </form>
+  </formset>
+</form-validation>

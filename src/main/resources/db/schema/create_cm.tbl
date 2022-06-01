@@ -1,0 +1,345 @@
+---
+--- CM v2
+---
+create table CMS_APPLICATION 
+   (id number(19,0) not null, 
+    ENTITY_VERSION number(10,0) not null, 
+    CODE varchar2(40) not null unique, 
+    DESCRIPTION varchar2(80), 
+    NAME varchar2(40) NOT NULL,
+    CREATED_BY  VARCHAR2(100) NOT NULL,
+    DATE_CREATED    DATE NOT NULL,
+    MODIFIED_BY  VARCHAR2(100),
+    DATE_MODIFIED 	DATE,
+    primary key (id))
+/
+create table CMS_ASSET 
+   (id number(19,0) not null, 
+    ENTITY_VERSION number(10,0) not null, 
+    CODE varchar2(81) NOT NULL, 
+    NAME varchar2(80) NOT NULL, 
+    DESCRIPTION varchar2(80), 
+    PREVIEW_PAGE varchar2(255), 
+    IS_PUBLIC char(1), 
+    SECTION_ID number(19,0) NOT NULL, 
+    ASSET_TYPE_ID number(19,0) NOT NULL, 
+    PARENT_ASSET_ID number(19,0),
+    PAX_OR_ADMIN varchar2(1),
+    MODULE varchar2(80),
+    PRODUCT_VERSION varchar2(80) NOT NULL,
+    CREATED_BY  VARCHAR2(100) NOT NULL,
+    DATE_CREATED    DATE NOT NULL,
+    MODIFIED_BY  VARCHAR2(100),
+    DATE_MODIFIED 	DATE,
+    primary key (id))
+/
+create table CMS_ASSET_TYPE 
+   (id number(19,0) not null, 
+    ENTITY_VERSION number(10,0) not null, 
+    NAME varchar2(40) NOT NULL, 
+    DESCRIPTION varchar2(80), 
+    IS_PREVIEWABLE char(1), 
+    IS_MULTI char(1), 
+    IS_PUBLIC char(1), 
+    IS_DISPLAY char(1), 
+    APPLICATION_ID number(19,0) not null,
+    CREATED_BY  VARCHAR2(100) NOT NULL,
+    DATE_CREATED    DATE NOT NULL,
+    MODIFIED_BY  VARCHAR2(100),
+    DATE_MODIFIED 	DATE,
+    primary key (id))
+/
+create table CMS_ASSET_TYPE_ITEM 
+   (id number(19,0) not null, 
+    ENTITY_VERSION number(10,0) not null, 
+    KEY varchar2(40) NOT NULL, 
+    NAME varchar2(80) NOT NULL, 
+    DESCRIPTION varchar2(80), 
+    IS_REQUIRED char(1), 
+    IS_UNIQUE char(1), 
+    IS_TRANSLATABLE char(1), 
+    SORT_ORDER number(10,0) NOT NULL,
+    ASSET_TYPE_ID number(19,0) NOT NULL, 
+    DATA_TYPE varchar2(255) not null,
+    MAX_LENGTH number(10,0) not null,
+    MIN_LENGTH number(10,0) not null,
+    CREATED_BY  VARCHAR2(100) NOT NULL,
+    DATE_CREATED    DATE NOT NULL,
+    MODIFIED_BY  VARCHAR2(100),
+    DATE_MODIFIED 	DATE,
+    primary key (id))
+/
+create table CMS_AUDIENCE 
+   (id number(19,0) not null, 
+    ENTITY_VERSION number(10,0) not null, 
+    CODE varchar2(40) NOT NULL, 
+    DESCRIPTION varchar2(80), 
+    NAME varchar2(100) NOT NULL, 
+    APPLICATION_ID number(19,0) NOT NULL,
+    CREATED_BY  VARCHAR2(100) NOT NULL,
+    DATE_CREATED    DATE NOT NULL,
+    MODIFIED_BY  VARCHAR2(100),
+    DATE_MODIFIED 	DATE,
+    primary key (id))
+/
+create table CMS_CONTENT 
+   (id number(19,0) not null, 
+    ENTITY_VERSION number(10,0) not null, 
+    LOCALE varchar2(20) NOT NULL, 
+    VERSION number(10,0), 
+    CONTENT_STATUS varchar2(20) NOT NULL, 
+    EDITED_BY varchar2(100), 
+    EDITED_TIMESTAMP timestamp, 
+    ADDED_BY varchar2(100), 
+    ADDED_TIMESTAMP timestamp, 
+    SUBMITTED_BY varchar2(100), 
+    SUBMITTED_TIMESTAMP timestamp, 
+    APPROVED_BY varchar2(100), 
+    APPROVED_TIMESTAMP timestamp, 
+    GUID varchar2(255), 
+    CONTENT_KEY_ID number(19,0) NOT NULL,
+    EXPORT_DATE timestamp,
+    CONTENT_VERSION number(9,2) NOT NULL,
+    CREATED_BY  VARCHAR2(100) NOT NULL,
+    DATE_CREATED    DATE NOT NULL,
+    MODIFIED_BY  VARCHAR2(100),
+    DATE_MODIFIED 	DATE,
+     primary key (id))
+/
+create table CMS_CONTENT_DATA 
+   (CONTENT_ID number(19,0) not null, 
+    VALUE clob,
+    GOOGLE_VALUE clob,      
+    KEY varchar2(40) not null, primary key (CONTENT_ID, KEY))
+/
+create table CMS_CONTENT_KEY 
+   (id number(19,0) not null, 
+    ENTITY_VERSION number(10,0) not null, 
+    SORT_ORDER number(10,0), 
+    GUID varchar2(255) NOT NULL, 
+    ASSET_ID number(19,0) NOT NULL,
+    START_TIMESTAMP timestamp, 
+    END_TIMESTAMP timestamp, 
+    CREATED_BY  VARCHAR2(100) NOT NULL,
+    DATE_CREATED    DATE NOT NULL,
+    MODIFIED_BY  VARCHAR2(100),
+    DATE_MODIFIED 	DATE,
+    FILTER_STRING varchar2(1000), 
+    primary key (id))
+/
+create table CMS_CONTENT_KEY_AUDIENCE_LNK 
+   (CONTENT_KEY_ID number(19,0) not null, 
+    AUDIENCE_ID number(19,0) not null, primary key (CONTENT_KEY_ID, AUDIENCE_ID))
+/
+create table CMS_SECTION 
+   (id number(19,0) not null, 
+    ENTITY_VERSION number(10,0) not null, 
+    CODE varchar2(40) NOT NULL, 
+    DESCRIPTION varchar2(80), 
+    NAME varchar2(40) NOT NULL, 
+    APPLICATION_ID number(19,0) NOT NULL,
+    CREATED_BY  VARCHAR2(100) NOT NULL,
+    DATE_CREATED    DATE NOT NULL,
+    MODIFIED_BY  VARCHAR2(100),
+    DATE_MODIFIED 	DATE,
+    primary key (id))
+/
+alter table CMS_ASSET add constraint FKD920183A3DEE2681 foreign key (PARENT_ASSET_ID) references CMS_ASSET
+/
+alter table CMS_ASSET add constraint FKD920183A98EEF1EC foreign key (SECTION_ID) references CMS_SECTION
+/
+alter table CMS_ASSET add constraint FKD920183A9F5520D foreign key (ASSET_TYPE_ID) references CMS_ASSET_TYPE
+/
+alter table CMS_ASSET_TYPE add constraint FK378A3C1F368A5D0C foreign key (APPLICATION_ID) references CMS_APPLICATION
+/
+alter table CMS_ASSET_TYPE_ITEM add constraint FK8BBEAB339F5520D foreign key (ASSET_TYPE_ID) references CMS_ASSET_TYPE
+/
+alter table CMS_AUDIENCE add constraint FK6E49C45A368A5D0C foreign key (APPLICATION_ID) references CMS_APPLICATION
+/
+alter table CMS_CONTENT add constraint FK743433435A949515 foreign key (CONTENT_KEY_ID) references CMS_CONTENT_KEY
+/
+alter table CMS_CONTENT_DATA add constraint FK8B22FF26521A196C foreign key (CONTENT_ID) references CMS_CONTENT
+/
+alter table CMS_CONTENT_KEY add constraint FKCBF2B436885DE8C foreign key (ASSET_ID) references CMS_ASSET
+/
+alter table CMS_CONTENT_KEY_AUDIENCE_LNK add constraint FKE55E71CA5A949515 foreign key (CONTENT_KEY_ID) references CMS_CONTENT_KEY
+/
+alter table CMS_CONTENT_KEY_AUDIENCE_LNK add constraint FKE55E71CA9AC9A728 foreign key (AUDIENCE_ID) references CMS_AUDIENCE
+/
+alter table CMS_SECTION add constraint FKB0EC7DAF368A5D0C foreign key (APPLICATION_ID) references CMS_APPLICATION
+/
+alter table CMS_SECTION add constraint CMS_SECTION_CODE_UK UNIQUE (CODE,APPLICATION_ID)
+/
+alter table CMS_ASSET add constraint CMS_ASSET_CODE_UK UNIQUE (CODE,SECTION_ID)
+/
+alter table CMS_ASSET_TYPE add constraint CMS_TYPE_NAME_UK UNIQUE (NAME,APPLICATION_ID)
+/
+alter table CMS_ASSET_TYPE_ITEM add constraint CMS_ITEM_KEY_UK UNIQUE (KEY,ASSET_TYPE_ID)
+/
+alter table CMS_CONTENT_KEY add constraint CMS_CONTENT_KEY_GUID_UK UNIQUE (GUID)
+/
+create unique index CMS_AUDIENCE_UDX_NAME on CMS_AUDIENCE(APPLICATION_ID,NAME)
+/
+create unique index CMS_AUDIENCE_UDX_CODE on CMS_AUDIENCE(APPLICATION_ID,CODE)
+/
+CREATE INDEX CMS_ASSET_TYPE_APP_FK_idx ON CMS_ASSET_TYPE (APPLICATION_ID)
+/
+CREATE INDEX CMS_AST_TYP_ITM_AST_TYP_FK_idx ON CMS_ASSET_TYPE_ITEM (ASSET_TYPE_ID)
+/
+CREATE INDEX CMS_AUDIENCE_APP_FK_idx ON CMS_AUDIENCE (APPLICATION_ID)
+/
+CREATE INDEX CMS_CONTENT_CONTENT_KEY_FK_idx ON CMS_CONTENT (CONTENT_KEY_ID)
+/
+CREATE INDEX CMS_CONTENT_DATA_CONTNT_FK_idx ON CMS_CONTENT_DATA (CONTENT_ID)
+/
+CREATE INDEX CMS_CONTENT_KEY_ASSET_FK_idx ON CMS_CONTENT_KEY (ASSET_ID)
+/
+CREATE INDEX CMS_CNTKY_AUD_LNK_CNTKY_FK_idx ON CMS_CONTENT_KEY_AUDIENCE_LNK (CONTENT_KEY_ID)
+/
+CREATE INDEX CMS_CONT_KY_AUD_LNK_AUD_FK_idx ON CMS_CONTENT_KEY_AUDIENCE_LNK (AUDIENCE_ID)
+/
+CREATE INDEX CMS_SECTION_APPLICATION_FK_idx ON CMS_SECTION (APPLICATION_ID)
+/
+CREATE SEQUENCE CMS_GENERIC_PK_SQ
+  INCREMENT BY 100
+  START WITH 10000821
+  MINVALUE 1
+  MAXVALUE 99999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+CREATE SEQUENCE CMS_UNIQUE_NAME_SQ
+  INCREMENT BY 1
+  START WITH 20000000
+  MINVALUE 1
+  MAXVALUE 99999999
+  NOCYCLE
+  NOORDER
+  CACHE 20
+/
+-- add indexes with schema appropriate tablespace
+DECLARE
+   v_index_tablespace   VARCHAR2(30);
+   v_stage              execution_log.text_line%TYPE;
+
+   CURSOR cur_index_tablespace IS
+   SELECT ut.tablespace_name
+     FROM user_tablespaces ut
+    WHERE ut.tablespace_name LIKE '%INDEX%';
+----------
+-- In-line processes
+----------
+-- Executes the input statement
+PROCEDURE p_exec_stmt
+   ( i_tablespace IN VARCHAR2,
+     i_sql_stmt   IN VARCHAR2
+   ) IS
+      v_sql_stmt  VARCHAR2(1000) := i_sql_stmt;
+   BEGIN
+      IF (i_tablespace IS NOT NULL) THEN
+         v_sql_stmt := v_sql_stmt || ' TABLESPACE ' || i_tablespace;
+      END IF;
+
+      v_stage := 'Execute: ' || v_sql_stmt;
+      dbms_output.put_line(v_stage);
+      EXECUTE IMMEDIATE v_sql_stmt;
+   END p_exec_stmt;
+
+BEGIN
+   -- initialize variables
+   v_stage := 'OPEN cur_index_tablespace';
+   OPEN cur_index_tablespace;
+   v_stage := 'FETCH cur_index_tablespace';
+   FETCH cur_index_tablespace INTO v_index_tablespace;
+   CLOSE cur_index_tablespace;
+
+   v_stage := 'v_index_tablespace >' || v_index_tablespace || '<';
+   dbms_output.put_line('v_stage: ' || v_stage);
+
+   -- create index
+   p_exec_stmt(v_index_tablespace, 'CREATE INDEX CMS_ASSET_IDX2        ON cms_asset        (code, id)');
+   p_exec_stmt(v_index_tablespace, 'CREATE INDEX CMS_CONTENT_KEY_IDX2  ON cms_content_key  (asset_id, id)');
+   p_exec_stmt(v_index_tablespace, 'CREATE INDEX CMS_CONTENT_IDX2      ON cms_content      (content_key_id, content_status, locale, id)');
+   p_exec_stmt(v_index_tablespace, 'CREATE INDEX CMS_CONTENT_DATA_IDX2 ON cms_content_data (content_id, key, CAST(DBMS_LOB.substr(value,300, 1) AS VARCHAR2(300 CHAR)))');
+
+EXCEPTION
+   WHEN OTHERS THEN
+      dbms_output.put_line('FAILURE in ' || v_stage || ': ' || SQLCODE || ', ' || SQLERRM);
+      --RAISE;
+END;
+/
+CREATE TABLE cms_content_data_str
+(
+  CONTENT_ID    NUMBER(19)       NOT NULL,
+  KEY           VARCHAR2(40)     NOT NULL,
+  VALUE_STR     VARCHAR2(300 CHAR)
+)
+/
+CREATE UNIQUE INDEX cms_content_data_str_PK
+   ON cms_content_data_str
+   (content_id,
+    key
+   )
+/
+CREATE INDEX cms_content_data_str_IDX2
+   ON cms_content_data_str
+   (content_id,
+    key,
+    value_str
+   )
+/
+CREATE INDEX cms_content_data_str_IDX3
+   ON cms_content_data_str
+   (key,
+    content_id,
+    value_str
+   )
+/
+ALTER TABLE cms_content_data_str ADD
+( CONSTRAINT cms_content_data_str_PK 
+  PRIMARY KEY (content_id, key)
+  USING INDEX cms_content_data_str_PK
+)
+/
+ALTER TABLE cms_content_data_str ADD
+( CONSTRAINT cms_content_data_str_FK 
+  FOREIGN KEY (content_id, key)
+  REFERENCES cms_content_data (content_id, key)
+  ON DELETE CASCADE
+)
+/
+CREATE OR REPLACE TRIGGER cms_content_data_aiu
+   AFTER INSERT OR UPDATE
+   ON cms_content_data
+   REFERENCING NEW AS NEW OLD AS OLD
+   FOR EACH ROW
+BEGIN
+   MERGE INTO cms_content_data_str d
+   USING (  -- convert source clob to string
+            SELECT :NEW.content_id AS content_id,
+                   :NEW.key AS key,
+                   SUBSTR(DBMS_LOB.SUBSTR (:NEW.value, 300, 1), 1, 300) AS value_str
+              FROM dual
+         ) s
+      ON (   d.content_id = s.content_id
+         AND d.key = s.key
+         )
+    WHEN MATCHED THEN
+      UPDATE
+         SET value_str = s.value_str
+       WHERE d.value_str != s.value_str
+    WHEN NOT MATCHED THEN
+      INSERT
+      (content_id,
+       key,
+       value_str
+      )
+      VALUES
+      (s.content_id,
+       s.key,
+       s.value_str
+      );
+
+END ;
+/

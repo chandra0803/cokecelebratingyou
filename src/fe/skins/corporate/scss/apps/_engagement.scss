@@ -1,0 +1,70 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+// $engagement_summary_textColor: ;
+// $engagement_summary_bgColor: ;
+
+// $engagement_summary_tabHeight: ;
+// $engagement_summary_tabsActive_iconColorModule: ;
+// $engagement_summary_tabsActive_iconColorPage: ;
+// $engagement_summary_tabsInactive_iconColorModule: ;
+// $engagement_summary_tabsInactive_iconColorPage: ;
+// $engagement_summary_tabsInactive_iconColorHoverModule: ;
+// $engagement_summary_tabsInactive_iconColorHoverPage: ;
+// $engagement_summary_tabsDividerBorderColor: ;
+
+// $engagement_summary_actualFont: ;
+// $engagement_summary_actualFontWeight: ;
+// $engagement_summary_actualFontStyle: ;
+// $engagement_summary_actualTextColor: ;
+
+// $engagement_summary_actualMeterWidthHeight_mobile: ;
+// $engagement_summary_actualMeterWidthHeight_mobileLarge: ;
+// $engagement_summary_actualMeterWidthHeight_tablet: ;
+// $engagement_summary_actualMeterWidthHeight_desktop: ;
+// $engagement_summary_actualMeterWidthHeight_desktopLarge: ;
+
+// $engagement_summary_actualMeterArcWidth: ;
+// $engagement_summary_actualMeterArcGlowMult: ;
+// $engagement_summary_actualMeterBackgroundArcColor: ;
+// $engagement_summary_actualMeterForegroundArcColor: ;
+// $engagement_summary_actualMeterOver100: ;
+// $engagement_summary_actualMeterOver100Text: ;
+// $engagement_summary_actualMeterOver100Opacity: ;
+// $engagement_summary_actualDecoratorColor: ;
+// $engagement_summary_actualDecoratorOpacity: ;
+
+// $engagement_detail_chartColors: ;
+
+// $engagement_detail_aheadTextColor: ;
+// $engagement_detail_ontrackTextColor: ;
+// $engagement_detail_behindTextColor: ;
+// $engagement_detail_countTextColor: ;
+// $engagement_detail_detailUrlArrowColor: ;
+// $engagement_detail_detailUrlCircleColor: ;
+
+// $engagement_detail_scoreTable_iconColor: ;
+
+// $engagement_detail_treeRootFontColor: ;
+// $engagement_detail_treeBranchLineColor: ;
+// $engagement_detail_treeBranchBg: ;
+// $engagement_detail_treeBranchFontColor: ;
+// $engagement_detail_treeCountBg: ;
+// $engagement_detail_treeCountFontColor: ;
+// $engagement_detail_treeShowMoreFontColor: ;
+
+// $engagement_detail_treeBranchLineWidth: ;
+
+// $engagement_teamMembers_topBorder: ;
+// $engagement_teamMembers_dividerBorder: ;
+// $engagement_pubRec_topBorder: ;
+
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "engagement/scss/engagement";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

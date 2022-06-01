@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name = "com.biperf.core.domain.promotion.PublicRecognitionLike" table = "PUBLIC_RECOGNITION_LIKE">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" column="PUBLIC_RECOGNITION_LIKE_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PUBLIC_RECOGNITION_LIKE_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+        <version name="version" column="VERSION" type="java.lang.Long" />
+        
+        <property name="isLiked" column="IS_LIKED" type="boolean" />
+        
+        <property name="teamId" column="TEAM_ID" type="java.lang.Long" />
+          
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		  
+	    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.participant.Participant"  not-null = "true" lazy="false"/>
+		<many-to-one name="claim" column="CLAIM_ID" class="com.biperf.core.domain.claim.Claim" not-null = "true"  lazy="false"/> 
+		
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PublicRecognitionLike.likeCount">
+	<return-scalar column="count" type="long"/>
+    <![CDATA[
+       select count(*) as count from public_recognition_like
+       where CLAIM_ID = :claimId and is_Liked !=0
+    ]]>
+  	</sql-query>
+   
+    <sql-query name="com.biperf.core.domain.promotion.PublicRecognitionLike.userLikesPerClaim">
+    <return alias="publicRecognition" class="com.biperf.core.domain.promotion.PublicRecognitionLike" />
+    <![CDATA[
+       SELECT *
+			FROM PUBLIC_RECOGNITION_LIKE PR
+		   WHERE exists (SELECT RC.TEAM_ID FROM RECOGNITION_CLAIM RC  WHERE RC.TEAM_ID = PR.TEAM_ID AND CLAIM_ID = :claimId )
+		UNION
+		SELECT *
+			FROM PUBLIC_RECOGNITION_LIKE PR
+		   WHERE exists (SELECT NC.TEAM_ID FROM NOMINATION_CLAIM NC  WHERE NC.TEAM_ID = PR.TEAM_ID AND CLAIM_ID = :claimId) 
+    ]]>
+  	</sql-query>
+  	
+  	<query name="com.biperf.core.domain.promotion.PublicRecognitionLike.userLikesByTeam">
+    <![CDATA[
+       from com.biperf.core.domain.promotion.PublicRecognitionLike  like
+      where like.teamId = :teamId 
+    ]]>
+  	</query>
+  	
+  	<sql-query name="com.biperf.core.domain.promotion.PublicRecognitionLike.isCurrentUserLikedClaim">
+	<return-scalar column="count" type="long"/>
+    <![CDATA[
+       select count(*) as count from public_recognition_like where claim_id = :claimId and user_id = :userId
+    ]]>
+  	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.promotion.PublicRecognitionLike.getLikedPaxListByClaimId">
+	  <return alias="publicRecognition" class="com.biperf.core.domain.promotion.PublicRecognitionLike" />
+      <![CDATA[
+  		SELECT rc.public_recognition_like_id, rc.user_id, rc.claim_id,rc.is_liked,rc.team_id,rc.created_by,rc.date_created,rc.modified_by,rc.date_modified,rc.version
+          FROM (
+                SELECT PR.*
+                  FROM PUBLIC_RECOGNITION_LIKE PR
+                 WHERE EXISTS (SELECT RC.TEAM_ID
+                                 FROM RECOGNITION_CLAIM RC
+                                WHERE RC.TEAM_ID = PR.TEAM_ID
+                                  AND CLAIM_ID = :claimId)
+                UNION
+                SELECT PR.*
+                  FROM PUBLIC_RECOGNITION_LIKE PR
+                 WHERE EXISTS (SELECT RC.TEAM_ID
+                                 FROM NOMINATION_CLAIM RC
+                                WHERE RC.TEAM_ID = PR.TEAM_ID
+                                   AND CLAIM_ID = :claimId)
+                ) rc 
+        WHERE claim_id = :claimId
+        ORDER BY 1 DESC
+        OFFSET :startIndex ROWS FETCH NEXT :lastIndex ROWS ONLY            
+      ]]>
+  	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.promotion.PublicRecognitionLike.getLikedPaxCount">
+	<return-scalar column="count" type="int"/>
+    <![CDATA[
+       SELECT COUNT(*) as count
+       FROM
+        (SELECT PR.user_id
+         FROM PUBLIC_RECOGNITION_LIKE PR
+         WHERE EXISTS
+         (SELECT RC.TEAM_ID
+         FROM RECOGNITION_CLAIM RC
+         WHERE RC.TEAM_ID = PR.TEAM_ID
+         AND CLAIM_ID     = :claimId
+         )
+        UNION
+        SELECT PR.user_id
+        FROM PUBLIC_RECOGNITION_LIKE PR
+        WHERE EXISTS
+        (SELECT RC.TEAM_ID
+        FROM NOMINATION_CLAIM RC
+        WHERE RC.TEAM_ID = PR.TEAM_ID
+        AND CLAIM_ID     = :claimId
+        )
+     )
+    ]]>
+  	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.promotion.PublicRecognitionLike.getUserLikesByTeam">
+	<return alias="prc" class="com.biperf.core.domain.promotion.PublicRecognitionLike" />
+    <![CDATA[
+       	select * from (
+       	select max( CLAIM_ID ) claim_id,user_id,team_id from public_recognition_like where team_id = :teamId  
+		group by user_id,team_id  ) pl, public_recognition_like p 
+      	where p.claim_id = pl.claim_id
+      	and p.user_id = pl.user_id
+      	and p.team_id = pl.team_id
+    ]]>
+  </sql-query>
+  
+</hibernate-mapping>

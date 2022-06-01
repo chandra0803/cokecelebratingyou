@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.promotion.ParticipantFollowers" table="PARTICIPANT_FOLLOWERS">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="PARTICIPANT_FOLLOWER_ID">
+      		<generator class="seqhilo">
+        		<param name="max_lo">0</param> <param name="sequence">PARTICIPANT_FOLLOWER_PK_SQ</param>
+      		</generator>
+    	</id>
+    	
+        <version name="version" column="VERSION" type="java.lang.Long" />          
+				
+		<many-to-one name="participant" column="participant_id" class="com.biperf.core.domain.user.User"  not-null = "true" lazy="false"/>
+		<many-to-one name="follower" column="follower_id" class="com.biperf.core.domain.user.User"  not-null = "true" lazy="false"/>
+		
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property> 
+  
+    </class>
+   <!-- 
+	<query name="com.biperf.core.domain.promotion.ParticipantFollowers.followers">
+      <![CDATA[
+		from com.biperf.core.domain.promotion.ParticipantFollowers pfollower
+		where pfollower.participant.id = :participantId
+	  ]]>
+  	</query>
+  	 -->
+  	<query name="com.biperf.core.domain.promotion.ParticipantFollowers.followers">
+      <![CDATA[
+        from com.biperf.core.domain.participant.Participant participant 
+        where participant.id in 
+        ( select pfollower.follower.id 
+			from com.biperf.core.domain.promotion.ParticipantFollowers pfollower
+			where pfollower.participant.id = :participantId
+			)
+        and participant.status = 'active'
+	  ]]>
+  	</query>
+  	
+  	<sql-query name="com.biperf.core.domain.promotion.ParticipantFollowers.followersUserId">
+	<return-scalar column="paxId" type="long"/>
+    <![CDATA[
+       select FOLLOWER_ID as paxId
+       from participant_followers
+       where PARTICIPANT_ID = :userId
+    ]]>
+  </sql-query>
+  	
+  	
+  	<query name="com.biperf.core.domain.promotion.ParticipantFollowers.getParticipantFollowerByParticipantAndFollower">
+    <![CDATA[
+		from com.biperf.core.domain.promotion.ParticipantFollowers pfollower
+		where pfollower.participant.id = :participantId and pfollower.follower.id = :followerId
+		
+		]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.promotion.ParticipantFollowers.followersCount">
+	<return-scalar column="count" type="long"/>
+    <![CDATA[
+       select count(*) as count from participant_followers
+       where PARTICIPANT_ID = :userId 
+    ]]>
+  </sql-query>
+	
+</hibernate-mapping>

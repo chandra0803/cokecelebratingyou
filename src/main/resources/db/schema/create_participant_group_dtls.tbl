@@ -1,0 +1,18 @@
+
+CREATE SEQUENCE Participant_GROUP_dtl_ID_PK_SQ START WITH 1 INCREMENT BY 1
+
+/
+
+  CREATE TABLE PARTICIPANT_GROUP_DTLS
+    (
+     group_detail_id  NUMBER(18) NOT NULL,     
+     group_id        	NUMBER(18) NOT NULL,     
+     PAX_id     NUMBER(18) NOT NULL
+     )
+/
+ALTER TABLE PARTICIPANT_GROUP_DTLS ADD CONSTRAINT Participant_group_dtl_id_pk PRIMARY KEY (group_detail_id)
+/
+ALTER TABLE PARTICIPANT_GROUP_DTLS ADD CONSTRAINT participant_group_id_fk  FOREIGN KEY (group_id) REFERENCES Participant_GROUP (group_id)
+/
+ALTER TABLE PARTICIPANT_GROUP_DTLS ADD CONSTRAINT pax_group_PAX_id_fk  FOREIGN KEY (PAX_id) REFERENCES participant (user_id)
+/

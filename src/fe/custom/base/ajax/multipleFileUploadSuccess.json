@@ -1,0 +1,10 @@
+{
+    "properties":{
+        "isSuccess": true,
+        "files": [
+            "/g5dev/core/base/img/theDude_bg.jpg",
+            "/g5dev/core/base/img/celebration/technology.jpg",
+            "/g5dev/core/base/img/celebration/awardwinner.jpg"
+        ]
+    }
+}

@@ -1,0 +1,20 @@
+CREATE SEQUENCE rpt_promo_node_activity_id_sq
+/
+CREATE TABLE rpt_promo_node_activity
+(rpt_promo_node_activity_id     NUMBER (18)     NOT NULL,
+ promotion_id                   NUMBER (18),
+ node_id                        NUMBER (18),
+ submission_date                DATE,
+ giver_recvr_type               VARCHAR2 (10 CHAR),
+ activity_count                 NUMBER (12),
+ created_by                     NUMBER (18)     NOT NULL,
+ date_created                   DATE            NOT NULL,
+ modified_by                    NUMBER (18),
+ date_modified                  DATE)
+/
+ALTER TABLE rpt_promo_node_activity ADD (
+  CONSTRAINT rpt_promo_node_activity_pk
+ PRIMARY KEY (rpt_promo_node_activity_id))
+/
+COMMENT ON TABLE rpt_promo_node_activity IS 'Report table stores promotion and node activity data.'
+/

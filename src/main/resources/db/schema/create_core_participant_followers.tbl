@@ -1,0 +1,32 @@
+CREATE SEQUENCE PARTICIPANT_FOLLOWER_PK_SQ START WITH 100 INCREMENT BY 1
+/
+
+CREATE TABLE Participant_Followers
+ (participant_follower_id NUMBER(12) NOT NULL,
+  participant_id Number(18,0),
+  follower_id    Number(18,0),
+  CREATED_BY     NUMBER(18) NOT NULL,
+  DATE_CREATED   DATE NOT NULL,
+  MODIFIED_BY    NUMBER(18),
+  DATE_MODIFIED  DATE,
+  VERSION        NUMBER (18)
+)
+/
+
+ALTER table Participant_Followers
+ADD CONSTRAINT participant_follower_pk PRIMARY KEY (participant_follower_id)
+USING INDEX
+/
+
+ALTER TABLE Participant_Followers ADD CONSTRAINT participant_follower_fk
+  FOREIGN KEY (follower_id) REFERENCES application_user (user_id)
+/
+
+ALTER TABLE Participant_Followers ADD CONSTRAINT pax_fk
+  FOREIGN KEY (participant_id) REFERENCES application_user (user_id) 
+/
+
+ALTER TABLE Participant_Followers
+ADD CONSTRAINT Participant_Followers_udk UNIQUE (participant_id, follower_id)
+USING INDEX
+/

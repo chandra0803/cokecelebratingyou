@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.proxy.Proxy" table="PROXY">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" column="PROXY_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PROXY_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+	    
+	<many-to-one name="proxyUser" column="PROXY_USER_ID" lazy="false" class="com.biperf.core.domain.participant.Participant" not-null="true"/>
+	<many-to-one name="user" column="USER_ID" lazy="false" class="com.biperf.core.domain.participant.Participant" not-null="true"/>
+	
+	<property name="allModules" type="boolean" column="IS_ALL_MODULE" not-null="true"/>
+	<property name="coreAccess" type="java.lang.String" column="CORE_ACCESS" />
+	<property name="allowLeaderboard"  type="boolean" column="ALLOW_LEADERBOARD" not-null="true"/>    
+	<set name="proxyModules" table="PROXY_MODULE" lazy="true" inverse="true" cascade="all-delete-orphan">
+	  <key column="PROXY_ID" />
+	  <one-to-many class="com.biperf.core.domain.proxy.ProxyModule" />
+	</set>
+	    
+	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    
+    <!-- Insert additional column mappings here  -->
+
+    </class>
+
+    <!-- Named Queries go here.  If you don't need a named query - delete this section  -->
+     
+    <query name="com.biperf.core.domain.proxy.getProxiesByUserId">
+		<![CDATA[
+		from com.biperf.core.domain.proxy.Proxy p 
+	   where p.user.id = :userId
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.proxy.getUsersByProxyUser">
+      <![CDATA[
+      select user
+        from com.biperf.core.domain.user.User user,
+             com.biperf.core.domain.proxy.Proxy p,
+       where user.id = p.user.id
+         and p.proxyUser.id = :proxyUserId
+      ]]>
+    </query>
+  
+    <query name="com.biperf.core.domain.proxy.getProxyByUserAndProxyUser">
+	  <![CDATA[
+		from com.biperf.core.domain.proxy.Proxy p 
+	   where p.user.id = :userId
+		 and p.proxyUser.id = :proxyUserId
+		]]>
+	</query>
+      	
+</hibernate-mapping>

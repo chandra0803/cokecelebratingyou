@@ -1,0 +1,59 @@
+CREATE SEQUENCE promo_notification_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE promo_notification
+(promo_notification_id        NUMBER(18,0) NOT NULL,
+ promotion_id                 NUMBER(18,0) NOT NULL,
+ promotion_notification_type  VARCHAR2(80) NOT NULL,
+ notification_type            VARCHAR2(80) NOT NULL,
+ notification_message_id      NUMBER(18,0) NOT NULL,
+ claim_form_step_email_id     NUMBER(18,0),
+ number_of_days               NUMBER(18,0),
+ frequency_type		          VARCHAR2(80),
+ dayofweek_type               VARCHAR2(80),
+ descriminator 				  VARCHAR2(80),
+ DAY_OF_MONTH 				  NUMBER(2,0) DEFAULT 1 NOT NULL,
+ created_by 				  number(18) NOT NULL,
+ date_created                 DATE NOT NULL,
+ modified_by 				  number(18),
+ date_modified                DATE,
+ version                      NUMBER(18,0) NOT NULL,
+ sequence_num				  NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE promo_notification
+ADD CONSTRAINT promo_notification_pk PRIMARY KEY (promo_notification_id)
+USING INDEX
+/
+ALTER TABLE promo_notification ADD CONSTRAINT promo_notification_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/
+ALTER TABLE promo_notification ADD CONSTRAINT promo_notification_cfse_fk
+  FOREIGN KEY (claim_form_step_email_id) REFERENCES claim_form_step_email (claim_form_step_email_id)
+/
+CREATE INDEX PROMO_NOTIF_CFS_EMAIL_FK_idx ON PROMO_NOTIFICATION
+  (CLAIM_FORM_STEP_EMAIL_ID)
+/
+CREATE INDEX PROMO_NOTIF_PROMO_FK_idx ON PROMO_NOTIFICATION
+  (PROMOTION_ID)
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.PROMO_NOTIFICATION_ID IS 'system generated PK.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.PROMOTION_ID IS 'FK to promotion.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.PROMOTION_NOTIFICATION_TYPE IS 'type of promotion notification type - promotion or claim form.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.NOTIFICATION_TYPE IS 'type of notification. For example: Program Launch, Program End, Pax Inactivity, Approver Reminder,etc.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.NOTIFICATION_MESSAGE_ID IS 'FK to the message library'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.CLAIM_FORM_STEP_EMAIL_ID IS 'FK to claim_step_form_email.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.NUMBER_OF_DAYS IS 'depends on the notification_type, number of days passed to send the notification.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.FREQUENCY_TYPE IS 'type of freqeuency to send notification. Currently used by Approver Reminder.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.DAYOFWEEK_TYPE IS 'the day of the week to send notification if frequency_type is weekly. Currently used by Approver Reminder.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.SEQUENCE_NUM IS 'Order in which the notification for the promotion will be stored.'
+/
+COMMENT ON COLUMN PROMO_NOTIFICATION.DESCRIMINATOR IS 'a generic type of flag for a process to use for any additional processing atributes.'
+/

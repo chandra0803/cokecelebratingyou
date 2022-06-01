@@ -1,0 +1,247 @@
+<!-- ======== NOMINATION WINNERS LIST PAGE ======== -->
+<div id="nominationWinnersListPageView" class="page-content nominationWinnersPage">
+	<input type="hidden" name="promotionId " id="promotionId" value="2" />
+
+	<form id="nominationWinnersForm" method="post" action="ajax/nominationsWinnersList.json">
+		<div class="page-topper">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="formSection nominationSection">
+						<div class=" validateme nominationPromo" data-validate-fail-msgs='{"nonempty":"You must select a promotion."}' data-validate-flags='nonempty'>
+							<label class="control-label" for="nominationId"></label>
+							<div class="controls nominationWrapper">
+								<select id="nominationId" name="nominationId">
+									 <option class="defaultOption" selected="selected" value="">Choose one</option>
+									 <!-- dynamic -  once on page load  -->
+								</select>
+							</div><!-- /.nominationWrapper -->
+						</div>
+
+						<div class="controls nominationChangeWrapper span12" style="display:none">
+							<span class="nominationName"><!-- dynamic --></span>
+
+							<button type="button" id="buttonChangeNomination" class="btn btn-primary">Change</button>
+						</div><!-- /.nominationChangeWrapper -->
+
+						<div class="nominationChangeConfirmDialog" style="display:none">
+							<p>
+							   <b>Change the nomination?</b>
+							</p>
+
+							<p>Your current selections and entries will be lost.</p>
+
+							<p class="tc">
+							   <button id="buttonChangeNominationConfirm" class="btn btn-primary">Yes</button>
+							   <button id="buttonChangeNominationCancel" class="btn">Cancel</button>
+							</p>
+						</div><!-- /.nominationChangeConfirmDialog -->
+					</div><!--/.nominationSection-->
+				</div>
+			</div><!--/.row-fluid-->
+		</div><!--/.page-topper-->
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="nominationWinnersSearch">
+                    <h4 class="archivedWinnersTitle">Archived Winners</h4>
+                    <label for="nominationWinnersSearchInput">Search (All fields optional)</label>
+                    <div class="defaultFilterCreationWrapper">
+                            <select name="winnerSearchSelect" class="winnerSearchSelect" id="winnerSearchSelect">
+                                <option value="lname">Last Name</option>
+                                <option value="country">Country</option>
+                                <option value="dept">Department</option>
+                                <option value="team">Team Name</option>
+                                <option value="fname">First Name</option>
+                            </select>
+                            <div class="input-append searchWrap dropdown" data-validate-fail-msgs='{"minlength":"Enter at least 2 characters to start"}' data-validate-flags='minlength' data-validate-min-length="2">
+                            <input name="nominationWinnerSearch" id="nominationWinnersSearchInput" type="text" placeholder="Last Name" data-autocomp-delay="500" data-autocomp-min-chars="2" data-autocomp-url="ajax/nominationWinnersSearch_autocomp_firstName.json">
+                            <ul class="dropdown-menu winnersSearchDropdownMenu" role="menu" data-msg-instruction="Start typing please." data-msg-no-results="No results found, please refine text.">
+                                <!-- dynamic -->
+                            </ul>
+                            <div class="spinnerWrap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.row-fluid-->
+
+		<div class="row-fluid">
+			<div class="dateRange span12">
+
+			<div class="control-group input-append input-append-inside"
+				data-validate-flags="nonempty"
+				data-validate-fail-msgs='{"nonempty" : "Please enter a starting date"}'>
+
+				<label class="control-label" for="nominationsDateStart">Show Activity From</label>
+
+				<div class="controls datepickerTrigger showTodayBtn"
+						data-date-format="mm/dd/yyyy"
+						data-date-language="en_US"
+						data-date-autoclose="true">
+					<input type="text"  class="date datepickerInp" id="nominationsDateStart" name="startDate" value="" readonly="readonly">
+					<button class="btn datepickerBtn awardDateIcon"><i class="icon-calendar"></i></button>
+				</div>
+			</div>
+
+			<div class="control-group input-append input-append-inside"
+				data-validate-flags="nonempty"
+				data-validate-fail-msgs='{"nonempty" : "Please enter an ending date"}'>
+
+				<label class="control-label" for="nominationsDateEnd">To</label>
+
+				<div class="controls datepickerTrigger showTodayBtn" data-date-format="mm/dd/yyyy"
+						data-date-language="en_US"
+						data-date-autoclose="true">
+						<input type="text"  class="date datepickerInp" id="nominationsDateEnd" name="endDate"  value="" readonly="readonly">
+
+						<button class="btn datepickerBtn awardDateIcon">
+							<i class="icon-calendar"></i>
+						</button>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-primary" value="nominationsWinnersSubmit" id="nominationsWinnersSubmit">Submit</button>
+			</div>
+		</div><!--/.row-fluid-->
+        <div class="row-fluid filterContainer" style="display: none;">
+            <span class="filteredBy span">Filtered by</span>
+        </div>
+	</form>
+
+    <div class="row-fluid">
+		<div class="span12">
+		    <!-- NOMINATION -->
+			<div class="row-fluid">
+				<div class="commentsListWrapper span12"></div>
+			</div>
+
+			<script id="commentItemTpl" type="text/x-handlebars-template">
+				{{#each nominationApprovals}}
+                <div class="row-fluid">
+					<div class="innerCommentWrapper nominations-winners-list span12">
+						<div class="app-row-fluid detail-row-fluid">
+							<div class="app-col winnersProfile span4">
+								{{#winnersInfo}}
+
+								<div class="winnersPeriod">{{detailName}}</div>
+
+
+
+                                <span class="avatarwrap">
+                                    {{#if avatarUrl}}
+                                        <img src="{{avatarUrl}}"  />
+                                    {{else}}
+                                        {{#if teamNomination}}
+                                            <div class="avatar-initials">{{trimString teamNominationWinnersName 0 1}}</div>
+                                        {{else}}
+                                            <div class="avatar-initials">{{trimString winnerName 0 1}}</div>
+                                        {{/if}}
+                                    {{/if}}
+                                </span>
+
+								<span class="winnersName">
+									{{#if teamNomination}}
+										<a href="#" class="profile-popover" data-participant-ids="[{{#commaList ../teamList}}{{id}}{{/commaList}}]">{{teamNominationWinnersName}}</a>
+                                    </span>
+									{{else}}
+										<a class="profile-popover" href="#" data-participant-ids="[{{winnerId}}]">
+											{{winnerName}}
+										</a>
+                                    </span>
+
+                                    <span class="orgName">
+
+                                        {{#if winnerOrgName}}
+                                        {{winnerOrgName}}
+                                        {{/if}}
+                                        {{#if departmentName}}
+                                        - {{this.departmentName}}
+                                        {{/if}}
+                                        {{#if winnerPosition}}
+                                         - {{winnerPosition}}
+                                        {{/if}}
+                                    </span>
+									{{/if}}
+
+								{{/winnersInfo}}
+							</div><!--/.winnersProfile-->
+
+							{{#nominatorInfo}}
+							<div class="app-col comment-block span7">
+								<p class="commentTitle"><strong>Because They...</strong></p>
+
+								<p>{{{commentText}}}</p>
+
+								<p class="nominatorInfo">
+									<span class="nominatorName">
+										<a class="profile-popover" href="#" data-participant-ids="[{{nominatorID}}]">{{nominatorName}} </a>
+
+									</span>
+                                    <span class="nominatorOrg">
+                                        {{#if nominatorOrg}}
+                                        {{nominatorOrg}}
+                                        {{/if}}
+                                        {{#if departmentName}}- {{this.departmentName}}{{/if}}
+                                    </span>
+
+									<span class="title">{{#if title}}- {{this.title}}{{/if}}</span>
+								</p>
+							</div>
+                            {{/nominatorInfo}}
+
+							<div class="app-col chevron">
+								<a href="{{detailUrl}}">
+									<i class="icon-arrow-1-right"></i>
+								</a>
+							</div>
+						</div>
+					</div><!-- /.innerCommentWrapper -->
+                </div>
+				{{/each}}
+			</script>
+		</div><!--/.span12-->
+    </div><!--/.row-fluid-->
+
+    <!-- modal to catch errors from server on no search results -->
+    <script id="commentErrorTpl" type="text/x-handlebars-template">
+        <div class="modal hide fade winListErrorsModal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                <h3>
+                    <i class="icon-warning-triangle"></i>
+                    Error(s) encountered
+                </h3>
+            </div>
+            <div class="modal-body">
+                <ul class="errorsList">
+                    {{#each messages}}
+                        <li>{{text}}</li>
+                    {{/each}}
+
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+        </div><!-- /.winListErrorsModal -->
+    </script>
+</div>
+<!-- Instantiate the PageView - this goes here as it expresses the DOM element the PageView is getting attached to -->
+<script>
+$(document).ready( function() {
+    //attach the view to an existing DOM element
+    var nlpv = new NominationWinnersListPageView({
+        el:$('#nominationWinnersListPageView'),
+        pageNav : {
+            back : {
+                text : 'Back',
+                url : 'layout.html'
+            },
+            home : {
+                text : 'Home',
+                url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+            }
+        },
+        pageTitle : 'Nomination Winners'
+    });
+});
+</script>

@@ -1,0 +1,313 @@
+
+
+<div id="LaunchPageView">
+    <h2 class="page-title"></h2>
+
+
+    <div class="moduleContainerViewElement">
+        <div class="modules-woke"></div>
+        <div class="modules-slept"></div>
+
+        <!-- dynamic content -->
+
+    </div> <!-- /.moduleContainerViewElement -->
+</div><!-- /#LaunchPageView -->
+
+
+<!-- nominations winner check added to this page, even though it's a weird place to put it -->
+<script>
+$(document).ready(function(){
+    G5.props.CHECK_FOR_NOMINATION_WINNER = true;
+});
+</script>
+
+
+<!-- MODULES SETUP -->
+<script>
+
+    //Main Home Application Setup Function
+    $(document).ready(function(){
+        var isSubset = typeof G5.props.urlParams.moduleSubset != 'undefined',
+                allModules,moduleSubset;
+
+        //instantiate Launch
+        window.hapv = new LaunchPageView({
+            el : $('#LaunchPageView'),
+            pageNav : {},
+            pageTitle : '',
+            userHomeFilter: 'programs',
+            isFooterSheets : false
+        });
+
+        // Every Module in the World
+        // Listed in order by appName
+        allModules = [
+            /***
+             *    888
+             *    888
+             *    888
+             *    88888b.   .d88b.  888d888 .d88b.
+             *    888 "88b d8P  Y8b 888P"  d88""88b
+             *    888  888 88888888 888    888  888
+             *    888  888 Y8b.     888    Y88..88P
+             *    888  888  "Y8888  888     "Y88P"
+             *
+             *
+             *
+             */
+            {
+                name:'heroModule',
+                appName: 'hero',//name of the app
+                //templateName: 'testModule',//use this for template lookup instead of name
+                //viewName: 'testModule',//override name for view object
+                filters:{
+                    'programs':{ order:'0', searchEnabled: false },
+                    // order:hidden takes precedence over search and module shouldn't show
+                    'information':{ order:'hidden', searchEnabled: false },
+                    // search off means module shouldn't show regardless of order
+                    'manager':{ order:0, searchEnabled: false },
+                    'reports':{ order:'hidden' }
+                }
+            },
+
+            /***
+             *
+             *
+             *
+             *    88888b.  888d888 .d88b.   .d88b.  888d888 8888b.  88888b.d88b.  .d8888b
+             *    888 "88b 888P"  d88""88b d88P"88b 888P"      "88b 888 "888 "88b 88K
+             *    888  888 888    888  888 888  888 888    .d888888 888  888  888 "Y8888b.
+             *    888 d88P 888    Y88..88P Y88b 888 888    888  888 888  888  888      X88
+             *    88888P"  888     "Y88P"   "Y88888 888    "Y888888 888  888  888  88888P'
+             *    888                           888
+             *    888                      Y8b d88P
+             *    888                       "Y88P"
+             */
+
+            // xpromo from dave when ready
+            {
+                name:'xpromoModule',
+                appName: 'xpromo',//name of the app
+                //templateName: 'testModule',//use this for template lookup instead of name
+                //viewName: 'testModule',//override name for view object
+                filters:{
+                    'programs':{ order:'1' },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            },
+
+            {
+                name:'goalquestModule',
+                appName: 'goalquest',//name of the app
+                filters:{
+                    'programs':{ order:2 },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            },
+            {
+                name:'challengepointModule',
+                appName: 'goalquest',//name of the app
+                filters:{
+                    'programs':{ order:2 },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            },
+            {
+                name:'onTheSpotCardModule',
+                appName: 'onTheSpotCard',//name of the app
+                //templateName: 'testModule',//use this for template lookup instead of name
+                //viewName: 'testModule',//override name for view object
+                filters:{
+                    'programs':{ order:3 },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            },
+
+            /***
+             *    d8b           .d888                                        888    d8b
+             *    Y8P          d88P"                                         888    Y8P
+             *                 888                                           888
+             *    888 88888b.  888888 .d88b.  888d888 88888b.d88b.   8888b.  888888 888  .d88b.  88888b.
+             *    888 888 "88b 888   d88""88b 888P"   888 "888 "88b     "88b 888    888 d88""88b 888 "88b
+             *    888 888  888 888   888  888 888     888  888  888 .d888888 888    888 888  888 888  888
+             *    888 888  888 888   Y88..88P 888     888  888  888 888  888 Y88b.  888 Y88..88P 888  888
+             *    888 888  888 888    "Y88P"  888     888  888  888 "Y888888  "Y888 888  "Y88P"  888  888
+             *
+             *
+             *
+             */
+
+            {
+                name:'bannerModuleModule',
+                appName: 'bannerModule',//name of the app
+                //templateName: 'testModule',//use this for template lookup instead of name
+                //viewName: 'testModule',//override name for view object
+                filters:{
+                    'programs':{ order:'hidden' },
+                    'information':{ order:1 },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            },
+            {
+                name:'newsModule',
+                appName: 'news',//name of the app
+                //templateName: 'testModule',//use this for template lookup instead of name
+                //viewName: 'testModule',//override name for view object
+                filters:{
+                    'programs':{ order:'hidden' },
+                    'information':{ order:2 },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            },
+            {
+                name:'resourceCenterModule',
+                appName: 'resourceCenter',//name of the app
+                //templateName: 'testModule',//use this for template lookup instead of name
+                //viewName: 'testModule',//override name for view object
+                filters:{
+                    'programs':{ order:'hidden' },
+                    'information':{ order:3 },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            },
+            {
+                name:'tipModule',
+                appName: 'tip',//name of the app
+                //templateName: 'testModule',//use this for template lookup instead of name
+                //viewName: 'testModule',//override name for view object
+                filters:{
+                    'programs':{ order:'hidden' },
+                    'information':{ order:4 },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            },
+
+
+
+            /***
+             *
+             *
+             *
+             *    88888b.d88b.   8888b.  88888b.   8888b.   .d88b.   .d88b.  888d888
+             *    888 "888 "88b     "88b 888 "88b     "88b d88P"88b d8P  Y8b 888P"
+             *    888  888  888 .d888888 888  888 .d888888 888  888 88888888 888
+             *    888  888  888 888  888 888  888 888  888 Y88b 888 Y8b.     888
+             *    888  888  888 "Y888888 888  888 "Y888888  "Y88888  "Y8888  888
+             *                                                  888
+             *                                             Y8b d88P
+             *                                              "Y88P"
+             */
+
+            {
+                name:'goalquestManagerModule',
+                appName: 'goalquest',//name of the app
+                filters:{
+                    'programs':{ order:'hidden' },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:0 },
+                    'reports':{ order:'hidden' }
+                }
+
+            },
+            {
+                name:'challengepointManagerModule',
+                appName: 'goalquest',//name of the app
+                filters:{
+                    'programs':{ order:'hidden' },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:1 },
+                    'reports':{ order:'hidden' }
+                }
+            },
+            {
+                name:'managerToolkitModule',
+                appName: 'managerToolkit',//name of the app
+                //templateName: 'testModule',//use this for template lookup instead of name
+                //viewName: 'testModule',//override name for view object
+                filters:{
+                    'programs':{ order:'hidden' },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:6 },
+                    'reports':{ order:'hidden' }
+                }
+            },
+
+
+            /***
+             *                                              888
+             *                                              888
+             *                                              888
+             *    888d888 .d88b.  88888b.   .d88b.  888d888 888888 .d8888b
+             *    888P"  d8P  Y8b 888 "88b d88""88b 888P"   888    88K
+             *    888    88888888 888  888 888  888 888     888    "Y8888b.
+             *    888    Y8b.     888 d88P Y88..88P 888     Y88b.       X88
+             *    888     "Y8888  88888P"   "Y88P"  888      "Y888  88888P'
+             *                    888
+             *                    888
+             *                    888
+             */
+
+            {
+                name:'reportsDashboardModule',          // REQUIRED If not, blankModule and/or other BAD
+                appName: 'reports',             // core/apps/[appName]/tpl/... or if not core/base/tpl/...
+                // templateName: 'reportsModule',   // .../tpl/[templateName].html or if not .../tpl/[name].html
+                // viewName: 'ReportsModule',       // 1-[<V>iewName]View 2-[<N>ame]View 3-ModuleView
+                filters:{
+                    'programs':{ order:'hidden' },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:0 }
+                }
+            }
+
+        ]; // allModules
+
+
+        // FE Development only
+        if(isSubset) {
+            hapv.doDevMode(allModules);
+        } else {
+
+            //ADD MODULES
+            hapv.launchApp.moduleCollection.reset(allModules);
+        }
+
+
+
+    });
+
+</script>
+
+
+<!-- nominations winner template added to this page, even though it's a weird place to put it -->
+<script type="text/x-handlebars-template" id="globalNavViewTpl">
+    <div id="globalNavView">
+        <div class="nav">
+            <span class='item programsFilter {{#eq active "programs"}}active{{/eq}}'>
+                <a href="layout.html?tplPath=base/tpl/&tpl=modulesPageGQ.html#launch/programs">Programs</a>
+            </span>
+            <span class='item informationFilter {{#eq active "information"}}active{{/eq}}'>
+                <a href="layout.html?tplPath=base/tpl/&tpl=modulesPageGQ.html#launch/information">Info</a>
+            </span>
+            <span class='item managerFilter {{#eq active "manager"}}active{{/eq}}'>
+                <a href="layout.html?tplPath=base/tpl/&tpl=modulesPageGQ.html#launch/manager">Manager</a>
+            </span>
+            <span class='item reportsFilter {{#eq active "reports"}}active{{/eq}}'>
+                <a href="layout.html?tplPath=base/tpl/&tpl=modulesPageGQ.html#launch/reports">Reports</a>
+            </span>
+        </div>
+    </div><!-- /#globalNavView -->
+
+</script>

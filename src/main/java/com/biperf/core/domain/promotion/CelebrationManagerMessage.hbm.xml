@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.promotion.CelebrationManagerMessage" table="celebration_manager_message">
+
+		<!-- This is the surrogate primary key. Make sure the column and sequence 
+			names are correct. -->
+		<id name="id" column="CELEBRATION_MANAGER_MESSAGE_ID" type="java.lang.Long">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">c_manager_message_pk_sq</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+		
+   		<property name="anniversaryNumberOfDays" type="java.lang.Integer" column="ANNIVERSARY_NUM_DAYS"/>
+    	<property name="anniversaryNumberOfYears" type="java.lang.Integer" column="ANNIVERSARY_NUM_YEARS"/>	
+		<property name="msgCollectExpireDate" type="java.util.Date" column="MESSAGE_COLLECT_EXPIRE_DATE"/>    	  	 
+  		<property name="managerMessage" type="java.lang.String" column="MANAGER_MESSAGE"/>		
+    	<property name="managerAboveMessage" type="java.lang.String" column="MANAGER_ABOVE_MESSAGE"/>	
+		<many-to-one name="promotion" class="com.biperf.core.domain.promotion.RecognitionPromotion" column="PROMOTION_ID" not-null="true" lazy="false"/>
+		<many-to-one name="recipient" class="com.biperf.core.domain.participant.Participant" column="RECIPIENT_ID" not-null="true" lazy="false"/>
+		<many-to-one name="manager" class="com.biperf.core.domain.user.User" column="MANAGER_ID" not-null="false" lazy="proxy"/>
+		<many-to-one name="managerAbove" class="com.biperf.core.domain.user.User" column="MANAGER_ABOVE_ID" not-null="false" lazy="proxy"/>	
+
+	</class>
+	
+	<sql-query name="com.biperf.core.domain.promotion.CelebrationManagerMessage.getCelebrationManagerByPromotion">
+	<return alias="cm" class="com.biperf.core.domain.promotion.CelebrationManagerMessage" />
+	<![CDATA[
+		select {cm.*}
+ 		from celebration_manager_message cm 
+ 		where trunc(cm.message_collect_expire_date) >= trunc(sysdate) 
+ 		and ( cm.manager_message is null OR cm.manager_above_message is null)
+ 		and cm.promotion_id = :promotionId
+     ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.promotion.CelebrationManagerMessage.getDefaultCelebrationEcard">
+	<return-scalar column="ecard" type="string"/>
+	<![CDATA[
+       SELECT CASE
+          WHEN c.is_translatable = 1 AND :locale = 'en_US' THEN c.flash_name
+          WHEN c.is_translatable = 1 AND :locale != 'en_US' AND el.display_name IS NOT NULL THEN el.display_name
+          WHEN c.is_translatable = 1 AND :locale != 'en_US' AND el.display_name IS NULL THEN c.flash_name
+          ELSE c.flash_name
+       END
+          ecard
+       FROM ecard c, ecard_locale el
+       WHERE c.card_id = el.card_id(+)
+       AND c.flash_name like :ecardFlashName
+       AND el.locale(+) = :locale
+       UNION ALL
+       SELECT CASE
+          WHEN c.is_translatable = 1 AND :locale = 'en_US' THEN c.flash_name
+          WHEN c.is_translatable = 1 AND :locale != 'en_US' AND el.display_name IS NOT NULL THEN el.display_name
+          WHEN c.is_translatable = 1 AND :locale != 'en_US' AND el.display_name IS NULL THEN c.flash_name
+          ELSE c.flash_name
+       END
+          ecard
+       FROM ecard c, promo_recognition pr, ecard_locale el
+       WHERE    c.flash_name like '%' || pr.celebration_generic_ecard || '%'
+       AND pr.promotion_id = :promotionId
+       AND c.card_id = el.card_id(+)
+       AND NOT EXISTS (SELECT * FROM ecard WHERE flash_name like :ecardFlashName)
+       AND el.locale(+) = :locale
+     ]]>
+	</sql-query>
+		
+</hibernate-mapping>

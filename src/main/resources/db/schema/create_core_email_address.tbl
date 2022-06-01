@@ -1,0 +1,51 @@
+CREATE TABLE USER_EMAIL_ADDRESS
+   (email_address_id   number(18) not null,
+    user_id            number(18) not null,
+    email_type         VARCHAR2(30) NOT NULL,
+    email_addr         VARCHAR2(75) NOT NULL,
+    email_status       VARCHAR2(9),
+    created_by number(18)NOT NULL,
+    is_primary         NUMBER(1),
+    date_created       DATE NOT NULL,
+    modified_by number(18),
+    date_modified      DATE,
+    version            number(18) not null)
+/
+
+ALTER TABLE USER_EMAIL_ADDRESS
+ADD CONSTRAINT USER_EMAIL_ADDRESS_PK PRIMARY KEY (email_address_id)
+USING INDEX
+/
+ALTER TABLE USER_EMAIL_ADDRESS ADD CONSTRAINT USER_EMAIL_ADDRESS_USER_FK 
+FOREIGN KEY (USER_ID) REFERENCES APPLICATION_USER (USER_ID)
+/
+ALTER TABLE USER_EMAIL_ADDRESS ADD CONSTRAINT user_email_address_UK 
+UNIQUE (USER_ID,EMAIL_TYPE,IS_PRIMARY)
+/
+CREATE INDEX USER_EMAIL_ADDRESS_USER_FK_idx ON USER_EMAIL_ADDRESS
+  (USER_ID)
+/
+COMMENT ON TABLE USER_EMAIL_ADDRESS IS 'The PAX_EMAIL_ADDRESS table stores participant email address information.  Several different email types are defined, so each participant can have multiple email addresses on file.  The primary email address is used as the default for all email communications, so one email address must be designated as the primary on the associated PARTICIPANT record.'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.email_address_id IS 'System generated PK'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.user_id IS 'FK to the application_user tbl'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.email_type IS 'Indicates the type of email address.'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.email_addr IS 'The email address associated with the email_type and participant_id.'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.email_status IS 'Indicates if the email address has been verified to be correct.'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.date_created IS '- Retrofitted'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.created_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.modified_by IS '- Retrofitted'
+/
+COMMENT ON COLUMN USER_EMAIL_ADDRESS.date_modified IS '- Retrofitted'
+/
+create sequence USER_EMAIL_ADDRESS_PK_SQ 
+start with 7300
+cache 20
+/

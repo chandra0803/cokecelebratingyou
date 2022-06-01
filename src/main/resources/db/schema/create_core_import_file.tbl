@@ -1,0 +1,114 @@
+CREATE SEQUENCE import_file_pk_sq INCREMENT BY 1 START WITH 600
+/
+CREATE TABLE import_file
+  (
+    import_file_id              NUMBER(18) NOT NULL,
+    file_name                   VARCHAR2(256) NOT NULL,
+    file_type                   VARCHAR2(30) NOT NULL,
+    FILE_IMPORT_APPROVAL_TYPE   VARCHAR2(30),
+    import_record_count         NUMBER(10) NOT NULL,
+    import_record_error_count   NUMBER(10) NOT NULL,
+    status                      VARCHAR2(30) NOT NULL,
+    hierarchy_id                NUMBER(18),
+    message_id                  NUMBER(18),
+    promotion_id                NUMBER(18),
+    replace_values              NUMBER(1),
+    progress_end_date           DATE,
+    is_recognition_deposit      NUMBER(1),
+    card_id                     NUMBER(12),
+    copy_manager                NUMBER(1)  DEFAULT 0 ,
+    submitter_comments          VARCHAR2(4000),
+    submitter_id                NUMBER(18),
+    submitter_node_id           NUMBER(18),
+    leaderboard_id 				NUMBER(18,0),
+    promo_badge_id  		    NUMBER(18,0),
+    earned_date 				DATE,
+    action           			VARCHAR2(1),
+    as_of_date 					DATE,
+    round_number 				NUMBER(18,0),
+    budget_segment_id 			NUMBER(18,0),
+    budget_master_id 			NUMBER(18,0),    
+    contest_id		 			NUMBER(18,0),
+    staged_by                   VARCHAR2(40) NOT NULL,
+    date_staged                 DATE NOT NULL,
+    verified_by                 VARCHAR2(40),
+    date_verified               DATE,
+    imported_by                 VARCHAR2(40),
+    date_imported               DATE,
+    delay_award_date			DATE,
+    version                     NUMBER(18)
+  )
+/
+ALTER TABLE import_file
+ADD CONSTRAINT import_file_pk PRIMARY KEY (import_file_id)
+USING INDEX
+/
+ALTER TABLE import_file
+ADD certificate_id NUMBER(12,0)
+/
+ALTER TABLE import_file
+ADD behavior VARCHAR2(40)
+/
+ALTER TABLE import_file
+ADD country_id NUMBER(18,0)
+/
+COMMENT ON TABLE import_file IS 'Information about an import file.'
+/
+COMMENT ON COLUMN import_file.import_file_id IS 'Uniquely identifies an import file.'
+/
+COMMENT ON COLUMN import_file.file_name IS 'The name of this import file.'
+/
+COMMENT ON COLUMN import_file.file_type IS 'The type of import records contained by this import file.'
+/
+COMMENT ON COLUMN import_file.FILE_IMPORT_APPROVAL_TYPE IS 'The type of approval (for product claims)'
+/
+COMMENT ON COLUMN import_file.import_record_count IS 'The number of import records in this import file.'
+/
+COMMENT ON COLUMN import_file.import_record_error_count IS 'The number of invalid import records in this import file.'
+/
+COMMENT ON COLUMN import_file.status IS 'The current state of the import process for this import file: staged, verified, imported.'
+/
+COMMENT ON COLUMN import_file.hierarchy_id IS 'The ID of the hierarchy associated with this import file.  A foreign key into the HIERARCHY table.'
+/
+COMMENT ON COLUMN import_file.message_id IS 'The ID of the email message associated with this import file.  A foreign key into the MESSAGE table.'
+/
+COMMENT ON COLUMN import_file.promotion_id IS 'The ID of the promotion associated with this import file.  A foreign key into the PROMOTION table.'
+/
+COMMENT ON COLUMN import_file.replace_values IS 'Replace budget amounts if true. '
+/
+COMMENT ON COLUMN import_file.progress_end_date IS 'End date for GoalQuest progress. '
+/
+COMMENT ON COLUMN import_file.is_recognition_deposit IS 'If true specifies a recognition deposit'
+/
+COMMENT ON COLUMN import_file.copy_manager IS '- Retrofitted'
+/
+COMMENT ON COLUMN import_file.card_id IS 'Card selected for recognition deposit'
+/
+COMMENT ON COLUMN import_file.submitter_comments IS 'Submitter comments for recognition deposit'
+/
+COMMENT ON COLUMN import_file.submitter_id IS 'User ID of the submitter for recognition deposit'
+/
+COMMENT ON COLUMN import_file.submitter_node_id IS 'Node ID of the submitter for recognition deposit'
+/
+COMMENT ON COLUMN import_file.verified_by IS 'The username of the user that verified the import records in this import file.'
+/
+COMMENT ON COLUMN import_file.date_verified IS 'The date and time at which the import records in this import file were verified.'
+/
+COMMENT ON COLUMN import_file.imported_by IS 'The username of the user that imported the import records in this import file.'
+/
+COMMENT ON COLUMN import_file.date_imported IS 'The date and time at which the import records in this import file were imported.'
+/
+COMMENT ON COLUMN import_file.version IS 'Identifies the version of this import file record.'
+/
+COMMENT ON COLUMN import_file.action IS 'Update or Delete LeaderBoard Pax record.'
+/
+COMMENT ON COLUMN import_file.as_of_date IS 'Display LeaderBoard as of(per) Date.'
+/
+COMMENT ON COLUMN import_file.leaderboard_id IS 'LeaderBoard Id is associated with this import file.'
+/
+COMMENT ON COLUMN import_file.country_id IS 'Country Id associated with this import file.'
+/
+COMMENT ON COLUMN import_file.budget_segment_id IS 'Budget Segment Id is associated with the promotion in this import file.'
+/
+COMMENT ON COLUMN import_file.budget_master_id IS 'Budget Master Id is associated with the import file.'
+/

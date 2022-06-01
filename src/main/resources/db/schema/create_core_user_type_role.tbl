@@ -1,0 +1,16 @@
+CREATE TABLE user_type_role
+(
+  role_id           NUMBER(18) NOT NULL,
+  user_type_code    VARCHAR2(30) NOT NULL
+)
+/
+ALTER TABLE user_type_role
+ADD CONSTRAINT user_type_role_pk PRIMARY KEY (role_id, user_type_code)
+USING INDEX
+/
+COMMENT ON TABLE user_type_role IS 'The user_type_role table specifies which types of users can assume a particular role.'
+/
+COMMENT ON COLUMN user_type_role.role_id IS 'Identifies a particular role.'
+/
+COMMENT ON COLUMN user_type_role.user_type_code IS 'Identifies a user type.'
+/

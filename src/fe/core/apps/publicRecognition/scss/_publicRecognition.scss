@@ -1,0 +1,2181 @@
+// App-specific variables
+// =========================
+$publicRecognition_containerLinkColor: false !default;
+$publicRecognition_containerChevronColor: $grayLight !default;
+$publicRecognition_containerBgColor: $brand_color_white !default;
+$publicRecognition_containerBorderWidth: $g5ModPgBorderWidth !default;
+$publicRecognition_containerBorderColor: $g5ModPgBorderColor !default;
+$publicRecognition_commentBgColor: scale-color($brand_color_link, $lightness: 93.75%) !default;
+
+// purl item
+// these styles should sync up with the "*_detailsBg*" styles in _purlContribute.scss (unless otherwise noted by Creative)
+$publicRecognition_purlItemBgColor: $brand_color_black !default;
+$publicRecognition_purlItemBgImg: 'publicRecognition/pastCelebrationBg.png' !default;
+$publicRecognition_purlItemBgImgPath: $appImagesPath !default;
+$publicRecognition_purlItemBgImgPosition: 80% 0 !default;
+$publicRecognition_purlItemBgImgPosition_mobile: 68% 0 !default;
+$publicRecognition_purlItemBgImgRepeat: no-repeat !default;
+$publicRecognition_purlItemBgImgSize: 200% !default;
+$publicRecognition_purlItemBgImgSize_mobile: 400% !default;
+
+$publicRecognition_purlItemTextColor: $brand_color_white !default;
+$publicRecognition_purlItemAvatarBorderColor: $publicRecognition_purlItemTextColor !default;
+
+//$publicRecognition_purlItemBalloonsImg: 'publicRecognition/celebrationBalloons.png' !default;
+//$publicRecognition_purlItemBalloonsImgPath: $appImagesPath !default;
+$publicRecognition_purlItemBalloonsImgWidth: 290px !default;
+$publicRecognition_purlItemBalloonsImgHeight: 100%;
+$publicRecognition_purlItemBalloonsImgPositionRight: 20% !default;
+
+// nom item
+// these styles should sync up with the "$nominationsPastWinnersModule_bg*" styles in _nominations.scss (unless otherwise noted by Creative)
+$publicRecognition_nomItemBgColor: #55b97c !default;
+$publicRecognition_nomItemBgImg: 'publicRecognition/nominationBg.png' !default;
+$publicRecognition_nomItemBgImgPath: $appImagesPath !default;
+$publicRecognition_nomItemBgImgPosition: center center !default;
+$publicRecognition_nomItemBgImgPosition_mobile: $publicRecognition_nomItemBgImgPosition !default;
+$publicRecognition_nomItemBgImgRepeat: no-repeat !default;
+$publicRecognition_nomItemBgImgSize: 100% !default;
+$publicRecognition_nomItemBgImgSize_mobile: cover!default;
+
+$publicRecognition_nomItemTextColor: $brand_color_white !default;
+$publicRecognition_nomItemAvatarBorderColor: $publicRecognition_nomItemTextColor !default;
+
+$publicRecognition_nomItemBadgeImg: 'publicRecognition/nominationBadgeNoSparkle.png' !default;
+$publicRecognition_nomItemBadgeImgPath: $appImagesPath !default;
+$publicRecognition_nomItemBadgeImgWidth: 130px !default;
+$publicRecognition_nomItemBadgeImgHeight: 100% !default;
+$publicRecognition_nomItemBadgeImgPositionRight: 26% !default;
+
+// Cheers Customization - Celebrating you wip-62128 - Custom styles 
+// Cheers Item
+$cheersRecognition_BgColor: $brand_color_link !default;
+$cheersRecognitionOdd_BgImg: 'publicRecognition/cheersBg.png' !default;
+$cheersRecognitionEven_BgImg: 'publicRecognition/cheersBg_Black.jpg' !default;
+$cheersRecognition_BgImgPath: $appImagesPath !default;
+$cheersRecognition_BgImgPosition: center center !default;
+$cheersRecognition_BgImgPosition_mobile: $publicRecognition_nomItemBgImgPosition !default;
+$cheersRecognition_BgImgRepeat: no-repeat !default;
+$cheersRecognition_BgImgSize: cover !default;
+$cheersRecognition_BgImgSize_mobile: cover!default;
+$cheersRecognition_TextColor: $brand_color_white !default;
+
+// Global variables (overridden for this app only)
+// =========================
+
+// App-specific code
+// ==================================================
+
+
+$publicRecognition_imgWidthComment : 48px;
+
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+
+
+.publicRecognition {
+
+    .pubRecItemsCont,
+    .publicRecognitionItems,
+    .createFollowListWrapper {
+        position: relative;
+
+        &.emptySet,
+        .app-row {
+             margin-top: 10%;
+            h2 {
+                color: $brand_color_black;
+                font-size: $baseFontSize * 1.25;
+                line-height: $baseLineHeight * 1.25;
+                overflow: hidden;
+                text-align: center;
+
+                i {
+                    font-size: 96px;
+                    display: block;
+                    height: auto;
+                    line-height: 104px;
+                    width: 100%;
+                }
+            }
+
+            p {
+                color: $brand_color_black;
+            }
+        }
+    }
+
+    .createFollowListWrapper {
+        color: $brand_color_light;
+        padding-right: 0 !important;
+        position: relative;
+        text-align: center;
+    }
+
+    /* public recognition item (shared)*/
+    .public-recognition-item {
+        position: relative;
+        //overflow: hidden; // hidden hides tool tips
+
+        .app-row {
+            margin: 0;
+            width: auto;
+
+            .app-col {
+                float:left;
+            }
+
+
+
+            // AVATARs
+            .avatarwrap{
+                cursor: pointer;
+                display: inline-block;
+                margin-right: 0;
+                @include avatarSizingNoWrap(70px);
+                a{
+                    color: $brand_color_white;
+                }
+                &.hide{
+                    display: none;
+                }
+                &.recipientAvatar{
+
+                }
+                &.recognizerAvatar{
+                    border: 4px solid $brand_color_white;
+                    @include avatarSizingNoWrap(32px);
+                    bottom: -7px;
+                    right: -7px;
+                    position: absolute;
+                }
+                &.multiRecipientAvatar{
+                    @include avatarSizingNoWrap(40px);
+                    margin: 1px 2px 10px;
+                    &.multiRecipientAvatarCount{
+                        background-color: $brand_color_black;
+                        display: none;
+                        @media (min-width: $breakpoint_desktop_min) {
+                            display: inline-block;
+                        }
+                    }
+                }
+                &.multiReceiverAvatar{
+                    border: 4px solid $brand_color_white;
+                    @include avatarSizingNoWrap(32px);
+                    bottom: -7px;
+                    right: -7px;
+                    position: absolute;
+                }
+                &.commenterAvatar{
+                    @include avatarSizingNoWrap(48px);
+                }
+                &.allRecipAvatar {
+                    background-color: $brand_color_black;
+                    @media (min-width: $breakpoint_desktop_min) {
+                        display: none;
+                    }
+                }
+
+
+
+                @media (min-width: $breakpoint_tablet_min){
+                    @include avatarSizingNoWrap(140px);
+                    &.recipientAvatar{
+
+                    }
+                    &.recognizerAvatar{
+                        @include avatarSizingNoWrap(40px);
+                        bottom: -3px;
+                        right: -3px;
+                        position: absolute;
+                    }
+                    &.multiRecipientAvatar{
+
+                    }
+                    &.multiReceiverAvatar{
+                        @include avatarSizingNoWrap(40px);
+                        bottom: -3px;
+                        right: -3px;
+                    }
+                    &.commenterAvatar{
+
+                    }
+                }
+                @media (min-width: $breakpoint_desktop_min){
+                    //@include avatarSizingNoWrap(70px);
+                    &.recipientAvatar{
+
+                    }
+                    &.recognizerAvatar{
+                        @include avatarSizingNoWrap(40px);
+
+                    }
+                    &.multiRecipientAvatar{
+
+                    }
+                    &.multiReceiverAvatar{
+                        border: none;
+                        position:relative;
+                        right: auto;
+                        bottom:auto;
+                    }
+                    &.commenterAvatar{
+
+                    }
+                    &.allRecipAvatar {
+                        display: none;
+                    }
+
+                }
+            }
+
+
+            .teamRecipientPopover {
+                display: inline-block;
+            }
+
+
+            &.detail-row {
+                .profile-popover {
+                    cursor: pointer;
+                }
+
+                .recognition-block {
+                    float: none;
+                }
+                .noLink {
+                    text-decoration: none;
+                    font-weight: $fontWeightNormal;
+                    color: $brand_color_black;
+                    &.viewAllCommentsBtn{
+                        i {
+                            color: $brand_color_black;
+                        }
+                    }
+                }
+                .likePubRecBtn {
+                    .spin {
+                        @include ie7-inline-block();
+                        display: inline-block;
+                        height: $baseLineHeight;
+                        position: static;
+                        vertical-align: top;
+                        width: $baseLineHeight;
+                    }
+
+                    &.mylike {
+                        i {
+                            color: $brand_color_primary;
+                            font-weight: $fontWeightBold;
+                        }
+
+                        &:active,
+                        &:focus,
+                        &:visited {
+                            text-decoration: none;
+                        }
+                    }
+                }
+
+
+
+                // .pubRecPoints {
+                //     float: right;
+                //     margin-right: 0;
+                // }
+                .propLineTop{
+                    display: block;
+                    float: none;
+                    margin-bottom: $baseLineHeight / 2;
+                    @media (min-width: $breakpoint_tablet_min) {
+                        display: inline-block;
+                        float: right;
+                        margin-bottom:0;
+                    }
+                }
+            }
+
+            &.comment-block {
+                display: block;
+                overflow: hidden;
+
+                &.darken {
+                    background: darken($brand_color_white,30%);
+                }
+
+                .comment {
+                    float: none;
+                    margin-left: $publicRecognition_imgWidthComment + 30px;
+                    word-wrap: break-word;
+
+                    p {
+                        margin-bottom: 0;
+
+                        & ~ p {
+                            margin-bottom: $baseLineHeight / 2; // borrowed from bootstrap/_type.scss
+                        }
+                    }
+
+                    .readMore,
+                    .hide-comment {
+                        margin-top: 5px;
+                        max-width: 100%;
+                    }
+
+                    .translateCont {
+                        display: block;
+                        font-size: 12px;
+                        position: relative;
+                    }
+                    .translatePubRec,
+                    .deletePublicRecognitionLnk,
+                    .translateLinkDisabled {
+                    }
+
+                    .profile-popover {
+                        font-size: 16px;
+                        line-height: 21px;
+                    }
+
+                    @media (max-width: $breakpoint_mobile_max) {
+
+                        .profile-popover {
+                            display: inline-block;
+                            margin: 10px 0 0;
+                        }
+
+                        .hide-comment {
+                            margin-left: 10px;
+                        }
+                    }
+                }
+
+                img {
+                    width: $publicRecognition_imgWidthComment;
+                }
+            }
+
+            .commentInputWrapper,
+            .addPointsWrapper {
+                display: block;
+                float: none !important;
+
+                .alert {
+                    position: relative;
+                }
+            }
+
+        } /* /.app-row */
+
+        .viewOthersPopover ul,
+        .viewAllRecipPopover ul {
+            list-style-type: none;
+            margin: 0;
+        }
+
+        .comment-input {
+            height: auto;
+            padding: 10px;
+            resize: none;
+        }
+
+        .readMore,
+        .hide-comment {
+            display: inline-block;
+            font-size: $fontSizeMid;
+            line-height: $baseLineHeight * 1.3333;
+            margin: 0;
+            max-width: calc(100% - 170px);
+            overflow: hidden;
+            position: relative;
+            word-break: break-word;
+
+            &.noEcard {
+                max-width: 100%;
+            }
+
+            p {
+                margin-bottom: 0;
+            }
+
+            .readMoreTrigger {
+                background-color: $brand_color_white; // hide bg text
+                bottom: 0;
+                cursor: pointer;
+                font-size: $baseFontSize;
+                line-height: 27px;
+                padding-left: 6px;
+                position: absolute;
+                right: 0;
+                z-index: 3;
+            }
+
+            @media (max-width: 1024px) {
+                margin-bottom: 10px;
+                max-width: 100%;
+
+                &.noEcard {
+                    margin-bottom: 0;
+                    max-width: 100%;
+                }
+            }
+        }
+         .propLineTop{
+                    display: block;
+                    float: none;
+                    margin-bottom: $baseLineHeight / 2;
+                }
+        .comment-block {
+            overflow: hidden;
+
+            .readMore,
+            .hide-comment {
+                font-size: $baseFontSize;
+                line-height: $baseLineHeight;
+            }
+            .deletePublicRecognitionLnk {
+                margin-left: 5px;
+            }
+
+            .readMore .readMoreTrigger {
+                background-color: $publicRecognition_commentBgColor; // hide bg text
+            }
+        }
+    } /* /.public-recognition-item */
+
+    .recognition-comment {
+        clear: both;
+        margin: 20px 0 0;
+        overflow: hidden;
+    }
+
+    .translateLinkDisabled {
+        color: $brand_color_dark;
+    }
+
+    .public-recognition-item:nth-child(even) {
+        .recognizerPopover.avatarwrap.recognizerAvatar {
+            border-color: $brand_color_stripe;
+        }
+    }
+
+} /* /.publicRecognition */
+
+
+/* ----- MODULE STYLES ----- */
+.publicRecognition {
+    $appRowGutter : $g5ModuleGutter * 2;
+    font-size: $baseFontSize;
+    height: 100%;
+    line-height: $baseLineHeight * 0.857;
+    min-height: 400px;
+    overflow: auto;
+    position: relative;
+
+    .module-liner {
+        padding: 0;
+        background: $brand_color_white;
+        height: 100%;
+    }
+
+    .spin.more {
+        bottom: 0;
+        top: initial;
+    }
+
+    a {
+        //font-weight: $fontWeightBold;
+    }
+    .publicRecTitle {
+        float: left;
+        margin-left: 70px;
+        margin-bottom: 35px;
+        @media(max-width: $breakpoint_mobile_max) {
+            float: none;
+            margin-left: 20px;
+        }
+    }
+    .pubRecFilterWrap {
+        margin-right: 70px;
+        float: right;
+        margin-bottom: 20px;
+        .dropdown-menu {
+        	width: 100%;
+        }
+        @media (min-width: $breakpoint_tablet_min) {
+            margin-bottom: 35px;
+        }
+        @media(max-width: $breakpoint_mobile_max) {
+            float: none;
+            margin-left: 15px;
+            display: block;
+        }
+
+        .filterLabel {
+            display: inline-block;;
+            font-weight: 600;
+        }
+
+        .filterTokens {
+            display: block;
+            margin-top: 5px;
+
+        }
+        .arrowToken {
+            cursor: pointer;
+            font-size: $fontSizeMid;
+            font-weight: $fontWeightBold;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .dropdown {
+            display: block;
+            margin-top: 0;
+            .dropdown-menu {
+                max-height: ($baseLineHeight * 1.667) * 12;
+                overflow: auto;
+                > li {
+                    > a {
+                        line-height: $baseLineHeight * 1.667;
+                        i {
+                            font-weight: $fontWeightBold;
+                            float: right;
+                            line-height: $baseLineHeight * 1.667;
+                        }
+                        &:focus {
+                            color: $brand_color_white;
+                        }
+                    }
+                    ul{
+                        margin: 0;
+
+                    }
+                    li {
+                        line-height: $baseLineHeight;
+                        padding-left: 25px;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        padding-right: 20px;
+                    }
+                    li:hover {
+                        color: $brand_color_white;
+                        background-color: $brand_color_primary;
+                        cursor: pointer;
+                    }
+                    hr {
+                        margin: 0;
+                    }
+                }
+            }
+            .addNewFilter {
+                margin-bottom: 0;
+            }
+            .pubRecTabs {
+                ul {
+                    list-style: none;
+                }
+                &.fix-height {
+                    max-height: ($baseLineHeight * 1.667) * 8;
+                    overflow: auto;
+                }
+            }
+            // .dropdown-menu {
+            //     top: 60px;
+            // }
+        }
+
+        @media (max-width: 767px) {
+            margin-left: 20px;
+
+            // .dropdown .addNewFilter {
+            //     padding: 10px 30px;
+            // }
+        }
+    }
+
+    .publicRecognitionItems,
+    .follow-list-links {
+        .public-recognition-item {
+            padding: 35px 70px;
+
+            &:nth-child(even) {
+                background: $brand_color_stripe;
+
+                .readMoreTrigger {
+                    background: $brand_color_stripe;
+                }
+            }
+
+            &.purlItem {
+                height: 100%;
+
+                @if $publicRecognition_purlItemBgColor {
+                    background-color: $publicRecognition_purlItemBgColor;
+                }
+                @if $publicRecognition_purlItemBgImg {
+                    @include safeImgUrls($publicRecognition_purlItemBgImg, $publicRecognition_purlItemBgImgPath, $property: 'background-image');
+                    @if $publicRecognition_purlItemBgImgPosition {
+                        background-position: $publicRecognition_purlItemBgImgPosition;
+                    }
+                    @if $publicRecognition_purlItemBgImgRepeat {
+                        background-repeat: $publicRecognition_purlItemBgImgRepeat;
+                    }
+                    @if $publicRecognition_purlItemBgImgSize {
+                        background-size: $publicRecognition_purlItemBgImgSize;
+                    }
+
+                    @media (max-width: $breakpoint_mobile_max) {
+                        background-size: cover;
+                    }
+                }
+
+                @media (max-width: $breakpoint_mobile_max) {
+                    background-position-x: $publicRecognition_purlItemBgImgPosition_mobile;
+                    background-size: $publicRecognition_purlItemBgImgSize_mobile;
+                }
+
+                &:nth-child(even) {
+                    @if $publicRecognition_purlItemBgColor {
+                        background-color: darken($publicRecognition_purlItemBgColor, 5%);
+                    }
+                }
+            }
+            &.newSaItem {
+                max-height: 300px;
+                height: 100%;
+                padding: 0 70px;
+                @media (max-width: $breakpoint_tablet_max) {
+                    min-height: auto;
+                    max-height: none;
+                }
+                
+                @media (max-width: $breakpoint_mobile_max) {
+                    padding: 20px 0;
+                    max-height: none;
+                    min-height: auto;
+                }
+                box-sizing: border-box;               
+                & .newSAContainer {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    @media (max-width: $breakpoint_mobile_max) {
+                        flex-wrap: wrap;
+                        padding: 0 20px;
+                    }
+                    & .yearSpan {
+                        flex-basis: 300px;
+                        // background-image: url(../../../../assets/img/celebration/new-sa-celeb.jpg);
+                        background-position: 50% 50%;
+                        background-size: contain;
+                        height: 260px;
+                        overflow: hidden;
+                        background-repeat: no-repeat; 
+                        margin: 20px;                       
+                        margin-right: 50px;
+                        @media (max-width: $breakpoint_mobile_max) {
+                            flex-basis: 100%;
+                            display: none; //Enable it based on needs
+                        }
+                        @media (max-width: $breakpoint_tablet_max) {
+                            margin-right: 30px;                             
+                        }
+                        & img {
+                            width: 100%;
+                            @media (max-width: $breakpoint_mobile_max) {
+                                height: auto;
+                            }
+                        }
+                    }
+                    & .sa-details {
+                        &:only-child {
+                            @media (min-width: $breakpoint_desktop_min) {
+                                padding: 30px 0;
+                            }
+                        }
+                        flex-basis: auto;
+                        @media (max-width: $breakpoint_mobile_max) {
+                            margin: 0;
+                            flex-basis: 100%
+                        }
+                        align-self: center;
+                        & .company {
+                            margin: 0;
+                            font-weight: normal;
+                            font-size: 16px;
+                            color: #7F8A9D;
+                            float: left;
+                            width: 100%;
+                            @media (max-width: $breakpoint_mobile_max) {
+                                margin: 0px 0 10px;
+                                font-size: 20px;
+                            }
+                        } 
+                        & .years {
+                            color: #7F8A9D;
+                            margin: 5px 0 0;
+                            float: left;
+                            width: 100%;
+                            @media (max-width: $breakpoint_mobile_max) {
+                            }
+                        } 
+                        & .avatar-name-wrap {
+                            width: auto;
+                            padding-bottom: 15px;
+                            margin-bottom: 15px;
+                            border-bottom: 2px solid #ccc;
+                            @media (max-width: $breakpoint_mobile_max) {
+                                margin-bottom: 10px;
+                                padding-bottom: 10px;
+                            }
+                            & .avatar {
+                                border-radius: 50%;
+                                width: 55px;
+                                height: 55px;
+                                overflow: hidden;
+                                float: left;
+                                & a {
+                                    height: 100%;
+                                    position: relative;
+                                    float: left;
+                                    width: 100%;
+                                    & img {
+                                        position: absolute;
+                                        top: 50%;
+                                        left: 50%;
+                                        width: 100%;
+                                        height: 100%;
+                                        transform: translate(-50%, -50%);
+                                    }
+                                }
+                                @media (max-width: $breakpoint_mobile_max) {
+                                    width: 45px;
+                                    height: 45px;
+                                }
+                            }
+                            & .avatar-no {
+                                border-radius: 50%;
+                                width: 55px;
+                                height: 55px;
+                                overflow: hidden;
+                                float: left;
+                                text-align: center;
+                                line-height: 55px;
+                                background-color: #ccc;
+                                font-weight: bold;
+                                font-size: 18px;
+                                color: #fff;
+                            }
+                             & .name {
+                                float: left;
+                                line-height: 55px;
+                                font-size: 49px;
+                                color: #FF5630;
+                                font-weight: bold;
+                                margin-left: 10px;
+                                @media (max-width: $breakpoint_mobile_max) {
+                                    line-height: 45px;
+                                    font-size: 30px;
+                                }
+                            }                            
+                        }
+                        & .congrats-msg {
+                            float: left;
+                            width: 100%;
+                            margin: 0 0 5px;
+                            color: #7F8A9D;
+                            font-weight: normal;
+                            @media (max-width: $breakpoint_mobile_max) {
+                                font-size: 15px;
+                                margin: 0 0 15px;
+                            }
+                        }
+                        .sa-button {
+                            display: inline-block;
+                            color: #fff;
+                            border-radius: 4px;
+                            background: #ff8404;
+                            margin-top: 10px;
+                            background: -moz-linear-gradient(left, #ff8404 0%, #fe8116 26%, #fe7c31 48%, #fd7846 73%, #fd7364 100%);
+                            background: -webkit-linear-gradient(left, #ff8404 0%,#fe8116 26%,#fe7c31 48%,#fd7846 73%,#fd7364 100%);
+                            background: linear-gradient(to right, #ff8404 0%,#fe8116 26%,#fe7c31 48%,#fd7846 73%,#fd7364 100%);
+                            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff8404', endColorstr='#fd7364',GradientType=1 );  
+                        }
+                    }
+
+                }
+            }
+            // Cheers Customization - Celebrating you wip-62128 - Custom styles starts
+            &.cheersItem {
+                padding: 0px;    
+                .cheersRecognition {
+                    font-family: $clientFontRegular;
+                    color: $brand_color_white;    
+                    padding: 20px 70px;
+                    width: calc(100% - 140px);
+                    display:flex;
+                    align-items:center;
+                    > div {                                                
+                        align-items:center; 
+                    }
+                    h1 {
+                        font-family: $clientFontBold;
+                        font-size: $baseFontSize * 3.5;
+                    }
+                    .cheersLeft {
+                        float:left;
+                        min-width: 250px;
+                        
+                    }
+                    .cheersRight {
+                        width: calc(100% - 350px);                               
+                        font-size: $fontSizeLarge; 
+                        span {
+                            display:inline-block;  
+                            margin-right: 5px;                          
+                        } 
+                        span.cheersBy {
+                            font-size:$fontSizeSmall;
+                        }
+                        .othersWrap {
+                            color: $brand_color_white;
+                        }
+                        span.pubRecRecipient,
+                        .othersWrap {
+                            font-size: $fontSizeLarge;
+                            font-weight: $fontWeightBold;
+                            line-height: $baseLineHeight * 1.048;
+
+                            &+ .pubRecRecipient:before {
+                                content: ", ";
+                            }
+                            span {
+                                padding: 5px 5px;
+                                display: block;
+                            }
+                        }
+                        .othersCountWrap {
+                            cursor: pointer;
+                        }                                                  
+                        .comments {
+                            margin-top:10px;
+                            display:block;
+                            &.readMore,
+                            &.hide-comment {                                
+                                .readMoreTrigger {
+                                    background: none; // hide bg text
+                                    color: $brand_color_white;                                              
+                                    font-size: 12px;
+                                    line-height: 24px;                          
+                                }
+                            }
+                        }
+                    }                        
+                    .timeStamp {  
+                        width: 100px;                      
+                        float:right;
+                        color: $brand_color_white;
+                        font-size: 8px;
+                        align-items:center; 
+
+                    }
+                }
+                height: 100%;
+                overflow:hidden;
+                @if $cheersRecognition_BgColor {
+                    background-color: $cheersRecognition_BgColor;
+                }
+                @if $cheersRecognitionOdd_BgImg {
+                    @include safeImgUrls($cheersRecognitionOdd_BgImg, $cheersRecognition_BgImgPath, $property: 'background-image');
+                    @if $cheersRecognition_BgImgPosition {
+                        background-position: $cheersRecognition_BgImgPosition;
+                    }
+                    @if $cheersRecognition_BgImgRepeat {
+                        background-repeat: $cheersRecognition_BgImgRepeat;
+                    }
+                    @if $cheersRecognition_BgImgSize {
+                        background-size: $cheersRecognition_BgImgSize;
+                    }
+
+                    @media (max-width: $breakpoint_mobile_max) {
+                        background-position: $cheersRecognition_BgImgPosition_mobile;
+                        background-size: $cheersRecognition_BgImgSize_mobile;
+                    }
+                }
+
+                &:nth-child(even) {
+                    @include safeImgUrls($cheersRecognitionEven_BgImg, $cheersRecognition_BgImgPath, $property: 'background-image');
+                    @if $cheersRecognition_BgColor {
+                        border-top:1px solid $brand_color_white;
+                        border-bottom:1px solid $brand_color_white;
+                    }
+                }
+
+                @media (max-width: $breakpoint_desktop_min) {
+                    .cheersItem {
+                        background-size:cover;
+                    }
+                    .cheersRecognition {
+                        padding: 20px;
+                        width: calc(100% - 40px);
+                        display:block;
+                        float:left;
+                        h1 {
+                            font-family: $clientFontBold;
+                            font-size: $fontSizeExtraLarge;
+                        }                        
+                        span {
+                            font-size:$baseFontSize;
+                        }
+                        .cheersLeft {
+                            float:left;
+                            width: 100%;
+                        }
+                        .cheersRight {
+                            padding:0px;
+                            width:100%;
+                            font-size:$baseFontSize;
+                            .username {
+                                float:left;
+                                margin:10px 0px;
+                            }
+                            
+                        }
+                        .timeStamp {
+                            float:right;
+                            width: 100%;
+                            color: $brand_color_white;
+                            font-size: 8px; 
+                        }
+                    }
+                }
+            }
+            // Cheers Customization - Celebrating you wip-62128 - Custom styles - ends
+
+            &.nominationItem {
+                height: 100%;
+                overflow:hidden;
+                @if $publicRecognition_nomItemBgColor {
+                    background-color: $publicRecognition_nomItemBgColor;
+                }
+                @if $publicRecognition_nomItemBgImg {
+                    @include safeImgUrls($publicRecognition_nomItemBgImg, $publicRecognition_nomItemBgImgPath, $property: 'background-image');
+                    @if $publicRecognition_nomItemBgImgPosition {
+                        background-position: $publicRecognition_nomItemBgImgPosition;
+                    }
+                    @if $publicRecognition_nomItemBgImgRepeat {
+                        background-repeat: $publicRecognition_nomItemBgImgRepeat;
+                    }
+                    @if $publicRecognition_nomItemBgImgSize {
+                        background-size: $publicRecognition_nomItemBgImgSize;
+                    }
+
+                    @media (max-width: $breakpoint_mobile_max) {
+                        background-position: $publicRecognition_nomItemBgImgPosition_mobile;
+                        background-size: $publicRecognition_nomItemBgImgSize_mobile;
+                    }
+                }
+
+                &:nth-child(even) {
+                    @if $publicRecognition_nomItemBgColor {
+                        background-color: darken($publicRecognition_nomItemBgColor, 5%);
+                    }
+                }
+            }
+
+            .deletePublicRecognitionQTip {
+                font-size: $fontSizeMini;
+                padding: 10px 10px 5px;
+            }
+
+            @media (max-width: $breakpoint_mobile_max) {
+                padding: 35px 20px;
+            }
+        }
+
+        &.emptySet {
+            position: static;
+            height: 200px;
+
+            h2 {
+                left: 0;
+                position: absolute;
+                top: 18px;
+                width: 100%;
+            }
+        }
+    }
+
+    .purlItem,
+    .nominationItem {
+        line-height: $baseLineHeight * 0.952;
+        min-height: 150px;
+        padding: 55px 70px;
+
+        .translatePubRec {
+            display: none;
+        }
+
+        .app-row.detail-row {
+            top: 10px;
+
+            .recognition-block {
+                width: 80%;
+
+                @media (max-width: 1024px) {
+                    width: 50%;
+                }
+
+                @media (max-width: $breakpoint_mobile_max) {
+                    width: 100%;
+                }
+            }
+
+            .commentBody,
+            .comment-top {
+                border: none;
+                margin-top: 0;
+                padding-bottom: 0;
+
+                a {
+                    margin-bottom: 0;
+                }
+            }
+
+            .comment-top {
+                width: 55%;
+				margin-bottom: 12px;
+                .celebrate{
+                    display: block;
+                    line-height: $baseLineHeight * 1.05;
+                    padding-top: 3px;
+                }
+                .won {
+                    display: block;
+                    line-height: $baseLineHeight * 1.05;
+                    margin-top: -2px;
+                }
+            }
+
+            .commentBody {
+                float: none;
+                padding-top: 5px;
+            }
+
+            .pubRecRecipient {
+            }
+            .pubRecRecipient .paxMeta,
+            .othersWrap .paxMeta {
+                display: block;
+            }
+
+            .timeStamp {
+                display: block;
+                float: none;
+                font-size: $baseFontSize;
+                font-weight: bold;
+                margin-bottom: 10px;
+                margin-top: 0;
+                top: 0;
+                right: 0;
+            }
+
+            .teamRecipientPopover.avatarwrap {
+                border: 4px solid $brand_color_white;
+                height: 132px;
+                line-height: 132px;
+                min-width: 132px;
+                width: 132px;
+
+                @media (max-width: $breakpoint_mobile_max){
+                    height: 62px;
+                    line-height: 62px;
+                    min-width: 62px;
+                    width: 62px;
+                }
+            }
+
+            .purlPromoName {
+                font-size: $baseFontSize * 2.143;
+                line-height: $baseLineHeight * 1.8;
+            }
+
+            @media (max-width: $breakpoint_mobile_max) {
+                .commentBody {
+                    margin-top: 25px;
+
+                    .btn {
+                        box-sizing:border-box;
+                    }
+                }
+
+                .comment-top {
+                    width: 80%;
+                    .pubRecRecipient .paxMeta,
+                    .othersWrap .paxMeta {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .purlItem {
+        .app-row.detail-row {
+            @if $publicRecognition_purlItemTextColor {
+                color: $publicRecognition_purlItemTextColor;
+
+                a,
+                .btn-inverse,
+                .timeStamp,
+                .pubRecRecipient .paxMeta {
+                    color: $publicRecognition_purlItemTextColor;
+                    border-color: $publicRecognition_purlItemTextColor;
+                }
+            }
+
+            @if $publicRecognition_purlItemAvatarBorderColor {
+                .multiRecipientAvatar.avatarwrap,
+                .teamRecipientPopover.avatarwrap {
+                    border: 4px solid $publicRecognition_purlItemAvatarBorderColor;
+                }
+            }
+        }
+    }
+
+    .nominationItem {
+        .app-row.detail-row {
+            @if $publicRecognition_nomItemTextColor {
+                color: $publicRecognition_nomItemTextColor;
+
+                a,
+                .btn-inverse,
+                .pubRecRecipient .paxMeta {
+                    color: $publicRecognition_nomItemTextColor;
+                    border-color: $publicRecognition_nomItemTextColor;
+                }
+            }
+
+            @if $publicRecognition_nomItemAvatarBorderColor {
+                .multiRecipientAvatar.avatarwrap,
+                .teamRecipientPopover.avatarwrap {
+                    border: 4px solid $publicRecognition_nomItemAvatarBorderColor;
+                }
+            }
+
+            .timeStamp {
+                display: none;
+            }
+
+            .pubRecNomPromoName {
+                font-size: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+                line-height: $baseLineHeight * 1.142;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .celebrationBalloons {
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        right: $publicRecognition_purlItemBalloonsImgPositionRight;
+        bottom: 0;
+        margin-right: -1 * $publicRecognition_purlItemBalloonsImgWidth / 2;
+        width: $publicRecognition_purlItemBalloonsImgWidth;
+        height: $publicRecognition_purlItemBalloonsImgHeight;
+        //@include safeImgUrls($publicRecognition_purlItemBalloonsImg, $publicRecognition_purlItemBalloonsImgPath, $property: 'background-image');
+       // background-repeat: no-repeat;
+
+        @media (max-width: $breakpoint_mobile_max) {
+            display: none;
+        }
+    }
+
+    .nominationBadge {
+        overflow: hidden;
+        position: absolute;
+        top:0;
+        right: $publicRecognition_nomItemBadgeImgPositionRight;
+        margin-right: -1 * $publicRecognition_nomItemBadgeImgWidth / 2;
+        width: $publicRecognition_nomItemBadgeImgWidth;
+        height: $publicRecognition_nomItemBadgeImgHeight;
+        @include safeImgUrls($publicRecognition_nomItemBadgeImg, $publicRecognition_nomItemBadgeImgPath, $property: 'background-image');
+        background-repeat: no-repeat;
+        background-size:contain;
+        background-position:center;
+
+
+        @media (max-width: $breakpoint_mobile_max) {
+            display: none;
+        }
+    }
+
+    .createFollowListWrapper .app-row {
+        margin: 0 5%;
+        width: 90%;
+    }
+
+    .follow-list-links {
+        display: block;
+        margin-left: 70px;
+        padding-top: $g5ModulePadding;
+        position: relative;
+        z-index: 1;
+
+        a:hover i,
+        i:hover {
+            text-decoration: none;
+        }
+
+        i {
+            font-size: $fontSizeLarge;
+        }
+    }
+    .purlBtnContainer{
+        border-bottom: 1px solid $brand_color_border;
+    }
+    .pubRecComments {
+        border-top: 1px solid $brand_color_border;
+        margin: 15px 0 0 170px;
+        padding-top: 20px;
+        position: relative;
+        z-index: 9;
+
+        @media (max-width: $breakpoint_mobile_max) {
+            margin: 15px 0 0 0;
+        }
+    }
+
+    .app-row {
+        width: auto;
+        margin-bottom: 0;
+
+        &.detail-row {
+            .pubRecAvatarWrap {
+                text-align: center;
+                position: relative;
+                width: 140px;
+                z-index: 9;
+
+                hr {
+                    display: none;
+
+                    @media (min-width: $breakpoint_desktop_min) {
+                        display: block;
+                        border-top: 1px solid $brand_color_border;
+                        border-bottom: none;
+                        margin: 10px 0 15px;
+                    }
+                }
+
+                .profile-popover {
+                    display: inline-block;
+                    @include ignoreGlobalLinkStyles();
+                }
+                .viewAllRecip,
+                .viewOtherRecipients {
+                    @include ignoreGlobalLinkStyles();
+                }
+
+                @media (max-width: $breakpoint_mobile_max) {
+                    width: 70px;
+                }
+            }
+
+            .recognition-block {
+                margin: 0 0 $appRowGutter 170px;
+
+                .recDetailLink {
+                    height: 100%;
+                    left: 0;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    z-index: 2;
+                    @include ignoreGlobalLinkStyles();
+                }
+
+                @media (max-width: $breakpoint_mobile_max) {
+                    margin-left: 0;
+                }
+            }
+            .topWrapper{
+                min-height: 65px; // badge width
+            }
+
+            .comment-top {
+                border-bottom: 1px solid $brand_color_border;
+                line-height: $baseLineHeight * .75;
+                padding-bottom: 20px;
+                width: 100%;
+
+                & > * {
+                    // display: block;
+
+                    &.pubRecRecipient,
+                    &.othersWrap {
+                        display: inline-block;
+                        position: relative;
+                        z-index: 3;
+
+                        @media (max-width: 679px){
+                            width: initial;
+                        }
+                    }
+                }
+
+                .badgeWrap {
+                    cursor: pointer;
+                    position: absolute;
+                    top: 35px;
+                    right: 70px;
+                    width: 61px;
+                    z-index: 9;
+
+                    .additionalBadges {
+                        display: block;
+                        text-align: center;
+                    }
+
+                    .tooltip-inner {
+                        background: $brand_color_white;
+                        border: 1px solid $brand_color_border;
+                        box-shadow: 1px 1px 3px 1px $brand_color_mid;
+                        color: $brand_color_black;
+                    }
+
+                    .tooltip-arrow {
+                        border-top-color: $brand_color_white;
+                        bottom: 1px;
+                    }
+
+                    .tooltip-arrow::after {
+                        border-right: 12px solid transparent;
+                        border-top: 12px solid $brand_color_border;
+                        border-left: 12px solid transparent;
+                        content: '';
+                        display: inline-block;
+                        left: -12px;
+                        position: absolute;
+                        top: -10px;
+                        z-index: -1;
+                    }
+
+                    @media (max-width: $breakpoint_mobile_max) {
+                        right: 20px;
+                    }
+                }
+
+                @media (max-width: $breakpoint_tablet_max) {
+                    .recipNameWrap {
+                        width: 86%;
+                    }
+                }
+
+                @media (max-width: $breakpoint_mobile_max) {
+                    padding-left: 100px;
+                    box-sizing: border-box;
+                    .pubRecRecipient .paxMeta,
+                    .othersWrap .paxMeta {
+                        display: none;
+                    }
+                    span {
+                        display: block;
+                    }
+                    .purlPromoName {
+                        line-height: $baseLineHeight * 1.78;
+                    }
+                    .othersCount {
+                        display : inline-block;
+                    }
+                    .topWrapper {
+                        width: 65%;
+                    }
+                }
+            }
+
+            .pubRecRecipient,
+            .othersWrap {
+                font-size: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+                line-height: $baseLineHeight * 1.048;
+
+                &+ .pubRecRecipient:before {
+                    content: ", ";
+                }
+
+                .paxMeta {
+                    color: $brand_color_black;
+                    font-size: $fontSizeMini;
+                    font-weight: $fontWeightNormal;
+
+                    @media (max-width: $breakpoint_mobile_max) {
+                        display: block;
+                    }
+                }
+            }
+
+            .recAction {
+                display: block;
+                font-size: $baseFontSize;
+                line-height: $baseLineHeight * 1.048;
+            }
+
+            .pubRecRecognizer {
+                font-size: $fontSizeMid;
+                line-height: $baseLineHeight * 1.048;
+                position: relative;
+                z-index: 3;
+            }
+
+            .moreToRead p {
+                display: inline;
+                margin-right: 4px;
+            }
+
+            .likePubRecBtn .spin {
+                background: none;
+                filter: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .timeStamp {
+                display: block;
+                color: $brand_color_darker;
+                float: right;
+                clear: right;
+                font-size: 10px;
+                margin-top: 0;
+                position: relative;
+                right: 0;
+                top: 0;
+                @media (max-width: $breakpoint_mobile_max) {
+                    margin-top: 0;
+                }
+            }
+
+            .commentBody {
+                border-bottom: 1px solid $brand_color_border;
+                float: left;
+                padding: 20px 0;
+                width: 100%;
+
+                .translateCont {
+                    display: block;
+                    font-size: $fontSizeSmall;
+                    margin-bottom: 20px;
+                    position: relative;
+                    z-index: 3;
+                }
+                .translatePubRec,
+                .translateLinkDisabled {
+                }
+
+                @media (max-width: 679px) {
+                    float: none;
+                }
+            }
+
+            .recEcard {
+                clear: both;
+                display: inline-block;
+                float: left;
+                height: 140px;
+                margin-right: 30px;
+                width: 140px;
+
+                @media (max-width: 1024px) {
+                    display: block;
+                    float: none;
+                    height: auto;
+                    width: auto;
+                }
+            }
+
+            .videoPlayerWrap {
+                clear: both;
+                display: block;
+                //float: left;
+                //height: 140px;
+                //margin-right: 30px;
+                position: relative;
+                width: 300px;
+            }
+
+            .videoIcon {
+                position: absolute;
+                top: 60px;
+                font-size: 40px;
+                color: #fff;
+                left: 130px;
+            }
+        }
+
+        &.comment-block {
+            .likeInfoWrapper span {
+                display: block;
+                margin-top: $gridGutterWidth / 2;
+
+                span {
+                    display: inline;
+                }
+            }
+
+            .pubRecCommentsComment {
+                padding: 5px 0;
+                position: relative;
+            }
+
+            .publicRecognitionCommentForm,
+            .publicRecognitionAddPointsForm {
+                margin-bottom: $appRowGutter / 2;
+            }
+
+            &::before {
+                margin-top: (-1 * $appRowGutter / 2);
+                margin-bottom: $appRowGutter;
+            }
+        }
+
+        .commentInputWrapper,
+        .addPointsWrapper {
+            border-top: 1px solid #ccc;
+            padding: 25px 0 0 0;
+            position: relative;
+            margin: 15px 0 0px 170px;
+            z-index: 9;
+
+            @media (max-width: 679px) {
+                padding: 20px 0 0;
+            }
+
+            .addPointsBtn {
+                margin-left: 5px;
+            }
+        }
+
+        .addPointsWrapper {
+            @media (max-width: $breakpoint_mobile_max) {
+                margin: 15px 0;
+                padding: 20px 0;
+                width: 100%;
+            }
+
+            input,
+            textarea {
+                font-size: 14px;
+            }
+
+            .help-inline {
+               display: inline-block;
+            }
+        }
+
+        .addPointsCommentInputTxt,
+        .comment-input {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .commentInputWrapper {
+            @media (max-width: $breakpoint_mobile_max) {
+                margin: 15px 0 0 0;
+                // width: 99%;
+            }
+        }
+    } /* /.app-row */
+
+    .wide-view {
+        // $appRowPadding : $g5ModuleGutter * 3;
+        padding: 35px 0 0;
+        position: relative;
+
+        margin-bottom: $spinner_widthHeight *1.5;
+
+        @media (max-width: 679px) {
+            padding: 20px 0 0;
+        }
+    }
+} /* /.launchModule.publicRecognition */
+
+/* ----- PAGE STYLES ----- */
+.page.publicRecognition {
+    position: relative;
+
+    .spin {
+        display: block;
+        position: relative;
+        margin: 0 auto;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+
+        &.tabChange {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+        }
+    }
+
+    .spincover {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: $brand_color_white;
+        background: rgba(255,255,255,0.5);
+    }
+
+    /* DETAIL PAGE */
+    &.public-recognition-page-detail {
+        .publicRecognitionItems .public-recognition-item,
+        .follow-list-links .public-recognition-item {
+            padding: 0;
+        }
+
+        h3 {
+            margin: 0;
+        }
+
+        .pubRecDetails {
+            margin-top: 25px;
+        }
+
+        .ecardWrap {
+            margin-right: $g6PagePaddingX;
+        }
+        .row-fluid {
+            margin:0;
+        }
+        .ecard-span {
+            float: right;
+            @media (max-width: $breakpoint_mobile_max) {
+                border-bottom: 1px solid #ccc;
+                margin-bottom: 20px;
+                padding-bottom: 20px;
+            }
+        }
+        .public-recognition-item {
+            .detail-comment {
+                text-align: justify;
+            }
+
+            .ecard {
+                margin-bottom: 14px;
+            }
+
+            .teamName {
+                font-size: 18px;
+                font-weight: bold;
+                line-height: 21px;
+            }
+
+            .behaviorBadge {
+                width: 50px;
+            }
+
+            .recognitionVideoWrapper {
+                //max-width: 100%;
+                //width: 360px;
+                float:right;
+            }
+
+            .showHiddenWrap {
+                margin-bottom: 0;
+            }
+
+            .row-fluid .span8 .row-fluid .span2 p {
+                // goes to stacking mode under 767, then we want less spacing after label
+                @media (max-width: $breakpoint_mobile_max){
+                    margin-bottom: 0;
+                }
+            }
+
+            .recipientsContainer hr {
+                margin: ($baseLineHeight / 2) 0;
+            }
+
+            .likePubRecBtn {
+                .spin {
+                    display: inline-block;
+                    @include ie7-inline-block();
+                    position: static;
+                    width: $baseLineHeight;
+                    height: $baseLineHeight;
+                    vertical-align: top;
+                }
+
+                &.mylike {
+                    i {
+                        color: $brand_color_primary;
+                        font-weight: $fontWeightBold;
+                    }
+
+                    &:active,
+                    &:focus,
+                    &:visited {
+                        text-decoration: none;
+                    }
+                }
+            }
+
+            .app-row.comment-block {
+                .comment .profile-popover {
+                    margin: 0;
+                }
+            }
+
+            .showCommentFormBtn {
+                i:active {
+                    color: $brand_color_black;
+                }
+            }
+
+            .pubRecComments {
+                margin: 0;
+            }
+
+            .purlBtn {
+                margin-bottom: 20px;
+            }
+
+            .recipientWrap {
+                display: flex;
+                align-items: center;
+                @media (max-width: $breakpoint_mobile_max){
+                    margin: 5px 0;
+                }
+                // .avatar {
+                //     font-size: $baseFontSize * 1.26;
+                //     line-height: 48px;
+                //     height: 48px;
+                //     margin-right: 20px;
+                //     min-width: 48px;
+                //     vertical-align: middle;
+                //     width: 48px;
+                //     display: block;
+                //     background-color: $brand_color_avatarBkg;
+                //     border-radius: 50%;
+                //     text-align: center;
+                //     color: $brand_color_avatarTextColor;
+                // }
+
+                .paxMeta {
+                    color: $brand_color_black;
+                    font-size: $fontSizeSmall;
+                    font-weight: $fontWeightNormal;
+                }
+
+                & + .recipientWrap {
+                    margin: 20px 0;
+                }
+            }
+
+            .avatarwrap {
+                float: left;
+                cursor: pointer;
+                display: block;
+                margin-right: 20px;
+                margin-left:0;
+                flex: 0 0 auto;
+                @include avatarSizingNoWrap(48px);
+                a{
+                    color: $brand_color_white;
+                }
+                &.hide{
+                    display: none;
+                }
+
+            }
+
+            .recipientInfoWrap {
+                line-height: $baseLineHeight;
+
+                .profile-popover {
+                    font-size: 18px;
+                }
+
+                .certificateUrl {
+                    display: block;
+                    font-size: 14px;
+                }
+            }
+        }
+
+        .section-container {
+            border-bottom: 1px solid $brand_color_border;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+
+            [class*="span"] {
+                line-height: 21px;
+                min-height: 10px;
+            }
+        }
+
+        .commentInputWrapper,
+        .addPointsWrapper {
+            border-top: 1px solid $brand_color_mid;
+            //margin-left: 42.31434%;
+            margin-left: 0;
+            margin-top: 10px;
+            padding-top: 20px;
+            width: 100%;
+        }
+
+        // .move-comment-right ~ .pubRecComments, .move-comment-right ~ .comment-block{
+        //     .commentInputWrapper, .addPointsWrapper {
+        //         margin-left: 42.31434%;
+
+        //         @media (max-width: $breakpoint_mobile_max) {
+        //             margin: 15px 0 0 0;
+        //         }
+        //     }
+        //  }
+
+        // .addPointsCommentInputTxt {
+        //     width: 95%;
+        // }
+
+        .publicRecognitionItem.public-recognition-item .span7 {
+            @media (max-width: 470px){
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+        // .recognition-container {
+        //     padding-top: $gridGutterWidth / 2;
+        //     padding-bottom: $gridGutterWidth / 2;
+        // }
+
+        .timeStamp {
+            float: right;
+            font-size: 10px;
+            color: $brand_color_darker;
+            margin-right: 0;
+        }
+
+        ul.recognition-controls
+         {
+            margin: 0;
+        }
+        ul.recognition-props{
+            margin-left:0;
+        }
+
+        .cumulativeRecognizerWrap {
+            // padding-top: 10px;
+
+            // & + .cumulativeRecognizerWrap {
+            //     border-top: 1px solid $brand_color_border;
+            //     margin-top: 20px;
+            //     padding: 20px 0;
+            // }
+
+            // .eCard img {
+            //     width: 70%;
+            // }
+            //
+        }
+
+        // @media (min-width: 1200px) {
+        //     .recognition-container {
+        //         padding-top: $gridGutterWidth1200 / 2;
+        //         padding-bottom: $gridGutterWidth1200 / 2;
+
+        //     }
+
+        // }
+
+        @media (min-width: 768px) and (max-width: 979px) {
+            // .recognition-container {
+            //     padding-top: $gridGutterWidth768 / 2;
+            //     padding-bottom: $gridGutterWidth768 / 2;
+            // }
+
+            // .comment-block {
+            //     margin-left: $g5PageContentPaddingHoriz768 - $g5PageContentLeftRightBorderWidth768;
+            // }
+        }
+
+        @media (max-width: $breakpoint_mobile_max) {
+            .pubRecDetails {
+                margin-top: 20px;
+            }
+
+            // .ecard-span {
+            //     margin-bottom: 40px;
+            // }
+
+            .recognizerCotainer strong {
+                line-height: 21px;
+            }
+
+            // .commentInputWrapper,
+            // .addPointsWrapper {
+            //     margin-left: 0;
+            //     width: 100%;
+            // }
+
+            // .cumulativeRecognizerWrap {
+            //     .eCard img {
+            //         margin-bottom: 20px;
+            //         width: 50%;
+            //     }
+            // }
+        }
+    }
+
+    .certificateModal {
+        &.modal {
+            width: auto;
+            margin-left: -321px;
+        }
+
+        .modal-body {
+            height: 846px;
+            width: 612px;
+            overflow-y: hidden;
+            display: table;
+            box-sizing: border-box;
+
+            .pdf-wrapper {
+                height: 100%;
+                width: 100%;
+                display: table-cell;
+            }
+
+            .progress-indicator {
+                text-align: center;
+                display: none;
+
+                .spinner {
+                    left: 30px!important;
+                    top: 30px!important;
+                }
+            }
+
+            &.loading {
+                .progress-indicator {
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+
+                .pdf-wrapper {
+                    display: none;
+                }
+            }
+        }
+
+        &.landscape {
+            margin-left: -412px;
+
+            .modal-body {
+                width: 792px;
+                height: 666px;
+            }
+        }
+    }
+} /* /.page.publicRecognition */
+
+// props
+// .recognition-props-status{
+//     //padding: $baseLineHeight 0;
+//     border-bottom: 1px solid $brand_color_border;
+//     z-index: 4;
+//     position:relative;
+//     .midDot:after {
+//         content: "\00b7";
+//     }
+//     .likeCountStatus, .commentCountStatus{
+//         padding: $fontSizeSmall 0;
+//         display: inline-block;
+//         font-weight: $fontWeightBold;
+//         font-size: $fontSizeSmall;
+//     }
+//     .commentCountStatus{
+
+//     }
+//     &.isdetail-status{
+//         margin-top: -$baseLineHeight/2;
+//         .likeCountStatus, .commentCountStatus{
+//             padding-top:0;
+//         }
+//
+// }
+
+
+/* ----- HEADER LINK LISTS ----- */
+ul.recognition-controls,
+ul.recognition-props {
+    display: inline-block;
+    @include ie7-inline-block();
+    list-style-type: none;
+    margin: 15px 0 0;
+    width: 100%;
+    position: relative;
+    z-index: 3;
+    .badge{
+        background-color: $brand_color_mid;
+        margin-left: 8px;
+        vertical-align: baseline;
+        padding-left: 7px;
+        padding-right: 7px;
+        border-radius: 9px;
+        line-height: 1;
+
+    }
+    a .badge{
+        background-color: $brand_color_dark;
+
+        &:hover{
+            background-color: $brand_color_darker;
+        }
+    }
+    .likePubRecBtn{
+        i{
+            font-size: $fontSizeMid;
+            font-weight: $fontWeightNormal;
+        }
+    }
+    i {
+        color: $brand_color_black;
+        font-size: $baseFontSize;
+        font-weight: $fontWeightBold;
+        margin-right: 5px;
+    }
+
+}
+
+ul.recognition-controls li,
+ul.recognition-props li {
+    display: inline;
+    font-size: $baseFontSize;
+    margin-right: 15px;
+    a {
+        font-size: $baseFontSize;
+        font-weight: bold;   
+    }
+}
+
+ul.share-print {
+    display: block;
+    list-style-position: inside;
+    margin-top: 10px;
+    margin-left: 0;
+    text-align: right;
+
+    li {
+        display: inline;
+        margin: 0 0 0 0;
+        font-weight: $fontWeightBold;
+
+        &.print-wrap {
+            margin: 0 0 0 20px;
+
+            i {
+                color: $brand_color_black;
+                font-weight: 600;
+            }
+        }
+    }
+
+    @media (max-width: $breakpoint_mobile_max) {
+        float: left;
+
+        li.print-wrap {
+            margin: 0;
+        }
+    }
+}
+
+/* ---- misc ---- */
+.budgetPopoverTrigger {
+    @include inline-block;
+}
+
+@media (max-width: $breakpoint_mobileMin_max){
+	#publicRecognitionPageView {
+		.publicRecognitionItems {
+			.ui-tooltip-pos-lc[style] {
+			width: 300px !important;
+			left: 30px !important;
+			}
+		}
+	}
+
+	#publicRecognitionPageView {
+		.publicRecognitionItems {
+			.ui-tooltip-focus[style] {
+			width: 285px !important;
+			left : 50px !important;
+			}
+		}
+	}
+}
+
+@media (max-width: $breakpoint_mobilePhoneMin_max){
+	#publicRecognitionPageView {
+		.publicRecognitionItems {
+			.ui-tooltip-pos-lc[style] {
+				width: 280px !important;
+				left: 50px !important;
+			}
+		}
+	}
+
+	#publicRecognitionPageView {
+		.publicRecognitionItems {
+			.ui-tooltip-focus[style] {
+				width: 280px !important;
+				left: 50px !important;
+			}
+		}
+	}
+
+}
+
+@media (max-width: $breakpoint_mobilePhoneMin_minValue) {
+        #publicRecognitionPageView {
+		.publicRecognitionItems {
+			.ui-tooltip-pos-lc[style] {
+				width: 280px !important;
+				left: 1px !important;
+			}
+		}
+	}
+
+	#publicRecognitionPageView {
+		.publicRecognitionItems {
+			.ui-tooltip-focus[style] {
+				width: 280px !important;
+				left: 1px !important;
+			}
+		}
+	}
+}
+
+.recognition-block {
+    ul.launched-as {
+        visibility: hidden;
+    }
+}
+.recognition-comment{
+		&.readMore{ 
+		&.noEcard{
+		&.moreToRead { 
+				p {
+					display: block;
+				}
+			}
+		}
+	}
+}

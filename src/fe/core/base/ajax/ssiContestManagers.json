@@ -1,0 +1,3 @@
+<?php require_once('paxGenerator/paxGenerator.php'); sleep(1); ?>
+
+<?php generatePaxesPaginatedJson(10,2) ?>

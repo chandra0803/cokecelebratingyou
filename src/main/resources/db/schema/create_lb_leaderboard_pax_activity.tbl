@@ -1,0 +1,35 @@
+CREATE SEQUENCE LEADERBOARD_PAX_ACTIVITY_PK_SQ start with 1001 increment by 1
+/
+
+CREATE TABLE leaderboard_pax_activity
+   (leaderboard_pax_activity_id   NUMBER(18)  NOT NULL,
+    leaderboard_id                        NUMBER(18)  NOT NULL,
+    user_id                               NUMBER(18)  NOT NULL,
+    type                                  VARCHAR2(10)    NOT NULL,
+    as_of_date                            DATE,
+    submission_date                       DATE,
+    created_by                            NUMBER(18)  NOT NULL,
+    date_created                          DATE        NOT NULL,
+    modified_by                           NUMBER(18),
+    date_modified                         DATE,
+    version                               NUMBER(18)  NOT NULL)
+/
+
+ALTER TABLE leaderboard_pax_activity
+ADD CONSTRAINT leaderboard_pax_activity_pk PRIMARY KEY (leaderboard_pax_activity_id)
+USING INDEX
+/
+
+ALTER TABLE leaderboard_pax_activity ADD (CONSTRAINT leaderboard_pax_act_id_fk 
+    FOREIGN KEY (leaderboard_id) REFERENCES leaderboard (leaderboard_id))
+/
+
+ALTER TABLE leaderboard_pax_activity ADD (CONSTRAINT leaderboard_pax_act_user_fk 
+    FOREIGN KEY (user_id) REFERENCES application_user (user_id))
+/
+
+COMMENT ON TABLE leaderboard_pax_activity IS 'Displays the history of leaderboard pax activity.' 
+/
+
+COMMENT ON COLUMN leaderboard_pax_activity.type IS 'add or replace the score is described.'
+/

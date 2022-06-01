@@ -1,0 +1,15 @@
+CREATE GLOBAL TEMPORARY TABLE TMP_APPROVER_CUMUL_NOMI_DETAIL
+(
+  claim_id                  NUMBER(18),
+  nominator_pax_id          NUMBER(18),
+  nominator_name            VARCHAR2(255 CHAR),
+  submitted_date            DATE,
+  is_cumulative_nomination  NUMBER(1),
+  submitter_comments        VARCHAR2(4000 CHAR),
+  why_attachment_name       VARCHAR2(400 CHAR),
+  why_attachment_url        VARCHAR2(400 CHAR),
+  certificate_id            NUMBER(12),
+  more_info_comments        VARCHAR2(4000)
+)
+ON COMMIT PRESERVE  ROWS
+/

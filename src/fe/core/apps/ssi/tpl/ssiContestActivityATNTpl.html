@@ -1,0 +1,56 @@
+{{! NOTE: extraJSON is set in the JavaScript }}
+
+<div class="row-fluid">
+    <div class="span12">
+        <table id="" class="table table-striped atnTable">
+            <thead>
+                <tr>
+                    <th class="sortHeader unsorted" data-sort="name">
+                        <a href="#">
+                            Contest Name
+                            <i class="icon-arrow-1-up"></i>
+                            <i class="icon-arrow-1-down"></i>
+                        </a>
+                    </th>
+                    <th class="sortHeader unsorted" data-sort="startDate">
+                        <a href="#">
+                            Start Date
+                            <i class="icon-arrow-1-up"></i>
+                            <i class="icon-arrow-1-down"></i>
+                        </a>
+                    </th>
+                    <th class="sortHeader unsorted" data-sort="endDate">
+                        <a href="#">
+                            End Date
+                            <i class="icon-arrow-1-up"></i>
+                            <i class="icon-arrow-1-down"></i>
+                        </a>
+                    </th>
+                    <th>
+                        Issue Awards
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each contests}}
+                <tr>
+                    <td>
+                        <a href="{{extraJSON.contestSummaryUrl}}&amp;id={{id}}" title="">{{name}}</a>
+                        <!-- {{name}} -->
+                    </td>
+                    <td>
+                        {{startDate}}
+                    </td>
+                    <td>
+                        {{endDate}}
+                    </td>
+                    <td>
+                        <a href="{{extraJSON.issueAwardsUrl}}&amp;id={{id}}" class="btn btn-primary">Issue Awards</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+{
+	"messages":[],
+	"comment":{
+		"commentId" : 1236,
+		"levelOneId" : 300,				
+		"commenter":{
+			"id":1234,
+			"firstName":"Cornelius",
+			"lastName":"Contributor",
+			"avatarUrl": "https://gyodapprd.performnet.com/gyoda-cm/cm3dam/personal/avatar/5593-1510159792138-_tn_-ScreenShot20171106at72757AM.png"
+		},
+		"isMine": true,
+		"isLiked": false,
+		"numLikers": 2,
+		"numComments": 12,
+		"comment":"You rock!"
+	}
+}

@@ -1,0 +1,650 @@
+
+
+/* ----- PAGE STYLES ----- */
+.page.recognition {
+    .ecard-span {
+        margin-bottom: 14px;
+    }
+
+    .customSection {
+        textarea {
+            // these four base widths were copied from _jHtmlArea.patchedG5.scss so textareas are the same width as the rich text editors
+            // 12px = right/left padding, 2px = right/left border
+            width: 540px - 12px - 2px;
+
+            @media (min-width: 1200px) {
+                width: 702px - 12px - 2px;
+            }
+            @media (min-width: 538px) and (max-width: 979px) {
+                width: 360px - 12px - 2px;
+            }
+            @media (max-width: 767px) {
+                width: 240px - 12px - 2px;
+            }
+        }
+
+        // IE8 and below have a terrible time showing really long select elements. Namely, they cut off the options. IE9 fixes this.
+        .lt-ie9 & select,
+        // is it fair to assume that custom multiple select elements will often have super wide content? Probably...
+        select[multiple] {
+            width: auto;
+
+            @media (max-width: 767px) {
+                width: 100%;
+            }
+        }
+    }
+
+    &.recognitionPreview {
+        // style of titles/labels in preview
+        .row-fluid .span8 .row-fluid .span2 p {
+            // goes to stacking mode under 767, then we want less spacing after label
+            @media (max-width: 767px){
+                margin-bottom: 0;
+            }
+
+        }
+
+        .budgetTable .rT-wrapper {
+            float: left;
+            width: 40%;
+            @media( max-width:$breakpoint_mobileMini_max ){
+                width: 70%;
+            }
+        }
+
+        table {
+            td {
+                vertical-align: top;
+
+                span{
+                    display: block;
+                }
+            }
+
+            // special sizing for certain table columns that should be the same width (roughly)
+            .score,
+            .deduction,
+            .level,
+            .award {
+                width: 16.6666667%;
+                text-align: right;
+            }
+
+            .level {
+                text-align: left;
+            }
+
+        }
+
+        // budget table info text
+        .totalDeduction,
+        .deductionDisclaimer {
+            margin-top: -1 * $baseLineHeight / 2;
+            margin-bottom: $baseLineHeight;
+            //text-align: right;
+        }
+
+        // budget table
+        .table-striped {
+            .budget {
+                //text-align: right;
+            }
+        }
+    }
+} /* /.page.recognition */
+
+
+
+/* ----- SET ALIGNMENT FOR THE BROWSE AWARDS POPOVER ----- */
+
+.browse-awards-span.first-item {
+    margin: 0 0 0 -5px;
+}
+
+
+/* ----- MODEL FOR ECARDS ----- */
+.browse-awards-span,
+.browse-awards-span figure,
+.browse-awards-span img,
+.browse-awards-span figcaption {
+    float: left;
+    width: 60px;
+
+}
+
+.select-eCard {
+    figure {
+        float: left;
+    }
+}
+
+#recognitionPageSendView,
+#recognitionPageAddPointsView {
+
+    .badgeBtnContent {
+        img {
+            height: 72px; // 36px looks better, but let's at least restrict in case the giant images get loaded
+        }
+        .badgeName{
+            text-align: left;
+            white-space: normal;
+            display: block;
+			float:left;
+			padding-right:3%;
+            vertical-align: middle;
+            @media( max-width:$breakpoint_mobile_max ){
+                width: 90%;
+            }
+        }
+    }
+
+    .badgeItem {
+        a {
+            padding-right: 56px; // bootstrap 20px default + 32px img width
+        }
+
+        img {
+            height: 36px;
+        }
+    }
+
+    // NOTE: this is a bugfix for issue #3053. A better solution would be to redo the global page padding and content negative margin so that the tooltips are smart enough to stay on the screen without overriding sizing like this.
+    @media (max-width: 479px) {
+        .participantPopoverQtip,
+        .ui-tooltip-instruction {
+            left: 2% !important;
+            width: 96% !important;
+            max-width: none !important;
+        }
+    }
+
+    .ui-tooltip-instruction .ui-tooltip-content {
+        padding:12px;
+        font-size:12px;
+        line-height:16px;
+    }
+
+    .recognitionPromotionName,
+    .recognitionNodeName,
+    .recipientInfo {
+        margin-right: 8px;
+    }
+
+    .addRecipientsWrapper {
+        margin-bottom: $baseLineHeight // / 2; // borrowed from bootstrap/_forms.scss
+        // NOTE: this should actually preserve the "/ 2" from _forms.scss, but for whatever reason there is some extra spacing between the search widget and the recepticle that makes the full $baseLineHeight work better
+    }
+    .wizardTabsContent{
+        .nav-tabs{
+            margin-top: 30px;
+        }
+    }
+    .formSection {
+        margin-bottom: $baseLineHeight;
+        .dropdown-toggle{
+            .badgeBtnCaret{
+                vertical-align: middle;
+            }
+        }
+       .container-splitter {
+            margin-top: 0;
+            margin-bottom: 0;
+            //padding-top: 0;
+            //padding-bottom: 0;
+        }
+
+       @media (min-width: $breakpoint_tablet_min) {
+            h2 {
+                margin: 0;
+            }
+        }
+        &.actionsSection{
+            .btn + .btn {
+                margin-left: 0;
+                @media (min-width: $breakpoint_mobileMini_min) {
+                    margin-left: 8px;
+                }
+            }
+            .btn {
+                margin-bottom: $baseLineHeight/2;
+                width: 100%;
+                margin-left: 0;
+                 @media (min-width: $breakpoint_mobileMini_min) {
+                    width: auto;
+
+                }
+            }
+        }
+
+        &.promotionSection {
+            position:relative;
+
+            .promoWrapper,
+            .nodeWrapper {
+                position:relative;
+                overflow:visible;
+            }
+
+            .promoWrapper select {
+                margin-bottom: 0;
+                width: auto;// i18n (bootstrap defaults to 220px)
+                min-width: 220px; // i18n cont'd
+            }
+
+            .nodeWrapper h2 {
+                margin-top: $g5PageContentSpacingVertical;
+
+                @media (max-width: 479px) {
+                    margin-top: $g5PageContentSpacingVertical/2;
+                }
+            }
+
+        }
+
+        &.participantSearchSection {
+            margin-bottom: 0;
+
+            #participantSearchView {
+                position: relative;
+                z-index: 10;
+            }
+        }
+        .recognitionFieldsetActions{
+            margin-top: $baseLineHeight/2;
+        }
+        &.behaviorSection {
+            select {
+                width: auto;
+                max-width: 100%;
+
+                @media (max-width: 479px) {
+                    width: 100%;
+                    // NOTE: setting selects to 100% width on small screens is something we should probably do globally
+                }
+            }
+            // "hidden" input
+            #selectedBehavior {
+                margin: 0;
+                padding: 0;
+                width: 0;
+                border: 0;
+            }
+        }
+
+        &.messageSection textarea {
+            min-width: 500px;
+            max-width: 100%;
+            min-height: 150px;
+            max-height: 150px;
+            overflow: hidden;
+
+        }
+        &.messageSection .jHtmlArea, &.messageSection .jHtmlArea iframe, &.messageSection .jHtmlArea .ToolBar{
+            width: 100% !important;
+            box-sizing:border-box;
+        }
+        &.messageSection .jHtmlArea{
+          margin-bottom: $baseLineHeight/2;
+        }
+        &.messageSection .jHtmlArea .ToolBar {
+            margin-bottom: 5px; //fix for FF
+        }
+
+        &.copiesSection .copyOthersWrapper {
+            label {
+                text-align: left;
+                width: 150px;
+
+            }
+
+            .controls {
+                margin-left: 0;
+            }
+        }
+
+        &.anniversaryCelebrateSection {
+            .annivDateYears,
+            .annivDateDays {
+                display: none;
+            }
+        }
+
+        &.recipientsSection {
+            .rT-pinLeft-wrap{
+                background:none;
+            }
+            table {
+                width:100%;
+                background:none;
+                .participant {
+                    text-align: left;
+
+                    .org {
+                        display: block;
+                        line-height: normal;
+                    }
+                }
+
+                .award {
+                    text-align: left;
+
+                    .awardPointsInp {
+                        text-align: right;
+                    }
+                }
+
+                .calcDeduction {
+                    text-align: center;
+                }
+
+                .remove {
+                    text-align: center;
+                }
+            }
+            .ui-tooltip a {
+                color: $linkColor;
+            }
+
+            .participantCollectionViewWrapper {
+                position: relative;
+                margin-top:0;
+                padding-top:0;
+                padding-bottom:$baseLineHeight/2;
+                background:none;
+                h2 {
+                    position:relative;
+                }
+
+                // node link button
+                .showRecipNodes span,
+                .singleRecipNode {
+                    display: inline-block;
+                    @include ie7-inline-block;
+                    @include text-overflow;
+                    vertical-align: inherit;
+                    max-width: 200px;
+                    font-size:12px;
+                    line-height: 22px;
+
+                    &:hover {
+                       text-decoration: inherit;
+                       cursor: inherit; // ie7
+                    }
+
+                    // responsive
+                    @media (max-width: 320px){
+                        max-width: 100px;
+                    }
+                }
+
+                .showRecipNodes {
+                    vertical-align: inherit;
+
+                    &:hover {
+                        text-decoration: none;
+                    }
+
+                    .limitedWidth:hover {
+                        cursor: pointer;
+                        text-decoration: underline;
+                    }
+                }
+
+                // picker tip
+                .changeRecipNodeTip {
+                    min-width: 180px;
+
+                    ul {
+                        margin: 0;
+
+                        a {
+                            display: block;
+                            max-height: 20px\9; // ie8
+                            @include text-overflow;
+
+                            &.selected {
+                                font-weight: bold;
+
+                                &:hover {
+                                    text-decoration: none !important;
+                                }
+
+                                i {
+                                    color: $brand_color_black;
+
+                                    &:hover {
+                                        color: $brand_color_black;
+                                    }
+                                }
+                            }
+
+                            i {
+                                line-height: 12px;
+                            }
+
+                            &:hover i {
+                                color: $brand_color_black;
+                            }
+                        }
+                    }
+                }
+
+                .recipCount {
+                    position: absolute;
+                    right: 0px;
+                    top: 0px;
+                    margin: 4px;
+                    z-index: 1;
+                    font-size: 15px;
+                    color: #ccc;
+                }
+
+                .remBudgTip {
+                    min-width: 40px;
+
+                    @if $recognition_recPage_progressBarToolTipBgColor {
+                        background: $recognition_recPage_progressBarToolTipBgColor;
+                    }
+                    @if $recognition_recPage_progressBarToolTipBorderColor {
+                        border-color: $recognition_recPage_progressBarToolTipBorderColor;
+                    }
+                    @if $recognition_recPage_progressBarToolTipBoxShadow {
+                        @include box-shadow($recognition_recPage_progressBarToolTipBoxShadow);
+                    }
+                }
+                .remBudgTip .ui-tooltip-content {
+                    font-size: $baseFontSize;
+                    font-weight: bold;
+                    text-align: center;
+                    padding: 2px 0;
+                }
+
+                .budgetDeduction {
+                    .progress {
+                        margin-top: 25px; // roughly the height of the budget meter tooltip
+                        margin-bottom: 0;
+                    }
+
+                    .totals {
+                        //margin-bottom: $baseLineHeight;
+
+                        .budgetMin {
+                            float: left;
+                        }
+
+                        .budgetMax {
+                            float: right;
+                        }
+                    }
+
+                    .bar {
+                        //get rid of transitions
+                        @include transition-property(none);
+                        @include transition-duration(2s);
+                        @include transition-timing-function(ease-in);
+                    }
+                }
+
+                .remBudgTip .ui-tooltip-content {
+                    font-size: 14px;
+                    font-weight: bold;
+                    text-align: center;
+                    word-wrap: normal;
+                }
+
+                .remBudgTip {
+                    z-index: auto !important;
+                }
+
+                .budgWarn .ui-tooltip-content {
+                    color: #992323;
+                    @include text-shadow(#fff 0 0 2px);
+                }
+            }//.participantCollectionViewWrapper
+        }//.recipientSection
+
+        &.deliverDatePurlSection {
+            .control-group {
+                margin-bottom: $baseLineHeight / 2;
+            }
+
+            .datepickerInp {
+                width: 110px; // magic number that's half the default 220px
+            }
+        }
+
+    }//.formSection
+
+    // .formSection.pullBottomUp {
+    //     // borrowed from _pages.scss
+    //     margin-bottom: -1 * ($g5PageContentPaddingHoriz - $g5PageContentLeftRightBorderWidth);
+
+    //     @media (min-width: 1200px) {
+    //         margin-bottom: -1 * ($g5PageContentPaddingHoriz1200 - $g5PageContentLeftRightBorderWidth1200);
+    //     }
+    //     @media (min-width: 538px) and (max-width: 979px) {
+    //         margin-bottom: -1 * ($g5PageContentPaddingHoriz768 - $g5PageContentLeftRightBorderWidth768);
+    //     }
+    //     @media (max-width: 767px) {
+    //         margin-bottom: -1 * ($g5PageContentPaddingHorizMobile * 3 / 4);
+    //     }
+    // }
+
+    .contributionsDate {
+        line-height:28px;
+        height:28px;
+        @include inline-block;
+    }
+
+}//#recognitionPageSendView
+
+// Recognition Page View Recognition
+#recognitionViewRecognition {
+    .span12 {
+        text-align: center;
+    }
+
+    .intro {
+        text-align: center;
+        border-bottom: $g5PageContentLeftRightBorderWidth solid $brand_color_lighter;
+    }
+
+    .ecard {
+        padding: 20px 0;
+        text-align: center;
+
+        img {
+            width: 432px;
+        }
+    }
+
+    .recognitionVideoWrapper {
+        margin: 20px auto;
+        width: 80%;
+    }
+
+    .comments {
+        margin: 0 auto;
+        max-width: 432px;
+        text-align: left;
+    }
+}
+
+//Recognition Add Points View
+#recognitionPageAddPointsView {
+    margin: 0;
+    display: block;
+
+    .ecard-span,
+    .recognitionInformation {
+        margin-top: 40px;
+    }
+
+    .avatar {
+        font-size: $baseFontSize * 1.26;
+        line-height: 48px;
+        height: 48px;
+        margin-right: 20px;
+        min-width: 48px;
+        vertical-align: middle;
+        width: 48px;
+    }
+
+    .paxMeta {
+        color: $brand_color_black;
+        font-size: $fontSizeSmall;
+        font-weight: $fontWeightNormal;
+    }
+
+    .avatarWrap {
+        float: left;
+    }
+
+    .recipientInfoWrap {
+        line-height: 25px;
+        vertical-align: middle;
+        overflow: hidden;
+
+        .profile-popover {
+            font-size: 18px;
+        }
+    }
+
+    #orgUnitSelect {
+        margin-bottom: 20px;
+    }
+}
+#recognitionPagePreviewPointsView{
+	 .row-fluid .span3{
+		min-height: 0px;
+		margin: 0px;
+			 p{
+				min-height: 0px;
+				margin: 0px;
+			}
+		}
+	}
+	
+
+
+a.btn.btn-inverse-primary{ 
+	&.dropdown-toggle { 
+		&.badgeBtn{
+			width: 90%;
+			padding: 10px 14px;
+		}
+	}
+}
+
+
+.formSection.customSection{ 
+	.control-group {
+		&.validateme {
+			span.control-label {
+				margin-bottom: 22px;
+				display: block;
+			}
+		}
+	}
+}

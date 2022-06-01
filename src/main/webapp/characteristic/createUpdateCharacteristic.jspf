@@ -1,0 +1,252 @@
+<%--UI REFACTORED--%>
+<%@ include file="/include/taglib.jspf" %>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils" %>
+
+<script type="text/javascript"
+        src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/calendar/calendar.js"></script>
+<script type="text/javascript"
+        src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/calendar/calendar-en.js"></script>
+<script type="text/javascript"
+        src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/scripts/calendar/calendar-setup.js"></script>
+
+<html:hidden property="method" value=""/>
+<html:hidden property="characteristicDataType"/>
+<html:hidden property="dateCreated"/>
+<html:hidden property="createdBy"/>
+<html:hidden property="nameCmKey"/>
+<html:hidden property="cmAssetCode"/>
+<html:hidden property="version"/>
+<html:hidden property="rosterCharacteristicId"/>
+<beacon:client-state>
+  <beacon:client-state-entry name="domainId" value="${characteristicForm.domainId}"/>
+  <beacon:client-state-entry name="characteristicId" value="${characteristicForm.characteristicId}"/>
+</beacon:client-state>
+
+<table border="0" cellpadding="10" cellspacing="0" width="100%">
+<tr>
+<td>
+<span class="headline">
+  <c:out value="${pageScope.characteristicClassTypeText}"/>
+    &nbsp;-&nbsp;
+  <c:out value="${characteristicForm.characteristicTypeDesc}"/>
+  <cms:contentText key="CHAR_LABEL" code="admin.characteristic.edit"/>
+</span>
+<%--INSTRUCTIONS--%>
+<br/><br/>
+<span class="content-instruction">
+	      <cms:contentText key="INSTRUCTIONS" code="admin.characteristic.edit"/>
+	  </span>
+<br/><br/>
+<%--END INSTRUCTIONS--%>
+
+<cms:errors/>
+
+
+<table>
+<c:if test="${!empty characteristicForm.nodeTypeName}">
+  <html:hidden property="nodeTypeName"/>
+  <tr class="form-row-spacer">
+    <beacon:label property="owner" required="false">
+      <cms:contentText key="NODETYPE" code="admin.characteristic.edit"/>
+    </beacon:label>
+    <td class="content-field-review" nowrap><c:out value="${characteristicForm.nodeTypeName}"/>
+    </td>
+  </tr>
+  <tr class="form-blank-row">
+    <td></td>
+  </tr>
+</c:if>
+
+<tr class="form-row-spacer">
+  <beacon:label property="characteristicName" required="true">
+    <cms:contentText key="CHAR_NAME" code="admin.characteristic.edit"/>:
+  </beacon:label>
+  <td class="content-field">
+    <html:text property="characteristicName" size="46" maxlength="65" styleClass="content-field"/>
+  </td>
+</tr>
+
+<tr class="form-blank-row">
+  <td></td>
+</tr>
+
+<tr class="form-row-spacer">
+  <beacon:label property="description" required="false" styleClass="content-field-label-top">
+    <cms:contentText key="CHAR_DESC" code="admin.characteristic.edit"/>:
+  </beacon:label>
+  <td class="content-field">
+    <html:textarea property="description" rows="5" styleClass="content-field" cols="35"/>
+  </td>
+</tr>
+
+<tr class="form-blank-row">
+  <td></td>
+</tr>
+
+<tr class="form-row-spacer">
+  <beacon:label property="description" required="false" styleClass="content-field-label-top">
+    <cms:contentText key="VISIBILITY" code="admin.characteristic.edit"/>:
+  </beacon:label>
+  <td class="content-field">
+    <html:select property="visibility" styleClass="content-field">
+        <html:options collection="characterVisibilities" property="code" labelProperty="name" styleClass="content-field"/>
+    </html:select>
+  </td>
+</tr>
+
+<tr class="form-blank-row">
+  <td></td>
+</tr>
+
+
+<c:choose>
+<c:when test="${characteristicForm.characteristicDataType =='txt'}">
+  <tr class="form-row-spacer">
+    <beacon:label property="maxSize" required="true">
+      <cms:contentText key="MAX_SIZE" code="admin.characteristic.edit"/>:
+    </beacon:label>
+    <td class="content-field">
+      <html:text property="maxSize" styleClass="content-field"/>
+    </td>
+  </tr>
+</c:when>
+<c:when
+    test="${characteristicForm.characteristicDataType =='int' || characteristicForm.characteristicDataType == 'decimal'}">
+
+  <tr class="form-row-spacer">
+    <beacon:label property="minValue" required="false">
+      <cms:contentText key="MIN_VALUE" code="admin.characteristic.edit"/>:
+    </beacon:label>
+    <td class="content-field">
+      <html:text property="minValue" styleClass="content-field"/>
+    </td>
+  </tr>
+  <tr class="form-row-spacer">
+    <beacon:label property="maxValue" required="false">
+      <cms:contentText key="MAX_VALUE" code="admin.characteristic.edit"/>:
+    </beacon:label>
+    <td class="content-field">
+      <html:text property="maxValue" styleClass="content-field"/>
+    </td>
+  </tr>
+</c:when>
+<c:when
+    test="${characteristicForm.characteristicDataType =='single_select' || characteristicForm.characteristicDataType =='multi_select'}">
+
+  <tr class="form-row-spacer">
+    <beacon:label property="plName" required="false">
+      <cms:contentText key="PICKLIST" code="admin.characteristic.edit"/>:
+    </beacon:label>
+    <td class="content-field">
+      <html:select property="plName" styleClass="content-field">
+        <html:options collection="pickListItemAssets" property="code"
+                      labelProperty="name" styleClass="content-field"/>
+      </html:select>
+    </td>
+  </tr>
+</c:when>
+<c:when test="${characteristicForm.characteristicDataType =='date'}">
+
+
+<tr class="form-row-spacer">
+  <beacon:label property="dateStart" required="false">
+    <cms:contentText key="VALID_DATE_START" code="admin.characteristic.edit"/>:
+  </beacon:label>
+  <td class="content-field">
+    <html:text property="dateStart" styleId="startDate" size="10" maxlength="10" readonly="true"
+               styleClass="content-field" onfocus="clearDateMask(this);"/>
+    <img id="startDateTrigger" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/images/calendar_icon.gif"
+         class="calendar-icon" alt="<cms:contentText key='START_DATE' code='admin.budget.details'/>"/>
+  </td>
+</tr>
+<tr class="form-blank-row">
+  <td></td>
+</tr>
+
+
+<tr class="form-row-spacer">
+  <beacon:label property="dateEnd" required="false">
+    <cms:contentText key="VALID_DATE_END" code="admin.characteristic.edit"/>:
+  </beacon:label>
+  <td class="content-field">
+    <html:text property="dateEnd" styleId="endDate" size="10" maxlength="10" readonly="true"
+               styleClass="content-field" onfocus="clearDateMask(this);"/>
+    <img id="endDateTrigger" src="<%=RequestUtils.getBaseURI(request)%>/assets/g4skin/images/calendar_icon.gif"
+         class="calendar-icon" alt="<cms:contentText key='END_DATE' code='admin.budget.details'/>"/>
+  </td>
+  <script type="text/javascript">
+    Calendar.setup(
+    {
+      inputField  : "startDate",         // ID of the input field
+      ifFormat    : "${TinyMceDatePattern}",    // the date format
+      button      : "startDateTrigger"       // ID of the button
+    }
+        );
+    Calendar.setup(
+    {
+      inputField  : "endDate",         // ID of the input field
+      ifFormat    : "${TinyMceDatePattern}",    // the date format
+      button      : "endDateTrigger"       // ID of the button
+    }
+        );
+  </script>
+  </c:when>
+  </c:choose>
+
+  <tr class="form-blank-row">
+    <td></td>
+  </tr>
+
+  <tr class="form-row-spacer">
+    <beacon:label property="required" required="false" styleClass="content-field-label-top">
+      <cms:contentText key="CHAR_REQ" code="admin.characteristic.edit"/>?
+    </beacon:label>
+    <td class="content-field-label content-field-label-top">           
+      <html:radio property="required" value="false"/><cms:contentText
+        key="OPTIONAL" code="admin.characteristic.edit"/>      
+      <br>
+      <html:radio property="required" value="true"/><cms:contentText
+        key="REQUIRED" code="system.common.labels"/>
+    </td>
+  </tr>
+
+  <c:if
+      test="${pageScope.characteristicType == 'Product' && (characteristicForm.characteristicDataType =='int' || characteristicForm.characteristicDataType == 'txt')}">
+
+  <tr class="form-row-spacer">
+    <beacon:label property="unique" required="false" styleClass="content-field-label-top">
+      <cms:contentText key="CHAR_UNIQUE" code="admin.characteristic.edit"/>?
+    </beacon:label>
+    <td class="content-field-label content-field-label-top">
+      <html:radio property="unique" value="false"/><cms:contentText
+        key="CHAR_UNIQUE_NOT_UNIQUE_DESCR" code="admin.characteristic.edit"/>
+      <bR>
+      <html:radio property="unique" value="true"/><cms:contentText
+        key="CHAR_UNIQUE_UNIQUE_DESCR" code="admin.characteristic.edit"/>
+    </td>
+  </tr>
+
+  </c:if>
+
+  <tr class="form-buttonrow">
+    <td></td>
+    <td></td>
+    <td align="left">
+
+      <c:if test="${empty submitOnClickAction}">
+        File accessed incorrectly. please specify a submitOnClickAction.
+      </c:if>
+      <beacon:authorize ifNotGranted="LOGIN_AS">
+      <html:submit styleClass="content-buttonstyle" onclick="${submitOnClickAction}">
+        <cms:contentText code="system.button" key="SAVE"/>
+      </html:submit>
+      </beacon:authorize>
+
+      <html:cancel styleClass="content-buttonstyle">
+        <cms:contentText key="CANCEL" code="system.button"/>
+      </html:cancel>
+    </td>
+  </tr>
+</table>
+
+</td></tr></table>

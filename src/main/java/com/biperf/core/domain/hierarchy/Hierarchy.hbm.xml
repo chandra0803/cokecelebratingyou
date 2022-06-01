@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.hierarchy.Hierarchy" table="HIERARCHY">
+
+    <id name="id" type="java.lang.Long" column="HIERARCHY_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">HIERARCHY_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" type="java.lang.Long" column="VERSION"/>
+
+    <property name="description" type="java.lang.String" column="DESCRIPTION"/>
+
+    <property name="active" type="boolean" column="IS_ACTIVE" />
+
+    <property name="primary" type="boolean" column="IS_PRIMARY" />
+
+    <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE" />
+
+    <property name="nameCmKey" type="java.lang.String" column="NAME_CM_KEY" />
+
+    <property name="deleted" type="boolean" column="IS_DELETED"/>
+    
+    <property name="nodeTypeRequired" type="boolean" column="IS_NODE_TYPE_REQ"/>
+    
+    <property name="rosterHierarchyId" type="uuid-char" column="ROSTER_HIERARCHY_ID"/>
+
+    <!--
+      <set name="nodes" table="NODE" lazy="false" inverse="true" cascade="all-delete-orphan">
+        <key column="HIERARCHY_ID"/>
+        <one-to-many class="com.biperf.core.domain.hierarchy.Node"/>
+      </set>
+    -->
+    <set name="hierarchyNodeTypes" lazy="false" table="HIERARCHY_NODE_TYPE" cascade="all-delete-orphan">
+      <key column="HIERARCHY_ID"/>
+      <composite-element class="com.biperf.core.domain.hierarchy.HierarchyNodeType">
+        <parent name="Hierarchy" />
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+        <many-to-one name="nodeType" lazy="false" class="com.biperf.core.domain.hierarchy.NodeType" column="NODE_TYPE_ID" />
+      </composite-element>
+    </set>
+
+    <!--
+        The create audit information is handled in the AuditCreateType and AuditInterceptor.
+        Column order here is important.
+      -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!--
+        The update audit information is handled in the AuditUpdateType and AuditInterceptor.
+        Column order here is important.
+      -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+
+  <query name="com.biperf.core.domain.hierarchy.AllHierarchies">
+    <![CDATA[
+      from com.biperf.core.domain.hierarchy.Hierarchy hierarchy
+      where is_deleted = 0
+      order by hierarchy.primary desc
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.hierarchy.ActiveHierarchies">
+    <![CDATA[
+      from com.biperf.core.domain.hierarchy.Hierarchy hierarchy
+      where is_deleted = 0 and is_active = 1
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.hierarchy.PrimaryHierarchy">
+    <![CDATA[
+      from com.biperf.core.domain.hierarchy.Hierarchy hierarchy
+      where hierarchy.primary = 1
+      and is_deleted = 0
+    ]]>
+  </query>
+  
+	<sql-query name="com.biperf.core.domain.hierarchy.getHierarchyIdByRosterHierarchyId">
+		<return-scalar column="hierarchy_id" type="long"/>
+		<![CDATA[
+     	 	select hierarchy_id from hierarchy where roster_hierarchy_id=:rosterHierarchyId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.hierarchy.getRosterHierarchyIdByHierarchyId">
+		<return-scalar column="roster_hierarchy_id" type="uuid-char"/>
+		<![CDATA[
+     	 	select roster_hierarchy_id from hierarchy where hierarchy_id=:hierarchyId
+    	]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.hierarchy.getHierarchyDetailsByUserId">
+		<return-scalar column="companyId" type="string"/> 
+		<return-scalar column="rosterNodeId" type="uuid-char"/> 
+		<return-scalar column="role" type="string"/> 
+		<return-scalar column="name" type="string"/>
+		<return-scalar column="rosterHierarchyId" type="uuid-char"/> 
+		<return-scalar column="parentRosterNodeId" type="uuid-char"/> 
+		<![CDATA[
+			SELECT (select company_id from company) companyId, n.roster_node_id rosterNodeId, un.role role, n.name name, 
+					(select roster_hierarchy_id  from hierarchy where is_active = 1 and hierarchy_id = n.hierarchy_id) rosterHierarchyId, p.roster_node_id parentRosterNodeId 
+			FROM node n, user_node un, node p 
+			WHERE n.node_id = un.node_id AND n.parent_node_id = p.node_id AND un.user_id = :userId
+		]]>
+	</sql-query>
+
+</hibernate-mapping>

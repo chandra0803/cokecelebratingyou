@@ -1,0 +1,98 @@
+
+
+<div id="homeAppPageView">
+
+
+
+    <div class="moduleContainerViewElement">
+
+        <!-- dynamic content -->
+
+    </div> <!-- /.moduleContainerViewElement -->
+</div><!-- /#homeAppPageView -->
+
+
+<!-- MODULES SETUP -->
+<script>
+
+    //Main Home Application Setup Function
+    $(document).ready(function(){
+        var isSubset = typeof G5.props.urlParams.moduleSubset != 'undefined',
+            allModules,moduleSubset;
+
+        //instantiate HomeApp
+        window.hapv = new LaunchPageView({
+            el : $('#homeAppPageView'),
+            pageNav : {},
+            pageTitle : '',
+            isFooterSheets : false
+        });
+
+        G5.gq = {};
+
+        G5.gq.modObj = {
+                name:'goalquestModule',
+                appName: 'goalquest',//name of the app
+                viewName: 'goalquestModule',
+                templateName: 'goalquestModule',
+                filters:{
+                    'recognition':{ order:'hidden' },
+                    'programs':{ order:0 },
+                    'information':{ order:'hidden' },
+                    'manager':{ order:'hidden' },
+                    'reports':{ order:'hidden' }
+                }
+            };
+
+
+        $.ajax({
+            dataType: 'g5json',
+            url: G5.props.URL_JSON_GOALQUEST_COLLECTION,
+            data: {},
+            success: function(serverResp) {
+                console.log("[INFO] goalquestModulesPage: loadPromototions call successfully returned this JSON object: ", serverResp.data);
+
+                G5.props.preLoadedGoalquestPromotions = serverResp.data.promotions;
+
+                processData();
+
+                hapv.launchApp.moduleCollection.reset(G5.gq.modCollection);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("[ERROR] goalquestModuleCollection: loadPromototions call failed: ", jqXHR, textStatus, errorThrown);
+
+                self.$el.append('AJAX ERROR: '+textStatus+' ('+errorThrown.type+')<br>URL:'+this.gqListJsonUrl);
+            }
+        });
+
+        function processData() {
+            var modDataArray = [];
+
+            G5.gq.modCollection = [];
+
+            _.each(G5.props.preLoadedGoalquestPromotions, function(promo) {
+                if( promo.goals.length == 1 ) {
+                    modDataArray.push(promo);
+                }
+                else {
+                    _.each(promo.goals, function(goal) {
+                        var p = _.clone(promo);
+                        p.goals = [goal];
+                        modDataArray.push(p);
+                    });
+                }
+            });
+
+            _.each(modDataArray, function(a, i) {
+                var m = $.extend(true, {}, G5.gq.modObj);
+                m.name = m.name + i;
+                m.filters.recognition.order = i;
+                m.json = a;
+
+                G5.gq.modCollection.push(m);
+            });
+        }
+
+    });
+
+</script>

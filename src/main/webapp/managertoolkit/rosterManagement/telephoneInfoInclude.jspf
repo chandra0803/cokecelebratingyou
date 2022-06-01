@@ -1,0 +1,69 @@
+<%@ include file="/include/taglib.jspf" %>
+
+<fieldset>
+	<h3>
+		<cms:contentText key="TELEPHONE_HEADER"
+			code="participant.roster.management.edit" />
+	</h3>
+
+	<div class="control-group">
+		<label for="primaryTelephoneType" class="control-label"><cms:contentText
+				key="PRIMARY_PHONE_TYPE" code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<html:select styleId="primaryTelephoneType" property="phoneType">
+				<html:option value=''>
+					<cms:contentText key="SELECT_ONE" code="system.general" />
+				</html:option>
+				<html:options collection="phoneTypeList" property="code"
+					labelProperty="name" />
+			</html:select>
+            <span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label for="countryCode" class="control-label"><cms:contentText
+				key="TELEPHONE_COUNTRY_AND_COUNTRY_CODE"
+				code="participant.participant" />
+		</label>
+		<div class="controls">
+			<html:select styleId="countryCode" property="countryPhoneCode">
+				<c:if test="${multiple}">
+					<html:option value=''>
+						<cms:contentText key="SELECT_ONE" code="system.general" />
+					</html:option>
+				</c:if>
+				<c:forEach items="${countryList}" var="country">
+					<option value="${country.countryCode}"
+						<c:if test="${country.phoneCountryCode == editconuntryPhoneCode}">
+										selected 
+									</c:if>>${country.countryNameandPhoneCodeDisplay}</option>
+				</c:forEach>
+			</html:select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label for="telephoneNumber" class="control-label"><cms:contentText
+				key="PHONE_NUMBER" code="participant.participant" />
+		</label>
+		<div class="controls">
+			<input type="text" id="telephoneNumber" name="phoneNumber" class="input-large" size="12" value="${userForm.phoneNumber}" maxlength="12" placeholder="XXX-XXX-XXXX" >
+		</div>
+	</div>
+
+	<div class="control-group validateme" data-validate-flags="regex" data-validate-fail-msgs='{"regex" : "<cms:contentText key='INVALID_EXTENSION' code='participant.roster.management.modify' />"}' data-validate-regex="(^\d)">
+		<label for="extension" class="control-label"><cms:contentText
+				key="EXTENSION" code="participant.participant" />
+		</label>
+		<div class="controls">
+			<html:text styleId="extension" property="phoneExtension" size="6"
+				maxlength="4" styleClass="input-small" />
+			<span class="help-inline">(<cms:contentText
+					key="EXTENSION_DESC" code="participant.participant" />)</span>
+            <span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span>
+		</div>
+	</div>
+
+</fieldset>

@@ -1,0 +1,96 @@
+{
+	"description": "Create a complete hierarchy structure",
+	"params": 
+	{
+		"baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+		"companyId": "00000000-0000-0000-0000-0000000015d2",
+		"hierarchyName": "New Hierarchy 123",
+		"node1Name": "New Node - ${faker:random.number}",
+		"node2Name": "New Node - ${faker:random.number}",
+		"node3Name": "New Node - ${faker:random.number}",
+		"node4Name": "New Node - ${faker:random.number}"
+	},
+	"export": 
+	{
+		"newHierarchyId": "${ref:createHierarchyStructure.res.body.id}",
+		"newHierarchyNodeId":"${ref:createHierarchyStructure.res.body.hierarchyNodes.0.children.0.id}"
+	},
+	"steps": 
+	[
+		{
+			"id": "createHierarchyStructure",
+			"description": "POST /services/v1.0/hierarchiesStructure",
+			"request": 
+			{
+				"url": "${ref:params.baseUrl}/services/v1.0/hierarchiesStructure",
+				"options": 
+				{
+					"method": "post",
+					"headers": 
+					{
+						"company-id": "${ref:params.companyId}"
+					},
+					"body": 
+					{
+						"name": "${ref:params.hierarchyName}",
+						"hierarchyNodes": 
+						[
+							{
+								"name": "${ref:params.node1Name}",
+								"children": 
+								[
+									{
+										"name": "${ref:params.node2Name}",
+										"children": 
+										[
+											{
+												"name": "${ref:params.node3Name}",
+												"children": 
+												[
+													{
+														"name": "${ref:params.node4Name}",
+														"children": 
+														[
+														]
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				}
+			},
+			"expect": 
+			[
+				{
+					"a": "${ref:createHierarchyStructure.res.status}",
+					"compare": "to.equal",
+					"b": 200
+				},
+				{
+					"a": "${ref:createHierarchyStructure.res.body.success}",
+					"compare": "to.equal",
+					"b": true
+				},
+				{
+					"a": "${ref:createHierarchyStructure.res.body.name}",
+					"compare": "to.equal",
+					"b": "${ref:params.hierarchyName}"
+				},
+				{
+					"a": "${ref:createHierarchyStructure.res.body.hierarchyNodes.0.name}",
+					"compare": "to.equal",
+					"b": "${ref:params.node1Name}"
+				},
+				{
+					"a": "${ref:createHierarchyStructure.res.body.hierarchyNodes.0.children.0.name}",
+					"compare": "to.equal",
+					"b": "${ref:params.node2Name}"
+				}
+			]
+		}
+	]
+}

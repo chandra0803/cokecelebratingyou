@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.participant.ParticipantGroup" table="participant_group">
+		<id name="id" type="java.lang.Long" column="group_id">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param>
+				<param name="sequence">Participant_GROUP_ID_PK_SQ</param>
+			</generator>
+		</id>
+		<property name="groupName" type="java.lang.String" column="GROUP_NAME" />
+		
+		<many-to-one name="groupCreatedBy" column="GROUP_CREATOR_ID" class="com.biperf.core.domain.participant.Participant" />
+		<set name="groupDetails"  cascade="all-delete-orphan"  table="participant_group_dtls" inverse="true"  lazy="true" fetch="select" >
+			<key>
+				<column name="group_ID" not-null="true" />
+			</key>
+			<one-to-many class="com.biperf.core.domain.participant.ParticipantGroupDetails"  />
+		</set>
+		
+	 <property name="auditCreateInfo"  type="com.biperf.core.utils.hibernate.AuditCreateType">
+     	 <column name="DATE_CREATED" />
+      	<column name="CREATED_BY" />
+    </property>    
+    
+    <property name="auditUpdateInfo"  type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+		
+	</class>
+</hibernate-mapping>

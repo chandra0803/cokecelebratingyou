@@ -1,0 +1,14 @@
+{
+    "project": "cocacola-celebratingyou",
+    "awsAcct": "cpd-tools",
+    "extend": "https://gitlab.biw-services.com/cpd/xena-module-daymaker-on-premise",
+    "variables": {
+        "awsRegion": "us-west-2",
+        "context": "celebratingyou"
+    },
+    "environments": {
+        "qa": {},
+        "pprd": {},
+        "prod": {}
+    }
+}

@@ -1,0 +1,6 @@
+alter table recognition_claim add source VARCHAR2(200 char) DEFAULT 'UNKNOWN' NOT NULL
+/
+ALTER TABLE recognition_claim ADD ( ANNIVERSARY_NUM_DAYS      NUMBER(5),
+  ANNIVERSARY_NUM_YEARS     NUMBER(5),
+  CELEBRATION_MANAGER_MESSAGE_ID     NUMBER(12) )
+/

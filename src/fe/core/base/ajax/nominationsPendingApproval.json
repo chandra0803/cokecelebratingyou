@@ -1,0 +1,41 @@
+{
+    "pendingNominationsApprovalSets": [
+        {
+           "totalPendingNominationsApproval": 0,
+           "nominationsApproval": [
+                {
+                    "id": 123,
+                    "winnersName": "Select [PromoName] Winners",
+                    "url": "layout.html?tpl=nominationsApprovalPromoList&tplPath=apps/nominations/tpl/",
+                    "dateSubmitted": "06/15/2016",
+                    "levelName": "Bronze",
+                    "levelNumber": 1
+                },
+                {
+                    "id": 124,
+                    "winnersName": "Select [PromoName] Winners",
+                    "url": "layout.html?tpl=nominationsApprovalPromoList&tplPath=apps/nominations/tpl/",
+                    "dateSubmitted": "06/18/2016",
+                    "levelName": "Silver",
+                    "levelNumber": 2
+                },
+                {
+                    "id": 125,
+                    "winnersName": "Select [PromoName] Winners",
+                    "url": "layout.html?tpl=nominationsApprovalPromoList&tplPath=apps/nominations/tpl/",
+                    "dateSubmitted": "06/22/2016",
+                    "levelName": "Gold",
+                    "levelNumber": 3
+                },
+                {
+                    "id": 1235,
+                    "winnersName": "Select [PromoName] Winners",
+                    "url": "layout.html?tpl=nominationsApprovalPromoList&tplPath=apps/nominations/tpl/",
+                    "dateSubmitted": "07/05/2016",
+                    "levelName": null,
+                    "levelNumber": null
+                }
+            ]
+        }
+    ]
+}

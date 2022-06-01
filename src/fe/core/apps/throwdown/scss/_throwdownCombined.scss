@@ -1,0 +1,848 @@
+// App-specific variables
+// =========================
+$tdPromoInfoPadding: 10px !default;
+$tdPromoSelectWidth: 308px !default;
+$tdPromoSelectHeight: 46px !default;
+$tdPromoSelectTextLineHeight: $baseFontSize * 1.1429 !default; // ~16px
+$throwdownPromoSelect_textColor: $brand_color_black !default;
+$combinedBackgroundColor: $brand_color_white;
+$combinedNumberColor: $brand_color_black;
+
+$throwdownPromotionSelector_countdownBackgroundColor: $combinedBackgroundColor !default;
+$throwdownPromotionSelector_countdownDigitColor: $throwdownCountdown_digitColor !default;
+$throwdownCombined_countdownLabelColor: $brand_color_black !default;
+
+$throwdownPromotionSelector_bgGradColor: $throwdown_secondaryAccentColor !default;
+$throwdownPromotionSelector_bgGradStops: scale-color($throwdownPromotionSelector_bgGradColor, $lightness: 30.9%, $saturation: -47.5%), $throwdownPromotionSelector_bgGradColor !default;
+
+$throwdownViewMatches_titleColor: $throwdown_secondaryAccentColor !default;
+$throwdownViewMatches_titleFontWeight: $throwdown_secondaryFontWeight !default;
+$throwdownViewMatches_titleFontFamily: $throwdown_primaryFontFamily !default;
+$throwdownViewMatches_imgUrlPath: $appImagesPath !default;
+$throwdownViewMatches_imgUrl2x1: "throwdown/bannerViewMatches_2x1.jpg" !default;
+
+$throwdownCustomSelect_gradColor: #4a4a4a !default;
+$throwdownCustomSelect_gradStops: $throwdownCustomSelect_gradColor, $brand_color_black !default;
+$throwdownCustomSelect_arrowColor: $throwdown_secondaryAccentColor !default;
+$throwdownCustomSelectArrow_gradStops: lighten($throwdownCustomSelect_gradColor, 13%), $black;
+$throwdownCustomSelectArrow_leftColor: rgba(255, 255, 255, .45) !default;
+$throwdownPromoSelectListBgColor: $combinedBackgroundColor !default;
+
+$throwdownAllMatches_headerBgColor: $brand_color_black !default;
+$throwdownAllMatches_tabsNavBgColor: $brand_color_black !default;
+$throwdownAllMatches_tabsIconColor: $brand_color_light !default;
+$throwdownAllMatches_tabsIconShadow: 0 -1px 0 $brand_color_mid !default;
+$throwdownAllMatches_tabsIconColorHover: $brand_color_white !default;
+$throwdownAllMatches_tabsIconShadowHover: $throwdownAllMatches_tabsIconShadow !default;
+$throwdownAllMatches_tabsTabBgHover: $throwdown_secondaryAccentColor !default;
+$throwdownAllMatches_tabsTabBoxShadowClick: $brand_color_mid 0 2px 5px inset !default;
+$throwdownAllMatches_tabsIconColorActive: $throwdown_secondaryAccentColor !default;
+$throwdownAllMatches_tabsIconShadowActive: none !default;
+$throwdownAllMatches_tabsTabBgActive: $brand_color_white !default;
+
+// Global variables (overridden for this app only)
+// ==================================================
+
+// App-specific code
+// ==================================================
+
+/* ----- GLOBAL APP STYLES ----- */
+// Note that every module and page and related instance of this app should be namespaced with the appName
+
+/* ----- MODULE STYLES ----- */
+.launchModule.throwdownCombinedModule {
+    overflow: visible;
+
+    .module-liner {
+        overflow: visible;
+        background: transparent;
+        filter: none;
+
+        .td-view-matches {
+            display: block;
+            height: $g5ModuleUnit;
+            margin-top: 0;
+            position: relative;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .title-icon-view {
+            // @include safeImgUrls($throwdownViewMatches_imgUrl2x1, $throwdownViewMatches_imgUrlPath, $property: 'background-image');
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: $g5ModuleUnit;
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            z-index: 1;
+            // color: $throwdownViewMatches_titleColor;
+            // font: $throwdownViewMatches_titleFontWeight 39px $throwdownViewMatches_titleFontFamily;
+            line-height: 1;
+            text-align: center;
+            top: 35px;
+            // wor  d-spacing: 150px;
+            h3 {
+                text-align: left;
+                top: 0;
+                margin-top: 0;
+            }
+        }
+
+    }
+        .td-promo-info {
+
+            // height: (148px - ($tdPromoInfoPadding * 2));
+            // padding: $tdPromoInfoPadding;
+            height: $g5ModuleUnit;
+
+            .td-promo-select-container,
+            .td-promo-select-list {
+                cursor: pointer;
+                width: auto;
+                display: inline-block;
+                float: left;
+                margin-right: 40px;
+
+            }
+
+            .td-promo-select-container {
+
+                .td-promo-select-selected {
+                    @include module_moduleLinerBackground(
+                        $bgColor: $throwdownCustomSelect_gradColor,
+                        $gradType: $throwdown_gradTypeLinear,
+                        $gradMeta: $throwdown_gradMetaTop,
+                        $gradStops: $throwdownCustomSelect_gradStops
+                    );
+                    display: table;
+                    border-right: 1px solid lighten($black, 7%);
+                    color: $throwdownPromoSelect_textColor;
+                    float: left;
+                    font-size: ($baseFontSize - 1);
+                    line-height: $tdPromoSelectTextLineHeight;
+                    height: $tdPromoSelectHeight;
+                    padding-left: $tdPromoInfoPadding;
+                    position: relative;
+                    vertical-align: middle;
+                    width: 269px;
+                    z-index: 2;
+                    overflow: hidden;
+
+                    .outer {
+                        display: table-cell;
+                        vertical-align: middle;
+
+                        div { // this is the div that wraps the text
+                            max-height: $tdPromoSelectTextLineHeight * 2;
+                            max-width: 250px;
+                            overflow: hidden;
+                            word-wrap: break-word;
+                        }
+                    }
+                }
+
+                .down-arrow-container {
+                    @include module_moduleLinerBackground(
+                        $bgColor: $throwdownCustomSelect_gradColor,
+                        $gradType: $throwdown_gradTypeLinear,
+                        $gradMeta: $throwdown_gradMetaTop,
+                        $gradStops: $throwdownCustomSelectArrow_gradStops
+                    );
+                    display: table-cell;
+                    height: $tdPromoSelectHeight;
+                    position: relative;
+                    width: 40px;
+
+                    &.active {
+                        background: $throwdownPromoSelectListBgColor;
+
+                        .down-arrow {
+                            @include rotate(180deg);
+                        }
+                    }
+
+                    .down-arrow {
+                        border-left: 8px solid transparent;
+                        border-right: 8px solid transparent;
+                        border-top: 8px solid $throwdownCustomSelect_arrowColor;
+                        height: 0;
+                        position: absolute;
+                        right: 12px;
+                        top: 20px;
+                        width: 0;
+                        z-index: 2;
+                        @include transition-property(all);
+                        @include transition-duration(0.250s);
+                    }
+                }
+            }
+
+            .td-promo-select-list {
+                display: none;
+                position: absolute;
+                top: 46px;
+                margin: 0;
+                overflow: hidden;
+                width: $tdPromoSelectWidth;
+                list-style-type: none;
+                z-index: 3;
+                background-color: $throwdownPromoSelectListBgColor;
+            }
+
+            .td-promo-select-item {
+                color: $throwdownPromoSelect_textColor;
+                font-size: $baseFontSize - 2;
+                line-height: 1.2;
+                padding: 10px;
+
+                &:hover,
+                &:active {
+                    background-color: $throwdownCustomSelect_arrowColor;
+                }
+            }
+
+            .td-promo-countdown {
+                margin: 0 auto;
+                h4 {
+                    float: left;
+                    color: $throwdownCombined_countdownLabelColor;
+                    font: bold ($baseFontSize + 1) $throwdown_primaryFontFamily;
+                    line-height: 1;
+                    margin: 14px 0 0 15px;
+                    text-align: left;
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                    width: 190px;
+                }
+
+                .td-promo-info-link {
+                    float: right;
+                    margin: 14px 15px 0 0 ;
+                    font-family: $throwdown_primaryFontFamily;
+                    font-size: ($baseFontSize + 1); //~12px
+                    line-height: 1;
+                    cursor: pointer;
+                }
+
+                ul {
+                    @include promotionCountdown($throwdownPromotionSelector_countdownBackgroundColor, $throwdownPromotionSelector_countdownDigitColor, $throwdownCombined_countdownLabelColor);
+                    @include inline-block;
+                    list-style-type: none;
+                    clear: left;
+                    li {
+                        font-size: 39px;
+                        hr {
+                            top: 23px;
+                            +hr {
+                                top:24px;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+    }
+
+} /* /.module.throwDown */
+
+/* ----- PAGE STYLES ----- */
+
+/*---- IE Styles---- */
+.lt-ie8 .launchModule.throwdownPromoSelect
+ {
+    .td-promo-info {
+        .td-promo-countdown {
+            h4 {
+                float: left;
+            }
+            ul li hr {
+                width: 35px;
+            }
+        }
+    }
+
+    .td-promo-select-selected {
+        // float: left;
+        .outer {
+            margin-top: 6px;
+        }
+    }
+    // .td-promo-select-list { left: 11px; }
+    // .down-arrow-container { float: left; }
+    .td-promo-countdown {
+        hr {
+            display: none;
+        }
+     }
+
+     .module-liner .title-icon-view h3 {
+
+        .firstLine {
+            line-height: $baseLineHeight * 3;
+        }
+    }
+}/* ----- MODULE STYLES ----- */
+.launchModule.throwdownCombined {
+
+    .spin {
+        .spinner {
+            div > div {
+                background-color: $brand_color_white !important;
+            }
+        }
+    }
+
+
+     #matchData{
+        .td-match-primary-team,
+        .td-match-secondary-team,
+        .td-match-vs,
+        .td-match-stats-info,
+        .td-match-secondary-pic,
+        .td-match-primary-units,
+        .td-match-secondary-units,
+        .td-match-round-info {
+            float: left;
+        }
+        .avatarContainer {
+            height: 160px;
+            width: 160px;
+        }
+        .td-match-profile-pic {
+
+        }
+
+        .td-match-stats-info {
+            margin-top: 30px;
+            padding-left: 9px;
+            width: auto;
+        }
+
+        .td-match-primary-units {
+            margin-top: 10px;
+            width: 34%;
+        }
+
+        .td-match-secondary-units {
+            margin-top: 10px;
+            text-align: right;
+            width: 34%;
+        }
+
+        .td-match-round-info {
+            margin-top: 20px;
+            width: 32%;
+        }
+
+        .td-match-primary-team {
+            width: 45%;
+
+            .td-match-profile-pic {
+                float: left;
+            }
+        }
+
+        .td-match-secondary-team {
+            width: auto;
+            float: right;
+
+            .td-match-profile-pic {
+                float: right;
+            }
+
+            .td-match-rank,
+            .td-match-wl-count {
+                text-align: right;
+            }
+
+        }
+
+        .td-match-vs {
+            color: $throwdownMatchModule_letterColor;
+            font-size: 30px;
+            line-height: 19px;
+            font-weight: $throwdown_secondaryFontWeight;
+            margin: 72px 1.4% 0;
+            position: relative;
+            text-align: center;
+            width: 6%;
+
+            .reflect {
+                @include opacity(.15);
+                -webkit-transform: scaleY(-1) skewX(40deg);
+                transform: scaleY(-1) skewX(40deg);
+                left: 5px;
+                line-height: 27px;
+                overflow: hidden;
+                position: absolute;
+                top: 100%;
+            }
+        }
+        .td-match-winner {
+            color: $throwdownMatchModule_winnerColor;
+            font-size: $throwdown_MatchFontSize * 1.7;
+            line-height: $throwdown_MatchLineHeight;
+            margin-bottom: 4px;
+        }
+
+        .td-match-button {
+            display: block;
+            margin: 0 auto;
+            text-transform: capitalize;
+        }
+
+        .td-match-badge-list {
+            img {
+                height: $throwdownMatchModuleBadgeHeight;
+                max-width: none;
+                width: $throwdownMatchModuleBadgeWidth;
+            }
+        }
+
+        .td-match-details-condensed {
+            display: none;
+        }
+    }
+
+} /* /.module.throwdownMatch */
+.throwdownCombined {
+    color: $throwdown_textColor;
+
+    .td-match-profile-pic {
+        .avatarContainerBorder {
+            &.winner {
+                background: $throwdownMatchModule_winnerColor !important;
+                border-color: lighten($throwdownMatchModule_winnerColor, 10%) !important;
+                img {
+                    border-color: lighten($throwdownMatchModule_winnerColor, 10%) !important;
+                }
+            }
+        }
+    }
+
+    .td-match-rank {
+        font-size: $throwdown_MatchFontSize * 2;
+        line-height: 1;
+        margin-bottom: 5px;
+
+        a {
+            color: $throwdownMatchModule_letterColor;
+        }
+        span {
+            color: $throwdownCombined_countdownLabelColor;
+            font-weight: 900; /* bold digits */
+        }
+    }
+
+    .td-match-round-info {
+        p {
+            color: $throwdownMatchModule_letterColor;
+            font-size: $throwdown_MatchFontSize * 2; //~28px
+            line-height: $throwdown_MatchLineHeight + 5;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        span {
+            color: $throwdownCombined_countdownLabelColor;
+            font-weight: 900;
+        }
+    }
+
+    .td-match-participant-name {
+        color: $throwdownMatchModule_letterColor;
+        font-size: $throwdown_MatchFontSize * 1.75; //~24px
+        margin-bottom: 2px;
+        text-transform: capitalize;
+
+        span {
+            color: $throwdownCombined_countdownLabelColor;
+        }
+    }
+
+    .td-match-participant-units {
+        color: $throwdownCombined_countdownLabelColor;
+        font-size: $throwdown_MatchFontSize * 3.2; //~49px
+        font-weight: 900; /* bold digits */
+        line-height: $throwdown_MatchLineHeight * 2.4; //54px
+        margin-bottom: 4px;
+    }
+
+    .td-progress-text {
+        color: lighten($throwdown_secondaryAccentColor, 5%);
+        font-size: $throwdown_MatchFontSize * 1.4;
+        font-weight: bold;
+        display: block;
+        line-height: $throwdown_MatchLineHeight;
+        margin-bottom: 5px;
+    }
+
+    .td-match-badge-list {
+        margin: 0 0 0 -4px;
+        min-width: $throwdownMatchModuleBadgeWidth * 3 + 8px;
+
+        li {
+            @include inline-block;
+            position: relative;
+
+            span {
+                color: $throwdownCombined_countdownLabelColor;
+                font-size: $throwdown_MatchFontSize * 1.25;
+                left: 38%;
+                position: absolute;
+                top: 25%;
+            }
+        }
+    }
+
+    .td-match-wl-count {
+        border-bottom: 1px solid scale-color($throwdownMatchModule_bgGradColor, $saturation: -43%, $lightness: 15%);
+        border-top: 1px solid scale-color($throwdownMatchModule_bgGradColor, $saturation: -43%, $lightness: 15%);
+        margin: 0;
+        padding: 5px 0;
+        white-space: nowrap;
+
+        li {
+            @include inline-block;
+            color: $throwdownMatchModule_letterColor;
+            font-size: $throwdown_MatchFontSize * 1.4; //~23px
+            margin-right: 5px;
+
+            span {
+                color: $throwdownCombined_countdownLabelColor;
+                margin-left: 3px;
+                font-weight: 900; /* bold digits */
+            }
+        }
+    }
+
+    .td-match-winner {
+        color: $throwdownMatchModule_winnerColor;
+        font-size: $throwdown_MatchFontSize * 1.5;
+        font-weight: bold;
+        display: block;
+        line-height: $throwdown_MatchLineHeight;
+        margin-bottom: 5px;
+    }
+
+    .td-match-button {
+        border-bottom-color: scale-color($throwdownMatchModule_buttonGradColor, $lightness: -25%);
+        border-top-color: scale-color($throwdownMatchModule_buttonGradColor, $lightness: 50%);
+        border-left: none;
+        border-right: none;
+        font-size: $throwdown_MatchFontSize * 1.4; //~19px
+        padding: 8px;
+    }
+
+    .td-match-button:active {
+        position: relative;
+        top: 1px;
+    }
+
+    .td-fine-print {
+        bottom: 0;
+        color: $white;
+        font: 13px $throwdown_secondaryFontFamily;
+        margin-right: 15px;
+        position: absolute;
+        text-transform: none;
+        @include opacity(0.6);
+    }
+
+}/* /.throwdownMatch */
+@media (max-width: $breakpoint_desktopLarge_max) {
+    .launchModule {
+        &.throwdownCombinedModule {
+            .td-promo-info {
+                .td-promo-countdown {
+                    ul {
+                        margin: 0px 0 10.5px 6px;
+                        float: none;
+                    }
+                }
+                .td-promo-select-container {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+}
+@media (max-width: $breakpoint_mobile_max) {
+    .launchModule {
+        &.throwdownCombined {
+            .td-view-matches {
+                .title-icon-view {
+
+                        float: left;
+                        top: -35px;
+                        position: relative;
+
+                }
+            }
+            .td-promo-info {
+                .td-promo-countdown {
+                    .td-promo-info-link {
+                        float: left;
+                    }
+                    ul {
+                        float: left;
+                    }
+                }
+            }
+            #matchData {
+                .td-match-secondary-team {
+                    width: 100%;
+                    float: left;
+                    display: block;
+                    .td-match-stats-info {
+                        float: none;
+                        display: inline-block;
+                        .td-match-rank {
+                            text-align: left;
+                        }
+                        .td-match-wl-count {
+                            text-align: left;
+                        }
+                    }
+                    .td-match-profile-pic {
+                        float: left;
+                    }
+                }
+                .td-match-primary-team {
+                    width: 100%;
+                }
+                .td-match-vs {
+                    display: block;
+                    width: auto;
+                    margin: 45px 1.4% 45px;
+                    .reflect {
+                        left: -10px;
+                    }
+                }
+                .td-match-primary-units {
+                    display: none;
+                }
+                .td-match-secondary-units {
+                    display: none;
+                }
+                .td-match-round-info {
+                    float: right;
+                    width: auto;
+                }
+            }
+            .td-promo-info {
+                .td-promo-select-container {
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+}
+.launchModule.throwdownCombined {
+    font-family: $throwdown_primaryFontFamily;
+
+    .title-icon-view {
+        display: block;
+    }
+    .wide-view {
+        background-color: $brand_color_white;
+        height: 255px;
+        min-height: 245px;
+        overflow-y: scroll;
+        padding: 10px 18px;
+        width: 95%;
+    }
+    .main-nav {
+
+        height: $throwdown_moduleTopperHeight;
+
+        h3 {
+            font-family: $throwdown_primaryFontFamily;
+            font-size: $throwdown_moduleTitleFontSize;
+            font-weight: $throwdown_primaryFontWeight;
+            line-height: $throwdown_moduleTopperHeight;
+            float: left;
+            margin: 0 12px;
+            text-transform: uppercase;
+        }
+        ul.allMatchesTabs {
+            float: right;
+            margin: 0 40px 0 0;
+
+            // li {
+            //     a {
+            //         color: $throwdownAllMatches_tabsIconColor;
+            //
+            //         &:hover {
+            //             @if $throwdownAllMatches_tabsIconColorHover {
+            //                 color: $throwdownAllMatches_tabsIconColorHover;
+            //             }
+            //             @if throwdownAllMatches_tabsTabBgHover {
+            //                 background-color: $throwdownAllMatches_tabsTabBgHover;
+            //             }
+            //         }
+            //
+                    span {
+                        @include inline-block;
+                        text-indent: -9999px;
+                        white-space: nowrap;
+                    }
+                    i {
+                        font-size: $baseFontSize * 1.4; //~20px
+                        height: 24px;
+                        line-height: $baseLineHeight * 1.2;
+                        margin: 0 -10px;
+                        vertical-align: middle;
+                        width: 36px;
+                    }
+                    .icon-g5-pubrec-global {
+                        font-size: 26px;
+                        *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf102;');
+
+                        &:before {
+                            content: "\f102";
+                        }
+                    }
+                    .icon-g5-pubrec-team {
+                        *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf103;');
+
+                        &:before {
+                            content: "\f103";
+                        }
+                    }
+            //     }
+            //     &.active {
+            //         a {
+            //             background-color: $throwdownAllMatches_tabsTabBgActive;
+            //             color: $throwdownAllMatches_tabsIconColorActive;
+            //
+            //             &:hover {
+            //                 background-color: $throwdownAllMatches_tabsTabBgActive;
+            //             }
+            //         }
+            //     }
+            // }
+        }
+    }
+    .roundPagination {
+        margin: 10px auto;
+
+        ul {
+            display: block;
+            float: none;
+            height: 20px;
+            margin: auto;
+            max-width: 260px;
+
+            li {
+                float: left;
+                width: auto;
+
+                p {
+                    font-size: $baseFontSize * 1.4;
+                    margin-bottom: 0;
+                    text-transform: uppercase;
+
+                    .your-round,
+                    .round-total {
+                        font-weight: $throwdown_secondaryFontWeight;
+                    }
+                }
+                a {
+                    background-color: transparent;
+                    border: none;
+                    font-size: $baseFontSize * 3.58;
+                    line-height: $baseLineHeight* 0.65;
+                    padding-top: 2px;
+
+                    &:hover {
+                        background-color: transparent;
+                    }
+                }
+            }
+            .prev,
+            .next {
+                width: auto;
+
+                a {
+                    cursor: pointer;
+                }
+            }
+            .prev:disabled a,
+            .next:disabled a {
+                cursor: default;
+            }
+        }
+        @media( max-width: 567px ){
+            ul li {
+                display: inline-block;
+            }
+        }
+    }
+    .clearBoth {
+        clear: both;
+    }
+    .td-fine-print {
+
+    }
+    .table {
+        font-family: $throwdown_secondaryFontFamily;
+        margin-bottom: 5px;
+
+        tbody {
+            td {
+
+                p {
+                    color: $throwdown_textColor;
+                    float: left;
+                    height: 18px;
+                    margin: 0;
+
+                    span {
+                        color: $combinedNumberColor;
+                    }
+                }
+                br {
+                    clear: left;
+                }
+                .chevron {
+                    margin: 0 5px 0 0;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+                img {
+                    float: left;
+                    margin: 0 8px 0 0;
+                    width: 20px;
+
+                    &:first-child {
+                        margin-bottom: 4px;
+                    }
+                }
+            }
+            .td-current-progress p {
+                color: $combinedNumberColor;
+
+                span {
+                    color: $combinedNumberColor;
+                    font-weight: $throwdown_secondaryFontWeight;
+                    padding-left: 3px;
+                }
+            }
+        }
+    }
+    .title-icon-view {
+        display: none;
+    }
+    .table tbody img {
+        float: left;
+        margin: 0 8px 0 0;
+        width: 20px;
+
+        &:first-child {
+            margin-bottom: 4px;
+        }
+    }
+} /* /.module.throwdownMatch */

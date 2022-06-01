@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN" 
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+	<formset>
+
+		<!-- Quiz Question -->
+	    <form name="quizQuestionForm" >
+	      <field property="quizQuestionText" depends="required">
+	        <arg0 key="quiz.question.QUESTION" />
+	      </field>
+	      <field property="quizQuestionRequired" depends="required">
+	        <arg0 key="quiz.question.QUESTION_REQUIRED" />
+	      </field>
+	      <field property="quizQuestionStatus" depends="required">
+	        <arg0 key="quiz.question.QUESTION_STATUS" />
+	      </field>
+	    </form>
+
+    <!-- Quiz Question Answer -->
+      <form name="quizQuestionAnswerForm" >
+        <field property="quizQuestionAnswerText" depends="required">
+          <arg0 key="quiz.question_answer.ANSWER" />
+        </field>
+        <field property="quizQuestionAnswerCorrect" depends="required">
+          <arg0 key="quiz.question_answer.CORRECT"/>
+        </field>
+      </form>
+	    
+    </formset>
+</form-validation>

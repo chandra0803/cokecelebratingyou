@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.mailing.Mailing" table="MAILING">
+
+        <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+        <id name="id" type="java.lang.Long" column="MAILING_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">MAILING_PK_SQ</param>
+            </generator>
+        </id>
+
+        <!-- Using version number optimistic locking -->
+        <version name="version" column="VERSION" type="java.lang.Long" />
+        
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+            <column name="DATE_CREATED" />
+            <column name="CREATED_BY" />
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+            <column name="DATE_MODIFIED" />
+            <column name="MODIFIED_BY" />
+        </property>  
+
+        <property name="guid" column="GUID" type="string" not-null="true" />
+        <property name="sender" column="SENDER" type="string" not-null="true" />
+        <property name="deliveryDate" column="DELIVERY_DATE" type="timestamp" />
+        <property name="sendSMSOnly" column="IS_SEND_SMS_ONLY" type="boolean" />        
+        <property name="mailingType" column="MAILING_TYPE">
+      		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+        		<param name="lookupClass">com.biperf.core.domain.enums.MailingType</param>
+      		</type>
+    	</property>
+        
+        <many-to-one name="message" column="MESSAGE_ID" not-null="false" lazy="proxy" />
+
+        <many-to-one name="mailingBatch" column="BATCH_ID" not-null="false" lazy="proxy" />
+                
+        <set name="mailingRecipients" lazy="true" table="MAILING_RECIPIENT" inverse="true" cascade="all-delete-orphan">
+            <key column="MAILING_ID"/>
+            <one-to-many class="com.biperf.core.domain.mailing.MailingRecipient"/>
+        </set>
+        
+        <set name="mailingMessageLocales" lazy="true" table="MAILING_MESSAGE_LOCALE" inverse="true" cascade="all-delete-orphan">
+            <key column="MAILING_ID"/>
+            <one-to-many class="com.biperf.core.domain.mailing.MailingMessageLocale"/>
+        </set>
+
+        <set name="mailingAttachmentInfos" lazy="true" table="MAILING_ATTACHMENT_INFO" inverse="true" cascade="all-delete-orphan">
+            <key column="MAILING_ID"/>
+            <one-to-many class="com.biperf.core.domain.mailing.MailingAttachmentInfo"/>
+        </set>
+    </class>
+  
+    <query name="com.biperf.core.domain.mailing.GetAllMailingAttachmentInfoSent">
+    	<![CDATA[
+    	select mailingAttachmentInfo
+    	  from com.biperf.core.domain.mailing.MailingAttachmentInfo mailingAttachmentInfo,
+    	  	   com.biperf.core.domain.mailing.Mailing  mailing,
+    	  	   com.biperf.core.domain.mailing.MailingRecipient mailingRecipient
+    	  where mailing.id = mailingAttachmentInfo.id
+    	    and mailingRecipient.mailing.id = mailing.id
+    	    and mailingRecipient.dateSent is not null
+    	]]>
+    </query>
+  
+    <query name="com.biperf.core.domain.mailing.GetAllUsersWhoReceivedMessage">
+        <![CDATA[
+        select distinct user
+          from com.biperf.core.domain.user.User user,
+               com.biperf.core.domain.mailing.Mailing mailing,
+               com.biperf.core.domain.mailing.MailingRecipient mailingRecipient
+          where mailing.message.id = :messageId
+            and mailing.id = mailingRecipient.mailing.id
+            and mailingRecipient.user.id = user.id
+        ]]>
+    </query> 
+
+   <query name="com.biperf.core.domain.mailing.GetUsersWhoSuccessfullyReceivedMessage">
+		<![CDATA[
+		select distinct user
+          from com.biperf.core.domain.user.User user,
+               com.biperf.core.domain.mailing.Mailing mailing,
+               com.biperf.core.domain.mailing.MailingRecipient mailingRecipient
+          where mailing.id = :mailingId
+            and mailing.id = mailingRecipient.mailing.id
+            and mailingRecipient.user.id = user.id
+            and mailingRecipient.dateSent is not null            
+		]]>
+	</query>
+	
+	<!-- THIS IS USED BY THE WELCOME EMAIL PROCESS SPECIAL HANDLING - DO NOT USE -->
+	<sql-query name="com.biperf.core.domain.mailing.GetRunAsUserIdByMailingId">
+	  <return-scalar column="RUN_AS_USER_ID" type="long"/>
+		<![CDATA[
+		select run_as_user_id from process_invocation 
+			where process_invocation_id in (
+				select process_invocation_id from process_invocation_parameter 
+					where process_parameter_name = 'mailingId' and process_invocation_param_id in
+ 						(select process_invocation_param_id from process_invoc_param_value 
+ 							where value = :mailingId ) )
+ 							and run_as_user_id is not null
+		]]>
+	</sql-query>
+  
+</hibernate-mapping>

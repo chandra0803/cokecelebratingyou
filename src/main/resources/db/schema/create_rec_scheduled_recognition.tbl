@@ -1,0 +1,125 @@
+CREATE SEQUENCE scheduled_recog_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE scheduled_recognition (
+    scheduled_recog_id             	NUMBER(18) NOT NULL,
+    trigger_name             		VARCHAR2(80) NOT NULL,
+    trigger_group             		VARCHAR2(80) NOT NULL,
+    promotion_id		   	        NUMBER(18) NOT NULL,
+    sender_id		   	        	NUMBER(18) NOT NULL,
+    recipient_id		   	        NUMBER(18) NOT NULL,
+    is_fired  			 			NUMBER(1,0) DEFAULT 0 NOT NULL,
+    delivery_date                   DATE,
+    claim_id		   	        	NUMBER(18),
+    created_by                      NUMBER(18) NOT NULL,
+    date_created                    DATE NOT NULL,
+    modified_by                     NUMBER(18),
+    date_modified                   DATE,
+    version                         NUMBER(18) NOT NULL,
+    IS_SCHEDULED               		VARCHAR2(5),
+	SENDER_NODE_ID             		VARCHAR2(18),
+	PROXY_USER_ID              		VARCHAR2(18),
+	RECIPIENT_NODE_ID          		VARCHAR2(18),
+	SENDER_COMMENTS            		VARCHAR2(4000),
+	BUDGET_ID                  		VARCHAR2(18),
+	TEAM_ID                    		VARCHAR2(18),
+	BEHAVIOR                   		VARCHAR2(40),
+	CERTIFICATE_ID             		VARCHAR2(18),
+	CARD_ID                    		VARCHAR2(18),
+	COPY_SENDER            			VARCHAR2(5),
+	COPY_MANAGER       				VARCHAR2(5),
+	COPY_OTHERS           			VARCHAR2(5),
+	SEND_COPY_TO_OTHERS        		VARCHAR2(1000),
+	AWARD_QTY             			VARCHAR2(18),
+	CALCULATOR_SCORE           		VARCHAR2(10),
+	LEVEL_ID                   		VARCHAR2(18),
+	PRODUCT_ID                 		VARCHAR2(18),
+	RECIPIENT_COUNTRY_CODE     		VARCHAR2(10),
+	CLAIM_ELEMENTS             		VARCHAR2(4000),
+	CALCULATOR_RESPONSE        		VARCHAR2(4000),
+	ANNIVERSARY_NUM_DAYS 			VARCHAR2(5),
+	ANNIVERSARY_NUM_YEARS 			VARCHAR2(5),
+	CELEBRATION_MGR_MESSAGE_ID 		VARCHAR2(18), 
+	HIDE_PUBLIC_RECOGNITION          NUMBER(1) DEFAULT 0 NOT NULL,
+    CONSTRAINT scheduled_recog_id_pk PRIMARY KEY (scheduled_recog_id)
+  )
+/
+ALTER TABLE scheduled_recognition
+ADD CONSTRAINT sched_promo_recog_fk FOREIGN KEY (promotion_id)
+REFERENCES promotion (promotion_id)
+/
+ALTER TABLE scheduled_recognition
+ADD CONSTRAINT sender_id_fk FOREIGN KEY (sender_id)
+REFERENCES participant (user_id)
+/
+ALTER TABLE scheduled_recognition
+ADD CONSTRAINT recipient_id_fk FOREIGN KEY (recipient_id)
+REFERENCES participant (user_id)
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.scheduled_recog_id IS 'System generated PK.'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.trigger_name IS 'Part of the unique identifier for the trigger'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.trigger_group IS 'The second part of the unique identifier used to lookup of the trigger in quartz'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.promotion_id IS 'Maps to the promotion the recogntion is assigned to'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.sender_id IS 'PK id of the submitter of the recognition'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.recipient_id IS 'PK id of the recipient of the recognition'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.is_fired IS 'Flag to inspect if the Job has been run'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.delivery_date IS 'Date on which Job has to be run'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.claim_id IS 'PK id of the claim of the recognition'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.IS_SCHEDULED IS 'true = DelaySendRecognitionProcess has been scheduled'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.SENDER_NODE_ID IS 'node_id of the sender'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.PROXY_USER_ID IS 'user_id of the proxy'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.RECIPIENT_NODE_ID IS 'user_id of the recipient'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.SENDER_COMMENTS IS 'sender comments'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.BUDGET_ID IS 'budget_id'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.TEAM_ID IS 'team_id'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.BEHAVIOR IS 'behavior'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.CERTIFICATE_ID IS 'certificate_id'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.CARD_ID IS 'card_id'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.COPY_SENDER IS 'true or false'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.COPY_MANAGER IS 'true or false'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.COPY_OTHERS IS 'true or false'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.SEND_COPY_TO_OTHERS IS 'list of email addresses'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.AWARD_QTY IS 'award_qty'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.CALCULATOR_SCORE IS 'calculator_score'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.LEVEL_ID IS 'level_id'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.PRODUCT_ID IS 'product_id'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.RECIPIENT_COUNTRY_CODE IS 'recipient country code'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.CLAIM_ELEMENTS IS 'list of claim elements'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.CALCULATOR_RESPONSE IS 'calculator response'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.ANNIVERSARY_NUM_DAYS IS 'anniversary number of days'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.ANNIVERSARY_NUM_YEARS IS 'anniversary number of years'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.CELEBRATION_MGR_MESSAGE_ID IS 'celebration manager message_id'
+/
+COMMENT ON COLUMN SCHEDULED_RECOGNITION.HIDE_PUBLIC_RECOGNITION IS 'Flag to inspect if Hide Public Recognition has been enabled'
+/

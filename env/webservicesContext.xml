@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+  <jaxws:client id="strongMailWebService" serviceClass="com.biperf.strongmail.webservice.MailingService" address="https://strongmail1.biperf.com/sm/services/mailing/2009/03/02">
+  	<jaxws:features>
+      <bean class="org.apache.cxf.feature.LoggingFeature" />
+    </jaxws:features>
+    <jaxws:outInterceptors>
+      <ref bean="authenticationInterceptor" />
+    </jaxws:outInterceptors>
+  </jaxws:client>
+  
+  <bean id="authenticationInterceptor" class="com.biperf.core.service.strongmail.AuthenticationInterceptor">
+        <constructor-arg index="0" value="http://www.strongmail.com/services/2009/03/02/schema"/>
+        <constructor-arg index="1">
+	        <map>
+	            <entry value="UsernameToken">
+		          <key>
+		            <util:constant static-field="org.apache.ws.security.handler.WSHandlerConstants.ACTION" />
+		          </key>
+		        </entry>
+		        <entry value="PasswordText">
+		          <key>
+		            <util:constant static-field="org.apache.ws.security.handler.WSHandlerConstants.PASSWORD_TYPE" />
+		          </key>
+		        </entry>
+		        <entry value-ref="passwordCallback">
+		          <key>
+		            <util:constant static-field="org.apache.ws.security.handler.WSHandlerConstants.PW_CALLBACK_REF" />
+		          </key>
+		        </entry>
+	        </map>
+    	</constructor-arg>
+        <constructor-arg index="2" value="false"/>
+  </bean>
+  
+  <bean id="passwordCallback" class="com.biperf.core.service.strongmail.ClientPasswordCallbackHandler"/>
+  
+</beans>

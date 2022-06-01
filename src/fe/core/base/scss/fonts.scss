@@ -1,0 +1,236 @@
+@import "partials/colors";
+@import "partials/variables";
+@import "partials/mixins";
+
+
+// Partial-specific variables
+// =========================
+$fontsUrlPath: false !default;
+
+// special font-files function to make use of the path variable. Use this instead of the Compass font-files() function.
+@function font-files-safe(
+    $fonts,
+    $path: false
+) {
+    $return: null;
+    @each $font in $fonts {
+        @if $path {
+            $return: $return, url($path + nth($font, 1)) format(nth($font, 2));
+        }
+        @else {
+            $return: $return, font-url(nth($font, 1)) format(nth($font, 2));
+        }
+    }
+    @return $return;
+}
+
+// borrowed this mixing from the fancy compass font-face tool found here: @import "compass/css3/font-face";
+// edited it to support altered font paths
+@mixin font-face(
+    $name,
+    $font-files,
+    $eot: false,
+    $weight: false,
+    $style: false,
+    $path: false
+) {
+    $iefont: unquote("#{$eot}?#iefix");
+    @font-face {
+        font-family: quote($name);
+        @if $eot {
+            @if $path {
+                src: url($path+$eot);
+                $font-files: url($path+$iefont) unquote("format('eot')"), $font-files;
+            }
+            @else {
+                src: font-url($eot);
+                $font-files: font-url($iefont) unquote("format('eot')"), $font-files;
+            }
+        }
+        src: $font-files;
+        @if $weight {
+            font-weight: $weight;
+        }
+        @if $style {
+            font-style: $style;
+        }
+    }
+}
+
+
+// Partial-specific code
+// ==================================================
+// If there are any custom @font-face fonts, put the rules for them here using the code block below.
+// Note: For brevity, you may leave off the argument names ($name, $font-files, etc) provided all arguments are included in the correct order
+// @include font-face(
+//     $name: 'SimpleIcons',
+//     $font-files: font-files-safe(
+//             $fonts: ("simpleLineIcons-webfont.woff" 'woff',
+//                 "simpleLineIcons-webfont.ttf" 'truetype',
+//                 "simpleLineIcons-webfont.svg#SimpleIcons" 'svg'),
+//             $path: $fontsUrlPath
+//         ),
+//     $eot: 'simpleLineIcons-webfont.eot',
+//     $weight: normal,
+//     $style: normal,
+//     $path: $fontsUrlPath);
+
+@include font-face(
+    'SimpleIcons',
+    font-files-safe(
+        ("simpleLineIcons-webfont.woff2" 'woff2',
+         "simpleLineIcons-webfont.woff" 'woff',
+         "simpleLineIcons-webfont.ttf" 'truetype',
+         "simpleLineIcons-webfont.svg#simpleLineIcons" 'svg'),
+        $fontsUrlPath
+    ),
+    'simpleLineIcons-webfont.eot',
+    normal,
+    normal,
+    $fontsUrlPath);
+
+//G6 fonts
+//regular
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-regular-webfont.woff2" 'woff2',
+         "opensans-regular-webfont.woff" 'woff',
+         "opensans-regular-webfont.ttf" 'truetype',
+         "opensans-regular-webfont.svg#opensans-regular" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-regular-webfont.eot',
+    normal,
+    normal,
+    $fontsUrlPath);
+
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-italic-webfont.woff2" 'woff2',
+         "opensans-italic-webfont.woff" 'woff',
+         "opensans-italic-webfont.ttf" 'truetype',
+         "opensans-italic-webfont.svg#opensans-italic" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-italic-webfont.eot',
+    normal,
+    italic,
+    $fontsUrlPath);
+
+//semibold
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-semibold-webfont.woff2" 'woff2',
+         "opensans-semibold-webfont.woff" 'woff',
+         "opensans-semibold-webfont.ttf" 'truetype',
+         "opensans-semibold-webfont.svg#opensans-semibold" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-semibold-webfont.eot',
+    $fontWeightSemiBold,
+    normal,
+    $fontsUrlPath);
+
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-semibolditalic-webfont.woff2" 'woff2',
+         "opensans-semibolditalic-webfont.woff" 'woff',
+         "opensans-semibolditalic-webfont.ttf" 'truetype',
+         "opensans-semibolditalic-webfont.svg#opensans-semibolditalic" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-semibolditalic-webfont.eot',
+    $fontWeightSemiBold,
+    italic,
+    $fontsUrlPath);
+
+//bold
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-bold-webfont.woff2" 'woff2',
+         "opensans-bold-webfont.woff" 'woff',
+         "opensans-bold-webfont.ttf" 'truetype',
+         "opensans-bold-webfont.svg#opensans-bold" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-bold-webfont.eot',
+    $fontWeightBold,
+    normal,
+    $fontsUrlPath);
+
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-bolditalic-webfont.woff2" 'woff2',
+         "opensans-bolditalic-webfont.woff" 'woff',
+         "opensans-bolditalic-webfont.ttf" 'truetype',
+         "opensans-bolditalic-webfont.svg#opensans-bolditalic" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-bolditalic-webfont.eot',
+    $fontWeightBold,
+    italic,
+    $fontsUrlPath);
+
+//extra bold
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-extrabold-webfont.woff2" 'woff2',
+         "opensans-extrabold-webfont.woff" 'woff',
+         "opensans-extrabold-webfont.ttf" 'truetype',
+         "opensans-extrabold-webfont.svg#opensans-extrabold" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-extrabold-webfont.eot',
+    $fontWeightExBold,
+    normal,
+    $fontsUrlPath);
+
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-extrabolditalic-webfont.woff2" 'woff2',
+         "opensans-extrabolditalic-webfont.woff" 'woff',
+         "opensans-extrabolditalic-webfont.ttf" 'truetype',
+         "opensans-extrabolditalic-webfont.svg#opensans-extrabolditalic" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-extrabolditalic-webfont.eot',
+    $fontWeightExBold,
+    italic,
+    $fontsUrlPath);
+
+//light
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-light-webfont.woff2" 'woff2',
+         "opensans-light-webfont.woff" 'woff',
+         "opensans-light-webfont.ttf" 'truetype',
+         "opensans-light-webfont.svg#opensans-light" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-light-webfont.eot',
+    $fontWeightLight,
+    normal,
+    $fontsUrlPath);
+
+@include font-face(
+    'open-sans',
+    font-files-safe(
+        ("opensans-lightitalic-webfont.woff2" 'woff2',
+         "opensans-lightitalic-webfont.woff" 'woff',
+         "opensans-lightitalic-webfont.ttf" 'truetype',
+         "opensans-lightitalic-webfont.svg#opensans-lightitalic" 'svg'),
+        $fontsUrlPath
+    ),
+    'opensans-lightitalic-webfont.eot',
+    $fontWeightLight,
+    italic,
+    $fontsUrlPath);

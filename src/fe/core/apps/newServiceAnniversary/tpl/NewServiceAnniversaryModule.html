@@ -1,0 +1,28 @@
+<!-- Service Anniversary Module View -->
+<div class="module-liner">
+    <div class="wide-view">
+		<div id="sa-app">
+
+		</div>
+	</div>
+</div>
+<script>
+
+$(document).ready(function() {
+	//attach the view to an existing DOM element
+	var rapv = new NewServiceAnniversaryModuleView({
+	    el:$('#NewServiceAnniversaryModuleView'),
+	    pageNav : {
+	        back : {
+	            text : 'Back',
+	            url : 'layout.html'
+	        },
+	        home : {
+	            text : 'Home',
+	            url : 'layout.html?tplPath=base/tpl/&amp;tpl=modulesPage.html'
+	        }
+	    },
+	    pageTitle : 'Service Anniversary'
+	});
+});
+</script>

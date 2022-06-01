@@ -1,0 +1,2 @@
+DROP PACKAGE pkg_query_recog_behaviors
+/

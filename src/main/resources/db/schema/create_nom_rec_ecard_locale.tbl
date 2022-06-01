@@ -1,0 +1,18 @@
+CREATE TABLE ecard_locale
+    (
+     card_id        	NUMBER(18) NOT NULL,
+     locale        	VARCHAR2(400),
+     display_name   VARCHAR2(4000) )
+
+/
+ALTER TABLE ecard_locale ADD CONSTRAINT ecard_locale_fk
+  FOREIGN KEY (card_id) REFERENCES card (card_id)
+/
+COMMENT ON TABLE ecard_locale IS 'The ECARD LOCALE table defines ecards available in different languages.'
+/
+COMMENT ON COLUMN ecard_locale.card_id IS 'PK and FK to card'
+/
+COMMENT ON COLUMN ecard_locale.locale IS 'language'
+/
+COMMENT ON COLUMN ecard_locale.display_name IS 'ecard display name for each locale.'
+/

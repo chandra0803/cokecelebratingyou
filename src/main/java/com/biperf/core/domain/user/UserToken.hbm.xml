@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.user.UserToken" table="USER_TOKEN">
+	<id name="id" type="java.lang.Long" column="USER_TOKEN_ID">
+	  <generator class="seqhilo">
+		<param name="max_lo">0</param> <param name="sequence">USER_TOKEN_PK_SQ</param>
+	  </generator>
+	</id>
+	
+	<discriminator column="token_type" type="string"></discriminator>  
+	
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+        
+    <property name="token" column="TOKEN">
+      <type name="com.biperf.core.utils.crypto.SHA256UserType" />
+    </property>
+
+    <property name="status" column="STATUS">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.UserTokenStatusType</param>
+      </type>
+    </property>
+    
+	<property name="allowRegenerate" type="java.lang.Boolean" column="ALLOW_REGENERATE" />
+	<property name="expirationDate" type="java.util.Date" column="EXPIRATION_DATE" />
+    
+	<many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User"/>
+    
+    <subclass name="com.biperf.core.domain.user.WelcomeEmailUserToken" discriminator-value="welcome_email"/>
+    <subclass name="com.biperf.core.domain.user.EmailUserToken" discriminator-value="email"/>
+    <subclass name="com.biperf.core.domain.user.PhoneUserToken" discriminator-value="phone"/>
+    <subclass name="com.biperf.core.domain.user.EmailVerificationUserToken" discriminator-value="email_verify"/>  
+ 	<subclass name="com.biperf.core.domain.user.PhoneVerificationUserToken" discriminator-value="phone_verify"/>
+  </class>
+
+  <sql-query name="com.biperf.core.domain.user.PurgeUserTokens">
+  	<![CDATA[
+	DELETE FROM USER_TOKEN WHERE STATUS = 'used' OR EXPIRATION_DATE < sysdate
+	]]>
+  </sql-query>
+  
+</hibernate-mapping>

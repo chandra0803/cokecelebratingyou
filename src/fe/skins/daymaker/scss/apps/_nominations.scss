@@ -1,0 +1,119 @@
+// App-specific variables defined in core (uncomment to use)
+// =========================
+/* * * * *
+* Global Styles
+* * * * */
+// $nominations_primaryFontFamily: ;
+// $nominations_secondaryFontFamily: ;
+// $nominations_pageTopBgColor: ;
+// $nominations_pageTopFontColor: ;
+// $nominations_tooltipBg: ;
+
+/* * * * *
+* Module Styles
+* * * * */
+// PAST WINNERS MODULE
+// these styles should sync up with the "nom item" styles in _publicRecognition.scss (unless otherwise noted by Creative)
+$nominationsPastWinnersModule_bgColor: #1ab2ff;
+// $nominationsPastWinnersModule_bgImg: ;
+// $nominationsPastWinnersModule_bgImgPath: ;
+// $nominationsPastWinnersModule_bgImgPosition: ;
+// $nominationsPastWinnersModule_bgImgRepeat: ;
+// $nominationsPastWinnersModule_bgImgSize: ;
+// $nominationsPastWinnersModule_titleColor: ;
+// $nominationsPastWinnersModule_linkColor: ;
+
+/* * * * *
+* Submit Styles
+* * * * */
+// $nominationsSubmitPage_bgColor: ;
+
+// $nominationsSubmitPage_tabsCompleteIconColor: ;
+// $nominationsSubmitPage_tabsCompleteTextColor: ;
+// $nominationsSubmitPage_tabsActiveIconColor: ;
+// $nominationsSubmitPage_tabsActiveTextColor: ;
+// $nominationsSubmitPage_tabsIncompleteBgColor: ;
+// $nominationsSubmitPage_tabsIncompleteIconColor: ;
+// $nominationsSubmitPage_tabsIncompleteTextColor: ;
+// $nominationsSubmitPage_tabsErrorColor: ;
+
+
+// $nominationsSubmitPage_individualTeamBgColor: ;
+// $nominationsSubmitPage_individualTeamTextColor: ;
+// $nominationsSubmitPage_individualTeamActiveBgColor: ;
+
+// $nominationsSubmitPage_behaviorSelectedBgColor: ;
+// $nominationsSubmitPage_behaviorSelectedTextColor: ;
+
+/* * * * *
+* Approval Styles
+* * * * */
+// $nominationsApproval_compareBgColor: ;
+// $nominationsApproval_tableEvenBgColor: ;
+
+/* * * * *
+* Past Winner Styles
+* * * * */
+// $nominationsWinner_bgColor: ;
+// $nominationsWinner_bgImg: ;
+// $nominationsWinner_bgImgUrlPath: ;
+// $nominationsWinner_bgImgPosition: ;
+// $nominationsWinner_bgImgRepeat: ;
+// $nominationsWinner_bgImgSize: ;
+// $nominationsWinner_bgImgAttachment: ;
+
+// $nominationsWinner_awardNameTextColor: ;
+// $nominationsWinner_awardDateTextColor: ;
+
+// $nominationsPastWinner_awardCircleBgColor: ;
+// $nominationsPastWinner_awardCircleTextColor: ;
+
+/* * * * *
+* Noms Winner Modal Styles
+* * * * */
+// $nominationsWinnerModal_image: ; // false uses the default image provided with G6. Any other value looks in the skin
+// $nominationsWinnerModal_fontFamily: ;
+// $nominationsWinnerModal_fgColor: ;
+// $nominationsWinnerModal_bgColor: ;
+
+// $nominationsWinnerModal_fontFamily_bottom: ;
+// $nominationsWinnerModal_fgColor_bottom: ;
+// $nominationsWinnerModal_bgColor_bottom: ;
+// $nominationsWinnerModal_accentColor_bottom: ;
+
+//Noms Winner Modal BG Variables
+// $nominationsWinnerModal_total: ; // total particles
+// $nominationsWinnerModal_time: ; // length of animation
+// $nominationsWinnerModal_frames: ; // total frames in each keyframe
+// $nominationsWinnerModal_perc: ; // percent to increment by in keyframe loop
+
+
+/* ----- NOMINATION APPROVAL STYLES ----- */
+// $celebration_bgColor: ;
+// $slick-dot-color: ;
+// $slick-dot-color-border: ;
+// $slick-dot-color-active: ;
+// $slick-prev-character: ;
+// $slick-next-character: ;
+// $slick-dot-character: ;
+// $slick-dot-size: ;
+// $slick-opacity-default: ;
+// $slick-opacity-on-hover: ;
+// $slick-opacity-not-active: ;
+// $slick_pagerTextColor: ;
+// $slick_pagerTextColorHover: ;
+// $slick_pagerBgColor: ;
+// $slick_carouselBgColor: ;
+// $carousel_dd_dt_padding_bottom: ;
+// $slick_carouselWidth: ;
+
+
+// App SCSS from core (above variables override those in this file)
+// =========================
+@import "nominations/scss/nominations";
+
+// Partial-specific variables for this skin
+// =========================
+
+// App-specific code for this skin
+// ==================================================

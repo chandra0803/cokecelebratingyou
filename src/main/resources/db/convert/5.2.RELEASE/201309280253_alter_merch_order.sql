@@ -1,0 +1,6 @@
+ALTER TABLE MERCH_ORDER
+ADD pax_goal_id   NUMBER(18)
+/
+ALTER TABLE merch_order ADD CONSTRAINT pax_goal_fk
+  FOREIGN KEY (pax_goal_id) REFERENCES GOALQUEST_PAXGOAL(pax_goal_id) 
+/

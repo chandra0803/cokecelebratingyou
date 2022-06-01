@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.biperf.core.domain.report.ReportChart" table="REPORT_CHART">
+
+        <id name="id" type="java.lang.Long" column="REPORT_CHART_ID">
+            <generator class="seqhilo">
+                <param name="max_lo">0</param> <param name="sequence">REPORT_CHART_PK_SQ</param>
+            </generator>
+        </id>
+             
+        <!-- Using version number optimistic locking -->
+
+        <version name="version" column="VERSION" type="java.lang.Long"/>
+
+        <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+          <column name="DATE_CREATED"/>
+          <column name="CREATED_BY"/>
+        </property>
+
+        <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+        <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+          <column name="DATE_MODIFIED"/>
+          <column name="MODIFIED_BY"/>
+        </property>
+             
+        <property name="caption" type="java.lang.String" column="CAPTION_CM_KEY"/>
+        <property name="subCaption" type="java.lang.String" column="SUBCAPTION_CM_KEY"/>
+        <property name="chartDataUrl" type="java.lang.String" column="CHART_DATA_URL"/>
+        <property name="sequenceNum" type="int" column="SEQUENCE_NUM" insert="false" update="false"/>
+
+        <property name="chartType" column="CHART_TYPE">
+          <type name="com.biperf.core.utils.hibernate.PickListUserType">
+            <param name="lookupClass">com.biperf.core.domain.enums.ReportChartType</param>
+          </type>
+        </property>
+
+        <many-to-one name="report" class="com.biperf.core.domain.report.Report" lazy="false" insert="false" update="false" not-null="true" column="REPORT_ID"/>
+        
+       <!-- <set name="reportDashboardItems" table="REPORT_DASHBOARD_ITEM" inverse="false" lazy="true" cascade="all">
+            <key column="REPORT_CHART_ID" not-null="true"/>
+            <one-to-many class="com.biperf.core.domain.report.ReportDashboardItem" />
+        </set>
+-->
+        <property name="showLabels" type="java.lang.Boolean" column="SHOW_LABELS"/>
+        <property name="showLegend" type="java.lang.Boolean" column="SHOW_LEGEND" />
+        <property name="enableSmartLabels" type="java.lang.Boolean" column="ENABLE_SMART_LABELS"/>
+        <property name="showPercentValues" type="java.lang.Boolean" column="SHOW_PERCENT_VALUES" />
+        <property name="xAxisLabel" type="java.lang.String" column="X_AXIS_NAME_CM_KEY" />
+        <property name="yAxisLabel" type="java.lang.String" column="Y_AXIS_NAME_CM_KEY" />
+        <property name="displayLimit" type="int" column="DISPLAY_LIMIT"/>
+		<property name="includedInPlateau" type="boolean" column="INCLUDED_IN_PLATEAU"/>        
+
+    </class>
+   
+   
+</hibernate-mapping>

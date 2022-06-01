@@ -1,0 +1,56 @@
+CREATE SEQUENCE stack_rank_participant_pk_sq INCREMENT BY 1 START WITH 600
+/
+CREATE TABLE stack_rank_participant
+  (
+    stack_rank_participant_id NUMBER(18) NOT NULL,
+    stack_rank_node_id        NUMBER(18) NOT NULL,
+    user_id                   NUMBER(18) NOT NULL,
+    stack_rank_factor         NUMBER(12,2) NOT NULL,
+    rank                      NUMBER(6) NOT NULL,
+    tied                      NUMBER(1) NOT NULL,
+    payout                    NUMBER(16,4),
+    created_by                NUMBER(18) NOT NULL,
+    date_created              DATE NOT NULL,
+    modified_by               NUMBER(18),
+    date_modified             DATE,
+    version                   NUMBER(18) NOT NULL
+  )
+/
+ALTER TABLE stack_rank_participant
+  ADD CONSTRAINT stack_rank_participant_pk PRIMARY KEY (stack_rank_participant_id)
+  USING INDEX
+/
+ALTER TABLE stack_rank_participant
+  ADD CONSTRAINT stack_rank_pax_sr_node_fk FOREIGN KEY (stack_rank_node_id)
+  REFERENCES stack_rank_node (stack_rank_node_id)
+/
+ALTER TABLE stack_rank_participant
+  ADD CONSTRAINT stack_rank_pax_pax_fk FOREIGN KEY (user_id)
+  REFERENCES participant (user_id)
+/
+COMMENT ON TABLE stack_rank_participant IS 'Represents an entry in a stack rank list.'
+/
+COMMENT ON COLUMN stack_rank_participant.stack_rank_participant_id IS 'Uniquely identifies this entry in a stack rank list.'
+/
+COMMENT ON COLUMN stack_rank_participant.stack_rank_node_id IS 'The stack rank list that contains this entry.'
+/
+COMMENT ON COLUMN stack_rank_participant.user_id IS 'The participant being ranked.'
+/
+COMMENT ON COLUMN stack_rank_participant.stack_rank_factor IS 'The value on which the participant is ranked.'
+/
+COMMENT ON COLUMN stack_rank_participant.rank IS 'The participant''s stack rank.'
+/
+COMMENT ON COLUMN stack_rank_participant.tied IS 'If true, then the participant shares his or her rank with one or more participants; if false, then the participant is the only one who holds this rank.'
+/
+COMMENT ON COLUMN stack_rank_participant.payout IS 'The amount that the participant receives for holding his or her rank.'
+/
+COMMENT ON COLUMN stack_rank_participant.created_by IS 'The ID of the user who created this record.'
+/
+COMMENT ON COLUMN stack_rank_participant.date_created IS 'The date and time at which this record was created.'
+/
+COMMENT ON COLUMN stack_rank_participant.modified_by IS 'The ID of the user who last modified this record.'
+/
+COMMENT ON COLUMN stack_rank_participant.date_modified IS 'The date and time at which this record was last modified.'
+/
+COMMENT ON COLUMN stack_rank_participant.version IS 'The version of this record.'
+/

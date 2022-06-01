@@ -1,0 +1,121 @@
+// Partial-specific variables
+// =========================
+
+
+// Partial-specific code
+// ==================================================
+
+// FAQs page
+// core/base/tpl/faqSheet.html
+// ----------------------------------------
+#faqPageView {
+    .answerHeader {
+        margin-top: $baseLineHeight * 2;
+    }
+    .answerList h6 {
+        margin-top: $baseLineHeight;
+        font-weight: normal;
+    }
+    .answerList blockquote p {
+        font-size: $baseFontSize;
+        font-weight: normal;
+        line-height: $baseLineHeight;
+    }
+    .answerList {
+        blockquote {
+            padding-left: 0;
+            border-left: none;
+        }
+        span.backToTop {
+            font-size: $fontSizeSmall;
+            display: block;
+            padding-left: 0;
+        }
+        h4 {
+            font-size: $baseFontSize;
+        }
+    }
+
+    ul.questionList {
+        margin-left: 0;
+        li {
+            list-style-type: none;
+            padding-bottom: 15px;
+            a {
+                font-weight: $fontWeightBold;
+            }
+        }
+    }
+    .backToTop {
+        font-size: $fontSizeSmall;
+    }
+}
+
+// Paticipant Search page
+// core/base/tpl/participantAdvancedSearchPage.html
+// ----------------------------------------
+#advancedSearchPageView {
+    .visibilityControls .showHideBtn {
+        display: none;
+        visibility: hidden;
+    }
+    .selectCell {
+        &.selected {
+            .select-txt {
+                display:inline;
+            }
+            .selected-txt {
+                display:none;
+            }
+        }
+    }
+    @media (max-width: 482px){
+        .participantSearchSelect {
+            float: left;
+        }
+        .participantSearchDropdownWrapper {
+            clear: left;
+            float: left;
+            margin: 0;
+        }
+    }
+}
+
+// Product Claim Preview Custom Form page
+// core/apps/productClaim/tpl/claimPageAdminFormPreview.html
+// ----------------------------------------
+#claimPageAdminFormPreviewView {
+    .customSection {
+        display: block !important;
+    }
+}
+
+
+// Participant Chatter Authorization page
+// core/base/tpl/participantChatterAuthorization.html
+// ----------------------------------------
+#participantChatterPageView {
+
+    .participantChatterInstructions p {
+        font-weight: bold;
+    }
+
+    form.participantChatterForm {
+        width: 450px;
+
+        .currentRecognitionText span {
+            font-style: italic;
+            color: $gray;
+        }
+        textarea {
+            float: left;
+            height: 100px;
+            resize: none;
+            width: 450px;
+        }
+        .formButtons {
+            float: left;
+            clear: left;
+        }
+    }
+}

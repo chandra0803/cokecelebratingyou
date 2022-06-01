@@ -1,0 +1,57 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $globalSidebar_outerPadding: ;
+// $globalSidebar_profileMinHeight: ;
+
+// $globalSidebar_upperSidebarTextColor: ;
+// $globalSidebar_upperSidebarBkg: ;
+// $globalSidebar_upperSidebarEditAvatarColor: ;
+// $globalSidebar_upperSidebarEditAvatarBkg: ;
+
+// $globalSidebar_proxyOverlay: ;
+
+// $globalSidebar_avatarWidthHeight: ;
+// $globalSidebar_avatarWidthHeight_headerTablet: ;
+// $globalSidebar_avatarWidthHeight_headerMobile: ;
+
+// $globalSidebar_toggleSize: ;
+// $globalSidebar_toggleOffset: ;
+
+// $globalSidebar_vertMargin: ;
+
+// $globalSidebar_tabIconColor: ;
+// $globalSidebar_tabIconColorActive: ;
+// $globalSidebar_tabIconOpacity: ;
+// $globalSidebar_tabIconOpacityActive: ;
+
+// $globalSidebar_avatar_textColor: ;
+// $globalSidebar_avatar_bkg: ;
+// $globalSidebar_color_profileBG  ;
+// $globalSidebar_color_profile  ;
+// $globalSidebar_color_profile_link  ;
+
+// $globalSidebar_color_primary  ;
+// $globalSidebar_color_white  ;
+// $globalSidebar_color_black  ;
+// $globalSidebar_color_dark  ;
+
+// $globalSidebar_selected_link_dotColor: ;
+// $globalSidebar_selected_link_bgColor: ;
+
+// $globalSidebar_dashboard_spinnerFgColor: ;
+// $globalSidebar_dashboard_spinnerBkgColor: ;
+// $globalSidebar_dashboard_spinnerBkgBorderRadius: ;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/globalSidebar";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================
+
+ // #globalSidebarView .sidebar-tabs {
+ //     background-color: #4a515b;
+ // }

@@ -1,0 +1,171 @@
+<%--UI REFACTORED--%>
+<%@ include file="/include/taglib.jspf" %>
+
+  <c:forEach items="${claimDetails.claimElements}" var="claimElement" varStatus="status"  >
+
+    <%-- TODO: implement address Book option --%>
+    <c:if test="${!claimElement.claimFormStepElement.claimFormElementType.addressBookSelect}">
+
+      <c:if test="${!claimElement.claimFormStepElement.claimFormElementType.sectionHeading}">
+         <tr class="form-row-spacer">
+      </c:if>
+      
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.sectionHeading}">
+        <tr class="form-blank-row"><td></td></tr>
+        <tr class="form-row-spacer">
+          <td colspan="2" class="subheadline">
+          	<c:if test="${!claimDetails.managerAward }">
+	            <cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+	        </c:if>
+          	<c:if test="${claimDetails.managerAward }">
+	            <cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+	        </c:if>
+          </td>
+      </c:if>
+      
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.textBoxField || claimElement.claimFormStepElement.claimFormElementType.textField || claimElement.claimFormStepElement.claimFormElementType.numberField}">
+        <td class="content-field-label">
+          	<c:if test="${!claimDetails.managerAward }">
+	          <cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+	        </c:if>
+	        <c:if test="${claimDetails.managerAward }">
+				<cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+			</c:if>
+        </td>
+        <c:if test="${claimElement.claimFormStepElement.maskedOnEntry}">
+          <td class="content-field-review">
+            *************
+          </td>
+        </c:if>
+        <c:if test="${!claimElement.claimFormStepElement.maskedOnEntry}">
+          <td class="content-field-review">
+            <c:out value="${claimElement.value}"/>
+          </td>
+        </c:if>
+      </c:if>
+      
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.addressBlock}">
+        <td class="content-field-label">
+          <c:if test="${!claimDetails.managerAward }">
+        	<cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+          </c:if>
+          <c:if test="${claimDetails.managerAward }">
+            <cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+          </c:if>
+        </td>
+        <td class="content-field-review">
+          	<beacon:addressDisplay address="${claimElement.value}"/>
+        </td>
+      </c:if>
+      
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.dateField}">
+        <td class="content-field-label">
+          <c:if test="${!claimDetails.managerAward }">
+          	<cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+          </c:if>
+          <c:if test="${claimDetails.managerAward }">
+            <cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+          </c:if>
+        </td>
+        <td class="content-field-review">
+          <c:out value="${claimElement.value}"/>
+        </td>
+      </c:if>
+      
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.booleanField}">
+        <td class="content-field-label">
+        <c:if test="${!claimDetails.managerAward }">
+          <cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+        </c:if>  
+        <c:if test="${claimDetails.managerAward }">  
+          <cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+        </c:if>
+        </td>
+        <td class="content-field-review">
+          <c:if test="${claimElement.value == 'true'}">
+          	<c:if test="${!claimDetails.managerAward }">
+            	<cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForLabelTrue}"/>
+            </c:if>
+            <c:if test="${claimDetails.managerAward }">
+				<cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForLabelTrue}"/>            
+			</c:if>
+          </c:if>
+          <c:if test="${claimElement.value == 'false'}">
+          	<c:if test="${!claimDetails.managerAward }">
+          		<cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForLabelFalse}"/>
+          	</c:if>
+          	<c:if test="${claimDetails.managerAward }">
+          	  <cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForLabelFalse}"/>
+          	</c:if>
+          </c:if>
+        </td>
+      </c:if>
+      
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.selectField}">
+        <td class="content-field-label">
+	        <c:if test="${!claimDetails.managerAward }">
+	          <cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+	        </c:if>
+	        <c:if test="${claimDetails.managerAward }">
+	          <cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+	        </c:if>
+        </td>
+        <td class="content-field-review">
+         <c:out value="${claimElement.pickListItems[0].name}"/>
+        </td>
+      </c:if>
+      
+      
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.multiSelectField}">
+        <td class="content-field-label" valign="top">
+        	<c:if test="${!claimDetails.managerAward }">
+  	          <cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+  	        </c:if>
+        	<c:if test="${claimDetails.managerAward }">
+          		<cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+          	</c:if>
+        </td>
+        <td class="content-field-review">
+          <c:forEach items="${claimElement.pickListItems}" var="item" varStatus="status">
+            <c:out value="${item.name}"/><br>
+          </c:forEach>
+        </td>
+      </c:if>
+      
+      
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.button}">
+        <td class="content-field-label">
+	        <c:if test="${!claimDetails.managerAward }">
+	          <cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+	        </c:if>
+	        <c:if test="${claimDetails.managerAward }">
+	          <cms:contentText code="${claimDetails.parentManagerPromotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+	        </c:if>
+        </td>      
+        <td class="content-field-review">
+          <%//todo implement button%>
+        </td>
+      </c:if>
+      
+      <%-- // TODO: implement address Book option
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.addressBookSelect}">
+        <td class="content-field-label">
+          <cms:contentText code="${claimDetails.promotion.claimForm.cmAssetCode}" key="${claimElement.claimFormStepElement.cmKeyForElementLabel}"/>
+        </td>
+        <td class="content-field-review">
+        </td>
+      </c:if>
+      --%>
+            
+      <c:if test="${claimElement.claimFormStepElement.claimFormElementType.booleanCheckbox}">
+      <td class="content-field-label" valign="top">
+        <%//todo implement boolean Checkbox %>
+      </td>
+        <td class="content-field-review">
+          <%//todo implement boolean Checkbox%>
+        </td>
+      </c:if>
+      
+    </c:if>
+  </c:forEach>
+  

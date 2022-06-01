@@ -1,0 +1,46 @@
+{
+  "description": "Search for hierarchy by name",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+  },
+  "steps": [
+    {
+      "id": "searchHierarchies",
+      "description": "POST /hierarchies/search",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/hierarchies/search",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+            "name": "Bonfire Uber Corp"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:searchHierarchies.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:searchHierarchies.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        },
+        {
+          "a": "${ref:searchHierarchies.res.body.hierarchies}",
+          "compare": "to.not.be.empty"
+        },
+        {
+          "a": "${ref:searchHierarchies.res.body.hierarchies}",
+          "compare": "to.containSubset",
+          "b": [ { "name": "Bonfire Uber Corp", "id": "00000000-0000-0000-0000-000000001389" } ] 
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.biperf.core.domain.hierarchy.NodeType" table="NODE_TYPE">
+
+    <id name="id" type="java.lang.Long" column="NODE_TYPE_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">NODE_TYPE_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long"/>
+
+    <property name="cmAssetCode" type="java.lang.String" column="CM_ASSET_CODE"/>
+    <property name="nameCmKey" type="java.lang.String" column="NAME_CM_KEY"/>
+    <property name="deleted" type="boolean" column="IS_DELETED"/>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+  
+  <sql-query name="com.biperf.core.dao.hierarchy.hibernate.NodeTypeDAOImpl.AllNodeTypes">
+    <return alias="n" class="com.biperf.core.domain.hierarchy.NodeType" />
+    <![CDATA[
+    	SELECT {n.*} 
+    	FROM node_type n, cms_asset cm 
+    	WHERE n.cm_asset_code = cm.code 
+    		AND n.is_deleted = 0 
+    	ORDER BY cm.name
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.dao.hierarchy.DefaultNodeType">
+    <return alias="n" class="com.biperf.core.domain.hierarchy.NodeType" />
+    <![CDATA[
+    	SELECT {n.*} 
+    	FROM node_type n 
+    	WHERE n.name_cm_key = 'DEFAULT_NODE_TYPE' 
+    		AND n.is_deleted = 0 
+    ]]>
+  </sql-query>
+
+  
+</hibernate-mapping>

@@ -1,0 +1,113 @@
+<!-- ======== LOGIN PAGE ======== -->
+
+<script type="text/javascript">
+    $( 'body' ).addClass( 'loginPage' );
+</script>
+
+
+<!-- Page Body -->
+
+<!-- NOTE: when self-registration is available, the class here is "selfEnrollmentOn", otherwise it is "selfEnrollmentOff" -->
+<div class="page-content selfEnrollmentOn " id="loginPage">
+    <div class="row-fluid">
+        <div class="span12">
+           <!--  <blockquote class="intro"> -->
+                <h2>Welcome</h2>
+                <p class="intro">This is your one-stop shop for all of your program information. Check back often as information changes regularly.</p>
+                <p class="intro">This is your one-stop shop for all of your program information. Check back often as information changes regularly.</p>
+            <!-- </blockquote> -->
+        </div><!-- /.span12 -->
+
+        <div class="span12" id="loginPageFormLogin">
+            <form id="loginForm" action="layout.html" method="POST" class="form-vertical">
+
+                <fieldset id="loginFieldset">
+                    <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please select your language"}'>
+                        <div class="controls">
+                            <select id="language-select" class="selectpicker"> <!-- NOTE: Java team to make options dynamic -->
+                                <option value="zh_CN">Chinese</option>
+                                <option value="en_GB">English [British]</option>
+                                <option value="en_US">English [U.S]</option>
+                                <option value="fr_CA">French [Canadian]</option>
+                                <option value="fr_FR">French [Europe]</option>
+                                <option value="de_DE">German [Germany]</option>
+                                <option value="es_MX">Spanish [Latin America]</option>
+                                <option value="es_ES">Spanish [Spain]</option>
+                                <option value="tr_TR">Türkçe [Türkiye]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter your login id"}'>
+                        <label class="control-label" for="j_username">Login ID<a id="loginPageFormContact" class="trigger-modal pull-right" data-toggle="modal" data-target="#loginPageFormContactModal">I forgot my login ID</a></label>
+                        <div class="controls">
+                            <input type="text" id="j_username" name="j_username">
+
+                        </div>
+
+                    </div>
+
+                    <div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : "Please enter your password"}'>
+                        <label class="control-label" for="j_password">Password<a id="loginPageFormForgotPass" class="trigger-modal pull-right" data-toggle="modal" data-target="#loginPageFormForgotPassModal">I forgot my password</a></label>
+                        <div class="controls input-append input-append-inside">
+                            <input type="password" id="j_password" name="j_password">
+                            <a class="add-on btn btn-link icon-eye show-pw"></a>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-actions">
+                    <button type="submit" id="loginFormSubmit" name="button" value="loginFormSubmit" formaction="ajax/loginPageFormLoginResponse.json" class="btn btn-block btn-primary form-action-btn">Log In</button>
+                    <p>No Login ID or Password?</p>
+                    <a id="loginPageFormRegistration" class="trigger-modal" data-toggle="modal" data-target="#loginPageFormRegistrationModal">Register a new account</a>
+
+                </fieldset>
+            </form>
+        </div><!-- /#loginPageLoginForm.span12 -->
+
+    </div><!-- /.row-fluid -->
+</div><!-- /#loginPage-->
+
+<div id="loginPageFormContactModal" class="modal hide fade" role="dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+                <h3 class="modal-title">Forgot Login ID</h3>
+        </div>
+        <div class="modal-body-footer">
+        </div>
+    </div>
+</div><!-- /#loginPageFormContactModal -->
+
+<div id="loginPageFormForgotPassModal" class="modal hide fade" role="dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+            <h3 class="modal-title">Forgot Password</h3>
+        </div>
+        <div class="modal-body-footer">
+        </div>
+    </div>
+</div><!-- /#loginPageFormForgotPassModal-->
+
+<div id="loginPageFormRegistrationModal" class="modal hide fade" role="dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><i class="icon-close"></i></button>
+            <h3 class="modal-title">Register</h3>
+        </div>
+        <div class="modal-body-footer">
+        </div>
+    </div>
+</div><!-- /#loginPageFormRegistrationModal -->
+<script>
+    $(document).ready(function() {
+        //attach the view to an existing DOM element
+        lpv = new LoginPageView({
+            el : $('#loginPage'),
+            mode : 'login',
+            pageNav : {},
+            pageTitle : 'Welcome',
+            loggedIn : false // to prevent the profile+sidebar views from executing
+        });
+    });
+</script>

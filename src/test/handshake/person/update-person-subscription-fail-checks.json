@@ -1,0 +1,80 @@
+{
+  "description": "Update a Person Push Notification Subscription fail checks",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "newPersonName": "Updated ${faker:hacker.adjective} Person Phone"
+  },
+  "steps": [
+    {
+      "id": "createPerson",
+      "description": "First create a Person1",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+   {
+      "id": "createPersonSubscription",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"label": "IOS",
+  			"token":"mytoken"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonSubscription.res.status}",
+          "compare": "to.equal",
+          "b": 200
+        },
+        {
+          "a": "${ref:createPersonSubscription.res.body.success}",
+          "compare": "to.equal",
+          "b": true
+        }
+      ]
+    },
+    {
+      "id": "updatePersonSubscription",
+      "description": "PUT /persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions/${ref:createPersonSubscription.res.body.id}",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/push-notification-subscriptions/${ref:createPersonSubscription.res.body.id}",
+        "options": {
+          "method": "put",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"label":"ANDROID"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:updatePersonSubscription.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:updatePersonSubscription.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    }
+  ]
+}

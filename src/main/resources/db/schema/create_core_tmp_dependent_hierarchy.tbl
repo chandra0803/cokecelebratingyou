@@ -1,0 +1,22 @@
+CREATE GLOBAL TEMPORARY TABLE TMP_DEPENDENT_HIERARCHY (
+ MOVE_TO_NODE_NAME                                  VARCHAR2(255),
+ PARENT_NODE_NAME                                   VARCHAR2(255),
+ IMPORT_RECORD_ID                                   NUMBER(18),
+ NODE_NAME_CHG_FLG                                  NUMBER(1),
+ PARENT_NODE_NAME_CHG_FLG                           NUMBER(1),
+ DELETE_WITH_MTN_FLG                                NUMBER(1),
+ DESCRIPTION_CHG_FLG                                NUMBER(1),
+ NODE_TYPE_CHG_FLG                                  NUMBER(1),
+ CHARACTERISTIC1_CHG_FLG                            NUMBER(1),
+ CHARACTERISTIC2_CHG_FLG                            NUMBER(1),
+ CHARACTERISTIC3_CHG_FLG                            NUMBER(1),
+ CHARACTERISTIC4_CHG_FLG                            NUMBER(1),
+ CHARACTERISTIC5_CHG_FLG                            NUMBER(1),
+ CHARACTERISTIC6_CHG_FLG 						    NUMBER(1),                
+ CHARACTERISTIC7_CHG_FLG 						    NUMBER(1),
+ CHARACTERISTIC8_CHG_FLG 						    NUMBER(1),               
+ CHARACTERISTIC9_CHG_FLG 						    NUMBER(1),       
+ CHARACTERISTIC10_CHG_FLG 							NUMBER(1)
+) ON COMMIT DELETE ROWS
+
+/

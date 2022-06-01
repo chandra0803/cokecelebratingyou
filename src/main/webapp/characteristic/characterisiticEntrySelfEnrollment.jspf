@@ -1,0 +1,159 @@
+<%@page import="com.biperf.core.utils.UserManager"%>
+<%@ include file="/include/taglib.jspf" %>
+<%@ page import="com.biperf.core.ui.utils.RequestUtils"%>
+
+<!--  
+    Note - need the hidden parms in a style of display:none or they will render as extra white space
+    This is same as the characteristicEntry.jspf except this uses div's compared to td's.
+-->
+  <span style="display:none">
+        <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="nameCmKey" indexed="true" />
+           <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="cmAssetCode" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicName" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="joinTableId" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicId" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="createdBy" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="dateCreated" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="version" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="domainId" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicDataType" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="maxSize" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="maxValue" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="minValue" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="dateStart" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="dateEnd" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="isRequired" indexed="true" />
+          <html:hidden name="${pageScope.characteristicType}CharacteristicValueInfo" property="isUnique" indexed="true" /> 
+    </span>
+               
+    <c:choose>
+		<c:when test="${valueInfo.characteristicDataType == 'single_select'}">
+			<div class="control-group">
+				<label class="control-label">
+					<c:out value="${valueInfo.characteristicName}" />
+				</label>
+				<div class="controls">
+					<html:select name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" indexed="true" styleClass="content-field">
+						<c:if test="${pageScope.displayStyle == 'query'}">
+							<html:option value='<%=com.biperf.core.ui.constants.ViewAttributeNames.SEARCH_ALL_OPTION%>'>
+								<cms:contentText key="ALL" code="system.general" />
+							</html:option>
+						</c:if>
+						<html:option value="${userCharacteristicForm.deleteOption }">
+							<cms:contentText key="SELECT_ONE" code="system.general" />
+						</html:option>
+						<html:options collection="${valueInfo.plName}" property="code" labelProperty="name" />
+					</html:select>
+                    <c:if test="${!valueInfo.isRequired}"><span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span></c:if>
+				</div>
+			</div>
+		</c:when>
+
+		<c:when test="${valueInfo.characteristicDataType == 'multi_select'}">
+			<div class="control-group">
+				<c:choose>
+					<c:when test="${pageScope.displayStyle == 'query'}">
+						<label class="control-label">
+							<c:out value="${valueInfo.characteristicName}" />
+						</label>
+						<div class="controls">
+							<html:select name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" indexed="true" styleClass="content-field">
+								<html:option value='<%=com.biperf.core.ui.constants.ViewAttributeNames.SEARCH_ALL_OPTION%>'>
+									<cms:contentText key="ALL" code="system.general" />
+								</html:option>
+								<html:option value="${userCharacteristicForm.deleteOption }">
+									<cms:contentText key="SELECT_ONE" code="system.general" />
+								</html:option>
+								<html:options collection="${valueInfo.plName}" property="code" labelProperty="name" />
+							</html:select>
+                            <c:if test="${!valueInfo.isRequired}"><span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span></c:if>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<label class="control-label">
+							<c:out value="${valueInfo.characteristicName}" />
+                            <c:if test="${!valueInfo.isRequired}"><span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span></c:if>
+						</label>
+						<div class="controls">
+							<html:select name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValues" indexed="true" multiple="true" size="5" styleClass="content-field">
+								<html:option value="${userCharacteristicForm.deleteOption }">
+									<cms:contentText key="SELECT_ONE" code="system.general" />
+								</html:option>
+								<html:options collection="${valueInfo.plName}" property="code" labelProperty="name" />
+							</html:select>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</c:when>
+
+		<c:when test="${valueInfo.characteristicDataType == 'boolean'}">
+			<div class="control-group">
+				<c:choose>
+					<c:when test="${pageScope.displayStyle == 'query'}">
+						<label class="control-label">
+							<c:out value="${valueInfo.characteristicName}" />
+                            <c:if test="${!valueInfo.isRequired}"><span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span></c:if>
+						</label>
+						<div class="controls">
+							<html:select name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" indexed="true" styleClass="content-field">
+								<html:option value='<%=com.biperf.core.ui.constants.ViewAttributeNames.SEARCH_ALL_OPTION%>'>
+									<cms:contentText key="ALL" code="system.general" />
+								</html:option>
+								<html:option value="true">
+									<cms:contentText key="TRUE" code="system.boolean.values" />
+								</html:option>
+								<html:option value="false">
+									<cms:contentText key="FALSE" code="system.boolean.values" />
+								</html:option>
+							</html:select>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<label class="control-label">
+							<c:out value="${valueInfo.characteristicName}" />
+                            <c:if test="${!valueInfo.isRequired}"><span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span></c:if>
+						</label>
+						<div class="controls">
+							<label for="true" class="radio">
+								<cms:contentText key="TRUE" code="system.common.labels" />
+								<html:radio name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" value="true" indexed="true" onclick="unSelectRadio(this)" styleClass="radio" /> 
+							</label> 
+							<label for="false" class="radio"> 
+								<cms:contentText key="FALSE" code="system.common.labels" />
+								<html:radio name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" value="false" indexed="true" onclick="unSelectRadio(this)" styleClass="radio" /> 
+							</label>	
+						</div>
+				</c:otherwise>
+				</c:choose>
+			</div>
+		</c:when>
+		<c:when test="${valueInfo.characteristicDataType == 'date'}">
+			<div class="control-group">
+				<label class="control-label">
+					<c:out value="${valueInfo.characteristicName}" />
+				</label>
+				 <div class="controls datepickerTrigger"
+                        data-date-format="<%=UserManager.getUserDatePattern().toLowerCase()%>"
+                        data-date-language="<%=UserManager.getUserLocale()%>"
+                        data-date-autoclose="true">
+                        <html:text name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" readonly="true" indexed="true" size="10" maxlength="10" />
+                        <button class="btn"><i class="icon-calendar"></i></button>
+                    <c:if test="${!valueInfo.isRequired}"><span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span></c:if>
+                </div>
+			</div>
+		</c:when>
+
+		<c:otherwise>
+			<div class="control-group">
+				<label class="control-label">
+					<c:out value="${valueInfo.characteristicName}" />
+				</label>
+				<div class="controls">
+					<html:text name="${pageScope.characteristicType}CharacteristicValueInfo" property="characteristicValue" maxlength="${valueInfo.maxSize}" styleClass="content-field" indexed="true" />
+                    <c:if test="${!valueInfo.isRequired}"><span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span></c:if>
+				</div>
+			</div>
+		</c:otherwise>
+		
+	</c:choose>

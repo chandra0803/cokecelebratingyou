@@ -1,0 +1,30 @@
+--liquibase formatted sql
+
+--changeset subramap:1
+--comment OSPropertySet Tracking sequence for tracking  System variable changes
+CREATE SEQUENCE OS_PROPERTYSET_TRACKING_SQ START WITH 250 INCREMENT BY 1;
+--rollback DROP SEQUENCE OS_PROPERTYSET_TRACKING_SQ;
+
+--changeset subramap:2
+--comment OS_PROPERTYSET_TRACKING table for tracking  System variable changes
+CREATE TABLE OS_PROPERTYSET_TRACKING(  
+	TRACKING_ID	        NUMBER(18),
+	ENTITY_ID		NUMBER(18),
+	ENTITY_NAME VARCHAR2(2000 CHAR),
+	ENTITY_KEY VARCHAR2(2000 CHAR),
+	KEY_TYPE NUMBER(1),
+	BOOLEAN_VAL          NUMBER(1),            
+	DOUBLE_VAL           NUMBER(18),           
+	STRING_VAL           VARCHAR2(2000 CHAR),    
+	LONG_VAL             NUMBER(18),            
+	INT_VAL              NUMBER(18),            
+	DATE_VAL             DATE,  
+	IS_EDITABLE 		NUMBER(1),
+	IS_VIEWABLE 		NUMBER(1),
+	GROUP_NAME 			VARCHAR2(2000 CHAR),
+	DATE_CREATED	    TIMESTAMP,
+	CREATED_BY	        NUMBER(18),
+	
+	CONSTRAINT OS_PROPERTYSET_TRACKING_ID_PK PRIMARY KEY (TRACKING_ID)
+);
+--rollback DROP TABLE OS_PROPERTYSET_TRACKING CASCADE CONSTRAINTS;

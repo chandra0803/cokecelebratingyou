@@ -1,0 +1,29 @@
+CREATE SEQUENCE calculator_payout_pk_sq INCREMENT BY 1 START WITH 5000
+/
+
+CREATE TABLE calculator_payout
+   (calculator_payout_id	NUMBER(18) NOT NULL,
+   	calculator_id 	   	  NUMBER(18) NOT NULL,
+   	low_score             NUMBER(10) NOT NULL,
+   	high_score						NUMBER(10) NOT NULL,
+   	low_award             NUMBER(10) NOT NULL,
+   	high_award            NUMBER(10),
+    created_by            NUMBER(18) NOT NULL,
+    date_created   		 		DATE NOT NULL,
+    modified_by           NUMBER(18),
+    date_modified  				DATE,
+    version        				NUMBER(18) NOT NULL)
+/
+
+ALTER TABLE calculator_payout ADD CONSTRAINT calculator_payout_calc_fk
+  FOREIGN KEY (calculator_id) REFERENCES calculator(calculator_id) 
+/
+
+ALTER TABLE calculator_payout
+ADD CONSTRAINT calculator_payout_id_pk PRIMARY KEY (calculator_payout_id)
+USING INDEX
+/
+
+CREATE INDEX CALCULATOR_PAYOUT_CALC_FK_idx ON CALCULATOR_PAYOUT
+  (CALCULATOR_ID)
+/

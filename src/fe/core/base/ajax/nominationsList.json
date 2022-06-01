@@ -1,0 +1,31 @@
+<?php sleep(2); ?>
+{
+	"showPastWinnersLink": true,
+    "totalPromotionCount": 2,
+    "nominations": [
+		{
+			"promoId": 1,
+			"name" : "Promo Nomination 1",
+			"maxSubmissionAllowed" : null,
+			"usedSubmission" : 10
+		},
+		{
+			"promoId": 2,
+			"name" : "Promo Nomination 1",
+			"maxSubmissionAllowed" : 10 ,
+			"usedSubmission" : 6
+		},
+		{
+			"promoId": 3,
+			"name" : "Promo Nomination 1",
+			"maxSubmissionAllowed" : 10 ,
+			"usedSubmission" : 12
+		},
+		{
+			"promoId": 4,
+			"name" : "Promo Nomination 2",
+			"maxSubmissionAllowed" : 10 ,
+			"usedSubmission" : 2
+		}
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "messages" : [
+         {
+            "type" : "error",
+            "text" : "We have an error from the json, now do something."
+        }
+    ],
+    "message":[{"type":"error","text":"Group already exists.","isSuccess":false}]
+
+}

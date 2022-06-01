@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+     <class name="com.biperf.core.domain.participant.AudienceRole" table="AUDIENCE_ROLE">
+     
+       <composite-id>    
+			<key-many-to-one name="audience" column="audience_id" entity-name="com.biperf.core.domain.participant.Audience" /> 
+			<key-many-to-one name="role" column="role_id" entity-name="com.biperf.core.domain.user.Role" /> 
+	   </composite-id> 
+	   
+     <!-- Using version number optimistic locking -->
+     <version name="version" type="long" column="VERSION"/>
+     
+     <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+	    
+	    </class>
+	     
+    	   
+</hibernate-mapping>    

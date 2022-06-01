@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+     <class name="com.biperf.core.domain.gamification.BadgeRule" table="BADGE_RULE">
+     
+     <id name="id" type="long" column="BADGE_RULE_ID">
+       <generator class="seqhilo">
+         <param name="max_lo">0</param> <param name="sequence">badge_rule_pk_sq</param>
+       </generator>
+     </id>
+     
+     <!-- Using version number optimistic locking -->
+     <version name="version" type="long" column="VERSION"/>
+     
+     <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+		
+		<many-to-one name="badgePromotion" column="promotion_id" class="com.biperf.core.domain.gamification.Badge" not-null="true" lazy="false"/>
+
+        <property name="badgeLibraryCMKey" type="java.lang.String" column="cm_asset_key"/>
+	    <property name="badgeName" column="badge_name" type="string" />
+        <property name="badgeDescription" column="badge_description" type="string" />
+        <property name="minimumQualifier" column="minimum_qualifier" type="java.lang.Long" />
+        <property name="maximumQualifier" column="maximum_qualifier" type="java.lang.Long"/>
+        <property name="countryId" column="country_id" type="java.lang.Long"/>
+        <property name="levelName" column="level_name" type="string" />
+        <property name="levelType" column="level_type">
+       	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+					<param name="lookupClass">com.biperf.core.domain.enums.BadgeLevelType</param>
+		</type>
+        </property>  
+        <property name="behaviorName" column="behavior_name" type="string" />
+        <property name="participantType" column="participant_type" >
+         	<type name="com.biperf.core.domain.enums.HibernateVarCharEnum">
+         		<param name="enumClass">com.biperf.core.domain.gamification.ParticipantType</param>
+         	</type>
+        </property>  
+        <property name="badgePoints" column="BADGE_POINTS" type="java.lang.Long"/>
+        <property name="eligibleForSweepstake" column="ELIGIBLE_FOR_SWEEPSTAKE" type="boolean" />
+	    </class>
+	    
+	<sql-query name="com.biperf.core.domain.gamification.getBadgeRuleByBehaviorName">
+		<return alias="br" class="com.biperf.core.domain.gamification.BadgeRule" />
+    	<![CDATA[
+    		SELECT {br.*}
+		    FROM badge_rule br, badge_promotion bp, promotion p
+		    WHERE br.promotion_id = bp.promotion_id
+		      AND bp.promotion_id = p.promotion_id
+		      AND br.behavior_name = :behaviorName
+		      AND bp.eligible_promotion_id = :promotionId
+		      AND p.promotion_status = 'live'
+		]]>
+  	</sql-query>
+  	
+  	<sql-query name="com.biperf.core.domain.gamification.getSortedBadgeRulesById">
+  		<return alias="br" class="com.biperf.core.domain.gamification.BadgeRule"/>
+  		<![CDATA[
+    		SELECT {br.*}
+              FROM badge b,badge_rule br,vw_cms_asset_value vw
+              WHERE  br.badge_name = vw.asset_code and 
+              b.PROMOTION_ID=:badgeId and br.PROMOTION_ID=:badgeId
+              order by regexp_substr(vw.CMS_VALUE,'*[[^:punct:]]'),to_number(regexp_substr(vw.CMS_VALUE,'[[:digit:]]*')) ,vw.CMS_VALUE 
+		]]>
+  	</sql-query>
+    	   
+</hibernate-mapping>    
+    
+   

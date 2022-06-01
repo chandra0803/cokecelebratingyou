@@ -1,0 +1,1905 @@
+// App-specific variables
+// =========================
+$engagement_summary_textColor: $brand_color_black !default;
+$engagement_summary_bgColor: $brand_color_lighter !default;
+
+$engagement_summary_tabHeight: 40px !default;
+$engagement_summary_tabsActive_iconColorModule: $brand_color_primary !default;
+$engagement_summary_tabsActive_iconColorPage: false !default;
+$engagement_summary_tabsInactive_iconColorModule: $brand_color_dark !default;
+$engagement_summary_tabsInactive_iconColorPage: false !default;
+$engagement_summary_tabsInactive_iconColorHoverModule: $brand_color_link_hover !default;
+$engagement_summary_tabsInactive_iconColorHoverPage: false !default;
+$engagement_summary_tabsDividerBorderColor: $brand_color_mid !default;
+
+$engagement_summary_actualFont: $titleFont !default;
+$engagement_summary_actualFontWeight: $titleFontWeightNormal !default;
+$engagement_summary_actualFontStyle: normal !default;
+$engagement_summary_actualTextColor: $brand_color_primary !default;
+
+$engagement_summary_actualMeterWidthHeight_mobile:          240px !default;
+$engagement_summary_actualMeterWidthHeight_mobileLarge:     ($breakpoint_mobileMini_min - $g6ModulePaddingX * 2) / 2 !default;
+$engagement_summary_actualMeterWidthHeight_tablet:          round($engagement_summary_actualMeterWidthHeight_mobile * 1.16667) !default;
+$engagement_summary_actualMeterWidthHeight_desktop:         round($engagement_summary_actualMeterWidthHeight_mobile * 1.33333) !default;
+$engagement_summary_actualMeterWidthHeight_desktopLarge:    $engagement_summary_actualMeterWidthHeight_desktop !default;
+
+$engagement_summary_actualMeterArcWidth: 10px !default;
+$engagement_summary_actualMeterArcGlowMult: 3px !default;
+$engagement_summary_actualMeterBackgroundArcColor: $brand_color_mid !default;
+$engagement_summary_actualMeterForegroundArcColor: $brand_color_primary !default;
+$engagement_summary_actualMeterOver100: $brand_color_primary !default;
+$engagement_summary_actualMeterOver100Text: $brand_color_white !default;
+$engagement_summary_actualMeterOver100Opacity: 0.667 !default;
+$engagement_summary_actualDecoratorColor: $brand_color_mid !default;
+$engagement_summary_actualDecoratorOpacity: 0.25 !default;
+
+$engagement_detail_chartColors: $brand_chartColors !default;
+
+$engagement_detail_aheadTextColor: $green !default;
+$engagement_detail_ontrackTextColor: false !default;
+$engagement_detail_behindTextColor: $red !default;
+$engagement_detail_countTextColor: $brand_color_dark !default;
+$engagement_detail_detailUrlArrowColor: $grayLight !default;
+$engagement_detail_detailUrlCircleColor: $grayLight !default;
+
+$engagement_detail_scoreTable_iconColor: $brand_color_dark !default;
+
+$engagement_detail_treeRootFontColor: $brand_color_primary !default;
+$engagement_detail_treeBranchLineColor: $brand_color_primary !default;
+$engagement_detail_treeBranchBg: $brand_color_light !default;
+$engagement_detail_treeBranchFontColor: $engagement_summary_textColor !default;
+$engagement_detail_treeCountBg: rgba(0,0,0,0.5) !default;
+$engagement_detail_treeCountFontColor: $white !default;
+$engagement_detail_treeShowMoreFontColor: $engagement_detail_treeBranchLineColor !default;
+
+$engagement_detail_treeBranchLineWidth: 2px !default;
+
+$engagement_teamMembers_topBorder: 1px solid $grayLight !default;
+$engagement_teamMembers_dividerBorder: 1px dashed $grayLight !default;
+$engagement_pubRec_topBorder: 1px solid $grayLight !default;
+
+// App-specific code
+// ==================================================
+
+// mixin to size the main meter
+@mixin engagement_sizeMeter($widthHeight: $engagement_summary_actualMeterWidthHeight_mobile, $paddingTop: $baseLineHeight) {
+    .tab-pane {
+        .summary {
+            height: $widthHeight;
+            padding-top: $paddingTop;
+        }
+        .target {
+            margin-top: -1 * ($widthHeight / 2 + $paddingTop / 2);
+        }
+        .decorator {
+            margin: (-1 * $widthHeight / 2) 0 0 (-1 * $widthHeight / 2);
+            height: $widthHeight;
+            width: $widthHeight;
+            font-size: $widthHeight * 0.75;
+            line-height: $widthHeight;
+        }
+        .actual {
+            margin: ((-1 * $widthHeight + $paddingTop) / 2) 0 0 (-1 * $widthHeight / 2);
+            height: $widthHeight;
+            width: $widthHeight;
+            line-height: $widthHeight;
+
+            strong {
+                font-size: $widthHeight * 0.275;
+                line-height: $widthHeight * 0.275;
+            }
+        }
+    }
+    &.scoreInactive,
+    &.targetsHidden {
+        .tab-pane {
+            .actual {
+                margin: -1 * $widthHeight / 2;
+            }
+        }
+    }
+    &.scoreInactive {
+        .tab-pane {
+            .actual {
+                strong {
+                    font-size: $widthHeight * 0.42;
+                    line-height: $widthHeight * 0.42;
+                }
+            }
+        }
+    }
+} // /@mixin
+
+// mixin to size the average meters
+@mixin engagement_sizeAvgMeter($widthHeight: $engagement_summary_actualMeterWidthHeight_mobile / 2, $bigMeter: $engagement_summary_actualMeterWidthHeight_mobile) {
+    .tab-pane {
+        .avg {
+            strong {
+                margin-left: -1 * $widthHeight / 2;
+                width: $widthHeight;
+                height: $widthHeight;
+                line-height: $widthHeight;
+                font-size: $widthHeight * 0.275;
+            }
+            .meter {
+                margin-left: -1 * $widthHeight / 2;
+                width: $widthHeight;
+                height: $widthHeight;
+            }
+        }
+    }
+
+    &.mode_user {
+        .tab-pane {
+            .extended {
+                margin-bottom: $bigMeter / 2 - $widthHeight / 2;
+            }
+        }
+
+        &.scoreInactive {
+            .tab-pane {
+                .extended {
+                    margin-bottom: $bigMeter / 2 - $widthHeight * 0.275 * 1.5 / 2;
+                }
+            }
+        }
+    }
+} // /@mixin
+
+// mixin to size the summary and extended regions
+@mixin engagement_sizeSumExt($meterWidthHeight: $engagement_summary_actualMeterWidthHeight_mobileLarge, $padding: $g6ModulePaddingX, $sidebar: 0) {
+    .tab-pane {
+        .summary {
+            min-width: $meterWidthHeight;
+        }
+        .extended {
+            width: calc(99.5% - #{$meterWidthHeight});
+        }
+        @media (min-width: $padding * 2 + $meterWidthHeight / 0.4 + $sidebar) {
+            .extended {
+                width: 59.5%;
+            }
+        } // /@media
+    }
+}
+
+/* ----- GLOBAL APP STYLES ----- */
+/***
+ *     .d8888b.  888      .d88888b.  888888b.         d8888 888
+ *    d88P  Y88b 888     d88P" "Y88b 888  "88b       d88888 888
+ *    888    888 888     888     888 888  .88P      d88P888 888
+ *    888        888     888     888 8888888K.     d88P 888 888
+ *    888  88888 888     888     888 888  "Y88b   d88P  888 888
+ *    888    888 888     888     888 888    888  d88P   888 888
+ *    Y88b  d88P 888     Y88b. .d88P 888   d88P d8888888888 888
+ *     "Y8888P88 88888888 "Y88888P"  8888888P" d88P     888 88888888
+ *
+ *
+ *
+ */
+
+// Note that every module and page and related instance of this app should be namespaced with the appName
+.engagement {
+    // shared styles for the EngagementSummaryCollectionView
+    .engagementSummaryCollectionView {
+        .tabbable {
+            position: relative;
+            padding-bottom: $engagement_summary_tabHeight * 1.5;
+
+            .meter {
+                // arc width
+                letter-spacing: $engagement_summary_actualMeterArcWidth !important;
+                // glow multiplier
+                word-spacing: $engagement_summary_actualMeterArcGlowMult !important;
+                // background arc color
+                border-color: $engagement_summary_actualMeterBackgroundArcColor;
+                // foreground arc color
+                outline-color: $engagement_summary_actualMeterForegroundArcColor;
+                // over 100% color
+                color: $engagement_summary_actualMeterOver100;
+
+                svg {
+                    top: 0 !important;
+                    left: 0 !important;
+                }
+            }
+            .meterAch {
+                @include opacity(0);
+            }
+            .achieved {
+                color: $engagement_summary_actualMeterOver100Text !important;
+                @include transition(color 1s);
+
+                strong {
+                    color: inherit;
+                }
+
+                .meterAch {
+                    @include opacity($engagement_summary_actualMeterOver100Opacity);
+                    @include transition(opacity 1s);
+                }
+            }
+        }
+        .tab-tab {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            height: $engagement_summary_tabHeight;
+            margin: 0 auto;
+            padding: ($engagement_summary_tabHeight / 4 - 1) 0 0 0;
+            list-style: none;
+            max-width: 0.75 * $breakpoint_mobileMini_min;
+            border-top: 1px solid $engagement_summary_tabsDividerBorderColor;
+
+            @media (min-width: $breakpoint_mobileMini_min) {
+                max-width: 0.5 * $breakpoint_tablet_min;
+            } // /@media
+
+            @media (min-width: $breakpoint_tablet_min) {
+                // max-width: 0.5 * $breakpoint_desktop_min;
+            } // /@media
+
+            @media (min-width: $breakpoint_desktop_min) {
+                // max-width: 0.5 * $breakpoint_desktopLarge_min;
+            } // /@media
+
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                // max-width: 33%;
+            } // /@media
+        }
+        .tab {
+            display: inline;
+            float: left;
+            width: 1/6 * 100%;
+            color: $engagement_summary_tabsInactive_iconColorModule;
+            background: transparent !important;
+
+            a {
+                display: block;
+                text-align: center;
+                vertical-align: middle;
+                font-size: 16px;
+                line-height: $engagement_summary_tabHeight; // match height
+                cursor: pointer;
+                @include ignoreGlobalLinkStyles(
+                    $color: $engagement_summary_tabsInactive_iconColorModule $engagement_summary_tabsInactive_iconColorHoverModule
+                );
+
+                i {
+                    font-weight: bold;
+                }
+            }
+
+            .box {
+                display: none;
+            }
+            .meter:not(.meterAch) {
+                @include opacity(0.33);
+            }
+            &.achieved {
+                .meterAch {
+                    @include opacity(0.33 * $engagement_summary_actualMeterOver100Opacity);
+                }
+            }
+
+            &.active {
+                color: $engagement_summary_tabsActive_iconColorModule;
+
+                a {
+                    color: inherit;
+                }
+
+                .meter:not(.meterAch) {
+                    @include opacity(1);
+                }
+                &.achieved {
+                    .meterAch {
+                        @include opacity($engagement_summary_actualMeterOver100Opacity);
+                    }
+                }
+            }
+
+            .title {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+        }
+
+        .tooltip.in {
+            opacity: 1;
+        }
+
+        &.scoreInactive {
+            .tab {
+                width: 20%;
+            }
+        }
+
+        .tab-content {
+            overflow: visible;
+            @include clearfix();
+        }
+
+        .tab-pane {
+            position: relative;
+            @include clearfix();
+
+            .title {
+                margin: 0;
+
+                span {
+                }
+                a {
+                    display: inline-block;
+                    vertical-align: top;
+                    // @include ignoreGlobalLinkStyles();
+                }
+                .showDescription {
+                    font-size: 75%;
+                    color: inherit;
+                    cursor: pointer !important;
+                    width: 15px; // magic number
+                }
+            }
+            .meta {
+                font-size: $fontSizeSmall;
+                line-height: $lineHeightSmall;
+            }
+            .timeframe,
+            .asof {
+                display: inline-block;
+                margin: 0;
+            }
+            .sep {
+                display: none;
+            }
+
+            .summary {
+                position: relative;
+                text-align: center;
+            }
+            .target {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                text-align: left;
+
+                i {
+                    float: left;
+                    margin-left: -1 * 26px / 2; // magic number to fit the icon
+                    margin-right: 4px;
+                    width: 26px; // magic number to fit the icon
+                    height: $baseLineHeight;
+                    font-size: $baseLineHeight * 1.25;
+                    vertical-align: middle;
+                }
+                strong {
+                    display: inline-block;
+                    float: left;
+                    margin-right: 4px;
+                }
+            }
+            .decorator {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                font-weight: $fontWeightBold;
+                color: $engagement_summary_actualDecoratorColor;
+                @include opacity($engagement_summary_actualDecoratorOpacity);
+            }
+            .actual {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                font-weight: $engagement_summary_actualFontWeight;
+                color: $engagement_summary_actualTextColor;
+
+                a {
+                    display: inline-block;
+                    cursor: pointer;
+                    vertical-align: middle;
+                    @include ignoreGlobalLinkStyles();
+                }
+                strong {
+                    position: relative;
+                    z-index: 1;
+                    display: block;
+                    font-family: $engagement_summary_actualFont;
+                    font-weight: inherit;
+                    font-style: $engagement_summary_actualFontStyle;
+
+                    b {
+                        font-weight: inherit;
+                    }
+                }
+                sup {
+                    font-size: 50%;
+                    top: -0.75em;
+                    margin-right: -1ex;
+                }
+                span {
+                    position: relative;
+                    z-index: 1;
+                    display: block;
+                    font-size: $baseFontSize * 1.125;
+                    line-height: $baseLineHeight * 1.125;
+                }
+                .meter {
+                    position: absolute;
+                    z-index: 0;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                }
+            }
+
+            .description {
+                display: none;
+            }
+
+            .extended {
+                display: none;
+                margin-top: 1.5em;
+                text-align: center;
+
+                h5 {
+                    margin-top: 0;
+                }
+            }
+            .avg {
+                position: relative;
+                display: inline-block;
+                width: 48%;
+                margin-bottom: 1.5em;
+
+                span {
+                    display: block;
+                }
+                strong {
+                    position: relative;
+                    z-index: 1;
+                    left: 50%;
+                    display: block;
+                    margin: 0 auto;
+                    font-family: $engagement_summary_actualFont;
+                    font-weight: $engagement_summary_actualFontWeight;
+                    font-style: $engagement_summary_actualFontStyle;
+                    color: $engagement_summary_actualTextColor;
+                    @include transition(color 1s);
+
+                    b {
+                        font-weight: inherit;
+                    }
+                }
+                sup {
+                    font-size: 50%;
+                    top: -0.75em;
+                    margin-right: -1ex;
+                }
+                .meter {
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    // arc width
+                    letter-spacing: $engagement_summary_actualMeterArcWidth / 2 !important;
+                }
+                .achieved {
+                    strong {
+                        color: $engagement_summary_actualMeterOver100Text;
+                    }
+                }
+            }
+
+            .rate {
+                margin-bottom: 1.5em;
+            }
+            .frac {
+                font-size: $fontSizeExtraLarge * 2;
+                line-height: $fontSizeExtraLarge * 2;
+                font-family: $engagement_summary_actualFont;
+                font-weight: $engagement_summary_actualFontWeight;
+                font-style: $engagement_summary_actualFontStyle;
+                color: $engagement_summary_actualTextColor;
+
+                strong {
+                    font-weight: inherit;
+                }
+            }
+        } // /.tab-pane
+
+        &.scoreInactive,
+        &.targetsHidden {
+            .tab-pane {
+                .summary {
+                    padding-top: 0;
+                }
+                .actual {
+                }
+            }
+        }
+        &.scoreInactive {
+            .tab-pane {
+                .tab.score,
+                .tab-pane.score {
+                    display: none;
+                }
+                .actual {
+                    strong {
+                    }
+                }
+                .avg {
+                    strong {
+                        height: auto;
+                        line-height: 1.5em;
+                    }
+                }
+            }
+        }
+        &.targetsHidden {
+            .tab-pane {
+                .target {
+                    margin-top: 100px;
+
+                    strong {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        @include engagement_sizeMeter();
+        @include engagement_sizeAvgMeter();
+
+        &.mode_user {
+            .tab-pane {
+                .extended {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        /***
+         *     a88888b.                           dP oo                                                 oo
+         *    d8'   `88                           88
+         *    88 d8P 88 88d8b.d8b. .d8888b. .d888b88 dP .d8888b.    .d8888b. dP    dP .d8888b. 88d888b. dP .d8888b. .d8888b.
+         *    88 Yo8b88 88'`88'`88 88ooood8 88'  `88 88 88'  `88    88'  `88 88    88 88ooood8 88'  `88 88 88ooood8 Y8ooooo.
+         *    Y8.       88  88  88 88.  ... 88.  .88 88 88.  .88    88.  .88 88.  .88 88.  ... 88       88 88.  ...       88
+         *     Y88888P' dP  dP  dP `88888P' `88888P8 dP `88888P8    `8888P88 `88888P' `88888P' dP       dP `88888P' `88888P'
+         *                                                                88
+         *                                                                dP
+         */
+        @media (min-width: $breakpoint_mobileMini_min) {
+            .tab-pane {
+                .summary {
+                    float: left;
+                    clear: left;
+                    width: 40%;
+                    // background: green;
+                }
+                .extended {
+                    display: block;
+                    float: right;
+                    margin-top: 0;
+                    margin-left: -100%;
+                    // background: red;
+                }
+                // @media (min-width: $g6ModulePaddingX * 2 + $engagement_summary_actualMeterWidthHeight_mobile / 0.4) {
+                //     .extended {
+                //         background: orange;
+                //     }
+                // } // /@media
+            }
+            &.mode_user {
+                .tab-pane {
+                    .extended {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                    }
+                    .avg {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            @include engagement_sizeSumExt($meterWidthHeight: $engagement_summary_actualMeterWidthHeight_mobile, $padding: $g6ModulePaddingX);
+            @include engagement_sizeAvgMeter(
+                 $widthHeight: ($breakpoint_mobileMini_min - 2 * $g6ModulePaddingX - $engagement_summary_actualMeterWidthHeight_mobile - $g6ModulePaddingX) / 2
+            );
+
+            @if $engagement_summary_actualMeterWidthHeight_mobileLarge != $engagement_summary_actualMeterWidthHeight_mobile {
+                @include engagement_sizeSumExt($meterWidthHeight: $engagement_summary_actualMeterWidthHeight_mobileLarge, $padding: $g6ModulePaddingX);
+                @include engagement_sizeAvgMeter(
+                     $widthHeight: min(($breakpoint_mobileMini_min - 2 * $g6ModulePaddingX - $engagement_summary_actualMeterWidthHeight_mobileLarge - $g6ModulePaddingX) / 2, $engagement_summary_actualMeterWidthHeight_mobileLarge / 2),
+                     $bigMeter: $engagement_summary_actualMeterWidthHeight_mobileLarge
+                );
+                @include engagement_sizeMeter($widthHeight: $engagement_summary_actualMeterWidthHeight_mobileLarge)
+            } // /@if
+        } // /@media
+
+        @media (min-width: $breakpoint_tablet_min) {
+            @if $engagement_summary_actualMeterWidthHeight_tablet != $engagement_summary_actualMeterWidthHeight_mobileLarge {
+                @include engagement_sizeSumExt($meterWidthHeight: $engagement_summary_actualMeterWidthHeight_tablet, $padding: $g6ModulePaddingX_tablet);
+                @include engagement_sizeAvgMeter(
+                     $widthHeight: min(($breakpoint_tablet_min - 2 * $g6ModulePaddingX_tablet - $engagement_summary_actualMeterWidthHeight_tablet - $g6ModulePaddingX_tablet) / 2, $engagement_summary_actualMeterWidthHeight_tablet / 2),
+                     $bigMeter: $engagement_summary_actualMeterWidthHeight_tablet
+                );
+                @include engagement_sizeMeter($widthHeight: $engagement_summary_actualMeterWidthHeight_tablet)
+            } // /@if
+        } // /@media
+
+        @media (min-width: $breakpoint_desktop_min) {
+            @if $engagement_summary_actualMeterWidthHeight_desktop != $engagement_summary_actualMeterWidthHeight_tablet {
+                @include engagement_sizeSumExt($meterWidthHeight: $engagement_summary_actualMeterWidthHeight_desktop, $padding: $g6ModulePaddingX_desktop, $sidebar: $global_sidebar_width_desktop);
+                @include engagement_sizeAvgMeter(
+                     $widthHeight: min(($breakpoint_desktop_min - $global_sidebar_width_desktop - $engagement_summary_actualMeterWidthHeight_desktop - 2 * $g6ModulePaddingX_desktop) / 2, $engagement_summary_actualMeterWidthHeight_desktop / 2),
+                     $bigMeter: $engagement_summary_actualMeterWidthHeight_desktop
+                );
+                @include engagement_sizeMeter($widthHeight: $engagement_summary_actualMeterWidthHeight_desktop)
+            } // /@if
+        } // /@media
+
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            // when score IS NOT active, we size normally
+            @if $engagement_summary_actualMeterWidthHeight_desktopLarge != $engagement_summary_actualMeterWidthHeight_desktop {
+                @include engagement_sizeSumExt($meterWidthHeight: $engagement_summary_actualMeterWidthHeight_desktopLarge, $padding: $g6ModulePaddingX_desktopLarge, $sidebar: $global_sidebar_width_desktopLarge);
+                @include engagement_sizeAvgMeter(
+                     $widthHeight: min(($breakpoint_desktopLarge_min - $global_sidebar_width_desktopLarge - $engagement_summary_actualMeterWidthHeight_desktopLarge - 2 * $g6ModulePaddingX_desktopLarge) / 2, $engagement_summary_actualMeterWidthHeight_desktopLarge / 2),
+                     $bigMeter: $engagement_summary_actualMeterWidthHeight_desktopLarge
+                );
+                @include engagement_sizeMeter($widthHeight: $engagement_summary_actualMeterWidthHeight_desktopLarge)
+            } // /@if
+
+            // when score IS active, we move the tabs to the left and size ... strangely
+            $leftTabsWidth : $engagement_summary_actualMeterWidthHeight_desktopLarge * 2 / 3 + $g6ModulePaddingX_desktopLarge;
+
+            &.scoreActive {
+                @include engagement_sizeSumExt(
+                    $meterWidthHeight: $engagement_summary_actualMeterWidthHeight_desktopLarge,
+                    $padding: $g6ModulePaddingX_desktopLarge,
+                    $sidebar: $global_sidebar_width_desktopLarge + $leftTabsWidth
+                );
+                @include engagement_sizeAvgMeter(
+                     $widthHeight: min(($breakpoint_desktopLarge_min - $global_sidebar_width_desktopLarge - $leftTabsWidth - $engagement_summary_actualMeterWidthHeight_desktopLarge - 2 * $g6ModulePaddingX_desktopLarge) / 2, $engagement_summary_actualMeterWidthHeight_desktopLarge / 2),
+                     $bigMeter: $engagement_summary_actualMeterWidthHeight_desktopLarge
+                );
+
+                @if $engagement_summary_actualMeterWidthHeight_desktopLarge != $engagement_summary_actualMeterWidthHeight_desktop {
+                    @include engagement_sizeMeter($widthHeight: $engagement_summary_actualMeterWidthHeight_desktopLarge)
+                } // /@if
+            }
+
+            .container &.scoreActive {
+                .tabbable {
+                    padding-bottom: 0;
+                    padding-left: $leftTabsWidth;
+
+                    .tab-tab {
+                        top: 0;
+                        right: auto;
+                        width: $engagement_summary_actualMeterWidthHeight_desktopLarge * 2 / 3;
+                        height: 100%;
+                        // background: orange;
+
+                        padding-top: 0;
+                        padding-right: $g6ModulePaddingX_desktopLarge / 2 - 1px;
+                        border-top: 0;
+                        border-right: 1px solid $engagement_summary_tabsDividerBorderColor;
+                    }
+                    .tab {
+                        // we know the .title and the .meta and the .summary padding-top account for some additional space on top of the meter height so we can add all that together
+                        //                           (.title font-size    * 1.5 line-height) + (.meta line-height) + (p margin-bottom)   + (.summary padding-top) + (meter height)
+                        $approxOuterContainerHeight: $baseFontSize * 1.25 * 1.5              + $lineHeightSmall    + $baseLineHeight / 2 + $baseLineHeight        + $engagement_summary_actualMeterWidthHeight_desktopLarge;
+                        $engagement_summary_tabHeight: $engagement_summary_actualMeterWidthHeight_desktopLarge / 3;
+
+                        position: relative;
+                        margin-top: ($approxOuterContainerHeight / 3 - $engagement_summary_tabHeight) / 2;
+                        margin-bottom: ($approxOuterContainerHeight / 3 - $engagement_summary_tabHeight) / 2;
+                        width: 50%;
+                        height: $engagement_summary_tabHeight;
+
+                        a {
+                            position: relative;
+                            z-index: 1;
+                            font-size: $engagement_summary_tabHeight / 4;
+                            line-height: $engagement_summary_tabHeight;
+                        }
+
+                        .box {
+                            display: block;
+                        }
+                        .meter {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            // arc width
+                            letter-spacing: $engagement_summary_actualMeterArcWidth / 2 !important;
+                        }
+                        &.achieved {
+                            a {
+                                color: $engagement_summary_actualMeterOver100Text;
+                                @include opacity(0.5);
+                            }
+                            &:hover,
+                            &.active {
+                                a {
+                                    @include opacity(1);
+                                }
+                            }
+                        }
+                    }
+                }
+            } // /.container &
+        } // /@media
+    }
+
+    // shared styles for the EngagementDetailView
+    .engagementDetailView {
+        @if $engagement_detail_chartColors {
+            &:before {
+                content: "#{$engagement_detail_chartColors}";
+                display: none;
+            }
+        }
+
+        .chartContainer {
+            height: 320px;
+        }
+
+        .subhead {
+            margin-top: 0;
+            margin-bottom: 1em;
+
+            &.withHelp {
+                text-align: right;
+
+                span {
+                    float: left;
+                }
+            }
+
+            .byPromoHelp {
+                display: inline-block;
+                cursor: pointer;
+                font-family: $bodyFont;
+                font-size: $baseFontSize;
+            }
+        }
+
+        .table {
+            .title i {
+                display: none;
+            }
+        }
+
+        // score
+        &.type-score {
+            .table {
+                .title {
+                    width: 50%;
+                    border-left: 0;
+
+                    i {
+                        color: $engagement_detail_scoreTable_iconColor;
+                        display: block;
+                        float: left;
+                        width: 48px; // magic number
+                        margin-left: -48px; // magic number
+                        height: $baseLineHeight;
+                        line-height: $baseLineHeight;
+                        text-align: center;
+                    }
+
+                    .helpText {
+                        display: block;
+                        margin-top: 2px;
+                        margin-bottom: -4px; // half the typical cell padding
+                        font-size: 75%;
+                        color: $engagement_detail_scoreTable_iconColor;
+                    }
+                }
+                td.title {
+                    padding-left: 48px; // magic number
+                }
+            }
+
+            @if $engagement_detail_aheadTextColor {
+                .ahead .actual,
+                .ahead .diff {
+                    color: $engagement_detail_aheadTextColor;
+                }
+            }
+            @if $engagement_detail_ontrackTextColor {
+                .ontrack .actual,
+                .ontrack .diff {
+                    color: $engagement_detail_ontrackTextColor;
+                }
+            }
+            @if $engagement_detail_behindTextColor {
+                .behind .actual,
+                .behind .diff {
+                    color: $engagement_detail_behindTextColor;
+                }
+            }
+        }
+
+        // recognitions
+        .byPromo {}
+        .byPromo ~ .byBehavior {
+            .wrapper {
+                height: 320px;
+            }
+        }
+        .byBehavior {
+            .wrapper {
+                max-height: 320px;
+                overflow-y: auto;
+
+                @media (max-width: 767px) {
+                    height: auto;
+                }
+            }
+            .behavior {
+                padding-left: 60px;
+                padding-right: 60px;
+            }
+            .name {
+                font-size: $baseFontSize;
+                line-height: $baseLineHeight;
+                margin: 0 0 (48px - $baseLineHeight - $baseLineHeight)/2 0;
+            }
+            .icon {
+                display: inline;
+                float: left;
+                margin-left: -60px;
+                width: 48px;
+                height: 48px;
+            }
+            .progress {
+                background: none;
+                @include box-shadow(none);
+                overflow: visible;
+            }
+            .bar {
+                position: relative;
+                // overriding a couple text futzing rules in _progress-bars.scss
+                margin-left: 0;
+                padding-right: 0;
+                filter: none;
+            }
+            .count {
+                position: absolute;
+                left: 100%;
+                top: 0;
+                color: $engagement_detail_countTextColor;
+            }
+        }
+
+        // team
+        .topper {
+            text-align: right;
+            overflow: auto;
+
+            .subhead {
+                float: left;
+            }
+
+            .detailUrl {
+                display: inline;
+                float: right;
+            }
+        }
+
+        // visits
+        &.type-visits {
+            .table {
+                .d {
+                    border-left: 0;
+                }
+                th.d {
+                }
+            }
+        }
+    }
+
+    // shared styles for the EngagementTeamMembersCollectionView
+    .engagementTeamMembersView {
+        border-top: $engagement_teamMembers_topBorder;
+        margin-top: $g6PagePaddingY / 2;
+
+        @media (min-width: $breakpoint_tablet_min) {
+            margin-top: $g6PagePaddingY_tablet / 2;
+        } // /@media
+        @media (min-width: $breakpoint_desktop_min) {
+            margin-top: $g6PagePaddingY_desktop / 2;
+        } // /@media
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            margin-top: $g6PagePaddingY_desktopLarge / 2;
+        } // /@media
+
+        .actual,
+        .target,
+        .diff {
+            width: 20%;
+            display: none;
+        }
+        &.type-score .score,
+        &.type-recSent .recSent,
+        &.type-recRecv .recRecv,
+        &.type-paxRecTo .paxRecTo,
+        &.type-paxRecBy .paxRecBy,
+        &.type-visits .visits {
+            display: table-cell;
+        }
+
+        .asc .icon-sort-down,
+        .desc .icon-sort-up {
+            display: none;
+        }
+
+        td.member {
+            vertical-align: middle;
+            position: relative;
+            padding-left: 64px;
+            height: 48px;
+            line-height: 48px;
+        }
+        .user-model td.member {
+            padding-left: 84px;
+
+            .icon-arrow-1-right {
+                float: left;
+                margin-left: -72px;
+                line-height: 48px;
+            }
+        }
+
+        .avatarwrap, .avatar {
+            float: left;
+            margin-right: 8px;
+            margin-left: -48px;
+            width: 48px;
+            height: 48px;
+        }
+        @include avatarSizing(48px);
+
+        td.number {
+            vertical-align: middle;
+        }
+
+        .nodeName {
+            font-weight: bold;
+        }
+        .nodeAndOwner {
+            display: inline-block;
+            line-height: normal;
+            vertical-align: middle;
+
+            .nodeName {
+                display: inline-block;
+            }
+            .owner {
+                display: block;
+            }
+        }
+
+        .ahead { color: $engagement_detail_aheadTextColor; }
+        .ontrack { color: $engagement_detail_ontrackTextColor; }
+        .behind { color: $engagement_detail_behindTextColor; }
+
+        .score.actual {
+            position: relative;
+            width: 48px;
+            text-align: center;
+            white-space: nowrap;
+
+            strong {
+                line-height: 48px;
+            }
+        }
+        .meter {
+            position: absolute;
+            top: 50%;
+            right: 50%;
+            display: block;
+            margin: -30px -30px 0 0;
+            width: 60px;
+            height: 60px;
+            // bgArcColor
+            border-color: transparentize($engagement_summary_actualMeterBackgroundArcColor, 0.67);
+            // fgArcColor
+            outline-color: transparentize($engagement_summary_actualMeterForegroundArcColor, 0.50);
+            // ovArcColor
+            color: $engagement_summary_actualMeterOver100;
+        }
+        .meterAch {
+            @include opacity(0);
+
+            .lt-ie9 & {
+                display: none;
+            }
+        }
+        .achieved {
+            strong {
+                @include transition(color 1s);
+                color: $engagement_summary_actualMeterOver100Text !important;
+                position: relative;
+                z-index: 1;
+            }
+
+            .meterAch {
+                @include opacity(1);
+                @include transition(opacity 1s);
+
+                .lt-ie9 & {
+                    display: block;
+                }
+            }
+        }
+
+        .engagementTeamMembersCollectionView {
+            margin-top: $g6PagePaddingY / 2;
+        }
+        .engagementTeamMembersCollectionView ~ .engagementTeamMembersCollectionView {
+            padding-top: $g6PagePaddingY / 4;
+            border-top: $engagement_teamMembers_dividerBorder;
+        }
+
+        @media (min-width: $breakpoint_tablet_min) {
+            .engagementTeamMembersCollectionView {
+                margin-top: $g6PagePaddingY_tablet / 2;
+            }
+            .engagementTeamMembersCollectionView ~ .engagementTeamMembersCollectionView {
+                padding-top: $g6PagePaddingY_tablet / 4;
+            }
+        } // /@media
+        @media (min-width: $breakpoint_desktop_min) {
+            .engagementTeamMembersCollectionView {
+                margin-top: $g6PagePaddingY_desktop / 2;
+            }
+            .engagementTeamMembersCollectionView ~ .engagementTeamMembersCollectionView {
+                padding-top: $g6PagePaddingY_desktop / 4;
+            }
+        } // /@media
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            .engagementTeamMembersCollectionView {
+                margin-top: $g6PagePaddingY_desktopLarge / 2;
+            }
+            .engagementTeamMembersCollectionView ~ .engagementTeamMembersCollectionView {
+                padding-top: $g6PagePaddingY_desktopLarge / 4;
+            }
+        } // /@media
+    }
+
+    // shared styles for the PublicRecognitionsView
+    .engagementRecognitionsView {
+        margin-top: $baseLineHeight;
+        padding-top: $baseLineHeight;
+        border-top: $engagement_pubRec_topBorder;
+        overflow: visible;
+
+        .pubRecItemsCont {
+            margin: 0 (-1 * $g6PagePaddingX) (-1 * $g6PagePaddingY);
+            padding-bottom: $g6PagePaddingX;
+
+            @media (min-width: $breakpoint_tablet_min) {
+                margin: 0 (-1 * $g6PagePaddingX_tablet) (-1 * $g6PagePaddingY_tablet);
+                padding-bottom: $g6PagePaddingX_tablet;
+            }
+            @media (min-width: $breakpoint_desktop_min) {
+                margin: 0 (-1 * $g6PagePaddingX_desktop) (-1 * $g6PagePaddingY_desktop);
+                padding-bottom: $g6PagePaddingX_desktop;
+            }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                margin: 0 (-1 * $g6PagePaddingX_desktopLarge) (-1 * $g6PagePaddingY_desktopLarge);
+                padding-bottom: $g6PagePaddingX_desktopLarge;
+            }
+        }
+    }
+
+    // shared styles for the EngagementRecognizedModelView
+    &.engagementPageRecognized {
+        .subhead {
+            margin-top: 0;
+        }
+    }
+    .engagementRecognizedModelView {
+        $avatarWH: 72px;
+
+        @include clearfix();
+
+        .tree {
+            position: relative;
+        }
+
+        .root {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: $avatarWH + ($engagement_detail_treeBranchLineWidth * 2);
+            text-align: center;
+            color: $engagement_detail_treeRootFontColor;
+            border-top: $engagement_detail_treeBranchLineWidth solid $engagement_detail_treeBranchLineColor;
+
+
+            .avatarwrap {
+                position: relative;
+                top: -1 * $avatarWH / 2; // pulls the avatar up over the border
+                margin-bottom: -1 * $avatarWH / 2; // pulls the name up to the bottom of the avatar
+                border: $engagement_detail_treeBranchLineWidth solid $engagement_detail_treeBranchLineColor;
+                font-weight: $fontWeightBold;
+            }
+            @include avatarSizing($avatarWH);
+            .name {
+            }
+
+            i {
+                font-weight: $fontWeightBold;
+                display: none;
+                font-size: 2em;
+                color: $engagement_detail_treeBranchLineColor;
+            }
+        }
+
+        .nodes {
+            position: relative;
+            margin-top: $avatarWH / 2; // pushes the border down to the halfway point of the avatar
+            margin-bottom: 0;
+            padding-bottom: $engagement_detail_treeBranchLineWidth;
+            border-left: $engagement_detail_treeBranchLineWidth solid $engagement_detail_treeBranchLineColor;
+        }
+        .node {
+            margin-bottom: $avatarWH / 4;
+            border-top: $engagement_detail_treeBranchLineWidth solid $engagement_detail_treeBranchLineColor;
+
+            &.last {
+                display: inline;
+                float: left;
+                margin-bottom: -1 * ($avatarWH / 2);
+                width: 100%;
+            }
+        }
+        .nodewrap {
+            position: relative;
+            top: -1 * $avatarWH / 2;
+            background: $engagement_detail_treeBranchBg;
+            color: $engagement_detail_treeBranchFontColor;
+            border-top: 0px solid $engagement_detail_treeBranchLineColor;
+            border-left: $engagement_detail_treeBranchLineWidth solid $engagement_detail_treeBranchLineColor;
+            @include border-radius(0 ($g6PagePaddingX_tablet / 4) ($g6PagePaddingX_tablet / 4) 0);
+
+            > .name {
+            }
+        }
+
+        .members {
+            overflow: visible;
+            clear: both;
+            @include clearfix();
+        }
+        .member {
+            position: relative;
+            display: inline;
+            float: left;
+            width: $avatarWH /* * 3 / 4 */;
+            text-align: center;
+
+            a {
+                display: block;
+                @include ignoreGlobalLinkStyles();
+            }
+
+            .name {
+                font-size: $baseFontSize * 3 / 4;
+                line-height: $baseLineHeight;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            @include avatarSizing($avatarWH);
+            .avatarwrap {
+                font-weight: $fontWeightBold;
+            }
+
+            .count {
+                position: relative;
+                top: -1 * ($baseLineHeight + 3px);
+                padding: 0 6px;
+                min-width: $baseLineHeight - 8px; // right/left padding
+                text-decoration: none;
+                @include border-radius($baseLineHeight / 2);
+                text-align: center;
+                font-weight: bold;
+                color: $engagement_detail_treeCountFontColor;
+                @include safeBkgs($engagement_detail_treeCountBg);
+
+                & + .name {
+                    margin-top: -1 * $baseLineHeight;
+                }
+            }
+        }
+
+        .name {
+            display: block;
+        }
+
+        .hasMore {
+            position: absolute;
+            top: 100%;
+            right: 100%;
+            padding-top: $baseLineHeight * 4;
+            border-right: $engagement_detail_treeBranchLineWidth dashed $engagement_detail_treeBranchLineColor;
+
+            .showMore {
+                position: absolute;
+                top: 100%;
+                left: auto;
+                right: 0;
+                text-align: right;
+                color: $engagement_detail_treeShowMoreFontColor;
+            }
+        }
+
+        .spin.showMore {
+            clear: both;
+            margin-bottom: -1 * $baseLineHeight;
+            padding-top: $baseLineHeight;
+        }
+        // &.type_paxRecTo{
+        //     .tree{
+        //         margin-top: 30px;
+        //     }
+        // }
+        &.type_paxRecBy {
+
+            .tree {
+                padding-left: 0;
+            }
+
+            .root {
+                left: auto;
+                right: 0;
+                padding-right: 0;
+
+                .avatar {
+                }
+
+                i {
+                }
+            }
+            .nodes {
+                padding-left: 0;
+                border-left: 0;
+                border-right: $engagement_detail_treeBranchLineWidth solid $engagement_detail_treeBranchLineColor;
+            }
+            .node {
+                margin-left: 0;
+                padding-left: 0;
+            }
+            .nodewrap {
+                border-left: 0;
+                border-right: $engagement_detail_treeBranchLineWidth solid $engagement_detail_treeBranchLineColor;
+            }
+            .count {
+            }
+            .hasMore {
+                right: auto;
+                left: 100%;
+                padding-right: 0;
+                border-right: 0;
+                border-left: $engagement_detail_treeBranchLineWidth dashed $engagement_detail_treeBranchLineColor;
+
+                .showMore {
+                    right: auto;
+                    left: 0;
+                    margin-right: 0;
+                    text-align: left;
+                }
+            }
+        }
+
+        // tablet by default because the mobile version lays out differently
+        @mixin engagement_sizeTree(
+            $paddingY: $g6PagePaddingY_tablet,
+            $paddingX: $g6PagePaddingX_tablet,
+            $avWH:     $avatarWH,
+            $branchW:  $engagement_detail_treeBranchLineWidth
+        ) {
+            .tree {
+                padding-left: $avWH + ($branchW * 2) + $paddingX / 2;
+            }
+
+            .root {
+                padding-right: $paddingX / 2; // makes the border stick out to the right of the avatar
+            }
+
+            .nodes {
+                padding-left: $paddingX / 2;
+            }
+            .node {
+                margin-left: -1 * $paddingX / 2;
+                padding-left: $paddingX / 2;
+            }
+            .nodewrap {
+                padding: ($paddingY / 2) ($paddingX / 2 - $paddingX / 4) 0 ($paddingX / 2 - $paddingX / 4);
+
+                > .name {
+                    margin: 0;
+                    padding: 0 0 ($paddingX / 4) ($paddingX / 4);
+                }
+            }
+
+            .member {
+                margin: 0 ($paddingX / 4) ($paddingY / 2);
+            }
+
+            .hasMore {
+                padding-right: $avWH + ($paddingX / 2);
+
+                .showMore {
+                    margin-right: -1 * ($paddingX / 2) / 2;
+                }
+            }
+
+            &.type_paxRecBy {
+                .tree {
+                    padding-right: $avWH + ($branchW * 2) + ($paddingX / 2);
+                }
+
+                .root {
+                    padding-left: ($paddingX / 2); // makes the border stick out to the left of the avatar
+                }
+                .nodes {
+                    padding-right: ($paddingX / 2);
+                }
+                .node {
+                    margin-right: -1 * ($paddingX / 2);
+                    padding-right: ($paddingX / 2);
+                }
+                .nodewrap {
+                    @include border-radius(($paddingX / 4) 0 0 ($paddingX / 4));
+                }
+
+                .hasMore {
+                    padding-left: $avWH + ($paddingX / 2);
+
+                    .showMore {
+                        margin-left: -1 * ($paddingX / 2) / 2;
+                    }
+                }
+            }
+        } // /@mixin engagement_sizeTree
+
+
+        @include engagement_sizeTree();
+
+        // tablet by default because the mobile version lays out differently
+        @media (min-width: $breakpoint_tablet_min) {
+        } // /@media
+
+        @media (min-width: $breakpoint_desktop_min) {
+            @if $g6PagePaddingX_desktop != $g6PagePaddingX_tablet {
+                @include engagement_sizeTree(
+                    $paddingY: $g6PagePaddingY_desktop,
+                    $paddingX: $g6PagePaddingX_desktop,
+                    $avWH:     $avatarWH,
+                    $branchW:  $engagement_detail_treeBranchLineWidth
+                );
+            } // /@if
+        } // /@media
+
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if $g6PagePaddingX_desktopLarge != $g6PagePaddingX_desktop {
+                @include engagement_sizeTree(
+                    $paddingY: $g6PagePaddingY_desktopLarge,
+                    $paddingX: $g6PagePaddingX_desktopLarge,
+                    $avWH:     $avatarWH,
+                    $branchW:  $engagement_detail_treeBranchLineWidth
+                );
+            } // /@if
+        } // /@media
+
+        // use the max-width to do mobile sizes because it's so different from normal
+        @media (max-width: $breakpoint_mobile_max) {
+            padding-top: $avatarWH / 2;
+
+            .tree {
+                padding-left: 0;
+                padding-right: 0 !important;
+            }
+            .root {
+                position: static;
+                padding-right: 0;
+                padding-left: 0 !important;
+                margin: 0 auto ($g6PagePaddingY / 4);
+                border: none !important;
+
+                .avatar {
+                    top: 0;
+                    margin-bottom: 0;
+                }
+
+                .name {
+                    margin-bottom: ($g6PagePaddingY / 4);
+                }
+
+                i.paxRecTo {
+                    display: inline-block;
+                }
+            }
+            .nodes {
+                padding-left: 0;
+                padding-right: 0 !important;
+                margin-top: 0;
+                border: none !important;
+            }
+            .node {
+                margin-left: 0 !important;
+                margin-bottom: ($g6PagePaddingY / 2) !important;
+                margin-right: 0 !important;
+                padding-left: 0;
+                padding-right: 0 !important;
+                border: none !important;
+
+                &.last {
+                    float: none;
+                    display: block;
+                    margin-bottom: 0 !important;
+                }
+            }
+            .nodewrap {
+                top: 0;
+                padding: ($g6PagePaddingY / 2) ($g6PagePaddingX / 2) 0 ($g6PagePaddingX / 2) !important;
+                text-align: center;
+                border-width: 0 !important;
+                border-top-width: 2px !important;
+                @include border-radius(0 0 ($g6PagePaddingX / 2) ($g6PagePaddingX / 2) !important);
+
+                > .name {
+                    margin: 0 !important;
+                    padding: 0 ($g6PagePaddingX / 2) ($g6PagePaddingY / 2) ($g6PagePaddingX / 2) !important;
+                }
+            }
+            .member {
+                float: none;
+                display: inline-block;
+                margin: 0 ($g6PagePaddingX / 2) ($g6PagePaddingY / 2) !important;
+            }
+
+            .hasMore {
+                position: static;
+                margin-top: $baseLineHeight;
+                padding: 0 !important;
+                text-align: center;
+                border: 0 !important;
+                border-top: $engagement_detail_treeBranchLineWidth dashed $engagement_detail_treeBranchLineColor !important;
+
+                .showMore {
+                    position: static;
+                    margin: 0;
+                }
+            }
+
+            &.type_paxRecBy {
+                .root {
+                    i.paxRecTo {
+                        display: none;
+                    }
+                    i.paxRecBy {
+                        display: inline-block;
+                    }
+                }
+                .hasMore {
+                }
+            }
+        }
+    }
+} /* /.engagement */
+
+/* ----- MODULE STYLES ----- */
+/***
+ *    888b     d888  .d88888b.  8888888b.  888     888 888      8888888888
+ *    8888b   d8888 d88P" "Y88b 888  "Y88b 888     888 888      888
+ *    88888b.d88888 888     888 888    888 888     888 888      888
+ *    888Y88888P888 888     888 888    888 888     888 888      8888888
+ *    888 Y888P 888 888     888 888    888 888     888 888      888
+ *    888  Y8P  888 888     888 888    888 888     888 888      888
+ *    888   "   888 Y88b. .d88P 888  .d88P Y88b. .d88P 888      888
+ *    888       888  "Y88888P"  8888888P"   "Y88888P"  88888888 8888888888
+ *
+ *
+ *
+ */
+.launchModule.engagement {
+    .engagementSummaryCollectionView {
+        .tab-pane {
+            .extended {
+                display: block;
+            }
+        }
+    }
+} /* /.launchModule.engagement */
+
+/* ----- MODULE STYLES ----- */
+/***
+ *     .d8888b. 8888888 8888888b.  8888888888 888888b.         d8888 8888888b.  888b     d888  .d88888b.  8888888b.  888     888 888      8888888888
+ *    d88P  Y88b  888   888  "Y88b 888        888  "88b       d88888 888   Y88b 8888b   d8888 d88P" "Y88b 888  "Y88b 888     888 888      888
+ *    Y88b.       888   888    888 888        888  .88P      d88P888 888    888 88888b.d88888 888     888 888    888 888     888 888      888
+ *     "Y888b.    888   888    888 8888888    8888888K.     d88P 888 888   d88P 888Y88888P888 888     888 888    888 888     888 888      8888888
+ *        "Y88b.  888   888    888 888        888  "Y88b   d88P  888 8888888P"  888 Y888P 888 888     888 888    888 888     888 888      888
+ *          "888  888   888    888 888        888    888  d88P   888 888 T88b   888  Y8P  888 888     888 888    888 888     888 888      888
+ *    Y88b  d88P  888   888  .d88P 888        888   d88P d8888888888 888  T88b  888   "   888 Y88b. .d88P 888  .d88P Y88b. .d88P 888      888
+ *     "Y8888P" 8888888 8888888P"  8888888888 8888888P" d88P     888 888   T88b 888       888  "Y88888P"  8888888P"   "Y88888P"  88888888 8888888888
+ *
+ *
+ *
+ */
+.sidebarModule.engagement {
+    $engagement_sidebarModule_height: 198px;
+
+    .engagementSummaryCollectionView {
+        .tabbable {
+            padding-bottom: $engagement_summary_tabHeight;
+            margin-bottom: $globalSidebar_vertMargin;
+        }
+        .tab-content {
+            overflow: visible;
+            @include clearfix();
+        }
+        .tab-tab {
+            padding-top: 0;
+            border-top: 0;
+        }
+        .tab-pane {
+            .title {
+                font-size: $fontSizeLarge;
+                line-height: $lineHeightLarge;
+                // font-weight: $fontWeightNormal;
+
+                a {
+                    // cursor: pointer;
+                    // font-weight: $fontWeightNormal !important;
+
+                    &.titleLink {
+                        white-space: nowrap;
+                        overflow-x: hidden;
+                        text-overflow: ellipsis;
+                        // mobile devices will almost certainly not overflow, so I'm not setting a max-width by default
+
+                        @media (min-width: $breakpoint_tablet_min) {
+                            max-width: $global_sidebar_width_tablet - $globalSidebar_outerPadding * 2 - 20px; // 20px = .showDescription magic number width + a little extra
+                        }
+                        @media (min-width: $breakpoint_desktop_min) {
+                            max-width: $global_sidebar_width_desktop - $globalSidebar_outerPadding * 2 - 20px; // 20px = .showDescription magic number width + a little extra
+                        }
+                    }
+                }
+            }
+            .title,
+            .meta,
+            .summary,
+            .extended {
+                width: 100%;
+            }
+            .meta {
+            }
+            .summary {
+                height: $engagement_sidebarModule_height;
+                min-width: 0;
+            }
+            .target {
+                margin-top: -1 * ($engagement_sidebarModule_height / 2 + $baseLineHeight / 2);
+            }
+            .decorator {
+                height: $engagement_sidebarModule_height;
+                width: $global_sidebar_width_tablet - $globalSidebar_outerPadding * 2;
+                margin: (-1 * $engagement_sidebarModule_height / 2) 0 0 (-1 * $engagement_sidebarModule_height / 2);
+                font-size: $engagement_sidebarModule_height * 0.75;
+                line-height: $engagement_sidebarModule_height;
+            }
+            .actual {
+                top: 0;
+                width: $global_sidebar_width_tablet - $globalSidebar_outerPadding * 2;
+                height: $engagement_sidebarModule_height;
+                margin-top: $baseLineHeight;
+                margin-left: -1 * ($global_sidebar_width_tablet / 2 - $globalSidebar_outerPadding);
+                line-height: $engagement_sidebarModule_height;
+
+                a {
+                    font-weight: normal !important;
+                }
+                strong {
+                    font-size: $engagement_sidebarModule_height * 0.275;
+                    line-height: $engagement_sidebarModule_height * 0.275;
+                }
+                span {
+                }
+            }
+
+            .extended {
+                display: none;
+            }
+        }
+
+        &.scoreInactive,
+        &.targetsHidden {
+            .tab-pane {
+                .actual {
+                    margin-top: 0;
+                }
+            }
+        }
+        &.scoreInactive {
+            .actual {
+                strong {
+                    font-size: $engagement_sidebarModule_height * 0.42;
+                    line-height: $engagement_sidebarModule_height * 0.42;
+                }
+            }
+        }
+        &.targetsHidden {
+            .tab-pane {
+                .target {
+                    left: 10%;
+                    right: 10%;
+                    text-align: center;
+                    margin-top: 80px;
+
+                    strong {
+                        float: none;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+} /* /.sidebarModule.engagement */
+
+/* ----- PAGE STYLES ----- */
+/***
+ *    8888888b.     d8888  .d8888b.  8888888888
+ *    888   Y88b   d88888 d88P  Y88b 888
+ *    888    888  d88P888 888    888 888
+ *    888   d88P d88P 888 888        8888888
+ *    8888888P" d88P  888 888  88888 888
+ *    888      d88P   888 888    888 888
+ *    888     d8888888888 Y88b  d88P 888
+ *    888    d88P     888  "Y8888P88 8888888888
+ *
+ *
+ *
+ */
+.page.engagement {
+    .engagementModelView {
+        position: relative;
+    }
+    #errors.alert-error{
+        ul{
+            margin-bottom: 0;
+        }
+        .close{
+            right:6px;
+            opacity: 1;
+            top:-3px;
+            .icon-close{
+                font-weight: $fontWeightExBold;
+                font-size: $fontSizeLarge;
+            }
+        }
+    }
+    .spin {
+        display: block;
+        margin: 0 auto;
+        width: $spinner_widthHeight;
+        height: $spinner_widthHeight;
+    }
+    .spincover {
+        position: absolute;
+        top: -1 * $g6PagePaddingY;
+        right: -1 * $g6PagePaddingX;
+        bottom: -1 * $g6PagePaddingY;
+        left: -1 * $g6PagePaddingX;
+        z-index: 10000;
+        @include safeBkgs(rgba(255, 255, 255, .5));
+
+        @media (min-width: $breakpoint_tablet_min) {
+            @if $g6PagePaddingY_tablet != $g6PagePaddingY or $g6PagePaddingX_tablet != $g6PagePaddingX {
+                top: -1 * $g6PagePaddingY_tablet;
+                right: -1 * $g6PagePaddingX_tablet;
+                bottom: -1 * $g6PagePaddingY_tablet;
+                left: -1 * $g6PagePaddingX_tablet;
+            }
+        }
+        @media (min-width: $breakpoint_desktop_min) {
+            @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet or $g6PagePaddingX_desktop != $g6PagePaddingX_tablet {
+                top: -1 * $g6PagePaddingY_desktop;
+                right: -1 * $g6PagePaddingX_desktop;
+                bottom: -1 * $g6PagePaddingY_desktop;
+                left: -1 * $g6PagePaddingX_desktop;
+            }
+        }
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop or $g6PagePaddingX_desktopLarge != $g6PagePaddingX_desktop {
+                top: -1 * $g6PagePaddingY_desktopLarge;
+                right: -1 * $g6PagePaddingX_desktopLarge;
+                bottom: -1 * $g6PagePaddingY_desktopLarge;
+                left: -1 * $g6PagePaddingX_desktopLarge;
+            }
+        }
+
+        .spin {
+            margin-top: 25%;
+        }
+    }
+    &.engagementPageUserDashboard .spincover {
+        top: -1 * $g6PagePaddingY / 2;
+
+        @media (min-width: $breakpoint_tablet_min) {
+            @if $g6PagePaddingY_tablet != $g6PagePaddingY or $g6PagePaddingX_tablet != $g6PagePaddingX {
+                top: -1 * $g6PagePaddingY_tablet / 2;
+            }
+        }
+        @media (min-width: $breakpoint_desktop_min) {
+            @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet or $g6PagePaddingX_desktop != $g6PagePaddingX_tablet {
+                top: -1 * $g6PagePaddingY_desktop / 2;
+            }
+        }
+        @media (min-width: $breakpoint_desktopLarge_min) {
+            @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop or $g6PagePaddingX_desktopLarge != $g6PagePaddingX_desktop {
+                top: -1 * $g6PagePaddingY_desktopLarge / 2;
+            }
+        }
+    }
+
+    .timeframe {
+        margin-bottom: $baseLineHeight;
+
+        .controls {
+            display: inline-block;
+            margin-right: $baseLineHeight;
+            margin-bottom: 0;
+            line-height: $baseLineHeight * 1.5; // make this the same height as the buttons to the right
+
+            a {
+                @include ignoreGlobalLinkStyles(
+                    $color: false,
+                    $fontWeight: false,
+                    $fontStyle: false,
+                    $textDecoration: false,
+                    $textTransform: false
+                );
+            }
+        }
+
+        @media (max-width: $breakpoint_mobile_max) {
+            text-align: center;
+
+            .controls {
+                display: block;
+                margin-right: 0;
+            }
+            .timeframeToggle {
+                .btn {
+                    display: inline-block;
+                    width: auto;
+                    padding: 4px 12px; // lifted from bootstrap/_buttons.scss
+
+                    & + .btn {
+                        margin-top: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    #nodeSelect {
+        width: auto;
+    }
+
+    .breadcrumbs {
+        font-weight: $fontWeightNormal;
+        // font-size: 1.5em;
+        // line-height: $baseLineHeight * 2; // copied from bootstrap/_type.scss/h2
+
+        a {
+            @include ignoreGlobalLinkStyles(
+                $color: false,
+                $textDecoration: false,
+                $bgColor: false,
+                $border: false
+            );
+        }
+
+        .active {
+            font-weight: $fontWeightBold;
+        }
+    }
+
+    .export-tools {
+        position: absolute;
+        top: -54px - 27px; // magic number to match the h2 + bottom margin
+        right: 0;
+        line-height: 54px; // magic number to match the h2
+
+        .print {
+            font-size: 1.5em;
+
+            a {
+                color: inherit;
+            }
+        }
+    }
+
+    .titleLink {
+        // when on the page, clicking this doesn't "do anything"
+        cursor: default;
+    }
+
+    &.engagementPageUserDashboard {
+        h3.title {
+            position: absolute;
+            margin: 0;
+            height: 0;
+            overflow: hidden;
+        }
+    }
+
+    .engagementSummaryCollectionView {
+        background: $engagement_summary_bgColor;
+
+        .tab-pane {
+            .extended {
+                display: block;
+            }
+        }
+    }
+
+    /***
+     *     a88888b.                           dP oo                                                 oo
+     *    d8'   `88                           88
+     *    88 d8P 88 88d8b.d8b. .d8888b. .d888b88 dP .d8888b.    .d8888b. dP    dP .d8888b. 88d888b. dP .d8888b. .d8888b.
+     *    88 Yo8b88 88'`88'`88 88ooood8 88'  `88 88 88'  `88    88'  `88 88    88 88ooood8 88'  `88 88 88ooood8 Y8ooooo.
+     *    Y8.       88  88  88 88.  ... 88.  .88 88 88.  .88    88.  .88 88.  .88 88.  ... 88       88 88.  ...       88
+     *     Y88888P' dP  dP  dP `88888P' `88888P8 dP `88888P8    `8888P88 `88888P' `88888P' dP       dP `88888P' `88888P'
+     *                                                                88
+     *                                                                dP
+     */
+    @media (min-width: $breakpoint_mobileMini_min) {
+    } // /@media
+
+    @media (min-width: $breakpoint_tablet_min) {
+    } // /@media
+
+    @media (min-width: $breakpoint_desktop_min) {
+    } // /@media
+
+    @media (min-width: $breakpoint_desktopLarge_min) {
+    } // /@media
+}
+
+/* ----- ORPHANED ELEMENT STYLES ----- */
+/***
+ *     .d88888b.  8888888b.  8888888b.  888    888        d8888 888b    888  .d8888b.
+ *    d88P" "Y88b 888   Y88b 888   Y88b 888    888       d88888 8888b   888 d88P  Y88b
+ *    888     888 888    888 888    888 888    888      d88P888 88888b  888 Y88b.
+ *    888     888 888   d88P 888   d88P 8888888888     d88P 888 888Y88b 888  "Y888b.
+ *    888     888 8888888P"  8888888P"  888    888    d88P  888 888 Y88b888     "Y88b.
+ *    888     888 888 T88b   888        888    888   d88P   888 888  Y88888       "888
+ *    Y88b. .d88P 888  T88b  888        888    888  d8888888888 888   Y8888 Y88b  d88P
+ *     "Y88888P"  888   T88b 888        888    888 d88P     888 888    Y888  "Y8888P"
+ *
+ *
+ *
+ */
+
+.engagementByPromoHelpTip {
+    dl {
+        margin: 0;
+    }
+}

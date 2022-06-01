@@ -1,0 +1,51 @@
+CREATE TABLE promo_product_claim
+(promotion_id                   	NUMBER(18,0) NOT NULL,
+ parent_promotion_id              NUMBER(18,0),
+ payout_type                    	VARCHAR2(80),
+ promotion_processing_mode      	VARCHAR2(80) NOT NULL,
+ is_team_used                   	NUMBER(1,0) NOT NULL,
+ is_team_collected_as_group     	NUMBER(1,0) NOT NULL,
+ team_max_count                 	NUMBER(3,0),
+ team_has_max_count	             	NUMBER(1,0) NOT NULL,
+ has_manager_payout             	NUMBER(1,0) NOT NULL,
+ payout_manager_percent         	NUMBER(12,4),
+ payout_manager_period          	VARCHAR2(80),
+ payout_carry_over              	NUMBER(1,0) NOT NULL,
+ stack_rank_approval_type         VARCHAR2(80),
+ stack_rank_factor_type           VARCHAR2(80),
+ stack_rank_cfse_id               NUMBER(18),
+ display_stack_rank_factor        NUMBER(1,0) DEFAULT 0,
+ display_full_list_link_to_pax    NUMBER(1,0) DEFAULT 0,
+ default_qty               NUMBER(4,0) DEFAULT 0
+ )
+/
+ALTER TABLE promo_product_claim
+ADD CONSTRAINT promo_product_claim_pk PRIMARY KEY (promotion_id)
+USING INDEX
+/
+ALTER TABLE promo_product_claim ADD CONSTRAINT promo_product_claim_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/
+ALTER TABLE promo_product_claim ADD CONSTRAINT promo_product_claim_cfse_fk
+  FOREIGN KEY (stack_rank_cfse_id) REFERENCES claim_form_step_element (claim_form_step_element_id)
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.PROMOTION_ID IS 'System generated PK.'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.PARENT_PROMOTION_ID IS 'The identifier to the parent promotion of this record.'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.promotion_processing_mode IS 'BATCH or ONLINE'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.IS_TEAM_USED IS 'Are there mutiple members for this promotion claim submission'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.IS_TEAM_COLLECTED_AS_GROUP IS 'Is team member info collected as a group or for specific Job Position. If this is false then the user will select position.'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.TEAM_MAX_COUNT IS 'Maximum number of team members a claim could have'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.HAS_MANAGER_PAYOUT IS 'Does this promotion have manager has payout'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.PAYOUT_MANAGER_PERCENT IS 'manager_payout_percent'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.PAYOUT_MANAGER_PERIOD IS 'Does the manager payout occur MONTHLY,QUARTERLY,YEARLY etc'
+/
+COMMENT ON COLUMN PROMO_PRODUCT_CLAIM.TEAM_HAS_MAX_COUNT IS 'Is there a maximum number of audience team members'
+/

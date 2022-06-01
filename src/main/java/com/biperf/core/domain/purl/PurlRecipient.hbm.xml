@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.purl.PurlRecipient" table="PURL_RECIPIENT">
+
+    <id name="id" type="java.lang.Long" column="PURL_RECIPIENT_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">PURL_RECIPIENT_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- Using version number optimistic locking -->
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+    <many-to-one name="promotion" column="PROMOTION_ID" class="com.biperf.core.domain.promotion.RecognitionPromotion" not-null="true" lazy="false"/>
+	<many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="false"/>
+    <many-to-one name="node" column="NODE_ID" class="com.biperf.core.domain.hierarchy.Node" lazy="false"/>
+    <many-to-one name="submitter" column="SUBMITTER_ID" class="com.biperf.core.domain.participant.Participant" not-null="false" lazy="false"/>
+    <many-to-one name="submitterNode" column="SUBMITTER_NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" lazy="false"/>
+    <many-to-one name="proxyUser" column="PROXY_USER_ID" class="com.biperf.core.domain.user.User" not-null="false" lazy="false"/>    
+    <many-to-one name="awardLevel" class="com.biperf.core.domain.promotion.PromoMerchProgramLevel" column="AWARD_LEVEL_ID" lazy="false" not-null="false"/>
+    <many-to-one name="claim" column="CLAIM_ID" not-null="false" lazy="proxy" />
+    <many-to-one name="celebrationManagerMessage" column="CELEBRATION_MANAGER_MESSAGE_ID" not-null="false" lazy="proxy" />
+    
+    <property name="invitationStartDate" column="INVITATION_START_DATE" type="timestamp" />
+    <property name="awardDate" column="AWARD_DATE" type="timestamp" />
+    <property name="awardAmount" column="AWARD_AMOUNT" type="java.math.BigDecimal" />
+    
+	<property name="showDefaultContributors" type="boolean" column="is_show_default_contributors" />
+    <property name="anniversaryNumberOfDays" type="java.lang.Integer" column="anniversary_num_days"/>
+    <property name="anniversaryNumberOfYears" type="java.lang.Integer" column="anniversary_num_years"/> 
+    	
+  	<property name="state" column="STATE">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PurlRecipientState</param>
+        </type>
+    </property>
+
+    <set name="contributors" table="PURL_CONTRIBUTOR" lazy="extra" inverse="true" cascade="all-delete-orphan">
+      <key column="PURL_RECIPIENT_ID" />
+      <one-to-many class="com.biperf.core.domain.purl.PurlContributor" />
+    </set>
+    
+    <list name="customElements" lazy="false" table="PURL_RECIPIENT_CFSE" inverse="false" cascade="all-delete-orphan,merge">
+      <key column="PURL_RECIPIENT_ID" not-null="true"/>
+      <list-index column="sequence_num"/>
+      <one-to-many class="com.biperf.core.domain.purl.PurlRecipientCustomElement"/>
+    </list>
+
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.purl.PurlRecipient.PurlRecipientsForAutoInvite">
+	<return-scalar column="purl_recipient_id" type="long"/>
+	<![CDATA[
+		SELECT purlRecipient.purl_recipient_id
+		FROM purl_recipient purlRecipient
+			 WHERE purlRecipient.state IN ( 'invitation', 'contribution' )
+		  AND purlrecipient.promotion_id = :promotionId
+		  AND purlRecipient.award_date  <= (SYSDATE + :numberOfDays)
+		  AND (NOT EXISTS
+		    (SELECT 1
+		    FROM purl_contributor pc,
+		      purl_contributor pcc
+		    WHERE purlrecipient.purl_recipient_id = pc.purl_recipient_id
+		    AND pc.purl_contributor_id            = pcc.invite_contributor_id
+		    AND pc.user_id                       IN
+		      (SELECT user_id
+		      FROM user_node
+		      WHERE node_id IN
+		        (SELECT node_id FROM user_node WHERE user_id = purlrecipient.user_id
+		        )
+		      AND role IN ('mgr','own')
+		      )
+		    ))
+  	]]>
+  </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.purl.PurlRecipient.PurlRecipientsCountForAutoInvite">
+	<return-scalar column="result" type="integer"/>
+	<![CDATA[
+  SELECT count(purlRecipient.purl_recipient_id) as result
+		FROM purl_recipient purlRecipient
+			 WHERE purlRecipient.state IN ( 'invitation', 'contribution' )
+		  AND purlrecipient.promotion_id = :promotionId
+		  AND purlRecipient.award_date   > sysdate
+		  AND (NOT EXISTS
+		    (SELECT 1
+		    FROM purl_contributor pc,
+		      purl_contributor pcc
+		    WHERE purlrecipient.purl_recipient_id = pc.purl_recipient_id
+		    AND pc.purl_contributor_id            = pcc.invite_contributor_id
+		    AND pc.user_id                       IN
+		      (SELECT user_id
+		      FROM user_node
+		      WHERE node_id IN
+		        (SELECT node_id FROM user_node WHERE user_id = purlrecipient.user_id
+		        )
+		      AND role IN ('mgr','own')
+		      )
+		    ))
+        and purlrecipient.purl_recipient_id = :purlRecipientId
+         	]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getPurlRecipientbyClaimId">
+	<return alias="purlRecipient" class="com.biperf.core.domain.purl.PurlRecipient" />
+	<![CDATA[
+      	SELECT {purlRecipient.*} 
+  		FROM purl_recipient purlRecipient 
+	   	WHERE purlRecipient.claim_id = :claimId               
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getGlobalUpcomingPurlRecipientsCount">
+	<return-scalar column="cnt" type="int"/>
+	<![CDATA[
+      SELECT COUNT( * ) as cnt
+        FROM purl_recipient purlRecipient,
+             promo_recognition promotion
+        WHERE purlRecipient.state IN ( 'invitation', 'contribution' )
+        AND purlRecipient.award_date > sysdate
+        AND purlRecipient.user_id != :userId 
+        AND promotion.promotion_id = purlRecipient.promotion_id
+        AND promotion.DISPLAY_PURL_IN_PURL_TILE = 1   
+    ]]>
+  </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getTeamUpcomingPurlRecipientsCount">
+	<return-scalar column="cnt" type="int"/>
+	<![CDATA[
+      	SELECT COUNT( * ) as cnt
+        FROM purl_recipient purlRecipient,
+             promo_recognition promotion
+        WHERE purlRecipient.state IN ( 'invitation', 'contribution' )
+        AND purlRecipient.award_date > sysdate
+        AND purlRecipient.node_id IN ( :nodeIds )
+        AND purlRecipient.user_id != :userId    
+        AND promotion.promotion_id = purlRecipient.promotion_id
+        AND promotion.DISPLAY_PURL_IN_PURL_TILE = 1              
+    ]]>
+  </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getFollowedUserUpcomingPurlRecipientsCount">
+	<return-scalar column="cnt" type="int"/>
+	<![CDATA[
+      	SELECT COUNT( * ) as cnt
+        FROM purl_recipient purlRecipient,
+             promo_recognition promotion
+        WHERE purlRecipient.state IN ( 'invitation', 'contribution' )
+        AND purlRecipient.award_date > sysdate
+        AND purlRecipient.user_id IN ( :userIds )
+        AND purlRecipient.user_id != :userId  
+        AND promotion.promotion_id = purlRecipient.promotion_id
+        AND promotion.DISPLAY_PURL_IN_PURL_TILE = 1              
+    ]]>
+  </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getGlobalAwardedPurlRecipientsCount">
+	<return-scalar column="cnt" type="int"/>
+	<![CDATA[
+      	SELECT COUNT( * ) as cnt
+        FROM purl_recipient purlRecipient
+        WHERE purlRecipient.state IN ( 'recognition', 'complete' )
+        AND purlRecipient.award_date < sysdate             
+    ]]>
+  </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getTeamAwardedPurlRecipientsCount">
+	<return-scalar column="cnt" type="int"/>
+	<![CDATA[
+      	SELECT COUNT( * ) as cnt
+        FROM purl_recipient purlRecipient
+        WHERE purlRecipient.state IN ( 'recognition', 'complete' )
+        AND purlRecipient.award_date < sysdate
+        AND purlRecipient.node_id IN ( :nodeIds )              
+    ]]>
+  </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getFollowedUserAwardedPurlRecipientsCount">
+	<return-scalar column="cnt" type="int"/>
+	<![CDATA[
+      	SELECT COUNT( * ) as cnt
+        FROM purl_recipient purlRecipient
+        WHERE purlRecipient.state IN ( 'recognition', 'complete' )
+        AND purlRecipient.award_date < sysdate
+        AND purlRecipient.user_id IN ( :userIds )             
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getPurlRecipientByCelebrationManagerMessageId">
+	<return alias="purlRecipient" class="com.biperf.core.domain.purl.PurlRecipient" />
+	<![CDATA[
+      	SELECT {purlRecipient.*} 
+  		FROM purl_recipient purlRecipient 
+	   	WHERE purlRecipient.celebration_manager_message_id = :celebrationManagerMessageId             
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getRecommendedPurlRecipientsCountForGivenContributor">
+	<return-scalar column="rec_cnt" type="int"/>
+	<![CDATA[
+	with w_parms as
+							(  
+							   select :userId as p_in_user_id , :past_or_upcoming as p_in_past_present   from dual
+							)
+				SELECT COUNT(pr.purl_recipient_id) AS rec_cnt
+							           FROM (						                 
+							                  SELECT pf.follower_id AS user_id
+							                    FROM participant_followers pf, w_parms
+							                   WHERE pf.participant_id = p_in_user_id
+							                   UNION							                
+							                  SELECT un_t1.user_id
+							                    FROM user_node un_t1
+							                   WHERE un_t1.status = 1
+							                     AND un_t1.node_id IN
+							                         (
+							                           SELECT un.node_id FROM user_node un	,w_parms
+							                            WHERE un.user_id = p_in_user_id AND un.status = 1
+							                            UNION ALL							                           
+							                           SELECT n.node_id  FROM user_node un, node n ,w_parms
+							                            WHERE un.user_id = p_in_user_id
+							                              AND un.status = 1
+							                              AND un.node_id = n.parent_node_id							                         )
+							                   UNION							                 
+							                  SELECT con.user_id
+							                    FROM (
+							                           SELECT uc.receiver_id AS user_id,
+							                                  ROW_NUMBER() OVER (ORDER BY uc.date_created DESC, uc.id DESC) AS rec_seq
+							                             FROM user_connections uc,w_parms
+							                             WHERE uc.sender_id = p_in_user_id
+							                            UNION ALL							                         
+							                           SELECT uc.sender_id AS user_id,
+							                                  ROW_NUMBER() OVER (ORDER BY uc.date_created DESC, uc.id DESC) AS rec_seq
+							                             FROM user_connections uc,w_parms
+							                            WHERE uc.receiver_id = p_in_user_id
+							                         ) con
+							                    
+							                   WHERE con.rec_seq <= 30
+							                ) ul,
+							                purl_recipient pr ,w_parms							           
+							          WHERE ul.user_id = pr.user_id
+							            AND (  (   p_in_past_present = 'past'
+							                   AND pr.award_date <  TRUNC(SYSDATE) )
+							                OR (   p_in_past_present = 'upcoming'
+							                   AND pr.user_id != p_in_user_id
+							                   AND pr.award_date >= TRUNC(SYSDATE) )
+							                   ) 			            
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getUpComingCelebrationList">
+    <return-scalar column="purl_recipient_id" type="long"/>
+	<return-scalar column="user_id" type="long"/>
+	<return-scalar column="promotion_id" type="long"/>
+	<return-scalar column="anniversary_num_years" type="string"/>
+	<return-scalar column="award_date" type="timestamp"/>
+	<![CDATA[
+		SELECT purlRecipient.purl_recipient_id, purlRecipient.user_id, purlRecipient.promotion_id, cfse.value as anniversary_num_years, purlRecipient.award_date 
+		FROM purl_recipient purlRecipient, purl_recipient_cfse cfse
+		WHERE purlRecipient.purl_recipient_id = cfse.PURL_RECIPIENT_ID 
+		AND purlRecipient.award_date > TRUNC (SYSDATE)
+		AND cfse.sequence_num = 0
+		AND purlRecipient.state IN (:purlRecipientStates)
+  	]]>
+  </sql-query>    
+  
+  <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getPurlAwardDate">	
+  	<return-scalar column="awardDate" type="int" />	
+  	<![CDATA[
+  				SELECT *  FROM (    
+	  				SELECT to_char(award_date, 'yyyy') AS awardDate
+	  				FROM purl_recipient pr	
+	  				WHERE pr.user_id = :userId  and pr.purl_recipient_id=:purlRecipientId)	
+  	]]>
+  </sql-query> 
+  <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getCelebrationAwardDate">	
+  	<return-scalar column="awardDate" type="int" />	
+  	<![CDATA[
+  				SELECT CASE WHEN NVL(anniversary_num_years,0) <> 0 THEN  TO_CHAR(c.date_created, 'yyyy') - anniversary_num_years
+  							WHEN NVL(anniversary_num_days,0) <> 0 THEN TO_NUMBER(TO_CHAR(c.date_created-anniversary_num_days, 'yyyy'))
+  				END AS awardDate
+  				FROM promo_recognition pr,claim c,claim_item ci,claim_recipient cr,recognition_claim rc	
+  				WHERE include_celebrations = 1			
+  				AND is_include_purl = 0			
+  				AND pr.promotion_id = c.promotion_id			
+  				AND c.claim_id = ci.claim_id			
+  				AND ci.claim_item_id = cr.claim_item_id			
+  				and c.claim_id = rc.claim_id			
+  				AND cr.participant_id = :userId			
+  				and c.claim_id = :claimId	
+  	]]>
+  </sql-query>    
+
+   <!--Customization for the WIP#51332 Start-->
+   <sql-query name="com.biperf.core.domain.purl.PurlRecipient.getCustomSortOfUpcomingCelebration">
+	<return alias="purlRecipient" class="com.biperf.core.domain.purl.PurlRecipient" />
+	<![CDATA[
+      	WITH charq AS (
+					select 1 as seqno, pr.*
+								from purl_recipient pr, application_user au, promo_recognition p
+								where pr.user_id in 
+		        ( 
+		       select user_id
+			       from user_characteristic u  
+			        where u.characteristic_value in 
+      			(
+				select uc.characteristic_value 
+							from user_characteristic uc 
+							where uc.user_id = :userId and uc.characteristic_id= :charaterticsDivisionId
+                 )) 
+					and pr.user_id <>:userId		
+          and pr.state in ('invitation','contribution')
+					and trunc(pr.award_date) > trunc(sysdate)
+					and pr.user_id=au.user_id
+					and pr.promotion_id=p.promotion_id
+					and au.is_active=1
+					and p.display_purl_in_purl_tile=1
+				)
+              select * from (
+              select * from charq
+              union all
+             select 2 as seqno,pr.* 
+                      from purl_recipient pr, 
+                       application_user au,
+                       promo_recognition p
+                       where pr.user_id <>:userId
+                           and pr.state in ('invitation','contribution') and trunc(pr.award_date) > trunc(sysdate) and pr.user_id=au.user_id
+						   and pr.promotion_id=p.promotion_id and au.is_active=1 and p.display_purl_in_purl_tile=1
+						and pr.purl_recipient_id not in (select purl_recipient_id from charq)) order by seqno           
+    ]]>
+  </sql-query>
+  <!--Customization for the WIP#51332 End-->
+</hibernate-mapping>

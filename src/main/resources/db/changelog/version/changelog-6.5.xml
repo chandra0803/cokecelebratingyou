@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" logicalFilePath="changelog-6.5.xml"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+	
+	<changeSet author="subramap" id="tagDatabase">
+		<tagDatabase tag="6.4.2" />
+	</changeSet>
+	
+	<include file="db/convert/6.5.RELEASE/alter_os_propertyset_history.sql"/>
+	<include file="db/convert/6.5.RELEASE/alter_os_propertyset.sql" />
+	<include file="db/convert/6.5.RELEASE/insert_message.sql" />
+	<include file="db/convert/6.5.RELEASE/update_country.sql" />
+	<include file="db/convert/6.5.RELEASE/create_core_sa.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_ssi_contest.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_user_cookies_acceptance.sql" />
+	<include file="db/convert/6.5.RELEASE/create_gtt_ra_program.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_alert_message.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_participant_badge.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_budget_transfer.sql" />
+	<include file="db/convert/6.5.RELEASE/insert_budget_transfer_message.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_budget_move_transfer.sql"/>
+	<include file="db/convert/6.5.RELEASE/insert_kinesislistener_autoretry_message.sql" />
+	<include file="db/convert/6.5.RELEASE/insert_Kinesis_EventStatus_Message.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_scheduled_recognition.sql"/>
+	<include file="db/convert/6.5.RELEASE/insert_currency_code.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_user_phone.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_import_record.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_claim.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_user_acl.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_claim_cfse.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_cash_award.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_purl_contributor.sql" />
+	<include file="db/convert/6.5.RELEASE/create_gtt_ra_receiver_info.sql" />
+	<include file="db/convert/6.5.RELEASE/alter_promo_recognition.sql" />	
+	<include file="db/convert/6.5.RELEASE/create_gtt_array_tbl.sql" />	
+
+</databaseChangeLog>	

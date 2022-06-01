@@ -1,0 +1,116 @@
+<%@ include file="/include/taglib.jspf" %>
+
+<fieldset>
+	<h3>
+		<cms:contentText key="ADDRESS_HEADER"
+			code="participant.roster.management.edit" />
+	</h3>
+	
+	<c:set var="paType"><cms:contentText key="PRIMARY_ADDRESS_TYPE" code="participant.roster.management.modify"/></c:set>
+	<div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : &quot;<cms:contentTemplateText code="system.errors" key="REQUIRED" args="${paType}"/>&quot;}'>
+		<label for="primaryEmailAddress" class="control-label"><cms:contentText
+				key="PRIMARY_ADDRESS_TYPE"
+				code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<html:select styleId="primaryEmailAddress" property="addressType">
+				<html:options collection="addressTypeList" property="code"
+					labelProperty="name" />
+			</html:select>
+		</div>
+	</div>
+
+	<c:set var="country"><cms:contentText key="COUNTRY" code="participant.roster.management.modify"/></c:set>
+	<div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : &quot;<cms:contentTemplateText code="system.errors" key="REQUIRED" args="${country}"/>&quot;}'>
+		<label for="country" class="control-label"><cms:contentText
+				key="COUNTRY" code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<c:if test="${newParticipant}">
+				<html:select styleId="country" property="addressFormBean.countryCode">
+					<html:options collection="countryList" property="countryCode" labelProperty="i18nCountryName" />
+				</html:select>
+			</c:if>
+			<c:if test="${!newParticipant}">
+				<html:hidden property="addressFormBean.countryCode" />
+				<html:select styleId="country" disabled="true" property="addressFormBean.countryCode">
+					<html:options collection="countryList" property="countryCode" labelProperty="i18nCountryName" />
+				</html:select>
+			</c:if>
+		</div>
+	</div>
+
+	<c:set var="addr1"><cms:contentText key="ADDR1" code="participant.roster.management.modify"/></c:set>
+	<div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : &quot;<cms:contentTemplateText code="system.errors" key="REQUIRED" args="${addr1}"/>&quot;}'>
+		<label for="address1" class="control-label"><cms:contentText
+				key="ADDR1" code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<html:text styleId="address1" property="addressFormBean.addr1"
+				size="40" maxlength="100" styleClass="input-large" />
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label for="address2" class="control-label"><cms:contentText
+				key="ADDR2" code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<html:text styleId="address2" property="addressFormBean.addr2"
+				size="40" maxlength="100" styleClass="input-large" />
+            <span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label for="address3" class="control-label"><cms:contentText
+				key="ADDR3" code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<html:text styleId="address3" property="addressFormBean.addr3"
+				size="40" maxlength="100" styleClass="input-large" />
+            <span class="optional"><cms:contentText key="OPTIONAL" code="system.common.labels" /></span>
+		</div>
+	</div>
+
+	<c:set var="city"><cms:contentText key="CITY" code="participant.roster.management.modify"/></c:set>
+	<div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : &quot;<cms:contentTemplateText code="system.errors" key="REQUIRED" args="${city}"/>&quot;}'>
+		<label for="city" class="control-label"><cms:contentText
+				key="CITY" code="participant.roster.management.modify" />
+		</label>
+		<div class="controls">
+			<html:text styleId="city" property="addressFormBean.city" size="40"
+				maxlength="40" styleClass="input-large" />
+		</div>
+	</div>
+
+	<c:if test="${not empty stateList}">
+		<c:set var="state"><cms:contentText key="STATE" code="participant.roster.management.modify"/></c:set>
+		<div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : &quot;<cms:contentTemplateText code="system.errors" key="REQUIRED" args="${state}"/>&quot;}'>
+			<label for="state" class="control-label"><cms:contentText
+					key="STATE" code="participant.roster.management.modify" />
+			</label>
+			<div class="controls">
+					<html:select styleId="state" property="addressFormBean.stateTypeCode">
+						<html:option value=""><cms:contentText key="SELECT_ONE" code="system.general"/></html:option>
+						<html:options collection="stateList" property="code" labelProperty="name" />
+					</html:select>
+			</div>
+		</div>
+	</c:if>
+
+	<c:if test="${requirePostalCode=='true'}">
+		<c:set var="zipCode"><cms:contentText key="POSTAL_CODE" code="participant.roster.management.modify"/></c:set>
+		<div class="control-group validateme" data-validate-flags="nonempty" data-validate-fail-msgs='{"nonempty" : &quot;<cms:contentTemplateText code="system.errors" key="REQUIRED" args="${zipCode}"/>&quot;}'>
+			<label for="postalCode" class="control-label"><cms:contentText
+					key="POSTAL_CODE" code="participant.roster.management.modify" />
+			</label>
+			<div class="controls">
+				<html:text styleId="postalCode"
+					property="addressFormBean.postalCode" size="11" maxlength="11"
+					styleClass="input-large" />
+			</div>
+		</div>
+	</c:if>
+
+</fieldset>

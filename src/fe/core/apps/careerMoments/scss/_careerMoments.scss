@@ -1,0 +1,1371 @@
+// App-specific variables
+// =========================
+$careerMoments_moduleBgColor: #120E25 !default;
+$careerMoments_moduleBgImg: "celebration/careerMomentsBg.jpg" !default;
+$careerMoments_moduleBgImgPath: $appImagesPath !default;
+$careerMoments_moduleBgImgSize: cover !default;
+$careerMoments_moduleBgImgPosition: 50% 50% !default;
+
+$careerMoments_pageTopperColor: $brand_color_white !default;
+$careerMoments_pageTopperBgColor: $careerMoments_moduleBgColor !default;
+$careerMoments_pageTopperBgImg: $careerMoments_moduleBgImg !default;
+$careerMoments_pageTopperBgImgPath: $careerMoments_moduleBgImgPath !default;
+$careerMoments_pageTopperBgImgSize: $careerMoments_moduleBgImgSize !default;
+$careerMoments_pageTopperBgImgPosition: $careerMoments_moduleBgImgPosition !default;
+$careerMoments_pageTopperBgImgOpacity: 0.5 !default;
+
+$careerMoments_titleColor: $brand_color_white !default;
+$careerMoments_titleSpanColor: $careerMoments_titleColor !default;
+$careerMoments_titleNumberColor: $careerMoments_titleColor !default;
+
+$careerMoments_timeLeftColor: $brand_color_dark !default;
+$careerMoments_timeLeftTodayColor: $brand_color_alert !default;
+
+$careerMoments_fontFamilyRegular: $bodyFont !default;
+$careerMoments_fontFamily: $titleFont !default;
+$careerMoments_moduleListInfoColor: $brand_color_white !default;
+$careerMoments_modulePopoverColor: $brand_color_white !default;
+
+$careerMoments_magnifyColor: $gray !default;
+
+$careerMoments_avatarSize: 60px !default;
+$careerMoments_profileImgSize: 48px !default;
+
+$careerMoments_contributeCommentBgColor: $brand_color_white !default;
+$careerMoments_contributeBgColor: false !default; // gets .page-topper background by default
+$careerMoments_contributeCommentBgColor: $brand_color_white !default;
+$careerMoments_contributeNameBorderColor: scale-color($careerMoments_contributeBgColor or $brand_color_white, $lightness: -12.5%) !default;
+
+$careerMoments_commentBgColorOdd: $brand_color_lighter !default;
+$careerMoments_commentBgColorEven: false !default;
+
+$careerMoments_commentBorderColorOdd: scale-color($careerMoments_commentBgColorOdd or $brand_color_white, $lightness: -12.5%) !default;
+$careerMoments_commentBorderColorEven: scale-color($careerMoments_commentBgColorEven or $brand_color_white, $lightness: -12.5%) !default;
+
+// for the PURL backs of cards (search results)
+
+$card_purlRec_color: $careerMoments_pageTopperColor !default;
+$card_purlRec_bgColor: $careerMoments_pageTopperBgColor !default;
+$card_purlRec_bgImg: $careerMoments_pageTopperBgImg !default;
+$card_purlRec_bgImgPath: $careerMoments_pageTopperBgImgPath !default;
+$card_purlRec_bgImgSize: $careerMoments_pageTopperBgImgSize !default;
+$card_purlRec_bgImgPosition: $careerMoments_pageTopperBgImgPosition !default;
+$card_purlRec_bgImgOpacity: $careerMoments_pageTopperBgImgOpacity !default;
+$card_purlRec_timeLeftColor: $brand_color_mid !default;
+$card_purlRec_timeLeftTodayColor: $careerMoments_timeLeftTodayColor !default;
+
+$slick-dot-color: transparent !default;
+$slick-dot-color-border: $brand_color_primary !default;
+$slick-dot-color-active: $brand_color_primary !default;
+$slick-prev-character: "\2190" !default;
+$slick-next-character: "\2192" !default;
+$slick-dot-character: "\2022" !default;
+$slick-dot-size: 8px !default;
+$slick-opacity-default: 1 !default;
+$slick-opacity-on-hover: 1 !default;
+$slick-opacity-not-active: 1 !default;
+
+// App-specific code
+// ==================================================
+
+/* ----- MODULE STYLES ----- */
+.launchModule.careerMoments {
+
+    .module-liner {
+        padding: 0px;
+        height: auto;
+        // TODO: THESE BACKGROUND RULES NEED TO BE SKINNABLE
+        background-color: $careerMoments_moduleBgColor;
+        @include safeImgUrls($careerMoments_moduleBgImg, $careerMoments_moduleBgImgPath, $property: 'background-image');
+        background-size: $careerMoments_moduleBgImgSize;
+        background-position: $careerMoments_moduleBgImgPosition;
+        .module-content {
+            width: 89%;
+	        max-width: $breakpoint_desktop_min;
+	        margin: 0 auto;
+            .module-title {
+                color: $careerMoments_titleColor;
+                margin-bottom:0px;
+            }       
+        }
+    }
+
+    .careerMomentsModuleTop {
+        width: 89%;
+        max-width: $breakpoint_desktop_min;
+        margin: 0 auto;
+        color: $brand_color_white;
+        .infoWrapper {
+            clear:both;
+            font-family: $clientFontRegular;
+            span {
+                font-family: $careerMoments_fontFamily;
+            }            
+        }
+        .careerMomentsModuleTitle {
+            color: $careerMoments_titleColor;
+            display: inline-block;
+            font-family: $careerMoments_fontFamily;
+            font-size: round($baseFontSize * 1.48); // ~20px
+            font-weight: $fontWeightBold;
+            line-height: round($baseLineHeight * 1.2); // ~24px
+            vertical-align: top;
+            float: left;
+            text-transform: uppercase;            
+        }
+
+        a.viewMore {
+            float: right;
+            display: inline-block;
+            line-height: 1em;
+            margin-top: 15px;
+            margin-right: 5px;
+
+            @media (max-width: $breakpoint_mobileMini_max) {
+                margin-top: 12px;
+            }
+            @include ignoreGlobalLinkStyles(
+                $color: $brand_color_white false
+            );
+            font-weight: $fontWeightBold; // added this after the default styles because of VQA request
+        }
+    }
+
+    .careerMomentsSubTitle {
+        color: $careerMoments_titleSpanColor;
+        display: block;
+        font: $fontWeightLight $baseFontSize * 2.86 $careerMoments_fontFamily;
+        line-height: $baseLineHeight * 2;
+        margin: 0 0 0 15px;
+    }
+
+    .careerMomentsTotal {
+        color: $careerMoments_titleNumberColor;
+        display: inline-block;
+        margin-right: 2px;
+    }
+
+    .careerMomentsModuleContent {
+        position:relative;
+    }
+
+    .careerMomentsList .carousel {
+        width: 90%;
+        margin: 0 auto 30px;
+        max-height: 100px;
+        padding-left: 10px;
+        text-align: center;
+        overflow: hidden;        
+        @media (max-width: $breakpoint_mobile_max) {
+            margin-bottom: 20px;
+        }
+        @media (max-width: $breakpoint_mobileMini_max) {
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+
+        .slick-list {
+            overflow: hidden;
+            margin-right: -1px;
+            @media (min-width: $breakpoint_desktopLarge_min) {
+            }
+            @media (max-width: $breakpoint_tablet_max) {
+            }
+        }
+        .slick-dots {
+            position: absolute;
+            list-style: none;
+            display: block;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            li {
+                position: relative;
+                display: inline-block;
+                height: $slick-dot-size * 2 ;
+                width: $slick-dot-size * 2;
+                margin: 0 5px;
+                padding: 0;
+                cursor: pointer;
+                button {
+                    border: 0;
+                    background: transparent;
+                    display: block;
+                    height: $slick-dot-size * 2;
+                    width: $slick-dot-size * 2;
+                    outline: none;
+                    line-height: 0px;
+                    font-size: 0px;
+                    color: transparent;
+                    padding: 5px;
+                    cursor: pointer;
+                    &:hover, &:focus {
+                        outline: none;
+                        &:before {
+                            opacity: $slick-opacity-on-hover;
+                        }
+                    }
+                    &:before {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        content: $slick-dot-character;
+                        width: $slick-dot-size;
+                        height: $slick-dot-size;
+                        display: block;
+                        border-radius:50%;
+                        border: 1px solid $slick-dot-color-border;
+                        background: $slick-dot-color;
+                        opacity: $slick-opacity-not-active;
+                        -webkit-font-smoothing: antialiased;
+                        -moz-osx-font-smoothing: grayscale;
+                    }
+                }
+                &.slick-active button:before {
+                    background: $slick-dot-color-active;
+                    opacity: $slick-opacity-default;
+                }
+            }
+        }
+        .slick-arrow {
+            line-height: 100px;
+            position: absolute;
+            bottom: 0px;
+            font-size: 36px;
+            @media (max-width: $breakpoint_mobile_max) {
+                display: none !important;
+            }
+
+            &.slick-prev {
+                left: 0;
+                color: $brand_color_white;
+            }
+
+            &.slick-next {
+                right: 0;
+                color: $brand_color_white;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &.slick-disabled {
+                visibility: hidden;
+            }
+        }
+
+        .item {
+            display: inline-block;
+            list-style: none;
+            padding: 0;
+
+            margin: 0;
+            text-align: left;
+            margin-right: 20px;
+            @media (max-width: $breakpoint_mobileMini_max) {
+                margin-right: 0;
+            }
+
+
+
+            .item-inner-wrapper{
+                max-width: 320px;
+                border-radius: 8px;
+                max-height: 100px;
+                margin: 0 auto;
+                background: $brand_color_white;
+                overflow: hidden;
+            }
+
+            img.avatar {
+                float: left;
+                height: 100px;
+                width: 100px;
+                border-radius: 0;
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+                background: none;
+            }
+
+            span.avatar {
+                float: left;
+                height: 100px;
+                width: 100px;
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+                background: $brand_color_primary;
+                color: $brand_color_white;
+                font-size: $baseFontSize * 2.14;
+                font-family: $clientFontBold;
+                line-height: 100px;
+                text-align: center;
+                text-transform: uppercase;
+            }
+
+            .celebrationInfo {
+                display: block;
+                float: left;
+                width: 50px;
+                height: 50px;
+                border: solid 3px $brand_color_white;
+                background-clip: content-box;
+                background: $brand_color_black;
+                border-radius: 50%;
+                overflow: hidden;
+                text-align: center;
+                margin: 23px 0 0 -28px;
+                color: $careerMoments_titleSpanColor;
+                position: relative;
+
+                &.noAnniversary {
+                    display: none;
+                }
+
+                .promotion {
+                    position: absolute;
+                    left: 0;
+                    top: 50px;
+                    border-radius: 50px;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 100%;
+                    color: $brand_color_primary;
+                    font-family: $careerMoments_fontFamily;
+                    line-height: 50px;
+                    font-size: 16px; //px value because it's dependent on the balloon's size
+                    font-weight: $fontWeightBold;
+                    z-index: 101;
+                }
+
+                .balloon {
+                    @include safeImgUrls("celebration/upcomingCel-balloon.png", $appImagesPath, $property: 'background-image');
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    background-position: 0 45px;
+                    position: absolute;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 100;
+                }
+            }
+
+            .personalInfo {
+                display: block;
+                float: left;
+                line-height: $baseLineHeight;
+                margin: 10px 15px;
+                font-size: $baseFontSize * 1.14;
+                font-weight: $fontWeightSemiBold;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                width: calc(100% - #{100px + (50px / 2 + 3px) + (5px * 2)}); // 100% - (avatar width + half celebrationInfo width + left/right margin)
+                span.position {
+                    font-size: $fontSizeSmall;
+                    font-family: $clientFontRegular;                    
+                    margin: 0px 0px 5px 0px;
+                }
+                a.profile-popover {
+                    font-family: $careerMoments_fontFamily;
+                    display: block;
+                    line-height: 1.2em;
+                    margin-bottom: 0px;
+                    @include ignoreGlobalLinkStyles(
+                        $color: $brand_color_black
+                    );
+                }
+
+                .celebrationTimeLeft {
+                    display: block;
+                    font-weight: $fontWeightBold;
+                    font-size: $baseFontSize * 0.75;
+                    color: $careerMoments_timeLeftColor;
+                    line-height: $baseLineHeight;
+                    margin-left:1px;
+                    i {
+                        position: relative;
+                        top: 1px;
+                        padding-right: 2px;
+                        font-weight: $fontWeightBold;
+                    }
+
+                    &.isToday {
+                        color: $careerMoments_timeLeftTodayColor;
+                    }
+                }
+
+                a.commentLink {
+                    font-size: $fontSizeSmall;
+                    font-family: $clientFontRegular;
+                    line-height: $lineHeightSmall;                    
+                    float:left;
+                    margin-right: 10px;
+                    margin-top: 5px;
+                    color: $brand_color_link;
+                    i {
+                        color: $brand_color_black;
+                    }
+                    &:hover {
+                        color: $brand_color_link;
+                    }
+                }
+                a.cheers-popover {
+                    font-family: $clientFontRegular;
+                    font-size: $fontSizeSmall;
+                    line-height: $lineHeightSmall;                    
+                    float:left;
+                    margin-top: 5px;
+                    color: $brand_color_link;
+                    i {
+                        color: $brand_color_black;
+                    }
+                }
+            }
+            .noAnniversary ~ .personalInfo {
+                width: calc(100% - #{100px + (15px * 2)}); // 100% - (avatar width + left/right margin)
+            }
+            &.slick-active, &.slick-active.slick-current { //make the balloon fly...
+                .balloon, .promotion {
+                    transition: all 800ms cubic-bezier(.71,.58,.64,1.32) ;
+                }
+                .balloon {
+                    background-position: 0px 0px;
+                }
+                .promotion {
+                    top: 0;
+                }
+            }
+            &.initialLoad {
+                .balloon {
+                    background-position: 0px 0px;
+                }
+                .promotion {
+                    top: 0;
+                }
+            }
+        }
+    }
+
+    .purlModuleBottom {
+        float: left;
+        padding: 15px 10px;
+    }
+
+    .careerMomentsEmpty {
+        color: $brand_color_white;
+        text-align: center;
+        margin-bottom: $g6ModulePaddingY;
+        p {
+            margin-top: 40px;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        a {
+            margin-top: 10px;
+        }
+
+    }
+
+}/* /.launchModule */
+
+/* ----- PAGE STYLES ----- */
+.page.careerMoments {
+    .spin {
+        display: block;
+        height: $spinner_widthHeight;
+        margin: 0;
+        position: absolute;
+        right: 50%;
+        top: 50%;
+        width: $spinner_widthHeight;
+    }
+
+    .page-topper {
+        color: $careerMoments_pageTopperColor;
+        background-color: $careerMoments_pageTopperBgColor;
+        @include safeImgUrls($careerMoments_pageTopperBgImg, $careerMoments_pageTopperBgImgPath, $property: 'background-image');
+        background-size: $careerMoments_pageTopperBgImgSize;
+        background-position: $careerMoments_pageTopperBgImgPosition;
+        div {
+            margin-bottom: 10px;
+        }
+        @if $careerMoments_pageTopperBgImgOpacity and $careerMoments_pageTopperBgImgOpacity < 1 {
+            position: relative;
+
+            &::before {
+                display: block;
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: transparentize($careerMoments_pageTopperBgColor, $careerMoments_pageTopperBgImgOpacity);
+            }
+
+            div {
+                position: relative;
+            }
+        }
+    }
+
+    #cmPastPresentSelect {
+        label {
+            display: inline-block;
+            width: auto;
+            background: $brand_color_lighter;
+            border: none;
+            color: $brand_color_black;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: none;
+            @include transition(all 0.1s ease-in-out);
+        }
+
+        input {
+            display: none;
+        }
+
+        input:checked + label {
+            background-color: $brand_color_primary;
+            color: $brand_color_white;
+        }
+
+        label:first-of-type {
+            border-radius: 4px 0 0 4px;
+        }
+
+        label:last-of-type {
+            border-radius: 0 4px 4px 0;
+        }
+    }
+
+    .careerMomentsView,
+    .careerMomentsFilterWrap {
+        display: inline-block;
+        margin-right: 30px;
+        @media (max-width: $breakpoint_mobile_max) {
+            margin-bottom: 10px;
+        }
+        .arrowToken {
+            cursor: pointer;
+            font-size: $fontSizeMid;
+            font-weight: $fontWeightBold;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .tokenName {
+            background-color: $brand_color_white;
+        }
+        .toggleLabel,
+        .filterLabel {
+            display: block;
+            margin-bottom: 5px; // borrowed from bootstrap/_forms.scss > label
+            font-weight: $fontWeightSemiBold; // copied from _forms.scss > $forms_labelFontWeight;
+        }
+
+        .dropdown {
+            margin-top: 0;
+
+           display: block;
+
+           .dropdown-menu {
+				max-height: ($baseLineHeight * 1.667) * 12;
+				overflow: auto;
+               > li {
+                   > a {
+                       line-height: $baseLineHeight * 1.667;
+                       i {
+
+                           float: right;
+                           line-height: $baseLineHeight * 1.667;
+                       }
+                   }
+                   ul{
+                       margin: 0;
+                       list-style: none;
+                   }
+                   li {
+                       line-height: $baseLineHeight * 1.667;
+                       padding-left: 25px;
+                   }
+                   li:hover {
+                       color: $brand_color_white;
+                       background-color: $brand_color_primary;
+                       cursor: pointer;
+                   }
+                   hr {
+                       margin: 0;
+                   }
+               }
+           }
+           .addNewFilter {
+               margin-bottom: 0;
+           }
+
+       }
+
+
+        label.radio {
+            line-height: $btnLineHeight * 1.35;
+            padding: $btnPadding;
+        }
+    }
+
+    .careerMomentsSearch {
+        display: inline-block;
+
+        label {
+            display: inline-block;
+            // margin: 10px 0;
+        }
+
+        .selected-filter{
+            display: inline-block;
+            list-style: none;
+            padding: 5px 8px;
+            margin: 5px;
+            background: #efefef;
+            color: #353a40;
+            border-radius: 5px;
+            padding: 3px 10px;
+            white-space: nowrap;
+
+            .removeSearchToken {
+                margin-left: 5px;
+                cursor: pointer;
+                color: $brand_color_primary;
+            }
+        }
+
+        .filter-bold {
+            font-weight: $fontWeightBold;
+        }
+        @supports (-webkit-overflow-scrolling: touch) {
+            /* CSS specific to iOS devices */ 
+            #careerMomentsNameInput {
+                line-height: $baseFontSize * 2;
+            }
+          }
+        // #careerMomentsNameInput {
+        //     line-height: $baseFontSize * 2;
+        // }
+
+    }
+
+    .careerMomentsTypeWrapper {        
+        display: inline-block;        
+    }
+
+    .celebrationTitle {
+        display: none;
+    }
+
+
+    .dropdown-menu-info {
+        font-size: 80%;
+        padding: 5px 8px;
+    }
+
+    .careerMomentsItemsCont {
+        .table {
+            td {
+                vertical-align: middle;
+
+                &.pax-name {
+                    line-height: 40px;
+
+                    a {
+                        display: inline-block;
+                        max-width: calc(100% - #{40px + 8px + 4px});
+                        line-height: normal;
+                        vertical-align: middle;
+                    }
+                }
+            }
+
+            .avatar {
+                background-color: $brand_color_primary;
+                border-radius: 50%;
+                color: $brand_color_white;
+                cursor: pointer;
+                display: inline-block;
+                font-size: $fontSizeLarge;
+                font-weight: normal;
+                height: 40px;
+                line-height: 40px;
+                margin-right: 8px;
+                min-width: 40px;
+                text-align: center;
+                vertical-align: middle;
+                width: 40px;
+            }
+            th.sortable {
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .careerMomentsItems.emptySet {
+        h2 {
+            font-size: $baseFontSize * 1.429;
+        }
+
+        i {
+            margin-right: 10px;
+        }
+    }
+
+    .careerMomentsSearch {
+        margin-right:30px;
+        .searchWrap {
+            margin-top: 0;
+            margin-bottom: 0;
+            position: relative;
+
+            .btn {
+                background: none;
+                // border: none;
+                // border-radius: 4px;
+                // box-shadow: none;
+                height: 28px;
+                padding: 0 5px;
+                // position: absolute;
+                right: 2px;
+                top: 2px;
+                // z-index: 3;
+            }
+        }
+
+        .searchBtn {
+            i {
+                color: $careerMoments_magnifyColor;
+                font-size: round($baseFontSize * 1.28);
+                line-height: 32px;
+                text-shadow: none;
+            }
+        }
+
+        .spinnerWrap {
+            background-color: $brand_color_white;
+            border-radius: 4px;
+            display: none;
+            height: 28px;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            vertical-align: top;
+            width: 28px;
+            z-index: 4;
+        }
+    }
+}/* /.careerMoments */
+.page.careerMoments.sa-filter {
+    .page-topper {
+        color: $brand_color_black;
+        background-image: url($appImagesPath + "sa-uc.jpg");
+        &::before {
+            content: none
+        }
+    }
+    #cmPastPresentSelect label {
+        background: #fff;
+    }
+}
+
+#careerMomentsProfileWrapper {
+    .tab-content {
+        overflow: visible;
+        #profilePagePersonalInfoTab{
+            @include avatarSizing(160px);
+        }
+        #profilePagePersonalInfoTab dd {
+            margin-left: 115px;
+            line-height: $baseLineHeight;
+            margin-top: 7px;
+            min-height: $baseLineHeight;
+
+            p {
+                margin-bottom: 0;
+            }
+
+        }
+
+        #profileQuestionsWrapper {
+            margin-top: 20px;
+            #iAmWrapper {                
+                .likeAndCommentsWrapper {
+                    position:relative;
+
+                    a {
+                        display: inline;
+                    }
+                    span {
+                        display: inline;
+                    }                    
+                    .mask {
+                        position: absolute;
+                        z-index: 100;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: $careerMoments_contributeCommentBgColor;
+                        @include opacity(.5);
+                        .spin {
+                            display: block;
+                            margin: 0 auto;
+                            width: 50px !important;
+                            height: 50px !important;
+                            left: 20px;
+                            right: unset;
+                            top: 50%;
+                        }
+                    }
+                    .iamCommentsLike {                        
+                        i {
+                            margin-right:5px;
+                            color: $brand_color_black;
+                            &:hover {
+                                color: $brand_color_primary;
+                            }
+                        }
+                        &.liked {
+                            i {                            
+                                color: $brand_color_primary;
+                                &:hover {
+                                    color: $brand_color_primary;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .spin {
+            display: block;
+            margin: 0 auto;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+        }
+        //
+
+        #Recognition {
+            margin: (-1 * $g6PagePaddingY / 2) (-1 * $g6PagePaddingX) (-1 * $g6PagePaddingY);
+
+            @media (min-width: $breakpoint_tablet_min) {
+                margin: (-1 * $g6PagePaddingY_tablet / 2) (-1 * $g6PagePaddingX_tablet) (-1 * $g6PagePaddingY_tablet);
+            }
+            @media (min-width: $breakpoint_desktop_min) {
+                margin: (-1 * $g6PagePaddingY_desktop / 2) (-1 * $g6PagePaddingX_desktop) (-1 * $g6PagePaddingY_desktop);
+            }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                margin: (-1 * $g6PagePaddingY_desktopLarge / 2) (-1 * $g6PagePaddingX_desktopLarge) (-1 * $g6PagePaddingY_desktopLarge);
+            }
+        }
+        #PersonalInfo{
+        #profilePagePersonalInfoTab {
+            .span3 {
+                margin-left: 0px;
+            }
+        }
+        #profileMainInfoWrapper {
+            dt {
+             text-align: left;
+            }
+        }
+    }
+
+    }
+
+    .small48{
+        float: left;
+        margin-right: 10px;
+        @include avatarSizingNoWrap(48px);
+    }
+
+
+    .page-topper {
+        padding-bottom: 0;
+    }
+
+    .nav-tabs {
+        @media (max-width: $breakpoint_mobile_max) {
+            margin-top: 10px;
+        }
+    }
+
+    .nav-tabs>li, .nav-pills>li {
+        @media (max-width: $breakpoint_mobile_max) {
+            float: none;
+        }
+    }
+    
+    a.btn.btn-primary{
+        &.fl.miniProfFollowLink{
+            &.follow{
+                float: right;
+                margin-right: 10px;
+            }
+        }
+    }
+    i.icon-team-1{
+        float:left;
+        margin-right :5px;
+    }
+    
+    .avatarwrap{
+         margin-left: 0px;
+    }
+    .dl-horizontal {
+        dt{
+            width:100px;
+        }
+    }
+}
+
+.careerMomentsProfilePageView {
+    .commentsItemWrapper {
+        // padding-bottom: $baseLineHeight / 2;
+        // padding-top: $baseLineHeight;
+        zoom: 1;
+
+        .innerCommentWrapper {            
+            // margin: (-1 * $baseLineHeight / 2) (-1 * $baseLineHeight / 2) 0;
+            padding: $baseLineHeight;
+            zoom: 1;
+            @if $careerMoments_commentBgColorEven {
+                background: $careerMoments_commentBgColorEven;
+            }
+
+            &.flashBg {
+                background: $linkColor !important;
+            }
+            .avatarwrap {
+                width: $careerMoments_avatarSize !important;
+                height: $careerMoments_avatarSize !important;
+            }
+            .likeAndCommentsWrapper {
+                position:relative;                
+                a {
+                    font-weight: normal;
+                    span {
+                        color: $brand_color_white;
+                    }
+                }
+                .mask {
+                    position: absolute;
+                    z-index: 100;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: $careerMoments_contributeCommentBgColor;
+                    @include opacity(.2);
+                    .spin {
+                        display: block;
+                        margin: 0 auto;
+                        width: 50px !important;
+                        height: 50px !important;
+                        left: 20px;
+                        right: unset;
+                        top: -10px;
+                    }
+                }
+                .commentsLike, .levelOneCommentsLike {
+                    margin-left: 5px;
+                    i {
+                        margin-right:5px;
+                        color: $brand_color_black;
+                        &:hover {
+                            color: $brand_color_primary;
+                        }
+                    }
+                    &.liked {
+                        i {                            
+                            color: $brand_color_primary;
+                            &:hover {
+                                color: $brand_color_primary;
+                            }
+                        }
+                    }
+                }
+                .userComment {
+                    margin-left: 5px;
+                    i {
+                        margin-right:5px;
+                        color: $brand_color_black;
+                        &:hover {
+                            color: $brand_color_primary;
+                        }
+                    }
+                }
+                .commentInputWrapper {
+                    border-top: 1px solid #ccc;
+                    padding: 25px 0 0 0;
+                    position: relative;
+                    margin: 15px 0 0px 0px;
+                    z-index: 9;
+
+                    .spinner {
+                        width: 100px;
+                        height: 100px;
+                    }
+
+                    @media (max-width: 679px) {
+                        padding: 20px 0 0;
+                    }
+
+                    textarea {
+                       height: auto;
+                       padding: 10px;
+                       resize: none;     
+                       width: calc( 100% - 20px);
+                    }
+                    .publicProfileSubComments {
+                        padding: 10px 10px 0px 10px;
+                        .app-col {
+                            float:left;
+                        }
+                        .comment {
+                            float:none;
+                            padding:10px  0px 0px 0px;
+                            margin-left: $careerMoments_profileImgSize + 30px;
+                            word-wrap: break-word;
+                            p {
+                                margin:0px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        @include avatarSizing($careerMoments_avatarSize);
+        .avatarImg {
+            float: left;
+        }
+
+        .userInfo {
+            font-weight: bold;
+        }
+
+        .indent {
+            margin-left: $careerMoments_avatarSize * 1.25;
+            padding-left: $careerMoments_avatarSize * 0.25;
+            min-height: $careerMoments_avatarSize;
+            border-left: 1px solid $careerMoments_commentBorderColorEven;
+        }
+
+        .media {
+            img {
+               // max-width: 100%;
+               // max-width: $purlMediaWidth;d
+               // width: 100%;
+            }
+            // set responsive default width for videos
+            .videoWrapper {
+                //width: $purlMediaWidth;
+
+                & + .videoWrapper,
+                & + img {
+                    margin-top: $baseLineHeight;
+                }
+            }
+        }
+
+        @media (max-width: $breakpoint_mobileMini_max) {
+            @include avatarSizing($careerMoments_avatarSize / 2);
+
+            .avatar {
+                margin-right: $careerMoments_avatarSize / 2 * 0.25;
+                margin-bottom: 0px;
+                width: $careerMoments_avatarSize / 2;
+                height: $careerMoments_avatarSize / 2;
+            }
+
+            .indent {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: 0;
+            }
+
+            .userInfo {
+                margin-left: $careerMoments_avatarSize / 2 * 1.25;
+                line-height: $careerMoments_avatarSize / 2;
+                border-bottom: 1px solid $careerMoments_commentBorderColorEven;
+            }
+
+            .author {
+                display: block;
+                float: none;
+            }
+
+            .text {
+                clear: both;
+                // margin-top: 10px;
+                padding-top: 10px;
+            }
+        }
+    }// .commentItemWrapper
+
+    .commentsItemWrapper:nth-of-type(2n+1) {
+        @if $careerMoments_commentBgColorOdd {
+            .innerCommentWrapper {
+                background: $careerMoments_commentBgColorOdd;
+            }
+
+            .indent,
+            .userInfo {
+                border-color: $careerMoments_commentBorderColorOdd;
+            }
+        }
+    }
+    .contribCommentWrapper {
+        position: relative;
+        margin-bottom: -233px;
+        margin-top: 40px;
+        // margin-right: -1 * ($baseLineHeight / 2);
+        // margin-left: -1 * ($baseLineHeight / 2);
+        padding: 0px;
+        background: $careerMoments_contributeCommentBgColor;
+        color:$brand_color_black;
+        @include clearfix();
+
+        .mask {
+            position: absolute;
+            z-index: 100;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: $careerMoments_contributeCommentBgColor;
+            @include opacity(.5);
+        }
+
+        .spin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: $spinner_widthHeight;
+            height: $spinner_widthHeight;
+            margin: (-1 * $spinner_widthHeight / 2) 0 0 (-1 * $spinner_widthHeight / 2);
+        }
+
+        .indent {            
+            border-left: 1px solid transparent;
+            @include clearfix();
+        }
+
+        @include avatarSizing($careerMoments_avatarSize);
+
+        .contribAvatar {
+            display: block;
+            float: left;
+        }
+
+        .commentWrapper {
+            // width: 75%;
+            // float: left;
+        }
+
+        .contribName {
+            display: inline;
+            float: left;
+            font-weight: $fontWeightBold;
+            min-height: $baseLineHeight;
+            margin-bottom: 4px;
+            h3 {
+                padding:0px;
+                margin:0px;
+            }
+        }
+
+        .commentTools {
+            float: right;
+            margin-bottom: ($baseLineHeight / 4);
+            text-align: right;
+            font-size: $fontSizeSmall;
+
+            .remChars {
+                font-weight: $fontWeightBold;
+            }
+        }
+
+        .commentFauxInput {
+            clear: both;
+            margin: ($baseLineHeight / 4) 0 ($baseLineHeight / 2) 0;
+            padding: 0;
+            background: $inputBackground;
+            border: $formFieldBorderWidth solid $inputBorder;
+            @include border-radius($inputBorderRadius);
+            @include clearfix();
+
+            &:focus {
+                // styles borred from bootstrap/_forms.scss
+                border-color: rgba(82,168,236,.8);
+                outline: 0;
+                outline: thin dotted \9; /* IE6-9 */
+                @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6));
+            }
+
+            &.disabled {
+                background: $brand_color_lighter;
+            }
+        }
+
+        .contribCommentInp {
+            margin-bottom: 0;
+            width: 100%;
+            border-width: 0;
+            border-bottom: 1px dashed $brand_color_border;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: 0;
+                @include box-shadow(none);
+            }
+        }
+
+        .contribCommentBadWords {
+            .badwordsWrapper {
+                top: 0;
+            }
+            .badwordsContent:not(:empty) {
+                padding: $formFieldPadding;
+            }
+        }
+
+        .uploadWrapper {
+            float: left;
+            position: relative;
+            padding: $formFieldPadding;
+
+            .uploadInput {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                top: 0;
+                height: 100%;
+                opacity: 0;
+                cursor: pointer;
+                z-index: 3;
+            }
+
+            .uploadBtn {
+                padding: nth($formFieldPadding, 1) (nth($formFieldPadding, 2) * 2);
+                font-size: $fontSizeLarge;
+                font-weight: $fontWeightBold;
+
+                i {
+                    font-weight: inherit;
+
+                    & + i {
+                        margin-left: nth($formFieldPadding, 2);
+                    }
+                }
+            }
+
+            .upSpin {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                z-index: 1;
+            }
+        }
+
+
+        .attachedMediaDisplayWrapper {
+            position: relative;
+            z-index: 4;
+            //width: $purlMediaWidth;
+            .cmtImgWrap {
+                position: relative;
+                //max-width: 200px;
+
+
+                img,
+                video {
+                    width: 100%;
+                }
+            }
+        }
+
+        // set responsive default width for videos
+        .videoWrapper {
+            //width: $purlMediaWidth;
+        }
+
+
+        // rmBtn (button for removing attached video/image)
+        .rmBtn {
+            cursor: pointer;
+        }
+
+        .videoWrapper,
+        .cmtImgWrap {
+            // special style for remove btn in these elements
+            .rmBtn {
+                z-index: 10;
+                position: absolute;
+                right: 4px;
+                bottom: 4px;
+            }
+        }
+
+        @media (max-width: $breakpoint_mobileMini_max) {
+            .contribAvatar {
+                position: absolute;
+                width: $careerMoments_avatarSize / 2;
+                height: $careerMoments_avatarSize / 2;
+            }
+
+            .indent {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: 0;
+            }
+
+            .contribName {
+                display: block;
+                float: none;
+                margin-left: $careerMoments_avatarSize / 2 * 1.25;
+                margin-bottom: 0;
+                line-height: $careerMoments_avatarSize / 2;
+                border-bottom: 1px solid $careerMoments_contributeNameBorderColor;
+            }
+
+            .commentTools {
+                clear: both;
+                line-height: $careerMoments_avatarSize / 2;
+            }
+        }
+    }// .contribCommentWrapper
+    .careerMomentsCommentsSection {
+        margin-top: 177px;
+        .commentsListWrapper {
+            margin-top: 40px;
+            zoom: 1;
+            .spin {
+                display: block;
+                margin: 0 auto;
+                width: $spinner_widthHeight;
+                height: $spinner_widthHeight;
+            }
+        }
+    } 
+       
+}
+

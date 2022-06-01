@@ -1,0 +1,71 @@
+CREATE TABLE stage_quiz_import_record
+  (
+    import_record_id  			NUMBER(18) NOT NULL,
+    import_file_id    			NUMBER(18) NOT NULL INITIALLY DEFERRED,
+    action_type       			VARCHAR2(10) NOT NULL, 
+    record_type					VARCHAR2(1) NOT NULL,   
+    quiz_name      				VARCHAR2(200),
+    quiz_description      		VARCHAR2(400),
+    quiz_number_asked   		NUMBER(10),
+   	quiz_passing_score  		NUMBER(9),
+    quiz_type	   				VARCHAR2(30),    
+    quiz_status_type			VARCHAR2(30),    
+    question_status_type		VARCHAR2(30),
+   	question_is_required		NUMBER(1),
+   	question_text				VARCHAR2(3000),   	
+   	answer_is_correct			NUMBER(1),
+   	answer_choice_text			VARCHAR2(3000),   	
+   	answer_explanation_text 	VARCHAR2(3000),   	
+    created_by 					NUMBER(18) NOT NULL,
+    date_created      			DATE NOT NULL
+  )
+/
+ALTER TABLE stage_quiz_import_record
+ADD CONSTRAINT stage_quiz_import_record_pk PRIMARY KEY (import_record_id)
+USING INDEX
+/
+ALTER TABLE stage_quiz_import_record
+ADD CONSTRAINT stage_quiz_import_record_fk FOREIGN KEY (import_file_id)
+REFERENCES import_file (import_file_id)
+/
+CREATE INDEX STG_QZ_MPRT_RC_MPRT_FL_FK_idx ON STAGE_QUIZ_IMPORT_RECORD
+  (IMPORT_FILE_ID) 
+/
+COMMENT ON TABLE stage_quiz_import_record IS 'Information about a quiz import record.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.import_record_id IS 'System-generated key that uniquely identifies this import record.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.import_file_id IS 'System-generated key that identifies the import file that contains this import record.  Foreign key to the IMPORT_FILE table.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.action_type IS 'Indicates how to process this import record. Staging should always default it to add ''add''. The Quiz file load is only to add/insert quizzes not update. Never present in the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.record_type IS 'Indicates what type of quiz import record it is. ''H'' for header, ''Q'' for question, ''A'' for answer.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.quiz_name IS 'The name of a quiz. Required from the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.quiz_description IS 'The description of a quiz. Required from the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.quiz_number_asked IS 'The number of questions to ask in a quiz. Required from the import file format if the quiz type is random.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.quiz_passing_score IS 'The score which indicates a passing score for a quiz. Required from the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.quiz_type IS 'The display type of quiz such as fixed or random. Required from the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.quiz_status_type IS 'The status of the quiz. Staging should always default it to under construction ''undrconstr''. Never present in the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.question_status_type IS 'The status of a quiz question. Not required in import file, default to ''active'' if not in import file.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.question_is_required IS 'Whether or not a quiz question is required to be answered in a quiz. Not required in import file, default to false or 0 if not in import file.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.question_text IS 'The text of the question. Required from the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.answer_is_correct IS 'Whether or not this answer choice is the correct answer for a specific quiz question. Required from the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.answer_choice_text IS 'The text of the answer choice. Required from the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.answer_explanation_text IS 'The text of the explanation of the answer choice. Optional from the import file format.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.created_by IS 'The userid of the user who created this record.'
+/
+COMMENT ON COLUMN stage_quiz_import_record.date_created IS 'The date and time at which this record was created.'
+/

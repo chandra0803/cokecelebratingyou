@@ -1,0 +1,21 @@
+CREATE TABLE promo_behavior
+(
+ promotion_id         NUMBER(18,0) NOT NULL,
+ behavior_type        VARCHAR2(80) NOT NULL,
+ behavior_order       NUMBER(12),
+ created_by number(18) NOT NULL,
+ date_created       	DATE NOT NULL
+)
+/
+ALTER TABLE promo_behavior ADD CONSTRAINT promo_behavior_fk
+  FOREIGN KEY (promotion_id) REFERENCES promotion (promotion_id)
+/
+ALTER TABLE promo_behavior
+ADD CONSTRAINT promo_behavior_Uk UNIQUE (promotion_id,behavior_type)
+USING INDEX
+/
+CREATE INDEX PROMO_BEHAVIOR_PROMO_FK_idx ON PROMO_BEHAVIOR
+  (PROMOTION_ID)
+/
+COMMENT ON TABLE PROMO_BEHAVIOR IS 'The assigned behaviors for this promotion.  The behaviors are picklist items.'
+/

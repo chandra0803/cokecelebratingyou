@@ -1,0 +1,34 @@
+CREATE SEQUENCE MOCK_ACCT_XACT_PK_SQ INCREMENT BY 1 START WITH 5000
+/
+CREATE TABLE mock_account_transaction
+   (account_transaction_id   NUMBER(18) NOT NULL,
+    account_number           VARCHAR2(30) NOT NULL,
+    transaction_date         DATE NOT NULL,
+    transaction_type         VARCHAR2(30) NOT NULL,
+    transaction_amount       NUMBER(10) NOT NULL,
+    transaction_description  VARCHAR2(255) NOT NULL,
+    account_balance          NUMBER(10) NOT NULL,
+    created_by number(18) NOT NULL,
+    date_created             DATE NOT NULL,
+    modified_by              number(18),
+    date_modified            DATE,
+    version                  NUMBER(18,0) NOT NULL,
+	CONSTRAINT mock_account_transaction_pk PRIMARY KEY (account_transaction_id) )
+/
+
+COMMENT ON TABLE mock_account_transaction IS 'A table to support the MockAwardBanQService.  Mock Account Transactions are stored here.'
+/
+COMMENT ON COLUMN mock_account_transaction.account_number IS 'The mock account number'
+/
+COMMENT ON COLUMN mock_account_transaction.transaction_date IS 'The date of the mock transaction'
+/
+COMMENT ON COLUMN mock_account_transaction.transaction_type IS 'The type of the mock transaction.  Can be deposit, withdrawl, pending or adjustment'
+/
+COMMENT ON COLUMN mock_account_transaction.transaction_description IS 'A text explanation of the account transaction.'
+/
+COMMENT ON COLUMN mock_account_transaction.transaction_amount IS 'The amount of this mock transaction'
+/
+COMMENT ON COLUMN mock_account_transaction.account_transaction_id IS 'Unique code that identifies the mock account transaction record.'
+/
+COMMENT ON COLUMN mock_account_transaction.account_balance IS 'A snapshot of the mock account balance.'
+/

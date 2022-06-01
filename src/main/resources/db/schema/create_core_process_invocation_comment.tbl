@@ -1,0 +1,44 @@
+CREATE TABLE process_invocation_comment
+    (process_invocation_comment_id   NUMBER(18) NOT NULL,
+     process_invocation_id           NUMBER(18),
+     comments                        VARCHAR2(250),
+     sequence_num					NUMBER(10) NOT NULL,
+     created_by number(18) NOT NULL,
+     date_created                   DATE NOT NULL,
+     modified_by number(18),
+     date_modified                  DATE,
+     version                        NUMBER(18) NOT NULL)
+/
+ALTER TABLE process_invocation_comment
+ADD CONSTRAINT proc_invoc_comment_pk PRIMARY KEY (process_invocation_comment_id)
+USING INDEX
+/
+COMMENT ON TABLE process_invocation_comment IS 'The process_invocation_invocation table stores a record of a process invocation comment.'
+/
+COMMENT ON COLUMN process_invocation_comment.process_invocation_comment_id IS 'System-generated key that identifies a specific processinvocation comment.'
+/
+COMMENT ON COLUMN process_invocation_comment.process_invocation_id IS 'FK to the ProcessInvocation table'
+/
+COMMENT ON COLUMN process_invocation_comment.comments IS 'comment'
+/
+COMMENT ON COLUMN process_invocation_comment.sequence_num IS 'sequence num needed by List processInvocationComments'
+/
+COMMENT ON COLUMN process_invocation_comment.created_by IS 'Created by'
+/
+COMMENT ON COLUMN process_invocation_comment.date_created IS 'Date Created'
+/
+COMMENT ON COLUMN process_invocation_comment.modified_by IS 'Modified by.'
+/
+COMMENT ON COLUMN process_invocation_comment.date_modified IS 'Date Modified.'
+/
+COMMENT ON COLUMN process_invocation_comment.version IS 'Version.'
+/
+ALTER TABLE process_invocation_comment
+ADD CONSTRAINT proc_invoc_comment_fk FOREIGN KEY (process_invocation_id)
+REFERENCES Process_invocation (process_invocation_id)
+/
+create sequence PROCESS_INVOC_COMMENT_PK_SQ start with 1540
+/
+CREATE INDEX PRC_INVOC_CMT_PRC_INVOC_FK_idx ON PROCESS_INVOCATION_COMMENT
+  (PROCESS_INVOCATION_ID)
+/

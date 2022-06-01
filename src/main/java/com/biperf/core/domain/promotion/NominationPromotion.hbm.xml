@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- Recognition Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.NominationPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_NOMINATION" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+
+  <property name="awardActive" type="boolean" column="AWARD_ACTIVE" not-null="true"/>
+  <property name="behaviorActive" type="boolean" column="BEHAVIOR_ACTIVE" not-null="true"/>
+  <property name="cardActive" type="boolean" column="CARD_ACTIVE" not-null="true"/>
+  <property name="certificateActive" type="boolean" column="CERTIFICATE_ACTIVE" not-null="true"/>
+  <property name="cardClientEmailAddress" type="java.lang.String" column="CARD_CLIENT_EMAIL"/>
+  <property name="cardClientSetupDone" type="boolean" column="CARD_CLIENT_SETUP_DONE" not-null="true"/>
+  <property name="includeCertificate" type="boolean" column="INCLUDE_CERTIFICATE" not-null="true"/>
+  <property name="maxGroupMembers" type="java.lang.Integer" column="MAX_GROUP_MEMBERS"/>
+  <property name="selfNomination" type="boolean" column="SELF_NOMINATION" not-null="true"/>
+  <property name="allowPublicRecognition" type="boolean" column="ALLOW_PUBLIC_RECOGNITION" not-null="true"/>
+  <property name="allowPromotionPrivate" type="boolean" column="ALLOW_PROMOTION_PRIVATE" not-null="true"/>
+  <property name="publicationDateActive" type="boolean" column="PUBLICATION_DATE_ACTIVE" not-null="true"/>
+  <property name="publicationDate" type="java.util.Date" column="PUBLICATION_DATE" />
+  <property name="allowYourOwnCard" type="boolean" column="ALLOW_YOUR_OWN_CARD" not-null="true"/>
+  <property name="drawYourOwnCard" type="boolean" column="DRAW_YOUR_OWN_CARD" not-null="true"/>
+  <property name="payoutLevel" type="java.lang.String" column="PAYOUT_LEVEL_TYPE"/>
+  <property name="timePeriodActive" type="boolean" column="TIME_PERIOD_ACTIVE" not-null="true"/>
+  <property name="paxDisplayOrder" type="java.lang.String" column="PAX_DISPLAY_ORDER"/>
+  <property name="oneCertPerPromotion" type="boolean" column="ONE_CERT_PER_PROMOTION" not-null="true"/>
+  <property name="whyNomination" type="boolean" column="IS_WHY" not-null="true"/>
+  <property name="nominatorRecommendedAward" type="boolean" column="RECOMMENDED_AWARD" not-null="true"/>
+  <property name="lastPointBudgetRequestDate" type="java.util.Date" column="LAST_PNT_BUD_REQ_DATE" />
+  <property name="lastCashBudgetRequestDate" type="java.util.Date" column="LAST_CASH_BUD_REQ_DATE" />
+  <property name="levelSelectionByApprover" type="boolean" column="ADIH_IS_LEVEL_SELECT" not-null="true"/><!-- Client customizations for WIP #56492 -->
+  <property name="levelPayoutByApproverAvailable" type="boolean" column="ADIH_IS_LEVEL_PAYOUT"/><!-- Client customizations for WIP #58122 -->
+  <property name="capPerPax" type="java.lang.Integer" column="ADIH_CAP_PER_PAX"/><!-- Client customizations for WIP #58122 -->
+  <property name="allowMeme" type="boolean" column="ADIH_ALLOW_MEME"/>
+  <property name="allowSticker" type="boolean" column="ADIH_ALLOW_STICKER"/>
+  <property name="allowUploadOwnMeme" type="boolean" column="ADIH_UPLOAD_OWN_MEME"/>
+    
+  <!-- Client customizations for WIP #59420 starts -->
+  <property name="allowedFileTypes" type="java.lang.String" column="ADIH_UPLOAD_FILE_TYPES"/>
+  <!-- Client customizations for WIP #59420 ends -->
+  
+  <!-- Client customizations for WIP #39189 starts -->
+  <property name="enableFileUpload" type="boolean" column="ADIH_ENABLE_FILE_UPLOAD" not-null="true"/>
+  <property name="fileMinNumber" type="java.lang.Integer" column="ADIH_FILE_MIN_NUMBER"/>
+  <property name="fileMaxNumber" type="java.lang.Integer" column="ADIH_FILE_MAX_NUMBER"/>
+  <!-- Client customizations for WIP #39189 ends -->
+  
+  <property name="awardGroupType" column="AWARD_GROUP_TYPE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.NominationAwardGroupType</param>
+    </type>
+  </property>
+
+  <property name="awardGroupSizeType" column="AWARD_GROUP_SIZE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.NominationAwardGroupSizeType</param>
+    </type>
+  </property>
+
+  <property name="evaluationType" column="EVALUATION_TYPE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.NominationEvaluationType</param>
+    </type>
+  </property>
+  
+   <!-- Client customizations for WIP #59418 starts -->
+      <property name="teamCmAsset" type="java.lang.String" column="ADIH_TEAM_CM_ASSET_CODE"/>
+      <property name="teamCmKey" type="java.lang.String" column="ADIH_TEAM_CM_KEY"/>
+	<!-- Client customizations for WIP #59418 ends-->
+
+  <set name="promotionECard" table="PROMO_CARD" lazy="true" inverse="true" cascade="all-delete-orphan" where="CARD_TYPE='ECARD'">
+    <key column="PROMOTION_ID"  not-null="true"/>
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionECard"/>
+  </set>
+  
+  <set name="promotionCertificates" table="PROMO_CERTIFICATES" lazy="true" inverse="true" cascade="all-delete-orphan">
+  	<cache usage="nonstrict-read-write"/>
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionCert"/>
+  </set>
+
+  <set name="promotionBehaviors" lazy="true" table="PROMO_BEHAVIOR" cascade="all-delete-orphan">
+    <key column="promotion_id"/>
+    <composite-element class="com.biperf.core.domain.promotion.PromotionBehavior">
+      <parent name="promotion" />
+     <property name="promotionBehaviorType" column="behavior_type">
+        <type name="com.biperf.core.utils.hibernate.PickListUserType">
+          <param name="lookupClass">com.biperf.core.domain.enums.PromoNominationBehaviorType</param>
+        </type>
+      </property>
+      <property name="behaviorOrder" type="java.lang.String" column="behavior_order"/>
+      <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        <column name="DATE_CREATED"/>
+        <column name="CREATED_BY"/>
+      </property>
+    </composite-element>
+  </set>  
+  
+  <property name="requestMoreBudget" type="boolean" column="REQUEST_MORE_BUDGET" not-null="true"/>
+  <many-to-one name="budgetApprover" lazy="proxy" class="com.biperf.core.domain.participant.Participant" column="BUDGET_APPROVER"/>
+  
+  <many-to-one name="defaultApprover" lazy="proxy" class="com.biperf.core.domain.participant.Participant" column="DEFAULT_APPROVER"/>
+  
+  <set name="nominationTimePeriods" table="PROMO_NOMINATION_TIME_PERIOD"  lazy="true" inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" not-null="true" />			
+			<one-to-many class="com.biperf.core.domain.promotion.NominationPromotionTimePeriod" />
+  </set>
+  
+  <set name="nominationLevels" table="PROMO_NOMINATION_LEVEL" order-by="level_index asc" lazy="true" inverse="true" cascade="all-delete-orphan">
+			<cache usage="nonstrict-read-write"/>
+			<key column="PROMOTION_ID" not-null="true" />	
+			<one-to-many class="com.biperf.core.domain.promotion.NominationPromotionLevel" />
+  </set>
+  
+  <!-- <set name="customApproverOptions" table="APPROVER_OPTION" lazy="false" inverse="true" cascade="all-delete-orphan">
+    <key column="PROMOTION_ID"  not-null="true"/>
+      <one-to-many class="com.biperf.core.domain.promotion.ApproverOption"/>
+  </set> -->
+
+	<list name="customApproverOptions" table="APPROVER_OPTION"
+		inverse="true" lazy="true" cascade="all-delete-orphan">
+		<cache usage="nonstrict-read-write" />
+		<key column="PROMOTION_ID" not-null="true" />
+		<list-index column="SEQUENCE_NUM" />
+		<one-to-many class="com.biperf.core.domain.promotion.ApproverOption" />
+	</list>
+  
+  <!-- Begin Public Recognition fields -->
+  <set name="promotionPublicRecognitionAudiences" table="PROMO_AUDIENCE" lazy="true" inverse="true" cascade="all-delete-orphan" where="PROMO_AUDIENCE_TYPE='PUBLIC_RECOGNITION'">
+  	<cache usage="nonstrict-read-write"/>
+    <key column="PROMOTION_ID" not-null="true" />
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionPublicRecognitionAudience"/>
+  </set>
+  
+  <property name="publicRecognitionAudienceType" column="PUBLIC_REC_AUDIENCE_TYPE">
+	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+	  <param name="lookupClass">com.biperf.core.domain.enums.PublicRecognitionAudienceType</param>
+	</type>
+  </property>
+  
+  <property name="allowPublicRecognitionPoints" type="boolean" column="ALLOW_PUBLIC_RECOG_POINTS" not-null="true"/>
+  
+  <many-to-one name="publicRecogBudgetMaster" class="com.biperf.core.domain.budget.BudgetMaster" cascade="none" not-null="false" lazy="false">
+     <column name="PUBLIC_REC_BUDGET_MASTER_ID" />
+  </many-to-one>
+  <property name="publicRecogAwardAmountMin" type="java.lang.Long" column="PUBLIC_REC_AWARD_AMOUNT_MIN"/>
+  
+  <property name="publicRecogAwardAmountMax" type="java.lang.Long" column="PUBLIC_REC_AWARD_AMOUNT_MAX"/>
+  
+  <property name="publicRecogAwardAmountTypeFixed" type="boolean" column="PUBLIC_REC_AWARD_TYPE_FIXED" not-null="true"/>
+  
+  <property name="publicRecogAwardAmountFixed" type="java.lang.Long" column="PUBLIC_REC_AWARD_AMOUNT_FIXED"/>
+  <!-- End Public Recognition fields -->
+  
+  <property name="viewPastWinners" type="boolean" column="VIEW_PAST_WINNERS" not-null="true" />
+  
+</joined-subclass>
+
+<sql-query name="com.biperf.core.domain.promotion.NominationsSubmittedForPromotion">
+    <return-scalar column="count" type="long"/>
+    <![CDATA[
+    	select count(*) count
+          from claim c, promotion p 
+          where c.promotion_id=:promotionId
+          and p.promotion_id = c.promotion_Id
+          and p.promotion_type = 'nomination'   
+    ]]>
+  </sql-query>
+  
+ 	<sql-query name="com.biperf.core.domain.promotion.getCardSettings">
+		<return-scalar column="allow_your_own_card" type="boolean" />
+		<return-scalar column="draw_your_own_card" type="boolean" />
+		<![CDATA[
+			SELECT pn.allow_your_own_card, 
+				pn.draw_your_own_card
+			FROM promo_nomination pn 
+			WHERE pn.promotion_id = :promotionId 
+		]]>
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.PromoApproverOptionBehaviorCount">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+          SELECT count(1) as result
+          from approver_option
+          where approver_type = 'behavior'
+          and promotion_id = :promotionId
+    ]]>
+	</sql-query>
+	
+	
+</hibernate-mapping>

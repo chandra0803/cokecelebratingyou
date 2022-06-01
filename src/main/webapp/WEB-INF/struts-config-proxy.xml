@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+    <form-bean name="proxyListForm" type="com.biperf.core.ui.proxy.ProxyListForm" />
+    <form-bean name="proxyDetailForm" type="com.biperf.core.ui.proxy.ProxyDetailForm" />    
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite"
+             redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+ 	
+    <!-- Proxy List Mappings -->
+   	<action path="/proxyListForward" name="proxyListForm"
+			type="com.biperf.core.ui.G3ReduxForwardAction" scope="request"
+			validate="false">
+		<forward name="defaultPage" path="account.proxy.list" redirect="false" />
+	</action>
+		
+ 	<action path="/proxyListDisplay" name="proxyListForm"
+			type="com.biperf.core.ui.G3ReduxForwardAction" scope="request"
+			validate="false">
+		<forward name="defaultPage" path="account.proxy.list" redirect="false" />
+	</action>
+
+    <action path="/proxyDelete" name="proxyListForm" parameter="method"
+			type="com.biperf.core.ui.proxy.ProxyListAction" scope="request" validate="false"
+			input="/proxyListForward.do" cancellable="true">
+		<forward name="success" path="/proxyListForward.do" redirect="false" />
+		<forward name="cancel" module="/participant" path="/participantDisplay.do" redirect="true" />
+		<forward name="failure" path="/proxyListForward.do" redirect="false" />
+	</action>
+ 	<!-- End Proxy List Mappings -->
+ 	
+ 	<!-- Proxy Detail Mappings -->
+    <action path="/proxyDetail" name="proxyDetailForm" parameter="method"
+			type="com.biperf.core.ui.proxy.ProxyDetailAction" scope="request" validate="false"
+			input="proxy.detail">
+		<forward name="success" path="proxy.detail" redirect="false" />
+		<forward name="failure" path="proxy.detail" redirect="false" />
+		<forward name="update_proxy" path="proxy.detail" redirect="false" />
+	</action>
+  	
+  	<!-- Proxy Ajax Participant Search Mappings -->
+    <action path="/participantSearch"
+            type="com.biperf.core.ui.proxy.ParticipantSearchAction"
+            scope="request">
+       <forward name="success" path="pax.ajax.participantsearch"/>
+       <forward name="success_nodes" path="pax.ajax.participantsearch.nodes"/>
+       <forward name="success_picklist_items" path="pax.ajax.participantsearch.picklist.items"/>
+    </action>
+
+  	<!-- Proxy Submit Detail Mappings -->
+    <action path="/proxyDetailSubmit" name="proxyDetailForm"
+			parameter="method" type="com.biperf.core.ui.proxy.ProxyDetailAction" scope="request"
+			validate="true" input="proxy.detail" cancellable="true">
+		<forward name="success" path="/proxyListDisplay.do" redirect="true" />
+		<forward name="cancel" path="/proxyListDisplay.do" redirect="false" />
+		<forward name="failure" path="proxy.detail" redirect="false" />
+	</action>
+    <!--  End Proxy Detail Mappings -->
+  </action-mappings>
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn"> 
+		<set-property property="pathnames" 
+					  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+	    <set-property property="stopOnFirstError" value="false"/>
+    </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-proxy.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

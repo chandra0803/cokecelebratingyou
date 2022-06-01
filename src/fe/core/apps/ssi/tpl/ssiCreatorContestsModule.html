@@ -1,0 +1,107 @@
+<!-- ======== SSI MODULE ======== -->
+<div class="module-liner">
+
+    <div class="module-content">
+        <div class="createContestSlide">
+            <form class="contestCreate" action="#POST_DATA_URL" method="post" accept-charset="utf-8" novalidate>
+                <input type="hidden" name="locale" value="en_US">
+
+                <fieldset>
+                    <div class="module-flip-title">
+                        <h3 class="module-title">Create a Contest</h3>
+                    </div>
+
+                    <div class="module-actions">
+                        <a href="#URL_TO_CONTEST_LIST_PAGE" class="myContestsLink">My Contests</a>
+                    </div>
+
+                    <div class="contestNameWrap">
+                        <label for="contestName" class="contestNameLabel">Name your contest</label>
+
+                        <div class="contestStatus contestNameStatus">
+                            <input type="text" class="contestName" name="contestName" value="" placeholder="Name your contest" maxlength="50">
+
+                            <span class="pending"></span>
+
+                            <div class="iconWrap">
+                                <i class="valid icon-check-circle"></i>
+                                <i class="invalid icon-cancel-circle"></i>
+                            </div>
+
+                            <p class="msg"></p>
+                        </div>
+                    </div>
+
+                    <div class="selectSubmitWrap">
+                        <div class="selectWrap">
+                            <input type="hidden" class="contestType" name="contestType"  />
+
+                            <span class="selectText">Select a Type</span>
+                            <a href="#" class="showContestQtip">Show Details</a>
+                            <a href="#" class="hideContestQtip">Hide Details</a>
+
+                            {{#each contestTypes}}
+                            <div class="card">
+                                <div class="card-front">
+                                    <div class="selectedOverlay">
+                                        <button type="submit" class="btn btn-primary invert-btn submitForm" disabled="disabled">Next</button>
+                                    </div>
+
+                                    <i class="icon-check-circle card-select-icon" data-value="{{contestType}}"></i>
+
+                                    <div class="card-top">
+                                        {{#eq contestType "objectives"}}
+                                            <span class="avatar">
+                                                <span class="avatarContainer">
+                                                    <i class="icon-g5-ssi-objectives card-icon"></i>
+                                                </span>
+                                            </span>
+                                        {{/eq}}
+                                        {{#eq contestType "stepItUp"}}
+                                            <span class="avatar">
+                                                <span class="avatarContainer">
+                                                    <i class="icon-g5-ssi-stepItUp card-icon"></i>
+                                                </span>
+                                            </span>
+                                        {{/eq}}
+                                        {{#eq contestType "doThisGetThat"}}
+                                            <span class="avatar">
+                                                <span class="avatarContainer">
+                                                    <i class="icon-g5-ssi-doThisGetThat card-icon"></i>
+                                                </span>
+                                            </span>
+                                        {{/eq}}
+                                        {{#eq contestType "stackRank"}}
+                                            <span class="avatar">
+                                                <span class="avatarContainer">
+                                                    <i class="icon-g5-ssi-stackRank card-icon"></i>
+                                                </span>
+                                            </span>
+                                        {{/eq}}
+                                        {{#eq contestType "awardThemNow"}}
+                                            <span class="avatar">
+                                                <span class="avatarContainer">
+                                                    <i class="icon-g5-ssi-awardThemNow card-icon"></i>
+                                                </span>
+                                            </span>
+                                        {{/eq}}
+                                    </div> <!-- /.card-top -->
+
+                                    <div class="card-details">
+                                        <h5 class="contestTypeName headline_5">{{contestTypeName}} Contest</h5>
+                                        <p class="contestDescriptionText">{{description}}</p>
+                                    </div>
+                                </div> <!-- /.card-front -->
+                            </div> <!-- /.card -->
+                            {{/each}}
+                        </div>
+
+                        <!-- <div class="submitWrap">
+                            <button type="submit" class="btn btn-primary submitForm" disabled="disabled">Next</button>
+                        </div> -->
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div> <!-- ./module-content -->
+</div>

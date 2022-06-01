@@ -1,0 +1,26 @@
+{
+	"filters" : [
+
+                {
+                    "code":"name",
+                    "name":"Name"
+                },
+                {
+                    "code":"location",
+                    "name":"Location"
+                },
+                {
+                    "code":"jobTitle",
+                    "name":"Job Title"
+                },
+                {
+                    "code":"department",
+                    "name":"Department"
+                },
+                {
+                    "code":"country",
+                    "name":"Country"
+                }
+
+		]
+    }

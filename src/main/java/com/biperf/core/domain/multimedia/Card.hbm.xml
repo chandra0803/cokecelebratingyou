@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.multimedia.Card" table="CARD">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="CARD_ID">
+			<generator class="assigned">
+			</generator>
+		</id>
+
+   <!-- Using version number optimistic locking -->
+	<property name="version" column="VERSION" type="java.lang.Long" />
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo"
+      type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED" />
+      <column name="CREATED_BY" />
+    </property>
+
+    <!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditUpdateInfo"
+      type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED" />
+      <column name="MODIFIED_BY" />
+    </property>
+
+    <property name="name" column="CARD_NAME" type="java.lang.String" not-null="true" />
+    <property name="smallImageName" column="SMALL_IMAGE_NAME" type="java.lang.String" not-null="true" />
+    <property name="largeImageName" column="LARGE_IMAGE_NAME" type="java.lang.String" />    
+    <property name="active" column="IS_ACTIVE" type="boolean" />
+    <property name="mobile" column="IS_MOBILE" type="boolean" />
+    
+    <joined-subclass name="com.biperf.core.domain.multimedia.ECard" table="ECARD" >
+            <key column="CARD_ID"/>
+            <property name="flashName" column="FLASH_NAME" type="java.lang.String" />
+            <property name="translatable" column="IS_TRANSLATABLE" type="boolean" />
+            <set name="ecardLocales" table="ECARD_LOCALE" lazy="false" inverse="true" cascade="all-delete-orphan">
+				<key column="CARD_ID"/>
+				<one-to-many class="com.biperf.core.domain.multimedia.EcardLocale" />
+			</set>
+    </joined-subclass>
+    
+    <joined-subclass name="com.biperf.core.domain.multimedia.OddCastCard" table="ODD_CAST_CARD" >
+      	<key column="CARD_ID"/>
+      	<many-to-one name="category" column="CATEGORY_ID" not-null="true" cascade="save-update" lazy="false"/>
+	    <property name="characterId" column="CHARACTER_ID" type="java.lang.Long" />
+	    <property name="characterName" column="CHARACTER_NAME" type="java.lang.String" />
+	    <property name="characterSmallImageName" column="CHAR_SMALL_IMAGE_NAME" type="java.lang.String" />
+	    <property name="characterLargeImageName" column="CHAR_LARGE_IMAGE_NAME" type="java.lang.String" />
+	    <property name="outfitId" column="OUTFIT_ID" type="java.lang.Long" />
+	    <property name="outfitName" column="OUTFIT_NAME" type="java.lang.String" />
+	    <property name="outfitSmallImageName" column="OUTFIT_SMALL_IMAGE_NAME" type="java.lang.String" />
+	    <property name="outfitLargeImageName" column="OUTFIT_LARGE_IMAGE_NAME" type="java.lang.String" />
+	    <property name="accessoryId" column="ACCESSORY_ID" type="java.lang.Long" />
+	    <property name="accessoryName" column="ACCESSORY_NAME" type="java.lang.String" />
+	    <property name="accessorySmallImageName" column="ACCESSORY_SMALL_IMAGE_NAME" type="java.lang.String" />
+	    <property name="accessoryLargeImageName" column="ACCESSORY_LARGE_IMAGE_NAME" type="java.lang.String" />
+	    <property name="sceneHeaderScript" column="SCENE_HEADER_SCRIPT" type="java.lang.String" />
+	    <property name="sceneBodyScript" column="SCENE_BODY_SCRIPT" type="java.lang.String" />
+	    <property name="voiceId" column="VOICE_ID" type="java.lang.Long" />
+	    <property name="languageId" column="LANGUAGE_ID" type="java.lang.Long" />
+	    <property name="voiceFamilyId" column="VOICE_FAMILY_ID" type="java.lang.Long" />
+    </joined-subclass>    
+    
+  </class>
+  	<query name="com.biperf.core.domain.multimedia.AllActiveECards">
+		<![CDATA[
+			from com.biperf.core.domain.multimedia.ECard ecard
+			where ecard.active = 1
+			  and ecard.mobile = 0
+			order by ecard.name
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.multimedia.AllActiveMobileECards">
+		<![CDATA[
+			from com.biperf.core.domain.multimedia.ECard ecard
+			where ecard.active = 1
+			  and ecard.mobile = 1
+			order by ecard.name
+		]]>
+	</query>
+	
+	<query name="com.biperf.core.domain.multimedia.IsEcardExistForLocale">
+		<![CDATA[
+			from com.biperf.core.domain.multimedia.EcardLocale ecardLocale 
+			where 
+			ecardLocale.cardId= :cardId 
+			and ecardLocale.locale = :locale
+		]]>
+	</query>
+	
+	<sql-query name="com.biperf.core.domain.multimedia.getAllECardIds">
+		<return-scalar column="card_id" type="long"/>		
+		<![CDATA[
+			SELECT card_id from card where SMALL_IMAGE_NAME IS NOT NULL AND SMALL_IMAGE_NAME NOT LIKE '%biw.cloud/v1%'
+		]]>
+	</sql-query>
+	
+	<query name="com.biperf.core.domain.multimedia.getECardById">
+		<![CDATA[
+			from com.biperf.core.domain.multimedia.ECard ecard
+			where ecard.id = :cardId
+		]]>
+	</query>
+	
+</hibernate-mapping>

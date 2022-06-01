@@ -1,0 +1,105 @@
+// App-specific variables
+// =========================
+$baseColor:$brand_color_black !default;
+$baseColorOpacity: 0.8;
+$celebrationAnniversaryFacts_yearTitleColor: rgba($baseColor, $baseColorOpacity);
+$celebrationAnniversaryFacts_yearBgColor: rgba($baseColor, $baseColorOpacity);
+$celebrationAnniversaryFacts_yearTextColor: $brand_color_white !default;
+
+
+// App-specific code
+
+/* ----- MODULE STYLES ----- */
+.launchModule.celebrationAnniversaryFacts {
+    .module-liner{
+        padding:0;
+    }
+    .wide-view {
+        padding: 0;
+    }
+
+    .carousel {
+        .slick-list {
+
+        }
+
+        .slick-arrow {
+
+        }
+
+        .item {
+            position:relative;
+            height: auto;
+        }
+
+        .year-content {
+            bottom: 0;
+            position: absolute;
+            width: 100%;
+            right: 0;
+            text-align: right;
+
+            .year {
+                color: $celebrationAnniversaryFacts_yearTitleColor;
+                font-size: round($fontSizeMid * 6.250); ;//$celebration_secondaryFontFamily;//have to set this in PX so it matches up with the box below
+                font-weight: $fontWeightBold;
+                //letter-spacing: -5px;
+                text-align: right;
+                padding-right:$g6ModulePaddingX;
+                margin-bottom: 0;
+                line-height: 75.5%;
+
+                    //@include text-shadow($card_boxShadow);
+            }
+
+            .year-desc {
+                background-color: $celebrationAnniversaryFacts_yearBgColor;
+                color: $celebrationAnniversaryFacts_yearTextColor;
+                line-height: 1.2;
+                padding: 20px;
+                padding-right:$g6ModulePaddingX;
+
+                position: relative;
+                text-overflow: ellipsis;
+                z-index: 2;
+                font-size: $fontSizeMid;
+                //@include box-shadow($card_boxShadow);
+
+            }
+            @media (min-width: $breakpoint_tablet_min) {
+                .year{
+                    font-size: round($fontSizeMid * 9.375);;
+                }
+                .year-desc{
+
+                    font-size: $fontSizeLarge;
+                }
+                .year, .year-desc  {
+                    padding-right:$g6ModulePaddingX_tablet;
+                }
+            }
+            // @media (min-width: $breakpoint_desktop_min) {
+            //     .year{
+            //         font-size: round($fontSizeMid * 12.5);
+            //     }
+            //     .year-desc{
+            //         font-size: $fontSizeLarge;
+            //     }
+            //     .year, .year-desc  {
+            //         padding-right:$g6PagePaddingX_desktop;
+            //     }
+            // }
+            @media (min-width: $breakpoint_desktopLarge_min) {
+                .year{
+                    font-size: round($fontSizeMid * 15.625);
+                }
+                .year-desc{
+                    font-size: $fontSizeExtraLarge;
+                }
+                .year, .year-desc  {
+                    padding-right:$g6PagePaddingX_desktopLarge;
+                }
+            }
+        }
+    }
+} /* /.page.celebrationAnniversaryFacts  */

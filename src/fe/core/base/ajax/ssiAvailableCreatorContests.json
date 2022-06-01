@@ -1,0 +1,37 @@
+<?php
+sleep(1);
+?>{
+    "language": "en_US",
+    "contestGuideUrl": "#URL_TO_CONTEST_GUIDE_PDF",
+    "contestTypes": [
+        {
+            "contestType": "objectives",
+            "contestTypeName": "Objectives",
+            "description": "Assign a specific objective to each participant and reward them for achievement of that one measure. Objectives and corresponding awards can be unique for each participant or the same for all."
+        },
+        {
+            "contestType": "stepItUp",
+            "contestTypeName": "Step It Up",
+            "description": "Define 2- 5 levels of performance and reward participants for the highest level they achieve. All participants are eligible to earn at any level but, awards are not cumulative and an individual will only earn the award associated with the highest level achieved."
+        },
+        {
+            "contestType": "doThisGetThat",
+            "contestTypeName": "Do This, Get That",
+            "description": "Reward participants every time they complete a specific activity or product sale. The classic, for every \"X\" you will earn \"Y\" scenario."
+        },
+        {
+            "contestType": "stackRank",
+            "contestTypeName": "Stack Rank",
+            "description": "Create a competitive stack ranking of your program participants. Rankings can be highest to lowest or lowest to highest. Issue awards to those achieving the top rankings with corresponding payouts."
+        },
+        {
+            "contestType": "awardThemNow",
+            "contestTypeName": "Award Them Now",
+            "description": "Quickly, easily and instantly issue awards to program participants. No contest setup or activity tracking required."
+        }
+    ]
+}
+
+
+
+

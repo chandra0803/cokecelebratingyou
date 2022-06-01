@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<!-- Product Claim Promotion attributes -->
+<joined-subclass name="com.biperf.core.domain.promotion.ProductClaimPromotion" extends="com.biperf.core.domain.promotion.Promotion" table="PROMO_PRODUCT_CLAIM" >
+
+  <key column="PROMOTION_ID" not-null="true" />
+
+  <property name="payoutType" column="PAYOUT_TYPE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.PromotionPayoutType</param>
+    </type>
+  </property>
+
+  <property name="defaultQuantity" type="integer" column="DEFAULT_QTY"/>
+  <property name="teamUsed" type="boolean" column="IS_TEAM_USED" not-null="true"/>
+  <property name="teamCollectedAsGroup" type="boolean" column="IS_TEAM_COLLECTED_AS_GROUP" not-null="true"/>
+  <property name="teamMaxCount" type="integer" column="TEAM_MAX_COUNT"/>
+  <property name="payoutManager" type="boolean" column="HAS_MANAGER_PAYOUT" not-null="true"/>
+  <property name="payoutManagerPercent" type="integer" column="PAYOUT_MANAGER_PERCENT"/>
+  <property name="teamHasMax" type="boolean" column="TEAM_HAS_MAX_COUNT" not-null="true"/>
+  <property name="payoutManagerPeriod" column="PAYOUT_MANAGER_PERIOD">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.PromoMgrPayoutFreqType</param>
+    </type>
+  </property>
+  <property name="payoutCarryOver" type="boolean" column="PAYOUT_CARRY_OVER" not-null="true"/>
+
+  <property name="promotionProcessingMode" column="PROMOTION_PROCESSING_MODE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.PromotionProcessingModeType</param>
+    </type>
+  </property>
+
+  <property name="stackRankApprovalType" column="STACK_RANK_APPROVAL_TYPE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.StackRankApprovalType</param>
+    </type>
+  </property>
+
+  <property name="stackRankFactorType" column="STACK_RANK_FACTOR_TYPE">
+    <type name="com.biperf.core.utils.hibernate.PickListUserType">
+      <param name="lookupClass">com.biperf.core.domain.enums.StackRankFactorType</param>
+    </type>
+  </property>
+
+  <many-to-one name="stackRankClaimFormStepElement" class="com.biperf.core.domain.claim.ClaimFormStepElement" cascade="none" outer-join="false" lazy="false">
+    <column name="STACK_RANK_CFSE_ID" not-null="false"/>
+  </many-to-one>
+
+  <property name="displayStackRankFactor" type="boolean" column="DISPLAY_STACK_RANK_FACTOR"/>
+  <property name="displayFullListLinkToParticipants" type="boolean" column="DISPLAY_FULL_LIST_LINK_TO_PAX"/>
+
+  <property name="childrenCount" type="int" lazy="false" >
+      <formula>( select count(*) from promo_product_claim pcp, promotion p
+        where pcp.promotion_id = p.promotion_id
+        and pcp.parent_promotion_id = PROMOTION_ID
+        and p.is_deleted = 0 )
+      </formula>
+  </property>
+    
+  <!-- Parent can be null -->
+  <many-to-one name="parentPromotion" lazy="false" class="com.biperf.core.domain.promotion.ProductClaimPromotion" cascade="none" outer-join="false">
+    <column name="PARENT_PROMOTION_ID" not-null="false"/>
+  </many-to-one>
+
+  <!-- all the children for this promotion -->
+  <set name="childPromotions" cascade="all-delete-orphan" inverse="true" lazy="true">
+  <key column="PARENT_PROMOTION_ID"/>
+  <one-to-many class="com.biperf.core.domain.promotion.ProductClaimPromotion"/>
+  </set>
+
+  <set name="promotionTeamPositions" table="PROMO_TEAM_POSITION" lazy="true" inverse="true" cascade="all-delete-orphan">
+    <key column="PROMOTION_ID"/>
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionTeamPosition"/>
+  </set>
+
+  <set name="stackRankPayoutGroups" table="STACK_RANK_PAYOUT_GROUP" inverse="true" cascade="all-delete-orphan">
+    <key column="PROMOTION_ID" not-null="true" />    
+    <one-to-many class="com.biperf.core.domain.promotion.StackRankPayoutGroup"/>
+  </set>
+  
+  <list name="promotionPayoutGroups" table="PROMOTION_PAYOUT_GROUP" lazy="extra" inverse="false" cascade="all-delete-orphan">
+    <key column="PROMOTION_ID" not-null="true" />
+    <list-index column="sequence_num"/>
+    <one-to-many class="com.biperf.core.domain.promotion.PromotionPayoutGroup"/>
+  </list>
+
+</joined-subclass>
+
+  <query name="com.biperf.core.domain.promotion.getChildPromotions">
+    <![CDATA[
+		  from com.biperf.core.domain.promotion.ProductClaimPromotion promotion
+      where promotion.parentPromotion.id = :promotionId and promotion.deleted = 0
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.promotion.getNonExpiredChildPromotions">
+    <![CDATA[
+		  from com.biperf.core.domain.promotion.ProductClaimPromotion promotion
+      where promotion.parentPromotion.id = :promotionId
+      and promotion.promotionStatus != 'expired'
+      and promotion.deleted = 0
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.promotion.processParameterValueChoices.batchModePromotions">
+    <![CDATA[
+      select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from ProductClaimPromotion promotion
+          where promotion.promotionProcessingMode = 'batch' and promotion.parentPromotion.id is null
+    ]]>
+  </query>
+
+  <query name="com.biperf.core.domain.promotion.processParameterValueChoices.managerOverridePromotions">
+    <![CDATA[
+      select new com.biperf.core.value.FormattedValueBean(promotion.id, promotion.promotionName)
+        from ProductClaimPromotion promotion
+          where promotion.payoutManager = java.lang.Boolean.TRUE
+    ]]>
+  </query>
+  
+  <sql-query name="com.biperf.core.domain.promotion.ProductClaimsSubmittedForPromotion">
+    <return-scalar column="count" type="long"/>
+    <![CDATA[
+    	 select SUM(cp.PRODUCT_QTY) count
+          from claim c, promotion p, claim_item ci, claim_product cp
+          where c.promotion_id=:promotionId
+          and p.promotion_id = c.promotion_Id
+          and c.claim_id = ci.claim_id
+          and ci.CLAIM_ITEM_ID = cp.CLAIM_ITEM_ID
+          and ci.approval_status_type = 'approv'
+          and p.promotion_type = 'product_claim'   
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

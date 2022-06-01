@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.filestore.FileStore" table="FILE_STORE">
+	<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct.  -->
+    <id name="id" column="FILE_STORE_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">FILE_STORE_PK_SQ</param>
+      </generator>
+    </id>
+
+    <property column="USER_FILE_NAME" name="userFileName" not-null="true" type="string"/>
+    <property column="INTERNAL_FILE_NAME" name="internalFileName" not-null="true" type="string"/>
+	<property column="DATE_GENERATED" name="dateGenerated" type="timestamp" />
+	<property column="DOWNLOADED" name="downloaded" type="boolean" />
+	<property column="FILE_STORE_TYPE" name="fileStoreType" >
+		<type name="com.biperf.core.utils.hibernate.PickListUserType">
+			<param name="lookupClass">com.biperf.core.domain.enums.FileStoreType</param>
+		</type>
+	</property>
+	
+	<many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="true" lazy="proxy"/>
+		
+  </class>
+</hibernate-mapping>
+

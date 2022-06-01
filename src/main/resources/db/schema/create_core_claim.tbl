@@ -1,0 +1,53 @@
+CREATE SEQUENCE claim_pk_sq INCREMENT BY 1 START WITH  10000
+/
+CREATE SEQUENCE claim_nbr_sq INCREMENT BY 1 START WITH 11000
+/
+CREATE SEQUENCE claim_team_id_sq INCREMENT BY 1 START WITH  10000
+/
+CREATE TABLE claim
+ (claim_id      NUMBER(12) NOT NULL,
+  submitter_id  NUMBER(18),
+  promotion_id	NUMBER(18) NOT NULL,
+  node_id       NUMBER(18),
+  proxy_user_id NUMBER(18),
+  claim_group_id NUMBER(18),
+  is_open       NUMBER(1),
+  approval_round NUMBER(10),
+  last_approval_node_id NUMBER(18),
+  claim_number 	VARCHAR2(30) NOT NULL,
+  approver_comments VARCHAR2(4000),
+  admin_comments    VARCHAR2(4000),
+  submission_date   DATE NOT NULL,
+  is_add_points_claim     NUMBER(1) DEFAULT 0 NOT NULL,  
+  created_by number(18) NOT NULL,
+  date_created  DATE NOT NULL,
+  modified_by number(18),
+  date_modified DATE,
+  version       NUMBER(18) NOT NULL)
+/
+ALTER TABLE claim
+ADD CONSTRAINT claim_id_pk PRIMARY KEY (claim_id)
+USING INDEX
+/
+create index claim_group_id_idx ON CLAIM(CLAIM_GROUP_ID)
+/
+COMMENT ON TABLE claim IS 'The CLAIM table defines a instance of claim form.'
+/
+COMMENT ON COLUMN claim.claim_id IS 'System-generated key that identifies a specific claim.'
+/
+COMMENT ON COLUMN claim.claim_number IS 'a randomized claim number based on a sequence number and algorithm to ensure uniqueness for a specific claim.'
+/
+COMMENT ON COLUMN claim.submitter_id IS 'application_user.user_id of the person submitting the claim.'
+/
+COMMENT ON COLUMN claim.promotion_id IS 'promotion for which this claim is being submitted.'
+/
+COMMENT ON COLUMN claim.node_id IS 'node for which this claim is being submitted.'
+/
+COMMENT ON COLUMN claim.approver_comments IS 'comments on claim by claim approver.' 
+/
+COMMENT ON COLUMN claim.submission_date IS 'date that the claim was submitted' 
+/
+COMMENT ON COLUMN claim.proxy_user_id IS 'user id of the proxy, if exists' 
+/
+COMMENT ON COLUMN claim.is_add_points_claim IS 'Flag indicating wheather or not this claim should show up on public recognition'
+/

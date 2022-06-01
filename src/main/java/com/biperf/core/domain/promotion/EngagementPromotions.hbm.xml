@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+     <class name="com.biperf.core.domain.promotion.EngagementPromotions" table="PROMO_ENGAGEMENT_PROMOTIONS">
+     
+       <composite-id>    
+			<key-many-to-one name="promotion" column="promotion_id" entity-name="com.biperf.core.domain.promotion.Promotion" /> 
+			<key-many-to-one name="eligiblePromotion" column="eligible_promotion_id" entity-name="com.biperf.core.domain.promotion.Promotion" /> 
+	   </composite-id> 
+
+        <!-- Using version number optimistic locking -->
+	    <version name="version" column="VERSION" type="java.lang.Long" />
+	
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	      <column name="DATE_CREATED" />
+	      <column name="CREATED_BY" />
+	    </property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+    </class>
+    
+    <sql-query name="com.biperf.core.domain.promotion.isRecogPromotionInRPM">
+      <return alias="pe" class="com.biperf.core.domain.promotion.EngagementPromotions" />
+		<![CDATA[
+			select {pe.*} 
+			  from PROMO_ENGAGEMENT_PROMOTIONS pe,
+              	   promotion p
+		     where eligible_Promotion_id = :promotionId 
+               and p.promotion_id = pe.promotion_id
+         	   and p.promotion_status = 'live'
+		]]>		
+	</sql-query>
+	
+	<sql-query name="com.biperf.core.domain.promotion.getAllEligiblePromotions">
+      <return-scalar column="promoName" type="string"/>
+		<![CDATA[
+			SELECT fnc_cms_asset_code_val_extr (p2.promo_name_asset_code,
+                                    'PROMOTION_NAME_',
+                                    :locale) as promoName
+            FROM PROMO_ENGAGEMENT_PROMOTIONS pe, promotion p2, promotion p
+            WHERE     p.promotion_id = pe.promotion_id
+            AND pe.eligible_promotion_id = p2.promotion_id
+            AND p.promotion_status = 'live'
+		]]>		
+	</sql-query>
+	
+	    <sql-query name="com.biperf.core.domain.promotion.getAllEligiblePromotions.dmsa">
+	          <return-scalar column="promoName" type="string"/>
+	    		<![CDATA[
+	    		SELECT fnc_cms_asset_code_val_extr (p2.promo_name_asset_code,
+				'PROMOTION_NAME_',
+				:locale) as promoName
+				FROM promotion p2, promotion p
+				,(SELECT * FROM promo_engagement_promotions p WHERE NOT EXISTS (SELECT r.promotion_id FROM promo_recognition r WHERE r.promotion_id = p.eligible_promotion_id  AND (r.is_include_purl = 1 OR r.include_celebrations = 1))) pe           
+				WHERE p.promotion_id = pe.promotion_id
+				AND pe.eligible_promotion_id = p2.promotion_id
+			AND p.promotion_status = 'live'
+	    		]]>		
+	   </sql-query>
+	<sql-query name="com.biperf.core.domain.promotion.getAllEligiblePromotionIds">
+      <return-scalar column="eligible_promotion_id" type="long"/>
+		<![CDATA[
+			SELECT eligible_promotion_id
+			FROM PROMO_ENGAGEMENT_PROMOTIONS 
+			WHERE promotion_id = :promotionId
+		]]>		
+	</sql-query>
+		   	   
+</hibernate-mapping>    
+    
+   

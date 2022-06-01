@@ -1,0 +1,43 @@
+CREATE SEQUENCE promo_payout_group_pk_sq START WITH 250 INCREMENT BY 1
+/
+CREATE TABLE promo_payout_group
+(promo_payout_group_id        NUMBER(18,0) NOT NULL,
+ guid                         VARCHAR2(80) NOT NULL,
+ promotion_id                 NUMBER(18,0) NOT NULL,
+ sequence_num				          NUMBER(18) NOT NULL,
+ parent_promo_payout_group_id NUMBER(18,0),
+ quantity                     NUMBER(16,4) NOT NULL,
+ submitter_payout             NUMBER(16,4) NOT NULL,
+ team_member_payout           NUMBER(16,4),
+ minimum_qualifier						NUMBER(16),
+ retro_payout									NUMBER(1),
+ created_by                   number(18) NOT NULL,
+ date_created                 DATE NOT NULL,
+ modified_by number(18),
+ date_modified                DATE,
+ version                      NUMBER(18,0) NOT NULL)
+/
+ALTER TABLE promo_payout_group
+ADD CONSTRAINT promo_payout_group_pk PRIMARY KEY (promo_payout_group_id)
+USING INDEX
+/
+ALTER TABLE promo_payout_group ADD CONSTRAINT promo_payout_group_promo_fk
+  FOREIGN KEY (promotion_id) REFERENCES promo_product_claim (promotion_id) 
+/
+CREATE INDEX PROMO_PAYOUT_GRP_PROMO_FK_idx ON PROMO_PAYOUT_GROUP
+  (PROMOTION_ID)
+/
+COMMENT ON COLUMN PROMO_PAYOUT_GROUP.PROMO_PAYOUT_GROUP_ID IS 'system generated PK.'
+/
+COMMENT ON COLUMN PROMO_PAYOUT_GROUP.GUID IS 'used to generate the unique business key for equals and hash in java.'
+/
+COMMENT ON COLUMN PROMO_PAYOUT_GROUP.PROMOTION_ID IS 'FK to promotion.'
+/
+COMMENT ON COLUMN PROMO_PAYOUT_GROUP.SEQUENCE_NUM IS 'Order in which this group will be stored.'
+/
+COMMENT ON COLUMN PROMO_PAYOUT_GROUP.PARENT_PROMO_PAYOUT_GROUP_ID IS 'The identifier to the parent payout group of this record.'
+/
+COMMENT ON COLUMN PROMO_PAYOUT_GROUP.SUBMITTER_PAYOUT IS 'Payout for the submitter.'
+/
+COMMENT ON COLUMN PROMO_PAYOUT_GROUP.TEAM_MEMBER_PAYOUT IS 'Payout for the rest of the team.'
+/

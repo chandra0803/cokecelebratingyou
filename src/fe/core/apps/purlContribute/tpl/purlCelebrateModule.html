@@ -1,0 +1,70 @@
+<!-- ======== PURL CELEBRATE MODULE ======== -->
+<div class="module-liner">
+    <div class="purlCelebrateList">
+    </div>
+    <!--subTpl.purlCelebrateListTpl=
+        <div class="purlCelebrateModuleTop">
+            {{#if celebrations}}
+            <h2 class="purlCelebrateModuleTitle multipleCelebrations">
+                Upcoming celebrations
+            </h2>
+            <h2 class="purlCelebrateModuleTitle oneCelebration" style="display:none">
+                Upcoming Celebration
+            </h2>
+            <a href="#" class="viewMore">View More</a>
+            {{else}}
+
+            {{/if}}
+
+        </div>
+        <div class="purlCelebrateModuleContent">
+            {{#if celebrations}}
+
+            <div id="purlCarousel" class="carousel">
+
+                    {{#each celebrations}}
+                    <div class="item">
+                        <div class='item-inner-wrapper'>
+                            {{#if avatarUrl}}
+                            <img src="{{avatarUrl}}" alt="" class="avatar" />
+                            {{else}}
+                            <span class="avatar">{{trimString firstName 0 1}}{{trimString lastName 0 1}}</span>
+                            {{/if}}
+                            {{#if anniversaryInt}}
+                            <span class="celebrationInfo">
+                                <span class="promotion">{{anniversaryInt}}</span>
+                                <span class="balloon"></span>
+                                <span class='celebrationCircleMask'></span>
+                            {{else}}
+                            <span class="celebrationInfo noAnniversary">
+                            {{/if}}
+                            </span>
+                            <span class="personalInfo">
+                                <a href="#" class="profile-popover" data-participant-ids="[{{id}}]">{{firstName}}<br />{{lastName}}</a>
+                                {{#if isToday}}
+                                <span class="celebrationTimeLeft isToday">
+                                {{else}}
+                                <span class="celebrationTimeLeft">
+                                {{/if}}
+                                    <i class="icon-clock"></i>{{timeLeft}}
+
+                                </span>
+
+                                <a href="{{contributeUrl}}" class="shareLink"> Share a Memory</a>
+                            </span>
+                        </div>
+                    </div>
+                    {{/each}}
+
+            </div>
+
+            {{else}}
+                <div class="purlCelebrateEmpty">
+                    <p>There are no Upcoming Celebrations</p>
+                    <a href="" class="btn btn-primary">View Past Celebrations</a>
+                </div>
+            {{/if}}
+
+        </div>
+    subTpl-->
+</div>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.PromotionCard" table="PROMO_CARD">
+    
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+	<id name="id" type="java.lang.Long" column="PROMO_CARD_ID">
+	  <generator class="seqhilo">
+		<param name="max_lo">0</param> <param name="sequence">PROMO_CARD_PK_SQ</param>
+	  </generator>
+	</id>
+    
+    <discriminator type="java.lang.String" column="CARD_TYPE"/>  
+    
+    <version name="version" column="VERSION" type="java.lang.Long" />  
+    
+    <property name="orderNumber" type="java.lang.String" column="ORDER_NUMBER"/>
+	
+	<!-- promotion -->
+	<many-to-one name="promotion" insert="true" update="true"
+	  class="com.biperf.core.domain.promotion.Promotion" outer-join="false" lazy="false">
+	  <column name="PROMOTION_ID" not-null="true" />
+	</many-to-one>
+    
+	<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+	  <column name="DATE_CREATED" />
+	  <column name="CREATED_BY" />
+	</property>
+
+	<subclass name="com.biperf.core.domain.promotion.PromotionECard" extends="com.biperf.core.domain.promotion.PromotionCard"
+       		  discriminator-value="ECARD">	  
+      <many-to-one name="eCard" lazy="false" class="com.biperf.core.domain.multimedia.ECard" column="CARD_ID" cascade="save-update" />
+      
+    </subclass>
+
+    <subclass name="com.biperf.core.domain.promotion.PromotionTalkingCardCategory"
+       		  discriminator-value="TALKING_CARD">        		  
+      <many-to-one name="talkingCardCategory" lazy="false" class="com.biperf.core.domain.multimedia.OddCastCategory" column="CATEGORY_ID" cascade="save-update" />
+    </subclass>   
+    
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.promotion.PromotionECard.Delete">
+    <![CDATA[
+        delete from promo_card pc
+        where
+        pc.card_id = :cardId
+        and pc.promotion_id = :promotionId
+    ]]>
+  </sql-query>
+
+</hibernate-mapping>

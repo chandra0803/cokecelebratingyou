@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.biperf.core.domain.promotion.PromoGqMerchOrder" table="vw_merch_Gq">
+		
+		<id name="id" column="id" type="java.lang.Long">
+			<generator class="assigned"></generator>  
+		</id>
+
+		
+
+	
+		
+    </class>
+
+	
+	
+</hibernate-mapping>

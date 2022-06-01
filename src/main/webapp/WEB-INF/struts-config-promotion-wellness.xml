@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+        
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+	<form-bean name="promotionBasicsForm" type="com.biperf.core.ui.promotion.PromotionBasicsForm" />
+	<form-bean name="promotionAudienceForm" type="com.biperf.core.ui.promotion.PromotionAudienceForm" />
+    <form-bean name="promotionAwardsForm" type="com.biperf.core.ui.promotion.PromotionAwardsForm" />
+  </form-beans>
+  
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite"
+             redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+  </global-forwards>
+  
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+  
+  <!-- ========================================== -->
+  <!-- PROMOTION BASIC ACTIONS                    -->
+  <!-- ========================================== -->
+   <action path="/promotionBasics"
+          name="promotionBasicsForm"
+          parameter="method"
+          type="com.biperf.core.ui.promotion.PromotionBasicsAction"
+          scope="request"
+          validate="false"
+          input="promotion.basics">
+    <forward name="success" path="promotion.basics" redirect="false"/>
+    <forward name="failure" path="promotion.basics" redirect="false"/>
+   </action>
+  
+   <action path="/promotionBasicsSave"
+            name="promotionBasicsForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionBasicsAction"
+            scope="request"
+            validate="true"
+            input="promotion.basics" cancellable="true">
+      <forward name="saveAndContinue" path="/promotionAudience.do?method=display"/>
+      <forward name="saveAndExit" module="/promotion" path="/promotionOverview.do" redirect="true"/>          
+      <forward name="cancel" module="/promotion" path="/promotionOverview.do" redirect="true"/>
+      <forward name="cancelWizard" module="/promotion" path="/promotionListDisplay.do" redirect="true"/>
+      <forward name="failure" path="promotion.basics" redirect="false"/>
+    </action>
+  
+   <!-- ============================================ -->
+    <!-- PROMOTION AUDIENCE ACTIONS (CRUD OPERATIONS) -->
+    <!-- ============================================ -->
+    <action path="/promotionAudience"
+            name="promotionAudienceForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionAudienceAction"
+            scope="request"
+            validate="false">
+      <forward name="success" path="promotion.audience" redirect="false"/>
+      <forward name="submitterAudienceLookup" path="/promotionAddSubmitterAudience.do" redirect="false"/>
+      <forward name="teamAudienceLookup" path="/promotionAddTeamAudience.do" redirect="false"/>
+      <forward name="listbuilder" module="/participant" path="/listBuilderAddAudienceDisplay.do" redirect="true"/>
+      <forward name="paxListPopup" module="/participant" path="promotion.audience.paxlist" redirect="false"/>
+      <forward name="failure" path="promotion.audience" redirect="false"/>      
+    </action>
+    
+    <action path="/promotionAudienceSave"
+            name="promotionAudienceForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionAudienceAction"
+            scope="request"
+            validate="true"
+            input="promotion.audience" cancellable="true">
+      <forward name="saveAndContinue" path="/promotionAwards.do?method=display"/>
+      <forward name="saveAndExit" module="/promotion" path="/promotionOverview.do" redirect="true"/>      
+      <forward name="back" path="/promotionBasics.do?method=display"/>
+      <forward name="cancel" module="/promotion" path="/promotionOverview.do" redirect="true"/>
+      <forward name="cancelWizard" module="/promotion" path="/promotionListDisplay.do" redirect="true"/>
+      <forward name="failure" path="promotion.audience" redirect="false"/>      
+    </action>
+
+    <action path="/promotionAddSubmitterAudience"
+            parameter="/promotionAudience.do?method=returnSubmitterAudienceLookup"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+
+    <action path="/promotionAddTeamAudience"
+            parameter="/promotionAudience.do?method=returnTeamAudienceLookup"
+            type="org.apache.struts.actions.ForwardAction"
+            validate="false"
+            scope="request"/>
+            
+    <!-- ========================================== -->
+    <!-- PROMOTION AWARDS ACTIONS                    -->
+    <!-- ========================================== -->
+    <action path="/promotionAwards"
+            name="promotionAwardsForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionAwardsAction"
+            scope="request"
+            validate="false"
+            input="promotion.awards">
+      <forward name="success" path="promotion.awards" redirect="false"/>
+      <forward name="failure" path="promotion.awards" redirect="false"/>
+    </action>
+
+
+    <action path="/promotionAwardsSave"
+            name="promotionAwardsForm"
+            parameter="method"
+            type="com.biperf.core.ui.promotion.PromotionAwardsAction"
+            scope="request"
+            validate="true"
+            input="promotion.awards" cancellable="true">
+      <forward name="saveAndExit" module="/promotion" path="/promotionOverview.do" redirect="true"/>
+      <forward name="back" path="/promotionAudience.do?method=display"/>
+      <forward name="cancel" module="/promotion" path="/promotionOverview.do" redirect="true"/>
+      <forward name="cancelWizard" module="/promotion" path="/promotionListDisplay.do" redirect="true"/>
+      <forward name="failure" path="promotion.awards" redirect="false"/>      
+    </action>
+    
+    
+  
+  </action-mappings>
+  
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+    <set-property property="pathnames"
+                  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-promotion.xml"/>
+    <set-property property="stopOnFirstError" value="false"/>
+  </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-promotion-wellness.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

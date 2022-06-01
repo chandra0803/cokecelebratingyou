@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Process Module -->
+
+  <!--
+  * Base tiles definitions (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		- title that appears in Browser header
+  * 2.  header   	- header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo	- User Information bar
+  * 5.  messages	- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+
+  <definition name="process.list" extends="beacon.default" controllerClass="com.biperf.core.ui.process.ProcessListController">
+    <put name="content" value="/process/processList.jsp" />
+    <put name='trackingTitle' value='Process_List' />
+  </definition>
+ 
+  <definition name="process.detail" extends="beacon.default" controllerClass="com.biperf.core.ui.process.ProcessDetailController">
+    <put name="content" value="/process/processDetail.jsp" />
+    <put name='trackingTitle' value='Process_Detail' />
+  </definition>
+  
+  <definition name="inactive.process.list" extends="beacon.default" controllerClass="com.biperf.core.ui.process.InactiveProcessListController">
+    <put name="content" value="/process/processList.jsp" />
+    <put name='trackingTitle' value='Process_Inactive_Detail' />
+  </definition>
+
+  <definition name="process.log" extends="beacon.default" controllerClass="com.biperf.core.ui.process.ProcessLogController">
+    <put name="content" value="/process/processLog.jsp" />
+    <put name='trackingTitle' value='Process_Log' />
+    
+  </definition>  
+  
+  <definition name="process.comment.log" extends="beacon.default" controllerClass="com.biperf.core.ui.process.ProcessCommentLogController">
+    <put name="content" value="/process/processCommentLog.jsp" />
+    <put name='trackingTitle' value='Process_Comment_Log' />
+  </definition> 
+  
+  <definition name="process.schedule.list" extends="beacon.default" controllerClass="com.biperf.core.ui.process.ProcessScheduleListController">
+    <put name="content" value="/process/processScheduleList.jsp" />
+    <put name='trackingTitle' value='Process_Schedule_List' />
+  </definition>
+  
+  <definition name="schedule.process" extends="beacon.default" controllerClass="com.biperf.core.ui.process.ScheduleProcessController">
+    <put name="content" value="/process/scheduleProcess.jsp" />
+    <put name='trackingTitle' value='Schedule_Process' />
+  </definition>
+  
+  <definition name="process.launch" extends="beacon.default" controllerClass="com.biperf.core.ui.process.LaunchProcessDisplayController">
+    <put name="content" value="/process/launchProcess.jsp" />
+    <put name='trackingTitle' value='Launch_Process' />
+  </definition>
+  
+  <definition name="test.process.launch" extends="beacon.default" controllerClass="com.biperf.core.ui.process.LaunchProcessDisplayController">
+    <put name="content" value="/process/launchTestProcess.jsp" />
+    <put name='trackingTitle' value='Launch_Test_Process' />
+  </definition>
+  
+  <definition name="pax.ajax.participantsearch" path="/process/participantSearchAjax.jsp"/>
+  
+  <definition name="process.launch.confirm" extends="beacon.default">
+    <put name="content" value="/process/launchConfirmation.jsp" />
+    <put name='trackingTitle' value='Launch_Confirmation' />
+  </definition>
+  
+  <definition name="process.execution.list" extends="beacon.default" controllerClass="com.biperf.core.ui.process.ProcessExecutionListController">
+    <put name="content" value="/process/processExecutionList.jsp" />
+    <put name='trackingTitle' value='Process_Execution_List' />
+  </definition>
+ 
+</tiles-definitions>

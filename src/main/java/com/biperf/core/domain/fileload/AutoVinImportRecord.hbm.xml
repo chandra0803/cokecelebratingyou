@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.fileload.AutoVinImportRecord" table="STAGE_GQ_VIN_NBR_IMPORT">
+
+    <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+    <id name="id" type="java.lang.Long" column="IMPORT_RECORD_ID">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">IMPORT_RECORD_PK_SQ</param>
+      </generator>
+    </id>
+
+    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="importFileId" type="java.lang.Long" column="IMPORT_FILE_ID"/>
+    <property name="actionType" type="java.lang.String" column="ACTION_TYPE"/>
+    <property name="loginId" type="java.lang.String" column="LOGIN_ID"/>
+    <property name="userId" type="java.lang.Long" column="USER_ID"/>
+    <property name="firstName" type="java.lang.String" column="FIRST_NAME" />
+    <property name="lastName" type="java.lang.String" column="LAST_NAME"/>
+    <property name="emailAddress" type="java.lang.String" column="EMAIL_ADDRESS"/>
+    <property name="vin" type="java.lang.String" column="VIN_NBR"/>
+    <property name="model" type="java.lang.String" column="MODEL"/>
+    <property name="transactionType" type="java.lang.String" column="TRANS_TYPE"/>        
+    <property name="salesDate" type="java.util.Date" column="SALES_DATE"/>
+    <property name="deliveryDate" type="java.util.Date" column="DELIVERY_DATE"/>
+    <property name="dealerCode" type="java.lang.String" column="DEALER_CODE"/>
+    <property name="dealerName" type="java.lang.String" column="DEALER_NAME"/>
+            
+    <set name="importRecordErrors" table="IMPORT_RECORD_ERROR" cascade="all-delete-orphan" inverse="true">
+      <key column="IMPORT_RECORD_ID"/>
+      <one-to-many class="com.biperf.core.domain.fileload.ImportRecordError"/>
+    </set>
+
+  </class>
+
+  <query name="com.biperf.core.domain.import.file.AutoVinRecordsByPage">
+    <![CDATA[
+		from com.biperf.core.domain.fileload.AutoVinImportRecord autoVinRecord
+	   where autoVinRecord.importFileId = :importFileId 
+    ]]>
+  </query>
+  
+	<sql-query name="com.biperf.core.domain.import.file.AutoVinRecordsByPageWithoutError">
+	<return alias="av" class="com.biperf.core.domain.fileload.AutoVinImportRecord"/>
+	    <![CDATA[
+	      select {av.*}  from STAGE_GQ_VIN_NBR_IMPORT av
+	      where av.import_file_id = :importFileId 
+	      and NOT EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = av.import_record_id
+                      AND ire.import_file_id = av.import_file_id)
+	      order by av.LOGIN_ID asc
+	    ]]>
+	 </sql-query>
+	   
+	<sql-query name="com.biperf.core.domain.import.file.AutoVinRecordsByPageWithError">
+	<return alias="av" class="com.biperf.core.domain.fileload.AutoVinImportRecord"/>
+	    <![CDATA[
+	      select {av.*}  from STAGE_GQ_VIN_NBR_IMPORT av
+	      where av.import_file_id = :importFileId 
+          and EXISTS(SELECT import_record_id
+                     FROM IMPORT_RECORD_ERROR ire
+                    WHERE ire.import_record_id = av.import_record_id
+                      AND ire.import_file_id = av.import_file_id)
+	      order by av.LOGIN_ID asc
+	    ]]>
+	  </sql-query>  
+</hibernate-mapping>

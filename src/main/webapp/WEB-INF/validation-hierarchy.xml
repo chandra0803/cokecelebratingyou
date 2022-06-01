@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE form-validation PUBLIC
+          "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1.3//EN" 
+          "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
+
+<form-validation>
+
+	<formset>
+		
+		<form name="/hierarchyAddNodeType">
+		  <field property="availableNodeTypes" depends="required">
+		    <arg0 key="hierarchy.hierarchy.LABEL_AVAILABLE"/>
+		  </field>
+		</form>
+		
+		<form name="/hierarchyRemoveNodeType">
+		  <field property="addedNodeTypes" depends="required">
+		    <arg0 key="hierarchy.hierarchy.LABEL_ASSIGNED"/>
+		  </field>
+		</form>
+		
+		<form name="/nodeMaintainCreate">
+		  <field property="name" depends="required">
+		    <arg0 key="node.list.NAME"/>
+		  </field>
+		</form>
+		
+		<form name="/nodeMaintainUpdate">
+		  <field property="name" depends="required">
+		    <arg0 key="node.list.NAME"/>
+		  </field>
+		</form>
+
+<!--FIXME CM 2 -->
+<!--Those in /hierarchyMaintainCreate do not seem to be in cm -->
+<!-- 		<form name="hierarchyForm"> -->
+		<form name="/hierarchyMaintainCreate">
+	      <field property="name" depends="required">
+    	    <arg0 key="hierarchy.hierarchy.LABEL_HIERARCHY_NAME"/>
+	      </field>
+	      <field property="active" depends="required">
+    	    <arg0 key="hierarchy.hierarchy.LABEL_STATUS"/>
+	      </field>
+		</form>		
+
+		<form name="nodeTypeForm">
+	      <field property="name" depends="required">
+    	    <arg0 key="node_type.node.type.NAME"/>
+	      </field>
+    	</form>
+    	
+    	<form name="nodeParticipantReassignForm">
+	      <field property="newNodeName" depends="required">
+    	    <arg0 key="node.reassign.NEW_NODE_NAME"/>
+	      </field>
+    	</form>
+	</formset>
+
+</form-validation>

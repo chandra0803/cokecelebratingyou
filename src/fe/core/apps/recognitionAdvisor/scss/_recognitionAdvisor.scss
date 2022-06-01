@@ -1,0 +1,1813 @@
+
+// App-specific variables
+// =========================
+$recAdvisor_rankColor: $brand_color_primary !default;
+$recAdvisor_largeRankTextFontFamily: $titleFont !default;
+$recAdvisor_largeRankTextFontWeight: $fontWeightBold !default;
+$recAdvisor_leaderColMinWidth: 256px !default;
+$recAdvisor_leaderAvatarHeight: 40px !default;
+$recAdvisor_IconColor: $ra_IconColor;
+$recAdvisor_modelBgColor: $ra_modelBgColor;
+$recAdvisor_ImgUrlPath: $appImagesPath + "/recognitionadvisor";
+$recAdvisor_listItemBgOdd: darken($brand_color_lighter, 5%) !default;
+$recAdvisor_listItemBgEven: transparent !default;
+$recAdvisor_indicatorRed: $ra_indicatorRed;
+$recAdvisor_indicatorGray: $ra_indicatorGray;
+
+
+$ra_img1: url($recAdvisor_ImgUrlPath + "/ra-header-border.jpg")!important;
+$ra_img2: url($recAdvisor_ImgUrlPath + "/ra-insights-logo.png")!important;
+$ra_img3: url($recAdvisor_ImgUrlPath + "/ra-insights-header.png")!important;
+$ra_img4: url($recAdvisor_ImgUrlPath + "/ra-advisordetail-banner.jpg")!important;
+
+$ra_gradient_smooth: linear-gradient(to right, $ra_accent1 0%, $ra_accent3 100%) !default;
+$ra_gradient_bars:  linear-gradient(
+					to right,
+					$ra_accent1 0%, $ra_accent1 25%,
+					$ra_primary1 25%, $ra_primary1 50%,
+					$ra_accent2 50%, $ra_accent2 75%,
+					$ra_accent3 75%, $ra_accent3 100%
+					) !default;
+
+$ra_insight1_img:       $ra_img1 !default;
+$ra_insight1_img_pos:   50% 50% !default;
+$ra_insight1_img_size:  100% 100% !default;
+$ra_insight-detail_img_size:  100% auto !default;
+$ra_insight-detail_owl_img_size:  24.1% auto !default;
+$ra_insight1_gradient:  $ra_gradient_bars !default;
+$ra_insight1_bg:        $ra_neutral1 !default;
+$ra_insight1_fg:        $brand_color_white !default;
+$ra_insight1_logobg:    $pages_pageContentBgColor !default;
+
+$ra_insight1_bg_img_size:  100% 48px !default;
+$recAdvisor_brandingLogoOuter : 95px;
+$recAdvisor_brandingLogoInner : 61px;
+
+// Detail page Top Banner display
+$ra_detail_img_banner_max: url($recAdvisor_ImgUrlPath + "/ra_detail_banner_max.jpg");
+$ra_detail_img_banner_normal: url($recAdvisor_ImgUrlPath + "/ra_detail_banner_normal.jpg");
+$ra_detail_img_banner_mobile: url($recAdvisor_ImgUrlPath + "/ra_detail_banner_mobile.jpg");
+$ra_detail_img_Owl: url($recAdvisor_ImgUrlPath + "/ra_detail_banner_owl.png");
+$ra_detail_img_includeOwl: true !default;
+
+// Card width
+$cardW: $card_width;
+
+#rec-advisor {
+
+	/***
+     *       dP       oo          dP       dP oo          dP         dP                  dP dP     dP
+     *       88                   88       88             88         88                  88 88     88
+     *       88d888b. dP .d8888b. 88d888b. 88 dP .d8888b. 88d888b. d8888P .d8888b. .d888b88 88     88 .d8888b. .d8888b. 88d888b.
+     *       88'  `88 88 88'  `88 88'  `88 88 88 88'  `88 88'  `88   88   88ooood8 88'  `88 88     88 Y8ooooo. 88ooood8 88'  `88
+     *    dP 88    88 88 88.  .88 88    88 88 88 88.  .88 88    88   88   88.  ... 88.  .88 Y8.   .8P       88 88.  ... 88
+     *    88 dP    dP dP `8888P88 dP    dP dP dP `8888P88 dP    dP   dP   `88888P' `88888P8 `Y88888P' `88888P' `88888P' dP
+     *                        .88                     .88
+     *                    d8888P                  d8888P
+     */
+    .highlightedUser {
+        .card-front {
+            line-height: $card_avatarSize_default;
+        }
+        .card-top {
+            margin-right: -100%;
+						.avatar-initials {
+							letter-spacing: -4px;
+							text-transform: uppercase;
+							line-height: 95px;
+						}
+        }
+        .card-details {
+            display: inline-block;
+            vertical-align: middle;
+            line-height: $fontWeightNormal;
+			.itemName {
+				cursor: pointer;
+				color:$brand_color_black;
+			}
+        }
+
+        .rank,
+        .progress-text,
+        .activitydate {
+            display: block;
+        }
+        .rank {
+            margin-top: -4px;
+            @if $recAdvisor_rankColor {
+                color: $recAdvisor_rankColor;
+            }
+        }
+        .pre-rank {
+            font-size: $fontSizeLarge;
+        }
+        .large-rank-text {
+            @if $recAdvisor_largeRankTextFontFamily {
+                font-family: $recAdvisor_largeRankTextFontFamily;
+            }
+            font-size: $fontSizeExtraLarge * 1.5;
+            line-height: $fontSizeExtraLarge * 1.5;
+            font-weight: $recAdvisor_largeRankTextFontWeight;
+        }
+
+		@media (max-width: 479px){
+			.large-rank-text{
+
+				width: 100%;
+				display: block;
+			}
+        }
+
+        .progress-text {
+            // font-size: 14px;
+            font-weight: $fontWeightBold;
+        }
+        .activitydate {
+            // line-height: 14px;
+
+            span, strong {
+                font-size: $fontSizeSmall;
+                font-weight: $fontWeightNormal;
+            }
+        }
+
+		/***
+         *     a88888b.                           dP oo
+         *    d8'   `88                           88
+         *    88 d8P 88 88d8b.d8b. .d8888b. .d888b88 dP .d8888b.
+         *    88 Yo8b88 88'`88'`88 88ooood8 88'  `88 88 88'  `88
+         *    Y8.       88  88  88 88.  ... 88.  .88 88 88.  .88
+         *     Y88888P' dP  dP  dP `88888P' `88888P8 dP `88888P8
+         *
+         *
+         */
+        @media (min-width: $breakpoint_tablet_min) {
+            margin-right: auto;
+            margin-left: auto;
+
+            .card-front {
+                line-height: $fontWeightNormal;
+            }
+            .card-top {
+                margin-right: auto;
+				margin-bottom: 0px;
+				margin-top: 30px;
+            }
+            .card-details {
+                display: block;
+								margin-bottom: 20px;
+            }
+
+            .rank {
+                margin-bottom: $g6ModulePaddingY_tablet / 2;
+            }
+            .large-rank-text {
+                display: block;
+                font-size: $fontSizeExtraLarge * 2;
+                line-height: $fontSizeExtraLarge * 2;
+            }
+
+
+        } // /@media
+    } // /.highlightedUser
+
+	.recAdvisor-col {
+		 //display: none;
+        margin: 0;
+        min-width: $recAdvisor_leaderColMinWidth;
+        list-style: none;
+
+        &.recAdvisor-col-1 {
+            display: block;
+        }
+				&:first-of-type {
+					margin-bottom: $baseLineHeight ;
+				}
+		li {
+            padding: 14px 0;
+            line-height: $baseLineHeight;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            vertical-align: middle;
+
+						&.odd {
+                background: $recAdvisor_listItemBgOdd;
+            }
+            &.even {
+                background: $recAdvisor_listItemBgEven;
+            }
+						.avatarwrap {
+							color: $brand_color_avatarTextColor;
+							background: $brand_color_avatarBkg;
+						}
+		}
+
+        &.recAdvisor-col-2 {
+            margin-top: -1 * $baseLineHeight;
+
+            li {
+                &.odd { background: $recAdvisor_listItemBgEven; }
+                &.even { background: $recAdvisor_listItemBgOdd; }
+            }
+        }
+
+		// avatar
+        @include avatarSizing($recAdvisor_leaderAvatarHeight);
+        .avatarwrap {
+            display: inline;
+            float: left;
+            margin: 0 12px;
+            width: $recAdvisor_leaderAvatarHeight;
+            height: $recAdvisor_leaderAvatarHeight;
+            text-align: center;
+            color: $brand_color_avatarBkg;
+            background: $brand_color_avatarTextColor;
+            border-radius: 50%;
+				.avatar-initials {
+					letter-spacing: -1px;
+					text-transform: uppercase;
+				}
+        }
+
+		// arrow
+        .arrow {
+            display: block;
+			font-size : $fontSizeExtraLarge - 2 ;
+            float: right;
+			line-height: $card_avatarSize_mini;
+            margin-right: 12px;
+            padding-left: 6px;
+			cursor: pointer;
+        }
+
+		// name
+        .leaderName {
+			cursor: pointer;
+			font-size: $fontSizeMid - 1 ;
+            vertical-align: top;
+            text-overflow: ellipsis;
+            display: block;
+            overflow: hidden;
+			.desgination{
+				display: block;
+				font-weight: $fontWeightNormal;
+			}
+        }
+
+	}// /.recAdvisor-col
+
+		.recAdvisor-col:nth-of-type(1n+3) {
+			display: none;
+		}
+
+
+
+	/***
+     *     a88888b.                           dP oo
+     *    d8'   `88                           88
+     *    88 d8P 88 88d8b.d8b. .d8888b. .d888b88 dP .d8888b.
+     *    88 Yo8b88 88'`88'`88 88ooood8 88'  `88 88 88'  `88
+     *    Y8.       88  88  88 88.  ... 88.  .88 88 88.  .88
+     *     Y88888P' dP  dP  dP `88888P' `88888P8 dP `88888P8
+     *
+     *
+     */
+
+	 // special leaderboard-only breakpoints for stacking columns next to the highlighted user
+    // note use of different margins
+    $margin_mobile:       nth($card_margin, 2);
+    $margin_tablet:       nth($card_margin_tablet, 2);
+    $margin_desktop:      max($margin_tablet, nth($card_margin_desktop, 2));
+    $margin_desktopLarge: max($margin_desktop, nth($card_margin_desktopLarge, 2));
+
+    $card_w_margin_mobile:       0;
+    $card_w_margin_tablet:       $card_width + $margin_tablet;
+    $card_w_margin_desktop:      $card_width + $margin_desktop;
+    $card_w_margin_desktopLarge: $card_width + $margin_desktopLarge;
+
+    $col_mobile:                $recAdvisor_leaderColMinWidth;
+    $col_tablet:                $recAdvisor_leaderColMinWidth;
+    $col_desktop:               $recAdvisor_leaderColMinWidth;
+    $col_desktopLarge:          $recAdvisor_leaderColMinWidth;
+
+    $col_w_margin_mobile:       $recAdvisor_leaderColMinWidth + $margin_mobile;
+    $col_w_margin_tablet:       $recAdvisor_leaderColMinWidth + $margin_tablet;
+    $col_w_margin_desktop:      $recAdvisor_leaderColMinWidth + $margin_desktop;
+    $col_w_margin_desktopLarge: $recAdvisor_leaderColMinWidth + $margin_desktopLarge;
+
+    $lb_bp_1col_min_mobile:     $g6ModulePaddingX         + $card_w_margin_mobile  + $col_mobile  + $g6ModulePaddingX;
+    $lb_bp_1col_min_tablet:     $g6ModulePaddingX_tablet  + $card_w_margin_tablet  + $col_tablet  + $g6ModulePaddingX_tablet;
+    $lb_bp_1col_min_desktop:    $g6ModulePaddingX_desktop + $card_w_margin_desktop + $col_desktop + $g6ModulePaddingX_desktop + $global_sidebar_width_desktop;
+
+    $lb_bp_2col_min_mobile:         $g6ModulePaddingX              + $card_w_margin_mobile       + $col_mobile  + $col_w_margin_mobile       + $g6ModulePaddingX;
+    $lb_bp_2col_min_tablet:         $g6ModulePaddingX_tablet       + $card_w_margin_tablet       + $col_tablet  + $col_w_margin_tablet       + $g6ModulePaddingX_tablet;
+    $lb_bp_2col_min_desktop:        $g6ModulePaddingX_desktop      + $card_w_margin_desktop      + $col_desktop + $col_w_margin_desktop      + $g6ModulePaddingX_desktop      + $global_sidebar_width_desktop;
+    $lb_bp_2col_min_desktopLarge:   $g6ModulePaddingX_desktopLarge + $card_w_margin_desktopLarge + $col_desktop + $col_w_margin_desktopLarge + $g6ModulePaddingX_desktopLarge + $global_sidebar_width_desktopLarge;
+
+    $lb_bp_3col_min_desktop:        $g6ModulePaddingX_desktop      + $card_w_margin_desktop      + $col_desktop + (2 * $col_w_margin_desktop)      + $g6ModulePaddingX_desktop      + $global_sidebar_width_desktop;
+    $lb_bp_3col_min_desktopLarge:   $g6ModulePaddingX_desktopLarge + $card_w_margin_desktopLarge + $col_desktop + (2 * $col_w_margin_desktopLarge) + $g6ModulePaddingX_desktopLarge + $global_sidebar_width_desktopLarge;
+
+	@mixin lb_1col($paddingY, $margin) {
+        .recAdvisor-col-1 {
+            display: block;
+        }
+        // every column after the first one needs to be sized differently and have some extra space up top
+        .recAdvisor-col-1 ~ .recAdvisor-col {
+            float: none;
+            padding-left: $margin;
+        }
+				h4.headerTextSpace{
+					margin:0px;
+					padding:0px;
+                    display: none;
+				}
+        // every second column can't have left margin
+        .recAdvisor-col:nth-child(2n+2) {
+            clear: none;
+            margin-left: $cardW;
+        }
+
+        // special treatment for not-one-column layouts in this breakpoint
+        .col-count-2 .recAdvisor-col-2 {
+            width: auto;
+            margin-top: -1 * $baseLineHeight;
+        }
+        // everything after two columns flows perfectly
+    } // @mixin lb_1col
+
+    @mixin lb_2col($paddingY, $margin, $cardW: $card_width) {
+        .recAdvisor-col-1,
+        .recAdvisor-col-2 {
+            display: block;
+        }
+
+        .recAdvisor-col {
+            float: left;
+            min-width: 0;
+            @if $cardW > 0 {
+                width: calc(50% - #{($cardW + ($margin * 2)) / 2});
+            }
+            @else {
+                width: calc(50% - #{($cardW + $margin) / 2});
+            }
+
+            & ~ .recAdvisor-col {
+                padding-left: $margin;
+            }
+						h4.headerTextSpace{
+							//font-size:21px;
+						}
+
+            &.recAdvisor-col-2 {
+                margin-top: 0;
+
+                .headerTextSpace {
+                    display: block;
+                }
+
+                li {
+                    &.odd { background: $recAdvisor_listItemBgOdd; }
+                    &.even { background: $recAdvisor_listItemBgEven; }
+                }
+            }
+
+        }
+        // every column after the first two needs to be sized differently and have some extra space up top
+        .recAdvisor-col-2 ~ .recAdvisor-col {
+            margin-top: $paddingY / 2;
+            padding-top: $paddingY / 2;
+            width: calc(33.3% - #{($margin * 2) / 3});
+        }
+        // every third column can't have left margin
+        .recAdvisor-col:nth-child(3n+3) {
+            clear: both;
+            padding-left: 0;
+        }
+
+        // special treatment for not-two-column layouts in this breakpoint
+        .col-count-1 .recAdvisor-col {
+            float: none;
+            width: auto;
+        }
+        .col-count-3 .recAdvisor-col-3 {
+            width: 100%;
+        }
+        .col-count-4 .recAdvisor-col-3,
+        .col-count-4 .recAdvisor-col-4 {
+            width: calc(50% - #{$margin / 2});
+            .leaderName {
+                width: 50%;
+            }
+        }
+        // everything after four columns flows perfectly
+    } // @mixin lb_2col
+
+	@mixin lb_3col($paddingY, $margin, $cardW: $card_width) {
+        .recAdvisor-col-1,
+        .recAdvisor-col-2,
+        .recAdvisor-col-3 {
+            display: block;
+        }
+        .recAdvisor-col {
+            float: left;
+            min-width: 0;
+            @if $cardW > 0 {
+                // similar calculation as two columns, but using thirds instead of halves
+                width: calc(33.3% - #{($cardW + ($margin * 3)) / 3});
+            }
+            @else {
+               width: calc(33.3% - #{($cardW + ($margin * 2)) / 3});
+            }
+
+            & ~ .recAdvisor-col {
+                padding-left: $margin;
+            }
+
+            &.recAdvisor-col-2 {
+                margin-top: 0;
+
+                .headerTextSpace {
+                    display: block;
+                }
+
+                li {
+                    &.odd { background: $recAdvisor_listItemBgOdd; }
+                    &.even { background: $recAdvisor_listItemBgEven; }
+                }
+            }
+        }
+        // every column after the first three needs to have some extra space up top
+        .recAdvisor-col-3 ~ .recAdvisor-col {
+            margin-top: $paddingY / 2;
+            padding-top: $paddingY / 2;
+        }
+        // every fourth column can't have left margin
+        .recAdvisor-col:nth-child(4n+4) {
+            clear: both;
+            padding-left: 0;
+        }
+
+        // special treatment for not-three-column layouts in this breakpoint
+        .col-count-1 .recAdvisor-col {
+            float: none;
+            width: auto;
+        }
+        .col-count-2 .recAdvisor-col {
+            width: calc(50% - #{($cardW + ($margin * 2)) / 2});
+        }
+        .col-count-4 .recAdvisor-col-3 ~ .recAdvisor-col,
+        .col-count-5 .recAdvisor-col-3 ~ .recAdvisor-col {
+            width: calc(50% - #{$margin / 2});
+        }
+        .col-count-6 .recAdvisor-col-3 ~ .recAdvisor-col {
+            width: calc(33.3% - #{$margin * 2 / 3});
+        }
+        // everything after six columns flows perfectly
+    } // @mixin lb_2col
+
+	/**
+     * Breakpoints (view compiled source for actual values)
+     * -----------
+     * $lb_bp_1col_min_mobile:          #{$lb_bp_1col_min_mobile}
+     * $lb_bp_2col_min_mobile:          #{$lb_bp_2col_min_mobile}
+     *
+     * $lb_bp_1col_min_tablet:          #{$lb_bp_1col_min_tablet}
+     * $lb_bp_2col_min_tablet:          #{$lb_bp_2col_min_tablet}
+     *
+     * $lb_bp_1col_min_desktop:         #{$lb_bp_1col_min_desktop}
+     * $lb_bp_2col_min_desktop:         #{$lb_bp_2col_min_desktop}
+     * $lb_bp_3col_min_desktop:         #{$lb_bp_3col_min_desktop}
+     *
+     * $lb_bp_2col_min_desktopLarge:    #{$lb_bp_2col_min_desktopLarge}
+     * $lb_bp_3col_min_desktopLarge:    #{$lb_bp_3col_min_desktopLarge}
+     */
+
+	@media (min-width: $breakpoint_tablet_min) {
+        .highlightedUser {
+            float: left;
+            margin-right: $margin_mobile;
+            margin-bottom: 0;
+        }
+
+    } // /@media
+
+
+	@media (min-width: $lb_bp_2col_min_mobile) and (max-width: $breakpoint_mobile_max) {
+        @include lb_2col($g6PagePaddingY, $margin_mobile, $cardW: 0);
+    }// /@media
+
+	// once we're up to tablet view, we can support one or two columns WITH a card
+    @media (min-width: $breakpoint_tablet_min) and (max-width: $breakpoint_tablet_max) {
+        .highlightedUser {
+            margin-right: $margin_tablet;
+        }
+
+        @media (min-width: $lb_bp_1col_min_tablet) and (max-width: $lb_bp_2col_min_tablet - 1) {
+            @include lb_1col($g6PagePaddingY_tablet, $margin_tablet);
+        } // /@media
+
+        // at two columns we need to float them both left next to the highlighted user and do a calculated width
+        @media (min-width: $lb_bp_2col_min_tablet) {
+            @include lb_2col($g6PagePaddingY_tablet, $margin_tablet);
+        } // /@media
+    } // /@media
+
+    // desktop view can support one, two, or three columns
+    @media (min-width: $breakpoint_desktop_min) and (max-width: $breakpoint_desktop_max) {
+        .highlightedUser {
+            margin-right: $margin_desktop;
+        }
+
+        @media (min-width: $lb_bp_1col_min_desktop) and (max-width: $lb_bp_2col_min_desktop - 1) {
+            @include lb_1col($g6PagePaddingY_desktop, $margin_desktop);
+        } // /@media
+
+        @media (min-width: $lb_bp_2col_min_desktop) and (max-width: $lb_bp_3col_min_desktop - 1) {
+            @include lb_2col($g6PagePaddingY_desktop, $margin_desktop);
+        } // /@media
+
+        @media (min-width: $lb_bp_3col_min_desktop) {
+            @include lb_3col($g6PagePaddingY_desktop, $margin_desktop);
+        } // /@media
+    } // /@media
+
+    // desktopLarge can support two or three columns
+    @media (min-width: $breakpoint_desktopLarge_min) {
+        .highlightedUser {
+            margin-right: $margin_desktopLarge;
+        }
+
+        @media (min-width: $lb_bp_2col_min_desktopLarge) and (max-width: $lb_bp_3col_min_desktopLarge - 1) {
+            @include lb_2col($g6PagePaddingY_desktopLarge, $margin_desktopLarge);
+        } // /@media
+
+        @media (min-width: $lb_bp_3col_min_desktopLarge) {
+            @include lb_3col($g6PagePaddingY_desktopLarge, $margin_desktopLarge);
+        } // /@media
+    } // /@media
+
+	.recognitionAdvisorStatus {
+		line-height: 30px;
+		font-weight:$titleFontWeightBold;
+		background-color: $recAdvisor_IconColor;
+		text-align: center;
+		color: $brand_color_black;
+		position: absolute;
+		width: 100%;
+		left: 0px;
+		height: 30px;
+		top: 0px;
+		border-radius: 5px 5px 0 0px ;
+		span.icon-clock{
+			&.removeCircle {
+		    padding: 0px;
+		    font-size: 20px;
+		    vertical-align: middle;
+		    margin-right: 4px;
+		    }
+		}
+	}
+	.headerTextSpace{
+		visibility: hidden;
+		color: transparent;
+        display: none;
+	}
+
+	.upcomingInfo {
+		text-align: center;
+		padding:15%;
+	}
+	@media (max-width: $breakpoint_tablet_min){
+		.upcomingInfo {
+			text-align: center;
+			padding:0%;
+		}
+	}
+    ol.recAdvisor-col h4 {
+        padding-bottom: #{$headlineMarginY}em;
+    }
+	.icon-check-circle {
+		font-size: $fontSizeMid * 5;
+		color: $ra_indicatorLightGreen;
+	}
+
+	.clear{
+		clear:both;
+	}
+
+	.card{
+		&.card-large {
+			.card-front{
+				.card-action {
+					padding-top: 20px;
+					padding-bottom: 0px;
+				}
+			}
+		}
+	}
+
+
+	@media (max-width: $breakpoint_tablet_min){
+		.card{
+			&.card-large {
+				.card-front{
+					.card-action {
+						padding-top: 0px;
+					}
+				}
+			}
+		}
+
+		h1{
+			&.titleName{
+				font-size :$fontSizeExtraLarge !important;
+				margin-bottom: 8%;
+			}
+		}
+	}
+		span.icon-clock {
+				border-radius: 59%;
+				border: 1px solid $recAdvisor_IconColor;
+				background-color: $recAdvisor_IconColor;
+				color: $brand_color_black;
+				padding: 7px 6px 6px 6px;
+			    font-size: $fontSizeExtraLarge;
+			    text-align: center;
+			    vertical-align: middle;
+			}
+		span.icon-star{
+			    background-color: $recAdvisor_IconColor;
+			    border: 1px solid $recAdvisor_IconColor;
+			    color: $brand_color_black;
+			    border-radius: 50%;
+			   	padding: 7px 6px 6px 6px;
+			    font-size: $fontSizeExtraLarge;
+			    text-align: center;
+			    vertical-align: middle;
+			}
+		span.tileLogo{
+			 background-image:url($recAdvisor_ImgUrlPath + "/ra-tile-logo.png");
+			 width:64px;
+			 height:63px;
+			 display:none; 
+    		float: left;
+		}
+		.card {
+		 	span.icon-star.removeCircle{
+		 	 	color: $brand_color_black;
+		 	 	font-size: $fontSizeLarge + 2;
+		 	 	background-color: transparent;
+    			border: 0px;
+    			padding: 0px;
+		    	vertical-align: middle;
+		    	margin-right: 4px;
+		 	 }
+			 span.icon-clock.removeCircle{
+		 	 	color: $brand_color_black;
+		 	 	font-size: $fontSizeLarge + 2;
+		 	 	background-color: transparent;
+    			border: 0px;
+    			padding: 0px;
+		    	vertical-align: middle;
+		    	margin-right: 4px;
+		 	 }
+
+		 }
+		span.icon-more-circles-horizontal{
+				background-color: $recAdvisor_IconColor;
+			    border: 1px solid $recAdvisor_IconColor;
+			    color: $brand_color_black;
+			    border-radius: 50%;
+			   	padding: 7px 6px 6px 6px;
+			    font-size: $fontSizeExtraLarge;
+			    text-align: center;
+			    vertical-align: middle;
+		}
+		.card{
+			&.upComing {
+			    border: none;
+			    background-color: transparent;
+			    box-shadow: none;
+                margin-bottom: 0;
+			}
+		}
+
+	@media (min-width: $breakpoint_tablet_min){
+		.card{
+			&.card-large{
+				.card-front{
+					.card-top{
+						.avatar{
+							height: 100px;
+							width: 100px;
+							margin-bottom: 20px;
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	@media (max-width: $breakpoint_tablet_min){
+			.card {
+				.avatar {
+					.avatarContainer{
+						width:90%;
+						height:90%;
+						margin-top: 12%;
+					}
+				}
+			}
+		}
+	@media (max-width: $breakpoint_mobileMini_min){
+	.card{
+		&.card-small{
+				.card-front{
+					.card-action {
+					    padding-top: 7.5px;
+					    padding-bottom: 20px;
+					}
+				}
+			}
+		.avatar{
+				.avatarContainer {
+				    margin-top: 20px;
+				}
+			}
+		}
+	}
+
+
+	// Modal window scss starts
+	.modal{
+		 .modelCardDsiplay {
+			display: inline-block;
+			margin: 15px 5px 0 5px;
+		}
+
+	 	.card{
+	 		 &.card-small{
+	                 .card-front{
+	                     .card-details {
+	                         margin-left: 39.9px;
+	   						 margin-top: 16px;
+	                    }
+	                }
+	            }
+	           .card-front{
+	           		.card-top {
+				   	 	float: left;
+				   	 	margin-top: 12px;
+					}
+				}
+	        }
+	    @media (min-width: $breakpoint_tablet_min){
+	         .card{
+	             -webkit-box-sizing: border-box;
+	             box-sizing: border-box;
+	             width: 224px;
+	             padding: 25px 25px 15px 25px;
+	             &.card-small{
+	                 .card-front{
+	                     .card-top {
+	                         margin-bottom: 15px;
+	                         float: left;
+	                         margin-top: 20px;
+	                         .avatar{
+	                         	.avatar-initials {
+								    line-height: 54px;
+								    letter-spacing: -1px;
+								}
+							}
+	                    }
+	                     .card-details {
+	                         margin-left: 0;
+	                         margin-top: 25px;
+	                    }
+	                }
+	            }
+	        }
+	    }
+	     .modal-body {
+	     	.raInsights {
+			    margin-top: 0px;
+			    margin-bottom: 0px;
+				}
+	         .raModelBodyHeader {
+	             font-size: $fontSizeExtraLarge;
+	             padding-top: 10px;
+	             font-weight: $titleFontWeightBold;
+	             color : $brand_color_black;
+	        }
+	       h4.raModelBodyHeader {
+			    font-size: $fontSizeExtraLarge;
+			    font-weight: $titleFontWeightBold;
+	            color : $brand_color_black;
+			    margin: 0px;
+			    padding: 0px;
+			}
+			p{
+				margin:0px;
+				padding:0px;
+			}
+	    }
+	     .raInsightsBodyContent {
+	         text-align: center;
+	         background-color: $brand_color_light;
+	         padding: 20px 3px;
+	         color: $brand_color_white;
+	    }
+	     .raReminderDidplayCount {
+	         display: block;
+	         cursor: pointer;
+					 text-align: left;
+	    }
+	     span.arrow{
+	         &.raModalPosition {
+	            padding-left: 8px;
+	        }
+	    }
+
+	    @media (min-width: $breakpoint_tablet_min){
+	         .modal-header{
+	             padding: 1px 25px;
+	        }
+	         .card.card-small .card-front .card-top {
+	             margin-bottom: 15px;
+	             float: left;
+	        }
+	         .modelCardDsiplay {
+	             .card {
+	                 .card-front{
+	                     .card-details{
+	                         .participant-name {
+	                             overflow: hidden;
+	                             text-overflow: ellipsis;
+	                             white-space: nowrap;
+	                             width: 104px;
+	                             padding: 0 0 0 10px;
+	                             color: $brand_color_black;
+	                        }
+	                         .participant-info{
+	                             padding: 0 0 0 10px;
+	                             color: $brand_color_black;
+	                        }
+	                    }
+	                     .card-action {
+	                         padding-top: 0px;
+	                         padding-bottom: 15px;
+	                    }
+	                }
+	            }
+	        }
+	         .card {
+	             .card-front{
+	                 .card-details{
+	                    text-align:left;
+	                }
+	            }
+	        }
+	         .modal-body{
+	             padding: 1px 15px;
+	             height: auto !important;
+	             overflow-y: initial;
+	        }
+	         .modal-footer{
+	             padding: 1px 25px;
+	             margin-top: 27px;
+	             //margin-top: 15%;
+	        }
+	         .modal-header {
+	             .close {
+	                 margin-top: 25px !important;
+	            }
+	        }
+	         span.avatarContainer{
+	             width:90%;
+	             height:90%;
+	        }
+	    }
+	     @media (min-width: $breakpoint_desktop_min) and (max-width: $breakpoint_desktop_max) {
+	         .modal-body{
+	             height: auto !important;
+	        }
+	    }
+	     .card{
+	         &.card-small{
+	             .card-front{
+	                 .card-action {
+	                     padding-top: 0px;
+	                     padding-bottom:0px;
+	                }
+					 .card-details{
+	                        .participant-info{
+	                            color: $brand_color_black;
+	                        }
+	                    }
+	            }
+	        }
+	    }
+
+		@media (max-width: $breakpoint_tablet_min){
+			 .card {
+				 .avatar {
+					 .avatarContainer{
+						 width:90%;
+						 height:90%;
+						 margin-top: 12%;
+					}
+				}
+			}
+		}
+		 @media (max-width: $breakpoint_mobileMini_min){
+			 .card{
+				 &.card-small{
+					 .card-front{
+						 .card-action {
+							 padding-top: 7.5px;
+							 padding-bottom: 20px;
+						}
+					}
+				}
+				 .avatar{
+					 .avatarContainer {
+						 margin-top: 20px;
+					}
+				}
+			}
+			span.icon-star {
+				color: $brand_color_black;
+				padding: 6px;
+				font-size: $fontSizeMid - 1;
+				font-weight: $titleFontWeightBold;
+			}
+		}
+		h2{
+			&.module-title {
+			padding-bottom: 0px;
+			margin-bottom: 0px;
+			color: $brand_color_primary ;
+			}
+		}
+		@media (min-width: $breakpoint_tablet_min) {
+			.modal-body{
+				// calculate some theoretical header and footer heights. Can't account for text wrapping, so this is the best we can do
+				// header is top padding + bottom padding + headline line height
+				$modal_headerHeight_mobile:       (nth($modal_padding, 1) * 2)              + ($headline3fontSize_mobile * $headlineLineHeight);
+				$modal_headerHeight_tablet:       (nth($modal_padding_tablet, 1) * 2)       + ($headline3fontSize_mobile * $headlineLineHeight);
+				$modal_headerHeight_desktop:      (nth($modal_padding_desktop, 1) * 2)      + ($headline3fontSize * $headlineLineHeight);
+				$modal_headerHeight_desktopLarge: (nth($modal_padding_desktopLarge, 1) * 2) + ($headline3fontSize * $headlineLineHeight);
+
+				// footer is top padding + bottom padding + standard button height
+				$modal_footerHeight_mobile:       (nth($modal_padding, 1) * 2)              + ($btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2));
+				$modal_footerHeight_tablet:       (nth($modal_padding_tablet, 1) * 2)       + ($btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2));
+				$modal_footerHeight_desktop:      (nth($modal_padding_desktop, 1) * 2)      + ($btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2));
+				$modal_footerHeight_desktopLarge: (nth($modal_padding_desktopLarge, 1) * 2) + ($btnLineHeight + ((nth($btnPadding, 1) + $btnBorderWidth) * 2));
+
+				max-height: calc(90vh - #{$modal_headerHeight_tablet + nth($modal_padding_tablet, 1) + $modal_footerHeight_tablet});
+			}
+	    }
+	   .badge-group {
+		    margin-bottom: 0px;
+		}
+		.badge-group .badges ul .badge-item {
+		    list-style: none;
+		    clear: left;
+		    width: 100%;
+		    display: inline-block;
+		    vertical-align: top;
+		    padding: 12px 0;
+		    zoom: 1;
+		}
+	   .badge-group{
+	   		margin-bottom: 0px;
+	   		.badges{
+	   			ul{
+		   			.badge-item{
+		   				width:100%;
+		   			}
+	   			}
+	   		}
+	   }
+
+	   // RA insights Starts
+		.raInsights{
+			margin: 0 ( -1 * nth( $card_padding, 2 ) / 2 );
+
+			.raInsightsGradgient{
+				background-image: $ra_insight1_gradient !important;
+				height: 14px;
+			}
+			.raInsightsBackgrondImg{
+				background-image: $ra_img3;
+				background-repeat: no-repeat !important;
+				height:48px;
+				background-position: 50% 50%;
+				border-radius: 5px 5px 0 0px ;
+
+			}
+		.raInsightsLogoPosition{
+				margin: 0 auto;
+				position: relative;
+				margin-bottom: -62px;
+				border-radius:50%;
+				background-color:$brand_color_white;
+				width: 95px;
+				height: 95px;
+				text-align:center;
+			.raInsightsLogo{
+				background-repeat: no-repeat !important;
+				width: 61px;
+				height: 61px;
+				background-size: 100%;
+				margin: 0px;
+				padding: 0px;
+				position: absolute;
+				top: 23px;
+ 				left: ($recAdvisor_brandingLogoOuter -$recAdvisor_brandingLogoInner) / 2 ;
+				svg{
+					display:block;
+					margin:0 auto;
+				}
+			}
+
+		}
+			.raBrandingOuter{
+				fill: $ra_primary2;
+			}
+				.raBrandingInner{
+				fill: $ra_primary1;
+			}
+			.raInsightsBodyContent{
+				text-align:center;
+				background-color:$brand_color_light;
+				padding:20px;
+				color: $brand_color_black;
+				border-radius:0px 0 5px 5px;
+			}
+			@media (min-width: $breakpoint_tablet_min) {
+			 	margin: 0 ( 1 * ( $g6ModulePaddingX / 2 ));
+			 }
+			 @media (min-width: $breakpoint_desktop_min) {
+				 @if nth($modal_padding_desktop, 2) != nth($modal_padding_tablet, 2) {
+				 margin: 0 ( -1 * nth( $modal_padding_desktop, 2 ) / 2 );
+				 }
+			 }
+			 @media (min-width: $breakpoint_desktopLarge_min) {
+				 @if nth($modal_padding_desktopLarge, 2) != nth($modal_padding_desktop, 2) {
+				 margin: 0 ( -1 * nth( $modal_padding_desktopLarge, 2 ) / 2 );
+				 }
+			 }
+		}
+
+		path{
+			&.raBrandingOuter{
+				fill: $ra_primary2;
+			}
+			&.raBrandingInner{
+				fill: $ra_primary1;
+			}
+		}
+
+
+		// RA insights  Ends
+
+	}
+	// Modal windows scss ends
+
+	@media (min-width: $breakpoint_mobilePhoneMin_min) and (max-width: $breakpoint_mobile_max) {
+		.card.card-large{
+			.card-front{
+				.card-details{
+						margin-top: 25px;
+						margin-left: 96px;
+				}
+			}
+		}
+	}
+
+}
+// End Module Tile
+
+
+.launchModule{
+	&.recognitionAdvisorModule{
+		&.recognitionAdvisor {
+    		position: inherit;
+    	}
+    }
+}
+#recognitionAdvisorPageView {
+	h3.headerTextSpace {
+		visibility: hidden;
+		color: transparent;
+	}
+}
+
+// RA Brnding border
+
+	// mobile first
+	.recognitionAdvisor .module-liner::before,
+	.recognitionAdvisor .module-liner::after {
+	    display: block;
+	    content: '';
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    left: 0;
+	    height: $g6ModulePaddingY  / 2;
+	}
+
+	.recognitionAdvisor .module-liner::before {
+		background-image: $ra_img1;
+		background-repeat: no-repeat !important;
+		background-size: cover !important;
+		background-position: 50% 50%;
+	}
+
+	.recognitionAdvisor .module-liner::after {
+	    top: $g6ModulePaddingY  / 2;
+	    height: $g6ModulePaddingY / 5;
+		background-image: $ra_insight1_gradient !important;
+	}
+
+    .recognitionAdvisor .module-content {
+        padding-top: $g6ModulePaddingY / 5;
+    }
+
+	// tablet
+@media (min-width: $breakpoint_tablet_min) {
+    @if $g6PagePaddingY_tablet != $g6PagePaddingY {
+
+        .recognitionAdvisor .module-liner::before {
+            height: $g6PagePaddingY_tablet / 2;
+        }
+
+        .recognitionAdvisor .module-liner::after {
+            top: $g6PagePaddingY_tablet / 2;
+            height: $g6PagePaddingY_tablet / 5;
+        }
+
+        .recognitionAdvisor .module-content {
+            padding-top: $g6PagePaddingY_tablet / 5;
+        }
+
+    }
+}
+
+// desktop
+@media (min-width: $breakpoint_desktop_min) {
+    @if $g6PagePaddingY_desktop != $g6PagePaddingY_tablet {
+
+        .recognitionAdvisor .module-liner::before {
+            height: $g6PagePaddingY_desktop / 2;
+        }
+
+        .recognitionAdvisor .module-liner::after {
+            top: $g6PagePaddingY_desktop / 2;
+            height: $g6PagePaddingY_desktop / 5;
+        }
+
+        .recognitionAdvisor .module-content {
+            padding-top: $g6PagePaddingY_desktop / 5;
+        }
+
+    }
+}
+
+// desktopLarge
+@media (min-width: $breakpoint_desktopLarge_min) {
+    @if $g6PagePaddingY_desktopLarge != $g6PagePaddingY_desktop {
+
+        .recognitionAdvisor .module-liner::before {
+            height: $g6PagePaddingY_desktopLarge / 2;
+        }
+
+        .recognitionAdvisor .module-liner::after {
+            top: $g6PagePaddingY_desktopLarge / 2;
+            height: $g6PagePaddingY_desktopLarge / 5;
+        }
+
+        .recognitionAdvisor .module-content {
+            padding-top: $g6PagePaddingY_desktopLarge / 5;
+        }
+
+    }
+}
+
+
+
+/*Detail Page */
+.raDetailPage {
+
+		padding: 0;
+        padding-top: calc(#{1 / 4.7 * 100%} - #{$spinner_widthHeight * 1}); // 4.7:1 ratio - min-height (borrwed from _allModules.scss)
+        min-height: $spinner_widthHeight * 2;
+
+
+	 h1 {
+		 font-weight: $fontWeightSemiBold - 200 ;
+	 }
+
+	 .card-profile {
+			margin-right: 14px;
+	 }
+	 .ra-row {
+		width: 100%;
+	 }
+
+	ul.columnList {
+		margin-left: 10px;
+	}
+
+	.raFilterWrap {
+		.filterLabel {
+			font-weight: $fontWeightSemiBold;
+			display: inline-block;
+			float: left;
+			margin-top: 8px;
+		}
+		.filterTokens {
+			margin-left: 20px;
+			margin-left: 20px;
+			border: 2px solid $brand_color_primary;
+			font-weight: $fontWeightSemiBold;
+			border-radius: 7px;
+			color: $brand_color_primary;
+			padding: 0px 6px;
+			position: relative;
+			z-index: 2;
+			background-color: transparent;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			-o-appearance: none;
+			appearance: none;
+		}
+		select.filterTokens:disabled{
+			 // For FireFox
+			-webkit-appearance: none;
+			// For Chrome
+			-moz-appearance: none;
+		}
+
+		// For IE10+
+		select:disabled.filterTokens::-ms-expand {
+			display: none;
+		}
+		.filterTokens::-ms-expand {
+			display: none;
+		}
+
+		.detailArrowToken {
+			cursor: pointer;
+			font-size: $fontSizeMid;
+			color: $brand_color_primary;
+			vertical-align: middle;
+			font-weight: $titleFontWeightBold;
+			position: relative;
+			left: 230px;
+			top: -4px;
+		    z-index: 1;
+		}
+		.filterTokens:hover,
+		.filterTokens:focus,
+		.filterTokens:active {
+				outline: none;
+		}
+	}
+
+
+	// RA insights Starts
+	.raInsights{
+		margin-top: $baseLineHeight;
+		margin-bottom: $baseLineHeight * 2;
+		.raInsightsGradgient{
+			background-image: $ra_insight1_gradient !important;
+			height: 14px;
+		}
+		.raInsightsBackgrondImg{
+			background-image: $ra_img3;
+			background-repeat: no-repeat !important;
+			height:48px;
+			background-position: 50% 50%;
+			border-radius: 5px 5px 0 0px ;
+
+		}
+	.raInsightsLogoPosition{
+			margin: 0 auto;
+		 	position: relative;
+		 	margin-bottom: -62px;
+		   	border-radius:50%;
+	  		background-color:$brand_color_white;
+	  		width: 95px;
+	    	height: 95px;
+	    	text-align:center;
+		.raInsightsLogo{
+			background-repeat: no-repeat !important;
+			width: 61px;
+	    	height: 61px;
+	   	   	background-size: 100%;
+		    margin: 0px;
+		   	padding: 0px;
+		   	position: absolute;
+			top: 23px;
+			left: ($recAdvisor_brandingLogoOuter -$recAdvisor_brandingLogoInner) / 2 ;
+			svg{
+				display:block;
+				margin:0 auto;
+			}
+		}
+
+	}
+		.raBrandingOuter{
+			fill: $ra_primary2;
+		}
+			.raBrandingInner{
+			fill: $ra_primary1;
+		}
+		.raInsightsBodyContent{
+			text-align:center;
+			background-color:$brand_color_black;
+			padding:20px;
+			color: $brand_color_white;
+			border-radius:0px 0 5px 5px;
+		}
+		&.insightSection{
+			.raInsightsBodyContent{
+				text-align:center;
+				background-color:$brand_color_light;
+				padding:20px;
+				color: $brand_color_black;
+			}
+			.raInsightsBackgrondImg {
+				background-size: cover;
+			}
+		}
+	}
+
+	path{
+		&.raBrandingOuter{
+			fill: $ra_primary2;
+		}
+		&.raBrandingInner{
+			fill: $ra_primary1;
+		}
+	}
+	.raPromo{
+		&.fr {
+	    cursor: pointer;
+		}
+	}
+	// mobilePhoneMini -321px
+	@media (min-width: $breakpoint_mobilePhoneMin_min) {
+		.raPromo{
+			&.fr {
+			cursor: pointer;
+			margin-top:6%;
+			}
+		}
+	}
+	// mobileMini -480px
+	@media (min-width: $breakpoint_mobileMini_min) {
+		.raPromo{
+			&.fr {
+			cursor: pointer;
+			margin-top:1%;
+			}
+		}
+	}
+	// RA insights Starts Ends
+
+	.myteamTable {
+		.days {
+			font-weight: $fontWeightSemiBold;
+			font-size: $fontSizeMini;
+			color: $brand_color_white;
+			background: $recAdvisor_IconColor;
+			border-radius: 4px;
+			display: inline-block;
+			min-width: 58px;
+			text-align: center;
+			&.redIndicator {
+				background: $recAdvisor_indicatorRed;
+			}
+			&.orangeIndicator {
+				background: $recAdvisor_IconColor;
+			}
+			&.grayIndicator {
+				background: $recAdvisor_indicatorGray;
+			}
+		}
+		.detailIcon {
+			display: inline-block;
+			margin-left: 2%;
+			top: 3px;
+			position: relative;
+		}
+		.avatarContainer {
+			cursor: default;
+			background: #29c3d2;
+			float: left;
+			font-size: $fontSizeMid + 1;
+			line-height: 43px;
+			color: $brand_color_white;
+			letter-spacing: -1px;
+			text-align: center;
+			text-transform: uppercase;
+			display: inline-block;
+			border-radius: 50%;
+			overflow: hidden;
+			width: 45px;
+			height: 45px;
+			margin-right: 15px;
+		}
+		.empName {
+			display: block;
+			font-weight: $titleFontWeightBold;
+			margin-left: 10px;
+			cursor: pointer;
+		}
+		.empNumberDays {
+			display: block;
+			font-weight: $titleFontWeightBold;
+		}
+		.emp-title {
+			display: inline-block;
+			float: left;
+		}
+		.avatar-wrapper {
+			position: relative;
+			overflow: hidden;
+			height: 100%;
+			border-radius: 50%;
+			width: 100%;
+			background-clip: padding-box;
+		}
+		.instructions {
+			display: inline-block;
+			display: none;
+		}
+		.pending:hover {
+			.instructions  {
+				display: inline-block;
+				max-width: 200px;
+				padding: 8px;
+				color: $brand_color_white;
+				text-align: left;
+				text-decoration: none;
+				background-color: $brand_color_darker;
+				position: absolute;
+				margin-left: 5px;
+				margin-top: -10px;
+				border-radius: 8px;
+				opacity: .95;
+				white-space: $fontWeightNormal;
+			}
+		}
+		.pending{
+			.icon-info{
+				color:$brand_color_white;
+				cursor: pointer;
+			}
+		}
+		@media (max-width: $breakpoint_tablet_min){
+			.avatarContainer {
+				margin-right:50%;
+				display: none;
+			}
+			.empName {
+				margin-left:0px;
+				cursor: pointer;
+				font-size: $fontSizeSmall;
+			}
+			.emp-title {
+				cursor: pointer;
+				font-size: $fontSizeSmall;
+			}	
+		}
+	}
+	@media (max-width: $breakpoint_tablet_min){
+		.recognitionInsights {
+			margin-top: 20% !important;
+		}
+		.pagination ul>li {
+			display: inline;
+		}
+		.myteamTable {
+			overflow-x: auto;
+			max-width:650px;
+		}
+		table {
+			&.table {
+				&.table-striped {
+				 width: 700px;
+
+					span.icon-clock {
+						border: 1px solid $modal_borderColor;
+						background-color: $modal_borderColor;
+						color: $brand_color_black;
+						padding: 6px;
+						font-size: $fontSizeExtraLarge;
+						font-weight: $headingsFontWeight;
+					}
+					span.icon-star{
+						background-color: $modal_borderColor;
+						border: 1px solid $modal_borderColor;
+						color: $brand_color_black;
+						padding: 6px;
+						font-size: $fontSizeExtraLarge;
+						font-weight: $headingsFontWeight;
+					}
+					span.icon-more-circles-horizontal{
+						background-color: $modal_borderColor;
+						border: 1px solid $brand_color_black;
+						color: $brand_color_black;
+						padding: 6px;
+						font-size:$fontSizeExtraLarge;
+						font-weight: $headingsFontWeight;
+					}
+
+				}
+			}
+		}
+		span.avatarContainer{
+			width:90%;
+			height:90%;
+		}
+		.card {
+			.avatar {
+				.avatarContainer{
+				width:90%;
+				height:90%;
+				}
+			}
+		}
+		.table thead th {
+			vertical-align: top;
+			width: 6%;
+		}
+		i.icon-arrow-1-down {
+			display: inline-block;
+		}
+		.raFilterWrap {
+			.detailArrowToken {
+				position: relative;
+				left: 270px;
+				top: 26px;
+				z-index: 1;
+				display:block;
+                width: 20px;
+			}
+		}
+		span.raTileHeadText {
+			display: block;
+			padding-top: 5% !important;
+			padding-bottom: 2%;
+		}
+	}
+
+	.pagination{
+		margin:0px;
+		text-align: right;
+	}
+	.pagination ul>.active>a:link{
+		background-color:$brand_color_primary;
+	}
+	b {
+		display: block;
+		font-style: italic;
+	}
+	table.table.table-striped{
+		tr th {
+			white-space: nowrap;
+			&.active {
+			  a, i {
+				color: $brand_color_primary;
+				white-space: nowrap;
+			  }
+			}
+			a{
+				color: $brand_color_dark;
+				font-weight: $fontWeightSemiBold;
+				white-space: nowrap;
+			}
+		}
+		th:first-child {
+		 text-align: center;
+		}
+		td.status-col {
+			text-align: center;
+			vertical-align:middle;
+		}
+		td {
+			vertical-align: middle;
+			&:nth-child(2) {
+				line-height: 21px;
+			}
+		}
+		td.reallocationAmount{
+			text-align:right;
+		}
+	}
+
+	span{
+		&.statusIcon{
+			&.icon-clock {
+				border: 1px solid $modal_borderColor !important;
+				background-color: $modal_borderColor  !important;
+				color: $brand_color_black;
+				padding: 6px;
+				font-size: $fontSizeExtraLarge;
+				font-weight: $headingsFontWeight;
+				display:block;
+			}
+		}
+	}
+	span{
+		&.statusIcon{
+			&.icon-star{
+				background-color: $modal_borderColor !important;
+				border: 1px solid $modal_borderColor !important;
+				color: $brand_color_black;
+				font-size: $fontSizeExtraLarge;
+				font-weight: $headingsFontWeight;
+				display:block;
+			}
+		}
+	}
+	span{
+		&.statusIcon{
+			&.icon-more-circles-horizontal{
+				background-color: $modal_borderColor !important;
+				border: 1px solid $brand_color_black !important;
+				color: $brand_color_black;
+				padding: 6px;
+				font-size:$fontSizeExtraLarge;
+				font-weight: $headingsFontWeight;
+			}
+		}
+	}
+	.raInsights{
+		.raInsightsBackgrondImg {
+			background-size: cover;
+		}
+	}
+	.__react_component_tooltip{
+            &.type-light {
+                background-color: #fff !important;
+				opacity: 1 !important;
+				z-index: 9999 !important;
+				box-shadow: 1px 2px 12px rgba(0, 0, 0, 0.5) !important;
+				padding: 0;
+            }
+            .byPromoHelpTip{
+                  strong {
+                      border-bottom: 1px solid #ccc;
+                      position: relative;
+                      top: -3px;
+                      border-radius: 5px 5px 0 0;
+                      padding: 15px 15px;
+                      z-index: 99999;
+                      background-color: #e8e8e8;
+                      margin-bottom: 9px;
+                      display: block;
+                  }
+            }
+      }
+			@media( max-width: 567px ){
+	      	.pagination{
+	        		margin: 10px 0px;
+    				text-align: right;
+						.counts {
+						display: inline-block;
+						text-align: left;
+						margin: 10px 0px;
+						float: left;
+						}
+				}
+
+				.raPromo{
+					&.fr{
+		       		text-align: Left ;
+		    		margin-top: 6%;
+		    	 	float: none;
+		    	 	display: block;
+		    	 	padding: 0px;
+				 }
+			 }
+	   }
+	 // Detail page - Fillter arrow position
+	 @media (min-width: $breakpoint_mobilePhoneMin_min) and (max-width: 345px) {
+	.raFilterWrap {
+			.detailArrowToken {
+				position: relative;
+				left: 220px;
+				top: 56px;
+				z-index: 1;
+				display:block;
+                width: 20px;
+			}
+		}
+	}
+	// Detail page - Card Name and designation position
+ 	@media (min-width: $breakpoint_mobilePhoneMin_min) and (max-width: $breakpoint_mobile_max) {
+		.card.card-large{
+			.card-front{
+				.card-details{
+						margin-top: 25px;
+    				margin-left: 96px;
+				}
+			}
+		}
+	}
+}
+// Detail page  Ends
+
+// Detail page Banner image display using before and after -Starts
+
+	@if $ra_detail_img_includeOwl == true {
+		.raDetailPage::before,
+		.raDetailPage::after {
+		  display: block;
+		  content: '';
+		  position: absolute;
+		  top: 0;
+		  right: 0;
+		  left: 0;
+		  height: 0;
+		  padding-top: 21.2766%;
+		  margin-top: 1px;
+		}
+		.raDetailPage::after {
+			left: auto;
+			width: 23.5%;
+			background: $ra_detail_img_Owl no-repeat,
+			radial-gradient( farthest-side at 58% 37%, $ra_IconColor 0%, $ra_IconColor 90%, transparent 90% ),
+			linear-gradient( to right, transparent 0%, transparent 26%, $ra_IconColor 26% );
+			background-size: auto 100%,
+			auto,
+			auto;
+		}
+	}
+	.raDetailPage::before {
+		display: block;
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		height: 0;
+		background-image: $ra_detail_img_banner_mobile;
+		background-repeat: no-repeat ;
+		background-size: $ra_insight-detail_img_size ;
+		padding-top: 1 / 4.7 * 100%;
+		margin-top: 1px;
+	}
+
+	@media (min-width: $breakpoint_mobileMini_min) { /* $breakpoint_mobileMini_min */
+		.raDetailPage::before {
+			background-image: $ra_detail_img_banner_normal;
+		}
+	}
+	@media (min-width: $breakpoint_desktop_min) { /* $breakpoint_desktop_min */
+		.raDetailPage::before {
+			background-image: $ra_detail_img_banner_max;
+		}
+	}
+	// mobilePhoneMini -321px
+	@media (min-width: $breakpoint_mobilePhoneMin_min) {
+			.raDetailPage {
+				padding-top: calc(#{1 / 4.7 * 100%}); // 4.7:1 ratio - min-height (borrwed from _allModules.scss)
+		}
+	}
+	// mobileMini -480px
+	@media (min-width: $breakpoint_mobileMini_min) {
+	.raDetailPage {
+				padding-top: calc(#{1 / 4.7 * 100%}); // 4.7:1 ratio - min-height (borrwed from _allModules.scss)
+		}
+	}
+	// tablet -768px
+	@media (min-width: $breakpoint_tablet_min) {
+	.raDetailPage {
+				padding-top: calc(#{1 / 4.7 * 100%}); // 4.7:1 ratio - min-height (borrwed from _allModules.scss)
+		}
+	}
+	// desktop -1025px
+	@media (min-width: $breakpoint_desktop_min) {
+	.raDetailPage {
+				padding-top: calc(#{1 / 4.7 * 100%}); // 4.7:1 ratio - min-height (borrwed from _allModules.scss)
+		}
+	}
+
+	// desktopLarge -1536px
+	@media (min-width: $breakpoint_desktopLarge_min) {
+	.raDetailPage {
+				padding-top: calc(#{1 / 4.7 * 100%}); // 4.7:1 ratio - min-height (borrwed from _allModules.scss)
+		}
+	}
+	// Detail page Banner image display using before and after -Ends
+	.statusIcon {
+		font-size: $fontSizeExtraLarge + 3;
+	}

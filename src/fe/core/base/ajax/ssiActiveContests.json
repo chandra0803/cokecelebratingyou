@@ -1,0 +1,101 @@
+{
+    "messages": [],
+    "activeContestsList": [
+        {
+            "id": "1",
+            "name": "Step It Up Example",
+            "managerDetailPageUrl": "layout.html?tplPath=../apps/ssi/tpl/&tpl=ssiManagerPage.html",
+            "contestType": "16",
+            "contestTypeName": "stepItUp"
+        <?php /*,
+            "status": "live",
+            "statusLabel": "Active",
+            "startDate": "08/16/2013",
+            "endDate": "09/16/2014",
+            "updatedBy": "Lastname, Firstname",
+            "updatedOn": "12/22/2016",
+            "role": "creator",
+            "roleLabel": "Creator" */ ?>
+        },
+        {
+            "id": "6",
+            "name": "XYZ Contest",
+            "managerDetailPageUrl": "layout.html?tplPath=../apps/ssi/tpl/&tpl=ssiManagerPage.html",
+            "contestType": "2",
+            "contestTypeName": "doThisGetThat"
+        <?php /*,
+            "status": "live",
+            "statusLabel": "Active",
+            "startDate": "08/16/2013",
+            "endDate": "09/16/2014",
+            "updatedBy": "Lastname, Firstname",
+            "updatedOn": "12/20/2016",
+            "role": "participant",
+            "roleLabel": "Participant"*/ ?>
+        },
+        {
+            "id": "2",
+            "name": "Do This Get That Example",
+            "managerDetailPageUrl": "layout.html?tplPath=../apps/ssi/tpl/&tpl=ssiManagerPage.html",
+            "contestType": "2",
+            "contestTypeName": "doThisGetThat"
+        <?php /*,
+            "status": "live",
+            "statusLabel": "Active",
+            "startDate": "08/16/2013",
+            "endDate": "09/16/2014",
+            "updatedBy": "Lastname, Firstname",
+            "updatedOn": "12/12/2016",
+            "role": "manager",
+            "roleLabel": "Manager"*/ ?>
+        },
+        {
+            "id": "3",
+            "name": "Objective Example",
+            "managerDetailPageUrl": "layout.html?tplPath=../apps/ssi/tpl/&tpl=ssiManagerPage.html",
+            "contestType": "4",
+            "contestTypeName": "objectives"
+        <?php /*,
+            "status": "live",
+            "statusLabel": "Active",
+            "startDate": "01/01/2014",
+            "endDate": "02/01/2014",
+            "updatedBy": null,
+            "updatedOn": null,
+            "role": "manager",
+            "roleLabel": "Manager"*/ ?>
+        },
+        {
+            "id": "3c",
+            "name": "Award Them Now Example",
+            "managerDetailPageUrl": "layout.html?tplPath=../apps/ssi/tpl/&tpl=ssiManagerPage.html",
+            "contestType": "1",
+            "contestTypeName": "awardThemNow"
+        <?php /*,
+            "status": "live",
+            "statusLabel": "Complete",
+            "startDate": "01/01/2014",
+            "endDate": "02/01/2014",
+            "updatedBy": null,
+            "updatedOn": null,
+            "role": "manager",
+            "roleLabel": "Manager"*/ ?>
+        },
+        {
+            "id": "4",
+            "name": "Stack Rank Example",
+            "managerDetailPageUrl": "layout.html?tplPath=../apps/ssi/tpl/&tpl=ssiManagerPage.html",
+            "contestType": "8",
+            "contestTypeName": "stackRank"
+        <?php /*,
+            "status": "draft",
+            "statusLabel": "Incomplete",
+            "startDate": "01/01/2014",
+            "endDate": "02/01/2014",
+            "updatedBy": null,
+            "updatedOn": null,
+            "role": "manager",
+            "roleLabel": "Manager"*/ ?>
+        }
+    ]
+}

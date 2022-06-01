@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.homepage.ModuleApp" table="MODULE_APP" discriminator-value="standard">
+
+		<!-- This is the surrogate primary key. Make sure the column and sequence 
+			names are correct. -->
+		<id name="id" type="java.lang.Long" column="MODULE_APP_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">MODULE_APP_PK</param>
+			</generator>
+		</id>
+		
+		<discriminator column="module_type" type="string" />
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<!-- The create audit information is handled in the AuditCreateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+
+		<!-- The update audit information is handled in the AuditUpdateType and 
+			AuditInterceptor. Column order here is important. -->
+		<property name="auditUpdateInfo"
+			type="com.biperf.core.utils.hibernate.AuditUpdateType">
+			<column name="DATE_MODIFIED" />
+			<column name="MODIFIED_BY" />
+		</property>
+
+		<property name="name" type="java.lang.String" column="NAME" />
+		<property name="description" type="java.lang.String" column="DESCRIPTION" />
+		<property name="mobileEnabled" type="boolean" column="IS_MOBILE_ENABLED" />
+		<property name="adminAudienceSetup" type="boolean" column="ADMIN_AUDIENCE_SETUP" />
+		<property name="availableSizes" column="AVAILABLE_SIZES" type="java.lang.String" />
+		<property name="appName" column="UI_APP_NAME" type="java.lang.String" />
+		<property name="templateName" column="TEMPLATE_NAME" type="java.lang.String" />
+		<property name="viewName" column="VIEW_NAME" type="java.lang.String" />
+		<property name="active" type="boolean" column="IS_ACTIVE" />
+
+		<property name="audienceType" column="AUDIENCE_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.ModuleAppAudienceType</param>
+			</type>
+		</property>
+		
+		<property name="appAudienceType" column="APP_AUDIENCE_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.ModuleAppAudienceCodeType</param>
+			</type>
+		</property>
+
+		<property name="tileMappingType" column="TILE_MAPPING_TYPE">
+			<type name="com.biperf.core.utils.hibernate.PickListUserType">
+				<param name="lookupClass">com.biperf.core.domain.enums.TileMappingType</param>
+			</type>
+		</property>
+
+		<set name="audiences" lazy="false" table="MODULE_APP_AUDIENCE" cascade="all-delete-orphan">
+			<key column="MODULE_APP_ID" />
+			<many-to-many column="AUDIENCE_ID" class="com.biperf.core.domain.participant.Audience" />
+		</set>
+		
+		<subclass name="com.biperf.core.domain.homepage.CrossPromotionalModuleApp" discriminator-value="xpromo">
+	        <property name="order" column="SORT_ORDER" type="int" />
+	    </subclass>
+		
+	</class>
+
+	<query name="com.biperf.core.domain.homepage.AllAudienceSpecificModuleApp">
+    <![CDATA[
+		from com.biperf.core.domain.homepage.ModuleApp moduleApp
+		where moduleApp.audienceType = 'specifyaudience'
+		and moduleApp.active = java.lang.Boolean.TRUE
+		order by moduleApp.name
+	]]>
+  </query>
+	
+  <sql-query name="com.biperf.core.domain.homepage.AudienceforModuleApp">
+  	<return-scalar column="audienceName" type="string"/>
+  	<return-scalar column="audienceId" type="long"/>	
+	<![CDATA[
+		SELECT DECODE(ma.audience_type,'specifyaudience',au.name,ma.audience_type) AS audienceName ,maau.audience_id AS audienceId
+		FROM module_app ma, 
+			 module_app_audience  maau,
+			 audience au
+  		WHERE ma.module_app_id = maau.module_app_id
+		  AND maau.audience_id = au.audience_id
+		  AND ma.is_active = 1
+		  AND ma.module_app_id = :moduleAppId
+	]]>
+  </sql-query>
+  
+  <query name="com.biperf.core.domain.homepage.AllAvailableModuleApps">
+    <![CDATA[
+		from com.biperf.core.domain.homepage.ModuleApp moduleApp
+		where moduleApp.appAudienceType != 'disabled'
+		and moduleApp.active = java.lang.Boolean.TRUE
+		order by moduleApp.name
+	]]>
+  </query>
+       
+  <query name="com.biperf.core.domain.homepage.AllLargeModuleApp">
+    <![CDATA[
+		from com.biperf.core.domain.homepage.ModuleApp moduleApp
+		where moduleApp.availableSizes LIKE '4X4,4X2%'
+		and moduleApp.appAudienceType != 'disabled'
+		and moduleApp.active = java.lang.Boolean.TRUE
+		order by moduleApp.name
+	]]>
+  </query> 
+  
+  <query name="com.biperf.core.domain.homepage.AllMediumAndSmallModuleApp">
+    <![CDATA[
+		from com.biperf.core.domain.homepage.ModuleApp moduleApp
+		where (moduleApp.availableSizes LIKE '%2X2%' or moduleApp.availableSizes LIKE '%2X1%')
+		and moduleApp.appAudienceType != 'disabled'
+		and moduleApp.active = java.lang.Boolean.TRUE
+		order by moduleApp.name
+	]]>
+  </query> 
+
+  <query name="com.biperf.core.domain.homepage.GetModuleAppByTileMappingType">
+    <![CDATA[
+		from com.biperf.core.domain.homepage.ModuleApp moduleApp
+		where moduleApp.tileMappingType = :tileMappingType
+		and moduleApp.active = java.lang.Boolean.TRUE
+		order by moduleApp.name
+	]]>
+  </query>
+  
+ <sql-query name="com.biperf.core.domain.homepage.disableMEPlusFilterPageSetup">
+    <![CDATA[
+			UPDATE MODULE_APP 
+			 set IS_ACTIVE = (DECODE(APP_AUDIENCE_TYPE,'disabled',0,1))
+      ]]>
+  </sql-query> 
+  
+  <sql-query name="com.biperf.core.domain.homepage.enableMEPlusFilterPageSetup">
+    <![CDATA[
+		 UPDATE MODULE_APP
+		 set IS_ACTIVE = 0
+		 WHERE NAME not in ('Badges','Browse Awards','Celebration','DIY Travel','Events','Great Deal','International Catalog','Merchandise','News','PURL (Managers only)','Plateau Awards Redeem','Purl Celebrate','Real Deal','Resource Center')
+
+      ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.homepage.disableRecognitionOnlyFilterPageSetup">
+    <![CDATA[
+			UPDATE MODULE_APP 
+			 set IS_ACTIVE = (DECODE(APP_AUDIENCE_TYPE,'disabled',0,1))
+      ]]>
+  </sql-query> 
+  
+  <sql-query name="com.biperf.core.domain.homepage.enableRecognitionOnlyFilterPageSetup">
+    <![CDATA[
+        UPDATE MODULE_APP
+        set IS_ACTIVE = 0
+        WHERE NAME not in ('Billboard','News','On The Spot','Public Recognition','Banner Ads','Custom Display')
+     ]]>
+  </sql-query> 
+  
+    <sql-query name="com.biperf.core.domain.homepage.disableRecognitionOnlySVSetup">
+    <![CDATA[
+          UPDATE os_propertyset
+          set BOOLEAN_VAL = 1
+          WHERE ENTITY_NAME in ('install.productclaims','install.quizzes','install.nominations','install.survey','install.wellness','install.goalquest','install.challengepoint','install.ssi','install.engagement','install.leaderboard','install.throwdown')
+
+      ]]>
+  </sql-query> 
+  
+  <sql-query name="com.biperf.core.domain.homepage.enableRecognitionOnlySVSetup">
+    <![CDATA[
+        UPDATE os_propertyset
+        set BOOLEAN_VAL = 0
+        WHERE ENTITY_NAME in ('install.productclaims','install.quizzes','install.nominations','install.survey','install.wellness','install.goalquest','install.challengepoint','install.ssi','install.engagement','install.leaderboard','install.throwdown')
+
+     ]]>
+  </sql-query> 
+     
+    <sql-query name="com.biperf.core.domain.homepage.disableSalesMakerSVSetup">
+    <![CDATA[
+          UPDATE os_propertyset
+          set BOOLEAN_VAL = 1
+          WHERE ENTITY_NAME in ('install.recognition','purl.available','self.enrollment.enabled','install.survey','roster.management.available','install.nominations','public.rec.wall.feed.enabled','instantpoll','celebration','install.quizzes','install.productclaims','install.engagement','install.leaderboard','work.happier')
+
+      ]]>
+  </sql-query> 
+  
+  <sql-query name="com.biperf.core.domain.homepage.enableSalesMakerSVSetup">
+    <![CDATA[
+        UPDATE os_propertyset
+        set BOOLEAN_VAL = 0
+        WHERE ENTITY_NAME in ('install.recognition','purl.available','self.enrollment.enabled','install.survey','roster.management.available','install.nominations','public.rec.wall.feed.enabled','instantpoll','celebration','install.quizzes','install.productclaims','install.engagement','install.leaderboard','work.happier')
+     ]]>     
+  </sql-query> 
+
+  <sql-query name="com.biperf.core.domain.homepage.disableSalesMakerFilterPageSetup">
+    <![CDATA[
+			UPDATE MODULE_APP 
+			 set IS_ACTIVE = (DECODE(APP_AUDIENCE_TYPE,'disabled',0,1))
+      ]]>
+  </sql-query> 
+  
+  <sql-query name="com.biperf.core.domain.homepage.enableSalesMakerFilterPageSetup">
+    <![CDATA[
+        UPDATE MODULE_APP
+        set IS_ACTIVE = 0
+        WHERE APP_AUDIENCE_TYPE not in ('onTheSpotCardModule','newsModule','banner','challengepointModule','SSICreatorContestsModule','SSIManagerModule','SSIParticipantModule','SSICreatorModule','goalquestModule','challengepointManagerModule','goalquestManagerModule','newsModule','managertoolkit','approvalsModule','heroModule')
+     ]]>
+  </sql-query>   
+
+</hibernate-mapping>

@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.biperf.core.domain.budget.Budget" table="BUDGET">
+
+        <!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="BUDGET_ID">
+		    <generator class="seqhilo">
+		    	<param name="max_lo">0</param> <param name="sequence">BUDGET_PK_SQ</param>
+	        </generator>
+	    </id>
+
+        <!-- Using version number optimistic locking -->
+       <version name="version" column="VERSION" type="java.lang.Long" />
+
+	    <!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+      	<property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+        	<column name="DATE_CREATED"/>
+        	<column name="CREATED_BY"/>
+      	</property>
+		
+		<!-- The update audit information is handled in the AuditUpdateType and AuditInterceptor.  Column order here is important. -->
+	    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+	      <column name="DATE_MODIFIED"/>
+	      <column name="MODIFIED_BY"/>
+	    </property>
+	    <property name="originalValue" type="java.math.BigDecimal" column="ORIGINAL_VALUE" />
+	    <property name="currentValue" type="java.math.BigDecimal" column="CURRENT_VALUE" />        
+        <property name="overdrawn" type="java.lang.String" column="OVERDRAWN"/>
+        <property name="actionType" column="ACTION_TYPE">
+        	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+                <param name="lookupClass">com.biperf.core.domain.enums.BudgetActionType</param>
+            </type>
+        </property>
+        <property name="status" column="STATUS">
+        	<type name="com.biperf.core.utils.hibernate.PickListUserType">
+                <param name="lookupClass">com.biperf.core.domain.enums.BudgetStatusType</param>
+            </type>
+        </property>
+		<property name="effectiveDate" column="EFFECTIVE_DATE" type="java.util.Date" />        
+		
+        <many-to-one name="budgetSegment" column="BUDGET_SEGMENT_ID" class="com.biperf.core.domain.budget.BudgetSegment" not-null="true" lazy="false"/>
+	    <many-to-one name="user" column="USER_ID" class="com.biperf.core.domain.user.User" not-null="false" lazy="false"/>
+	    <many-to-one name="node" column="NODE_ID" class="com.biperf.core.domain.hierarchy.Node" not-null="false" lazy="false"/>
+    </class>
+
+    <query name="com.biperf.core.domain.budget.AllBudgetsNotActiveInBudgetSegment">
+    <![CDATA[
+		from Budget as budget
+		where budget.status != 'active' 
+		and budget.budgetSegment.id = :budgetSegmentId
+		]]>
+    </query>	
+    
+    
+    <sql-query name="com.biperf.core.domain.budget.getNumberOfActiveInBudgetSegment">
+    <return-scalar column="budgetCount" type="long"/>
+    <![CDATA[
+        SELECT count(*) budgetCount
+        from budget b
+  		where b.status = 'active'
+        and b.budget_segment_id = :budgetSegmentId
+    ]]>
+    </sql-query>
+  
+    <sql-query name="com.biperf.core.domain.budget.getAllActiveInBudgetSegmentForUser">
+    <return alias="b" class="com.biperf.core.domain.budget.Budget"/>
+  	<![CDATA[
+  		SELECT {b.*}
+        from budget b
+  		where b.status = 'active'
+        and b.budget_segment_id = :budgetSegmentId
+        and b.user_id = :userId
+  	]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.budget.getBudgetForCentralBudgetMasterBySegment">
+    <return alias="b" class="com.biperf.core.domain.budget.Budget"/>
+  	<![CDATA[
+  		SELECT {b.*}
+        from budget b, budget_segment bseg, budget_master bm
+        where b.budget_segment_id = bseg.budget_segment_id 
+        and bseg.budget_segment_id = :budgetSegmentId
+        and bseg.status = 1
+        and bseg.budget_master_id = bm.budget_master_id
+  		and bm.budget_type = 'central'
+  		and b.status = 'active'
+  	]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.budget.getAllActiveInBudgetSegmentForUserNode">
+    <return alias="b" class="com.biperf.core.domain.budget.Budget"/>
+  	<![CDATA[
+  		SELECT {b.*}
+        from budget b, user_node un, node n
+  		where b.status = 'active'
+        and b.budget_segment_id = :budgetSegmentId
+        and b.node_id = un.node_id
+        and un.user_id = :userId
+        and un.status = 1
+        and n.node_id = un.node_id
+        order by n.name
+  	]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.budget.getAllActiveInBudgetSegmentForOwnerUserNode">
+    <return alias="b" class="com.biperf.core.domain.budget.Budget"/>
+  	<![CDATA[
+  		SELECT {b.*}
+        from budget b, user_node un, node n
+  		where b.status = 'active'
+        and b.budget_segment_id = :budgetSegmentId
+        and b.node_id = un.node_id
+        and un.user_id = :userId
+        and un.role IN ('own','mgr','mbr')
+        and un.status = 1
+        and n.node_id = un.node_id
+        order by n.name
+  	]]>
+    </sql-query>
+     <!-- Client customization start wip 25589 -->
+   <!--  <sql-query name="com.biperf.core.domain.budget.getBudgetMeterDataForPax">
+    <return-scalar column="budgetMasterId" type="long"/>
+	<return-scalar column="budgetMasterType" type="string"/>
+	<return-scalar column="budgetMasterName" type="string"/>
+	<return-scalar column="budgetId" type="long"/>
+	<return-scalar column="budgetNodeName" type="string"/>
+	<return-scalar column="budgetNodeId" type="long"/>
+	<return-scalar column="budgetNodeIsPrimary" type="boolean"/>
+	<return-scalar column="budgetStartDate" type="date"/>
+	<return-scalar column="budgetEndDate" type="date"/>	
+	
+	<return-scalar column="usedBudget" type="java.math.BigDecimal"/>
+	<return-scalar column="remainingBudget" type="java.math.BigDecimal"/>
+	<return-scalar column="totalBudget" type="java.math.BigDecimal"/>
+	
+	<return-scalar column="promotionId" type="long"/>
+	<return-scalar column="promotionName" type="string"/>
+	<return-scalar column="promotionStartDate" type="date"/>
+	<return-scalar column="promotionEndDate" type="date"/>	
+    <![CDATA[
+        SELECT DISTINCT bm.budget_master_id                                   				AS budgetMasterId,
+		  bm.budget_type                                                       				AS budgetMasterType,
+		  fnc_cms_asset_code_val_extr(bm.cm_asset_code,bm.name_cm_key,:locale) 				AS budgetMasterName,
+		  b.budget_id                                                          				AS budgetId,
+		  DECODE(bm.budget_type,'pax',NULL,n.name)                             				AS budgetNodeName,
+  		  DECODE(bm.budget_type,'pax',NULL,n.node_id)                          				AS budgetNodeId,
+  		  DECODE(bm.budget_type,'pax',0,un.is_primary)						   				AS budgetNodeIsPrimary,  		  
+          bseg.start_date                                                                   AS budgetStartDate,
+          bseg.end_date                                                                     AS budgetEndDate,       
+		  b.original_value - b.current_value                                   				AS usedBudget,
+		  B.current_value                                                      				AS remainingBudget,
+		  B.original_value                                                     				AS totalBudget,
+		  p.promotion_Id                                                       				AS promotionId,
+		  fnc_cms_asset_code_val_extr(p.promo_name_asset_code,'PROMOTION_NAME_',:locale)    AS promotionName,
+		  p.promotion_start_date                                               				AS promotionStartDate,
+		  p.promotion_end_date                                                 				AS promotionEndDate
+		FROM promotion p,
+  		  promo_recognition pr,
+		  budget_master bm,
+          budget_segment bseg,
+		  budget b,
+		  node n,
+		  user_node un
+		WHERE p.promotion_id         		IN (:promotionIds)
+		AND p.promotion_id           		= pr.promotion_id
+		AND pr.is_show_in_budget_tracker 	= 1
+		AND fnc_promo_budget_meter(p.promotion_id,:userId) = 'YES'
+        AND p.award_budget_master_id        = bm.budget_master_id
+        AND bm.budget_master_id  = bseg.budget_master_id 
+        AND bseg.budget_segment_id = b.budget_segment_id   
+        AND (n.node_id = un.node_id and un.user_id = :userId )
+        AND (b.node_id = un.node_id OR b.user_id= :userId)
+        AND p.promotion_status = 'live'
+        AND B.original_value != 0
+        AND trunc(to_date(:today, 'DD/MM/YYYY')) between bseg.start_date and NVL(bseg.end_date, trunc(to_date(:today, 'DD/MM/YYYY'))) 
+        AND bseg.status = 1
+    ]]>
+    </sql-query>
+    -->
+    
+    <sql-query name="com.biperf.core.domain.budget.getBudgetMeterDataForPax">
+    <return-scalar column="budgetMasterId" type="long"/>
+	<return-scalar column="budgetMasterType" type="string"/>
+	<return-scalar column="budgetMasterName" type="string"/>
+	<return-scalar column="budgetId" type="long"/>
+	<return-scalar column="budgetNodeName" type="string"/>
+	<return-scalar column="budgetNodeId" type="long"/>
+	<return-scalar column="budgetNodeIsPrimary" type="boolean"/>
+    <return-scalar column="budgetStartDate" type="date"/>
+	<return-scalar column="budgetEndDate" type="date"/>	
+	
+	<return-scalar column="usedBudget" type="java.math.BigDecimal"/>
+	<return-scalar column="remainingBudget" type="java.math.BigDecimal"/>
+	<return-scalar column="totalBudget" type="java.math.BigDecimal"/>
+	
+	<return-scalar column="promotionId" type="long"/>
+	<return-scalar column="promotionName" type="string"/>
+	<return-scalar column="promotionStartDate" type="date"/>
+	<return-scalar column="promotionEndDate" type="date"/>	
+    <![CDATA[
+        SELECT DISTINCT bm.budget_master_id                                   				AS budgetMasterId,
+		  bm.budget_type                                                       				AS budgetMasterType,
+		  fnc_cms_asset_code_val_extr(bm.cm_asset_code,bm.name_cm_key,:locale) 				AS budgetMasterName,
+		  b.budget_id                                                          				AS budgetId,
+		  DECODE(bm.budget_type,'pax',NULL,n.name)                             				AS budgetNodeName,
+  		  DECODE(bm.budget_type,'pax',NULL,n.node_id)                          				AS budgetNodeId,
+  		  DECODE(bm.budget_type,'pax',0,un.is_primary)						   				AS budgetNodeIsPrimary,
+  	      bseg.start_date                                                                   AS budgetStartDate,
+          bseg.end_date                                                                     AS budgetEndDate,       
+		  b.original_value - b.current_value                                   				AS usedBudget,
+		  B.current_value                                                      				AS remainingBudget,
+		  B.original_value                                                     				AS totalBudget,
+		  p.promotion_Id                                                       				AS promotionId,
+		  fnc_cms_asset_code_val_extr(p.promo_name_asset_code,'PROMOTION_NAME_',:locale)    AS promotionName,
+		  p.promotion_start_date                                               				AS promotionStartDate,
+		  p.promotion_end_date                                                 				AS promotionEndDate
+		FROM promotion p,
+  		  promo_recognition pr,
+		  budget_master bm,
+          budget_segment bseg,
+		  budget b,
+		  node n,
+		  user_node un
+		WHERE p.promotion_id         		IN (:promotionIds)
+		AND p.promotion_id           		= pr.promotion_id
+		AND pr.is_show_in_budget_tracker 	= 1
+		AND fnc_promo_budget_meter(p.promotion_id,:userId) = 'YES'
+        AND p.award_budget_master_id        = bm.budget_master_id
+        AND bm.budget_master_id  = bseg.budget_master_id 
+        AND bseg.budget_segment_id = b.budget_segment_id   
+        AND (n.node_id = un.node_id and un.user_id = :userId )
+        AND (b.node_id = un.node_id OR b.user_id= :userId)
+        AND p.promotion_status = 'live'
+        AND B.original_value != 0
+        AND trunc(to_date(:today, 'DD/MM/YYYY')) between bseg.start_date and NVL(bseg.end_date, trunc(to_date(:today, 'DD/MM/YYYY'))) 
+        AND bseg.status = 1
+       UNION     
+      SELECT   DISTINCT  bm.budget_master_id                                                           AS budgetMasterId,
+              bm.budget_type                                                                          AS budgetMasterType,
+              fnc_cms_asset_code_val_extr(bm.cm_asset_code,bm.name_cm_key,:locale)                    AS budgetMasterName,
+              bseg.budget_id                                                                             AS budgetId,
+              DECODE(bm.budget_type,'pax',NULL,bseg.node_name)                          				AS budgetNodeName,
+              DECODE(bm.budget_type,'pax',NULL,bseg.node_id)                                             AS budgetNodeId,
+              DECODE(bm.budget_type,'pax',0,un.is_primary)						   				AS budgetNodeIsPrimary,
+              bseg.start_date                                                                   AS budgetStartDate,
+              bseg.end_date                                                                     AS budgetEndDate,       
+              bseg.original_value - bseg.current_value                                                      AS usedBudget,
+              bseg.current_value                                                                         AS remainingBudget,
+              bseg.original_value                                                                        AS totalBudget,
+              p.promotion_Id                                                                          AS promotionId,
+              fnc_cms_asset_code_val_extr(p.promo_name_asset_code,'PROMOTION_NAME_',:locale)    AS promotionName,
+              p.promotion_start_date                                                                  AS promotionStartDate,
+              p.promotion_end_date                                                                    AS promotionEndDate      
+        FROM promotion p,
+              promo_recognition pr,
+              budget_master bm,
+              user_node un,
+             ( SELECT * FROM
+                (SELECT b.*,bseg.budget_master_id,bseg.end_date,bseg.start_date,n.node_name, min (lvl) over() as min_lvl, lvl
+                  FROM budget b,budget_segment bseg,
+                (SELECT n.name node_name,n.node_id ,level lvl
+                  FROM node n
+                 CONNECT BY n.node_id = PRIOR n.parent_node_id 
+                   START WITH n.node_id IN(SELECT node_id 
+                                             FROM user_node 
+                                            WHERE user_id = :userId 
+                                              and role IN('mgr','own')))n
+                WHERE b.node_id = n.node_id
+                  AND bseg.budget_segment_id              = b.budget_segment_id
+                  AND trunc(sysdate) between bseg.start_date and NVL(bseg.end_date, trunc(sysdate))  
+                  AND bseg.status = 1
+                  AND b.original_value != 0
+                  AND b.status = 'active'
+                  )
+                  WHERE min_lvl = lvl) bseg
+        WHERE p.promotion_id                = pr.promotion_id
+        AND un.node_id = bseg.node_id
+        AND pr.is_show_in_budget_tracker    = 1
+        AND fnc_promo_budget_meter(p.promotion_id,:userId) = 'YES'
+        AND p.award_budget_master_id        = bm.budget_master_id
+        AND bm.budget_master_id             = bseg.budget_master_id
+        AND p.promotion_status = 'live'
+        AND P.adih_parent_budgets = 1 
+    ]]>
+    </sql-query>
+    <!-- Client customization end  wip 25589 -->
+    
+    
+    <query name="com.biperf.core.domain.budget.getBudgetsByBudgetSegmentId">
+    	<![CDATA[
+			from Budget as budget
+			where budget.budgetSegment.id = :budgetSegmentId
+		]]>
+  	</query>
+  	<!-- Client customization end  wip 25589 -->
+  	<!-- 
+    <sql-query name="com.biperf.core.domain.budget.isParticipantHasBudgetMeter">
+    <return-scalar column="budgetMasterId" type="long"/>
+    <![CDATA[
+        SELECT 
+            bm.budget_master_id                AS budgetMasterId
+        FROM promotion p,
+              promo_recognition pr,
+              budget_master bm,
+              budget_segment bseg,
+              budget b,
+              node n,
+              user_node un
+        WHERE p.promotion_id                = pr.promotion_id
+        AND pr.is_show_in_budget_tracker    = 1
+        AND fnc_promo_budget_meter(p.promotion_id,:userId) = 'YES'
+        AND p.award_budget_master_id        = bm.budget_master_id
+        AND bm.budget_master_id             = bseg.budget_master_id      
+        AND bseg.budget_segment_id              = b.budget_segment_id      
+        AND (n.node_id = un.node_id and un.user_id = :userId )
+        AND (b.node_id = un.node_id or b.user_id= :userId)
+        AND p.promotion_status = 'live'
+        AND un.role in ('own','mgr')      
+        AND b.original_value != 0
+        AND trunc(sysdate) between bseg.start_date and NVL(bseg.end_date, trunc(sysdate))  
+        AND bseg.status = 1
+        AND b.status = 'active'
+        UNION
+        SELECT 
+            bm.budget_master_id                AS budgetMasterId
+        FROM promotion p,
+              promo_recognition pr,
+              budget_master bm,
+              budget_segment bseg,
+              budget b,
+              node n,
+              user_node un
+        WHERE p.promotion_id                = pr.promotion_id
+        AND pr.is_show_in_budget_tracker    = 1
+        AND fnc_promo_budget_meter(p.promotion_id,:userId) = 'YES'
+        AND p.award_budget_master_id        = bm.budget_master_id
+        AND bm.budget_master_id             = bseg.budget_master_id      
+        AND bseg.budget_segment_id              = b.budget_segment_id      
+        AND (n.node_id = un.node_id and un.user_id = :userId )
+        AND (b.node_id = un.node_id or b.user_id= :userId)
+        AND p.promotion_status = 'live'
+        AND b.original_value != 0
+        AND trunc(sysdate) between bseg.start_date and NVL(bseg.end_date, trunc(sysdate))  
+        AND bseg.status = 1
+        AND b.status = 'active'
+    ]]>
+    </sql-query>  
+     -->
+    
+    <sql-query name="com.biperf.core.domain.budget.isParticipantHasBudgetMeter">
+    <return-scalar column="budgetMasterId" type="long"/>
+    <![CDATA[
+        SELECT 
+            bm.budget_master_id                AS budgetMasterId
+        FROM promotion p,
+              promo_recognition pr,
+              budget_master bm,
+              budget_segment bseg,
+              budget b,
+              node n,
+              user_node un
+        WHERE p.promotion_id                = pr.promotion_id
+        AND pr.is_show_in_budget_tracker    = 1
+        AND fnc_promo_budget_meter(p.promotion_id,:userId) = 'YES'
+        AND p.award_budget_master_id        = bm.budget_master_id
+        AND bm.budget_master_id             = bseg.budget_master_id      
+        AND bseg.budget_segment_id              = b.budget_segment_id      
+        AND (n.node_id = un.node_id and un.user_id = :userId )
+        AND (b.node_id = un.node_id or b.user_id= :userId)
+        AND p.promotion_status = 'live'
+        AND un.role in ('own','mgr')      
+        AND b.original_value != 0
+        AND trunc(sysdate) between bseg.start_date and NVL(bseg.end_date, trunc(sysdate))  
+        AND bseg.status = 1
+        AND b.status = 'active'
+        UNION
+        SELECT 
+            bm.budget_master_id                AS budgetMasterId
+        FROM promotion p,
+              promo_recognition pr,
+              budget_master bm,
+              budget_segment bseg,
+              budget b,
+              node n,
+              user_node un
+        WHERE p.promotion_id                = pr.promotion_id
+        AND pr.is_show_in_budget_tracker    = 1
+        AND fnc_promo_budget_meter(p.promotion_id,:userId) = 'YES'
+        AND p.award_budget_master_id        = bm.budget_master_id
+        AND bm.budget_master_id             = bseg.budget_master_id      
+        AND bseg.budget_segment_id              = b.budget_segment_id      
+        AND (n.node_id = un.node_id and un.user_id = :userId )
+        AND (b.node_id = un.node_id or b.user_id= :userId)
+        AND p.promotion_status = 'live'
+        AND b.original_value != 0
+        AND trunc(sysdate) between bseg.start_date and NVL(bseg.end_date, trunc(sysdate))  
+        AND bseg.status = 1
+        AND b.status = 'active'
+      UNION
+      SELECT  bm.budget_master_id                AS budgetMasterId
+        FROM promotion p,
+              promo_recognition pr,
+              budget_master bm,
+             (SELECT b.*,bseg.*  
+                  FROM budget b,budget_segment bseg,
+                (SELECT n.* ,level lvl
+                  FROM node n
+                 CONNECT BY n.node_id = PRIOR n.parent_node_id 
+                   START WITH n.node_id IN(SELECT node_id 
+                                             FROM user_node 
+                                            WHERE user_id = :userId 
+                                              and role IN('mgr','own')))n
+                WHERE b.node_id = n.node_id
+                  AND bseg.budget_segment_id              = b.budget_segment_id
+                  AND trunc(sysdate) between bseg.start_date and NVL(bseg.end_date, trunc(sysdate))  
+                  AND bseg.status = 1
+                  AND b.original_value != 0
+                  AND b.status = 'active') bseg
+        WHERE p.promotion_id                = pr.promotion_id
+        AND pr.is_show_in_budget_tracker    = 1
+        AND fnc_promo_budget_meter(p.promotion_id,:userId) = 'YES'
+        AND p.award_budget_master_id        = bm.budget_master_id
+        AND bm.budget_master_id             = bseg.budget_master_id
+        AND p.promotion_status = 'live'
+        AND P.adih_parent_budgets = 1 
+    ]]>
+    </sql-query>
+     
+     
+    <!-- Client customization end  wip 25589 -->	
+   
+   <sql-query name="com.biperf.core.domain.budget.getAllBudgetsBySegmentIdAndUserId">
+    <return alias="b" class="com.biperf.core.domain.budget.Budget"/>
+  	<![CDATA[
+  		SELECT {b.*}
+			FROM budget b
+		WHERE b.status             = 'active'
+			AND b.user_id            =:userId
+			AND b.budget_segment_id  =:budgetSegmentId
+			AND b.node_id          IS NULL
+		UNION ALL
+		SELECT {b.*}
+			FROM budget b,
+		  	user_node un
+		WHERE b.node_id         =un.node_id
+			AND un.status           =1
+			AND b.status            = 'active'
+			AND un.user_id          =:userId
+			AND b.budget_segment_id =:budgetSegmentId
+			AND b.user_id          IS NULL
+		UNION ALL
+		SELECT {b.*}
+			FROM budget b
+		WHERE b.status          = 'active'
+			AND b.budget_segment_id =:budgetSegmentId
+			AND b.user_id          IS NULL
+			AND b.node_id          IS NULL		
+  	]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.budget.getCentralBudgetByMasterIdAndSegmentId">
+    <return alias="b" class="com.biperf.core.domain.budget.Budget"/>
+  	<![CDATA[
+  		SELECT {b.*} 
+  			FROM budget b, budget_segment bs, budget_master bm
+		WHERE bm.budget_type = 'central'
+		AND bm.budget_master_id = :budgetMasterId
+		AND bs.budget_segment_id = :budgetSegmentId
+		AND bs.budget_master_id = bm.budget_master_id
+		AND b.budget_segment_id = bs.budget_segment_id		
+  	]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.budget.getBudgetByBudgetIdAndSegmentId">
+     <return alias="budget" class="com.biperf.core.domain.budget.Budget" />
+     <![CDATA[
+         select {budget.*}
+         from
+         BUDGET  budget 
+         where
+         budget.BUDGET_SEGMENT_ID=:budgetSegmentId and 
+         budget.BUDGET_ID=:budgetId
+    ]]>
+    </sql-query>
+    
+    <sql-query name="com.biperf.core.domain.budget.getPaxorNodeBudgetsBySegmentId">
+     <![CDATA[
+              select b.budget_id,
+                     b.budget_segment_id,
+                     b.user_id,
+                     au.last_name,
+                     au.first_name,
+                     NULL node_id,
+                     NULL name,
+                     b.original_value,
+                     b.current_value,
+                     b.status,
+                        decode( bm.budget_type, 'central', 'false', 
+                		  decode(nvl(b.current_value,0),0,
+                   			decode(nvl(b.original_value,0),0,'true','false'), 'false') ) deletable
+                from budget_master bm,
+                     budget_segment bs, 
+                     budget b,
+                     application_user au
+              where bs.budget_master_id = bm.budget_master_id
+                and b.budget_segment_id = bs.budget_segment_id 
+                and b.user_id = au.user_id 
+                and au.is_active in ('1','0')
+                and b.budget_segment_id = :budgetSegmentId
+                UNION ALL
+                select b.budget_id,
+                     b.budget_segment_id,
+                     b.user_id,
+                     NULL last_name,
+                     NULL first_name,
+                     n.node_id,
+                     n.name,
+                     b.original_value,
+                     b.current_value,
+                     b.status,
+                        decode( bm.budget_type, 'central', 'false', 
+                 		  decode(nvl(b.current_value,0),0,
+                   			 decode(nvl(b.original_value,0),0,'true','false'), 'false') ) deletable
+                from budget_master bm,
+                     budget_segment bs, 
+                     budget b,
+                     node n
+              where bs.budget_master_id = bm.budget_master_id
+                and b.budget_segment_id = bs.budget_segment_id 
+                and b.node_id = n.node_id 
+                and b.budget_segment_id = :budgetSegmentId
+    ]]>
+    
+   </sql-query>
+   
+   <sql-query name="com.biperf.core.domain.budget.getBudgetGivers">
+     <return-scalar column="user_id" type="long"/>
+     <return-scalar column="budget_amount" type="long"/>
+     <return-scalar column="BUDGETHOLDERPAXNAME" type="string"/>
+    <![CDATA[
+		select au1.user_id,ab.budget_amount,au2.first_name||au2.last_name as budgetHolderPaxName
+		 from application_user au1,BUDGET_MOVE_EMAIL  ab,
+			application_user au2
+			where au1.user_id = ab.from_node_owner_id
+		 	and  au2.user_id = ab.to_node_owner_id
+		 	and ab.date_email_sent is  null
+
+    ]]>
+  </sql-query>
+  <sql-query name="com.biperf.core.domain.budget.getBudgetReceivers">
+     <return-scalar column="GIVERUSERID" type="long"/>
+     <return-scalar column="RECUSERID" type="long"/>
+     <return-scalar column="BUDGETAMOUNT" type="long"/>
+     <return-scalar column="promotion_name" type="string"/>
+     <return-scalar column="budget_transfer_date" type="date"/>
+     
+    <![CDATA[
+		Select au1.user_id as giveruserid, au2.user_id as recuserid, ab.budget_amount as budgetamount, p.promotion_name , ab.budget_transfer_date
+		From application_user au1, budget_move_email ab,
+		Application_user au2,
+		Budget b,
+		Budget_segment bs,
+		Promotion p
+		Where au1.user_id = ab.from_node_owner_id
+		and au2.user_id = ab.to_node_owner_id
+		and ab.from_budget_id = b.budget_id
+		and b.budget_segment_id = bs.budget_segment_id
+		and bs.budget_master_id = p.award_budget_master_id
+		and ab.date_email_sent is  null
+
+    ]]>
+  </sql-query>
+  
+  <sql-query name="com.biperf.core.domain.budget.updateReminderSent">
+	  <![CDATA[
+        update BUDGET_MOVE_EMAIL set DATE_EMAIL_SENT = to_date( :dateSent,'mm/dd/yyyy') WHERE FROM_NODE_OWNER_ID=:mgrUserId
+        and date_email_sent is  null
+        		]]>
+    </sql-query>
+   <!-- Client customization for WIP #27192 start -->
+	<sql-query name="com.biperf.core.domain.budget.getActiveBudgetForNodebyId">
+		<return-scalar column="result" type="integer" />
+		<![CDATA[
+		select count(*) as result
+		from budget b
+		where b.node_id = :nodeId
+		and b.status = 'active'
+		and b.original_value != 0
+		and b.current_value != 0
+    	]]>
+	</sql-query>  	
+    <!-- Client customization for WIP #27192 start -->    
+</hibernate-mapping>

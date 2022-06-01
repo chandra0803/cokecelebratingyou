@@ -1,0 +1,29 @@
+   CREATE SEQUENCE QCARD_DETAIL_ID_SEQ
+   START WITH 1
+   MAXVALUE 9999999999
+/
+
+CREATE  TABLE RPT_QCARD_DETAIL
+( QCARD_DETAIL_ID         NUMBER(18),
+   USER_ID                NUMBER(12),
+   USER_FIRST_NAME        VARCHAR2(40),
+   USER_LAST_NAME         VARCHAR2(40),
+   JOURNAL_ID             NUMBER(12),
+   TRANS_DATE             DATE,
+   NODE_ID                NUMBER(18),
+   NODE_NAME              VARCHAR2(255),
+   CERT_NUM               VARCHAR2(255),
+   FIRST_CERT             VARCHAR2(255),
+   SEC_CERT               VARCHAR2(255),
+   TRANSACTION_AMOUNT     NUMBER(12,2),
+   POSITION_TYPE          VARCHAR2(100),
+   DEPARTMENT             VARCHAR2(100),
+   COUNTRY_ID             NUMBER(12),
+   DATE_CREATED           DATE,
+   CREATED_BY             NUMBER(18),
+   DATE_MODIFIED          DATE,
+   MODIFIED_BY            NUMBER(18),
+   USER_FULL_NAME         varchar2(100),
+   VERSION                NUMBER,
+   BADGES_EARNED          NUMBER)
+/

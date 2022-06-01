@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+          "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+  <!-- Tiles Definitions for Promotion Module -->
+
+  <!--
+  * Base tiles definiitons (page parts).  Section contains main definitions for:
+  *
+  * 1.  title		    - title that appears in Browser header
+  * 2.  header   	  - header that appears at top of page
+  * 3.  topNav      - display top bar navigation menu
+  * 4.  userInfo		- User Information bar
+  * 5.  messages		- any messages or errors returned from the struts action
+  * 6.  content     - main content tile
+  * 7.  footer      - page footer
+  -->
+  
+  <!--  Promotion Header Definition -->
+  <definition name="promo.header"
+	      	  path="/promotion/ssi/promotionHeader.jsp">
+  </definition>
+  
+  <!--  Promotion Footer Definition -->
+  <definition name="promo.footer"
+	      	  path="/promotion/promotionFooter.jsp">
+  </definition>
+
+  <!--  Promotion Basics Definition -->
+  <definition name="promo.basics.widget"
+	      	  path="/promotion/promotionBasics.jsp">
+	<put name="promotion.header" value="promo.header" />
+  	<put name="promotionBasicsMiddle" value="/promotion/ssi/promotionBasicsMiddle.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+ 
+  <definition name="promotion.basics" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionBasicsController">
+    <put name='content' value="promo.basics.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Basics' />
+  </definition>
+  
+  <!--  Promotion Audience Definition -->
+  <definition name="promo.audience.widget"
+	      	  path="/promotion/promotionAudienceShell.jsp"
+              controllerClass="com.biperf.core.ui.promotion.PromotionAudienceController">
+	<put name="promotion.header" value="promo.header" />
+	<put name="audiencePageTop" value="/promotion/promotionAudienceTop.jsp" />
+	<put name="audiencePageBottom" value="/promotion/promotionAudienceBottom.jsp" />
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.audience" extends="beacon.default">
+    <put name="content" value="promo.audience.widget" />
+    <put name='trackingTitle' value='CP_Promotion_Audience' />
+  </definition>
+
+  <definition name="promotion.audience.paxlist" extends="beacon.printerFriendly">
+    <put name="content" value="/promotion/promotionAudiencePaxList.jsp" />
+    <put name='trackingTitle' value='CP_Promotion_Audience_PaxList' />
+  </definition>
+
+  <!-- Promotion Awards Definition-->
+  <definition name="promotion.ssi.awards.widget"
+	      	  path="/promotion/ssi/promotionSSIAwards.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotionSSIAwardsBadge" value="/promotion/ssi/promotionSSIAwardsBadge.jsp" />
+	<put name="promotionSSIMerchLevels" value="/promotion/ssi/promotionSSIMerchLevels.jsp" />	
+	<put name="promotionSSIAwardsJS" value="/promotion/ssi/promotionSSIAwardsJS.jsp" />
+	<put name="promotion.footer" value="/promotion/promotionFooter.jsp" />
+  </definition>
+  
+  <definition name="promotion.ssi.awards" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionSSIAwardsController">
+    <put name='content' value="promotion.ssi.awards.widget" />
+    <put name='trackingTitle' value='SSI_Promotion_Awards' />
+  </definition>
+  
+  <!-- Promotion Activity Submission Definition-->
+  <definition name="promotion.ssi.activitysubmission.widget" 
+  			  path="/promotion/ssi/promotionSSIActivitySubmission.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotionSSIActivitySubmissionMiddle" value="/promotion/ssi/promotionSSIActivitySubmissionMiddle.jsp" />
+	<put name="promotionSSIActivitySubmissionJS" value="/promotion/ssi/promotionSSIActivitySubmissionJS.jsp" />
+	<put name="promotion.footer" value="/promotion/promotionFooter.jsp" />
+  </definition>
+  
+  <definition name="promotion.ssi.activitysubmission" extends="beacon.default" 
+  	controllerClass="com.biperf.core.ui.promotion.PromotionSSIActivitySubmissionController">
+    <put name='content' value="promotion.ssi.activitysubmission.widget" />
+    <put name='trackingTitle' value='SSI_Promotion_Activity_Submission' />
+  </definition>
+  
+  <!-- Promotion Approval Definition-->
+  <definition name="promotion.ssi.approval.widget" 
+  			  path="/promotion/ssi/promotionSSIApproval.jsp">
+	<put name="promotion.header" value="promo.header" />
+	<put name="promotionSSIApprovalAudiences" value="/promotion/ssi/promotionSSIApprovalAudiences.jsp" />
+	<put name="promotionSSIApprovalJS" value="/promotion/ssi/promotionSSIApprovalJS.jsp" />	
+	<put name="promotion.footer" value="/promotion/promotionFooter.jsp" />
+  </definition>
+  
+  <definition name="promotion.ssi.approval" extends="beacon.default" 
+  	controllerClass="com.biperf.core.ui.promotion.PromotionSSIApprovalController">
+    <put name='content' value="promotion.ssi.approval.widget" />
+    <put name='trackingTitle' value='SSI_Promotion_Approval' />
+  </definition>
+  
+ <!--  Promotion Notifications Definition -->
+  <definition name="promo.notification.widget"
+	      	  path="/promotion/ssi/promotionNotification.jsp">
+	<put name="promotion.header" value="promo.header" />
+  	<put name="promotionNotificationMiddle" value="/empty.jsp" />  
+	<put name="promotion.footer" value="promo.footer" />
+  </definition>
+  
+  <definition name="promotion.notification" extends="beacon.default"
+	controllerClass="com.biperf.core.ui.promotion.PromotionNotificationController">
+    <put name='content' value="promo.notification.widget" />
+    <put name='trackingTitle' value='SSI_Promotion_Notification' />
+  </definition>
+  
+  <definition name="promotion.bill.code" extends="beacon.default"
+  			controllerClass="com.biperf.core.ui.promotion.PromotionBillCodesController">
+    <put name='content' value="promotion.bill.code.widget" />
+    <put name='trackingTitle' value='SSI_Bill_Codes' />
+  </definition>
+  
+   <definition name="promotion.bill.code.widget"
+            path="/promotion/promotionBillCodes.jsp">
+  	<put name="promotion.header" value="promo.header" />
+  	<put name="promotionBillCodeJS" value="/promotion/promotionBillCodeJS.jsp" />
+  	<put name="promotion.footer" value="promo.footer" />  
+  </definition>  
+  
+</tiles-definitions>

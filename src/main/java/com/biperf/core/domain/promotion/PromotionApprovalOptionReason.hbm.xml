@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.biperf.core.domain.promotion.PromotionApprovalOptionReason" table="PROMO_APPROVAL_OPTION_REASON">
+
+		<!-- This is the surrogate primary key.  Make sure the column and sequence names are correct. -->
+		<id name="id" type="java.lang.Long" column="PROMO_APPRVL_OPTION_REASON_ID">
+			<generator class="seqhilo">
+				<param name="max_lo">0</param> <param name="sequence">PROMO_APPRVL_OPT_REASON_PK_SQ</param>
+			</generator>
+		</id>
+
+		<!-- Using version number optimistic locking -->
+		<version name="version" column="VERSION" type="java.lang.Long" />
+
+		<property name="promotionApprovalOptionReasonType" column="APPROVAL_OPTION_REASON">
+       	  <type name="com.biperf.core.utils.hibernate.PickListUserType">
+            <param name="lookupClass">com.biperf.core.domain.enums.PromotionApprovalOptionReasonType</param>
+          </type>
+        </property>
+		
+		<!-- promotionApprovalOption -->
+		<many-to-one name="promotionApprovalOption" lazy="false"
+			class="com.biperf.core.domain.promotion.PromotionApprovalOption" 
+			outer-join="false">
+			<column name="PROMO_APPROVAL_OPTION_ID" not-null="false" />
+		</many-to-one>
+
+		<!-- The create audit information is handled in the AuditCreateType and AuditInterceptor.  Column order here is important. -->
+		<property name="auditCreateInfo"
+			type="com.biperf.core.utils.hibernate.AuditCreateType">
+			<column name="DATE_CREATED" />
+			<column name="CREATED_BY" />
+		</property>
+		
+	</class>
+
+</hibernate-mapping>

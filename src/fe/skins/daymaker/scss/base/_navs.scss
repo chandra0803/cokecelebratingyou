@@ -1,0 +1,58 @@
+// Partial-specific variables defined in core (uncomment to use)
+// =========================
+// $globalNav_filterNavHeight: ;
+// $globalNav_filterNavHeight_mobile: ;
+// $globalNav_filterMargin: ;
+// $globalNav_filterMargin_mobile: ;
+
+// $globalNav_background: ;
+// $globalNav_borderWidth: ; // mobile doesn't have a top border
+// $globalNav_borderWidth_tablet: ;
+// $globalNav_borderWidth_desktop: ;
+// $globalNav_borderWidth_desktopLarge: ;
+// $globalNav_borderColor: ;
+
+// $globalNav_filterFontFamily: ;
+
+// $globalNav_filterTextSize: ;
+// $globalNav_filterFontColor: ;
+// $globalNav_filterFontStyle: ;
+// $globalNav_filterFontWeight: ;
+// $globalNav_filterTextDecoration: ;
+// $globalNav_filterTextTransform: ;
+// $globalNav_filterBorderBottomWidth: ;
+// $globalNav_filterBorderBottomColor: ;
+
+// $globalNav_filterTextSizeSelected: ;
+// $globalNav_filterFontColorSelected: ;
+// $globalNav_filterFontStyleSelected: ;
+// $globalNav_filterFontWeightSelected: ;
+// $globalNav_filterTextDecorationSelected: ;
+// $globalNav_filterTextTransformSelected: ;
+// $globalNav_filterBorderBottomSelectedColor: ;
+
+// $tabs_paddingY: ;
+// $tabs_paddingX: ;
+// $tabs_lineHeight: ;
+// $tabs_fontWeight: ;
+
+// $tabs_borderColor: ;
+// $tabs_borderWidth: ;
+// $tabs_textColor: ;
+
+// $tabs_hoverTextColor: ;
+// $tabs_hoverBkgColor: ;
+
+// $tabs_activeTextColor: ;
+// $tabs_activeBorderColor: ;
+// $tabs_activeBorderWidth: ;
+
+// Partial SCSS from core (above variables override those in this file)
+// =========================
+@import "partials/navs";
+
+// Partial-specific variables for this skin
+// =========================
+
+// Partial-specific code for this skin
+// ==================================================

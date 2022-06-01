@@ -1,0 +1,65 @@
+// Partial-specific variables
+// =========================
+$participantCollectionView_thFontColor: $brand_color_black !default;
+
+
+// Partial-specific code
+// ==================================================
+
+.participantCollectionViewWrapper {
+    table {
+        width: 100%;
+
+        thead th {
+            color: $participantCollectionView_thFontColor;
+            @media (max-width: $breakpoint_mobile_max) {
+                font-size: 70%;
+                line-height: 1.3em;
+            }
+        }
+        td{
+            vertical-align: inherit;
+        }
+
+        .participant {
+            width: 50%;
+            text-align: left;
+        }
+        .type {
+            text-align: center;
+        }
+        .remove,
+        .edit {
+            width: 30px;
+            text-align: center;
+        }
+        td .remove,
+        td .edit {
+            vertical-align: middle;
+            padding-left: 6px;
+
+            i{
+                font-size: $fontSizeLarge;
+            }
+        }
+
+        .emptyMsg {
+            margin-bottom: 0;
+            padding-bottom: 14px;
+        }
+
+        @media (max-width: 479px) {
+            font-size: 87.5%;
+        }
+        .emptyRow {
+            td{
+                padding-left:0;
+                padding-right:0;
+            }
+        }
+    }
+
+    &.emptyParticipantCollection th {
+        display: none !important;
+    }
+}

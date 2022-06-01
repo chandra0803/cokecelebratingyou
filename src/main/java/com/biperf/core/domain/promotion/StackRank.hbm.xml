@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="com.biperf.core.domain.promotion.StackRank" table="STACK_RANK">
+
+    <id name="id" column="STACK_RANK_ID" type="java.lang.Long">
+      <generator class="seqhilo">
+        <param name="max_lo">0</param> <param name="sequence">STACK_RANK_PK_SQ</param>
+      </generator>
+    </id>
+
+    <version name="version" column="VERSION" type="java.lang.Long" />
+
+    <property name="guid" column="GUID" type="java.lang.String"/>
+
+    <property name="state" column="STATE">
+      <type name="com.biperf.core.utils.hibernate.PickListUserType">
+        <param name="lookupClass">com.biperf.core.domain.enums.StackRankState</param>
+      </type>
+    </property>
+
+    <property name="startDate" column="START_DATE" type="java.util.Date"/>
+    <property name="endDate" column="END_DATE" type="java.util.Date"/>
+
+    <property name="calculatePayout" column="CALCULATE_PAYOUT" type="boolean"/>
+
+    <many-to-one name="promotion" class="com.biperf.core.domain.promotion.ProductClaimPromotion" lazy="false">
+      <column name="PROMOTION_ID"/>
+    </many-to-one>
+
+    <set name="stackRankNodes" table="STACK_RANK_NODE" cascade="all-delete-orphan" inverse="true" lazy="true">
+      <key column="STACK_RANK_ID"/>
+      <one-to-many class="com.biperf.core.domain.promotion.StackRankNode"/>
+    </set>
+
+    <property name="auditCreateInfo" type="com.biperf.core.utils.hibernate.AuditCreateType">
+      <column name="DATE_CREATED"/>
+      <column name="CREATED_BY"/>
+    </property>
+
+    <property name="auditUpdateInfo" type="com.biperf.core.utils.hibernate.AuditUpdateType">
+      <column name="DATE_MODIFIED"/>
+      <column name="MODIFIED_BY"/>
+    </property>
+
+  </class>
+  
+  <sql-query name="com.biperf.core.domain.promotion.getLatestStackRankByPromotionId">
+   <return alias="s" class="com.biperf.core.domain.promotion.StackRank"/>
+    <![CDATA[ 
+    	select {s.*}
+    		from stack_rank s
+    		where s.DATE_CREATED = 
+       			(select max(DATE_CREATED) 
+       			   from STACK_RANK 
+       			  where PROMOTION_ID = :promotionId 
+       			    and state = :state )   	
+    ]]>
+  </sql-query> 
+</hibernate-mapping>

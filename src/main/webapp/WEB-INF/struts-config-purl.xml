@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+  <!-- ===================================== -->
+  <!--               FORM BEANS              -->
+  <!-- ===================================== -->
+
+  <form-beans>
+    <form-bean name="purlTNCForm" type="com.biperf.core.ui.purl.PurlTNCForm" />
+    <form-bean name="purlContributionForm" type="com.biperf.core.ui.purl.PurlContributionForm" />
+    <form-bean name="purlMaintenanceForm" type="com.biperf.core.ui.purl.PurlMaintenanceForm" />
+    <form-bean name="purlRecipientForm" type="com.biperf.core.ui.purl.PurlRecipientForm" />
+    <form-bean name="purlCelebratePageForm" type="com.biperf.core.ui.purl.PurlCelebratePageForm" />
+  </form-beans>
+
+  <!-- ===================================== -->
+  <!--          GLOBAL EXCEPTIONS            -->
+  <!-- ===================================== -->
+
+  <global-exceptions>
+
+    <exception type="java.lang.SecurityException" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="/login.do"/>
+    <exception type="java.lang.Exception" key="" handler="com.biperf.core.ui.utils.G5ExceptionHandler" path="error.page"/>
+
+  </global-exceptions>
+
+  <!-- ===================================== -->
+  <!--            GLOBAL FORWARDS            -->
+  <!-- ===================================== -->
+
+  <global-forwards>
+
+    <forward name="login" path="/login.do" redirect="false"/>
+    <forward name="leave.site" path="/leave.do?method=leaveSite"
+             redirect="true"/>
+    <forward name="order.error" path="index.jsp" redirect="true"/>
+
+  </global-forwards>
+
+  <!-- ===================================== -->
+  <!--            ACTION MAPPINGS            -->
+  <!-- ===================================== -->
+
+  <action-mappings>
+  
+ 	<action path="/purlMaintenanceList"
+	        type="com.biperf.core.ui.purl.PurlMaintenanceListAction">
+        <forward name="display" path="purl.maintenance.list" redirect="false"/>        
+        <forward name="awardDateDisplay" path="purl.manager.updateInfo" redirect="false"/>        
+	</action>
+	
+	<action path="/purlMaintenance" 
+		    name="purlMaintenanceForm" 
+			parameter="method"
+			type="com.biperf.core.ui.purl.PurlMaintenanceAction"
+        	scope="request" 
+        	validate="true">
+      <forward name="success" path="purl.maintenance" redirect="false"/>
+      <forward name="display_awarddate" path="purl.manager.updateInfo" redirect="false"/>
+      <forward name="success_update_awarddate" path="purl.awarddate.update.ajax.json.response" redirect="false"/>
+      <forward name="success_confirm" path="purl.maintenance.confirmation" redirect="false"/>
+      <forward name="contributorList" path="purl.maintenance.contributor.list" redirect="false"/>
+      <forward name="invalid" path="purl.maintenance.invalid" redirect="false"/>      
+  	</action>
+	
+    <action path="/ajaxSearch"
+            type="com.biperf.core.ui.purl.PurlParticipantSearchAjaxAction"
+            scope="request">
+      <forward name="success" path="purl.pax.search.ajax"/>
+      <forward name="success_nodes" path="purl.node.search.ajax"/>
+      <forward name="success_picklist_items" path="purl.picklist.search.ajax"/>
+      <forward name="success_jq" path="purl.pax.search.ajax_jq"/>
+      <forward name="success_nodes_jq" path="purl.node.search.ajax_jq"/>
+      <forward name="success_picklist_items_jq" path="purl.picklist.search.ajax_jq"/>
+    </action>
+    
+    <!-- New SA -->
+ 	<action path="/saContributionList"
+	        type="com.biperf.core.ui.serviceanniversary.SAContributionListAction">
+      <forward name="success" path="sa.contribution.list" redirect="false"/>
+	</action>
+	
+	<action path="/purlContributionList"
+	        type="com.biperf.core.ui.purl.PurlContributionListAction">
+      <forward name="success" path="purl.contribution.list" redirect="false"/>
+	</action>
+	
+    <action path="/purlTNC" 
+			parameter="method"
+		    name="purlTNCForm" 
+			type="com.biperf.core.ui.purl.PurlTNCAction"
+        	scope="request" 
+        	validate="true"
+        	input="purl.tnc">
+      <forward name="display" path="purl.tnc" redirect="false"/>
+      <forward name="invalid" path="purl.contribution.invalid" redirect="false"/>
+      <forward name="success" path="/purlContribution.do" redirect="true"/>
+      <forward name="cancel_to_homepage" module="" path="/homePage.do" redirect="true"/>
+  	</action>
+    
+    <action path="/translate"
+      type="com.biperf.core.ui.purl.PurlTranslateAction"
+      scope="request">
+    </action>
+
+    <action path="/purlContribution" 
+			parameter="method"
+		    name="purlContributionForm" 
+			type="com.biperf.core.ui.purl.PurlContributionAction"
+        	scope="request" 
+        	validate="false">
+      <forward name="display" path="purl.contribution" redirect="false"/>
+      <forward name="login" path="/login.do" redirect="true"/>
+      <forward name="post_comment_ajax_response" path="purl.comment.post.ajax.json.response" redirect="false"/>
+      <forward name="update_name_ajax_response" path="purl.name.update.ajax.json.response" redirect="false"/>      
+      <forward name="update_contributor_info_ajax_response" path="purl.contributor.info.update.ajax.json.response" redirect="false"/>      
+      <forward name="upload_avatar_ajax_response" path="purl.avatar.upload.ajax.json.response" redirect="false"/>
+      <forward name="delete_avatar_ajax_response" path="purl.avatar.delete.ajax.json.response" redirect="false"/>
+      <forward name="delete_invite_confirm_ajax_response" path="purl.invite.delete.confirm.ajax.response" redirect="false"/>
+      <forward name="confirm_invite_ajax_response" path="purl.invite.confirm.ajax.json.response" redirect="false"/>
+      <forward name="process_photo_ajax_response" path="purl.photo.process.ajax.json.response" redirect="false"/>
+      <forward name="delete_photo_confirm_ajax_response" path="purl.photo.delete.confirm.ajax.response" redirect="false"/>
+      <forward name="post_photo_ajax_response" path="purl.photo.post.ajax.json.response" redirect="false"/>
+      <forward name="process_video_ajax_response" path="purl.video.process.ajax.json.response" redirect="false"/>
+      <forward name="delete_video_confirm_ajax_response" path="purl.video.delete.confirm.ajax.response" redirect="false"/>
+      <forward name="post_video_ajax_response" path="purl.video.post.ajax.json.response" redirect="false"/>
+      
+      <forward name="supported_video" path="purl.video.supported.modal" redirect="false"/>
+      <forward name="preview_comment" path="purl.comment.preview.modal" redirect="false"/>
+      <forward name="preview_invite" path="purl.invite.preview.modal" redirect="false"/>
+      <forward name="preview_photo" path="purl.photo.preview.modal" redirect="false"/>
+      <forward name="preview_video" path="purl.video.preview.modal" redirect="false"/>
+
+      <forward name="upload_photo" path="purl.photo.upload.ajax.json.response" redirect="false"/>
+      
+      <forward name="request_redirect" path="/purlContribution.do" redirect="true"/>
+      
+  	</action>
+
+    <action path="/purlRecipient" 
+			parameter="method"
+		    name="purlRecipientForm" 
+			type="com.biperf.core.ui.purl.PurlRecipientAction"
+        	scope="request" 
+        	validate="false">
+      <forward name="display" path="purl.recipient" redirect="false"/>
+      <forward name="failure" module="" path="/homePage.do" redirect="false"/>
+      <forward name="invalid" path="purl.recipient.invalid" redirect="false"/>
+      <forward name="expired" path="purl.recipient.expired" redirect="false"/>
+
+      <forward name="view_comment" path="purl.comment.view.modal" redirect="false"/>
+      <forward name="print_comment" path="purl.comment.print.modal" redirect="false"/>
+      <forward name="view_photo" path="purl.photo.view.modal" redirect="false"/>
+      <forward name="print_photo" path="purl.photo.print.modal" redirect="false"/>
+      <forward name="view_video" path="purl.video.view.modal" redirect="false"/>
+
+      <forward name="load_activity_feed_ajax_response" path="purl.load.activity.feed.ajax.json.response" redirect="false"/>     
+    </action>
+
+    <action path="/purlRecipientLoadActivity" 
+			parameter="method"
+		    name="purlRecipientForm" 
+			type="com.biperf.core.ui.purl.PurlRecipientAction"
+        	scope="request" 
+        	validate="false">
+      <forward name="display" path="purl.recipient" redirect="false"/>
+      <forward name="failure" module="" path="/homePage.do" redirect="false"/>
+      <forward name="invalid" path="purl.recipient.invalid" redirect="false"/>
+      <forward name="expired" path="purl.recipient.expired" redirect="false"/>
+
+      <forward name="view_comment" path="purl.comment.view.modal" redirect="false"/>
+      <forward name="print_comment" path="purl.comment.print.modal" redirect="false"/>
+      <forward name="view_photo" path="purl.photo.view.modal" redirect="false"/>
+      <forward name="print_photo" path="purl.photo.print.modal" redirect="false"/>
+      <forward name="view_video" path="purl.video.view.modal" redirect="false"/>
+
+      <forward name="load_activity_feed_ajax_response" path="purl.load.activity.feed.ajax.json.response" redirect="false"/>     
+    </action>
+
+    <action path="/purlRecipientSubmit" 
+			parameter="method"
+		    name="purlRecipientForm" 
+			type="com.biperf.core.ui.purl.PurlRecipientAction"
+        	scope="request" 
+        	validate="false">
+      <forward name="display" path="purl.recipient" redirect="false"/>
+      <forward name="view_thankyou" path="purl.thankyou.modal" redirect="false"/>
+      <forward name="confirm_thankyou_ajax_response" path="purl.thankyou.confirm.ajax.response" redirect="false"/>
+      <forward name="invalid" path="purl.recipient.invalid" redirect="false"/>
+    </action>
+    
+    <!--  Purl Celebrate Module -->
+    
+    <action path="/purlCelebratePage" name="purlCelebratePageForm" type="org.apache.struts.actions.ForwardAction" 
+		parameter="purl.celebrate.page" />
+    
+    <action path="/purlCelebrateRecognitionPurlsActivity" 
+			parameter="method"
+		    name="purlCelebratePageForm" 
+			type="com.biperf.core.ui.purl.PurlCelebrateAction"
+        	scope="request" 
+        	validate="false">
+    </action>
+   <!-- Customization for WIP 32479 starts here -->
+    
+    <action path="/externalUnsubscribe" 
+			parameter="method"
+		    name="purlContributionForm" 
+			type="com.biperf.core.ui.purl.PurlContributionAction"
+        	scope="request" 
+        	validate="true"
+        	input="external.user.unsubscribe.display">
+      <forward name="display" path="external.user.unsubscribe.display" redirect="false"/>
+      <forward name="success" path="external.user.unsubscribe.success" redirect="false"/>
+      <forward name="failure" path="external.user.unsubscribe.failure" redirect="false"/>
+    </action>
+       
+    <!-- Customization for WIP 32479 ends here -->
+  </action-mappings>
+
+  <!-- ===================================== -->
+  <!--             CONTROLLERS               -->
+  <!-- ===================================== -->
+
+  <controller nocache="true"
+              processorClass="com.biperf.core.ui.tiles.BeaconTilesRequestProcessor" tempDir="@FILE_UPLOAD_TEMP_DIR@" 
+              multipartClass="com.biperf.core.ui.servlet.FilterMultipartRequestHandler" />
+
+  <!-- ===================================== -->
+  <!--             RESOURCE BUNDLE           -->
+  <!-- ===================================== -->
+
+  <message-resources null="true" parameter="BeaconResources_en"
+                     factory="com.objectpartners.cms.util.CmsMessageResourcesFactory"/>
+
+  <!-- ===================================== -->
+  <!--             VALIDATOR PLUG-IN         -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.validator.ValidatorPlugIn"> 
+		<set-property property="pathnames" 
+					  value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml,/WEB-INF/validation-purl.xml"/>
+	    <set-property property="stopOnFirstError" value="false"/>
+    </plug-in>
+
+  <!-- ===================================== -->
+  <!--             TILES PLUG-IN             -->
+  <!-- ===================================== -->
+
+  <plug-in className="org.apache.struts.tiles.TilesPlugin">
+    <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml,/WEB-INF/tiles-defs-purl.xml"/>
+    <set-property property="definitions-debug" value="2"/>
+    <set-property property="definitions-parser-details" value="2"/>
+    <set-property property="definitions-parser-validate" value="true"/>
+  </plug-in>
+
+</struts-config>

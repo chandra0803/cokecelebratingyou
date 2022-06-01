@@ -1,0 +1,111 @@
+{
+  "description": "Create a Person Attribute Failure Scenarios",
+  "params": {
+    "baseUrl": "https://g5gammapprd.performnet.com/g5gamma/nkl-api",
+	"companyId": "00000000-0000-0000-0000-0000000015d2",
+    "attributeName": "age",
+    "attributeValue": "43",
+    "hierarchyAttributeName": "capacity"
+  },
+  "steps": [
+  	{
+      "id": "createPerson",
+      "description": "First create a Person",
+      "call": {
+        "path": "./create-person.json"
+      },
+      "expect": [
+        {
+          "a": "${ref:createPerson.export.newPersonId}",
+          "compare": "to.not.be.empty"
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttribute",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+  			"value": "${ref:params.attributeValue}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+      ]
+    },
+    {
+      "id": "createPersonAttribute",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "${ref:params.attributeName}"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 400
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+	  ]
+    }
+    ,
+    {
+      "id": "createPersonAttribute",
+      "description": "POST /persons/${ref:createPerson.export.newPersonId}/attributes",
+      "request": {
+        "url": "${ref:params.baseUrl}/services/v1.0/persons/${ref:createPerson.export.newPersonId}/attributes",
+        "options": {
+          "method": "post",
+          "headers": {
+            "company-id": "${ref:params.companyId}"  
+          },
+          "body": {
+          	"name": "${ref:params.hierarchyAttributeName}",
+          	"value": "100"
+          }
+        }
+      },
+      "expect": [
+        {
+          "a": "${ref:createPersonAttribute.res.status}",
+          "compare": "to.equal",
+          "b": 404
+        },
+        {
+          "a": "${ref:createPersonAttribute.res.body.success}",
+          "compare": "to.equal",
+          "b": false
+        }
+	  ]
+    }
+  ]
+}

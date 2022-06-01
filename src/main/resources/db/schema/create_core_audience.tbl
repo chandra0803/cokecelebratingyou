@@ -1,0 +1,29 @@
+CREATE SEQUENCE AUDIENCE_PK_SQ INCREMENT BY 1 START WITH 5000
+/
+CREATE TABLE AUDIENCE
+(AUDIENCE_ID   NUMBER (18,0) NOT NULL,
+ NAME          VARCHAR2 (100) NOT NULL,
+ LIST_TYPE     VARCHAR2 (30),
+ GIFTCODE_ONLY  NUMBER(1) DEFAULT 0,
+ IS_AUDIENCE_PUBLIC   NUMBER(1) DEFAULT 0,
+ CREATED_BY    number(18) NOT NULL,
+ DATE_CREATED  DATE NOT NULL,
+ MODIFIED_BY   number(18),
+ DATE_MODIFIED DATE,
+ VERSION       NUMBER (18)
+ )
+/
+ALTER TABLE AUDIENCE
+ADD CONSTRAINT AUDIENCE_ID_PK PRIMARY KEY
+(AUDIENCE_ID)
+/
+CREATE UNIQUE INDEX audience_name_udx ON audience( upper( name ) ASC  )
+/
+COMMENT ON COLUMN AUDIENCE.AUDIENCE_ID IS 'Sytem generated PK'
+/
+COMMENT ON COLUMN AUDIENCE.NAME IS 'Label/Name of the list.'
+/
+COMMENT ON COLUMN AUDIENCE.LIST_TYPE IS 'Whether Static list  - List that stores predefined values of pax id  OR Dynamic - The criteria/definition is saved. '
+/
+COMMENT ON TABLE  AUDIENCE IS 'Used by the list builder component. Stores the Built List name and tpe.'
+/
